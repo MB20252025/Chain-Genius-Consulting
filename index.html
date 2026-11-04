@@ -5,20 +5,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101d35">
-<meta name="description" content="Chain Genius Consulting - practical supply chain intelligence, analysis and digital tools.">
 
 <title>Chain Genius Consulting | Supply Chain Intelligence</title>
+
+<meta name="description" content="Chain Genius Consulting delivers practical supply chain intelligence, business analysis and digital applications.">
 
 <style>
 :root {
   --navy: #101d35;
-  --navy-light: #172944;
+  --navy2: #172944;
   --blue: #2878d0;
-  --pale-blue: #eaf3ff;
+  --bright: #55a8ff;
+  --pale: #eaf3ff;
   --ink: #18263b;
   --muted: #637188;
   --line: #e3e9f1;
   --background: #f5f7fb;
+  --white: #ffffff;
 }
 
 * {
@@ -27,6 +30,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -37,44 +41,80 @@ body {
   line-height: 1.6;
 }
 
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .wrap {
-  width: min(1120px, calc(100% - 40px));
+  width: min(1160px, calc(100% - 40px));
   margin: auto;
+}
+
+/* PROGRESS BAR */
+
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 1001;
+  background: transparent;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--bright);
 }
 
 /* NAVIGATION */
 
 header {
-  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(16,29,53,.98);
   color: white;
+  transition: box-shadow .3s;
+}
+
+header.scrolled {
+  box-shadow: 0 8px 25px #07132640;
 }
 
 .nav {
-  min-height: 76px;
+  min-height: 78px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  transition: min-height .3s;
+}
+
+header.scrolled .nav {
+  min-height: 65px;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: white;
   text-decoration: none;
-  font-weight: bold;
+  color: white;
   font-size: 19px;
+  font-weight: bold;
 }
 
 .brand-mark {
-  width: 40px;
-  height: 40px;
+  width: 43px;
+  height: 43px;
   display: grid;
   place-items: center;
   border: 1px solid #71809a;
-  border-radius: 10px;
+  border-radius: 11px;
   font-size: 13px;
+  background: #ffffff0b;
 }
 
 .brand small {
@@ -95,9 +135,11 @@ header {
   color: #d8e1ef;
   text-decoration: none;
   font-size: 14px;
+  transition: color .2s;
 }
 
-.links a:hover {
+.links a:hover,
+.links a.active {
   color: white;
 }
 
@@ -107,63 +149,39 @@ header {
   border-radius: 8px;
 }
 
-/* HERO */
-
-.hero {
-  color: white;
-  background:
-    radial-gradient(circle at 82% 28%, rgba(40,120,208,.28), transparent 30%),
-    linear-gradient(120deg, #101d35, #172d4c 62%, #163b63);
-  padding: 85px 0;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.35fr .65fr;
-  align-items: center;
-  gap: 55px;
-}
-
-.eyebrow {
-  color: #8fc4ff;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-}
-
-h1 {
-  max-width: 730px;
-  margin: 0;
-  font-size: clamp(42px, 6vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -2px;
-}
-
-.hero-copy {
-  max-width: 650px;
-  margin: 24px 0 30px;
-  color: #c7d4e5;
-  font-size: 17px;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+/* BUTTONS */
 
 .button {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
-  min-height: 46px;
-  padding: 0 19px;
+  align-items: center;
+  min-height: 47px;
+  padding: 0 20px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
+  transition:
+    transform .2s,
+    box-shadow .2s,
+    background .2s;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 22px #00000025;
+}
+
+.button:active {
+  transform: scale(.96);
+  box-shadow: none;
+}
+
+.button:focus-visible,
+.links a:focus-visible,
+.app-link:focus-visible {
+  outline: 3px solid var(--bright);
+  outline-offset: 4px;
 }
 
 .primary {
@@ -176,17 +194,84 @@ h1 {
   color: white;
 }
 
-.button:hover {
-  opacity: .85;
+/* HERO */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  color: white;
+  padding: 100px 0 95px;
+  background:
+    radial-gradient(circle at 85% 25%, #2878d044, transparent 32%),
+    radial-gradient(circle at 10% 100%, #2878d022, transparent 35%),
+    linear-gradient(120deg, #101d35, #172d4c 65%, #163b63);
 }
 
-/* HERO INFORMATION PANEL */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .13;
+  background-image:
+    linear-gradient(#ffffff12 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff12 1px, transparent 1px);
+  background-size: 45px 45px;
+  mask-image: linear-gradient(to right, black, transparent);
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.35fr .65fr;
+  align-items: center;
+  gap: 55px;
+}
+
+.eyebrow {
+  color: #8fc4ff;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 19px;
+}
+
+h1 {
+  max-width: 750px;
+  margin: 0;
+  font-size: clamp(42px, 6vw, 74px);
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+}
+
+.hero-copy {
+  max-width: 650px;
+  margin: 25px 0 32px;
+  color: #c7d4e5;
+  font-size: 17px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+
+/* HERO PANEL */
 
 .panel {
-  padding: 25px;
+  padding: 27px;
   border: 1px solid #ffffff2b;
   border-radius: 16px;
   background: #ffffff12;
+  backdrop-filter: blur(8px);
+  transition: transform .3s, background .3s;
+}
+
+.panel:hover {
+  transform: translateY(-5px);
+  background: #ffffff19;
 }
 
 .panel-label {
@@ -198,20 +283,20 @@ h1 {
 }
 
 .panel-title {
-  margin: 10px 0 20px;
+  margin: 12px 0 22px;
   font-size: 22px;
   font-weight: bold;
 }
 
 .signals {
   display: grid;
-  gap: 14px;
+  gap: 17px;
 }
 
 .signal {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
   color: #e5edf8;
   font-size: 14px;
 }
@@ -225,10 +310,10 @@ h1 {
   box-shadow: 0 0 0 5px #68b5ff20;
 }
 
-/* GENERAL SECTIONS */
+/* SECTIONS */
 
 section {
-  padding: 75px 0;
+  padding: 82px 0;
 }
 
 .kicker {
@@ -237,20 +322,20 @@ section {
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 9px;
 }
 
 h2 {
   margin: 0;
   color: var(--navy);
-  font-size: clamp(29px, 4vw, 40px);
+  font-size: clamp(29px, 4vw, 41px);
   line-height: 1.2;
   letter-spacing: -1px;
 }
 
 .intro {
-  max-width: 650px;
-  margin: 12px 0 28px;
+  max-width: 690px;
+  margin: 13px 0 32px;
   color: var(--muted);
 }
 
@@ -259,23 +344,39 @@ h2 {
 .apps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 19px;
+}
+
+.app-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 245px;
-  padding: 23px;
+  min-height: 260px;
+  height: 100%;
+  padding: 24px;
   background: white;
   border: 1px solid var(--line);
-  border-radius: 13px;
+  border-radius: 14px;
   box-shadow: 0 5px 18px #101d3509;
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+
+.app-link:hover .app {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 35px #101d3518;
+  border-color: #9bc6f3;
 }
 
 .app.featured {
   border-color: #b9d6f6;
-  box-shadow: 0 14px 38px #101d3514;
 }
 
 .app-top {
@@ -283,22 +384,23 @@ h2 {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 17px;
+  margin-bottom: 18px;
 }
 
 .app-icon {
-  width: 42px;
-  height: 42px;
+  width: 43px;
+  height: 43px;
   display: grid;
   place-items: center;
   border-radius: 11px;
   color: #1765b3;
-  background: var(--pale-blue);
+  background: var(--pale);
+  font-size: 13px;
   font-weight: bold;
 }
 
 .status {
-  padding: 5px 9px;
+  padding: 5px 10px;
   border-radius: 99px;
   background: #eef1f5;
   color: #526176;
@@ -313,15 +415,27 @@ h2 {
 }
 
 .app h3 {
-  margin: 0 0 8px;
+  margin: 0 0 9px;
   color: var(--navy);
   font-size: 18px;
+  transition: color .2s;
+}
+
+.app-link:hover h3 {
+  color: var(--blue);
 }
 
 .app p {
   margin: 0 0 18px;
   color: var(--muted);
   font-size: 14px;
+}
+
+.open-label {
+  margin-top: auto;
+  color: #1765b3;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .note {
@@ -342,7 +456,7 @@ h2 {
 .about-grid {
   display: grid;
   grid-template-columns: .9fr 1.1fr;
-  gap: 60px;
+  gap: 65px;
 }
 
 .about-copy {
@@ -350,26 +464,33 @@ h2 {
 }
 
 .about-copy p {
-  margin: 0 0 16px;
+  margin: 0 0 17px;
 }
 
 .principles {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  margin-top: 25px;
 }
 
 .principle {
-  padding: 19px;
+  padding: 20px;
   border: 1px solid var(--line);
   border-radius: 11px;
   background: #fbfcfe;
+  transition: transform .25s, border-color .25s;
+}
+
+.principle:hover {
+  transform: translateY(-4px);
+  border-color: #a9cbed;
 }
 
 .principle strong {
   display: block;
   color: var(--navy);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .principle span {
@@ -379,30 +500,30 @@ h2 {
 /* CONTACT */
 
 .contact-band {
-  padding: 38px;
+  padding: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 28px;
   color: white;
-  background: var(--navy-light);
-  border-radius: 15px;
+  background: var(--navy2);
+  border-radius: 16px;
 }
 
 .contact-band h2 {
   color: white;
-  font-size: 28px;
+  font-size: 29px;
 }
 
 .contact-band p {
-  margin: 8px 0 0;
+  margin: 9px 0 0;
   color: #c2cfe0;
 }
 
 /* FOOTER */
 
 footer {
-  padding: 27px 0;
+  padding: 28px 0;
   color: #8490a1;
   font-size: 13px;
 }
@@ -414,25 +535,40 @@ footer {
   flex-wrap: wrap;
 }
 
-/* MOBILE */
+/* REVEAL ANIMATIONS */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .7s ease,
+    transform .7s cubic-bezier(.2,.7,.2,1);
+}
+
+.js .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
 
 @media(max-width: 850px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 35px;
+    gap: 38px;
   }
 
   .panel {
-    max-width: 520px;
+    max-width: 540px;
   }
 
   .apps {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 30px;
   }
 }
 
@@ -458,11 +594,15 @@ footer {
   }
 
   .hero {
-    padding: 65px 0;
+    padding: 70px 0;
+  }
+
+  h1 {
+    letter-spacing: -1.5px;
   }
 
   section {
-    padding: 58px 0;
+    padding: 60px 0;
   }
 
   .apps {
@@ -470,7 +610,7 @@ footer {
   }
 
   .app {
-    min-height: 215px;
+    min-height: 225px;
   }
 
   .principles {
@@ -478,12 +618,32 @@ footer {
   }
 
   .contact-band {
-    padding: 26px;
     display: block;
+    padding: 27px;
   }
 
   .contact-band .button {
-    margin-top: 20px;
+    margin-top: 22px;
+  }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media(prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 </style>
@@ -491,7 +651,11 @@ footer {
 
 <body>
 
-<header>
+<div class="progress-track">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<header id="header">
   <div class="wrap nav">
 
     <a class="brand" href="./">
@@ -502,7 +666,7 @@ footer {
       </span>
     </a>
 
-    <nav class="links">
+    <nav class="links" aria-label="Main navigation">
       <a href="#applications">Applications</a>
       <a href="#about">About</a>
       <a class="contact-link" href="#contact">Get in touch</a>
@@ -513,76 +677,77 @@ footer {
 
 <main>
 
-  <!-- HERO SECTION -->
+<!-- HERO -->
 
-  <section class="hero">
-    <div class="wrap hero-grid">
+<section class="hero">
+  <div class="wrap hero-grid">
 
-      <div>
-        <p class="eyebrow">Practical supply chain intelligence</p>
+    <div class="reveal">
+      <p class="eyebrow">Practical supply chain intelligence</p>
 
-        <h1>
-          See the whole picture.
-          Make better decisions.
-        </h1>
+      <h1>
+        See the whole picture.
+        Make better decisions.
+      </h1>
 
-        <p class="hero-copy">
-          Clearer insight into inventory, suppliers, production
-          and performance. Chain Genius brings practical supply
-          chain knowledge together with accessible tools to help
-          businesses understand what is happening and decide
-          what to do next.
-        </p>
+      <p class="hero-copy">
+        Clearer insight into inventory, suppliers, production
+        and performance. Chain Genius brings practical supply
+        chain knowledge together with accessible tools to help
+        businesses understand what is happening and decide
+        what to do next.
+      </p>
 
-        <div class="actions">
-          <a class="button primary" href="#applications">
-            Explore our applications
-          </a>
+      <div class="actions">
+        <a class="button primary" href="#applications">
+          Explore our applications
+        </a>
 
-          <a class="button secondary" href="#about">
-            Discover Chain Genius
-          </a>
-        </div>
+        <a class="button secondary" href="#about">
+          Discover Chain Genius
+        </a>
+      </div>
+    </div>
+
+    <aside class="panel reveal">
+      <div class="panel-label">Connected thinking</div>
+
+      <div class="panel-title">
+        Turn operational data into useful insight.
       </div>
 
-      <aside class="panel">
-        <div class="panel-label">Connected thinking</div>
-
-        <div class="panel-title">
-          Turn operational data into useful insight.
+      <div class="signals">
+        <div class="signal">
+          <span class="dot"></span>
+          Understand stock and inventory risk
         </div>
 
-        <div class="signals">
-          <div class="signal">
-            <span class="dot"></span>
-            Understand stock and inventory risk
-          </div>
-
-          <div class="signal">
-            <span class="dot"></span>
-            Spot supplier and purchasing issues
-          </div>
-
-          <div class="signal">
-            <span class="dot"></span>
-            Identify production constraints
-          </div>
-
-          <div class="signal">
-            <span class="dot"></span>
-            Support confident, evidence-based action
-          </div>
+        <div class="signal">
+          <span class="dot"></span>
+          Spot supplier and purchasing issues
         </div>
-      </aside>
 
-    </div>
-  </section>
+        <div class="signal">
+          <span class="dot"></span>
+          Identify production constraints
+        </div>
 
-  <!-- APPLICATIONS SECTION -->
+        <div class="signal">
+          <span class="dot"></span>
+          Support confident, evidence-based action
+        </div>
+      </div>
+    </aside>
 
-  <section id="applications">
-    <div class="wrap">
+  </div>
+</section>
 
+<!-- APPLICATIONS -->
+
+<section id="applications">
+  <div class="wrap">
+
+    <div class="reveal">
       <p class="kicker">The Chain Genius toolkit</p>
 
       <h2>Supply chain applications</h2>
@@ -592,9 +757,17 @@ footer {
         real operational questions. Each application has its
         own workspace and purpose.
       </p>
+    </div>
 
-      <div class="apps">
+    <div class="apps">
 
+      <!-- INVENTORY INTELLIGENCE ENGINE -->
+
+      <a
+        class="app-link reveal"
+        href="./applications/inventory-intelligence-engine/"
+        aria-label="Open Inventory Intelligence Engine"
+      >
         <article class="app featured">
           <div class="app-top">
             <span class="app-icon">01</span>
@@ -609,192 +782,204 @@ footer {
             potential inventory issues.
           </p>
 
-          <span class="note">
-            Existing application — being prepared for launch
+          <span class="open-label">
+            Open application →
           </span>
         </article>
-
-        <article class="app">
-          <div class="app-top">
-            <span class="app-icon">02</span>
-            <span class="status">Planned</span>
-          </div>
-
-          <h3>Supplier Intelligence Engine</h3>
-
-          <p>
-            Build a clearer picture of supplier performance,
-            reliability, lead times and supply risk.
-          </p>
-
-          <span class="note">Planned application</span>
-        </article>
-
-        <article class="app">
-          <div class="app-top">
-            <span class="app-icon">03</span>
-            <span class="status">Planned</span>
-          </div>
-
-          <h3>Financial Intelligence Engine</h3>
-
-          <p>
-            Understand the financial impact of stock,
-            purchasing decisions, working capital and
-            operational performance.
-          </p>
-
-          <span class="note">Planned application</span>
-        </article>
-
-        <article class="app">
-          <div class="app-top">
-            <span class="app-icon">04</span>
-            <span class="status">Planned</span>
-          </div>
-
-          <h3>Production Bottleneck Detector</h3>
-
-          <p>
-            Investigate capacity, constraints, waiting time
-            and production flow to help reveal where delays
-            build up.
-          </p>
-
-          <span class="note">Planned application</span>
-        </article>
-
-        <article class="app">
-          <div class="app-top">
-            <span class="app-icon">05</span>
-            <span class="status">Planned</span>
-          </div>
-
-          <h3>Root Cause Investigator</h3>
-
-          <p>
-            Bring operational evidence together to investigate
-            recurring problems and identify likely contributing
-            factors.
-          </p>
-
-          <span class="note">Planned application</span>
-        </article>
-
-        <article class="app">
-          <div class="app-top">
-            <span class="app-icon">06</span>
-            <span class="status">Planned</span>
-          </div>
-
-          <h3>Supply Chain Simulator</h3>
-
-          <p>
-            Explore what-if scenarios and see how changes in
-            demand, stock, supply or capacity could affect
-            the wider operation.
-          </p>
-
-          <span class="note">Planned application</span>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT SECTION -->
-
-  <section class="about" id="about">
-    <div class="wrap about-grid">
-
-      <div>
-        <p class="kicker">About Chain Genius</p>
-
-        <h2>
-          Built around the realities of running a supply chain.
-        </h2>
-      </div>
-
-      <div class="about-copy">
-
-        <p>
-          Supply chain decisions are connected. A purchasing
-          issue can affect production; a planning change can
-          alter stock requirements; and a supplier delay can
-          have consequences across the business.
-        </p>
-
-        <p>
-          Chain Genius Consulting is focused on making those
-          connections easier to see. We combine practical
-          operational understanding with straightforward
-          analysis and purpose-built digital tools.
-        </p>
-
-        <div class="principles">
-
-          <div class="principle">
-            <strong>Practical first</strong>
-            <span>
-              Tools should help answer real business questions.
-            </span>
-          </div>
-
-          <div class="principle">
-            <strong>Clear insight</strong>
-            <span>
-              Present information in a way people can act on.
-            </span>
-          </div>
-
-          <div class="principle">
-            <strong>Connected view</strong>
-            <span>
-              Look beyond isolated figures and departments.
-            </span>
-          </div>
-
-          <div class="principle">
-            <strong>Continuous improvement</strong>
-            <span>
-              Develop tools as needs and ideas evolve.
-            </span>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT SECTION -->
-
-  <section id="contact">
-    <div class="wrap contact-band">
-
-      <div>
-        <h2>Let's make your supply chain clearer.</h2>
-
-        <p>
-          Have a supply chain challenge or an idea for
-          a better way of working?
-        </p>
-      </div>
-
-      <!-- Replace this with your existing LinkedIn page URL -->
-      <a
-        class="button primary"
-        href="https://www.linkedin.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find us on LinkedIn
       </a>
 
+      <!-- SUPPLIER INTELLIGENCE ENGINE -->
+
+      <article class="app reveal">
+        <div class="app-top">
+          <span class="app-icon">02</span>
+          <span class="status">Planned</span>
+        </div>
+
+        <h3>Supplier Intelligence Engine</h3>
+
+        <p>
+          Build a clearer picture of supplier performance,
+          reliability, lead times and supply risk.
+        </p>
+
+        <span class="note">Coming soon</span>
+      </article>
+
+      <!-- FINANCIAL INTELLIGENCE ENGINE -->
+
+      <article class="app reveal">
+        <div class="app-top">
+          <span class="app-icon">03</span>
+          <span class="status">Planned</span>
+        </div>
+
+        <h3>Financial Intelligence Engine</h3>
+
+        <p>
+          Understand the financial impact of stock,
+          purchasing decisions, working capital and
+          operational performance.
+        </p>
+
+        <span class="note">Coming soon</span>
+      </article>
+
+      <!-- PRODUCTION BOTTLENECK DETECTOR -->
+
+      <article class="app reveal">
+        <div class="app-top">
+          <span class="app-icon">04</span>
+          <span class="status">Planned</span>
+        </div>
+
+        <h3>Production Bottleneck Detector</h3>
+
+        <p>
+          Investigate capacity, constraints, waiting time
+          and production flow to help reveal where delays
+          build up.
+        </p>
+
+        <span class="note">Coming soon</span>
+      </article>
+
+      <!-- ROOT CAUSE INVESTIGATOR -->
+
+      <article class="app reveal">
+        <div class="app-top">
+          <span class="app-icon">05</span>
+          <span class="status">Planned</span>
+        </div>
+
+        <h3>Root Cause Investigator</h3>
+
+        <p>
+          Bring operational evidence together to investigate
+          recurring problems and identify likely contributing
+          factors.
+        </p>
+
+        <span class="note">Coming soon</span>
+      </article>
+
+      <!-- SUPPLY CHAIN SIMULATOR -->
+
+      <article class="app reveal">
+        <div class="app-top">
+          <span class="app-icon">06</span>
+          <span class="status">Planned</span>
+        </div>
+
+        <h3>Supply Chain Simulator</h3>
+
+        <p>
+          Explore what-if scenarios and see how changes in
+          demand, stock, supply or capacity could affect
+          the wider operation.
+        </p>
+
+        <span class="note">Coming soon</span>
+      </article>
+
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+
+    <div class="reveal">
+      <p class="kicker">About Chain Genius</p>
+
+      <h2>
+        Built around the realities of running a supply chain.
+      </h2>
+    </div>
+
+    <div class="about-copy reveal">
+
+      <p>
+        Supply chain decisions are connected. A purchasing
+        issue can affect production; a planning change can
+        alter stock requirements; and a supplier delay can
+        have consequences across the business.
+      </p>
+
+      <p>
+        Chain Genius Consulting is focused on making those
+        connections easier to see. We combine practical
+        operational understanding with straightforward
+        analysis and purpose-built digital tools.
+      </p>
+
+      <div class="principles">
+
+        <div class="principle">
+          <strong>Practical first</strong>
+          <span>
+            Tools should help answer real business questions.
+          </span>
+        </div>
+
+        <div class="principle">
+          <strong>Clear insight</strong>
+          <span>
+            Present information in a way people can act on.
+          </span>
+        </div>
+
+        <div class="principle">
+          <strong>Connected view</strong>
+          <span>
+            Look beyond isolated figures and departments.
+          </span>
+        </div>
+
+        <div class="principle">
+          <strong>Continuous improvement</strong>
+          <span>
+            Develop tools as needs and ideas evolve.
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+  <div class="wrap contact-band reveal">
+
+    <div>
+      <h2>Let's make your supply chain clearer.</h2>
+
+      <p>
+        Have a supply chain challenge or an idea for
+        a better way of working?
+      </p>
+    </div>
+
+    <a
+      class="button primary"
+      href="https://www.linkedin.com/company/chain-genius-consulting/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Visit our LinkedIn →
+    </a>
+
+  </div>
+</section>
 
 </main>
+
+<!-- FOOTER -->
 
 <footer>
   <div class="wrap footer-inner">
@@ -810,8 +995,111 @@ footer {
 </footer>
 
 <script>
+/* COPYRIGHT YEAR */
+
 document.getElementById("year").textContent =
   new Date().getFullYear();
+
+/* HEADER AND SCROLL PROGRESS */
+
+const header = document.getElementById("header");
+const progressBar = document.getElementById("progressBar");
+
+function updateScrollEffects() {
+
+  const scrollTop =
+    window.scrollY || document.documentElement.scrollTop;
+
+  const scrollHeight =
+    document.documentElement.scrollHeight - window.innerHeight;
+
+  const progress =
+    scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+
+  progressBar.style.width = progress + "%";
+
+  header.classList.toggle("scrolled", scrollTop > 25);
+}
+
+window.addEventListener("scroll", updateScrollEffects, {
+  passive: true
+});
+
+updateScrollEffects();
+
+/* SCROLL REVEAL */
+
+document.documentElement.classList.add("js");
+
+const revealItems = document.querySelectorAll(".reveal");
+
+if ("IntersectionObserver" in window) {
+
+  const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      } else {
+        entry.target.classList.remove("visible");
+      }
+
+    });
+
+  }, {
+    threshold: 0.12,
+    rootMargin: "0px 0px -35px 0px"
+  });
+
+  revealItems.forEach(item => observer.observe(item));
+
+} else {
+
+  revealItems.forEach(item => {
+    item.classList.add("visible");
+  });
+
+}
+
+/* ACTIVE NAVIGATION */
+
+const navLinks = document.querySelectorAll(
+  '.links a[href^="#"]'
+);
+
+const sections = document.querySelectorAll(
+  'main section[id]'
+);
+
+if ("IntersectionObserver" in window) {
+
+  const sectionObserver = new IntersectionObserver(entries => {
+
+    entries.forEach(entry => {
+
+      if (entry.isIntersecting) {
+
+        navLinks.forEach(link => {
+          link.classList.toggle(
+            "active",
+            link.getAttribute("href") === "#" + entry.target.id
+          );
+        });
+
+      }
+
+    });
+
+  }, {
+    rootMargin: "-25% 0px -60% 0px"
+  });
+
+  sections.forEach(section => {
+    sectionObserver.observe(section);
+  });
+
+}
 </script>
 
 </body>
