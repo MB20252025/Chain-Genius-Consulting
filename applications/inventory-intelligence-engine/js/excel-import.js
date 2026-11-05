@@ -1,0 +1,14 @@
+/* Chain Genius – Inventory Intelligence Engine v0.4
+ * excel-import.js
+ * Excel import (file checks, SheetJS reading) and export of results to a copy of the workbook.
+ * Plain script (no build step). Load order in index.html: calculations → forecasting → app → excel-import.
+ */
+let WB;
+const rows=n=>WB.Sheets[n]?XLSX.utils.sheet_to_json(WB.Sheets[n],{raw:true,cellDates:true}):null;
+$('#f').onchange=async e=>{const fl=e.target.files[0];if(!fl)return;if(!/\.xlsx?$/i.test(fl.name)){$('#st').textContent='Please choose an .xlsx file.';return}if(fl.size>30e6){$('#st').textContent='File too large (over 30MB).';return}$('#st').textContent='Reading…';try{WB=XLSX.read(await fl.arrayBuffer(),{cellDates:true})}catch(err){$('#st').textContent='Could not read this workbook (corrupted or not Excel).';return}run()};
+function exportWorkbook(){const w=WB,add=(n,a,c)=>XLSX.utils.book_append_sheet(w,XLSX.utils.json_to_sheet(a.map(x=>Object.fromEntries(c.map(([h,fn])=>[h,fn(x)])))),n);
+  const c=[['Item',x=>x.id],['Name',x=>x.name],['Group',x=>x.grp],['OnHand',x=>x.oh],['Allocated',x=>x.al],['Available',x=>x.av],['OnOrder',x=>x.oo],['Position',x=>x.pos],['AvgMonthly(est for RM)',x=>x.m],['AvgDaily',x=>x.d],['CoverDays',x=>x.cover],['PosCoverDays',x=>x.pcover],['LeadTimeUsed',x=>x.lt],['SafetyStock',x=>x.ss],['ROP',x=>x.rop],['SafetyRecalc',x=>x.ssR],['ROPRecalc',x=>x.ropR],['Value',x=>x.val],['ExcessQty',x=>x.exQty],['ExcessValue',x=>x.exVal],['Risk',x=>sv(x.sev)],['ABC',x=>x.abc],['XYZ',x=>x.xyz],['Why',x=>x.why],['HealthScore',x=>x.score],['HealthCategory',x=>x.cat],['StockClass',x=>x.cls],['Action',x=>x.act],['ABC cum%',x=>x.cum],['PolicyCheck',x=>x.verdict]];
+  ['ENG_FG','ENG_RM','ENG_Forecast','ENG_Suppliers','ENG_DataQuality','ENG_Assumptions'].forEach(n=>{if(w.Sheets[n]){delete w.Sheets[n];w.SheetNames=w.SheetNames.filter(s=>s!==n)}});
+  add('ENG_FG',R.fg,c);add('ENG_RM',R.rm,c);add('ENG_Forecast',R.fg.filter(x=>fcAll()[x.id].ok),[['SKU',x=>x.id],['Method',x=>FNAME[fcAll()[x.id].best]],['Last12m',x=>fcAll()[x.id].act12],['Next3m_est',x=>fcAll()[x.id].s3],['Next6m_est',x=>fcAll()[x.id].s6],['Next12m_est',x=>fcAll()[x.id].s12],['Trend',x=>fcAll()[x.id].trend],['Uncertainty',x=>fcAll()[x.id].unc],['Recommendation',x=>fcAll()[x.id].rec]]);add('ENG_Suppliers',R.sup,[['Supplier',x=>x.id],['POs',x=>x.n],['OnTime%',x=>x.otd],['AvgDaysLate',x=>x.late],['ObservedLT',x=>x.ltA],['LT_SD',x=>x.ltS],['Fill%',x=>x.fill],['Score',x=>x.score],['Risk',x=>x.cat],['Delayed',x=>x.delayed],['Short',x=>x.shortN],['OutstandingAtSnapshot',x=>x.excl]]);
+  add('ENG_DataQuality',R.dq,[['Severity',x=>x.sev],['Kind',x=>x.kind],['Sheet',x=>x.sheet],['Issue',x=>x.msg],['Examples',x=>x.ex]]);
+  add('ENG_Assumptions',Object.entries(CFG),[['Setting',x=>x[0]],['Value',x=>x[1]]]);XLSX.writeFile(w,'Chain_Genius_Engine_Output.xlsx')}
