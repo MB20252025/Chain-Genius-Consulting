@@ -1,0 +1,41 @@
+unit written   | unrecognised flag (items listed) | fractional-BOM lines flagged
+"each"         | no flag    | 197
+"Each"         | no flag    | 0
+"EACH"         | no flag    | 0
+" each"        | FLAGGED (6+ items) | 0
+"each "        | FLAGGED (6+ items) | 0
+"\teach\t"     | FLAGGED (6+ items) | 0
+" each "       | FLAGGED (6+ items) | 0
+"EA"           | FLAGGED (6+ items) | 0
+"ea"           | FLAGGED (6+ items) | 0
+"Ea"           | FLAGGED (6+ items) | 0
+" EA "         | FLAGGED (6+ items) | 0
+"kg"           | no flag    | 0
+"KG"           | no flag    | 0
+"Kg"           | no flag    | 0
+" kg"          | FLAGGED (6+ items) | 0
+"kg "          | FLAGGED (6+ items) | 0
+"pcs"          | no flag    | 0
+"PCS"          | no flag    | 0
+" pcs "        | FLAGGED (6+ items) | 0
+"box"          | no flag    | 0
+"BOX"          | no flag    | 0
+"set"          | no flag    | 0
+"m"            | no flag    | 0
+"l"            | no flag    | 0
+"g"            | no flag    | 0
+"pack"         | FLAGGED (6+ items) | 0
+"Pack"         | FLAGGED (6+ items) | 0
+" pack"        | FLAGGED (6+ items) | 0
+"pc"           | FLAGGED (6+ items) | 0
+"PC"           | FLAGGED (6+ items) | 0
+"lb"           | FLAGGED (6+ items) | 0
+"kgs"          | FLAGGED (6+ items) | 0
+"ea."          | FLAGGED (6+ items) | 0
+"each."        | FLAGGED (6+ items) | 0
+"eaches"       | FLAGGED (6+ items) | 0
+"e a"          | FLAGGED (6+ items) | 0
+"zzz"          | FLAGGED (6+ items) | 0
+""             | FLAGGED (6+ items) | 0
+"   "          | FLAGGED (6+ items) | 0
+"​each"        | FLAGGED (6+ items) | 0

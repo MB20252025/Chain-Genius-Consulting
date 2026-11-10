@@ -1,0 +1,12 @@
+s0  # overall: PASS
+PASS s0 (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+nopo  # overall: PASS
+PASS nopo (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+allfuture  # overall: PASS
+PASS allfuture (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+three  # overall: PASS
+PASS three (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+unknown  # overall: PASS
+PASS unknown (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+nohist  # overall: PASS
+PASS nohist (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 

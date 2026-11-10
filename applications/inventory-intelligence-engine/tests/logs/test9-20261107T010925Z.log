@@ -1,0 +1,63 @@
+# command: node test9.js
+# cwd: /mnt/user-data/outputs/inventory-intelligence-engine/tests
+# started: 2026-11-07T01:09:25Z
+PASS S1 supplier with no POs is listed (15 of 15), Not assessed, no score, evidence None
+PASS S1 its materials are counted: supplied = sheet count, at-risk = materials rated High or Critical
+PASS S1 lead time of its materials: no lateness added and says there is no delivery history (not assumed zero)
+PASS S1 no health penalty "unreliable supplier" for a supplier with no history
+PASS S1 confidence reason is "supplier has no delivery history" (not the generic small-sample reason)
+PASS S1 plain-language explanation mentions no received orders and how to improve
+PASS S1 ranking: ordered by at-risk, then score (unscored last on ties), then id
+PASS S1 Suppliers tab shows the supplier as Not assessed with no NaN/undefined; Overview and Summary render
+PASS S1 Summary says suppliers could not be assessed and are not counted as problems
+PASS S1 client question asks for the missing delivery history, naming the supplier
+PASS S1 inventory valuation / safety stock / MRP quantities for ALL items unchanged except lateness-driven lead time of its materials
+PASS S2 all POs received after the snapshot → Not assessed with reason "no PO received by the snapshot", POs counted as future-dated supply
+PASS S3 three POs → evidence Limited, scored, but never called a confirmed "Performance problem"
+PASS S4 no purchase orders at all: all 15 Not assessed, at-risk still counted, all tabs render, supplier area rated Low
+PASS S5 supplier referenced by materials but missing from the Suppliers sheet is still listed (known=false)
+PASS THRESHOLD fcHighAcc=99: calculations unchanged; fewer products flagged unusually accurate
+PASS THRESHOLD fcHighShare=90: calculations unchanged; dataset-wide warning disappears
+PASS THRESHOLD fcBias=2: calculations unchanged; fewer products called Balanced
+PASS THRESHOLD fcBiasShare=100 (with fcBias=2): calculations unchanged; fewer findings called Consistent
+PASS THRESHOLD outZ=10: calculations unchanged; no level shifts or outliers flagged
+PASS THRESHOLD ltMinN=3: calculations unchanged; 3-order lead times become Calculated
+PASS THRESHOLD ltMinSup=10: calculations unchanged; supplier lateness adjustments become reliable
+PASS THRESHOLD supLow=90,supMed=70: calculations unchanged; supplier classes shift, scores identical
+PASS THRESHOLD supMinPO=25: calculations unchanged; all suppliers become Limited evidence
+PASS THRESHOLD fcAdeqN=24: calculations unchanged; forecast data quality becomes Limited
+PASS THRESHOLD fcMinN=11 (fcAdeqN 12): calculations unchanged; products with 12 periods still assessed
+PASS THRESHOLD hold=50: calculations unchanged; no calculation changes
+PASS THRESHOLD fcH=3: calculations unchanged; display only
+PASS THRESHOLD abcA=70,abcB=90: calculations unchanged; only the A/B/C label changes
+PASS THRESHOLD x=0.1,y=0.2: calculations unchanged; XYZ classes change; stock calculations unchanged
+PASS THRESHOLD otd=70: stock, MRP, supplier and forecast calculations unchanged; health scores change (as stated)
+PASS THRESHOLD z=2.33 (stated as a calculation): outputs do change
+PASS THRESHOLD excess=30 (stated as a calculation): outputs do change
+PASS THRESHOLD basis=3 (stated as a calculation): outputs do change
+PASS THRESHOLD pol=1 (stated as a calculation): outputs do change
+PASS THRESHOLD sup=1 (stated as a calculation): outputs do change
+PASS THRESHOLD late=0 (stated as a calculation): outputs do change
+PASS THRESHOLD hor=6 (stated as a calculation): outputs do change
+PASS THRESHOLD grace=5 (stated as a calculation): outputs do change
+PASS THRESHOLD fgLT: changes only a product with no history (7 → 12), and not products that have history
+PASS every SETDEF entry has a default, a range containing it, an explanation and an effect label
+PASS every setting used by the engine is documented (no hidden configurable threshold)
+PASS Settings view lists every threshold with default, why, if-changed and affects
+PASS High confidence explained as reliable, no remedy needed
+PASS Low confidence explained in plain language (no raw rule keys) with how to improve
+PASS No demand → "Cannot assess" with plain explanation, not High or Low
+PASS Data confidence tab counts "cannot assess" items and renders
+PASS Data confidence: 8 areas, each with rating, reason and what would raise it
+PASS Data confidence: Northstar reconciliation rated Low and MRP Low (depends on it); usage Medium; feasibility Low (illustrative orders)
+PASS Data confidence: a reconciled workbook raises the reconciliation area to High (rating responds to the data)
+PASS Data confidence tab explains that confidence is not performance and defines all four ratings
+PASS Forecast tab: plain-language reasons with how to raise confidence
+PASS XSS: explanation text and new tabs escape imported names
+PASS withCfg restores the configuration even when a test callback throws
+PASS CONFIG ISOLATION: the suite started from the saved defaults (CFG equalled CFG0)
+PASS CONFIG ISOLATION: after the whole suite CFG equals the immutable pre-test snapshot of the defaults
+PASS CONFIG ISOLATION: CFG0 was not mutated and is frozen
+summary 57 pass 0 fail
+# exit code: 0
+# finished: 2026-11-07T01:09:37Z

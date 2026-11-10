@@ -1,0 +1,48 @@
+PASS T1 zero planned + missing completed excluded: 3 orders, 1 used, 2 excluded
+PASS T1 totals use only the valid order (missing quantity NOT treated as zero)
+PASS T1 all orders invalid → attainment null (no NaN, no division by zero)
+PASS T1 prCard renders with invalid data
+PASS T1 a genuine zero completed quantity IS counted (planned>0, actual 0)
+PASS T2 supRisk ordered by at-risk desc, score asc, id asc (all 15)
+PASS T2 Overview panel lists the same top 5 in the same order with class, score, at-risk, supplied
+PASS T2 Suppliers tab shows Risk rank, Score rank and the same ordering
+PASS T2 ranking recomputes under the calculated policy and stays ordered
+PASS T3 no history → "Assumed (default setting)", value = setting, says not from data
+PASS T3 one order → "Estimated", n=1, warns fewer than 5
+PASS T3 9 orders → "Calculated", value = independent mean
+PASS T3 order with finish before start excluded and disclosed
+PASS T3 lead-time column in Products → "Supplied", value 9, history shown for comparison only
+PASS T3 other products without a supplied value are still derived (not labelled Supplied)
+PASS T3 material with missing lead time falls back to supplier standard and says so
+PASS T3 baseline: all RM lead times labelled Supplied (+ calculated lateness) with PO count and date range
+PASS T3 Finished goods table shows LT source and LT basis columns
+PASS T4 missing forecasts excluded, not zero-filled: WAPE matches valid-pairs calc and differs from zero-fill
+PASS T4 under 6 periods → Insufficient, "Cannot assess", low confidence, no strong verdict
+PASS T4 zero-demand periods detected (2) and data quality Limited
+PASS T4 one isolated spike = 1 outlier, not a level shift
+PASS T4 two consecutive extreme months = level shift (not an outlier); genuine bias still reported
+PASS T4 two missing periods detected for the SKU
+PASS T4 perfect accuracy → flagged "Unusually high accuracy – validate source", never High confidence
+PASS T4 dataset-level warning appears when ≥50% of products show accuracy ≥ threshold (and says it is not itself a problem)
+PASS T4 genuinely noisy forecasts: no "unusually consistent" warning
+PASS T4 no Forecast_Units column: clear message, nothing invented, all tabs still render
+PASS T4 all-zero demand: no NaN/crash, assessment says cannot judge accuracy
+PASS T4 workbook with renamed IDs and no notes sheets: no demo detection, generic banner, no errors
+PASS T4 same analysis on renamed workbook (High+ count identical to original: 29)
+PASS T4 workbook note with HTML payload shown escaped; declared IDs read from the file
+PASS T4 notes-derived demo banner and tags come from the workbook (START HERE statement detected)
+PASS T5 mixed statuses: received/cancelled/after/undated/short/bad classified exactly as independent logic
+PASS T5 every PO lands in exactly one category (300)
+PASS T5 cancelled and post-snapshot POs are NOT supply; open overdue and not-yet-due ARE; received on the snapshot day is closed
+PASS T5 verified supply feeds the position of the right materials
+PASS T5 status for a large unexplained gap, shown in Data Quality tab with all six outputs
+PASS T5 inventory on-order equal to PO supply → "Reconciled", gap 0, no reconciliation data issue
+PASS T5 reconciled case wording says matches
+PASS T5 30% explained → "Partly reconciled"
+PASS T5 94% explained → "Mostly reconciled"
+PASS T5 POs exceed inventory on-order → explicit status (not "Cannot assess")
+PASS T5 totals match but materials differ → says so
+PASS T5 empty Purchase Orders sheet: no crash, status cannot assess
+PASS T5 Northstar: 300 units (4 POs) future-dated; 296 POs received before snapshot; 32,334 unreconciled
+PASS XSS: imported names escaped on every tab
+summary 47 pass 0 fail

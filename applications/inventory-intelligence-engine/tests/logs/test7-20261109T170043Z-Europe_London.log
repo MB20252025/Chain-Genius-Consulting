@@ -1,0 +1,142 @@
+PASS view Overview renders
+PASS view Health renders
+PASS view Finished goods renders
+PASS view Materials renders
+PASS view MRP renders
+PASS view Production feasibility renders
+PASS view Excess & dead stock renders
+PASS view Policy comparison renders
+PASS view Reorder policy renders
+PASS view Forecast accuracy renders
+PASS view Demand forecast renders
+PASS view Suppliers renders
+PASS view Data quality renders
+PASS view Client questions renders
+PASS view Data confidence renders
+PASS view Summary renders
+PASS view Settings renders
+PASS FG low cover seeds
+PASS FG excess seeds
+PASS RM low seeds critical
+PASS RM excess seeds
+SUP009 54 High risk otd52 n21 excl0 | SUP006 54 High risk otd52 n21 excl0 | SUP011 48 High risk otd31 n16 excl2 | SUP003 42 High risk otd24 n21 excl0
+PASS SUP003 & SUP011 in bottom 3 by score
+PASS values match v0.1 ref
+PO recon {"invRM":32634,"invFG":2378,"snap":300,"now":0,"PC":{"rec":{"n":296,"ord":24970,"qty":24788,"short":182,"noQty":0,"undated":0},"fut":{"n":4,"q":300,"over":225,"notDue":75,"ids":["PO0003","PO0030","PO0110","PO0190"]},"open":{"n":0,"q":0,"over":0,"notDue":0,"partial":0},"after":{"n":0,"q":0},"can":{"n":0,"q":0},"bad":{"n":0,"ids":[]}},"gap":32334,"explained":0.009192866335723478,"mis":100,"status":"Largely unreconciled"}
+A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is 32,634 units, but purchase orders support 300 units outstanding at the snapshot date. 32,334 units (100 materials differ) cannot be explained from this workbook. This does not by itself show lost stock, mis-valued inventory or a purchasing error. Finished-goods On_Order_Qty (2,378) has no purchase-order source. On-order drives inventory position, so it should be confirmed before it is relied on.
+health overall 87.7 cats 108/11/15/15/1
+classes Active:118 Slow-moving:26 Excess stock:6 Potentially obsolete:0 No recorded demand:0
+seed health FG003:36 stockout / below safety stock/cover below lead time/below reorder point/forecast bias | FG014:60 excess cover/demand variability/forecast bias | RM001:42 stockout / below safety stock/cover below lead time/below reorder point | RM009:80 excess cover
+WAPE FG003/FG014 0.46 0.63
+ROP verdict counts insufficient:22 possibly excessiv:96 ed:32
+pol=1 high+: 28 vs pol=0: 29
+PASS ABC inclusive-cumulative rule FG+RM
+PASS ABC thresholds 100/100 → all A
+PASS XSS payload planted in Products/Materials/Suppliers
+PASS XSS: no raw injected tags in any view
+PASS XSS: payload visible as escaped text
+PASS missing sheet → clear error: Missing sheet(s): BOM
+PASS empty PO sheet does not crash
+PASS zero demand: no NaN/crash, cls=No recorded demand
+PASS dup SKU / negative qty / alloc>onhand detected
+PASS recon uses snapshot POs=300 (short receipts not counted as outstanding)
+PASS recon gap total = 32,334
+PASS every material has 3 POs
+policy changes 34 riskier under calc 7 safer 27 FG001:1→0 FG002:1→0 FG019:1→0 FG021:1→0 FG023:1→0 FG027:3→2
+PASS alt run is the opposite policy
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+RM001 gross 1159.1 ss 115 avail 0 sched receipts 0 net 1274.1 moq 25
+ | RM001 |  | ORDER NOW |  | 0 |  | 0 |  | 1,159 |  | 115 |  | 1,274 |  | 25 |  | 1,275 |  | £8,708 |  | 2026-10-31 |  | overdue by 37d |  | 1,195 | FG001 (87/mo), FG038 (66/mo) |  | 
+PASS MRP status counts present
+MRP ORDER NOW rows 26
+PASS seeded low-cover RMs → ORDER NOW
+PASS seeded excess RMs → Covered
+PASS suggested qty multiples of MOQ
+PASS horizon 6 gives larger or equal spend
+PASS verified mode: FG on-order=0, RM on-order=PO outstanding
+PASS verified mode seeds still detected
+PASS inventory mode: oo = recorded on-order
+PASS supply setting changes position
+PASS MRP applies supply setting (note text)
+PASS feasibility applies supply setting
+PASS supply comparison card present
+items changing class between supply sources: 32
+PASS feasibility flags simulated orders
+feasibility statuses Feasible:16 | Feasible with incoming materials:0 | At risk:1 | Material shortage:33 | Insufficient information:0
+PASS no material over-committed across accepted orders (0 violations)
+first order SIM1 FG003 211 Feasible []
+PASS real open orders used instead of simulated (2 orders)
+confidence H/M/L 42 67 41
+PASS every item has confidence + reason
+PASS RM never High (estimated usage)
+client questions 10
+PASS on-order question generated with 32,334 evidence
+PASS open production order question generated
+PASS summary renders with SIMULATED label & limitations
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+confidence H/M/L (FG) 42/7/1 (RM) 0/60/40
+PASS Low confidence now occurs
+PASS RM shortage items are Low (est. usage + supplier sample)
+PASS RM excess seeds not High (estimated usage)
+PASS supply-source dependency lowers confidence
+PASS banner names supply source
+PASS MRP KPI states supply source
+PASS banner flags UNVERIFIED
+PASS reorder policy view explains each item
+PASS all 50 products forecast
+PASS no NaN/negative forecasts
+PASS 12-month history triggers seasonality warning
+methods chosen mean,19 wma3,15 ma3,13 ma6,1 trend,2 trend No significant trend,34 Rising,1 Falling,15 unc Medium,44 Low,5 High,1
+PASS synthetic 36m seasonal series: seasonality detected & seasonal method available
+PASS seasonal series: no seasonality warning
+PASS rising series → Rising, trend method best
+PASS flat noisy series → no significant trend
+PASS <6 months → no forecast, no crash
+PASS zero demand: finite, no NaN
+PASS no Forecast_Units → existing-forecast baseline null (nothing invented)
+PASS uncertainty range wider than forecast point
+PASS chart is SVG, id escaped
+PASS forecast view renders with chart and method table
+avg analyse ms 80.3
+summary 111 pass 0 fail
+PASS seasonal disabled with 12-month data (no product offers it)
+PASS all methods produce valid back-test results
+PASS uncertainty bands widen with horizon (all 50)
+PASS no negative forecast or lower bound
+PASS back-test months setting recalculates (3 test points)
+PASS forecast horizon setting changes table column
+PASS forecast view states bands are not guaranteed
+CONFIDENCE all 150 H/M/L 42 67 41 | FG 42/7/1 | RM 0/60/40
+confidence reasons {"risk class changes with the supply source (on-order does not reconcile to POs)":32,"lead time is a proxy from too few production orders":3,"volatile demand":1,"consumption estimated from BOM, not recorded":100,"lead time rests on a small or unreliable supplier sample":26}

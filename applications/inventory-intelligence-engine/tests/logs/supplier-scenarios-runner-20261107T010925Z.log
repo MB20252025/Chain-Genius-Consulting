@@ -1,0 +1,17 @@
+# command: bash run-supplier-scenarios.sh 20261107T010925Z
+# cwd: /mnt/user-data/outputs/inventory-intelligence-engine/tests
+# started: 2026-11-07T01:09:37Z
+s0  # overall: PASS
+PASS s0 (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+nopo  # overall: PASS
+PASS nopo (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+allfuture  # overall: PASS
+PASS allfuture (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+three  # overall: PASS
+PASS three (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+unknown  # overall: PASS
+PASS unknown (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+nohist  # overall: PASS
+PASS nohist (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# exit code: 0
+# finished: 2026-11-07T01:09:46Z

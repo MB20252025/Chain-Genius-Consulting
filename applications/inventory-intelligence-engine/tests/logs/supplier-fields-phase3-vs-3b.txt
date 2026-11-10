@@ -1,0 +1,4 @@
+supplier rows compared: 246
+NEW fields: nOtd, nLt, nFill, invQ, invD, reason, dpNote
+CHANGED cat x3 scenario-allfuture.xlsx:Not assessed -> Not Assessed — Insufficient Evidence | scenario-nohist.xlsx:Not assessed -> Not Assessed — Insufficient Evidence | scenario-nopo.xlsx:Not assessed -> Not Assessed — Insufficient Evidence
+CHANGED assess x3 scenario-allfuture.xlsx:Not assessed: no PO received by the snap -> Insufficient evidence: no PO received by | scenario-nohist.xlsx:Not assessed: no purchase orders on file -> Insufficient evidence: no purchase order | scenario-nopo.xlsx:Not assessed: no purchase orders on file -> Insufficient evidence: no purchase order
