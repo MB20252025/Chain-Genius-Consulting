@@ -1,0 +1,10 @@
+== H() calls 6
+14: H(`<span class="${cls(x.sev)}">${sv(x.sev)}</span>`)
+36: H(`<span class="s1">${f(x.over)}</span>`)
+46: H(`<span class="${{'ORDER NOW':'s3','Order soon':'s2',Plan:'s1',Covered:'s0'}[x.st]}">${x.st}</span>`)
+52: H(`<span class="${cl[x.status]}">${esc(x.status)}</span>`)
+209: H(`<span class="${x[1]}">${x[0]}</span>`)
+210: H(`<span class="${cl[x.rating]}">${esc(x.rating)}</span>`)
+== HTML concatenations with non-literal operands 2
+12: n>lim?`<p class="note">Showing the first ${lim} of ${n} rows. All ${n} rows are used in the calculations and are included in the Excel export.</p><button class="p" data-more="${k}">Show ${Math.min(pgS
+50: R.prRows.length

@@ -1,0 +1,4 @@
+calculations: innerHTML/outerHTML/insertAdjacentHTML/document.write = 0
+forecasting: innerHTML/outerHTML/insertAdjacentHTML/document.write = 0
+excel-import: innerHTML/outerHTML/insertAdjacentHTML/document.write = 0
+engine/engine-api: innerHTML/outerHTML/insertAdjacentHTML/document.write = 0
