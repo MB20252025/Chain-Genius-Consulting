@@ -1,0 +1,20 @@
+PASS: nohist: analysed (Analysed.)
+PASS: nohist: export created (Export created: Chain_Genius_Engine_Output.xlsx (check your )
+PASS: nohist: ENG_Suppliers has rows
+PASS: nohist: no NaN/undefined/Infinity in supplier rows
+PASS: nohist: unassessed suppliers exported with blank score
+PASS: nohist: Confidence and DataQuality sheets present
+PASS: nohist: no script errors
+PASS: nopo: analysed (Analysed.)
+PASS: nopo: export created (Export created: Chain_Genius_Engine_Output.xlsx (check your )
+PASS: nopo: ENG_Suppliers has rows
+PASS: nopo: no NaN/undefined/Infinity in supplier rows
+PASS: nopo: Confidence and DataQuality sheets present
+PASS: nopo: no script errors
+PASS: allfuture: analysed (Analysed.)
+PASS: allfuture: export created (Export created: Chain_Genius_Engine_Output.xlsx (check your )
+PASS: allfuture: ENG_Suppliers has rows
+PASS: allfuture: no NaN/undefined/Infinity in supplier rows
+PASS: allfuture: Confidence and DataQuality sheets present
+PASS: allfuture: no script errors
+test-export-nohistory: 19 passed, 0 failed

@@ -1,0 +1,106 @@
+PASS: C1 edge/scenario-combined.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-combined.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-combined.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-combined.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-combined.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-combined.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-dupexact.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-dupexact.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-dupexact.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-dupexact.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-dupexact.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-dupexact.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-dupkey.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-dupkey.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-dupkey.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-dupkey.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-dupkey.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-dupkey.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-multiline.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-multiline.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-multiline.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-multiline.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-multiline.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-multiline.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-overrec.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-overrec.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-overrec.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-overrec.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-overrec.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-overrec.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-overshort.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-overshort.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-overshort.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-overshort.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-overshort.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-overshort.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-partial.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-partial.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-partial.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-partial.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-partial.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-partial.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-posupconflict.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-posupconflict.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-posupconflict.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-posupconflict.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-posupconflict.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-posupconflict.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-splitline.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-splitline.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-splitline.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 edge/scenario-splitline.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 edge/scenario-splitline.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 edge/scenario-splitline.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 structure/scenario-willow.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 structure/scenario-willow.xlsx policy 0: Data Quality findings identical to Phase 2 except expected missing-value reclassification (item 2): +3 / -3
+PASS: C2 structure/scenario-willow.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 structure/scenario-willow.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 structure/scenario-willow.xlsx policy 1: Data Quality findings identical to Phase 2 except expected missing-value reclassification (item 2): +3 / -3
+PASS: C2 structure/scenario-willow.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-allfuture.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-allfuture.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-allfuture.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-allfuture.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-allfuture.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-allfuture.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-nohist.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-nohist.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-nohist.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-nohist.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-nohist.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-nohist.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-nopo.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-nopo.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-nopo.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-nopo.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-nopo.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-nopo.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-s0.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-s0.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-s0.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-s0.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-s0.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-s0.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-three.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-three.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-three.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-three.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-three.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-three.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-unknown.xlsx policy 0: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-unknown.xlsx policy 0: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-unknown.xlsx policy 0: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: C1 suppliers/scenario-unknown.xlsx policy 1: items, safety stock, reorder points, risk classes and totals are identical to Phase 2
+PASS: C3 suppliers/scenario-unknown.xlsx policy 1: Data Quality findings identical to Phase 2
+PASS: C2 suppliers/scenario-unknown.xlsx policy 1: all 16 screens other than Data quality are identical to Phase 2 once the new sentences are removed
+PASS: N1 Reorder policy screen states that finished goods assume a fixed production time and that σLT is shown as 0
+PASS: N2 Finished goods screen carries the note
+PASS: N3 Settings "Fixed rules" carries the note
+test-fglt-note: 105 passed, 0 failed

@@ -1,0 +1,36 @@
+PASS: Northstar baseline: supplier-performance confidence stays High, no PO data warning
+PASS: Northstar baseline: no duplicate or impossible-quantity PO flags
+PASS: dupexact: High "Duplicate records" lists PO0001, PO0002, PO0003
+PASS: dupexact: not additionally listed as "possible duplicate" (same PO number; the High flag covers it)
+PASS: dupexact: duplicate rows are COUNTED (limitation): received 296->298, future-dated 4->5
+PASS: dupexact: outstanding-at-snapshot quantity is double counted by the duplicated 50 (limitation): 300->350
+PASS: dupexact: duplicated received POs add to the supplier's scored PO count (limitation)
+PASS: dupexact: supplier-performance confidence capped at Medium with explanation
+PASS: dupexact: all 17 views render without undefined/NaN/Infinity
+PASS: dupkey: Medium "Possible duplicate POs" lists the three re-keyed POs
+PASS: dupkey: not reported as definite duplicate IDs (the PO numbers differ)
+PASS: dupkey: re-keyed open PO is counted (limitation): 300->375
+PASS: dupkey: confidence unchanged (only a possible duplicate, which may be a genuine repeat order; limitation)
+PASS: dupkey: all views render cleanly
+PASS: overrec: High "Impossible quantities" lists the four POs
+PASS: overrec: no supplier score outside 0-100 (fill rate is capped at 100 inside the score)
+PASS: overrec: SUP006 fill % is capped per PO line (99.5%) and its excess (80 units) is reported separately; the PO is flagged (candidate 3 change: candidate 2 showed 104.1% because excess netted against shortfalls)
+PASS: overrec: PO classification and outstanding quantity unchanged
+PASS: overrec: confidence capped at Medium with explanation
+PASS: overrec: all views render cleanly
+PASS: multiline: NOT flagged as duplicate records
+PASS: multiline: Low information note lists the shared PO numbers
+PASS: multiline: no other PO-number warnings
+PASS: multiline: every supplier statistic identical to Northstar (the data is the same, only the PO numbers are shared)
+PASS: multiline: supplier-performance confidence stays High
+PASS: multiline: PO classification and outstanding quantity unchanged
+PASS: multiline: all views render cleanly
+PASS: splitline: Medium "same PO number and material, different details" lists PO0001
+PASS: splitline: not reported as duplicate
+PASS: splitline: the two lines count as two received lines for the supplier (documented: statistics are per line)
+PASS: splitline: confidence unchanged
+PASS: splitline: views render cleanly
+PASS: posupconflict: Medium "more than one supplier" lists PO0001
+PASS: posupconflict: not mislabelled as duplicate records
+PASS: posupconflict: views render cleanly
+test-po-edge: 35 passed, 0 failed
