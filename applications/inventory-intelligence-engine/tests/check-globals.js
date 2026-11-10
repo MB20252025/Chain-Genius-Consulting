@@ -6,7 +6,7 @@
 // Needs: acorn (npm i acorn). Run: node check-globals.js
 const acorn=require('acorn'),fs=require('fs'),path=require('path'),ROOT=path.join(__dirname,'..');
 const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),tags=[...html.matchAll(/<script[^>]*\ssrc="([^"?]+)[^"]*"/g)].map(m=>m[1]);
-const EXPECT=['assets/xlsx.mini.min.js','js/calculations.js','js/forecasting.js','js/app.js','js/excel-import.js'];let bad=0,n=0;
+const EXPECT=['assets/xlsx.mini.min.js','js/calculations.js','js/forecasting.js','js/app.js','js/excel-import.js','js/engine/engine-api.js'];let bad=0,n=0; // v0.7 A1: engine wrapper added last
 const ok=(c,m)=>{n++;if(!c){bad++;console.log('FAIL:',m)}};
 ok(JSON.stringify(tags)===JSON.stringify(EXPECT),'script order in index.html is '+tags.join(' -> '));EXPECT.forEach(f=>ok(fs.existsSync(path.join(ROOT,f)),f+' exists'));
 const FILES=EXPECT.filter(f=>f.startsWith('js/')),decl={},BUILTIN=new Set(Object.getOwnPropertyNames(globalThis).concat(['document','window','XLSX','matchMedia','location','navigator','localStorage','sessionStorage','FileReader','Blob','URL','setTimeout','clearTimeout','console','Event','MouseEvent','HTMLElement','Intl','requestAnimationFrame','performance','alert','confirm','print','undefined','arguments']));
