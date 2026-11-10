@@ -1,0 +1,20 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+browserType.launch: Executable doesn't exist at /opt/pw-browsers/chromium_headless_shell-1254/chrome-headless-shell-linux64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     npx playwright install                                 ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+    at /home/claude/baseline-run/applications/inventory-intelligence-engine/tests/test-paging-chrome.js:9:25
+    at Object.<anonymous> (/home/claude/baseline-run/applications/inventory-intelligence-engine/tests/test-paging-chrome.js:29:108) {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v22.23.4
