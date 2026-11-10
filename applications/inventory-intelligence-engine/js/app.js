@@ -88,11 +88,14 @@ function run(){try{R=analyse();shown={};const p0=CFG.pol;CFG.pol=p0?0:1;try{R.al
 let lastY=0,lastRz=-1e9;
 if(typeof window!=='undefined'){window.addEventListener('scroll',()=>{if(performance.now()-lastRz>400)lastY=window.scrollY},{passive:true});
  window.addEventListener('resize',()=>{lastRz=performance.now();clearTimeout(rzT);rzT=setTimeout(()=>{if(typeof R==='undefined'||!R||pgSize()===lastPg)return;lastPg=pgSize();if(tblMax<=PAGE_NARROW)return;const y=lastY;show();window.scrollTo(0,y)},150)})}
+// v0.7 A1: page bindings run only when a page is present (see excel-import.js). In the browser the behaviour is unchanged.
+if(typeof document!=='undefined'){
 document.addEventListener('change',e=>{if(e.target.id==='fsel'){fsku=e.target.value;show()}});
 document.addEventListener('input',e=>{const k=e.target&&e.target.dataset&&e.target.dataset.k;if(k)setDraft[k]=e.target.value});
 document.addEventListener('click',e=>{const t=(e.target.closest&&e.target.closest('[data-t],[data-pf],[data-pr],[data-more],#rc,#ex,#rs'))||e.target;if(t.dataset.t){tab=t.dataset.t;show()}if(t.dataset.pf!==undefined){pf=t.dataset.pf;show()}if(t.dataset.pr!==undefined){prAll=!prAll;show()}if(t.dataset.more!==undefined){const k=t.dataset.more,y=window.scrollY;shown[k]=t.dataset.all?1e9:Math.max(pgSize(),shown[k]||0)+pgSize();show();window.scrollTo(0,y)}
  if(t.id==='rc')applySettings();if(t.id==='rs'){Object.assign(CFG,CFG0);Object.keys(setDraft).forEach(k=>delete setDraft[k]);setMsg='All settings were reset to their defaults.';run()}
  if(t.id==='ex')exportWorkbook();});
+}
 
 // ---------- v0.6 additions: attainment, PO reconciliation, forecast credibility ----------
 let prAll=false;
