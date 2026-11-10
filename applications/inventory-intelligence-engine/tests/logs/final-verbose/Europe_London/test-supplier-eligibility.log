@@ -1,0 +1,302 @@
+PASS: the state string is exactly "Not Assessed — Insufficient Evidence" (em dash)
+PASS: baseline: SUP007 is Low risk 87.4 with 20 scored POs
+PASS: A1 Received_Qty empty cell: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty empty cell: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty empty cell: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty empty cell: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty empty cell: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty empty cell: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty empty cell: not mislabelled as text
+PASS: A9 Received_Qty empty cell: reported as a missing value in Received_Qty
+PASS: A11 Received_Qty empty cell: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty empty string: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty empty string: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty empty string: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty empty string: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty empty string: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty empty string: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty empty string: not mislabelled as text
+PASS: A9 Received_Qty empty string: reported as a missing value in Received_Qty
+PASS: A11 Received_Qty empty string: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty spaces only: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty spaces only: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty spaces only: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty spaces only: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty spaces only: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty spaces only: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty spaces only: not mislabelled as text
+PASS: A9 Received_Qty spaces only: reported as a missing value in Received_Qty
+PASS: A11 Received_Qty spaces only: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty formula returning "": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty formula returning "": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty formula returning "": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty formula returning "": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty formula returning "": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty formula returning "": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty formula returning "": not mislabelled as text
+PASS: A9 Received_Qty formula returning "": reported as a missing value in Received_Qty
+PASS: A11 Received_Qty formula returning "": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty text "TBC": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty text "TBC": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty text "TBC": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty text "TBC": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty text "TBC": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty text "TBC": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty text "TBC": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Received_Qty text "TBC": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty text "N/A": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty text "N/A": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty text "N/A": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty text "N/A": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty text "N/A": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty text "N/A": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty text "N/A": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Received_Qty text "N/A": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty numeric text "120": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty numeric text "120": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty numeric text "120": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty numeric text "120": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty numeric text "120": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty numeric text "120": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty numeric text "120": flagged as a non-numeric quantity (Data quality, High)
+PASS: A8 Received_Qty numeric text "120": numeric text is NOT converted; it is flagged High and names the PO PO0148
+PASS: A11 Received_Qty numeric text "120": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty text "1,200": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty text "1,200": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty text "1,200": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty text "1,200": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty text "1,200": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty text "1,200": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty text "1,200": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Received_Qty text "1,200": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty text "120 kg": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty text "120 kg": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty text "120 kg": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty text "120 kg": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty text "120 kg": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty text "120 kg": number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty text "120 kg": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Received_Qty text "120 kg": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty Excel error #N/A: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty Excel error #N/A: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty Excel error #N/A: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty Excel error #N/A: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty Excel error #N/A: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty Excel error #N/A: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty Excel error #N/A: not mislabelled as text
+PASS: A9 Received_Qty Excel error #N/A: reported as a missing value in Received_Qty
+PASS: A11 Received_Qty Excel error #N/A: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty boolean TRUE: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty boolean TRUE: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty boolean TRUE: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty boolean TRUE: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty boolean TRUE: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty boolean TRUE: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty boolean TRUE: flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Received_Qty boolean TRUE: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Received_Qty negative -50: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Received_Qty negative -50: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Received_Qty negative -50: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Received_Qty negative -50: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Received_Qty negative -50: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Received_Qty negative -50: number of High-risk suppliers unchanged (6)
+PASS: A7 Received_Qty negative -50: not mislabelled as text
+PASS: A10 Received_Qty negative -50: negative quantity reported as impossible (existing finding)
+PASS: A11 Received_Qty negative -50: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty empty cell: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty empty cell: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty empty cell: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty empty cell: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty empty cell: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty empty cell: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty empty cell: not mislabelled as text
+PASS: A9 Ordered_Qty empty cell: reported as a missing value in Ordered_Qty
+PASS: A11 Ordered_Qty empty cell: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty empty string: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty empty string: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty empty string: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty empty string: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty empty string: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty empty string: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty empty string: not mislabelled as text
+PASS: A9 Ordered_Qty empty string: reported as a missing value in Ordered_Qty
+PASS: A11 Ordered_Qty empty string: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty spaces only: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty spaces only: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty spaces only: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty spaces only: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty spaces only: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty spaces only: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty spaces only: not mislabelled as text
+PASS: A9 Ordered_Qty spaces only: reported as a missing value in Ordered_Qty
+PASS: A11 Ordered_Qty spaces only: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty formula returning "": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty formula returning "": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty formula returning "": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty formula returning "": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty formula returning "": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty formula returning "": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty formula returning "": not mislabelled as text
+PASS: A9 Ordered_Qty formula returning "": reported as a missing value in Ordered_Qty
+PASS: A11 Ordered_Qty formula returning "": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty text "TBC": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty text "TBC": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty text "TBC": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty text "TBC": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty text "TBC": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty text "TBC": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty text "TBC": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Ordered_Qty text "TBC": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty text "N/A": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty text "N/A": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty text "N/A": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty text "N/A": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty text "N/A": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty text "N/A": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty text "N/A": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Ordered_Qty text "N/A": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty numeric text "120": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty numeric text "120": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty numeric text "120": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty numeric text "120": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty numeric text "120": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty numeric text "120": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty numeric text "120": flagged as a non-numeric quantity (Data quality, High)
+PASS: A8 Ordered_Qty numeric text "120": numeric text is NOT converted; it is flagged High and names the PO PO0148
+PASS: A11 Ordered_Qty numeric text "120": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty text "1,200": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty text "1,200": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty text "1,200": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty text "1,200": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty text "1,200": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty text "1,200": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty text "1,200": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Ordered_Qty text "1,200": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty text "120 kg": score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty text "120 kg": score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty text "120 kg": valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty text "120 kg": exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty text "120 kg": the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty text "120 kg": number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty text "120 kg": flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Ordered_Qty text "120 kg": export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty Excel error #N/A: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty Excel error #N/A: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty Excel error #N/A: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty Excel error #N/A: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty Excel error #N/A: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty Excel error #N/A: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty Excel error #N/A: not mislabelled as text
+PASS: A9 Ordered_Qty Excel error #N/A: reported as a missing value in Ordered_Qty
+PASS: A11 Ordered_Qty Excel error #N/A: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty boolean TRUE: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty boolean TRUE: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty boolean TRUE: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty boolean TRUE: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty boolean TRUE: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty boolean TRUE: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty boolean TRUE: flagged as a non-numeric quantity (Data quality, High)
+PASS: A11 Ordered_Qty boolean TRUE: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: A1 Ordered_Qty negative -50: score is a real number and the class stays Low risk (never NaN, never High risk because of one bad line): 87.42 Low risk
+PASS: A2 Ordered_Qty negative -50: score, fill, on-time, valid-line counts and over-delivery equal the independent recomputation (fill from 19 of 20 lines)
+PASS: A3 Ordered_Qty negative -50: valid on-time, lead-time and lateness evidence is untouched
+PASS: A4 Ordered_Qty negative -50: exactly one line is left out of the quantity metrics (1)
+PASS: A5 Ordered_Qty negative -50: the bad line does not lower the score (87.42 vs 87.42)
+PASS: A6 Ordered_Qty negative -50: number of High-risk suppliers unchanged (6)
+PASS: A7 Ordered_Qty negative -50: not mislabelled as text
+PASS: A10 Ordered_Qty negative -50: negative quantity reported as impossible (existing finding)
+PASS: A11 Ordered_Qty negative -50: export carries a numeric score, InvalidQuantityLines = 1 and a data-problem assessment
+PASS: B1 explicit zero Received_Qty on a received line is a genuine shortfall: counted (fill 97.4 < 100.0)
+PASS: B2 zero Ordered_Qty cannot support a fill ratio: left out of fill only (19 of 20), class Low risk
+PASS: B3 an implausibly large received quantity stays inside the per-line cap: fill 100.0 (<= 100), over-delivery reported separately: 999,999,960
+PASS: B4 the Math.min(100, fill) guard is still in the source and over-delivery is still reported separately
+PASS: C1 every Received_Qty of SUP007 empty: score is null (not 0, not NaN), state is exactly "Not Assessed — Insufficient Evidence", reason Data problem, evidence None
+PASS: C2 every Received_Qty of SUP007 empty: on-time (80%), lateness, lead time and PO count are still shown
+PASS: C3 every Received_Qty of SUP007 empty: fill is null (unknown), over-delivery 0, no NaN anywhere in the supplier results
+PASS: C4 every Received_Qty of SUP007 empty: assessment is explained as a data problem, not a performance classification
+PASS: C5 every Received_Qty of SUP007 empty: not classed High risk; High-risk count unchanged (6)
+PASS: C6 every Received_Qty of SUP007 empty: Summary weak-supplier list does not include it (list: SUP002, SUP010, SUP009, SUP006, SUP011, SUP003)
+PASS: C7 every Received_Qty of SUP007 empty: Summary explains unassessed suppliers are not counted as problems
+PASS: C8 every Received_Qty of SUP007 empty: Suppliers tab row shows the state string and "Data problem", no NaN/undefined
+PASS: C9 every Received_Qty of SUP007 empty: evidence cell counts valid records ("20 POs, 0 with valid quantities")
+PASS: C10 every Received_Qty of SUP007 empty: Overview has no NaN/undefined
+PASS: C11 every Received_Qty of SUP007 empty: its 7 materials still appear in material-risk analysis and supplier-risk counts (3 at risk)
+PASS: C12 every Received_Qty of SUP007 empty: listed in the risk ranking
+PASS: C13 every Received_Qty of SUP007 empty: Client questions asks for the data to be corrected (data problem)
+PASS: C14 every Received_Qty of SUP007 empty: Data confidence explains the supplier is not assessed because of invalid data
+PASS: C15 materials still carry a lead-time caution where relevant
+PASS: C16 every Received_Qty of SUP007 empty: export: Score and Fill% blank, Risk = the state string, on-time still exported, InvalidQuantityLines 20
+PASS: C17 every Received_Qty of SUP007 empty: ENG_Suppliers contains no NaN cell
+PASS: C18 every Received_Qty of SUP007 empty: R.sup stays correctly ordered (scored high to low) with the null score handled
+PASS: C19 every Received_Qty of SUP007 empty: unscored suppliers sort after every scored one in the score ranking
+PASS: C20 every Received_Qty of SUP007 empty: risk ranking order is consistent (at-risk count, then score ascending, unscored last)
+PASS: C1 every Received_Qty of SUP007 text "TBC": score is null (not 0, not NaN), state is exactly "Not Assessed — Insufficient Evidence", reason Data problem, evidence None
+PASS: C2 every Received_Qty of SUP007 text "TBC": on-time (80%), lateness, lead time and PO count are still shown
+PASS: C3 every Received_Qty of SUP007 text "TBC": fill is null (unknown), over-delivery 0, no NaN anywhere in the supplier results
+PASS: C4 every Received_Qty of SUP007 text "TBC": assessment is explained as a data problem, not a performance classification
+PASS: C5 every Received_Qty of SUP007 text "TBC": not classed High risk; High-risk count unchanged (6)
+PASS: C6 every Received_Qty of SUP007 text "TBC": Summary weak-supplier list does not include it (list: SUP002, SUP010, SUP009, SUP006, SUP011, SUP003)
+PASS: C7 every Received_Qty of SUP007 text "TBC": Summary explains unassessed suppliers are not counted as problems
+PASS: C8 every Received_Qty of SUP007 text "TBC": Suppliers tab row shows the state string and "Data problem", no NaN/undefined
+PASS: C9 every Received_Qty of SUP007 text "TBC": evidence cell counts valid records ("20 POs, 0 with valid quantities")
+PASS: C10 every Received_Qty of SUP007 text "TBC": Overview has no NaN/undefined
+PASS: C11 every Received_Qty of SUP007 text "TBC": its 7 materials still appear in material-risk analysis and supplier-risk counts (3 at risk)
+PASS: C12 every Received_Qty of SUP007 text "TBC": listed in the risk ranking
+PASS: C13 every Received_Qty of SUP007 text "TBC": Client questions asks for the data to be corrected (data problem)
+PASS: C14 every Received_Qty of SUP007 text "TBC": Data confidence explains the supplier is not assessed because of invalid data
+PASS: C15 materials still carry a lead-time caution where relevant
+PASS: C16 every Received_Qty of SUP007 text "TBC": export: Score and Fill% blank, Risk = the state string, on-time still exported, InvalidQuantityLines 20
+PASS: C17 every Received_Qty of SUP007 text "TBC": ENG_Suppliers contains no NaN cell
+PASS: C18 every Received_Qty of SUP007 text "TBC": R.sup stays correctly ordered (scored high to low) with the null score handled
+PASS: C19 every Received_Qty of SUP007 text "TBC": unscored suppliers sort after every scored one in the score ranking
+PASS: C20 every Received_Qty of SUP007 text "TBC": risk ranking order is consistent (at-risk count, then score ascending, unscored last)
+PASS: C1 every Received_Qty of SUP007 numeric text "120": score is null (not 0, not NaN), state is exactly "Not Assessed — Insufficient Evidence", reason Data problem, evidence None
+PASS: C2 every Received_Qty of SUP007 numeric text "120": on-time (80%), lateness, lead time and PO count are still shown
+PASS: C3 every Received_Qty of SUP007 numeric text "120": fill is null (unknown), over-delivery 0, no NaN anywhere in the supplier results
+PASS: C4 every Received_Qty of SUP007 numeric text "120": assessment is explained as a data problem, not a performance classification
+PASS: C5 every Received_Qty of SUP007 numeric text "120": not classed High risk; High-risk count unchanged (6)
+PASS: C6 every Received_Qty of SUP007 numeric text "120": Summary weak-supplier list does not include it (list: SUP002, SUP010, SUP009, SUP006, SUP011, SUP003)
+PASS: C7 every Received_Qty of SUP007 numeric text "120": Summary explains unassessed suppliers are not counted as problems
+PASS: C8 every Received_Qty of SUP007 numeric text "120": Suppliers tab row shows the state string and "Data problem", no NaN/undefined
+PASS: C9 every Received_Qty of SUP007 numeric text "120": evidence cell counts valid records ("20 POs, 0 with valid quantities")
+PASS: C10 every Received_Qty of SUP007 numeric text "120": Overview has no NaN/undefined
+PASS: C11 every Received_Qty of SUP007 numeric text "120": its 7 materials still appear in material-risk analysis and supplier-risk counts (3 at risk)
+PASS: C12 every Received_Qty of SUP007 numeric text "120": listed in the risk ranking
+PASS: C13 every Received_Qty of SUP007 numeric text "120": Client questions asks for the data to be corrected (data problem)
+PASS: C14 every Received_Qty of SUP007 numeric text "120": Data confidence explains the supplier is not assessed because of invalid data
+PASS: C15 materials still carry a lead-time caution where relevant
+PASS: C16 every Received_Qty of SUP007 numeric text "120": export: Score and Fill% blank, Risk = the state string, on-time still exported, InvalidQuantityLines 20
+PASS: C17 every Received_Qty of SUP007 numeric text "120": ENG_Suppliers contains no NaN cell
+PASS: C18 every Received_Qty of SUP007 numeric text "120": R.sup stays correctly ordered (scored high to low) with the null score handled
+PASS: C19 every Received_Qty of SUP007 numeric text "120": unscored suppliers sort after every scored one in the score ranking
+PASS: C20 every Received_Qty of SUP007 numeric text "120": risk ranking order is consistent (at-risk count, then score ascending, unscored last)
+PASS: D1 every Promised_Date of SUP007 unusable: Not Assessed (data problem); valid fill (100.0%), over-delivery and lead time are still shown; on-time is unknown (null), not zero
+PASS: D2 the reason names the promised date and Data quality reports it
+PASS: D3 one unusable promised date: that line leaves on-time/lateness only; no artificial late count (on-time 78.9% over 19 lines vs 75.0 before the fix); score equals the independent figure
+PASS: E1 4 of 20 Received_Qty blank: score = independent recomputation from the 16 valid lines (87.42)
+PASS: E2 4 blank: evidence is Adequate (expected Adequate: 16 valid lines vs supMinPO 10), not Adequate just because 20 lines were imported
+PASS: 4 blank: still scored and not High risk
+PASS: E1 10 of 20 Received_Qty blank: score = independent recomputation from the 10 valid lines (87.42)
+PASS: E2 10 blank: evidence is Adequate (expected Adequate: 10 valid lines vs supMinPO 10), not Adequate just because 20 lines were imported
+PASS: 10 blank: still scored and not High risk
+PASS: E1 15 of 20 Received_Qty blank: score = independent recomputation from the 5 valid lines (87.42)
+PASS: E2 15 blank: evidence is Limited (expected Limited: 5 valid lines vs supMinPO 10), not Adequate just because 20 lines were imported
+PASS: 15 blank: still scored and not High risk
+PASS: F1 genuine poor performer SUP003 (41.6, valid evidence) with one invalid line stays High risk / Performance problem: 41.6, Performance problem (data problem: 1 received line(s) with invalid or 
+PASS: F2 and remains in the Summary weak-supplier list
+PASS: F3 baseline: genuine weak suppliers (6) remain listed
+PASS: G1 one blank Received_Qty on each of three suppliers: no supplier changes class; High-risk count stays 6
+PASS: H2 SUP011: 2 orders promised before the snapshot but received after it stay "Outstanding at snapshot" (existing rule kept; see the decision in the report)
+PASS: I1 suppliers/scenario-nopo.xlsx: 1 supplier(s) with no delivery history use the exact state string, reason "No delivery history", and an "Insufficient evidence:" assessment
+PASS: I2 suppliers/scenario-nopo.xlsx: all 17 tabs render with no NaN/undefined
+PASS: I1 suppliers/scenario-allfuture.xlsx: 1 supplier(s) with no delivery history use the exact state string, reason "No delivery history", and an "Insufficient evidence:" assessment
+PASS: I2 suppliers/scenario-allfuture.xlsx: all 17 tabs render with no NaN/undefined
+PASS: I1 suppliers/scenario-nohist.xlsx: 15 supplier(s) with no delivery history use the exact state string, reason "No delivery history", and an "Insufficient evidence:" assessment
+PASS: I2 suppliers/scenario-nohist.xlsx: all 17 tabs render with no NaN/undefined
+PASS: J1 three exports in a row give identical ENG_Suppliers sheets
+PASS: J2 exporting does not change the uploaded workbook (cells, sheet names)
+PASS: J3 exporting does not change the analysis data (supplier results identical before and after)
+PASS: J4 recalculating after exports gives the same supplier results
+PASS: K1 Northstar (valid data): all 15 suppliers have identical score, class, evidence, metrics and assessment to the protected Phase 3 baseline
+PASS: K2 Northstar: both supplier rankings are identical
+test-supplier-eligibility: 301 passed, 0 failed

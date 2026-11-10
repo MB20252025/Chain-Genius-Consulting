@@ -1,0 +1,16 @@
+PASS: UTC: domtest2 (displayed dates) summary 18 pass 0 fail
+PASS: UTC: all sections identical to v0.5 golden
+PASS: UTC: independent verify.py has no FAIL
+PASS: Europe/London: domtest2 (displayed dates) summary 18 pass 0 fail
+PASS: Europe/London: all sections identical to v0.5 golden
+PASS: Europe/London: independent verify.py has no FAIL
+PASS: America/New_York: domtest2 (displayed dates) summary 18 pass 0 fail
+PASS: America/New_York: all sections identical to v0.5 golden
+PASS: America/New_York: independent verify.py has no FAIL
+PASS: Asia/Kolkata: domtest2 (displayed dates) summary 18 pass 0 fail
+PASS: Asia/Kolkata: all sections identical to v0.5 golden
+PASS: Asia/Kolkata: independent verify.py has no FAIL
+PASS: Pacific/Auckland: domtest2 (displayed dates) summary 18 pass 0 fail
+PASS: Pacific/Auckland: all sections identical to v0.5 golden
+PASS: Pacific/Auckland: independent verify.py has no FAIL
+test-timezones: 15 passed, 0 failed
