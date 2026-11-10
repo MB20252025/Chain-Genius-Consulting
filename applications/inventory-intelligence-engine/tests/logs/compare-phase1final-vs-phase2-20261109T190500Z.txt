@@ -1,0 +1,40 @@
+same  Northstar
+same  suppliers/scenario-allfuture.xlsx
+same  suppliers/scenario-nohist.xlsx
+same  suppliers/scenario-nopo.xlsx
+same  suppliers/scenario-s0.xlsx
+same  suppliers/scenario-three.xlsx
+same  suppliers/scenario-unknown.xlsx
+same  edge/scenario-combined.xlsx
+same  edge/scenario-dupexact.xlsx
+same  edge/scenario-dupkey.xlsx
+same  edge/scenario-multiline.xlsx
+same  edge/scenario-overrec.xlsx
+same  edge/scenario-overshort.xlsx
+same  edge/scenario-partial.xlsx
+same  edge/scenario-posupconflict.xlsx
+same  edge/scenario-splitline.xlsx
+same  structure/scenario-willow.xlsx
+DIFF  Northstar, every unit written as "Each"
+  result "dq" differs: added "Low | 197 BOM lines use fractional quantities of materials measured in"
+  tabs that render differently: Data quality, Client questions, Summary
+  export sheets that differ: ENG_DataQuality
+DIFF  Northstar, every unit written as "EA"
+  result "dq" differs: removed "Medium | Unrecognised unit of measure"; added "Low | 197 BOM lines use fractional quantities of materials measured in"
+  tabs that render differently: Data quality, Client questions, Summary
+  export sheets that differ: ENG_DataQuality
+DIFF  Northstar, every unit written as " each "
+  result "dq" differs: removed "Medium | Unrecognised unit of measure"; added "Low | 197 BOM lines use fractional quantities of materials measured in"
+  tabs that render differently: Data quality, Client questions, Summary
+  export sheets that differ: ENG_DataQuality
+DIFF  Northstar, every unit written as " kg"
+  result "dq" differs: removed "Medium | Unrecognised unit of measure"
+  tabs that render differently: Data quality
+  export sheets that differ: ENG_DataQuality
+same  Northstar, every unit written as "pack"
+DIFF  Northstar, "each" materials written as "EA" (others unchanged)
+  result "dq" differs: removed "Medium | Unrecognised unit of measure"; added "Low | 131 BOM lines use fractional quantities of materials measured in"
+  tabs that render differently: Data quality, Client questions, Summary
+  export sheets that differ: ENG_DataQuality
+
+5 of 23 workbooks differ

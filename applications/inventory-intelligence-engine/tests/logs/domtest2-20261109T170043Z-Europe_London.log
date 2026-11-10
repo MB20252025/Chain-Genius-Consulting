@@ -1,0 +1,19 @@
+PASS imports Northstar workbook through the real file input
+PASS Overview: supplier panel ranked by at-risk materials; SUP008 first with class, score, at-risk, supplied
+PASS Overview: demonstration banner derived from the workbook
+PASS Suppliers: risk rank + score rank columns, both attainment measures and definitions
+PASS Suppliers: "Show all SKUs" toggles 12 → 50 rows (12 → 50)
+PASS toggle returns to 12
+PASS Suppliers: FG048 shows 398 actual of 425 planned, 92.8 and 93.6
+PASS Finished goods: LT source and LT basis columns; limited-sample estimate text; no value labelled Supplied
+PASS Materials: lead time shown as Supplied + calculated lateness with PO count and date range
+PASS Data quality: six reconciliation outputs, status, and neutral explanation (no claim of loss)
+PASS Forecast accuracy: separate performance / data quality / confidence groups, dataset warning, workbook-declared tags
+PASS Summary: heading uses the loaded file name, not a hardcoded company
+PASS Settings: raising the high-accuracy threshold to 99% reduces flagged products (31 → 0)
+PASS Settings: lowering required orders to 3 turns 3-order lead times to "Calculated"
+PASS Export: original sheets kept and new ENG_ sheets added (ENG_FG, ENG_RM, ENG_Forecast, ENG_Suppliers, ENG_DataQuality, ENG_Assumptions, ENG_Confidence, ENG_Attainment, ENG_POReconciliation, ENG_ForecastCredibility)
+PASS Export content: FG048 attainment 92.8/93.6; FG027 lead time source text; SUP008 at-risk 4 rank 1
+PASS all 17 tabs render without undefined/NaN
+PASS no script errors during the whole session (0)
+summary 18 pass 0 fail

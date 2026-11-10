@@ -1,0 +1,35 @@
+# command: node domtest.js
+# started: 2026-11-09T10:08:23Z
+PASS page loads, all 4 scripts + SheetJS defined
+PASS rejects non-Excel file
+PASS corrupted workbook handled gracefully (no crash): Error: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders
+PASS Northstar imports via file input → "Analysed."
+PASS 17 tabs in navigation
+PASS tab "Overview" is active and renders (8583 chars, no undefined/NaN)
+PASS tab "Health" is active and renders (4642 chars, no undefined/NaN)
+PASS tab "Finished goods" is active and renders (33955 chars, no undefined/NaN)
+PASS tab "Materials" is active and renders (90007 chars, no undefined/NaN)
+PASS tab "MRP" is active and renders (27993 chars, no undefined/NaN)
+PASS tab "Production feasibility" is active and renders (19582 chars, no undefined/NaN)
+PASS tab "Excess & dead stock" is active and renders (7778 chars, no undefined/NaN)
+PASS tab "Policy comparison" is active and renders (10294 chars, no undefined/NaN)
+PASS tab "Reorder policy" is active and renders (52434 chars, no undefined/NaN)
+PASS tab "Forecast accuracy" is active and renders (33121 chars, no undefined/NaN)
+PASS tab "Demand forecast" is active and renders (30131 chars, no undefined/NaN)
+PASS tab "Suppliers" is active and renders (10095 chars, no undefined/NaN)
+PASS tab "Data quality" is active and renders (6562 chars, no undefined/NaN)
+PASS tab "Client questions" is active and renders (3339 chars, no undefined/NaN)
+PASS tab "Data confidence" is active and renders (4658 chars, no undefined/NaN)
+PASS tab "Summary" is active and renders (3249 chars, no undefined/NaN)
+PASS tab "Settings" is active and renders (17234 chars, no undefined/NaN)
+PASS tabs show different content (17 distinct)
+PASS banner shows supply source on every tab
+PASS recalculate applies supply setting (UNVERIFIED shown)
+PASS forecast horizon setting applied (Next 3m column)
+PASS product selector re-renders chart for chosen SKU
+PASS reorder policy filter works
+PASS export builds file with original + ENG_ sheets: ENG_FG,ENG_RM,ENG_Forecast,ENG_Suppliers,ENG_DataQuality,ENG_Assumptions,ENG_Confidence,ENG_Attainment,ENG_POReconciliation,ENG_ForecastCredibility
+PASS no script errors during whole session (0)
+summary 30 pass 0 fail
+# exit code: 0
+# finished: 2026-11-09T10:08:29Z

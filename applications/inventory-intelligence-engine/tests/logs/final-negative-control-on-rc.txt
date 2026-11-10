@@ -1,0 +1,4 @@
+FAIL: [F1 desktop] 7 unapplied values (z, supMinPO, outZ, abcA, ltMinSup, supMed, basis) all survive 3 rounds through all 16 other tabs
+FAIL: [F1 desktop] rotation keeps the draft
+FAIL: [F1 desktop] Apply (Recalculate) applies every draft value to CFG
+FAIL: [F1 desktop] after Apply and a tab round trip Settings shows the applied values

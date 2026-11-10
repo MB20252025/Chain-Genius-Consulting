@@ -1,0 +1,15 @@
+== test-prephase3
+test-prephase3: 41 passed, 0 failed
+== test-paging-chrome
+test-paging-chrome: 59 passed, 0 failed
+== test-responsive-chrome
+test-responsive-chrome: 35 passed, 0 failed
+== test-suppliers-export-chrome
+test-suppliers-export-chrome: 72 passed, 0 failed
+== browser-chrome
+PASS mobile: no console errors, warnings or uncaught exceptions during the whole session (0)
+PASS failure case: Excel library blocked/missing → clear message and no uncaught error ("The Excel library did not load. Check that assets/xlsx.mini.")
+
+summary 53 pass 0 fail 
+== check-standalone
+check-standalone (/mnt/attach/outputs/inventory-intelligence-engine-c4-phase3): 40 passed, 0 failed

@@ -1,0 +1,19 @@
+# command: node browser-chrome.js
+# started: 2026-11-07T09:40:58Z
+/mnt/user-data/outputs/inventory-intelligence-engine/tests/browser-chrome.js:6
+let ok=0,bad=0;const chk=(n,c,d)=>{c?ok++:bad++;console.log((c?'PASS ':'FAIL ')+n+(c?'':'  >> '+(d===undefined?'':typeof d==='string'?d:JSON.stringify(d)))};
+                                                                                                                                                          ^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1713:18)
+    at Module._compile (node:internal/modules/cjs/loader:1755:20)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49
+
+Node.js v22.23.4
+# exit code: 1
+# finished: 2026-11-07T09:40:58Z

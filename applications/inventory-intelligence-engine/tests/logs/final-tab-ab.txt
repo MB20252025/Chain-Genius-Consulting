@@ -1,0 +1,14 @@
+SIMULATED 4x, 360 wide (30 visits per tab and tree; each visit is preceded by a different tab)
+Finished goods       RC median 207 final median 199 -3.9%
+Summary              RC median 38 final median 36 -5.3%
+Client questions     RC median 29 final median 30 0.7%
+Policy comparison    RC median 129 final median 127 -1.6%
+Suppliers            RC median 149 final median 146 -1.6%
+Overview             RC median 49 final median 51 4.1%
+DESKTOP (30 visits per tab and tree)
+Finished goods       RC median 144 final median 152 5.3%
+Summary              RC median 22 final median 22 0.0%
+Client questions     RC median 22 final median 22 1.8%
+Policy comparison    RC median 77 final median 71 -7.2%
+Suppliers            RC median 76 final median 71 -6.6%
+Overview             RC median 22 final median 21 -6.0%
