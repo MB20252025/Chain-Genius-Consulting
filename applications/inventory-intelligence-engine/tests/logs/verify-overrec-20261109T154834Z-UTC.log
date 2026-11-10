@@ -1,0 +1,9 @@
+# scenario: overrec
+# workbook: fixtures/edge/scenario-overrec.xlsx
+# started: 2026-11-09T15:49:29Z
+# dump exit code: 0
+overrec: suppliers independent=15 app=15
+PASS overrec (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+IDENTICAL to fixtures/edge/supplier-output-overrec.json
+# overall: PASS

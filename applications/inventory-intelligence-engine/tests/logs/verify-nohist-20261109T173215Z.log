@@ -1,0 +1,13 @@
+# scenario: nohist
+# workbook: fixtures/suppliers/scenario-nohist.xlsx
+# started: 2026-11-09T17:32:21Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+nohist: suppliers independent=15 app=15
+PASS nohist (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+## 3. fresh app output vs stored expected output
+IDENTICAL to fixtures/suppliers/supplier-output-nohist.json
+# finished: 2026-11-09T17:32:22Z
+# overall: PASS

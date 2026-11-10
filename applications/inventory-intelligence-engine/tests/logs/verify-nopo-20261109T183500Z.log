@@ -1,0 +1,13 @@
+# scenario: nopo
+# workbook: fixtures/suppliers/scenario-nopo.xlsx
+# started: 2026-11-09T18:29:56Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+nopo: suppliers independent=15 app=15
+PASS nopo (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+## 3. fresh app output vs stored expected output
+IDENTICAL to fixtures/suppliers/supplier-output-nopo.json
+# finished: 2026-11-09T18:29:57Z
+# overall: PASS

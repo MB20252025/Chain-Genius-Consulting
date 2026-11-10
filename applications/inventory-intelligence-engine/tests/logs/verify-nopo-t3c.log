@@ -1,0 +1,21 @@
+# scenario: nopo
+# workbook: fixtures/suppliers/scenario-nopo.xlsx
+# started: 2026-11-09T20:33:42Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+nopo: suppliers independent=15 app=15
+PASS nopo (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+## 3. fresh app output vs stored expected output
+DIFFERENT from stored expected output
+35c35
+<         "cat": "Not Assessed \u2014 Insufficient Evidence",
+---
+>         "cat": "Not assessed",
+39c39
+<         "assess": "Insufficient evidence: no purchase orders on file",
+---
+>         "assess": "Not assessed: no purchase orders on file",
+# finished: 2026-11-09T20:33:43Z
+# overall: FAIL
