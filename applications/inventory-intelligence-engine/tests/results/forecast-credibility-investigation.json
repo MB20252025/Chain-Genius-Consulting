@@ -1,0 +1,1620 @@
+{
+ "meta": {
+  "sku": "FG001",
+  "note": "outlier test runs on demand history"
+ },
+ "runs": [
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 94.7,
+   "bias": -2,
+   "dir": "Balanced",
+   "consistent": false,
+   "finding": "Balanced",
+   "verdict": "Good",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 94.7 5.3 -2.2 Balanced -23 £-1,265 4.8 vs 12.4 Good 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Balanced FG031 94.7 5.3 -2.4 Balanced -41 £-3,",
+   "independentAcc": 94.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 94.7,
+    "verdict": "Good",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "control (no extreme month)"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6
+   ],
+   "out": 1,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 50.8,
+   "bias": -48,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast (data limited)",
+   "verdict": "Poor",
+   "conf": "Low",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "provide 24–36 months of demand history; correct or explain the flagged periods",
+   "screen": "FG001 50.8 49.2 -48.1 Under-forecast -950 £-52,231 4.8 vs 145.1 Poor 12/12 0 0 1 0 Limited Low The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)). To raise confidence: provide 24–36 m",
+   "independentAcc": 50.8,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 50.8,
+    "verdict": "Poor",
+    "reasons": [
+     "1 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "1 isolated extreme month"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    7
+   ],
+   "out": 0,
+   "shift": 2,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 35.8,
+   "bias": -63,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 35.8 64.2 -63.5 Under-forecast -1,778 £-97,754 64.2 vs 127.5 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. Possible level shift (2 consecutive extreme periods, not counted as outliers). To raise confi",
+   "independentAcc": 35.8,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 35.8,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 2 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 3,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 28.9,
+   "bias": -70,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 28.9 71.1 -70.5 Under-forecast -2,444 £-134,371 76.2 vs 84.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. Possible level shift (3 consecutive extreme periods, not counted as outliers). To raise confi",
+   "independentAcc": 28.9,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 28.9,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 3 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "3 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    8
+   ],
+   "out": 2,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "2 statistical outlier(s)"
+   ],
+   "acc": 38,
+   "bias": -61,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast (data limited)",
+   "verdict": "Poor",
+   "conf": "Low",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (2 statistical outlier(s)).",
+   "confFix": "provide 24–36 months of demand history; correct or explain the flagged periods",
+   "screen": "FG001 38.0 62.0 -61.2 Under-forecast -1,616 £-88,848 59.2 vs 118.0 Poor 12/12 0 0 2 0 Limited Low The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (2 statistical outlier(s)). To raise confidence: provide 24–3",
+   "independentAcc": 38,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 38,
+    "verdict": "Poor",
+    "reasons": [
+     "2 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 extreme months separated by one normal month"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    4,
+    8
+   ],
+   "out": 2,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "2 statistical outlier(s)"
+   ],
+   "acc": 39,
+   "bias": -60,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Low",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (2 statistical outlier(s)).",
+   "confFix": "provide 24–36 months of demand history; correct or explain the flagged periods",
+   "screen": "FG001 39.0 61.0 -59.7 Under-forecast -1,517 £-83,405 59.2 vs 114.2 Poor 12/12 0 0 2 0 Limited Low The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (2 statistical outlier(s)). To raise confidence: provide 24–3",
+   "independentAcc": 39,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 39,
+    "verdict": "Poor",
+    "reasons": [
+     "2 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 extreme months separated by three normal months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    9
+   ],
+   "out": 1,
+   "shift": 2,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 27.1,
+   "bias": -72,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Low",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "provide 24–36 months of demand history; correct or explain the flagged periods",
+   "screen": "FG001 27.1 72.9 -72.1 Under-forecast -2,642 £-145,257 65.8 vs 131.3 Poor 12/12 0 0 1 0 Limited Low The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)). Possible level shift (2 consecut",
+   "independentAcc": 27.1,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 27.1,
+    "verdict": "Poor",
+    "reasons": [
+     "1 statistical outlier(s)",
+     "run of 2 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "mixed: a consecutive pair plus a separate single"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    5,
+    10
+   ],
+   "out": 1,
+   "shift": 3,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 23.2,
+   "bias": -76,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast (data limited)",
+   "verdict": "Poor",
+   "conf": "Low",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "provide 24–36 months of demand history; correct or explain the flagged periods",
+   "screen": "FG001 23.2 76.8 -76.3 Under-forecast -3,290 £-180,884 59.5 vs 157.2 Poor 12/12 0 0 1 0 Limited Low The history is under 24 months, so seasonality cannot be tested. The data has gaps or irregularities (1 statistical outlier(s)). Possible level shift (3 consecut",
+   "independentAcc": 23.2,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 23.2,
+    "verdict": "Poor",
+    "reasons": [
+     "1 statistical outlier(s)",
+     "run of 3 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "mixed: a consecutive triple plus a separate single"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 4,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 23.3,
+   "bias": -76,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 23.3 76.7 -76.3 Under-forecast -3,299 £-181,379 76.2 vs 77.3 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. Possible level shift (4 consecutive extreme periods, not counted as outliers). To raise confi",
+   "independentAcc": 23.3,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 23.3,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 4 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "4 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 16.7,
+   "bias": -83,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 16.7 83.3 -83.1 Under-forecast -5,027 £-276,384 76.2 vs 76.9 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Consistent under-forecast Workbo",
+   "independentAcc": 16.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 16.7,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "half the months extreme, in one block"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    9,
+    10
+   ],
+   "out": 0,
+   "shift": 4,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 22.9,
+   "bias": -76,
+   "dir": "Under-forecast",
+   "consistent": true,
+   "finding": "Consistent under-forecast",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 22.9 77.1 -76.5 Under-forecast -3,326 £-182,863 76.9 vs 102.7 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. Possible level shift (4 consecutive extreme periods, not counted as outliers). To raise conf",
+   "independentAcc": 22.9,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Low",
+    "dq": "Limited",
+    "acc": 22.9,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 4 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "two separate consecutive pairs"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 94.7,
+   "bias": -2,
+   "dir": "Balanced",
+   "consistent": false,
+   "finding": "Balanced",
+   "verdict": "Good",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 94.7 5.3 -2.2 Balanced -23 £-1,265 4.8 vs 12.4 Good 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Balanced FG031 94.7 5.3 -2.4 Balanced -41 £-3,",
+   "independentAcc": 94.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 94.7,
+    "verdict": "Good",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "control (no extreme month)"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 1.9,
+   "bias": 91,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 1.9 98.1 90.6 Over-forecast 949 £52,176 4.8 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent period",
+   "independentAcc": 1.9,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 1.9,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "1 isolated extreme month"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    7
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 167,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 174.0 167.1 Over-forecast 1,750 £96,215 164.1 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent ",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 226,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 231.3 225.6 Over-forecast 2,362 £129,863 284.4 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "3 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    6,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 149,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 155.4 149.1 Over-forecast 1,561 £85,824 125.1 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent ",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 extreme months separated by one normal month"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    4,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 134,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 139.5 133.6 Over-forecast 1,399 £76,917 125.1 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent ",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 extreme months separated by three normal months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    9
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 232,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 236.5 232.5 Over-forecast 2,434 £133,821 167.9 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "mixed: a consecutive pair plus a separate single"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    5,
+    10
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 305,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 310.0 304.7 Over-forecast 3,190 £175,386 145.5 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "mixed: a consecutive triple plus a separate single"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 310,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 315.6 309.8 Over-forecast 3,244 £178,355 284.4 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "4 consecutive extreme months"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 465,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 469.1 465.4 Over-forecast 4,873 £267,918 284.4 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "half the months extreme, in one block"
+  },
+  {
+   "history": "12 months (Northstar)",
+   "months": 12,
+   "extreme": [
+    3,
+    4,
+    9,
+    10
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 300,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The history is under 24 months, so seasonality cannot be tested.",
+   "confFix": "provide 24–36 months of demand history",
+   "screen": "FG001 0.0 303.5 299.5 Over-forecast 3,136 £172,417 308.6 vs 12.4 Poor 12/12 0 0 0 0 Adequate Medium The history is under 24 months, so seasonality cannot be tested. To raise confidence: provide 24–36 months of demand history. Biased overall, but not consistent",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "two separate consecutive pairs"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 91.4,
+   "bias": 2,
+   "dir": "Balanced",
+   "consistent": false,
+   "finding": "Balanced",
+   "verdict": "Good",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 91.4 8.6 1.6 Balanced 47 £2,584 11.1 vs 13.6 Good 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Balanced FG049 91.4 8.6 -2.4 Balanced -164 £-12,792 10.1 vs 14.0 Good 36/36 0 0 0 0 Adequate High The hi",
+   "independentAcc": 91.4,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 91.4,
+    "verdict": "Good",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "control (no extreme month)"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6
+   ],
+   "out": 1,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 71.5,
+   "bias": -22,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Fair",
+   "conf": "Medium",
+   "confWhy": "The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "correct or explain the flagged periods",
+   "screen": "FG001 71.5 28.5 -21.6 Under-forecast -835 £-45,908 11.1 vs 15.7 Fair 36/36 0 0 1 0 Limited Medium The data has gaps or irregularities (1 statistical outlier(s)). To raise confidence: correct or explain the flagged periods. Biased overall, but not consistent pe",
+   "independentAcc": 71.5,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 71.5,
+    "verdict": "Fair",
+    "reasons": [
+     "1 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "1 isolated extreme month"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    7
+   ],
+   "out": 0,
+   "shift": 2,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 62.7,
+   "bias": -31,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 62.7 37.3 -31.5 Under-forecast -1,393 £-76,587 11.1 vs 15.7 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Possible level shift (2 consecutive extreme periods, not counted as outliers). Biased ove",
+   "independentAcc": 62.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 62.7,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 2 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 3,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 54.7,
+   "bias": -40,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 54.7 45.3 -40.2 Under-forecast -2,041 £-112,214 11.1 vs 15.7 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Possible level shift (3 consecutive extreme periods, not counted as outliers). Biased ov",
+   "independentAcc": 54.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 54.7,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 3 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "3 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    8
+   ],
+   "out": 2,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "2 statistical outlier(s)"
+   ],
+   "acc": 61.2,
+   "bias": -33,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The data has gaps or irregularities (2 statistical outlier(s)).",
+   "confFix": "correct or explain the flagged periods",
+   "screen": "FG001 61.2 38.8 -32.9 Under-forecast -1,483 £-81,535 11.1 vs 15.7 Poor 36/36 0 0 2 0 Limited Medium The data has gaps or irregularities (2 statistical outlier(s)). To raise confidence: correct or explain the flagged periods. Biased overall, but not consistent ",
+   "independentAcc": 61.2,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 61.2,
+    "verdict": "Poor",
+    "reasons": [
+     "2 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 extreme months separated by one normal month"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    4,
+    8
+   ],
+   "out": 2,
+   "shift": 0,
+   "dq": "Limited",
+   "reasons": [
+    "2 statistical outlier(s)"
+   ],
+   "acc": 64.8,
+   "bias": -28,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The data has gaps or irregularities (2 statistical outlier(s)).",
+   "confFix": "correct or explain the flagged periods",
+   "screen": "FG001 64.8 35.2 -28.1 Under-forecast -1,186 £-65,206 11.1 vs 15.7 Poor 36/36 0 0 2 0 Limited Medium The data has gaps or irregularities (2 statistical outlier(s)). To raise confidence: correct or explain the flagged periods. Biased overall, but not consistent ",
+   "independentAcc": 64.8,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 64.8,
+    "verdict": "Poor",
+    "reasons": [
+     "2 statistical outlier(s)"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "2 extreme months separated by three normal months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    9
+   ],
+   "out": 1,
+   "shift": 2,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 53.1,
+   "bias": -41,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "correct or explain the flagged periods",
+   "screen": "FG001 53.1 46.9 -41.1 Under-forecast -2,113 £-116,173 11.1 vs 15.7 Poor 36/36 0 0 1 0 Limited Medium The data has gaps or irregularities (1 statistical outlier(s)). Possible level shift (2 consecutive extreme periods, not counted as outliers). To raise confide",
+   "independentAcc": 53.1,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 53.1,
+    "verdict": "Poor",
+    "reasons": [
+     "1 statistical outlier(s)",
+     "run of 2 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "mixed: a consecutive pair plus a separate single"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    5,
+    10
+   ],
+   "out": 1,
+   "shift": 3,
+   "dq": "Limited",
+   "reasons": [
+    "1 statistical outlier(s)"
+   ],
+   "acc": 47,
+   "bias": -49,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period (data limited)",
+   "verdict": "Poor",
+   "conf": "Medium",
+   "confWhy": "The data has gaps or irregularities (1 statistical outlier(s)).",
+   "confFix": "correct or explain the flagged periods",
+   "screen": "FG001 47.0 53.0 -48.6 Under-forecast -2,860 £-157,243 11.1 vs 15.7 Poor 36/36 0 0 1 0 Limited Medium The data has gaps or irregularities (1 statistical outlier(s)). Possible level shift (3 consecutive extreme periods, not counted as outliers). To raise confide",
+   "independentAcc": 47,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 47,
+    "verdict": "Poor",
+    "reasons": [
+     "1 statistical outlier(s)",
+     "run of 3 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "mixed: a consecutive triple plus a separate single"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 4,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 46.6,
+   "bias": -49,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 46.6 53.4 -49.1 Under-forecast -2,923 £-160,707 11.1 vs 15.7 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Possible level shift (4 consecutive extreme periods, not counted as outliers). Biased ov",
+   "independentAcc": 46.6,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 46.6,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 4 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "4 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 6,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 38.7,
+   "bias": -58,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 38.7 61.3 -57.7 Under-forecast -4,138 £-227,507 11.1 vs 15.7 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Possible level shift (6 consecutive extreme periods, not counted as outliers). Biased ov",
+   "independentAcc": 38.7,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 38.7,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 6 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "half the months extreme, in one block"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    9,
+    10
+   ],
+   "out": 0,
+   "shift": 4,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 46.5,
+   "bias": -49,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 46.5 53.5 -49.1 Under-forecast -2,923 £-160,707 11.1 vs 15.7 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Possible level shift (4 consecutive extreme periods, not counted as outliers). Biased ov",
+   "independentAcc": 46.5,
+   "accMatches": true,
+   "proposed": {
+    "conf": "Medium",
+    "dq": "Limited",
+    "acc": 46.5,
+    "verdict": "Poor",
+    "reasons": [
+     "run of 4 consecutive extreme periods"
+    ],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "two separate consecutive pairs"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 91.4,
+   "bias": 2,
+   "dir": "Balanced",
+   "consistent": false,
+   "finding": "Balanced",
+   "verdict": "Good",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 91.4 8.6 1.6 Balanced 47 £2,584 11.1 vs 13.6 Good 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Balanced FG049 91.4 8.6 -2.4 Balanced -164 £-12,792 10.1 vs 14.0 Good 36/36 0 0 0 0 Adequate High The hi",
+   "independentAcc": 91.4,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 91.4,
+    "verdict": "Good",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "control (no extreme month)"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 56.4,
+   "bias": 37,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 56.4 43.6 36.6 Over-forecast 1,091 £59,983 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not u",
+   "independentAcc": 56.4,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 56.4,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "1 isolated extreme month"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    7
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 36.2,
+   "bias": 57,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 36.2 63.8 56.8 Over-forecast 1,694 £93,136 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not u",
+   "independentAcc": 36.2,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 36.2,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 15.6,
+   "bias": 78,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 15.6 84.4 77.6 Over-forecast 2,315 £127,279 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not ",
+   "independentAcc": 15.6,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 15.6,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "3 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    6,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 35.8,
+   "bias": 57,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 35.8 64.2 57.4 Over-forecast 1,712 £94,126 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not u",
+   "independentAcc": 35.8,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 35.8,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 extreme months separated by one normal month"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    4,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 50.6,
+   "bias": 43,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 50.6 49.4 42.6 Over-forecast 1,271 £69,880 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not u",
+   "independentAcc": 50.6,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 50.6,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "2 extreme months separated by three normal months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    9
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 19.8,
+   "bias": 73,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 19.8 80.2 73.4 Over-forecast 2,189 £120,351 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not ",
+   "independentAcc": 19.8,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 19.8,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "mixed: a consecutive pair plus a separate single"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    5,
+    10
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 100,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 0.0 105.5 99.6 Over-forecast 2,972 £163,401 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not ",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "mixed: a consecutive triple plus a separate single"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 102,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 0.0 107.4 101.7 Over-forecast 3,035 £166,864 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "4 consecutive extreme months"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 143,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 0.0 148.7 143.1 Over-forecast 4,268 £234,655 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "half the months extreme, in one block"
+  },
+  {
+   "history": "36 months (synthetic)",
+   "months": 36,
+   "extreme": [
+    3,
+    4,
+    9,
+    10
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 0,
+   "bias": 106,
+   "dir": "Over-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Poor",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "confFix": "",
+   "screen": "FG001 0.0 112.7 106.0 Over-forecast 3,161 £173,792 11.1 vs 13.6 Poor 36/36 0 0 0 0 Adequate High The history is complete and varied, and accuracy is not unusually high. Biased overall, but not consistent period to period Workbook notes (read from the file, not",
+   "independentAcc": 0,
+   "accMatches": true,
+   "proposed": {
+    "conf": "High",
+    "dq": "Adequate",
+    "acc": 0,
+    "verdict": "Poor",
+    "reasons": [],
+    "sameAccuracyAndVerdict": true
+   },
+   "kind": "FORECAST miss (Forecast_Units x10, demand unchanged)",
+   "pattern": "two separate consecutive pairs"
+  },
+  {
+   "history": "36 months (constant demand 100)",
+   "kind": "DEMAND spike (Units_Sold x10, forecast unchanged)",
+   "pattern": "1 isolated extreme month, MAD = 0",
+   "months": 36,
+   "extreme": [
+    11
+   ],
+   "out": 0,
+   "shift": 0,
+   "dq": "Adequate",
+   "reasons": [],
+   "acc": 80,
+   "bias": -20,
+   "dir": "Under-forecast",
+   "consistent": false,
+   "finding": "Biased overall, but not consistent period to period",
+   "verdict": "Fair",
+   "conf": "High",
+   "confWhy": "The history is complete and varied, and accuracy is not unusually high.",
+   "screen": ""
+  }
+ ]
+}
