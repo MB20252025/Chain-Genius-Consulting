@@ -1,0 +1,82 @@
+PASS: [Northstar @ desktop 1280x800] 17 tabs present (17)
+PASS: [Northstar @ desktop 1280x800] no horizontal PAGE overflow on any tab
+PASS: [Northstar @ desktop 1280x800] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar @ desktop 1280x800] every table wider than the screen scrolls inside its own container
+PASS: [Northstar @ desktop 1280x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar @ desktop 1280x800] rotated to 800x1280: still on Suppliers, no horizontal page overflow
+PASS: [Northstar @ desktop 1280x800] no console or page errors
+PASS: [Northstar @ 412x915] 17 tabs present (17)
+PASS: [Northstar @ 412x915] no horizontal PAGE overflow on any tab
+PASS: [Northstar @ 412x915] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar @ 412x915] every table wider than the screen scrolls inside its own container
+PASS: [Northstar @ 412x915] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar @ 412x915] rotated to 915x412: still on Suppliers, no horizontal page overflow
+PASS: [Northstar @ 412x915] no console or page errors
+PASS: [Northstar @ 360x800] 17 tabs present (17)
+PASS: [Northstar @ 360x800] no horizontal PAGE overflow on any tab
+PASS: [Northstar @ 360x800] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar @ 360x800] every table wider than the screen scrolls inside its own container
+PASS: [Northstar @ 360x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar @ 360x800] rotated to 800x360: still on Suppliers, no horizontal page overflow
+PASS: [Northstar @ 360x800] no console or page errors
+PASS: [nohist fixture @ desktop 1280x800] 17 tabs present (17)
+PASS: [nohist fixture @ desktop 1280x800] no horizontal PAGE overflow on any tab
+PASS: [nohist fixture @ desktop 1280x800] no NaN/undefined/Infinity text on any tab
+PASS: [nohist fixture @ desktop 1280x800] every table wider than the screen scrolls inside its own container
+PASS: [nohist fixture @ desktop 1280x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [nohist fixture @ desktop 1280x800] Suppliers shows Not Assessed — Insufficient Evidence for suppliers without history, no NaN
+PASS: [nohist fixture @ desktop 1280x800] Overview supplier-risk table shows Not Assessed — Insufficient Evidence
+PASS: [nohist fixture @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [nohist fixture @ desktop 1280x800] rotated to 800x1280: still on Suppliers, no horizontal page overflow
+PASS: [nohist fixture @ desktop 1280x800] no console or page errors
+PASS: [nohist fixture @ 412x915] 17 tabs present (17)
+PASS: [nohist fixture @ 412x915] no horizontal PAGE overflow on any tab
+PASS: [nohist fixture @ 412x915] no NaN/undefined/Infinity text on any tab
+PASS: [nohist fixture @ 412x915] every table wider than the screen scrolls inside its own container
+PASS: [nohist fixture @ 412x915] Suppliers table shows the over-delivered units and lines columns
+PASS: [nohist fixture @ 412x915] Suppliers shows Not Assessed — Insufficient Evidence for suppliers without history, no NaN
+PASS: [nohist fixture @ 412x915] Overview supplier-risk table shows Not Assessed — Insufficient Evidence
+PASS: [nohist fixture @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [nohist fixture @ 412x915] rotated to 915x412: still on Suppliers, no horizontal page overflow
+PASS: [nohist fixture @ 412x915] no console or page errors
+PASS: [nohist fixture @ 360x800] 17 tabs present (17)
+PASS: [nohist fixture @ 360x800] no horizontal PAGE overflow on any tab
+PASS: [nohist fixture @ 360x800] no NaN/undefined/Infinity text on any tab
+PASS: [nohist fixture @ 360x800] every table wider than the screen scrolls inside its own container
+PASS: [nohist fixture @ 360x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [nohist fixture @ 360x800] Suppliers shows Not Assessed — Insufficient Evidence for suppliers without history, no NaN
+PASS: [nohist fixture @ 360x800] Overview supplier-risk table shows Not Assessed — Insufficient Evidence
+PASS: [nohist fixture @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [nohist fixture @ 360x800] rotated to 800x360: still on Suppliers, no horizontal page overflow
+PASS: [nohist fixture @ 360x800] no console or page errors
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] 17 tabs present (17)
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] no horizontal PAGE overflow on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] every table wider than the screen scrolls inside its own container
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] SUP008 row: real score, Medium risk, no NaN (1 8 SUP008 Summit Packaging Ltd 60 Medium risk Adequate (21 POs, 20 with valid quantities))
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] rotated to 800x1280: still on Suppliers, no horizontal page overflow
+PASS: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] no console or page errors
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] 17 tabs present (17)
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] no horizontal PAGE overflow on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] every table wider than the screen scrolls inside its own container
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] SUP008 row: real score, Medium risk, no NaN (1 8 SUP008 Summit Packaging Ltd 60 Medium risk Adequate (21 POs, 20 with valid quantities))
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] rotated to 915x412: still on Suppliers, no horizontal page overflow
+PASS: [Northstar, one SUP008 received quantity blank @ 412x915] no console or page errors
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] 17 tabs present (17)
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] no horizontal PAGE overflow on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] no NaN/undefined/Infinity text on any tab
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] every table wider than the screen scrolls inside its own container
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] Suppliers table shows the over-delivered units and lines columns
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] SUP008 row: real score, Medium risk, no NaN (1 8 SUP008 Summit Packaging Ltd 60 Medium risk Adequate (21 POs, 20 with valid quantities))
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.9"
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] rotated to 800x360: still on Suppliers, no horizontal page overflow
+PASS: [Northstar, one SUP008 received quantity blank @ 360x800] no console or page errors
+test-p4-chrome: 81 passed, 0 failed

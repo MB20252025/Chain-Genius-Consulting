@@ -1,0 +1,77 @@
+PASS: [F1 desktop] 7 unapplied values (z, supMinPO, outZ, abcA, ltMinSup, supMed, basis) all survive 3 rounds through all 16 other tabs
+PASS: [F1 desktop] the applied configuration (CFG) is unchanged by typing and navigating
+PASS: [F1 desktop] no analysis and no recalculation ran while switching tabs (0 analyse, 0 run)
+PASS: [F1 desktop] an untouched setting still shows its applied value
+PASS: [F1 desktop] rotation keeps the draft
+PASS: [F1 desktop] Apply (Recalculate) applies every draft value to CFG
+PASS: [F1 desktop] after Apply and a tab round trip Settings shows the applied values
+PASS: [F1 desktop] Apply clears the draft
+PASS: [F1 desktop] an out-of-range draft (99) is kept as typed until Apply
+PASS: [F1 desktop] Apply still clamps out-of-range input as before (z=99 becomes 4) and shows the clamped value
+PASS: [F1 desktop] new draft kept
+PASS: [F1 desktop] Reset restores every default and replaces the draft
+PASS: [F1 desktop] Reset clears the draft
+PASS: [F1 desktop] no console or page errors
+PASS: [F1 412] 7 unapplied values (z, supMinPO, outZ, abcA, ltMinSup, supMed, basis) all survive 3 rounds through all 16 other tabs
+PASS: [F1 412] the applied configuration (CFG) is unchanged by typing and navigating
+PASS: [F1 412] no analysis and no recalculation ran while switching tabs (0 analyse, 0 run)
+PASS: [F1 412] an untouched setting still shows its applied value
+PASS: [F1 412] rotation keeps the draft
+PASS: [F1 412] Apply (Recalculate) applies every draft value to CFG
+PASS: [F1 412] after Apply and a tab round trip Settings shows the applied values
+PASS: [F1 412] Apply clears the draft
+PASS: [F1 412] an out-of-range draft (99) is kept as typed until Apply
+PASS: [F1 412] Apply still clamps out-of-range input as before (z=99 becomes 4) and shows the clamped value
+PASS: [F1 412] new draft kept
+PASS: [F1 412] Reset restores every default and replaces the draft
+PASS: [F1 412] Reset clears the draft
+PASS: [F1 412] no console or page errors
+PASS: [F1 360] 7 unapplied values (z, supMinPO, outZ, abcA, ltMinSup, supMed, basis) all survive 3 rounds through all 16 other tabs
+PASS: [F1 360] the applied configuration (CFG) is unchanged by typing and navigating
+PASS: [F1 360] no analysis and no recalculation ran while switching tabs (0 analyse, 0 run)
+PASS: [F1 360] an untouched setting still shows its applied value
+PASS: [F1 360] rotation keeps the draft
+PASS: [F1 360] Apply (Recalculate) applies every draft value to CFG
+PASS: [F1 360] after Apply and a tab round trip Settings shows the applied values
+PASS: [F1 360] Apply clears the draft
+PASS: [F1 360] an out-of-range draft (99) is kept as typed until Apply
+PASS: [F1 360] Apply still clamps out-of-range input as before (z=99 becomes 4) and shows the clamped value
+PASS: [F1 360] new draft kept
+PASS: [F1 360] Reset restores every default and replaces the draft
+PASS: [F1 360] Reset clears the draft
+PASS: [F1 360] no console or page errors
+PASS: [F1] after changing z and supMinPO and applying, items, risk classes, suppliers, data-quality count and totals are identical to the RC (7340 chars compared)
+PASS: [F2 desktop, normal name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 desktop, normal name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 desktop, normal name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 desktop, normal name] no heading on the Summary tab is wider than its box
+PASS: [F2 desktop, normal name] no console or page errors
+PASS: [F2 desktop, very long name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 desktop, very long name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 desktop, very long name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 desktop, very long name] no heading on the Summary tab is wider than its box
+PASS: [F2 desktop, very long name] no console or page errors
+PASS: [F2 412, normal name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 412, normal name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 412, normal name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 412, normal name] no heading on the Summary tab is wider than its box
+PASS: [F2 412, normal name] no console or page errors
+PASS: [F2 412, very long name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 412, very long name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 412, very long name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 412, very long name] no heading on the Summary tab is wider than its box
+PASS: [F2 412, very long name] no console or page errors
+PASS: [F2 360, normal name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 360, normal name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 360, normal name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 360, normal name] no heading on the Summary tab is wider than its box
+PASS: [F2 360, normal name] no console or page errors
+PASS: [F2 360, very long name] no horizontal page overflow on any of the 17 tabs
+PASS: [F2 360, very long name] Summary heading keeps the whole file name, untruncated
+PASS: [F2 360, very long name] the heading text fits its box (wrapped, not clipped or scrolled)
+PASS: [F2 360, very long name] no heading on the Summary tab is wider than its box
+PASS: [F2 360, very long name] no console or page errors
+PASS: [F2 desktop] layout (position and size of every element) of all 17 tabs identical to the RC
+PASS: [F2 412] layout (position and size of every element) of all 17 tabs identical to the RC
+PASS: [F2 360] layout (position and size of every element) of all 17 tabs identical to the RC except Summary, which is the fixed screen (differs: Summary)
+test-final-chrome: 76 passed, 0 failed
