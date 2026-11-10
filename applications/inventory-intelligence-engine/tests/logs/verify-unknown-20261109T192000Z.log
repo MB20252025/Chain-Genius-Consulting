@@ -1,0 +1,13 @@
+# scenario: unknown
+# workbook: fixtures/suppliers/scenario-unknown.xlsx
+# started: 2026-11-09T18:18:14Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+unknown: suppliers independent=15 app=15
+PASS unknown (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+## 3. fresh app output vs stored expected output
+IDENTICAL to fixtures/suppliers/supplier-output-unknown.json
+# finished: 2026-11-09T18:18:15Z
+# overall: PASS
