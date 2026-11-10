@@ -1,0 +1,17 @@
+fixtures/edge/scenario-combined.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-dupexact.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-dupkey.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-multiline.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-overrec.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-overshort.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-partial.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-posupconflict.xlsx | ALL SECTIONS IDENTICAL
+fixtures/edge/scenario-splitline.xlsx | ALL SECTIONS IDENTICAL
+fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx | ALL SECTIONS IDENTICAL
+fixtures/structure/scenario-willow.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-allfuture.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-nohist.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-nopo.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-s0.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-three.xlsx | ALL SECTIONS IDENTICAL
+fixtures/suppliers/scenario-unknown.xlsx | ALL SECTIONS IDENTICAL
