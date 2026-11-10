@@ -1,0 +1,90 @@
+PASS: [nohist (fixture: suppliers with no delivery history)] scenario has Not Assessed suppliers (15)
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 every Not Assessed supplier is present in the supplier-risk ranking (R.supRisk has 15 of 15 suppliers)
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 supplier-risk ranking contains exactly the same suppliers as the Suppliers table
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 each Not Assessed supplier keeps ALL its materials: "Materials supplied" equals the Materials sheet count, and every one of them is a row in the material-risk analysis (R.rm)
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 "At-risk materials" for Not Assessed suppliers equals an independent count of their High/Critical materials
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 their materials carry a valid risk class (0-3) and an action field (an empty action is normal for Critical items in some scenarios and is not caused by the supplier state)
+PASS: [nohist (fixture: suppliers with no delivery history)] C1 Not Assessed suppliers that rank in the top five are shown by name with the exact state string on the Overview
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 supplier-risk ranking: at-risk count descending, then score ascending with unscored suppliers after scored ones
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 Suppliers table: score descending, every unscored supplier after every scored one
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 a supplier has a null score exactly when its class is the Not Assessed state (no zero, no NaN, no High risk)
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 scored suppliers keep the unchanged cut-offs 75/60; no null-score supplier is High risk
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 all 17 tabs render without an exception and without NaN/undefined/Infinity text
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 Summary weak-supplier list never names a Not Assessed supplier
+PASS: [nohist (fixture: suppliers with no delivery history)] C2 export: one row per supplier, blank score and the exact state string for Not Assessed suppliers, no NaN
+PASS: [nohist (fixture: suppliers with no delivery history)] C3 item counts unchanged (FG 50, RM 100)
+PASS: [nohist (fixture: suppliers with no delivery history)] C3 their materials still have finite value and cover (inventory value totals include them)
+PASS: [nohist (fixture: suppliers with no delivery history)] C3 portfolio totals are finite
+PASS: [nopo (fixture)] scenario has Not Assessed suppliers (1)
+PASS: [nopo (fixture)] C1 every Not Assessed supplier is present in the supplier-risk ranking (R.supRisk has 15 of 15 suppliers)
+PASS: [nopo (fixture)] C1 supplier-risk ranking contains exactly the same suppliers as the Suppliers table
+PASS: [nopo (fixture)] C1 each Not Assessed supplier keeps ALL its materials: "Materials supplied" equals the Materials sheet count, and every one of them is a row in the material-risk analysis (R.rm)
+PASS: [nopo (fixture)] C1 "At-risk materials" for Not Assessed suppliers equals an independent count of their High/Critical materials
+PASS: [nopo (fixture)] C1 their materials carry a valid risk class (0-3) and an action field (an empty action is normal for Critical items in some scenarios and is not caused by the supplier state)
+PASS: [nopo (fixture)] C1 Not Assessed suppliers that rank in the top five are shown by name with the exact state string on the Overview
+PASS: [nopo (fixture)] C2 supplier-risk ranking: at-risk count descending, then score ascending with unscored suppliers after scored ones
+PASS: [nopo (fixture)] C2 Suppliers table: score descending, every unscored supplier after every scored one
+PASS: [nopo (fixture)] C2 a supplier has a null score exactly when its class is the Not Assessed state (no zero, no NaN, no High risk)
+PASS: [nopo (fixture)] C2 scored suppliers keep the unchanged cut-offs 75/60; no null-score supplier is High risk
+PASS: [nopo (fixture)] C2 all 17 tabs render without an exception and without NaN/undefined/Infinity text
+PASS: [nopo (fixture)] C2 Summary weak-supplier list never names a Not Assessed supplier
+PASS: [nopo (fixture)] C2 export: one row per supplier, blank score and the exact state string for Not Assessed suppliers, no NaN
+PASS: [nopo (fixture)] C3 item counts unchanged (FG 50, RM 100)
+PASS: [nopo (fixture)] C3 their materials still have finite value and cover (inventory value totals include them)
+PASS: [nopo (fixture)] C3 portfolio totals are finite
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] scenario has Not Assessed suppliers (1)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 every Not Assessed supplier is present in the supplier-risk ranking (R.supRisk has 15 of 15 suppliers)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 supplier-risk ranking contains exactly the same suppliers as the Suppliers table
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 each Not Assessed supplier keeps ALL its materials: "Materials supplied" equals the Materials sheet count, and every one of them is a row in the material-risk analysis (R.rm)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 "At-risk materials" for Not Assessed suppliers equals an independent count of their High/Critical materials
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 their materials carry a valid risk class (0-3) and an action field (an empty action is normal for Critical items in some scenarios and is not caused by the supplier state)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C1 Not Assessed suppliers that rank in the top five are shown by name with the exact state string on the Overview
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 supplier-risk ranking: at-risk count descending, then score ascending with unscored suppliers after scored ones
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 Suppliers table: score descending, every unscored supplier after every scored one
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 a supplier has a null score exactly when its class is the Not Assessed state (no zero, no NaN, no High risk)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 scored suppliers keep the unchanged cut-offs 75/60; no null-score supplier is High risk
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 all 17 tabs render without an exception and without NaN/undefined/Infinity text
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 Summary weak-supplier list never names a Not Assessed supplier
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C2 export: one row per supplier, blank score and the exact state string for Not Assessed suppliers, no NaN
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C3 item counts unchanged (FG 50, RM 100)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C3 their materials still have finite value and cover (inventory value totals include them)
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C3 portfolio totals are finite
+PASS: [Northstar, SUP008 every Received_Qty blank (one supplier Data problem)] C3 blank received quantities change NO item risk class or recommended action versus intact Northstar (suppliers' lead-time inputs come from dates, which are valid)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] scenario has Not Assessed suppliers (15)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 every Not Assessed supplier is present in the supplier-risk ranking (R.supRisk has 15 of 15 suppliers)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 supplier-risk ranking contains exactly the same suppliers as the Suppliers table
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 each Not Assessed supplier keeps ALL its materials: "Materials supplied" equals the Materials sheet count, and every one of them is a row in the material-risk analysis (R.rm)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 "At-risk materials" for Not Assessed suppliers equals an independent count of their High/Critical materials
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 their materials carry a valid risk class (0-3) and an action field (an empty action is normal for Critical items in some scenarios and is not caused by the supplier state)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C1 Not Assessed suppliers that rank in the top five are shown by name with the exact state string on the Overview
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 supplier-risk ranking: at-risk count descending, then score ascending with unscored suppliers after scored ones
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 Suppliers table: score descending, every unscored supplier after every scored one
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 a supplier has a null score exactly when its class is the Not Assessed state (no zero, no NaN, no High risk)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 scored suppliers keep the unchanged cut-offs 75/60; no null-score supplier is High risk
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 all 17 tabs render without an exception and without NaN/undefined/Infinity text
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 Summary weak-supplier list never names a Not Assessed supplier
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C2 export: one row per supplier, blank score and the exact state string for Not Assessed suppliers, no NaN
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C3 item counts unchanged (FG 50, RM 100)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C3 their materials still have finite value and cover (inventory value totals include them)
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C3 portfolio totals are finite
+PASS: [Northstar, every Received_Qty blank (all suppliers Data problem)] C3 blank received quantities change NO item risk class or recommended action versus intact Northstar (suppliers' lead-time inputs come from dates, which are valid)
+PASS: [Northstar, SUP008 every Promised_Date blank] scenario has Not Assessed suppliers (1)
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 every Not Assessed supplier is present in the supplier-risk ranking (R.supRisk has 15 of 15 suppliers)
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 supplier-risk ranking contains exactly the same suppliers as the Suppliers table
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 each Not Assessed supplier keeps ALL its materials: "Materials supplied" equals the Materials sheet count, and every one of them is a row in the material-risk analysis (R.rm)
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 "At-risk materials" for Not Assessed suppliers equals an independent count of their High/Critical materials
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 their materials carry a valid risk class (0-3) and an action field (an empty action is normal for Critical items in some scenarios and is not caused by the supplier state)
+PASS: [Northstar, SUP008 every Promised_Date blank] C1 Not Assessed suppliers that rank in the top five are shown by name with the exact state string on the Overview
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 supplier-risk ranking: at-risk count descending, then score ascending with unscored suppliers after scored ones
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 Suppliers table: score descending, every unscored supplier after every scored one
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 a supplier has a null score exactly when its class is the Not Assessed state (no zero, no NaN, no High risk)
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 scored suppliers keep the unchanged cut-offs 75/60; no null-score supplier is High risk
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 all 17 tabs render without an exception and without NaN/undefined/Infinity text
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 Summary weak-supplier list never names a Not Assessed supplier
+PASS: [Northstar, SUP008 every Promised_Date blank] C2 export: one row per supplier, blank score and the exact state string for Not Assessed suppliers, no NaN
+PASS: [Northstar, SUP008 every Promised_Date blank] C3 item counts unchanged (FG 50, RM 100)
+PASS: [Northstar, SUP008 every Promised_Date blank] C3 their materials still have finite value and cover (inventory value totals include them)
+PASS: [Northstar, SUP008 every Promised_Date blank] C3 portfolio totals are finite
+INFO [Northstar, SUP008 every Promised_Date blank] items whose class/action differ from intact Northstar: 0
+PASS: [Northstar, SUP008 every Promised_Date blank] C3 (information) item differences when a supplier's promised dates are unusable are reported above, not hidden
+test-na-constraints: 88 passed, 0 failed

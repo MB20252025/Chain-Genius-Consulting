@@ -1,0 +1,25 @@
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: uploaded workbook unchanged after one export (sheet names and every cell)
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: workbook object and Sheets map not replaced or extended
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: no ENG_ sheet left behind in the uploaded workbook
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: results (items, classes, actions, suppliers, totals) unchanged by the export
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: three consecutive exports are identical (names and cell contents)
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: export carries the engine sheets (10)
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: no duplicate sheet names in the export
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: every original sheet in the export is cell-identical to the upload
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: recalculating after exports gives the same results
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: re-imported exported workbook is not changed by exporting it again
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: ENG_ sheets are replaced, not duplicated, when the upload already holds them
+PASS: Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: ENG_RM from the re-exported workbook equals the first export
+PASS: scenario-combined.xlsx: uploaded workbook unchanged after one export (sheet names and every cell)
+PASS: scenario-combined.xlsx: workbook object and Sheets map not replaced or extended
+PASS: scenario-combined.xlsx: no ENG_ sheet left behind in the uploaded workbook
+PASS: scenario-combined.xlsx: results (items, classes, actions, suppliers, totals) unchanged by the export
+PASS: scenario-combined.xlsx: three consecutive exports are identical (names and cell contents)
+PASS: scenario-combined.xlsx: export carries the engine sheets (10)
+PASS: scenario-combined.xlsx: no duplicate sheet names in the export
+PASS: scenario-combined.xlsx: every original sheet in the export is cell-identical to the upload
+PASS: scenario-combined.xlsx: recalculating after exports gives the same results
+PASS: scenario-combined.xlsx: re-imported exported workbook is not changed by exporting it again
+PASS: scenario-combined.xlsx: ENG_ sheets are replaced, not duplicated, when the upload already holds them
+PASS: scenario-combined.xlsx: ENG_RM from the re-exported workbook equals the first export
+test-export-repeat: 24 passed, 0 failed
