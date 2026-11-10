@@ -1,0 +1,22 @@
+### Northstar unchanged
+ PHASE 3 : [
+  'Medium 4 Manage weak suppliers (SUP002, SUP010, SUP009, SUP006, SUP011, SUP003) Supplier score under 60 among assessed suppliers (at least 16 PO(s) each).'
+]
+ PHASE 3B: [
+  'Medium 4 Manage weak suppliers (SUP002, SUP010, SUP009, SUP006, SUP011, SUP003) Supplier score under 60 among assessed suppliers (at least 16 PO(s) each).'
+]
+### one blank Received_Qty on a SUP008 line
+ PHASE 3 : [
+  'Medium 4 Manage weak suppliers (SUP008, SUP002, SUP010, SUP009, SUP006, SUP011, SUP003) Supplier score under 60 among assessed suppliers (at least 16 PO(s) each).'
+]
+ PHASE 3B: [
+  'Medium 4 Manage weak suppliers (SUP002, SUP010, SUP009, SUP006, SUP011, SUP003) Supplier score under 60 among assessed suppliers (at least 16 PO(s) each).'
+]
+### every Received_Qty blank
+ PHASE 3 : [
+  'Medium 4 Manage weak suppliers (SUP001, SUP002, SUP003, SUP004, SUP005, SUP006, SUP007, SUP008, SUP009, SUP010, SUP011, SUP012, SUP013, SUP014, SUP015) Supplier score under 60 among assessed suppliers (at least 16 PO(s) each).'
+]
+ PHASE 3B: [
+  'Medium 4 Manage weak suppliers (none) Supplier score under 60 among assessed suppliers (at least 0 PO(s) each).',
+  '15 supplier(s) are Not Assessed — Insufficient Evidence (no delivery history, or invalid purchase-order data) and are not counted as problems.'
+]

@@ -1,0 +1,14 @@
+const __P=require('path'),__ROOT=__P.resolve(__dirname,'..'),__NS=process.env.NORTHSTAR_XLSX||__P.join(__dirname,'fixtures','northstar','Chain_Genius_Project_001_Northstar_Dataset_1.xlsx');
+const XLSX=require('xlsx');const B=__NS;
+const S=(w,n)=>XLSX.utils.sheet_to_json(w.Sheets[n],{raw:true,cellDates:true}),put=(w,n,a)=>{w.Sheets[n]=XLSX.utils.json_to_sheet(a,{cellDates:true})};
+const base=()=>XLSX.readFile(B,{cellDates:true});const w0=base(),mats=S(w0,'Materials'),sup1=mats.find(m=>m.Material_ID==='RM001').Default_Supplier_ID,sup2=mats.find(m=>m.Material_ID==='RM014').Default_Supplier_ID,sup3=mats.find(m=>m.Material_ID==='RM027').Default_Supplier_ID,sup4=mats.find(m=>m.Material_ID==='RM043').Default_Supplier_ID;
+const snap=S(w0,'Inventory')[0].Snapshot_Date;const out={};
+const fsx=require('fs'),OUT=process.argv[2]&&!process.argv[2].startsWith('--')?process.argv[2]:__P.join(__dirname,'fixtures','suppliers');fsx.mkdirSync(OUT,{recursive:true});
+const mk=(name,fn)=>{const f=__P.join(OUT,'scenario-'+name+'.xlsx');if(fsx.existsSync(f)&&!process.argv.includes('--force')){console.log('exists, NOT overwritten:',f);return}const w=base();fn(w);XLSX.writeFile(w,f);out[name]=f};
+mk('s0',w=>{});
+mk('nopo',w=>{put(w,'Purchase Orders',S(w,'Purchase Orders').filter(o=>o.Supplier_ID!==sup1))});
+mk('allfuture',w=>{const a=S(w,'Purchase Orders');a.filter(o=>o.Supplier_ID===sup2).forEach(o=>{o.Received_Date=new Date(+snap+10*864e5);o.PO_Status='Received'});put(w,'Purchase Orders',a)});
+mk('three',w=>{const a=S(w,'Purchase Orders'),keep=new Set(a.filter(o=>o.Supplier_ID===sup3).slice(0,3).map(o=>o.PO_ID));put(w,'Purchase Orders',a.filter(o=>o.Supplier_ID!==sup3||keep.has(o.PO_ID)))});
+mk('unknown',w=>{put(w,'Suppliers',S(w,'Suppliers').filter(s=>s.Supplier_ID!==sup4))});
+mk('nohist',w=>{put(w,'Purchase Orders',[])});
+console.log(JSON.stringify({sup1,sup2,sup3,sup4}));

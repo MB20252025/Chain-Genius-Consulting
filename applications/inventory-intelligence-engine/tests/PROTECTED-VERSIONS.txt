@@ -1,0 +1,10 @@
+Protected versions (must never change). Recorded at the start of Phase 3, 2026-11-09. Verify with: tests/verify-protected.sh
+tag v0.6-candidate-3                 commit 5a376d829834af047576e59c09ed1529649583aa   repo: inventory-intelligence-engine
+tag v0.6-candidate-4-phase1          commit 61d6c0e37a70748d6a3e3a7fad4d9c9254feb459   repo: inventory-intelligence-engine-c4
+tag v0.6-candidate-4-phase1-final    commit 7664564a192cc298763ab9b0a593995219e13639   repo: inventory-intelligence-engine-c4
+tag v0.6-candidate-4-phase2          commit f663295d6dc8a736ba8cddfc715b698ca84f2038   repo: inventory-intelligence-engine-c4-phase2
+zip  inventory-intelligence-engine-v0.6-candidate-3.zip             sha256 0630f061d20f4f9b947e8586
+zip  inventory-intelligence-engine-v0.6-candidate-4-phase1.zip      sha256 7882efb9a72ba0ad2885d214
+zip  inventory-intelligence-engine-v0.6-candidate-4-phase1-final.zip sha256 e599240a8cdba81a8fae1e5a
+zip  inventory-intelligence-engine-v0.6-candidate-4-phase2.zip      sha256 8e9395112e171d31a9f16910
+snapshots tests/snapshots/*.json   sha256 7f38bc567da528f1 (both files)

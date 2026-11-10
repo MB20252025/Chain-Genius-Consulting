@@ -1,0 +1,32 @@
+const __P=require('path'),__ROOT=__P.resolve(__dirname,'..'),__NS=process.env.NORTHSTAR_XLSX||__P.join(__dirname,'fixtures','northstar','Chain_Genius_Project_001_Northstar_Dataset_1.xlsx');
+const {JSDOM,VirtualConsole}=require('jsdom'),fs=require('fs');
+(async()=>{const errs=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errs.push(String(e.message||e).slice(0,160)));vc.on('error',m=>errs.push(String(m).slice(0,160)));
+ const dom=await JSDOM.fromFile(__ROOT+'/index.html',{runScripts:'dangerously',resources:'usable',pretendToBeVisual:true,virtualConsole:vc});
+ const w=dom.window;await new Promise(r=>w.addEventListener('load',r));let ok=0,bad=0;const chk=(n,c,d)=>{c?ok++:bad++;console.log((c?'PASS ':'FAIL ')+n+(c?'':'  >> '+(d||'')))};
+ const $=s=>w.document.querySelector(s),V=()=>$('#v').innerHTML,click=el=>el.dispatchEvent(new w.MouseEvent('click',{bubbles:true})),tab=n=>click([...w.document.querySelectorAll('#nav [data-t]')].find(b=>b.dataset.t===n)),wait=ms=>new Promise(r=>setTimeout(r,ms));
+ const inp=$('#f'),buf=fs.readFileSync(__NS),ab=new w.Uint8Array(buf).buffer;
+ Object.defineProperty(inp,'files',{value:[{name:'Northstar_Client_File.xlsx',size:buf.length,arrayBuffer:async()=>ab}],configurable:true});inp.dispatchEvent(new w.Event('change'));await wait(1800);
+ chk('imports Northstar workbook through the real file input',$('#st').textContent==='Analysed.');
+ tab('Overview');let h=V();chk('Overview: supplier panel ranked by at-risk materials; SUP008 first with class, score, at-risk, supplied',h.includes('ranked by at-risk materials')&&/Rank<\/th>/.test(h)&&(()=>{const i=h.indexOf('ranked by at-risk materials'),seg=h.slice(i),k=seg.indexOf('>SUP008 ');return k>0&&seg.slice(k,k+500).includes('Medium risk')&&seg.slice(k,k+500).includes('>4<')})());
+ chk('Overview: demonstration banner derived from the workbook',h.includes('SIMULATED DEMONSTRATION ANALYSIS')&&h.includes('START HERE'));
+ tab('Suppliers');h=V();chk('Suppliers: risk rank + score rank columns, both attainment measures and definitions',h.includes('Risk rank')&&h.includes('Score rank')&&h.includes('Avg order attainment %')&&h.includes('Overall weighted attainment %')&&h.includes('total actual ÷ total planned'));
+ const cnt=()=>(V().match(/<td>FG\d{3}<\/td>/g)||[]).length;const c1=cnt();click($('[data-pr]'));const c2=cnt();chk('Suppliers: "Show all SKUs" toggles 12 → 50 rows ('+c1+' → '+c2+')',c1===12&&c2===50);click($('[data-pr]'));chk('toggle returns to 12',cnt()===12);
+ chk('Suppliers: FG048 shows 398 actual of 425 planned, 92.8 and 93.6',(()=>{click($('[data-pr]'));const m=V().match(/<td>FG048<\/td>[\s\S]*?<\/tr>/);return m&&/>425</.test(m[0])&&/>398</.test(m[0])&&/92\.8/.test(m[0])&&/93\.6/.test(m[0])})());
+ tab('Finished goods');h=V();chk('Finished goods: LT source and LT basis columns; limited-sample estimate text; no value labelled Supplied',h.includes('LT source')&&h.includes('LT basis')&&h.includes('Estimated (limited sample)')&&h.includes('minimum 1 day each')&&h.includes('2025-12-04 to 2026-06-09')&&!/<td class="l">Supplied</.test(h));
+ tab('Materials');h=V();chk('Materials: lead time shown as Supplied + calculated lateness with PO count and date range',h.includes('Supplied + calculated lateness')&&h.includes('Materials.Lead_Time_Days')&&/calculated from \d+ POs/.test(h));
+ tab('Data quality');h=V();chk('Data quality: six reconciliation outputs, status, and neutral explanation (no claim of loss)',['1. Total inventory on-order','2. Verified open purchase orders','3. Future-dated supply','4. Received quantities excluded','5. Unreconciled quantity','6. Reconciliation status','Largely unreconciled','32,334','300 (4 POs)','does not by itself show lost stock'].every(s=>h.includes(s)));
+ tab('Forecast accuracy');h=V();chk('Forecast accuracy: separate performance / data quality / confidence groups, dataset warning, workbook-declared tags',['Forecast performance','Data quality','Confidence in the information','Unusually consistent accuracy','Mentioned in workbook test notes','Workbook notes (read from the file'].every(s=>h.includes(s)));
+ tab('Summary');chk('Summary: heading uses the loaded file name, not a hardcoded company',V().includes('Management summary – Northstar_Client_File.xlsx'));
+ // settings
+ tab('Settings');const setK=(k,v)=>{$('[data-k="'+k+'"]').value=v};setK('fcHighAcc',99);setK('ltMinN',3);click($('#rc'));
+ tab('Forecast accuracy');const flagged=(V().match(/Unusually high accuracy – validate source/g)||[]).length;chk('Settings: raising the high-accuracy threshold to 99% reduces flagged products (31 → '+flagged+')',flagged<31&&!V().includes('Unusually consistent accuracy'));
+ tab('Finished goods');chk('Settings: lowering required orders to 3 turns 3-order lead times to "Calculated"',V().includes('Calculated (production history)')&&!V().includes('Estimated (limited sample)'));
+ tab('Settings');setK('fcHighAcc',95);setK('ltMinN',5);click($('#rc'));
+ // export
+ let saved=null;w.XLSX.writeFile=(wb,name)=>{saved={name,wb}};tab('Settings');click($('#ex'));
+ const sn=saved?saved.wb.SheetNames:[];chk('Export: original sheets kept and new ENG_ sheets added ('+sn.filter(s=>s.startsWith('ENG_')).join(', ')+')',['Products','Purchase Orders','QA NOTES'].every(s=>sn.includes(s))&&['ENG_Attainment','ENG_POReconciliation','ENG_ForecastCredibility','ENG_FG','ENG_RM','ENG_Suppliers','ENG_Forecast'].every(s=>sn.includes(s)));
+ if(saved){const U=w.XLSX.utils,att=U.sheet_to_json(saved.wb.Sheets.ENG_Attainment).find(r=>r.SKU==='FG048'),fg=U.sheet_to_json(saved.wb.Sheets.ENG_FG).find(r=>r.Item==='FG027'),su=U.sheet_to_json(saved.wb.Sheets.ENG_Suppliers).find(r=>r.Supplier==='SUP008');
+  chk('Export content: FG048 attainment 92.8/93.6; FG027 lead time source text; SUP008 at-risk 4 rank 1',Math.abs(att['AvgOrderAttainment%']-92.8)<.05&&Math.abs(att['OverallWeightedAttainment%']-93.6)<.05&&att.TotalActual===398&&fg.LTSource==='Estimated (limited sample)'&&su.AtRiskMaterials===4&&su.RiskRank===1,JSON.stringify([att,fg&&fg.LTSource,su]))}
+ // all tabs still render
+ const names=[...w.document.querySelectorAll('#nav [data-t]')].map(b=>b.dataset.t);let allok=names.length===17;for(const n of names){tab(n);const x=V();if(x.length<150||/undefined|NaN/.test(x)||w.document.querySelector('#nav .on').textContent!==n){allok=false;console.log('   problem tab',n)}}chk('all 17 tabs render without undefined/NaN',allok);
+ chk('no script errors during the whole session ('+errs.length+')',errs.length===0);if(errs.length)console.log(errs);console.log('summary',ok,'pass',bad,'fail');})();

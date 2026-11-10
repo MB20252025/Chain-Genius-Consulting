@@ -1,0 +1,61 @@
+# Supplier impact, Phase 3 -> Phase 3B
+
+Fixtures compared: 17; supplier rows compared: 246; rows with a score/class/evidence change: 17; High risk -> not High risk: 0
+
+### suppliers/scenario-allfuture.xlsx
+  SUP014 Cobalt Coatings Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  Summary text changed: yes
+
+### suppliers/scenario-nohist.xlsx
+  SUP008 Summit Packaging Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP001 Apex Metals Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP007 Atlas Industrial Materials: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP004 Crown Fasteners Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP010 Pioneer Plastics UK: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP013 Oakfield Industrial Products: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP015 Sterling Castings Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP002 Northern Polymers Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP003 Precision Bearings UK: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP005 Meridian Electrical Supplies: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP011 Harbour Steel Trading: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP012 Vertex Motion Systems: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP014 Cobalt Coatings Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP006 Westbridge Components: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  SUP009 Redwood Engineering Supplies: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  Summary text changed: yes
+
+### suppliers/scenario-nopo.xlsx
+  SUP001 Apex Metals Ltd: class "Not assessed" -> "Not Assessed — Insufficient Evidence" [reason: No delivery history]
+  Summary text changed: yes
+
+
+## Damaged-data scenarios (Northstar with the edit shown): suppliers whose class changed
+
+### one blank Received_Qty on a SUP008 received line
+  High-risk suppliers: Phase 3 7 -> Phase 3B 6; Not Assessed with POs: 0
+  SUP008: Phase 3 NaN / High risk  ->  Phase 3B 60.4 / Medium risk; OTD kept 42.9%
+
+### one text quantity ("120") on a SUP008 received line
+  High-risk suppliers: Phase 3 6 -> Phase 3B 6; Not Assessed with POs: 0
+  SUP008: Phase 3 60.1 / Medium risk  ->  Phase 3B 60.4 / Medium risk; OTD kept 42.9%
+
+### one negative Received_Qty on a SUP008 received line
+  High-risk suppliers: Phase 3 7 -> Phase 3B 6; Not Assessed with POs: 0
+  SUP008: Phase 3 59.1 / High risk  ->  Phase 3B 60.4 / Medium risk; OTD kept 42.9%
+
+### every Received_Qty blank (all suppliers)
+  High-risk suppliers: Phase 3 15 -> Phase 3B 0; Not Assessed with POs: 15
+  SUP008: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 42.9%
+  SUP001: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 50.0%
+  SUP007: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 80.0%
+  SUP003: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 23.8%
+  SUP004: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 52.4%
+  SUP010: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 33.3%
+  SUP011: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 31.3%
+  SUP013: Phase 3 NaN / High risk  ->  Phase 3B null / Not Assessed — Insufficient Evidence [Data problem]; OTD kept 55.6%
+  ... and 7 more with the same pattern
+
+### one blank Promised_Date on a SUP008 received line
+  High-risk suppliers: Phase 3 7 -> Phase 3B 6; Not Assessed with POs: 0
+  SUP008: Phase 3 NaN / High risk  ->  Phase 3B 61.3 / Medium risk; OTD kept 45.0%
+

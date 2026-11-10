@@ -1,0 +1,12 @@
+{
+ "private": true,
+ "description": "Test tooling for the Inventory Intelligence Engine (not needed to run the app)",
+ "dependencies": {
+  "xlsx": "0.18.5",
+  "jsdom": "*",
+  "acorn": "*",
+  "pdf-parse": "1.1.1",
+  "puppeteer-core": "*",
+  "@sparticuz/chromium": "*"
+ }
+}
