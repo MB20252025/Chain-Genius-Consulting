@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="theme-color" content="#0f4c81">
+<title>Chain Genius – Inventory Intelligence Engine v0.6</title>
+<link rel="stylesheet" href="css/styles.css?v=0.6">
+</head><body>
+<header><h1>Chain Genius – Inventory Intelligence Engine <small>v0.6</small></h1><small>Runs in your browser. Your file never leaves your device. All figures are calculated, not AI-generated.</small></header>
+<main>
+<noscript><p class="warn">This tool needs JavaScript enabled in your browser.</p></noscript>
+<div class="card" id="up"><b>1. Load a workbook (.xlsx)</b><p class="note">Needs sheets: Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders.</p>
+<input type="file" id="f" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"> <span id="st" class="note"></span></div>
+<div id="app" hidden><nav id="nav"></nav><div id="v"></div></div>
+</main>
+<script src="assets/xlsx.mini.min.js?v=0.6"></script>
+<script src="js/calculations.js?v=0.6"></script>
+<script src="js/forecasting.js?v=0.6"></script>
+<script src="js/app.js?v=0.6"></script>
+<script src="js/excel-import.js?v=0.6"></script>
+</body></html>
