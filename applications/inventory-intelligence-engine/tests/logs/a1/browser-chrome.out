@@ -1,0 +1,68 @@
+Browser: HeadlessChrome/153.0.8010.0 | served at http://127.0.0.1:36005/chain-genius/applications/inventory-intelligence-engine/
+
+===== DESKTOP (1280x800) =====
+PASS desktop: page loads under a GitHub-Pages-style subpath; all 6 assets served (200)
+PASS desktop: no requests outside the app folder (fully client-side, no CDN)
+PASS desktop: viewport meta honoured (layout viewport = device width)
+PASS desktop: Northstar workbook imports through the real file input → "Analysed."
+PASS desktop: results in real Chrome equal the saved v0.5 golden totals
+   analysis time in this browser: 14 ms per run
+PASS desktop: analysis under 2 s
+PASS desktop: 17 tabs
+PASS desktop: all 17 tabs respond to clicks, render, and show distinct content (17)
+PASS desktop: active tab exposes aria-current
+PASS desktop: no page-level horizontal overflow on 8 key tabs (wide tables scroll inside their own container)
+   smallest nav button [ 52, 40 ] | action button [ 97, 40 ] | number input [ 90, 40 ] | input font 16px
+PASS desktop: touch targets at least 40px high; input font 16px (no mobile zoom-on-focus)
+PASS desktop: wide table scrolls inside its container and the Item column stays in view (sticky)
+PASS desktop: Settings corrects invalid input (text, below minimum, X ≥ Y) and tells the user
+PASS desktop: Reset to defaults restores every threshold
+PASS desktop: Export downloads a real .xlsx keeping the original sheets and adding the ENG_ sheets (Chain_Genius_Engine_Output.xlsx, 10 ENG sheets)
+PASS desktop: Export success message shown to the user
+PASS desktop: print view hides navigation, upload card and buttons (computed styles in print media)
+PASS desktop: PDF is a valid A4 document (89196 bytes; parser counts 1 page(s), raw scan 1)
+PASS desktop: PDF contains the Summary (heading, recommendations, limitations, simulated-demonstration label)
+PASS desktop: PDF text has no navigation labels, upload prompt or button labels (0 leaked)
+   contrast ratios light: {"body":14.6,"card":15.65,"warn":6.82,"note":4.97,"nav":8.86,"navOn":8.86,"th":4.97,"td":15.65,"s3":5.44,"s2":5.02} 
+                   dark : {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":6.85,"navOn":6.85,"th":6.48,"td":13.63,"s3":6.39,"s2":5.68} | settings(dark): {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":13.63,"navOn":6.85,"tag":9.35}
+PASS desktop: dark mode applies (page background is dark)
+PASS desktop: every sampled text/background pair has contrast ≥ 4.5:1 in light and dark (4.97 / 5.68)
+PASS desktop: works offline after loading (import + analysis need no network)
+PASS desktop: wrong file type and a corrupted .xlsx give clear messages, not a crash ("Please choose an .xlsx file." / "Could not read this workbook (corrupted or not Exc")
+PASS desktop: app recovers and analyses a good file after bad ones
+PASS desktop: no console errors, warnings or uncaught exceptions during the whole session (0)
+
+===== MOBILE (Pixel 5 EMULATION: 393x851, touch, Android Chrome UA) =====
+PASS mobile: page loads under a GitHub-Pages-style subpath; all 6 assets served (200)
+PASS mobile: no requests outside the app folder (fully client-side, no CDN)
+PASS mobile: viewport meta honoured (layout viewport = device width)
+PASS mobile: Northstar workbook imports through the real file input → "Analysed."
+PASS mobile: results in real Chrome equal the saved v0.5 golden totals
+   analysis time in this browser: 12 ms per run
+PASS mobile: analysis under 2 s
+PASS mobile: 17 tabs
+PASS mobile: all 17 tabs respond to touch taps, render, and show distinct content (17)
+PASS mobile: active tab exposes aria-current
+PASS mobile: no page-level horizontal overflow on 8 key tabs (wide tables scroll inside their own container)
+   smallest nav button [ 52, 40 ] | action button [ 97, 40 ] | number input [ 90, 40 ] | input font 16px
+PASS mobile: touch targets at least 40px high; input font 16px (no mobile zoom-on-focus)
+PASS mobile: wide table scrolls inside its container and the Item column stays in view (sticky)
+PASS mobile: Settings corrects invalid input (text, below minimum, X ≥ Y) and tells the user
+PASS mobile: Reset to defaults restores every threshold
+PASS mobile: Export downloads a real .xlsx keeping the original sheets and adding the ENG_ sheets (Chain_Genius_Engine_Output.xlsx, 10 ENG sheets)
+PASS mobile: Export success message shown to the user
+PASS mobile: print view hides navigation, upload card and buttons (computed styles in print media)
+PASS mobile: PDF is a valid A4 document (89196 bytes; parser counts 1 page(s), raw scan 1)
+PASS mobile: PDF contains the Summary (heading, recommendations, limitations, simulated-demonstration label)
+PASS mobile: PDF text has no navigation labels, upload prompt or button labels (0 leaked)
+   contrast ratios light: {"body":14.6,"card":15.65,"warn":6.82,"note":4.97,"nav":8.86,"navOn":8.86,"th":4.97,"td":15.65,"s3":5.44,"s2":5.02} 
+                   dark : {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":6.85,"navOn":6.85,"th":6.48,"td":13.63,"s3":6.39,"s2":5.68} | settings(dark): {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":13.63,"navOn":6.85,"tag":9.35}
+PASS mobile: dark mode applies (page background is dark)
+PASS mobile: every sampled text/background pair has contrast ≥ 4.5:1 in light and dark (4.97 / 5.68)
+PASS mobile: works offline after loading (import + analysis need no network)
+PASS mobile: wrong file type and a corrupted .xlsx give clear messages, not a crash ("Please choose an .xlsx file." / "Could not read this workbook (corrupted or not Exc")
+PASS mobile: app recovers and analyses a good file after bad ones
+PASS mobile: no console errors, warnings or uncaught exceptions during the whole session (0)
+PASS failure case: Excel library blocked/missing → clear message and no uncaught error ("The Excel library did not load. Check that assets/xlsx.mini.")
+
+summary 53 pass 0 fail 
