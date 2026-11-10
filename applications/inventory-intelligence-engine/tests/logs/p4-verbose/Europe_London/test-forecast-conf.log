@@ -1,0 +1,207 @@
+PASS: 12m demand spike / none: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / none: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m demand spike / none: no level-shift wording when there is no run
+PASS: 12m demand spike / 1 isolated: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 1 isolated: confidence Low -> Low (expected Low, unchanged: no run)
+PASS: 12m demand spike / 1 isolated: no level-shift wording when there is no run
+PASS: 12m demand spike / 2 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 2 consecutive: confidence Medium -> Low (expected Low, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / 2 consecutive
+PASS: 12m demand spike / 2 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / 2 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m demand spike / 3 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 3 consecutive: confidence Medium -> Low (expected Low, one level lower for a run of 3 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / 3 consecutive
+PASS: 12m demand spike / 3 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / 3 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m demand spike / 2 separated by 1: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 2 separated by 1: confidence Low -> Low (expected Low, unchanged: no run)
+PASS: 12m demand spike / 2 separated by 1: no level-shift wording when there is no run
+PASS: 12m demand spike / 2 separated by 3: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 2 separated by 3: confidence Low -> Low (expected Low, unchanged: no run)
+PASS: 12m demand spike / 2 separated by 3: no level-shift wording when there is no run
+PASS: 12m demand spike / pair + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / pair + single: confidence Low -> Low (expected Low, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / pair + single
+PASS: 12m demand spike / pair + single: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / pair + single: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m demand spike / triple + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / triple + single: confidence Low -> Low (expected Low, one level lower for a run of 3 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / triple + single
+PASS: 12m demand spike / triple + single: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / triple + single: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m demand spike / 4 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / 4 consecutive: confidence Medium -> Low (expected Low, one level lower for a run of 4 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / 4 consecutive
+PASS: 12m demand spike / 4 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / 4 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m demand spike / half block: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / half block: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m demand spike / half block: no level-shift wording when there is no run
+PASS: 12m demand spike / two pairs: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m demand spike / two pairs: confidence Medium -> Low (expected Low, one level lower for a run of 4 extreme months)
+PASS: level-shift warning never sits beside a High label: 12m demand spike / two pairs
+PASS: 12m demand spike / two pairs: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 12m demand spike / two pairs: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 12m forecast miss / none: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / none: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / none: no level-shift wording when there is no run
+PASS: 12m forecast miss / 1 isolated: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 1 isolated: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 1 isolated: no level-shift wording when there is no run
+PASS: 12m forecast miss / 2 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 2 consecutive: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 2 consecutive: no level-shift wording when there is no run
+PASS: 12m forecast miss / 3 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 3 consecutive: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 3 consecutive: no level-shift wording when there is no run
+PASS: 12m forecast miss / 2 separated by 1: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 2 separated by 1: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 2 separated by 1: no level-shift wording when there is no run
+PASS: 12m forecast miss / 2 separated by 3: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 2 separated by 3: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 2 separated by 3: no level-shift wording when there is no run
+PASS: 12m forecast miss / pair + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / pair + single: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / pair + single: no level-shift wording when there is no run
+PASS: 12m forecast miss / triple + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / triple + single: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / triple + single: no level-shift wording when there is no run
+PASS: 12m forecast miss / 4 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / 4 consecutive: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / 4 consecutive: no level-shift wording when there is no run
+PASS: 12m forecast miss / half block: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / half block: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / half block: no level-shift wording when there is no run
+PASS: 12m forecast miss / two pairs: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 12m forecast miss / two pairs: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 12m forecast miss / two pairs: no level-shift wording when there is no run
+PASS: 36m demand spike / none: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / none: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m demand spike / none: no level-shift wording when there is no run
+PASS: 36m demand spike / 1 isolated: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 1 isolated: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 36m demand spike / 1 isolated: no level-shift wording when there is no run
+PASS: 36m demand spike / 2 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 2 consecutive: confidence High -> Medium (expected Medium, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / 2 consecutive
+PASS: 36m demand spike / 2 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / 2 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / 3 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 3 consecutive: confidence High -> Medium (expected Medium, one level lower for a run of 3 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / 3 consecutive
+PASS: 36m demand spike / 3 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / 3 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / 2 separated by 1: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 2 separated by 1: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 36m demand spike / 2 separated by 1: no level-shift wording when there is no run
+PASS: 36m demand spike / 2 separated by 3: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 2 separated by 3: confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 36m demand spike / 2 separated by 3: no level-shift wording when there is no run
+PASS: 36m demand spike / pair + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / pair + single: confidence Medium -> Low (expected Low, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / pair + single
+PASS: 36m demand spike / pair + single: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / pair + single: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / triple + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / triple + single: confidence Medium -> Low (expected Low, one level lower for a run of 3 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / triple + single
+PASS: 36m demand spike / triple + single: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / triple + single: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / 4 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / 4 consecutive: confidence High -> Medium (expected Medium, one level lower for a run of 4 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / 4 consecutive
+PASS: 36m demand spike / 4 consecutive: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / 4 consecutive: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / half block: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / half block: confidence High -> Medium (expected Medium, one level lower for a run of 6 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / half block
+PASS: 36m demand spike / half block: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / half block: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m demand spike / two pairs: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m demand spike / two pairs: confidence High -> Medium (expected Medium, one level lower for a run of 4 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m demand spike / two pairs
+PASS: 36m demand spike / two pairs: explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m demand spike / two pairs: the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: 36m forecast miss / none: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / none: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / none: no level-shift wording when there is no run
+PASS: 36m forecast miss / 1 isolated: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 1 isolated: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 1 isolated: no level-shift wording when there is no run
+PASS: 36m forecast miss / 2 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 2 consecutive: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 2 consecutive: no level-shift wording when there is no run
+PASS: 36m forecast miss / 3 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 3 consecutive: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 3 consecutive: no level-shift wording when there is no run
+PASS: 36m forecast miss / 2 separated by 1: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 2 separated by 1: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 2 separated by 1: no level-shift wording when there is no run
+PASS: 36m forecast miss / 2 separated by 3: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 2 separated by 3: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 2 separated by 3: no level-shift wording when there is no run
+PASS: 36m forecast miss / pair + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / pair + single: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / pair + single: no level-shift wording when there is no run
+PASS: 36m forecast miss / triple + single: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / triple + single: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / triple + single: no level-shift wording when there is no run
+PASS: 36m forecast miss / 4 consecutive: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / 4 consecutive: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / 4 consecutive: no level-shift wording when there is no run
+PASS: 36m forecast miss / half block: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / half block: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / half block: no level-shift wording when there is no run
+PASS: 36m forecast miss / two pairs: accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m forecast miss / two pairs: confidence High -> High (expected High, unchanged: no run)
+PASS: 36m forecast miss / two pairs: no level-shift wording when there is no run
+PASS: 36m 2 consecutive (spec): accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m 2 consecutive (spec): confidence High -> Medium (expected Medium, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m 2 consecutive (spec)
+PASS: 36m 2 consecutive (spec): explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m 2 consecutive (spec): the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: spec: two consecutive extreme months at 36 months: High -> Medium
+PASS: 36m 3 consecutive (spec): accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m 3 consecutive (spec): confidence High -> Medium (expected Medium, one level lower for a run of 3 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m 3 consecutive (spec)
+PASS: 36m 3 consecutive (spec): explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m 3 consecutive (spec): the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: spec: three consecutive: High -> Medium
+PASS: 36m separated (spec): accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m separated (spec): confidence Medium -> Medium (expected Medium, unchanged: no run)
+PASS: 36m separated (spec): no level-shift wording when there is no run
+PASS: spec: separated extreme months unchanged at Medium (already lowered by the outlier count)
+PASS: 36m mixed (spec): accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m mixed (spec): confidence Medium -> Low (expected Low, one level lower for a run of 2 extreme months)
+PASS: level-shift warning never sits beside a High label: 36m mixed (spec)
+PASS: 36m mixed (spec): explanation states the level shift and the reduction, and no longer says "complete and varied"
+PASS: 36m mixed (spec): the level-shift wording appears once on the Forecast accuracy row (no duplicate warning)
+PASS: spec: mixed pair + single: Medium -> Low (the run adds one point to the existing outlier point)
+PASS: 36m normal (spec): accuracy, bias, direction, verdict, finding, data quality and outlier/run counts identical to Phase 3
+PASS: 36m normal (spec): confidence High -> High (expected High, unchanged: no run)
+PASS: 36m normal (spec): no level-shift wording when there is no run
+PASS: spec: normal demand stays High with the "complete and varied" explanation
+PASS: MAD=0 with a spike: informational note says outlier detection was not applied
+PASS: MAD=0: confidence, data quality, accuracy, verdict and outlier counts unchanged (note only, no new rule): conf High
+PASS: MAD=0 note says it does not change confidence
+PASS: MAD=0 note is displayed on the Forecast accuracy tab
+PASS: MAD=0 note is in the ENG_ForecastCredibility export
+PASS: perfectly constant demand with no deviating month: no MAD note (nothing was left untested)
+PASS: fixture edge/scenario-combined.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-dupexact.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-dupkey.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-multiline.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-overrec.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-overshort.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-partial.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-posupconflict.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture edge/scenario-splitline.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-allfuture.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-nohist.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-nopo.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-s0.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-three.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+PASS: fixture suppliers/scenario-unknown.xlsx: all 50 products: only confidence differs, and only where a run of extreme months exists (1 lowered)
+test-forecast-conf: 206 passed, 0 failed

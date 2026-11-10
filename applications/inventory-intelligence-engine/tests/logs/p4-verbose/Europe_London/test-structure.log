@@ -1,0 +1,35 @@
+PASS: independent pandas expectations computed 
+PASS: imports and analyses (Analysed.)
+PASS: workbook really differs: extra sheets first/last, shuffled order
+PASS: finished goods count 14 = 14
+PASS: materials count 22 = 22
+PASS: finished-goods stock value 28486.64 = 28486.64
+PASS: raw-material stock value 223767.45 = 223767.45
+PASS: POs received by snapshot 62 = 62
+PASS: cancelled POs excluded: 1 = 1
+PASS: open POs at snapshot: 1 = 1
+PASS: workbook without Forecast_Units handled (hasF=false)
+PASS: supplier count 6 = 6
+PASS: title uses file name
+PASS: 17 tabs present (17)
+PASS: tab renders without undefined/NaN/[object]: Overview
+PASS: tab renders without undefined/NaN/[object]: Health
+PASS: tab renders without undefined/NaN/[object]: Finished goods
+PASS: tab renders without undefined/NaN/[object]: Materials
+PASS: tab renders without undefined/NaN/[object]: MRP
+PASS: tab renders without undefined/NaN/[object]: Production feasibility
+PASS: tab renders without undefined/NaN/[object]: Excess & dead stock
+PASS: tab renders without undefined/NaN/[object]: Policy comparison
+PASS: tab renders without undefined/NaN/[object]: Reorder policy
+PASS: tab renders without undefined/NaN/[object]: Forecast accuracy
+PASS: tab renders without undefined/NaN/[object]: Demand forecast
+PASS: tab renders without undefined/NaN/[object]: Suppliers
+PASS: tab renders without undefined/NaN/[object]: Data quality
+PASS: tab renders without undefined/NaN/[object]: Client questions
+PASS: tab renders without undefined/NaN/[object]: Data confidence
+PASS: tab renders without undefined/NaN/[object]: Summary
+PASS: tab renders without undefined/NaN/[object]: Settings
+PASS: export works (Export created: Chain_Genius_Engine_Outp)
+PASS: export keeps the client's own sheets and adds ENG_ sheets
+PASS: no script errors ()
+test-structure: 34 passed, 0 failed

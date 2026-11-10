@@ -1,0 +1,24 @@
+PASS: 1,500-item workbook generated: -1500.xlsx | items 1500 (FG 500 + RM 1000) | | FG 500 RM 1000 BOM 2000 Demand 6000 Inv 1500 Sup 150 PO 3000 ProdOrd 1500
+PASS: Northstar analysed
+PASS: Northstar: no table is paged on any of the 17 tabs (largest table is 150 rows)
+PASS: Northstar: no script errors
+PASS: 1,500-item workbook analysed (Analysed.)
+PASS: engine holds every record: 500 finished goods, 1000 materials
+PASS: Materials: first 200 of 1,000 rows drawn (200)
+PASS: Materials: visible note says 200 of 1000, all used and exported
+PASS: Materials: "Show more" and "Show all" buttons present
+PASS: Materials: Show 200 more -> 400 rows (400)
+PASS: Materials: Show all -> all 1,000 rows (1000)
+PASS: Materials: pager gone once everything is shown
+PASS: Materials: a record from deep in the list (RM0501, RM1000) is visible after Show all
+PASS: Materials: choice kept when returning to the tab
+PASS: results (items, risk classes, actions, suppliers, totals) identical before and after paging
+PASS: export created
+PASS: export: ENG_RM has 1000 rows and ENG_FG 500 (every record)
+PASS: export: every supplier row present
+PASS: after Recalculate the table starts again at the first page (200)
+PASS: Reorder policy: drawn rows capped (200), note "Showing the first 200 of 1500 rows"
+PASS: MRP: drawn rows capped (200), note "Showing the first 200 of 1000 rows"
+PASS: Finished goods: drawn rows capped (200), note "Showing the first 200 of 500 rows"
+PASS: no script errors ()
+test-paging: 23 passed, 0 failed

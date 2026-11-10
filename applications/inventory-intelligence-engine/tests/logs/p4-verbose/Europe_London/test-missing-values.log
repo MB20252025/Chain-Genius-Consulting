@@ -1,0 +1,64 @@
+PASS: M0 Northstar as supplied: no missing-value and no blank-column findings (as before)
+PASS: M1 truly empty cell in the FIRST data row (row 2): "Missing values in Country" is reported with row 2 (examples: 2)
+PASS: M2 truly empty cell in a LATER row (row 6): reported with the true row number 6 (examples: 6)
+PASS: M3 truly empty cell in rows 2, 6 and 9: all three are listed (examples: 2, 6, 9)
+PASS: M4 truly empty cell in EVERY row: reported as "Column Country contains no values" (Medium), not as scattered missing values
+PASS: M1 empty string in the FIRST data row (row 2): "Missing values in Country" is reported with row 2 (examples: 2)
+PASS: M2 empty string in a LATER row (row 6): reported with the true row number 6 (examples: 6)
+PASS: M3 empty string in rows 2, 6 and 9: all three are listed (examples: 2, 6, 9)
+PASS: M4 empty string in EVERY row: reported as "Column Country contains no values" (Medium), not as scattered missing values
+PASS: M1 spaces only in the FIRST data row (row 2): "Missing values in Country" is reported with row 2 (examples: 2)
+PASS: M2 spaces only in a LATER row (row 6): reported with the true row number 6 (examples: 6)
+PASS: M3 spaces only in rows 2, 6 and 9: all three are listed (examples: 2, 6, 9)
+PASS: M4 spaces only in EVERY row: reported as "Column Country contains no values" (Medium), not as scattered missing values
+PASS: M1 tab and non-breaking space in the FIRST data row (row 2): "Missing values in Country" is reported with row 2 (examples: 2)
+PASS: M2 tab and non-breaking space in a LATER row (row 6): reported with the true row number 6 (examples: 6)
+PASS: M3 tab and non-breaking space in rows 2, 6 and 9: all three are listed (examples: 2, 6, 9)
+PASS: M4 tab and non-breaking space in EVERY row: reported as "Column Country contains no values" (Medium), not as scattered missing values
+PASS: M1 formula returning an empty string in the FIRST data row (row 2): "Missing values in Country" is reported with row 2 (examples: 2)
+PASS: M2 formula returning an empty string in a LATER row (row 6): reported with the true row number 6 (examples: 6)
+PASS: M3 formula returning an empty string in rows 2, 6 and 9: all three are listed (examples: 2, 6, 9)
+PASS: M4 formula returning an empty string in EVERY row: reported as "Column Country contains no values" (Medium), not as scattered missing values
+PASS: M5 a zero in the first row is a real value: not flagged
+PASS: M5 a whole column of zeros is real data: not flagged as missing, not reported as "no values"
+PASS: M5 zero Allocated_Qty on inventory rows 2 and 4: not flagged
+PASS: M5 FALSE and the text "0" are values: not flagged
+PASS: M6 the text "n/a" in a number column is not reported as missing (a separate invalid-value question, see the blank-quantity investigation)
+PASS: M6 the text "TBC" in a number column is not reported as missing (a separate invalid-value question, see the blank-quantity investigation)
+PASS: M6 the text "unknown" in a number column is not reported as missing (a separate invalid-value question, see the blank-quantity investigation)
+PASS: M6 the text "-" in a number column is not reported as missing (a separate invalid-value question, see the blank-quantity investigation)
+PASS: M7 an Excel error cell (#N/A) in row 4 reads as blank and is reported as missing (row 4)
+PASS: M8 header present, every cell empty: "Column Payment_Terms contains no values (every cell in the column is empty)"
+PASS: M9 column removed completely (header and cells): no blank-column finding and no missing-value finding for it
+PASS: M10 one value in a blank column: "Missing values" (examples capped at 6 rows), not "no values"
+PASS: M11 Products.Product_Family entirely blank: reported against sheet "Products"
+PASS: M12 Products.Product_Family blank in the first data row: reported (row 2)
+PASS: M11 Materials.Active_YN entirely blank: reported against sheet "Materials"
+PASS: M12 Materials.Active_YN blank in the first data row: reported (row 2)
+PASS: M11 BOM.Scrap_Factor_Pct entirely blank: reported against sheet "BOM"
+PASS: M12 BOM.Scrap_Factor_Pct blank in the first data row: reported (row 2)
+PASS: M11 Inventory.Location entirely blank: reported against sheet "Inventory"
+PASS: M12 Inventory.Location blank in the first data row: reported (row 2)
+PASS: M11 Suppliers.Country entirely blank: reported against sheet "Suppliers"
+PASS: M12 Suppliers.Country blank in the first data row: reported (row 2)
+PASS: M11 Purchase Orders.PO_Status entirely blank: reported against sheet "Purchase Orders"
+PASS: M12 Purchase Orders.PO_Status blank in the first data row: reported (row 2)
+PASS: M11 Production Orders.Production_Line_ID entirely blank: reported against sheet "Production Orders"
+PASS: M12 Production Orders.Production_Line_ID blank in the first data row: reported (row 2)
+PASS: M11 Demand History.Customer_Orders entirely blank: reported against sheet "Demand History"
+PASS: M12 Demand History.Customer_Orders blank in the first data row: reported (row 2)
+PASS: M13 two columns both headed "Notes": the first has one value (missing elsewhere), the second is entirely blank ("Notes_1")
+PASS: M14 blanks in unused columns: items, risk classes, actions, safety stock, ROP, suppliers and totals are identical to the unedited workbook
+PASS: S1 Data quality tab lists all three findings
+PASS: S2 the finding count rose by exactly 3 (5 -> 8)
+PASS: S3 the "Sheets affected" figure is shown (5)
+PASS: S4 Client questions, Summary and Data quality contain no undefined/NaN
+PASS: S5 Summary is unchanged by Medium missing-value findings (it counts only High-severity data issues)
+PASS: E1 ENG_DataQuality has every finding (8 rows = engine 8)
+PASS: E2 the export row for the first-row blank carries the example row "2"
+PASS: E3 no NaN or undefined in the ENG_DataQuality sheet
+PASS: D1 edge/scenario-dupexact.xlsx: every finding is well formed (6)
+PASS: D1 edge/scenario-overrec.xlsx: every finding is well formed (6)
+PASS: D1 suppliers/scenario-nopo.xlsx: every finding is well formed (5)
+PASS: D1 structure/scenario-willow.xlsx: every finding is well formed (12)
+test-missing-values: 63 passed, 0 failed

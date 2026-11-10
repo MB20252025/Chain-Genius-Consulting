@@ -1,0 +1,287 @@
+PASS: northstar SUP007: fill never above 100 (100.00)
+PASS: northstar SUP007: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP014: fill never above 100 (98.67)
+PASS: northstar SUP014: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP013: fill never above 100 (100.00)
+PASS: northstar SUP013: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP004: fill never above 100 (100.00)
+PASS: northstar SUP004: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP012: fill never above 100 (100.00)
+PASS: northstar SUP012: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP001: fill never above 100 (100.00)
+PASS: northstar SUP001: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP015: fill never above 100 (99.57)
+PASS: northstar SUP015: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP008: fill never above 100 (98.64)
+PASS: northstar SUP008: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP005: fill never above 100 (96.97)
+PASS: northstar SUP005: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP002: fill never above 100 (100.00)
+PASS: northstar SUP002: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP010: fill never above 100 (100.00)
+PASS: northstar SUP010: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP009: fill never above 100 (98.04)
+PASS: northstar SUP009: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP006: fill never above 100 (99.48)
+PASS: northstar SUP006: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP011: fill never above 100 (99.49)
+PASS: northstar SUP011: with no excess the figure is unchanged from before the cap
+PASS: northstar SUP003: fill never above 100 (99.15)
+PASS: northstar SUP003: with no excess the figure is unchanged from before the cap
+PASS: northstar: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: northstar: total over-delivered units across suppliers equals the raw total
+PASS: northstar: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: northstar: exported excess equals engine excess
+PASS: overrec SUP007: fill never above 100 (100.00)
+PASS: overrec SUP007: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP014: fill never above 100 (98.67)
+PASS: overrec SUP014: excess does not offset shortages (capped 98.67 < netted 100.00)
+PASS: overrec SUP013: fill never above 100 (100.00)
+PASS: overrec SUP013: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP004: fill never above 100 (100.00)
+PASS: overrec SUP004: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP012: fill never above 100 (100.00)
+PASS: overrec SUP012: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP001: fill never above 100 (100.00)
+PASS: overrec SUP001: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP015: fill never above 100 (99.57)
+PASS: overrec SUP015: excess does not offset shortages (capped 99.57 < netted 99.91)
+PASS: overrec SUP008: fill never above 100 (98.64)
+PASS: overrec SUP008: excess does not offset shortages (capped 98.64 < netted 99.73)
+PASS: overrec SUP005: fill never above 100 (96.97)
+PASS: overrec SUP005: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP002: fill never above 100 (100.00)
+PASS: overrec SUP002: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP010: fill never above 100 (100.00)
+PASS: overrec SUP010: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP009: fill never above 100 (98.04)
+PASS: overrec SUP009: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP006: fill never above 100 (99.48)
+PASS: overrec SUP006: excess does not offset shortages (capped 99.48 < netted 104.08)
+PASS: overrec SUP011: fill never above 100 (99.49)
+PASS: overrec SUP011: with no excess the figure is unchanged from before the cap
+PASS: overrec SUP003: fill never above 100 (99.15)
+PASS: overrec SUP003: with no excess the figure is unchanged from before the cap
+PASS: overrec: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: overrec: total over-delivered units across suppliers equals the raw total
+PASS: overrec: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: overrec: exported excess equals engine excess
+PASS: partial SUP007: fill never above 100 (100.00)
+PASS: partial SUP007: with no excess the figure is unchanged from before the cap
+PASS: partial SUP014: fill never above 100 (97.96)
+PASS: partial SUP014: with no excess the figure is unchanged from before the cap
+PASS: partial SUP013: fill never above 100 (100.00)
+PASS: partial SUP013: with no excess the figure is unchanged from before the cap
+PASS: partial SUP004: fill never above 100 (100.00)
+PASS: partial SUP004: with no excess the figure is unchanged from before the cap
+PASS: partial SUP012: fill never above 100 (100.00)
+PASS: partial SUP012: with no excess the figure is unchanged from before the cap
+PASS: partial SUP001: fill never above 100 (100.00)
+PASS: partial SUP001: with no excess the figure is unchanged from before the cap
+PASS: partial SUP015: fill never above 100 (99.22)
+PASS: partial SUP015: with no excess the figure is unchanged from before the cap
+PASS: partial SUP005: fill never above 100 (96.97)
+PASS: partial SUP005: with no excess the figure is unchanged from before the cap
+PASS: partial SUP008: fill never above 100 (96.48)
+PASS: partial SUP008: with no excess the figure is unchanged from before the cap
+PASS: partial SUP002: fill never above 100 (100.00)
+PASS: partial SUP002: with no excess the figure is unchanged from before the cap
+PASS: partial SUP010: fill never above 100 (100.00)
+PASS: partial SUP010: with no excess the figure is unchanged from before the cap
+PASS: partial SUP009: fill never above 100 (98.04)
+PASS: partial SUP009: with no excess the figure is unchanged from before the cap
+PASS: partial SUP006: fill never above 100 (98.33)
+PASS: partial SUP006: with no excess the figure is unchanged from before the cap
+PASS: partial SUP011: fill never above 100 (99.49)
+PASS: partial SUP011: with no excess the figure is unchanged from before the cap
+PASS: partial SUP003: fill never above 100 (99.15)
+PASS: partial SUP003: with no excess the figure is unchanged from before the cap
+PASS: partial: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: partial: total over-delivered units across suppliers equals the raw total
+PASS: partial: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: partial: exported excess equals engine excess
+PASS: overshort SUP007: fill never above 100 (100.00)
+PASS: overshort SUP007: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP014: fill never above 100 (94.25)
+PASS: overshort SUP014: excess does not offset shortages (capped 94.25 < netted 97.61)
+PASS: overshort SUP013: fill never above 100 (100.00)
+PASS: overshort SUP013: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP004: fill never above 100 (100.00)
+PASS: overshort SUP004: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP012: fill never above 100 (100.00)
+PASS: overshort SUP012: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP001: fill never above 100 (100.00)
+PASS: overshort SUP001: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP015: fill never above 100 (97.84)
+PASS: overshort SUP015: excess does not offset shortages (capped 97.84 < netted 98.70)
+PASS: overshort SUP005: fill never above 100 (96.97)
+PASS: overshort SUP005: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP008: fill never above 100 (94.58)
+PASS: overshort SUP008: excess does not offset shortages (capped 94.58 < netted 97.29)
+PASS: overshort SUP002: fill never above 100 (100.00)
+PASS: overshort SUP002: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP010: fill never above 100 (100.00)
+PASS: overshort SUP010: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP009: fill never above 100 (98.04)
+PASS: overshort SUP009: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP006: fill never above 100 (99.48)
+PASS: overshort SUP006: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP011: fill never above 100 (99.49)
+PASS: overshort SUP011: with no excess the figure is unchanged from before the cap
+PASS: overshort SUP003: fill never above 100 (99.15)
+PASS: overshort SUP003: with no excess the figure is unchanged from before the cap
+PASS: overshort: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: overshort: total over-delivered units across suppliers equals the raw total
+PASS: overshort: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: overshort: exported excess equals engine excess
+PASS: combined SUP007: fill never above 100 (100.00)
+PASS: combined SUP007: with no excess the figure is unchanged from before the cap
+PASS: combined SUP014: fill never above 100 (98.76)
+PASS: combined SUP014: with no excess the figure is unchanged from before the cap
+PASS: combined SUP013: fill never above 100 (100.00)
+PASS: combined SUP013: with no excess the figure is unchanged from before the cap
+PASS: combined SUP004: fill never above 100 (100.00)
+PASS: combined SUP004: with no excess the figure is unchanged from before the cap
+PASS: combined SUP012: fill never above 100 (100.00)
+PASS: combined SUP012: with no excess the figure is unchanged from before the cap
+PASS: combined SUP001: fill never above 100 (100.00)
+PASS: combined SUP001: with no excess the figure is unchanged from before the cap
+PASS: combined SUP015: fill never above 100 (98.18)
+PASS: combined SUP015: excess does not offset shortages (capped 98.18 < netted 98.70)
+PASS: combined SUP005: fill never above 100 (96.97)
+PASS: combined SUP005: with no excess the figure is unchanged from before the cap
+PASS: combined SUP008: fill never above 100 (95.39)
+PASS: combined SUP008: excess does not offset shortages (capped 95.39 < netted 97.02)
+PASS: combined SUP002: fill never above 100 (100.00)
+PASS: combined SUP002: with no excess the figure is unchanged from before the cap
+PASS: combined SUP010: fill never above 100 (100.00)
+PASS: combined SUP010: with no excess the figure is unchanged from before the cap
+PASS: combined SUP009: fill never above 100 (98.04)
+PASS: combined SUP009: with no excess the figure is unchanged from before the cap
+PASS: combined SUP006: fill never above 100 (99.48)
+PASS: combined SUP006: with no excess the figure is unchanged from before the cap
+PASS: combined SUP011: fill never above 100 (99.49)
+PASS: combined SUP011: with no excess the figure is unchanged from before the cap
+PASS: combined SUP003: fill never above 100 (99.15)
+PASS: combined SUP003: with no excess the figure is unchanged from before the cap
+PASS: combined: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: combined: total over-delivered units across suppliers equals the raw total
+PASS: combined: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: combined: exported excess equals engine excess
+PASS: dupexact SUP007: fill never above 100 (100.00)
+PASS: dupexact SUP007: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP014: fill never above 100 (98.67)
+PASS: dupexact SUP014: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP013: fill never above 100 (100.00)
+PASS: dupexact SUP013: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP004: fill never above 100 (100.00)
+PASS: dupexact SUP004: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP012: fill never above 100 (100.00)
+PASS: dupexact SUP012: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP001: fill never above 100 (100.00)
+PASS: dupexact SUP001: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP015: fill never above 100 (99.57)
+PASS: dupexact SUP015: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP008: fill never above 100 (98.71)
+PASS: dupexact SUP008: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP005: fill never above 100 (96.97)
+PASS: dupexact SUP005: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP002: fill never above 100 (100.00)
+PASS: dupexact SUP002: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP010: fill never above 100 (100.00)
+PASS: dupexact SUP010: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP009: fill never above 100 (98.04)
+PASS: dupexact SUP009: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP006: fill never above 100 (99.48)
+PASS: dupexact SUP006: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP011: fill never above 100 (99.49)
+PASS: dupexact SUP011: with no excess the figure is unchanged from before the cap
+PASS: dupexact SUP003: fill never above 100 (99.15)
+PASS: dupexact SUP003: with no excess the figure is unchanged from before the cap
+PASS: dupexact: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: dupexact: total over-delivered units across suppliers equals the raw total
+PASS: dupexact: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: dupexact: exported excess equals engine excess
+PASS: multiline SUP007: fill never above 100 (100.00)
+PASS: multiline SUP007: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP014: fill never above 100 (98.67)
+PASS: multiline SUP014: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP013: fill never above 100 (100.00)
+PASS: multiline SUP013: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP004: fill never above 100 (100.00)
+PASS: multiline SUP004: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP012: fill never above 100 (100.00)
+PASS: multiline SUP012: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP001: fill never above 100 (100.00)
+PASS: multiline SUP001: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP015: fill never above 100 (99.57)
+PASS: multiline SUP015: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP008: fill never above 100 (98.64)
+PASS: multiline SUP008: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP005: fill never above 100 (96.97)
+PASS: multiline SUP005: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP002: fill never above 100 (100.00)
+PASS: multiline SUP002: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP010: fill never above 100 (100.00)
+PASS: multiline SUP010: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP009: fill never above 100 (98.04)
+PASS: multiline SUP009: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP006: fill never above 100 (99.48)
+PASS: multiline SUP006: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP011: fill never above 100 (99.49)
+PASS: multiline SUP011: with no excess the figure is unchanged from before the cap
+PASS: multiline SUP003: fill never above 100 (99.15)
+PASS: multiline SUP003: with no excess the figure is unchanged from before the cap
+PASS: multiline: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: multiline: total over-delivered units across suppliers equals the raw total
+PASS: multiline: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: multiline: exported excess equals engine excess
+PASS: splitline SUP007: fill never above 100 (100.00)
+PASS: splitline SUP007: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP014: fill never above 100 (98.67)
+PASS: splitline SUP014: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP013: fill never above 100 (100.00)
+PASS: splitline SUP013: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP004: fill never above 100 (100.00)
+PASS: splitline SUP004: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP012: fill never above 100 (100.00)
+PASS: splitline SUP012: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP001: fill never above 100 (100.00)
+PASS: splitline SUP001: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP015: fill never above 100 (99.57)
+PASS: splitline SUP015: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP005: fill never above 100 (96.97)
+PASS: splitline SUP005: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP008: fill never above 100 (98.64)
+PASS: splitline SUP008: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP002: fill never above 100 (100.00)
+PASS: splitline SUP002: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP010: fill never above 100 (100.00)
+PASS: splitline SUP010: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP009: fill never above 100 (98.04)
+PASS: splitline SUP009: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP006: fill never above 100 (99.48)
+PASS: splitline SUP006: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP011: fill never above 100 (99.49)
+PASS: splitline SUP011: with no excess the figure is unchanged from before the cap
+PASS: splitline SUP003: fill never above 100 (99.15)
+PASS: splitline SUP003: with no excess the figure is unchanged from before the cap
+PASS: splitline: every supplier fill / over-delivered units / lines / short lines match the independent recomputation
+PASS: splitline: total over-delivered units across suppliers equals the raw total
+PASS: splitline: export has every supplier with OverDeliveredUnits, OverDeliveredLines and Fill%
+PASS: splitline: exported excess equals engine excess
+PASS: Northstar has no over-receipts, so supplier scores are unchanged by the cap
+PASS: overshort: SUP008 has one over-received and one short line
+PASS: overshort: SUP008 excess reported separately (50)
+PASS: overshort: shortage still counted
+--- supplier fill: netted (before cap) vs capped, where an excess and a shortage coexist
+overrec | SUP014 | 100 | 98.67 | 15 | 1 | 1
+overrec | SUP015 | 99.91 | 99.57 | 4 | 1 | 1
+overrec | SUP008 | 99.73 | 98.64 | 20 | 1 | 2
+overrec | SUP006 | 104.08 | 99.48 | 80 | 1 | 2
+overshort | SUP014 | 97.61 | 94.25 | 38 | 1 | 2
+overshort | SUP015 | 98.7 | 97.84 | 10 | 1 | 2
+overshort | SUP008 | 97.29 | 94.58 | 50 | 1 | 3
+combined | SUP015 | 98.7 | 98.18 | 6 | 1 | 2
+combined | SUP008 | 97.02 | 95.39 | 30 | 1 | 3
+test-fillcap: 276 passed, 0 failed

@@ -1,0 +1,165 @@
+PASS: reference: with every material in "each" the fractional-BOM check flags 197 lines
+PASS: U1 case: "each" is recognised (no unit flag)
+PASS: U1 case: "Each" is recognised (no unit flag)
+PASS: U1 case: "EACH" is recognised (no unit flag)
+PASS: U1 case: "kg" is recognised (no unit flag)
+PASS: U1 case: "KG" is recognised (no unit flag)
+PASS: U1 case: "Kg" is recognised (no unit flag)
+PASS: U1 case: "pcs" is recognised (no unit flag)
+PASS: U1 case: "PCS" is recognised (no unit flag)
+PASS: U1 case: "Pcs" is recognised (no unit flag)
+PASS: U1 case: "box" is recognised (no unit flag)
+PASS: U1 case: "Box" is recognised (no unit flag)
+PASS: U1 case: "BOX" is recognised (no unit flag)
+PASS: U1 case: "set" is recognised (no unit flag)
+PASS: U1 case: "SET" is recognised (no unit flag)
+PASS: U1 case: "m" is recognised (no unit flag)
+PASS: U1 case: "M" is recognised (no unit flag)
+PASS: U1 case: "l" is recognised (no unit flag)
+PASS: U1 case: "L" is recognised (no unit flag)
+PASS: U1 case: "g" is recognised (no unit flag)
+PASS: U1 case: "G" is recognised (no unit flag)
+PASS: U2 spacing: leading space " each" is recognised
+PASS: U2 spacing: trailing space "each " is recognised
+PASS: U2 spacing: several spaces "  each  " is recognised
+PASS: U2 spacing: tabs "\teach\t" is recognised
+PASS: U2 spacing: non-breaking spaces " each " is recognised
+PASS: U2 spacing: leading space on kg " kg" is recognised
+PASS: U2 spacing: trailing space on kg "kg " is recognised
+PASS: U2 spacing: spaces around pcs " pcs " is recognised
+PASS: U2 spacing: newline then box "\n box" is recognised
+PASS: U3 alias: "EA" is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: "ea" is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: "Ea" is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: "eA" is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: " EA " is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: "\tea" is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U3 alias: "ea " is "each": no unit flag and 197 fractional lines (= 197)
+PASS: U4 fractional: unit "Each" gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit "EACH" gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit " each " gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit " Each" gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit "EA" gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit "ea" gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: unit " EA " gives 197 fractional lines, equal to the count recomputed from raw rows
+PASS: U4 fractional: "kg" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "KG" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: " kg" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "pcs" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "set" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "box" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "m" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "l" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 fractional: "g" is a different unit; fractional BOM quantities are not flagged (0)
+PASS: U4 mixed: half the materials EA, half "Kg ": fractional lines = 98 (recomputed from raw rows: 98), fewer than all-each (197)
+PASS: U5 unknown: "pack" is still flagged as unrecognised
+PASS: U5 unknown: "pack" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "Pack" is still flagged as unrecognised
+PASS: U5 unknown: "Pack" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: " pack" is still flagged as unrecognised
+PASS: U5 unknown: " pack" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "PACK" is still flagged as unrecognised
+PASS: U5 unknown: "PACK" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "pc" is still flagged as unrecognised
+PASS: U5 unknown: "pc" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "PC" is still flagged as unrecognised
+PASS: U5 unknown: "PC" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "lb" is still flagged as unrecognised
+PASS: U5 unknown: "lb" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "kgs" is still flagged as unrecognised
+PASS: U5 unknown: "kgs" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "ea." is still flagged as unrecognised
+PASS: U5 unknown: "ea." is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "each." is still flagged as unrecognised
+PASS: U5 unknown: "each." is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "eaches" is still flagged as unrecognised
+PASS: U5 unknown: "eaches" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "e a" is still flagged as unrecognised
+PASS: U5 unknown: "e a" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "zzz" is still flagged as unrecognised
+PASS: U5 unknown: "zzz" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "" is still flagged as unrecognised
+PASS: U5 unknown: "" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "   " is still flagged as unrecognised
+PASS: U5 unknown: "   " is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "​each" is still flagged as unrecognised
+PASS: U5 unknown: "​each" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "each/EA" is still flagged as unrecognised
+PASS: U5 unknown: "each/EA" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "cs" is still flagged as unrecognised
+PASS: U5 unknown: "cs" is not silently treated as "each" (0 fractional lines)
+PASS: U5 unknown: "tub" is still flagged as unrecognised
+PASS: U5 unknown: "tub" is not silently treated as "each" (0 fractional lines)
+PASS: U5 no conversion: the uploaded Materials units are left exactly as written ("pack" stays "pack")
+PASS: U5 no rewriting: a recognised unit with spaces is accepted but the uploaded cell text is not altered, including after an export
+PASS: U6 three materials in "pack", the rest unchanged: the flag lists exactly those three (RM002, RM005, RM008)
+PASS: U6 kg / each / m mixed: no unit flag; fractional lines (63) only on the "each" materials
+PASS: U7 no Unit_of_Measure column at all: no unit flag, no fractional flag (unchanged behaviour)
+PASS: U7 a number (5) in the unit cell is still flagged
+PASS: U8 calculations: Northstar with its "each" materials written as " each" gives identical items, risk classes, actions, suppliers and totals
+PASS: U8 calculations: Northstar with its "each" materials written as "Each" gives identical items, risk classes, actions, suppliers and totals
+PASS: U8 calculations: Northstar with its "each" materials written as "EA" gives identical items, risk classes, actions, suppliers and totals
+PASS: U8 calculations: Northstar with its "each" materials written as "ea " gives identical items, risk classes, actions, suppliers and totals
+PASS: U8 calculations: Northstar with its "each" materials written as " kg" gives identical items, risk classes, actions, suppliers and totals
+PASS: U9 Northstar (units each, kg): no unit flag, as before
+PASS: U9 Northstar: 131 fractional BOM lines flagged, as before (131)
+PASS: U10 Data quality tab: no "Unrecognised unit" row for EA
+PASS: U10 export ENG_DataQuality: no unit row for EA
+PASS: U10 export ENG_DataQuality: the fractional-BOM row is present for EA materials (197 lines)
+PASS: U10 Data quality tab: "pack" still shows the Unrecognised unit row
+PASS: U10 export ENG_DataQuality: "pack" still listed
+PASS: U11 Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-allfuture.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-allfuture.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-allfuture.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-nohist.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-nohist.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-nohist.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-nopo.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-nopo.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-nopo.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-s0.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-s0.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-s0.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-three.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-three.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-three.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-unknown.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-unknown.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-unknown.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-combined.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-combined.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-combined.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-dupexact.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-dupexact.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-dupexact.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-dupkey.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-dupkey.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-dupkey.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-multiline.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-multiline.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-multiline.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-overrec.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-overrec.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-overrec.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-overshort.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-overshort.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-overshort.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-partial.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-partial.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-partial.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-posupconflict.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-posupconflict.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-posupconflict.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-splitline.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-splitline.xlsx: data-quality findings identical to Phase 1 final (no unit variants in this file)
+PASS: U11 scenario-splitline.xlsx: Excel export identical to Phase 1 final, sheet by sheet
+PASS: U11 scenario-willow.xlsx: items, classes, actions, suppliers and totals identical to Phase 1 final
+PASS: U11 scenario-willow.xlsx: data-quality findings identical to Phase 1 final except the Phase 3 missing-value reclassification (expected for this file only)
+PASS: U11 scenario-willow.xlsx: Excel export identical to Phase 1 final, sheet by sheet (ENG_DataQuality excluded: expected missing-value change)
+PASS: U11 EA-variant workbook: every calculated result identical to Phase 1 final
+PASS: U11 EA-variant workbook: the false "Unrecognised unit" flag is gone
+PASS: U11 EA-variant workbook: the missed fractional-BOM flag now appears (197 lines; Phase 1 final: 0)
+test-uom: 164 passed, 0 failed

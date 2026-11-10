@@ -1,0 +1,19 @@
+PASS: first import unreadable: WBNAME stays empty
+PASS: first import unreadable: no analysis
+PASS: good file A analysed
+PASS: A: WBNAME and R.title agree
+PASS: wrong workbook: error shown
+PASS: wrong workbook: says previous analysis kept
+PASS: wrong workbook: WBNAME restored
+PASS: wrong workbook: WB restored
+PASS: wrong workbook: R unchanged
+PASS: unreadable: message shown
+PASS: unreadable: WB/WBNAME unchanged
+PASS: corrupt: WBNAME and R still agree on A
+PASS: recalculate after failures: Analysed
+PASS: recalculate after failures: still A
+PASS: export after failures: Northstar sheets, no stray Sheet1
+PASS: export after failures: ENG sheets present
+PASS: second good file B replaces A
+PASS: no script errors ()
+test-failed-import: 18 passed, 0 failed

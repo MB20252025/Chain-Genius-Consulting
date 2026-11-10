@@ -1,0 +1,102 @@
+PASS: 1a exactly one views['Forecast accuracy'] assignment in app.js
+PASS: 1b no object-literal Forecast accuracy method either
+PASS: 1c Suppliers view defined exactly once
+PASS: 1c Data quality view defined exactly once
+PASS: 1c Settings view defined exactly once
+PASS: 1c MRP view defined exactly once
+PASS: 1c Overview view defined exactly once
+PASS: 1d Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: same 17 tab names as candidate 3 (17)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Finished goods" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Materials" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Health" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Excess & dead stock" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Data quality" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Policy comparison" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "MRP" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Production feasibility" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Reorder policy" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: tab "Demand forecast" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1d scenario-overshort.xlsx: same 17 tab names as candidate 3 (17)
+PASS: 1e scenario-overshort.xlsx: tab "Finished goods" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Materials" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Health" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Excess & dead stock" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Data quality" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Policy comparison" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "MRP" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Production feasibility" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Reorder policy" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-overshort.xlsx: tab "Demand forecast" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1d scenario-combined.xlsx: same 17 tab names as candidate 3 (17)
+PASS: 1e scenario-combined.xlsx: tab "Finished goods" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Materials" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Health" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Excess & dead stock" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Data quality" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Policy comparison" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "MRP" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Production feasibility" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Reorder policy" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-combined.xlsx: tab "Demand forecast" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1d scenario-multiline.xlsx: same 17 tab names as candidate 3 (17)
+PASS: 1e scenario-multiline.xlsx: tab "Finished goods" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Materials" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Health" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Excess & dead stock" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Data quality" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Policy comparison" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "MRP" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Production feasibility" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Reorder policy" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 1e scenario-multiline.xlsx: tab "Demand forecast" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)
+PASS: 2a northstar: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a overrec: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a partial: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a overshort: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a combined: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a dupexact: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a multiline: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a splitline: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2a posupconflict: every supplier fill is between 0 and 100 on valid data (100.00 max)
+PASS: 2b impossible quantities (ordered -10, received -30) are left out of the fill metric (Phase 3B): no supplier fill is above 100 or negative (0 above 100)
+PASS: 2c ...so no supplier gets a score from them: each is "Not Assessed — Insufficient Evidence" (Data problem), not High risk; any score that exists is within 0-100
+PASS: 2d the same data raises the High "Impossible quantities" flag
+PASS: 2e Math.min(100,fill) is still in the score formula (deliberately kept)
+PASS: 3a Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: Suppliers table has an "Over-delivered units" column
+PASS: 3b Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: ...and an "Over-delivered lines" column
+PASS: 3c Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: placed straight after Fill % (Risk rank | Score rank | Supplier | Score | Risk class | Evidence | Assessment | POs scored | On-time % | Delayed | Short | Outstanding at snapshot | Avg days late | Stated LT | Observed LT | LT σ | Fill % | Over-delivered units | Over-delivered lines | Materials | At-risk mats)
+PASS: 3d Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: one table row per supplier (15)
+PASS: 3e Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: displayed over-delivered units equal the engine values
+PASS: 3f Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: displayed over-delivered lines equal the engine values
+PASS: 3g Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: export ENG_Suppliers has OverDeliveredUnits and OverDeliveredLines for every supplier
+PASS: 3h Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: every table row equals its export row (units and lines)
+PASS: 3i Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: no script errors
+PASS: 3a scenario-overshort.xlsx: Suppliers table has an "Over-delivered units" column
+PASS: 3b scenario-overshort.xlsx: ...and an "Over-delivered lines" column
+PASS: 3c scenario-overshort.xlsx: placed straight after Fill % (Risk rank | Score rank | Supplier | Score | Risk class | Evidence | Assessment | POs scored | On-time % | Delayed | Short | Outstanding at snapshot | Avg days late | Stated LT | Observed LT | LT σ | Fill % | Over-delivered units | Over-delivered lines | Materials | At-risk mats)
+PASS: 3d scenario-overshort.xlsx: one table row per supplier (15)
+PASS: 3e scenario-overshort.xlsx: displayed over-delivered units equal the engine values
+PASS: 3f scenario-overshort.xlsx: displayed over-delivered lines equal the engine values
+PASS: 3g scenario-overshort.xlsx: export ENG_Suppliers has OverDeliveredUnits and OverDeliveredLines for every supplier
+PASS: 3h scenario-overshort.xlsx: every table row equals its export row (units and lines)
+PASS: 3i scenario-overshort.xlsx: no script errors
+PASS: 3a scenario-combined.xlsx: Suppliers table has an "Over-delivered units" column
+PASS: 3b scenario-combined.xlsx: ...and an "Over-delivered lines" column
+PASS: 3c scenario-combined.xlsx: placed straight after Fill % (Risk rank | Score rank | Supplier | Score | Risk class | Evidence | Assessment | POs scored | On-time % | Delayed | Short | Outstanding at snapshot | Avg days late | Stated LT | Observed LT | LT σ | Fill % | Over-delivered units | Over-delivered lines | Materials | At-risk mats)
+PASS: 3d scenario-combined.xlsx: one table row per supplier (15)
+PASS: 3e scenario-combined.xlsx: displayed over-delivered units equal the engine values
+PASS: 3f scenario-combined.xlsx: displayed over-delivered lines equal the engine values
+PASS: 3g scenario-combined.xlsx: export ENG_Suppliers has OverDeliveredUnits and OverDeliveredLines for every supplier
+PASS: 3h scenario-combined.xlsx: every table row equals its export row (units and lines)
+PASS: 3i scenario-combined.xlsx: no script errors
+PASS: 3a scenario-overrec.xlsx: Suppliers table has an "Over-delivered units" column
+PASS: 3b scenario-overrec.xlsx: ...and an "Over-delivered lines" column
+PASS: 3c scenario-overrec.xlsx: placed straight after Fill % (Risk rank | Score rank | Supplier | Score | Risk class | Evidence | Assessment | POs scored | On-time % | Delayed | Short | Outstanding at snapshot | Avg days late | Stated LT | Observed LT | LT σ | Fill % | Over-delivered units | Over-delivered lines | Materials | At-risk mats)
+PASS: 3d scenario-overrec.xlsx: one table row per supplier (15)
+PASS: 3e scenario-overrec.xlsx: displayed over-delivered units equal the engine values
+PASS: 3f scenario-overrec.xlsx: displayed over-delivered lines equal the engine values
+PASS: 3g scenario-overrec.xlsx: export ENG_Suppliers has OverDeliveredUnits and OverDeliveredLines for every supplier
+PASS: 3h scenario-overrec.xlsx: every table row equals its export row (units and lines)
+PASS: 3i scenario-overrec.xlsx: no script errors
+PASS: 3j overshort: total over-delivered units is positive (98)
+test-phase1: 101 passed, 0 failed

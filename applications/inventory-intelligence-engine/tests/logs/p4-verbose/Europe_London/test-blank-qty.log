@@ -1,0 +1,20 @@
+PASS: baseline: SUP008 has a finite score (60.4) and is Medium risk; 6 suppliers are High risk
+PASS: blank Received_Qty on one scored line of SUP008: score and fill are real numbers; exactly that line is left out of the quantity metrics
+PASS: ...so SUP008 stays Medium risk (as before the edit) with a data-problem note, and is NOT classed High risk / "Performance problem"
+PASS: ...and the High-risk supplier count stays at 6
+PASS: ...a Medium "Missing values in Received_Qty" flag is raised (blank is not in the first data row)
+PASS: ...the Suppliers screen shows a real score, "Medium risk" and the evidence "21 POs, 20 with valid quantities" (no NaN text)
+PASS: ...the export carries a numeric Score and Fill%, Risk "Medium risk", InvalidQuantityLines 1
+PASS: ...no item risk class or recommended action changes (Northstar data)
+PASS: blank Ordered_Qty on one scored line of SUP008: score and fill are real numbers; exactly that line is left out of the quantity metrics
+PASS: ...so SUP008 stays Medium risk (as before the edit) with a data-problem note, and is NOT classed High risk / "Performance problem"
+PASS: ...and the High-risk supplier count stays at 6
+PASS: ...a Medium "Missing values in Ordered_Qty" flag is raised (blank is not in the first data row)
+PASS: ...the Suppliers screen shows a real score, "Medium risk" and the evidence "21 POs, 20 with valid quantities" (no NaN text)
+PASS: ...the export carries a numeric Score and Fill%, Risk "Medium risk", InvalidQuantityLines 1
+PASS: ...no item risk class or recommended action changes (Northstar data)
+PASS: blank Received_Qty in the FIRST data row: the "Missing values" flag IS raised (corrected in Phase 3 item 2; before Phase 3 the check looked only at columns present in row 1)
+PASS: blank Ordered_Qty on an open (unreceived) line leaves every supplier score unchanged
+PASS: every Received_Qty blank: every supplier with received POs has a null score, the exact state "Not Assessed — Insufficient Evidence", reason Data problem and a valid on-time rate (15)
+PASS: ...and no supplier is High risk and no supplier result contains NaN
+test-blank-qty: 19 passed, 0 failed

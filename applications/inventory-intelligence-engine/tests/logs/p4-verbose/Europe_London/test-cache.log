@@ -1,0 +1,16 @@
+PASS: mrp(): second call returns the cached result
+PASS: feas(): second call returns the cached result
+PASS: mrp(): cached result equals a fresh calculation
+PASS: feas(): cached result equals a fresh calculation
+PASS: forecast accuracy results cached
+PASS: views render identically on repeated visits
+PASS: MRP view sorting does not reorder the cached list
+PASS: mrp(): result after changing the planning horizon equals a fresh calculation
+PASS: mrp(): result after restoring the horizon equals a fresh calculation
+PASS: feas()/mrp() correct with supply source 0
+PASS: feas()/mrp() correct with supply source 1
+PASS: feas()/mrp() correct with supply source 2
+PASS: a different horizon really gives different MRP quantities (so the key is exercised)
+PASS: after a new import the cache is rebuilt for the new data
+PASS: cache lives on the results object, so a new analysis starts empty
+test-cache: 15 passed, 0 failed
