@@ -1,0 +1,9 @@
+# scenario: dupexact
+# workbook: fixtures/edge/scenario-dupexact.xlsx
+# started: 2026-11-09T22:03:21Z
+# dump exit code: 0
+dupexact: suppliers independent=15 app=15
+PASS dupexact (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+IDENTICAL to fixtures/edge/supplier-output-dupexact.json
+# overall: PASS

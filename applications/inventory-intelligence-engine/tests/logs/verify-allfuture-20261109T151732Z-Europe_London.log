@@ -1,0 +1,13 @@
+# scenario: allfuture
+# workbook: fixtures/suppliers/scenario-allfuture.xlsx
+# started: 2026-11-09T15:19:00Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+allfuture: suppliers independent=15 app=15
+PASS allfuture (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+# verifier exit code: 0
+## 3. fresh app output vs stored expected output
+IDENTICAL to fixtures/suppliers/supplier-output-allfuture.json
+# finished: 2026-11-09T15:19:02Z
+# overall: PASS

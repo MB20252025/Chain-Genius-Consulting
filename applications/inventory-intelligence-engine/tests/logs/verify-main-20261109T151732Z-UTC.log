@@ -1,0 +1,23 @@
+PASS attainment: all 50 SKUs match (avg-of-orders, weighted, planned, actual, counts)
+PASS attainment FG048 = 398/425 units, avg 92.8% vs weighted 93.6%
+PASS supplier score recomputed independently for all 15 suppliers
+PASS supplier risk class matches thresholds (75/60)
+PASS at-risk material counts and materials supplied match for all suppliers
+PASS ranking order (at-risk desc, then score asc, then id) matches app
+   independent top-5: [('SUP008', 4, np.float64(60.4)), ('SUP001', 3, np.float64(67.1)), ('SUP007', 3, np.float64(87.4)), ('SUP003', 2, np.float64(41.6)), ('SUP011', 2, np.float64(48.2))]
+PASS SUP008 has 4 at-risk materials, score 60.4, rank 1 by risk (rank 8 by score only)
+PASS FG lead time value, order count, date range and provenance label match for all 50 SKUs
+PASS FG027 lead time 4.0 d from 3 orders (2025-12-04 to 2026-06-09) labelled "Estimated (limited sample)", never "Supplied"
+PASS Products sheet has no lead-time column, so no FG value is labelled Supplied
+   example basis text: average of (actual finish − actual start) in days over 3 completed production orders, minimum 1 day each; records 2025-12-04 to 2026-06-09; fewer than 5 orders, so treat as an estimate
+PASS forecast accuracy, bias %, direction, data-quality class, outliers, zero periods, confidence and finding match for all 50 SKUs
+   independent: accuracy>=95%: 31 of 50; within 94-98%: 45 of 50; over/under/balanced: (2, 3, 45)
+   independent: accuracy range 36.7–97.9%; direction counts by app: {'Over-forecast': 2, 'Under-forecast': 3, 'Balanced': 45}
+PASS PO: received-by-snapshot POs excluded (count, ordered, received, short balance)
+PASS PO: future-dated supply 300 units (4 POs) and open POs 0 units
+PASS PO: no PO is counted in two categories (300 total = 300)
+PASS PO: inventory on-order 32634, verified supply 300, unreconciled 32334
+PASS PO: status text for 0.9% explained
+PASS PO: the 4 future-dated POs are exactly those with Received_Date after 2026-10-31
+   future-dated POs: [{'PO_ID': 'PO0003', 'Promised_Date': Timestamp('2026-11-12 00:00:00'), 'Received_Date': Timestamp('2026-11-11 00:00:00'), 'Ordered_Qty': 50}, {'PO_ID': 'PO0030', 'Promised_Date': Timestamp('2026-10-25 00:00:00'), 'Received_Date': Timestamp('2026-11-04 00:00:00'), 'Ordered_Qty': 75}, {'PO_ID': 'PO0110', 'Promised_Date': Timestamp('2026-10-22 00:00:00'), 'Received_Date': Timestamp('2026-11-01 00:00:00'), 'Ordered_Qty': 150}, {'PO_ID': 'PO0190', 'Promised_Date': Timestamp('2026-11-14 00:00:00'), 'Received_Date': Timestamp('2026-11-13 00:00:00'), 'Ordered_Qty': 25}]
+summary 17 pass 0 fail

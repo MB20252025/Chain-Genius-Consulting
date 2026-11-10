@@ -1,0 +1,21 @@
+# scenario: allfuture
+# workbook: fixtures/suppliers/scenario-allfuture.xlsx
+# started: 2026-11-09T20:32:30Z
+## 1. app output dumped from the workbook
+# dump exit code: 0
+## 2. independent Python verification (separate logic, reads the raw workbook)
+allfuture: suppliers independent=15 app=15
+FAIL allfuture (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) ["SUP014 cat app='Not Assessed — Insufficient Evidence' indep='Not assessed'", "SUP014 assess app='Insufficient evidence: no PO received by the snapshot' indep='Not assessed: no PO received by the snapshot'"]
+# verifier exit code: 1
+## 3. fresh app output vs stored expected output
+DIFFERENT from stored expected output
+175c175
+<         "cat": "Not Assessed \u2014 Insufficient Evidence",
+---
+>         "cat": "Not assessed",
+179c179
+<         "assess": "Insufficient evidence: no PO received by the snapshot",
+---
+>         "assess": "Not assessed: no PO received by the snapshot",
+# finished: 2026-11-09T20:32:31Z
+# overall: FAIL
