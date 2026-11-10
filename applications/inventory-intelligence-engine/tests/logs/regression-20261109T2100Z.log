@@ -1,0 +1,8 @@
+# regression 20261109T2100Z  node v22.23.4
+## TZ=UTC
+test7 | exit 0 | summary 111 pass 0 fail
+test8 | exit 0 | summary 47 pass 0 fail
+test9 | exit 0 | summary 57 pass 0 fail
+domtest | exit 0 | summary 30 pass 0 fail
+domtest2 | exit 0 | summary 18 pass 0 fail
+test-failed-import | exit 0 | test-failed-import: 18 passed, 0 failed
