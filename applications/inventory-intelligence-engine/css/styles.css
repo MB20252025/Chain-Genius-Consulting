@@ -1,0 +1,34 @@
+/* Chain Genius – Inventory Intelligence Engine: styles (supports light and dark mode, print) */
+:root{--bg:#f6f7f9;--c:#fff;--t:#1b2430;--m:#667085;--b:#dde1e7;--a:#0f4c81;--r:#c0392b;--o:#e67e22;--y:#d4a017;--g:#2e8b57}
+@media(prefers-color-scheme:dark){:root{--bg:#12161c;--c:#1b212b;--t:#e8ecf1;--m:#9aa5b4;--b:#2d3541;--a:#5aa2e0}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,sans-serif;background:var(--bg);color:var(--t)}
+header{padding:12px 14px;background:var(--a);color:#fff}header h1{margin:0;font-size:17px}header small{opacity:.85}
+main{padding:10px;max-width:1100px;margin:auto}.card{background:var(--c);border:1px solid var(--b);border-radius:8px;padding:10px;margin-bottom:10px}
+nav{display:flex;gap:4px;overflow-x:auto;margin-bottom:10px}nav button{flex:none;padding:7px 10px;border:1px solid var(--b);background:var(--c);color:var(--t);border-radius:6px}nav button.on{background:var(--a);color:#fff}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.k div{background:var(--c);border:1px solid var(--b);border-radius:8px;padding:8px}.k b{display:block;font-size:20px}.k span{color:var(--m);font-size:12px}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:4px 6px;border-bottom:1px solid var(--b);text-align:right;white-space:nowrap}th:first-child,td:first-child,td.l,th.l{text-align:left}th{color:var(--m);position:sticky;top:0;background:var(--c)}
+.s3{color:var(--r);font-weight:700}.s2{color:var(--o);font-weight:700}.s1{color:var(--y);font-weight:700}.s0{color:var(--g)}
+.bar{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:12px}.bar i{display:block;height:12px;background:var(--a);border-radius:3px}.bar em{width:92px;font-style:normal;color:var(--m)}
+.note{color:var(--m);font-size:12px}.warn{background:#fff4e5;color:#7a4b00;border-radius:6px;padding:6px 8px;font-size:12px}
+label{display:block;margin:6px 0}input[type=number],select{width:90px;padding:4px}h2{font-size:15px;margin:4px 0 8px;overflow-wrap:anywhere}
+button.p{padding:9px 14px;background:var(--a);color:#fff;border:0;border-radius:6px;font-size:14px}
+@media print{nav,#up,button{display:none}header{background:none;color:#000}}
+
+/* v0.6 compatibility and mobile */
+html{-webkit-text-size-adjust:100%}
+td.l{white-space:normal;min-width:110px;max-width:340px}
+.sticky1 td:first-child,.sticky1 th:first-child{position:sticky;left:0;background:var(--c);z-index:1;box-shadow:1px 0 0 var(--b)}
+.sticky1 th:first-child{z-index:2}
+nav button,button.p,input[type=number],select{min-height:40px}
+input[type=number],select,input[type=file]{font-size:16px}
+nav button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.set{border-top:1px solid var(--b);padding:8px 0}.set label{margin:0}.set p{margin:4px 0}
+.tag{display:inline-block;font-size:11px;border-radius:10px;padding:1px 8px;border:1px solid var(--b)}
+.t-c{background:#fde8d4;color:#7a3b00}.t-w{background:#dbeafe;color:#16407a}.t-d{background:#eceff3;color:#444}
+@media(prefers-color-scheme:dark){.warn{background:#3a2d12;color:#f3d9a4}.t-c{background:#4a2e12;color:#ffd9b0}.t-w{background:#15304f;color:#bcd9ff}.t-d{background:#2b313b;color:#cdd3dc}}
+@media(max-width:600px){header h1{font-size:15px}main{padding:6px}.card{padding:8px}.k{grid-template-columns:repeat(2,1fr)}h2{font-size:14px}td.l{max-width:240px}}
+@media print{td.l{white-space:normal}.sticky1 td:first-child,.sticky1 th:first-child{position:static}}
+
+/* v0.6 contrast fix (text colours only; chart/line colours and layout are unchanged). Targets WCAG AA 4.5:1 for the risk labels and, in dark mode, text on the accent colour. */
+.s2{color:#b45309}.s1{color:#8a6500}.s0{color:#267a4d}
+@media(prefers-color-scheme:dark){.s3{color:#ff7b6b}.s2{color:var(--o)}.s1{color:var(--y)}.s0{color:#4cc38a}header,nav button.on,button.p{color:#0b1220}}
