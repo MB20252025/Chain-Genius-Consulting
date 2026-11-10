@@ -1,0 +1,8 @@
+# Final hardening performance, same method as Phase 4. 2 CPU, node v22.23.4
+## analyse() 5000 items, interleaved RC / final, 3 rounds
+RC round 1: median 1085
+Final round 1: median 1106
+RC round 2: median 1086
+Final round 2: median 1028
+RC round 3: median 1081
+Final round 3: median 1119

@@ -1,0 +1,15 @@
+# command: node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json logs/golden-regenerated-from-v05-code-20261109T100758Z.json
+# started: 2026-11-09T10:08:47Z
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+# exit code: 0
+# finished: 2026-11-09T10:08:47Z

@@ -1,0 +1,10 @@
+# candidate 4 Phase 1 spot check, 5,000 items (1,667 FG + 3,333 RM), desktop 1280 px and simulated phone 412 px (no throttle). Not a physical Android test.
+--- desktop
+import-to-ready (file read + parse + analyse x3 + first render): 2.8 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 369 ms
+tabs over 300 ms: 1 of 17 | slowest 317 ms | console/page errors: 0
+--- simulated phone 412 px
+import-to-ready (file read + parse + analyse x3 + first render): 2.7 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 94 ms
+tabs over 300 ms: 0 of 17 | slowest 159 ms | console/page errors: 0
+analyse() x5 (ms): 901, 798, 756, 820, 915 | median 820

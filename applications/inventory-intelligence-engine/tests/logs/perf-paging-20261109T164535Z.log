@@ -1,0 +1,54 @@
+
+################ BEFORE paging | 5,000 items (1,667 FG + 3,333 RM)
+--- Node engine
+XLSX.read (parse file): 1735 ms
+analyse() x5 (ms): 970, 893, 885, 867, 1029 | median 893
+run() = analyse x3 (main + 2 comparison): 2534 ms; FG 1667 RM 3333
+--- Chrome, no throttle
+import-to-ready (file read + parse + analyse x3 + first render): 2.8 s | status: Analysed.
+tabs over 300 ms: 9 of 17 | slowest 3398 ms | console/page errors: 0
+--- Chrome, 4x CPU slowdown (phone proxy)
+import-to-ready (file read + parse + analyse x3 + first render): 13.7 s | status: Analysed.
+tabs over 300 ms: 11 of 17 | slowest 14306 ms | console/page errors: 0
+
+################ BEFORE paging | 15,000 items (5,000 FG + 10,000 RM)
+--- Node engine
+XLSX.read (parse file): 4208 ms
+analyse() x5 (ms): 2639, 2574, 2493, 2465, 2765 | median 2574
+run() = analyse x3 (main + 2 comparison): 7490 ms; FG 5000 RM 10000
+--- Chrome, no throttle
+import-to-ready (file read + parse + analyse x3 + first render): 8.2 s | status: Analysed.
+PAGE CRASHED/FAILED on tab: Reorder policy - page.evaluate: Target crashed 
+--- Chrome, 4x CPU slowdown (phone proxy)
+import-to-ready (file read + parse + analyse x3 + first render): 39.1 s | status: Analysed.
+tabs over 300 ms: 13 of 17 | slowest 44276 ms | console/page errors: 0
+
+################ AFTER paging | 5,000 items (1,667 FG + 3,333 RM)
+--- Node engine
+XLSX.read (parse file): 1590 ms
+analyse() x5 (ms): 1057, 881, 950, 828, 963 | median 950
+run() = analyse x3 (main + 2 comparison): 2572 ms; FG 1667 RM 3333
+--- Chrome, no throttle
+import-to-ready (file read + parse + analyse x3 + first render): 2.9 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 325 ms
+tabs over 300 ms: 0 of 17 | slowest 229 ms | console/page errors: 0
+--- Chrome, 4x CPU slowdown (phone proxy)
+import-to-ready (file read + parse + analyse x3 + first render): 12.6 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 1565 ms
+tabs over 300 ms: 10 of 17 | slowest 1014 ms | console/page errors: 0
+
+################ AFTER paging | 15,000 items (5,000 FG + 10,000 RM)
+--- Node engine
+XLSX.read (parse file): 4121 ms
+analyse() x5 (ms): 2838, 2531, 2568, 2587, 2787 | median 2587
+run() = analyse x3 (main + 2 comparison): 7574 ms; FG 5000 RM 10000
+--- Chrome, no throttle
+import-to-ready (file read + parse + analyse x3 + first render): 8.3 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 379 ms
+tabs over 300 ms: 3 of 17 | slowest 821 ms | console/page errors: 0
+--- Chrome, 4x CPU slowdown (phone proxy)
+import-to-ready (file read + parse + analyse x3 + first render): 37.4 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 1562 ms
+tabs over 300 ms: 10 of 17 | slowest 2987 ms | console/page errors: 0
+
+DONE

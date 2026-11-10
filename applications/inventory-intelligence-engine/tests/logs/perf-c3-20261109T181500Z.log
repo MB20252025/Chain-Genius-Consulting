@@ -1,0 +1,284 @@
+# Performance run 2026-11-09T17:39:30Z. Machine: 2 CPU, 8022 MB RAM, Node v22.23.4, Chromium via Playwright. Targets: analyse() < 2 s at 5,000 SKUs; tab switch < 300 ms.
+
+################ 150 items (Northstar)
+--- Node engine timing
+XLSX.read (parse file): 167 ms
+analyse() x5 (ms): 54, 28, 27, 29, 35 | median 29
+run() = analyse x3 (main + 2 comparison): 72 ms; FG 50 RM 100
+view Reorder policy                 56 ms
+view Materials                      37 ms
+view MRP                            30 ms
+view Forecast accuracy              21 ms
+view Demand forecast                18 ms
+view Finished goods                 16 ms
+view Policy comparison               9 ms
+view Suppliers                       7 ms
+view Production feasibility          6 ms
+view Excess & dead stock             3 ms
+view Overview                        3 ms
+view Data quality                    3 ms
+view Data confidence                 1 ms
+view Summary                         1 ms
+view Health                          1 ms
+view Client questions                1 ms
+view Settings                        0 ms
+--- Chrome DESKTOP (1280 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 0.3 s | status: Analysed.
+Materials                      28 ms script     84 ms to paint     2300 cells 
+MRP                            42 ms script     83 ms to paint     1400 cells 
+Reorder policy                 32 ms script     72 ms to paint     1950 cells 
+Finished goods                 19 ms script     56 ms to paint     1000 cells 
+Forecast accuracy              16 ms script     42 ms to paint      950 cells 
+Demand forecast                11 ms script     36 ms to paint      730 cells 
+Settings                        2 ms script     34 ms to paint        0 cells 
+Summary                         2 ms script     32 ms to paint       25 cells 
+Client questions                1 ms script     32 ms to paint       40 cells 
+Data confidence                 2 ms script     32 ms to paint       40 cells 
+Production feasibility         13 ms script     31 ms to paint      450 cells 
+Policy comparison              10 ms script     31 ms to paint      432 cells 
+Data quality                    3 ms script     29 ms to paint      111 cells 
+Health                          2 ms script     27 ms to paint      102 cells 
+Excess & dead stock             6 ms script     20 ms to paint      288 cells 
+Suppliers                       5 ms script     19 ms to paint      429 cells 
+Overview                        3 ms script      8 ms to paint      117 cells 
+tabs over 300 ms: 0 of 17 | slowest 84 ms | console/page errors: 0
+--- Chrome DESKTOP, Summary opened first (cold: nothing cached yet)
+MRP                            22 ms script     53 ms to paint     1400 cells 
+Summary                         8 ms script     36 ms to paint       25 cells 
+tabs over 300 ms: 0 of 17 | slowest 93 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 0.2 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 95 ms
+Materials                      16 ms script     47 ms to paint     1150 cells 
+Finished goods                 13 ms script     44 ms to paint     1000 cells 
+MRP                            19 ms script     39 ms to paint      700 cells 
+Forecast accuracy              17 ms script     39 ms to paint      950 cells 
+Demand forecast                11 ms script     37 ms to paint      730 cells 
+Excess & dead stock             4 ms script     32 ms to paint      288 cells 
+Summary                         2 ms script     32 ms to paint       25 cells 
+Data confidence                 2 ms script     32 ms to paint       40 cells 
+Policy comparison               7 ms script     32 ms to paint      432 cells 
+Settings                        1 ms script     32 ms to paint        0 cells 
+Reorder policy                 12 ms script     31 ms to paint      650 cells 
+Client questions                2 ms script     26 ms to paint       40 cells 
+Health                          3 ms script     25 ms to paint      102 cells 
+Suppliers                       6 ms script     24 ms to paint      429 cells 
+Production feasibility          8 ms script     23 ms to paint      450 cells 
+Data quality                    3 ms script     13 ms to paint      111 cells 
+Overview                        3 ms script     13 ms to paint      117 cells 
+tabs over 300 ms: 0 of 17 | slowest 47 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, 4x CPU slowdown = proxy only)
+import-to-ready (file read + parse + analyse x3 + first render): 1.2 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 563 ms
+Materials                      62 ms script    318 ms to paint     1150 cells  > 300 ms
+Demand forecast                78 ms script    199 ms to paint      730 cells 
+Forecast accuracy              74 ms script    188 ms to paint      950 cells 
+Finished goods                 51 ms script    183 ms to paint     1000 cells 
+MRP                            77 ms script    151 ms to paint      700 cells 
+Policy comparison              57 ms script    150 ms to paint      432 cells 
+Reorder policy                 61 ms script    122 ms to paint      650 cells 
+Suppliers                      32 ms script    121 ms to paint      429 cells 
+Production feasibility         28 ms script     90 ms to paint      450 cells 
+Settings                        6 ms script     68 ms to paint        0 cells 
+Data quality                   29 ms script     67 ms to paint      111 cells 
+Excess & dead stock            11 ms script     48 ms to paint      288 cells 
+Data confidence                12 ms script     38 ms to paint       40 cells 
+Overview                       14 ms script     36 ms to paint      117 cells 
+Summary                         9 ms script     35 ms to paint       25 cells 
+Client questions                9 ms script     32 ms to paint       40 cells 
+Health                         12 ms script     30 ms to paint      102 cells 
+tabs over 300 ms: 1 of 17 | slowest 318 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE, 4x, Summary opened first (cold)
+MRP                            49 ms script    123 ms to paint      700 cells 
+Summary                        77 ms script    105 ms to paint       25 cells 
+tabs over 300 ms: 0 of 17 | slowest 261 ms | console/page errors: 0
+
+################ 5,000 items (1,667 FG + 3,333 RM)
+--- Node engine timing
+XLSX.read (parse file): 1357 ms
+analyse() x5 (ms): 1145, 995, 1099, 909, 947 | median 995
+run() = analyse x3 (main + 2 comparison): 2669 ms; FG 1667 RM 3333
+view Forecast accuracy             313 ms
+view MRP                           268 ms
+view Production feasibility         92 ms
+view Reorder policy                 74 ms
+view Materials                      66 ms
+view Finished goods                 66 ms
+view Policy comparison              61 ms
+view Demand forecast                48 ms
+view Suppliers                      33 ms
+view Overview                       23 ms
+view Excess & dead stock            22 ms
+view Data confidence                10 ms
+view Client questions                7 ms
+view Data quality                    7 ms
+view Summary                         6 ms
+view Health                          5 ms
+view Settings                        0 ms
+--- Chrome DESKTOP (1280 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 3.1 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 398 ms
+Forecast accuracy             149 ms script    238 ms to paint     3800 cells 
+Finished goods                 74 ms script    222 ms to paint     4000 cells 
+MRP                           166 ms script    212 ms to paint     2800 cells 
+Reorder policy                 62 ms script    164 ms to paint     2600 cells 
+Materials                      56 ms script    155 ms to paint     4600 cells 
+Demand forecast                43 ms script    153 ms to paint     2830 cells 
+Suppliers                      39 ms script     91 ms to paint     2994 cells 
+Production feasibility         47 ms script     80 ms to paint     1800 cells 
+Policy comparison              44 ms script     80 ms to paint     2600 cells 
+Excess & dead stock            19 ms script     46 ms to paint     1800 cells 
+Settings                        1 ms script     33 ms to paint        0 cells 
+Data confidence                 9 ms script     32 ms to paint       40 cells 
+Summary                         6 ms script     31 ms to paint       25 cells 
+Client questions                4 ms script     31 ms to paint       40 cells 
+Data quality                    7 ms script     29 ms to paint      129 cells 
+Health                          6 ms script     28 ms to paint      102 cells 
+Overview                        6 ms script     11 ms to paint      117 cells 
+tabs over 300 ms: 0 of 17 | slowest 238 ms | console/page errors: 0
+--- Chrome DESKTOP, Summary opened first (cold: nothing cached yet)
+Summary                       173 ms script    178 ms to paint       25 cells 
+MRP                            55 ms script    105 ms to paint     2800 cells 
+tabs over 300 ms: 1 of 17 | slowest 335 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 2.9 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 91 ms
+Forecast accuracy             193 ms script    234 ms to paint      950 cells 
+MRP                           152 ms script    169 ms to paint      700 cells 
+Finished goods                 21 ms script     71 ms to paint     1000 cells 
+Demand forecast                20 ms script     71 ms to paint      730 cells 
+Policy comparison              27 ms script     63 ms to paint      650 cells 
+Reorder policy                 27 ms script     59 ms to paint      650 cells 
+Production feasibility         41 ms script     52 ms to paint      450 cells 
+Materials                      18 ms script     46 ms to paint     1150 cells 
+Excess & dead stock             7 ms script     37 ms to paint      450 cells 
+Suppliers                      10 ms script     36 ms to paint     1094 cells 
+Data quality                    9 ms script     33 ms to paint      129 cells 
+Client questions                4 ms script     32 ms to paint       40 cells 
+Settings                        1 ms script     32 ms to paint        0 cells 
+Data confidence                14 ms script     32 ms to paint       40 cells 
+Summary                         8 ms script     32 ms to paint       25 cells 
+Health                          9 ms script     31 ms to paint      102 cells 
+Overview                        7 ms script     27 ms to paint      117 cells 
+tabs over 300 ms: 0 of 17 | slowest 234 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, 4x CPU slowdown = proxy only)
+import-to-ready (file read + parse + analyse x3 + first render): 13.4 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 367 ms
+Forecast accuracy             674 ms script    832 ms to paint      950 cells  > 300 ms
+MRP                           688 ms script    763 ms to paint      700 cells  > 300 ms
+Demand forecast               110 ms script    344 ms to paint      730 cells  > 300 ms
+Production feasibility        189 ms script    275 ms to paint      450 cells 
+Policy comparison             146 ms script    253 ms to paint      650 cells 
+Reorder policy                126 ms script    251 ms to paint      650 cells 
+Finished goods                 77 ms script    215 ms to paint     1000 cells 
+Materials                      75 ms script    208 ms to paint     1150 cells 
+Excess & dead stock            68 ms script    185 ms to paint      450 cells 
+Suppliers                      49 ms script    163 ms to paint     1094 cells 
+Overview                       70 ms script    121 ms to paint      117 cells 
+Health                         67 ms script     89 ms to paint      102 cells 
+Data confidence                40 ms script     57 ms to paint       40 cells 
+Settings                        2 ms script     52 ms to paint        0 cells 
+Data quality                   24 ms script     47 ms to paint      129 cells 
+Summary                        24 ms script     39 ms to paint       25 cells 
+Client questions               22 ms script     37 ms to paint       40 cells 
+tabs over 300 ms: 3 of 17 | slowest 832 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE, 4x, Summary opened first (cold)
+Summary                       920 ms script    940 ms to paint       25 cells  > 300 ms
+MRP                            60 ms script    156 ms to paint      700 cells 
+tabs over 300 ms: 3 of 17 | slowest 940 ms | console/page errors: 0
+
+################ 15,000 items (5,000 FG + 10,000 RM)
+--- Node engine timing
+XLSX.read (parse file): 4443 ms
+analyse() x5 (ms): 2912, 2928, 2583, 2695, 3031 | median 2912
+run() = analyse x3 (main + 2 comparison): 8167 ms; FG 5000 RM 10000
+view MRP                           613 ms
+view Forecast accuracy             507 ms
+view Production feasibility        177 ms
+view Policy comparison              75 ms
+view Materials                      69 ms
+view Demand forecast                57 ms
+view Finished goods                 56 ms
+view Reorder policy                 55 ms
+view Overview                       48 ms
+view Suppliers                      30 ms
+view Excess & dead stock            29 ms
+view Data confidence                26 ms
+view Summary                        14 ms
+view Health                         12 ms
+view Client questions               10 ms
+view Data quality                    8 ms
+view Settings                        0 ms
+--- Chrome DESKTOP (1280 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 9.1 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 431 ms
+MRP                           444 ms script    492 ms to paint     2800 cells  > 300 ms
+Forecast accuracy             339 ms script    408 ms to paint     3800 cells  > 300 ms
+Finished goods                 57 ms script    241 ms to paint     4000 cells 
+Demand forecast                72 ms script    224 ms to paint     2830 cells 
+Materials                      78 ms script    191 ms to paint     4600 cells 
+Production feasibility        116 ms script    148 ms to paint     1800 cells 
+Reorder policy                 46 ms script     92 ms to paint     2600 cells 
+Policy comparison              53 ms script     88 ms to paint     2600 cells 
+Suppliers                      29 ms script     77 ms to paint     2994 cells 
+Excess & dead stock            23 ms script     66 ms to paint     1800 cells 
+Data confidence                18 ms script     34 ms to paint       40 cells 
+Settings                        2 ms script     30 ms to paint        0 cells 
+Summary                        12 ms script     30 ms to paint       25 cells 
+Data quality                   19 ms script     28 ms to paint      117 cells 
+Health                         17 ms script     22 ms to paint      102 cells 
+Overview                       16 ms script     21 ms to paint      117 cells 
+Client questions                9 ms script     18 ms to paint       40 cells 
+tabs over 300 ms: 2 of 17 | slowest 492 ms | console/page errors: 0
+--- Chrome DESKTOP, Summary opened first (cold: nothing cached yet)
+Summary                       530 ms script    535 ms to paint       25 cells  > 300 ms
+MRP                            62 ms script    130 ms to paint     2800 cells 
+tabs over 300 ms: 2 of 17 | slowest 535 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, no throttle)
+import-to-ready (file read + parse + analyse x3 + first render): 9.1 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 89 ms
+MRP                           612 ms script    629 ms to paint      700 cells  > 300 ms
+Forecast accuracy             368 ms script    394 ms to paint      950 cells  > 300 ms
+Demand forecast                47 ms script    191 ms to paint      730 cells 
+Production feasibility        117 ms script    128 ms to paint      450 cells 
+Materials                      26 ms script     62 ms to paint     1150 cells 
+Policy comparison              41 ms script     62 ms to paint      650 cells 
+Finished goods                 17 ms script     51 ms to paint     1000 cells 
+Suppliers                      13 ms script     38 ms to paint     1094 cells 
+Reorder policy                 16 ms script     35 ms to paint      650 cells 
+Settings                        1 ms script     32 ms to paint        0 cells 
+Summary                        13 ms script     32 ms to paint       25 cells 
+Data confidence                18 ms script     32 ms to paint       40 cells 
+Client questions                7 ms script     32 ms to paint       40 cells 
+Data quality                   10 ms script     27 ms to paint      117 cells 
+Excess & dead stock            11 ms script     25 ms to paint      450 cells 
+Health                         13 ms script     20 ms to paint      102 cells 
+Overview                       13 ms script     19 ms to paint      117 cells 
+tabs over 300 ms: 2 of 17 | slowest 629 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE (412 px, 4x CPU slowdown = proxy only)
+import-to-ready (file read + parse + analyse x3 + first render): 38.9 s | status: Analysed.
+Materials tab: "Show more" click to repaint: 420 ms
+MRP                          1888 ms script   1961 ms to paint      700 cells  > 300 ms
+Forecast accuracy            1328 ms script   1425 ms to paint      950 cells  > 300 ms
+Demand forecast               185 ms script    678 ms to paint      730 cells  > 300 ms
+Production feasibility        510 ms script    561 ms to paint      450 cells  > 300 ms
+Overview                      477 ms script    526 ms to paint      117 cells  > 300 ms
+Materials                      91 ms script    222 ms to paint     1150 cells 
+Finished goods                 66 ms script    221 ms to paint     1000 cells 
+Policy comparison             147 ms script    206 ms to paint      650 cells 
+Reorder policy                 63 ms script    186 ms to paint      650 cells 
+Suppliers                      65 ms script    180 ms to paint     1094 cells 
+Data confidence               121 ms script    148 ms to paint       40 cells 
+Excess & dead stock            46 ms script    117 ms to paint      450 cells 
+Health                         67 ms script    106 ms to paint      102 cells 
+Summary                        56 ms script     74 ms to paint       25 cells 
+Data quality                   41 ms script     68 ms to paint      117 cells 
+Settings                        4 ms script     62 ms to paint        0 cells 
+Client questions               31 ms script     48 ms to paint       40 cells 
+tabs over 300 ms: 5 of 17 | slowest 1961 ms | console/page errors: 0
+--- Chrome SIMULATED PHONE, 4x, Summary opened first (cold)
+Summary                      2832 ms script   2873 ms to paint       25 cells  > 300 ms
+MRP                            77 ms script    148 ms to paint      700 cells 
+tabs over 300 ms: 3 of 17 | slowest 2873 ms | console/page errors: 0
+
+DONE

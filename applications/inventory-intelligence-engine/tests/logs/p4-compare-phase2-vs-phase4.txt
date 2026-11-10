@@ -1,0 +1,118 @@
+DIFF  Northstar
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-allfuture.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Client questions, Summary, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-nohist.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Client questions, Summary, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-nopo.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Client questions, Summary, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-s0.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-three.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  suppliers/scenario-unknown.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-combined.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-dupexact.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-dupkey.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-multiline.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-overrec.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-overshort.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-partial.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-posupconflict.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  edge/scenario-splitline.xlsx
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  structure/scenario-willow.xlsx
+  result "sup" differs
+  result "dq" differs: removed "Medium | Missing values in Notes"; added "Medium | Column Notes contains no values (every cell in the column is "
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Data quality, Reorder policy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_DataQuality, ENG_Confidence
+DIFF  Northstar, every unit written as "Each"
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  Northstar, every unit written as "EA"
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  Northstar, every unit written as " each "
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  Northstar, every unit written as " kg"
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  Northstar, every unit written as "pack"
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+DIFF  Northstar, "each" materials written as "EA" (others unchanged)
+  result "sup" differs
+  confidence areas differ: (wording only)
+  tabs that render differently: Overview, Finished goods, Suppliers, Reorder policy, Forecast accuracy, Settings, Data confidence
+  export sheets that differ: ENG_Suppliers, ENG_Confidence, ENG_ForecastCredibility
+
+23 of 23 workbooks differ

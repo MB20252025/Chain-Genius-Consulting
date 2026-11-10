@@ -1,0 +1,25 @@
+same  Northstar
+same  suppliers/scenario-allfuture.xlsx
+same  suppliers/scenario-nohist.xlsx
+same  suppliers/scenario-nopo.xlsx
+same  suppliers/scenario-s0.xlsx
+same  suppliers/scenario-three.xlsx
+same  suppliers/scenario-unknown.xlsx
+same  edge/scenario-combined.xlsx
+same  edge/scenario-dupexact.xlsx
+same  edge/scenario-dupkey.xlsx
+same  edge/scenario-multiline.xlsx
+same  edge/scenario-overrec.xlsx
+same  edge/scenario-overshort.xlsx
+same  edge/scenario-partial.xlsx
+same  edge/scenario-posupconflict.xlsx
+same  edge/scenario-splitline.xlsx
+same  structure/scenario-willow.xlsx
+same  Northstar, every unit written as "Each"
+same  Northstar, every unit written as "EA"
+same  Northstar, every unit written as " each "
+same  Northstar, every unit written as " kg"
+same  Northstar, every unit written as "pack"
+same  Northstar, "each" materials written as "EA" (others unchanged)
+
+0 of 23 workbooks differ

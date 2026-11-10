@@ -1,0 +1,5 @@
+# command: node regress.js /home/claude/app_v05 logs/golden-regenerated-from-v05-code-20261109T100758Z.json
+# started: 2026-11-09T10:08:46Z
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+# exit code: 0
+# finished: 2026-11-09T10:08:47Z
