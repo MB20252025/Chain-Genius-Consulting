@@ -1,0 +1,36 @@
+PASS: generated 1,500-item workbook
+PASS: A1 wide (1280 px): Materials draws 200 rows (200)
+PASS: A2 resized to exactly 600 px: 50 rows (50)
+PASS: A3 one redraw for the crossing (1)
+PASS: A4 resized to 601 px: back to 200 rows (200)
+PASS: B1 resizing inside the wide band (601 -> 900 -> 1100 px) causes no redraw (0)
+PASS: B2 resizing inside the narrow band (500 -> 380 -> 320 px) causes no redraw
+PASS: C1 no redraw while the burst is still in progress (0)
+PASS: C2 exactly one redraw after the burst, at the final width (560 px): 50 rows (1 redraw, 50 rows)
+PASS: C3 a resize event that does not change the page size does not redraw
+PASS: D1 Show all -> 1,000 rows
+PASS: D2 narrow: Show all kept (1,000 rows)
+PASS: D3 wide again: Show all kept (1,000 rows)
+PASS: D4 no pager while everything is shown
+PASS: E1 Finished goods at 480 px: 50 rows (50)
+PASS: E2 Show more -> 100 rows
+PASS: E3 scrolled down (1500 px)
+PASS: E4 scroll position kept across the redraw (1500 -> 1500 px)
+PASS: E5 wide: at least a full page of 200 rows (200)
+PASS: E6 scroll position kept going back to narrow (1200 -> 1200 px)
+PASS: F1 Demand forecast has a SKU selector (500 SKUs)
+PASS: F2 selected SKU FG0003
+PASS: F3 still on the Demand forecast tab after the crossing
+PASS: F4 SKU selector keeps FG0003 after narrow (FG0003)
+PASS: F5 SKU selector keeps FG0003 after wide again
+PASS: F6 tab unchanged (207 table rows)
+PASS: G1 Settings tab: no redraw on the crossing (0)
+PASS: G2 an edited but unapplied Settings value (1.9) is kept
+PASS: G3 ...and kept after widening
+PASS: G4 Overview (no table over 50 rows): no redraw
+PASS: H1 engine still holds all 500 finished goods and 1,000 materials
+PASS: H2 no sideways page scroll at 480 px
+PASS: I1 switching to Reorder policy (not yet touched) at 480 px draws 50 rows (50)
+PASS: I2 ...and 200 after widening (200)
+PASS: no console errors ()
+test-responsive-chrome: 35 passed, 0 failed

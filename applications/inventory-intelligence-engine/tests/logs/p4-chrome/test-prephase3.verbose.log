@@ -1,0 +1,42 @@
+PASS: B.1a exactly one views['Forecast accuracy'] assignment (app.js line 116)
+PASS: B.1b no object-literal or second definition of Forecast accuracy
+PASS: B.1c no view name is assigned twice (14 views assigned, 14 distinct)
+PASS: B.2a Math.min(100,fill) remains in the supplier score (calculations.js line 122)
+PASS: B.2b per-line cap Math.min(Received_Qty,Ordered_Qty) is still in the fill sum (Phase 3B: summed over the lines with valid quantities, aq)
+PASS: B.2c supplier score weights unchanged: 50% on-time, 20% stability, 15% fill, 15% lateness (Phase 3B: calculated only when date and quantity evidence both exist, otherwise null)
+PASS: B.4a 200 rows above 600 px, 50 rows at or below 600 px (max-width:600px matches at 600) (app.js line 11)
+PASS: B.4b the CSS narrow-screen rules use the same 600 px line
+PASS: B.4c resize handler is debounced at 150 ms (app.js line 90)
+PASS: B.4d it does nothing when the page size is unchanged or no table is longer than 50 rows
+PASS: B.4e it redraws the current tab (show()) and restores the scroll position remembered from before the resize
+PASS: B.4f view state (SKU selector fsku, policy filter pf, production toggle prAll, Show all shown{}) lives in top-level variables outside the drawn HTML (lines 67, 97, 11)
+PASS: B.4g (information) there is no separate orientationchange listener: a rotation changes the viewport, which fires resize, and that is what the handler uses
+PASS: generated 1,500-item workbook
+PASS: 412x915 portrait<->landscape: portrait draws 50 rows (50)
+PASS: 412x915 portrait<->landscape: rotated: viewport is 915 px wide
+PASS: 412x915 portrait<->landscape: rotation fired a resize event (1; orientationchange events: 1)
+PASS: 412x915 portrait<->landscape: landscape (915 px, above 600) draws 200 rows (200)
+PASS: 412x915 portrait<->landscape: one redraw for the rotation (1)
+PASS: 412x915 portrait<->landscape: scroll position kept (900 -> 900 px)
+PASS: 412x915 portrait<->landscape: back to portrait: 50 rows (50)
+PASS: 412x915 portrait<->landscape: Show all -> 1,000 rows
+PASS: 412x915 portrait<->landscape: Show all kept in landscape
+PASS: 412x915 portrait<->landscape: Show all kept in portrait again
+PASS: 412x915 portrait<->landscape: Demand forecast has a SKU selector (500 SKUs)
+PASS: 412x915 portrait<->landscape: SKU FG0003 and the tab kept after rotating to landscape
+PASS: 412x915 portrait<->landscape: SKU kept after rotating back
+PASS: 360x800 portrait<->landscape: portrait draws 50 rows (50)
+PASS: 360x800 portrait<->landscape: rotated: viewport is 800 px wide
+PASS: 360x800 portrait<->landscape: rotation fired a resize event (1; orientationchange events: 1)
+PASS: 360x800 portrait<->landscape: landscape (800 px, above 600) draws 200 rows (200)
+PASS: 360x800 portrait<->landscape: one redraw for the rotation (1)
+PASS: 360x800 portrait<->landscape: scroll position kept (900 -> 900 px)
+PASS: 360x800 portrait<->landscape: back to portrait: 50 rows (50)
+PASS: 360x800 portrait<->landscape: Show all -> 1,000 rows
+PASS: 360x800 portrait<->landscape: Show all kept in landscape
+PASS: 360x800 portrait<->landscape: Show all kept in portrait again
+PASS: 360x800 portrait<->landscape: Demand forecast has a SKU selector (500 SKUs)
+PASS: 360x800 portrait<->landscape: SKU FG0003 and the tab kept after rotating to landscape
+PASS: 360x800 portrait<->landscape: SKU kept after rotating back
+PASS: no console errors ()
+test-prephase3: 41 passed, 0 failed

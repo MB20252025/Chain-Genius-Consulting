@@ -1,0 +1,60 @@
+PASS: generated 1,500-item workbook
+PASS: phone 412 px: Materials draws 50 of 1,000 rows (50)
+PASS: phone 412 px: note says 50 of 1000, all used and exported
+PASS: phone 412 px: button reads "Show 50 more"
+PASS: phone 412 px: Show more button is a usable target (118 x 40 px)
+PASS: phone 412 px: Show more -> 100 rows (100)
+PASS: phone 412 px: scroll position kept after Show more (17902 -> 17902 px)
+PASS: phone 412 px: Show all -> 1,000 rows
+PASS: phone 412 px: pager gone when all rows are shown
+PASS: phone 412 px: no sideways page scroll
+PASS: phone 412 px: engine holds all 500 finished goods and 1,000 materials
+PASS: phone 412 px: no console errors ()
+PASS: phone 360 px: Materials draws 50 of 1,000 rows (50)
+PASS: phone 360 px: note says 50 of 1000, all used and exported
+PASS: phone 360 px: button reads "Show 50 more"
+PASS: phone 360 px: Show more button is a usable target (118 x 40 px)
+PASS: phone 360 px: Show more -> 100 rows (100)
+PASS: phone 360 px: scroll position kept after Show more (18154 -> 18154 px)
+PASS: phone 360 px: Show all -> 1,000 rows
+PASS: phone 360 px: pager gone when all rows are shown
+PASS: phone 360 px: no sideways page scroll
+PASS: phone 360 px: engine holds all 500 finished goods and 1,000 materials
+PASS: phone 360 px: no console errors ()
+PASS: phone 600 px (edge of the narrow rule): Materials draws 50 of 1,000 rows (50)
+PASS: phone 600 px (edge of the narrow rule): note says 50 of 1000, all used and exported
+PASS: phone 600 px (edge of the narrow rule): button reads "Show 50 more"
+PASS: phone 600 px (edge of the narrow rule): Show more button is a usable target (118 x 40 px)
+PASS: phone 600 px (edge of the narrow rule): Show more -> 100 rows (100)
+PASS: phone 600 px (edge of the narrow rule): scroll position kept after Show more (17861 -> 17861 px)
+PASS: phone 600 px (edge of the narrow rule): Show all -> 1,000 rows
+PASS: phone 600 px (edge of the narrow rule): pager gone when all rows are shown
+PASS: phone 600 px (edge of the narrow rule): no sideways page scroll
+PASS: phone 600 px (edge of the narrow rule): engine holds all 500 finished goods and 1,000 materials
+PASS: phone 600 px (edge of the narrow rule): no console errors ()
+PASS: tablet 601 px (just above the rule): Materials draws 200 of 1,000 rows (200)
+PASS: tablet 601 px (just above the rule): note says 200 of 1000, all used and exported
+PASS: tablet 601 px (just above the rule): button reads "Show 200 more"
+PASS: tablet 601 px (just above the rule): Show more button is a usable target (126 x 40 px)
+PASS: tablet 601 px (just above the rule): Show more -> 400 rows (400)
+PASS: tablet 601 px (just above the rule): scroll position kept after Show more (74672 -> 74672 px)
+PASS: tablet 601 px (just above the rule): Show all -> 1,000 rows
+PASS: tablet 601 px (just above the rule): pager gone when all rows are shown
+PASS: tablet 601 px (just above the rule): no sideways page scroll
+PASS: tablet 601 px (just above the rule): engine holds all 500 finished goods and 1,000 materials
+PASS: tablet 601 px (just above the rule): no console errors ()
+PASS: desktop 1280 px: Materials draws 200 of 1,000 rows (200)
+PASS: desktop 1280 px: note says 200 of 1000, all used and exported
+PASS: desktop 1280 px: button reads "Show 200 more"
+PASS: desktop 1280 px: Show more button is a usable target (126 x 40 px)
+PASS: desktop 1280 px: Show more -> 400 rows (400)
+PASS: desktop 1280 px: scroll position kept after Show more (74702 -> 74702 px)
+PASS: desktop 1280 px: Show all -> 1,000 rows
+PASS: desktop 1280 px: pager gone when all rows are shown
+PASS: desktop 1280 px: no sideways page scroll
+PASS: desktop 1280 px: engine holds all 500 finished goods and 1,000 materials
+PASS: desktop 1280 px: no console errors ()
+PASS: phone, Northstar Materials (100 rows): first 50 drawn (50)
+PASS: phone, Northstar Materials: note says 50 of 100
+PASS: phone, Northstar Materials: Show all gives all 100
+test-paging-chrome: 59 passed, 0 failed

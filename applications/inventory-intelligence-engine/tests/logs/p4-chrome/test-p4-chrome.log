@@ -1,0 +1,11 @@
+FAIL: [Northstar @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [Northstar @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [Northstar @ 360x800] no horizontal PAGE overflow on any tab: Summary (372>360)
+FAIL: [Northstar @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [nohist fixture @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [nohist fixture @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [nohist fixture @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [Northstar, one SUP008 received quantity blank @ desktop 1280x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [Northstar, one SUP008 received quantity blank @ 412x915] unapplied Settings value (1.9) after Overview and back: "1.65"
+FAIL: [Northstar, one SUP008 received quantity blank @ 360x800] unapplied Settings value (1.9) after Overview and back: "1.65"
+test-p4-chrome: 71 passed, 10 failed

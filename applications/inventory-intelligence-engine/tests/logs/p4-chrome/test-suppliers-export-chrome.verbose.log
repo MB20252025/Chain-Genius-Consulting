@@ -1,0 +1,73 @@
+PASS: desktop 1280 / Northstar: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: desktop 1280 / Northstar: every one of the 15 rows shows the engine values for units and lines
+PASS: desktop 1280 / Northstar: both headers have a real width (132 and 131 px)
+PASS: desktop 1280 / Northstar: the page does not scroll sideways
+PASS: desktop 1280 / Northstar: after scrolling the table sideways, "Over-delivered lines" is fully on screen (887-1018 of 1280 px)
+PASS: desktop 1280 / Northstar: export leaves the uploaded workbook's sheets unchanged in the page (11 sheets)
+PASS: desktop 1280 / Northstar: downloaded file has the original sheets first, then 10 ENG_ sheets
+PASS: desktop 1280 / Northstar: downloaded ENG_Suppliers equals the engine for every supplier (units, lines, score)
+PASS: desktop 1280 / Northstar: ENG_FG and ENG_RM hold every record (50 and 100)
+PASS: desktop 1280 / Northstar: a second download is identical to the first (names and every cell)
+PASS: desktop 1280 / Northstar: after Recalculate a third download is still identical
+PASS: desktop 1280 / Northstar: no duplicate sheet names
+PASS: desktop 1280 / Northstar: no console errors ()
+PASS: desktop 1280 / over/short scenario: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: desktop 1280 / over/short scenario: every one of the 15 rows shows the engine values for units and lines
+PASS: desktop 1280 / over/short scenario: both headers have a real width (132 and 131 px)
+PASS: desktop 1280 / over/short scenario: the page does not scroll sideways
+PASS: desktop 1280 / over/short scenario: after scrolling the table sideways, "Over-delivered lines" is fully on screen (887-1018 of 1280 px)
+PASS: desktop 1280 / over/short scenario: export leaves the uploaded workbook's sheets unchanged in the page (11 sheets)
+PASS: desktop 1280 / over/short scenario: downloaded file has the original sheets first, then 10 ENG_ sheets
+PASS: desktop 1280 / over/short scenario: downloaded ENG_Suppliers equals the engine for every supplier (units, lines, score)
+PASS: desktop 1280 / over/short scenario: ENG_FG and ENG_RM hold every record (50 and 100)
+PASS: desktop 1280 / over/short scenario: a second download is identical to the first (names and every cell)
+PASS: desktop 1280 / over/short scenario: after Recalculate a third download is still identical
+PASS: desktop 1280 / over/short scenario: no duplicate sheet names
+PASS: desktop 1280 / over/short scenario: no console errors ()
+PASS: phone 412 / Northstar: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: phone 412 / Northstar: every one of the 15 rows shows the engine values for units and lines
+PASS: phone 412 / Northstar: both headers have a real width (132 and 131 px)
+PASS: phone 412 / Northstar: the page does not scroll sideways
+PASS: phone 412 / Northstar: the table sits in its own horizontal scroller (overflow-x auto)
+PASS: phone 412 / Northstar: table is wider than the screen (1778 > 382 px), so it scrolls inside its box
+PASS: phone 412 / Northstar: after scrolling the table sideways, "Over-delivered lines" is fully on screen (115-246 of 412 px)
+PASS: phone 412 / Northstar: export leaves the uploaded workbook's sheets unchanged in the page (11 sheets)
+PASS: phone 412 / Northstar: downloaded file has the original sheets first, then 10 ENG_ sheets
+PASS: phone 412 / Northstar: downloaded ENG_Suppliers equals the engine for every supplier (units, lines, score)
+PASS: phone 412 / Northstar: ENG_FG and ENG_RM hold every record (50 and 100)
+PASS: phone 412 / Northstar: a second download is identical to the first (names and every cell)
+PASS: phone 412 / Northstar: after Recalculate a third download is still identical
+PASS: phone 412 / Northstar: no duplicate sheet names
+PASS: phone 412 / Northstar: no console errors ()
+PASS: phone 412 / over/short scenario: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: phone 412 / over/short scenario: every one of the 15 rows shows the engine values for units and lines
+PASS: phone 412 / over/short scenario: both headers have a real width (132 and 131 px)
+PASS: phone 412 / over/short scenario: the page does not scroll sideways
+PASS: phone 412 / over/short scenario: the table sits in its own horizontal scroller (overflow-x auto)
+PASS: phone 412 / over/short scenario: table is wider than the screen (1778 > 382 px), so it scrolls inside its box
+PASS: phone 412 / over/short scenario: after scrolling the table sideways, "Over-delivered lines" is fully on screen (115-246 of 412 px)
+PASS: phone 412 / over/short scenario: export leaves the uploaded workbook's sheets unchanged in the page (11 sheets)
+PASS: phone 412 / over/short scenario: downloaded file has the original sheets first, then 10 ENG_ sheets
+PASS: phone 412 / over/short scenario: downloaded ENG_Suppliers equals the engine for every supplier (units, lines, score)
+PASS: phone 412 / over/short scenario: ENG_FG and ENG_RM hold every record (50 and 100)
+PASS: phone 412 / over/short scenario: a second download is identical to the first (names and every cell)
+PASS: phone 412 / over/short scenario: after Recalculate a third download is still identical
+PASS: phone 412 / over/short scenario: no duplicate sheet names
+PASS: phone 412 / over/short scenario: no console errors ()
+PASS: phone 360 / Northstar: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: phone 360 / Northstar: every one of the 15 rows shows the engine values for units and lines
+PASS: phone 360 / Northstar: both headers have a real width (132 and 131 px)
+PASS: phone 360 / Northstar: the page does not scroll sideways
+PASS: phone 360 / Northstar: the table sits in its own horizontal scroller (overflow-x auto)
+PASS: phone 360 / Northstar: table is wider than the screen (1778 > 330 px), so it scrolls inside its box
+PASS: phone 360 / Northstar: after scrolling the table sideways, "Over-delivered lines" is fully on screen (63-194 of 360 px)
+PASS: phone 360 / Northstar: no console errors ()
+PASS: phone 360 / over/short scenario: columns sit straight after Fill % (positions 16, 17, 18)
+PASS: phone 360 / over/short scenario: every one of the 15 rows shows the engine values for units and lines
+PASS: phone 360 / over/short scenario: both headers have a real width (132 and 131 px)
+PASS: phone 360 / over/short scenario: the page does not scroll sideways
+PASS: phone 360 / over/short scenario: the table sits in its own horizontal scroller (overflow-x auto)
+PASS: phone 360 / over/short scenario: table is wider than the screen (1778 > 330 px), so it scrolls inside its box
+PASS: phone 360 / over/short scenario: after scrolling the table sideways, "Over-delivered lines" is fully on screen (63-194 of 360 px)
+PASS: phone 360 / over/short scenario: no console errors ()
+test-suppliers-export-chrome: 72 passed, 0 failed
