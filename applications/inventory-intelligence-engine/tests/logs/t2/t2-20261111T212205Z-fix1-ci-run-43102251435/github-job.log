@@ -1,0 +1,293 @@
+﻿2026-11-11T21:20:59.2994951Z Current runner version: '2.338.2'
+2026-11-11T21:20:59.3031769Z ##[group]Runner Image Provisioner
+2026-11-11T21:20:59.3033253Z Hosted Compute Agent
+2026-11-11T21:20:59.3034650Z Version: 20261028.624
+2026-11-11T21:20:59.3035700Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+2026-11-11T21:20:59.3036845Z Build Date: 2026-10-28T21:51:42Z
+2026-11-11T21:20:59.3038079Z Worker ID: {4868135b-a45b-41d4-8af8-f797790c972d}
+2026-11-11T21:20:59.3039306Z Region: centralus
+2026-11-11T21:20:59.3040261Z Cloud: Azure
+2026-11-11T21:20:59.3041175Z ##[endgroup]
+2026-11-11T21:20:59.3043746Z ##[group]Operating System
+2026-11-11T21:20:59.3044936Z Ubuntu
+2026-11-11T21:20:59.3045832Z 24.04.5
+2026-11-11T21:20:59.3046713Z LTS
+2026-11-11T21:20:59.3047570Z ##[endgroup]
+2026-11-11T21:20:59.3048499Z ##[group]Runner Image
+2026-11-11T21:20:59.3050281Z Image: ubuntu-24.04
+2026-11-11T21:20:59.3051400Z Version: 20261101.360.1
+2026-11-11T21:20:59.3054165Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-11T21:20:59.3057048Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+2026-11-11T21:20:59.3058889Z ##[endgroup]
+2026-11-11T21:20:59.3060819Z ##[group]GITHUB_TOKEN Permissions
+2026-11-11T21:20:59.3064461Z Contents: read
+2026-11-11T21:20:59.3065518Z Metadata: read
+2026-11-11T21:20:59.3066509Z ##[endgroup]
+2026-11-11T21:20:59.3069662Z Secret source: Actions
+2026-11-11T21:20:59.3071345Z Cache mode: write
+2026-11-11T21:20:59.3073062Z Prepare workflow directory
+2026-11-11T21:20:59.3571418Z Prepare all required actions
+2026-11-11T21:20:59.3644017Z Getting action download info
+2026-11-11T21:20:59.6522118Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-11T21:20:59.7871772Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-11T21:20:59.8777304Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-11T21:21:00.0919703Z Complete job name: Guard first, then fast tier
+2026-11-11T21:21:00.1829062Z ##[group]Run actions/checkout@v4
+2026-11-11T21:21:00.1830232Z with:
+2026-11-11T21:21:00.1830685Z   fetch-depth: 1
+2026-11-11T21:21:00.1831545Z   repository: MB20252025/Chain-Genius-Consulting
+2026-11-11T21:21:00.1836235Z   token: ***
+2026-11-11T21:21:00.1836717Z   ssh-strict: true
+2026-11-11T21:21:00.1837163Z   ssh-user: git
+2026-11-11T21:21:00.1837623Z   persist-credentials: true
+2026-11-11T21:21:00.1838125Z   clean: true
+2026-11-11T21:21:00.1838571Z   sparse-checkout-cone-mode: true
+2026-11-11T21:21:00.1839102Z   fetch-tags: false
+2026-11-11T21:21:00.1839546Z   show-progress: true
+2026-11-11T21:21:00.1839995Z   lfs: false
+2026-11-11T21:21:00.1840412Z   submodules: false
+2026-11-11T21:21:00.1840875Z   set-safe-directory: true
+2026-11-11T21:21:00.1841394Z   allow-unsafe-pr-checkout: false
+2026-11-11T21:21:00.1842257Z env:
+2026-11-11T21:21:00.1842766Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:00.1843632Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:00.1844162Z ##[endgroup]
+2026-11-11T21:21:00.4822243Z Syncing repository: MB20252025/Chain-Genius-Consulting
+2026-11-11T21:21:00.4824695Z ##[group]Getting Git version info
+2026-11-11T21:21:00.4825928Z Working directory is '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+2026-11-11T21:21:00.4827241Z [command]/usr/bin/git version
+2026-11-11T21:21:00.4927986Z git version 2.56.0
+2026-11-11T21:21:00.4957985Z ##[endgroup]
+2026-11-11T21:21:00.4978260Z Temporarily overriding HOME='/home/runner/work/_temp/018105fc-15c8-43d5-bd9d-43cb0cfe5a17' before making global git config changes
+2026-11-11T21:21:00.4981029Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-11T21:21:00.4986927Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+2026-11-11T21:21:00.5063975Z Deleting the contents of '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+2026-11-11T21:21:00.5068446Z ##[group]Initializing the repository
+2026-11-11T21:21:00.5076918Z [command]/usr/bin/git init /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+2026-11-11T21:21:00.5195067Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-11T21:21:00.5197580Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-11T21:21:00.5199268Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-11T21:21:00.5200472Z hint: call:
+2026-11-11T21:21:00.5201093Z hint:
+2026-11-11T21:21:00.5201909Z hint: 	git config --global init.defaultBranch <name>
+2026-11-11T21:21:00.5202972Z hint:
+2026-11-11T21:21:00.5204186Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-11T21:21:00.5205703Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-11T21:21:00.5206911Z hint:
+2026-11-11T21:21:00.5207688Z hint: 	git branch -m <name>
+2026-11-11T21:21:00.5208493Z hint:
+2026-11-11T21:21:00.5209512Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-11T21:21:00.5212813Z Initialized empty Git repository in /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/.git/
+2026-11-11T21:21:00.5220461Z [command]/usr/bin/git remote add origin https://github.com/MB20252025/Chain-Genius-Consulting
+2026-11-11T21:21:00.5276999Z ##[endgroup]
+2026-11-11T21:21:00.5278205Z ##[group]Disabling automatic garbage collection
+2026-11-11T21:21:00.5280468Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-11T21:21:00.5324583Z ##[endgroup]
+2026-11-11T21:21:00.5326409Z ##[group]Setting up auth
+2026-11-11T21:21:00.5331612Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-11T21:21:00.5372835Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-11T21:21:00.5822461Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-11T21:21:00.5870134Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-11T21:21:00.6123133Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-11T21:21:00.6172413Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-11T21:21:00.6424974Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-11T21:21:00.6476020Z ##[endgroup]
+2026-11-11T21:21:00.6477346Z ##[group]Fetching the repository
+2026-11-11T21:21:00.6489803Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f3ea28adde2176149a0a84fee9527661e748cbf9:refs/remotes/origin/development/v0.7
+2026-11-11T21:21:01.5888313Z From https://github.com/MB20252025/Chain-Genius-Consulting
+2026-11-11T21:21:01.5890012Z  * [new ref]         f3ea28adde2176149a0a84fee9527661e748cbf9 -> origin/development/v0.7
+2026-11-11T21:21:01.5897033Z ##[endgroup]
+2026-11-11T21:21:01.5898198Z ##[group]Determining the checkout info
+2026-11-11T21:21:01.5900649Z ##[endgroup]
+2026-11-11T21:21:01.5908085Z [command]/usr/bin/git sparse-checkout disable
+2026-11-11T21:21:01.5971052Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-11T21:21:01.6016245Z ##[group]Checking out the ref
+2026-11-11T21:21:01.6019959Z [command]/usr/bin/git checkout --progress --force -B development/v0.7 refs/remotes/origin/development/v0.7
+2026-11-11T21:21:01.7284734Z Switched to a new branch 'development/v0.7'
+2026-11-11T21:21:01.7292143Z branch 'development/v0.7' set up to track 'origin/development/v0.7'.
+2026-11-11T21:21:01.7310350Z ##[endgroup]
+2026-11-11T21:21:01.7363829Z [command]/usr/bin/git log -1 --format=%H
+2026-11-11T21:21:01.7399663Z f3ea28adde2176149a0a84fee9527661e748cbf9
+2026-11-11T21:21:01.7673154Z ##[group]Run RUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"
+2026-11-11T21:21:01.7676713Z [36;1mRUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"[0m
+2026-11-11T21:21:01.7679047Z [36;1mD="$GITHUB_WORKSPACE/$APP/tests/logs/ci/$RUN_ID"; mkdir -p "$D"[0m
+2026-11-11T21:21:01.7681194Z [36;1mecho "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "RUN_DIR=$D" >> "$GITHUB_ENV"[0m
+2026-11-11T21:21:01.7686371Z [36;1m{ echo "run id: $RUN_ID"; echo "commit: $GITHUB_SHA"; echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; echo "guard started: $(date -u +%FT%TZ)"; echo "node used for the guard (runner's preinstalled): $(node -v)"; } > "$D/meta.txt"[0m
+2026-11-11T21:21:01.7690686Z [36;1mset +e[0m
+2026-11-11T21:21:01.7692372Z [36;1mgit fetch --no-tags --depth=1 origin "refs/tags/$TAG:refs/tags/$TAG" > "$D/guard.txt" 2>&1 \[0m
+2026-11-11T21:21:01.7695717Z [36;1m  && git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" 2>> "$D/guard.txt" \[0m
+2026-11-11T21:21:01.7699158Z [36;1m  && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin >> "$D/guard.txt" 2>&1[0m
+2026-11-11T21:21:01.7701509Z [36;1mrc=$?[0m
+2026-11-11T21:21:01.7702392Z [36;1mset -e[0m
+2026-11-11T21:21:01.7703516Z [36;1mecho "guard exit: $rc" >> "$D/meta.txt"[0m
+2026-11-11T21:21:01.7704826Z [36;1mcat "$D/guard.txt"[0m
+2026-11-11T21:21:01.7705855Z [36;1m{[0m
+2026-11-11T21:21:01.7707162Z [36;1m  echo "## Step 1: guard (approved check-control.js from tag \`$TAG\`)"[0m
+2026-11-11T21:21:01.7709272Z [36;1m  if [ "$rc" -eq 0 ]; then echo "**GUARD PASSED.** $(tail -n 1 "$D/guard.txt")"[0m
+2026-11-11T21:21:01.7711595Z [36;1m  else echo "**GUARD FAILED (exit $rc). The job stopped here: NO tests were run.**"; fi[0m
+2026-11-11T21:21:01.7714808Z [36;1m  echo; echo '```'; grep -E '^(FAIL|PENDING|ERROR|NO APPROVED|fatal)' "$D/guard.txt" || true; tail -n 1 "$D/guard.txt"; echo '```'[0m
+2026-11-11T21:21:01.7717239Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-11T21:21:01.7718386Z [36;1mexit "$rc"[0m
+2026-11-11T21:21:01.7744969Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-11T21:21:01.7746467Z env:
+2026-11-11T21:21:01.7747486Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:01.7748901Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:01.7749961Z ##[endgroup]
+2026-11-11T21:21:02.7995450Z From https://github.com/MB20252025/Chain-Genius-Consulting
+2026-11-11T21:21:02.7996512Z  * [new tag]         v0.7-tests-approved-1 -> v0.7-tests-approved-1
+2026-11-11T21:21:02.7997408Z PASS: run-all.sh: identical to the approved baseline
+2026-11-11T21:21:02.7998246Z PASS: check-protection.js: identical to the approved baseline
+2026-11-11T21:21:02.7998974Z PASS: check-control.js: identical to the approved baseline
+2026-11-11T21:21:02.7999601Z PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+2026-11-11T21:21:02.8000132Z PASS: package.json: identical to the approved baseline
+2026-11-11T21:21:02.8000629Z PASS: package-lock.json: identical to the approved baseline
+2026-11-11T21:21:02.8001116Z PASS: requirements.txt: identical to the approved baseline
+2026-11-11T21:21:02.8001655Z PASS: accepted-results.json: no weakening against the approved baseline
+2026-11-11T21:21:02.8002170Z PASS: checksums.txt: every approved line present
+2026-11-11T21:21:02.8002694Z check-control: 9 passed, 0 failed (baseline v0.7-tests-approved-1 = eb3111f)
+2026-11-11T21:21:02.8168678Z ##[group]Run actions/setup-node@v4
+2026-11-11T21:21:02.8169097Z with:
+2026-11-11T21:21:02.8169367Z   node-version: 22.23.4
+2026-11-11T21:21:02.8169671Z   always-auth: false
+2026-11-11T21:21:02.8169948Z   check-latest: false
+2026-11-11T21:21:02.8172479Z   token: ***
+2026-11-11T21:21:02.8172734Z env:
+2026-11-11T21:21:02.8173532Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:02.8173935Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:02.8174246Z   RUN_ID: ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:02.8175065Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:02.8175874Z ##[endgroup]
+2026-11-11T21:21:02.9661506Z Found in cache @ /opt/hostedtoolcache/node/22.23.4/x64
+2026-11-11T21:21:02.9667572Z (node:2290) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-11T21:21:02.9668494Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-11T21:21:02.9669996Z ##[group]Environment details
+2026-11-11T21:21:03.4188020Z node: v22.23.4
+2026-11-11T21:21:03.4189088Z npm: 10.9.9
+2026-11-11T21:21:03.4189698Z yarn: 1.22.22
+2026-11-11T21:21:03.4190569Z ##[endgroup]
+2026-11-11T21:21:03.4324400Z ##[group]Run mkdir -p "$RUNNER_TEMP/testdeps"
+2026-11-11T21:21:03.4324841Z [36;1mmkdir -p "$RUNNER_TEMP/testdeps"[0m
+2026-11-11T21:21:03.4325324Z [36;1mcp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"[0m
+2026-11-11T21:21:03.4325864Z [36;1m(cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)[0m
+2026-11-11T21:21:03.4326346Z [36;1mecho "NODE_PATH=$RUNNER_TEMP/testdeps/node_modules" >> "$GITHUB_ENV"[0m
+2026-11-11T21:21:03.4355879Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-11T21:21:03.4356230Z env:
+2026-11-11T21:21:03.4356479Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:03.4356803Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:03.4357065Z   RUN_ID: ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:03.4357818Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:03.4358581Z ##[endgroup]
+2026-11-11T21:21:07.3878412Z 
+2026-11-11T21:21:07.3889150Z added 86 packages in 4s
+2026-11-11T21:21:07.4479736Z ##[group]Run echo "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"
+2026-11-11T21:21:07.4480686Z [36;1mecho "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"[0m
+2026-11-11T21:21:07.4481315Z [36;1mset +e[0m
+2026-11-11T21:21:07.4481973Z [36;1mbash "$APP/tests/run-all.sh" --fast --log "$RUN_DIR/run.log" > "$RUN_DIR/summary.txt" 2>&1[0m
+2026-11-11T21:21:07.4482748Z [36;1mrc=$?[0m
+2026-11-11T21:21:07.4483077Z [36;1mset -e[0m
+2026-11-11T21:21:07.4483740Z [36;1mecho "runner exit: $rc" >> "$RUN_DIR/meta.txt"[0m
+2026-11-11T21:21:07.4484297Z [36;1mcat "$RUN_DIR/summary.txt"[0m
+2026-11-11T21:21:07.4484753Z [36;1mS="$RUN_DIR/summary.txt"[0m
+2026-11-11T21:21:07.4485164Z [36;1m{[0m
+2026-11-11T21:21:07.4485521Z [36;1m  echo "## Step 4: $(sed -n 1p "$S")"[0m
+2026-11-11T21:21:07.4486047Z [36;1m  echo "### $(grep -m1 '^PASS: ' "$S")"[0m
+2026-11-11T21:21:07.4486570Z [36;1m  echo "$(grep -m1 '^Scope: ' "$S")"[0m
+2026-11-11T21:21:07.4487092Z [36;1m  echo[0m
+2026-11-11T21:21:07.4487567Z [36;1m  echo "$(grep -m1 -E '^(Known limitations|Not running)' "$S")"[0m
+2026-11-11T21:21:07.4488160Z [36;1m  echo[0m
+2026-11-11T21:21:07.4488743Z [36;1m  echo "**$(grep -m1 '^EXIT ' "$S" || echo "runner exit $rc, no EXIT line: see the log")**"[0m
+2026-11-11T21:21:07.4489443Z [36;1m  echo[0m
+2026-11-11T21:21:07.4489858Z [36;1m  echo "Non-PASS rows and warnings:"; echo '```'[0m
+2026-11-11T21:21:07.4490611Z [36;1m  grep -E '^(FAIL|ERROR|BLOCKED|REDUCED) |WARNING:' "$S" | cut -c1-160 || true[0m
+2026-11-11T21:21:07.4491298Z [36;1m  echo '```'[0m
+2026-11-11T21:21:07.4491985Z [36;1m  echo "<details><summary>All rows (expected and actual counts)</summary>"; echo; echo '```'[0m
+2026-11-11T21:21:07.4492949Z [36;1m  sed -n '/^STATUS /,/^$/p' "$S" | cut -c1-120; echo '```'; echo "</details>"[0m
+2026-11-11T21:21:07.4494282Z [36;1m  echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."[0m
+2026-11-11T21:21:07.4495264Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+2026-11-11T21:21:07.4495699Z [36;1mexit "$rc"[0m
+2026-11-11T21:21:07.4522501Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-11T21:21:07.4523073Z env:
+2026-11-11T21:21:07.4523680Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:07.4524243Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:07.4524677Z   RUN_ID: ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:07.4526017Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:07.4527453Z   NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+2026-11-11T21:21:07.4527998Z ##[endgroup]
+2026-11-11T21:21:48.3000500Z v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+2026-11-11T21:21:48.3001671Z PASS: 18 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+2026-11-11T21:21:48.3003099Z Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+2026-11-11T21:21:48.3004436Z Checks counted in this run (first zone of each test): 1114
+2026-11-11T21:21:48.3005557Z Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+2026-11-11T21:21:48.3006746Z Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 6 BLOCKED tests. Not run in this fast tier.
+2026-11-11T21:21:48.3007297Z 
+2026-11-11T21:21:48.3007672Z STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+2026-11-11T21:21:48.3008446Z PASS     pre-flight                  -      -                 -        
+2026-11-11T21:21:48.3009200Z PASS     check-control               1      9                 9        
+2026-11-11T21:21:48.3010121Z          WARNING: documented blocker is no longer present: running the test; update accepted-results.json and the records
+2026-11-11T21:21:48.3011040Z PASS     check-protection            1      127               127      
+2026-11-11T21:21:48.3012061Z PASS     check-globals               1      116               116      
+2026-11-11T21:21:48.3012837Z PASS     test-a1-static              1      20                20       
+2026-11-11T21:21:48.3014090Z PASS     test-a1-sync-path           1      74                74       
+2026-11-11T21:21:48.3014846Z PASS     test-a1-state               1      10                10       
+2026-11-11T21:21:48.3015576Z PASS     test-a1-escaping            1      46                46       
+2026-11-11T21:21:48.3016318Z PASS     test-a1-wrapper-quick       1      117               117      
+2026-11-11T21:21:48.3017050Z PASS     golden v0.5                 1      10                10       
+2026-11-11T21:21:48.3017758Z PASS     golden v0.6.0               1      10                10       
+2026-11-11T21:21:48.3018615Z PASS     test7                       1      118               118      
+2026-11-11T21:21:48.3019377Z PASS     test-po-edge                1      35                35       
+2026-11-11T21:21:48.3020120Z PASS     test-fillcap                1      276               276      
+2026-11-11T21:21:48.3020854Z PASS     test-export-repeat          1      24                24       
+2026-11-11T21:21:48.3021814Z PASS     test-cache                  1      15                15       
+2026-11-11T21:21:48.3022537Z PASS     test-blank-qty              1      19                19       
+2026-11-11T21:21:48.3023688Z PASS     test-na-constraints         1      88                88       
+2026-11-11T21:21:48.3024345Z 
+2026-11-11T21:21:48.3025625Z EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+2026-11-11T21:21:48.3238540Z ##[group]Run actions/upload-artifact@v4
+2026-11-11T21:21:48.3238858Z with:
+2026-11-11T21:21:48.3239107Z   name: t2-evidence-ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:48.3239896Z   path: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:48.3240831Z   retention-days: 90
+2026-11-11T21:21:48.3241050Z   if-no-files-found: warn
+2026-11-11T21:21:48.3241277Z   compression-level: 6
+2026-11-11T21:21:48.3241499Z   overwrite: false
+2026-11-11T21:21:48.3241710Z   include-hidden-files: false
+2026-11-11T21:21:48.3241938Z env:
+2026-11-11T21:21:48.3242162Z   APP: applications/inventory-intelligence-engine
+2026-11-11T21:21:48.3242479Z   TAG: v0.7-tests-approved-1
+2026-11-11T21:21:48.3242727Z   RUN_ID: ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:48.3243684Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43102251435-1-20261111T212101Z
+2026-11-11T21:21:48.3244479Z   NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+2026-11-11T21:21:48.3244913Z ##[endgroup]
+2026-11-11T21:21:48.4957268Z (node:2560) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-11T21:21:48.4958189Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-11T21:21:48.5046148Z With the provided path, there will be 4 files uploaded
+2026-11-11T21:21:48.5047388Z Artifact name is valid!
+2026-11-11T21:21:48.5048033Z Root directory input is valid!
+2026-11-11T21:21:48.7870205Z Beginning upload of artifact content to blob storage
+2026-11-11T21:21:48.8130708Z (node:2560) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-11T21:21:48.9987291Z Uploaded bytes 7699
+2026-11-11T21:21:49.0548521Z Finished uploading artifact content to blob storage!
+2026-11-11T21:21:49.0549889Z SHA256 digest of uploaded artifact zip is 452d4914ba7c0b562703699e43e48fb6df40416337df9a48c0e38f6dd07cc30d
+2026-11-11T21:21:49.0551465Z Finalizing artifact upload
+2026-11-11T21:21:49.4250710Z Artifact t2-evidence-ci-43102251435-1-20261111T212101Z.zip successfully finalized. Artifact ID 13891877564
+2026-11-11T21:21:49.4252259Z Artifact t2-evidence-ci-43102251435-1-20261111T212101Z has been successfully uploaded! Final size is 7699 bytes. Artifact ID is 13891877564
+2026-11-11T21:21:49.4257255Z Artifact download URL: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43102251435/artifacts/13891877564
+2026-11-11T21:21:49.4476873Z Post job cleanup.
+2026-11-11T21:21:49.5776844Z (node:2573) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-11T21:21:49.5778224Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-11T21:21:49.6008674Z Post job cleanup.
+2026-11-11T21:21:49.7033801Z [command]/usr/bin/git version
+2026-11-11T21:21:49.7092322Z git version 2.56.0
+2026-11-11T21:21:49.7155190Z Temporarily overriding HOME='/home/runner/work/_temp/02217a00-29ab-476f-9fb1-c927399094d9' before making global git config changes
+2026-11-11T21:21:49.7156941Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-11T21:21:49.7166407Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+2026-11-11T21:21:49.7270820Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-11T21:21:49.7337037Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-11T21:21:49.7712632Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-11T21:21:49.7752307Z http.https://github.com/.extraheader
+2026-11-11T21:21:49.7786609Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-11T21:21:49.7842016Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-11T21:21:49.8127387Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-11T21:21:49.8178883Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-11T21:21:49.8574183Z Cleaning up orphan processes
+2026-11-11T21:21:49.8984576Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

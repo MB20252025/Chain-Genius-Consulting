@@ -1,0 +1,5 @@
+run id: t2-20261111T210433Z-ci-run-43099063927
+purpose: copy of GitHub Actions run 43099063927 (the single authorised retry), fetched read-only 2026-11-11T21:04:34Z
+run url: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43099063927
+CI evidence artifact on GitHub: t2-evidence-ci-43099063927-1-20261111T205809Z (artifact id 13890132971, 7,702 bytes)
+comparison with local run t2-20261111T202054Z-opening-guard-check-2: all 18 rows identical
