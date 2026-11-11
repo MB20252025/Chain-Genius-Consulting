@@ -129,7 +129,6 @@ const svg=T.chart({id:'<b>x</b>',h:flat.h,fc:null},FS3);chk('chart is SVG, id es
 chk('forecast view renders with chart and method table',/<svg/.test(views['Demand forecast']())&&views['Demand forecast']().includes('Method comparison'));
 // perf
 T.load();const t0=Date.now();for(let i=0;i<10;i++)T.run();console.log('avg analyse ms',(Date.now()-t0)/10);
-console.log('summary',ok,'pass',bad,'fail');
 
 // ---- v0.4 acceptance checklist additions
 const FA0=T.fcAll();
@@ -142,3 +141,6 @@ CFG.fcH=3;R=T.run();chk('forecast horizon setting changes table column',views['D
 chk('forecast view states bands are not guaranteed',views['Demand forecast']().includes('not guaranteed demand limits'));
 const dist=k=>[...R.fg,...R.rm].filter(x=>x.conf===k).length;console.log('CONFIDENCE all 150 H/M/L',dist('High'),dist('Medium'),dist('Low'),'| FG',['High','Medium','Low'].map(k=>R.fg.filter(x=>x.conf===k).length).join('/'),'| RM',['High','Medium','Low'].map(k=>R.rm.filter(x=>x.conf===k).length).join('/'));
 const rs=R.fg.concat(R.rm).reduce((o,x)=>{x.cw.forEach(w=>o[w]=(o[w]||0)+1);return o},{});console.log('confidence reasons',JSON.stringify(rs));
+// v0.7 A1 D4: summary moved here from before the v0.4 checks above, so it counts all checks
+console.log('summary',ok,'pass',bad,'fail');
+process.exitCode=bad?1:0; // v0.7 A1 D4: a failed check makes the suite exit non-zero, so run-regression.sh reports it

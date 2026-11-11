@@ -29,4 +29,6 @@ const {JSDOM,VirtualConsole}=require('jsdom'),fs=require('fs');
   chk('Export content: FG048 attainment 92.8/93.6; FG027 lead time source text; SUP008 at-risk 4 rank 1',Math.abs(att['AvgOrderAttainment%']-92.8)<.05&&Math.abs(att['OverallWeightedAttainment%']-93.6)<.05&&att.TotalActual===398&&fg.LTSource==='Estimated (limited sample)'&&su.AtRiskMaterials===4&&su.RiskRank===1,JSON.stringify([att,fg&&fg.LTSource,su]))}
  // all tabs still render
  const names=[...w.document.querySelectorAll('#nav [data-t]')].map(b=>b.dataset.t);let allok=names.length===17;for(const n of names){tab(n);const x=V();if(x.length<150||/undefined|NaN/.test(x)||w.document.querySelector('#nav .on').textContent!==n){allok=false;console.log('   problem tab',n)}}chk('all 17 tabs render without undefined/NaN',allok);
- chk('no script errors during the whole session ('+errs.length+')',errs.length===0);if(errs.length)console.log(errs);console.log('summary',ok,'pass',bad,'fail');})();
+ chk('no script errors during the whole session ('+errs.length+')',errs.length===0);if(errs.length)console.log(errs);console.log('summary',ok,'pass',bad,'fail');
+ process.exitCode=bad?1:0; // v0.7 A1 D4: a failed check makes the suite exit non-zero, so run-regression.sh reports it
+})();

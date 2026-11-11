@@ -28,4 +28,6 @@ const {JSDOM,VirtualConsole}=require('jsdom'),fs=require('fs');
  tabTo('Settings');let saved=null;w.XLSX.writeFile=(wb,name)=>{saved={name,sheets:wb.SheetNames}};w.document.querySelector('#ex').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
  chk('export builds file with original + ENG_ sheets: '+(saved&&saved.sheets.filter(s=>s.startsWith('ENG_')).join(',')),saved&&saved.sheets.includes('Products')&&['ENG_FG','ENG_RM','ENG_Forecast','ENG_Suppliers','ENG_DataQuality','ENG_Assumptions'].every(s=>saved.sheets.includes(s)));
  chk('no script errors during whole session ('+errs.length+')',errs.length===0);if(errs.length)console.log(errs);
- console.log('summary',ok,'pass',bad,'fail');})();
+ console.log('summary',ok,'pass',bad,'fail');
+ process.exitCode=bad?1:0; // v0.7 A1 D4: a failed check makes the suite exit non-zero, so run-regression.sh reports it
+})();

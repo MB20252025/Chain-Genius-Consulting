@@ -105,3 +105,4 @@ const allViews=()=>{try{T.ORDER.forEach(k=>T.views[k]());return true}catch(e){re
 {const r=go(w=>{const a=S(w,'Products');a[0].Product_Name='<script>alert(1)</script>';a[0].Product_Family='"><img src=x onerror=1>';put(w,'Products',a);const m=S(w,'Suppliers');m[0].Supplier_Name='<b onmouseover=x>S</b>';put(w,'Suppliers',m)});
  const all=T.ORDER.map(k=>T.views[k]()).join('');chk('XSS: imported names escaped on every tab',!/<script>alert|<img src=x onerror|<b onmouseover/.test(all)&&all.includes('&lt;script&gt;'));}
 console.log('summary',ok,'pass',bad,'fail');
+process.exitCode=bad?1:0; // v0.7 A1 D4: a failed check makes the suite exit non-zero, so run-regression.sh reports it
