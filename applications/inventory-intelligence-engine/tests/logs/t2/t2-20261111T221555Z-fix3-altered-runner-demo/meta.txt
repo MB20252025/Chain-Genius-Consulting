@@ -1,0 +1,10 @@
+run id: t2-20261111T221555Z-fix3-altered-runner-demo
+INTENTIONAL ALTERED-RUNNER DEMONSTRATION (Fix 3, owner-approved diff, 11 Nov 2026)
+altered commit: cd37a8adb06384541ff4c17469cc1c5f506674b1 (only tests/run-all.sh line 117: "const code=n('FAIL')||n('ERROR')?1:0,P=[];" -> "const code=0,P=[];")
+altered run-all.sh sha256: c3b48df2ae7947b5d077f740898d87ea81490a3a34e034d51dcc1d3da4d0104e (approved tag copy: 5cce88ba905a931e05356925c8a4f24b194ee5b7ec9d0f3c192c4d14bbbef399)
+GitHub Actions run: 43110161774  https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43110161774
+workflow result: completed / failure
+steps: 0 checkout success; 1 GUARD failure; 2 Node setup SKIPPED; 3 package install SKIPPED; 4 fast test tier SKIPPED; 5 evidence artifact success (if: always(); uploads guard output only)
+guard output: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval) / check-control: 8 passed, 1 failed (baseline v0.7-tests-approved-1 = eb3111f) / exit code 1
+no tests executed: the job log contains no 'run-all.sh --fast' command, no runner output ('v0.7 tests (FAST)'), no 'npm ci'; executed steps are checkout, the guard script and upload-artifact only. The single 'actions/setup-node' text is the job-setup download line, not an execution.
+recorded: 2026-11-11T22:15:56Z
