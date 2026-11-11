@@ -1,0 +1,8 @@
+TZ=UTC node test7.js -> exit 0 | summary 118 pass 0 fail | PASS lines 118, FAIL lines 0
+TZ=UTC node test8.js -> exit 0 | summary 47 pass 0 fail | PASS lines 47, FAIL lines 0
+TZ=UTC node domtest.js -> exit 0 | summary 30 pass 0 fail | PASS lines 30, FAIL lines 0
+TZ=UTC node domtest2.js -> exit 0 | summary 18 pass 0 fail | PASS lines 18, FAIL lines 0
+TZ=Europe/London node test7.js -> exit 0 | summary 118 pass 0 fail | PASS lines 118, FAIL lines 0
+TZ=Europe/London node test8.js -> exit 0 | summary 47 pass 0 fail | PASS lines 47, FAIL lines 0
+TZ=Europe/London node domtest.js -> exit 0 | summary 30 pass 0 fail | PASS lines 30, FAIL lines 0
+TZ=Europe/London node domtest2.js -> exit 0 | summary 18 pass 0 fail | PASS lines 18, FAIL lines 0

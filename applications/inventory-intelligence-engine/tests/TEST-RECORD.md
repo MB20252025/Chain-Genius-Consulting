@@ -1,6 +1,8 @@
 # Test record: v0.6 candidate (final verification pass)
 
 > **Correction (v0.7 A1 review, 11 Nov 2026): test7 has 118 checks, all passing.** test7 prints its summary line ("summary 111 pass 0 fail") before its last 7 checks (forecast checks added in v0.4), so the summary understates the total. Counted from its output: 118 PASS lines, 0 FAIL lines, in UTC and Europe/London (`tests/logs/a1-review/test7-count.txt`). Every "111" for test7 below is that summary line; the actual count is 118. Note also that test7, test8, domtest and domtest2 do not set an exit code, so `run-regression.sh` would not fail on their FAIL lines; a fix is proposed in `A1-DEVIATIONS.md` (D4) and needs approval. No test was changed.
+>
+> **Update (11 Nov 2026, commit `27d6313`, D4 approved):** test7's summary line now comes after all its checks and reads "summary 118 pass 0 fail". test7, test8, domtest and domtest2 now exit non-zero when a check fails. Runs recorded before that commit show the old summary line (111).
 
 
 Run 20261109T154834Z. Node-based suites were run in both UTC and Europe/London (identical results). Logs: tests/logs/*-20261109T154834Z*. Machine: 2 CPU, 8 GB RAM, Node v22.23.4, headless Chromium (desktop emulation, not a phone).

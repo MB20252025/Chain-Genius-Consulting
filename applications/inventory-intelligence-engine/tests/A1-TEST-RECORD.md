@@ -52,3 +52,17 @@ The wrapper still produces the same results as the application's own calculation
 **Not run / environment blocked (unchanged):** `test-fglt-note.js`, `test-forecast-conf.js`, `test-supplier-eligibility.js`, the Phase 2 comparison in `run-regression.sh`, `test-paging-chrome.js`; and, outside the recorded suite, the seven other Playwright scripts listed in `A1-DEVIATIONS.md` D3.
 
 **Outstanding:** physical Android testing of the 17 tabs (D2); exit-code fix for four v0.6 suites (D4, needs approval).
+
+---
+
+# D4 fix and checks (11 Nov 2026, commit `27d6313`)
+
+Change: `test7.js`, `test8.js`, `domtest.js` and `domtest2.js` set `process.exitCode=bad?1:0` after their summary (existing counters). test7's summary line moved to the end. No check changed. Evidence: `tests/logs/a1-d4/`.
+
+| Check | Command | Result |
+|---|---|---|
+| Genuine run after D4 (UTC and London) | `TZ=… NODE_PATH=… node <suite>.js` from `tests/` | test7 118, test8 47, domtest 30, domtest2 18 pass; exit 0; summaries now match PASS-line counts |
+| One planted fault per suite (throwaway copy `/home/claude/d4-fault`, one check's condition inverted; for test7 its last check) | `TZ=UTC node <suite>.js` | Each exits 1, summary shows 1 fail, FAIL line printed |
+| Same test7 fault on pre-D4 code (`41ef293`) | `TZ=UTC node test7.js` | exit 0, "summary 111 pass 0 fail" while a FAIL line is printed: the gap D4 closes |
+| Runner on the planted copy | `bash run-regression.sh 20261111T-d4fault` | Overall exit 1; each of the four listed as `exit 1` with its FAIL line, in UTC and London |
+| Genuine runner after D4 (export of `27d6313`) | `bash run-regression.sh 20261111T-d4` | Same as the pre-D4 run except test7's summary: 118 instead of 111 (both zones). Exit 1 only from the five NOT RUN items |

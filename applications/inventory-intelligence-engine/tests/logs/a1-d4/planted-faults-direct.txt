@@ -1,0 +1,9 @@
+$ cd /home/claude/d4-fault/applications/inventory-intelligence-engine/tests && TZ=UTC node test7.js
+  exit 1 | summary 117 pass 1 fail | FAIL line: FAIL forecast view states bands are not guaranteed
+$ cd /home/claude/d4-fault/applications/inventory-intelligence-engine/tests && TZ=UTC node test8.js
+  exit 1 | summary 46 pass 1 fail | FAIL line: FAIL XSS: imported names escaped on every tab  >> 
+$ cd /home/claude/d4-fault/applications/inventory-intelligence-engine/tests && TZ=UTC node domtest.js
+  exit 1 | summary 29 pass 1 fail | FAIL line: FAIL no script errors during whole session (0)
+$ cd /home/claude/d4-fault/applications/inventory-intelligence-engine/tests && TZ=UTC node domtest2.js
+  exit 1 | summary 17 pass 1 fail | FAIL line: FAIL no script errors during the whole session (0)  >> 
+PRE-D4 (41ef293) same fault: exit 0 | summary 111 pass 0 fail | FAIL forecast view states bands are not guaranteed

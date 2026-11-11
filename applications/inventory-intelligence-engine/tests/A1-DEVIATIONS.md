@@ -37,7 +37,7 @@
 
 ## D4. Four v0.6 test suites do not report failures through their exit code (found in the A1 review)
 
-**Status:** outstanding; a fix is proposed and needs approval. No test has been changed.
+**Status:** RESOLVED in commit `27d6313` (approved by the owner on 11 Nov 2026). Evidence: `tests/logs/a1-d4/`. The text below describes the problem as found.
 
 `test7.js`, `test8.js`, `domtest.js` and `domtest2.js` never call `process.exit`, so they exit with 0 even if a check fails. `run-regression.sh` decides pass or fail from the exit code alone. A FAIL inside these four suites would therefore be printed but would not fail the regression run. In addition, `test7.js` prints its summary line before its last 7 checks, so a failure among those 7 would not appear in the summary either.
 
