@@ -1,0 +1,9 @@
+run id: t2-20261111T205359Z-stuck-run-43095658340
+purpose: record GitHub Actions run 43095658340 (queued, 0 jobs) before the owner-authorised cancel and single retry
+recorded: 2026-11-11T20:53:59Z
+owner billing check (reported by owner 11 Nov 2026 20:53): GitHub Free active; Actions usage $2.30 consumed, $2.30 included discounts, $0 billable; $12 compute allowance, $0 used; 0 GB storage
+
+cancel attempted: 2026-11-11T20:54:32Z
+$ gh api -X POST repos/MB20252025/Chain-Genius-Consulting/actions/runs/43095658340/cancel
+HTTP 409: {"message":"Cannot cancel a workflow run that has not been queued yet.","status":"409"}
+run afterwards: status queued, conclusion null, updated_at 2026-11-11T20:22:30Z (unchanged)
