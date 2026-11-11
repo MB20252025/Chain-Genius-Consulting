@@ -1,0 +1,205 @@
+tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+# regression 20261111T-a1review  node v22.23.4
+## TZ=UTC
+test7 | exit 0 | summary 111 pass 0 fail
+test8 | exit 0 | summary 47 pass 0 fail
+test9 | exit 0 | summary 57 pass 0 fail
+domtest | exit 0 | summary 30 pass 0 fail
+domtest2 | exit 0 | summary 18 pass 0 fail
+test-failed-import | exit 0 | test-failed-import: 18 passed, 0 failed
+test-export-nohistory | exit 0 | test-export-nohistory: 19 passed, 0 failed
+test-timezones | exit 0 | test-timezones: 15 passed, 0 failed
+test-po-edge | exit 0 | test-po-edge: 35 passed, 0 failed
+test-structure | exit 0 | test-structure: 34 passed, 0 failed
+test-paging | exit 0 | test-paging: 23 passed, 0 failed
+test-fillcap | exit 0 | test-fillcap: 276 passed, 0 failed
+test-export-repeat | exit 0 | test-export-repeat: 24 passed, 0 failed
+test-cache | exit 0 | test-cache: 15 passed, 0 failed
+test-phase1 | exit 0 | test-phase1: 57 passed, 0 failed
+test-blank-qty | exit 0 | test-blank-qty: 19 passed, 0 failed
+test-uom | exit 0 | test-uom: 110 passed, 0 failed
+test-missing-values | exit 0 | test-missing-values: 63 passed, 0 failed
+test-fglt-note | exit 1 | 
+test-forecast-conf | exit 1 | 
+test-supplier-eligibility | exit 1 | 
+test-na-constraints | exit 0 | test-na-constraints: 88 passed, 0 failed
+## TZ=Europe/London
+test7 | exit 0 | summary 111 pass 0 fail
+test8 | exit 0 | summary 47 pass 0 fail
+test9 | exit 0 | summary 57 pass 0 fail
+domtest | exit 0 | summary 30 pass 0 fail
+domtest2 | exit 0 | summary 18 pass 0 fail
+test-failed-import | exit 0 | test-failed-import: 18 passed, 0 failed
+test-export-nohistory | exit 0 | test-export-nohistory: 19 passed, 0 failed
+test-timezones | exit 0 | test-timezones: 15 passed, 0 failed
+test-po-edge | exit 0 | test-po-edge: 35 passed, 0 failed
+test-structure | exit 0 | test-structure: 34 passed, 0 failed
+test-paging | exit 0 | test-paging: 23 passed, 0 failed
+test-fillcap | exit 0 | test-fillcap: 276 passed, 0 failed
+test-export-repeat | exit 0 | test-export-repeat: 24 passed, 0 failed
+test-cache | exit 0 | test-cache: 15 passed, 0 failed
+test-phase1 | exit 0 | test-phase1: 57 passed, 0 failed
+test-blank-qty | exit 0 | test-blank-qty: 19 passed, 0 failed
+test-uom | exit 0 | test-uom: 110 passed, 0 failed
+test-missing-values | exit 0 | test-missing-values: 63 passed, 0 failed
+test-fglt-note | exit 1 | 
+test-forecast-conf | exit 1 | 
+test-supplier-eligibility | exit 1 | 
+test-na-constraints | exit 0 | test-na-constraints: 88 passed, 0 failed
+## static
+check-globals | exit 0 | check-globals: 116 passed, 0 failed (5 files, 92 top-level names, 20 load-time references checked)
+## independent Python verifier (Northstar)
+summary 17 pass 0 fail
+## supplier scenarios
+s0  # overall: PASS
+nopo  # overall: PASS
+allfuture  # overall: PASS
+three  # overall: PASS
+unknown  # overall: PASS
+nohist  # overall: PASS
+dupexact  # overall: PASS
+dupkey  # overall: PASS
+overrec  # overall: PASS
+multiline  # overall: PASS
+splitline  # overall: PASS
+posupconflict  # overall: PASS
+partial  # overall: PASS
+overshort  # overall: PASS
+combined  # overall: PASS
+willow  # overall: PASS
+## golden snapshots
+UTC vs v0.5-golden-20261105T101953Z.json: ALL SECTIONS IDENTICAL
+UTC vs v0.6.0-baseline-20261109T152050Z.json: ALL SECTIONS IDENTICAL
+node:fs:440
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'logs/regress-p2-20261111T-a1review-UTC.json'
+    at Object.readFileSync (node:fs:440:20)
+    at load (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:3:55)
+    at Object.<anonymous> (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:4:14)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'logs/regress-p2-20261111T-a1review-UTC.json'
+}
+
+Node.js v22.23.4
+UTC vs PHASE 2 (primary baseline): 
+Europe/London vs v0.5-golden-20261105T101953Z.json: ALL SECTIONS IDENTICAL
+Europe/London vs v0.6.0-baseline-20261109T152050Z.json: ALL SECTIONS IDENTICAL
+node:fs:440
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'logs/regress-p2-20261111T-a1review-Europe_London.json'
+    at Object.readFileSync (node:fs:440:20)
+    at load (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:3:55)
+    at Object.<anonymous> (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:4:14)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'logs/regress-p2-20261111T-a1review-Europe_London.json'
+}
+
+Node.js v22.23.4
+Europe/London vs PHASE 2 (primary baseline): 
+America/New_York vs v0.5-golden-20261105T101953Z.json: ALL SECTIONS IDENTICAL
+America/New_York vs v0.6.0-baseline-20261109T152050Z.json: ALL SECTIONS IDENTICAL
+node:fs:440
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'logs/regress-p2-20261111T-a1review-America_New_York.json'
+    at Object.readFileSync (node:fs:440:20)
+    at load (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:3:55)
+    at Object.<anonymous> (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:4:14)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'logs/regress-p2-20261111T-a1review-America_New_York.json'
+}
+
+Node.js v22.23.4
+America/New_York vs PHASE 2 (primary baseline): 
+Asia/Kolkata vs v0.5-golden-20261105T101953Z.json: ALL SECTIONS IDENTICAL
+Asia/Kolkata vs v0.6.0-baseline-20261109T152050Z.json: ALL SECTIONS IDENTICAL
+node:fs:440
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'logs/regress-p2-20261111T-a1review-Asia_Kolkata.json'
+    at Object.readFileSync (node:fs:440:20)
+    at load (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:3:55)
+    at Object.<anonymous> (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:4:14)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'logs/regress-p2-20261111T-a1review-Asia_Kolkata.json'
+}
+
+Node.js v22.23.4
+Asia/Kolkata vs PHASE 2 (primary baseline): 
+Pacific/Auckland vs v0.5-golden-20261105T101953Z.json: ALL SECTIONS IDENTICAL
+Pacific/Auckland vs v0.6.0-baseline-20261109T152050Z.json: ALL SECTIONS IDENTICAL
+node:fs:440
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open 'logs/regress-p2-20261111T-a1review-Pacific_Auckland.json'
+    at Object.readFileSync (node:fs:440:20)
+    at load (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:3:55)
+    at Object.<anonymous> (/home/claude/a1r-run/applications/inventory-intelligence-engine/tests/compare-snapshots.js:4:14)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Object..js (node:internal/modules/cjs/loader:1913:10)
+    at Module.load (node:internal/modules/cjs/loader:1505:32)
+    at Function._load (node:internal/modules/cjs/loader:1309:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'logs/regress-p2-20261111T-a1review-Pacific_Auckland.json'
+}
+
+Node.js v22.23.4
+Pacific/Auckland vs PHASE 2 (primary baseline): 
+# overall exit 1
+
+real	4m1.021s
+user	3m33.885s
+sys	0m10.333s

@@ -1,0 +1,11 @@
+TZ=UTC test-a1-static | exit 0 | test-a1-static: 20 passed, 0 failed
+TZ=UTC test-a1-sync-path | exit 0 | test-a1-sync-path: 74 passed, 0 failed
+TZ=UTC test-a1-wrapper | exit 0 | test-a1-wrapper: 117 passed, 0 failed
+TZ=UTC test-a1-state | exit 0 | test-a1-state: 10 passed, 0 failed
+TZ=UTC test-a1-escaping | exit 0 | test-a1-escaping: 46 passed, 0 failed
+TZ=Europe/London test-a1-static | exit 0 | test-a1-static: 20 passed, 0 failed
+TZ=Europe/London test-a1-sync-path | exit 0 | test-a1-sync-path: 74 passed, 0 failed
+TZ=Europe/London test-a1-wrapper | exit 0 | test-a1-wrapper: 117 passed, 0 failed
+TZ=Europe/London test-a1-state | exit 0 | test-a1-state: 10 passed, 0 failed
+TZ=Europe/London test-a1-escaping | exit 0 | test-a1-escaping: 46 passed, 0 failed
+# run-a1 overall exit 0

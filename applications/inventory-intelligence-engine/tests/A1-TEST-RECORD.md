@@ -30,3 +30,25 @@ Each was run on a throwaway copy outside the repository.
 | Wrapper does not restore R | test-a1-wrapper | 37 failed |
 | `cv_()` stops escaping table cells | test-a1-escaping | 9 failed |
 | Bad code samples (async, await, timer, promise, `.then`, generator; references to R, CFG, WB) | test-a1-static | Detected (built into the test) |
+
+---
+
+# A1 review re-run (11 Nov 2026)
+
+Run on an exported copy of `development/v0.7` at `62c9d9cbdd5c11aebbdb70dee8a2ff85b2b98bf9`, same environment. Raw outputs: `tests/logs/a1-review/`. The record above (first A1 run at `1a4438d`) is kept unchanged as history, except for the test7 note below.
+
+**Correction to the record above:** where it says the regression suites match the baseline, test7's count is 118 checks (its summary line prints 111 before the last 7 checks). See `A1-BASELINE.md` and `A1-DEVIATIONS.md` D4.
+
+| Command (from `tests/`) | Exit | Result | Compared with baseline |
+|---|---|---|---|
+| `bash run-regression.sh 20261111T-a1review` | 1 (only the NOT RUN items) | All suites pass with baseline counts; golden snapshots 10 of 10 ALL SECTIONS IDENTICAL; supplier and edge scenarios 16 of 16 PASS; Python verifier 17/17 | `diff` identical apart from check-globals: 116 checks for 5 files instead of 114 for 4 |
+| FAIL-line counts for the suites without exit codes (D4), UTC and London | — | test7 118, test8 47, domtest 30, domtest2 18 PASS lines; 0 FAIL lines | Same as baseline |
+| `node browser-chrome.js` | 0 | 53 pass, 0 fail | Same |
+| `bash run-a1.sh`, UTC and Europe/London | 0 | test-a1-static 20, test-a1-sync-path 74, test-a1-wrapper 117, test-a1-state 10, test-a1-escaping 46: **267 passed, 0 failed** in each zone | New tests |
+| `node test-paging-chrome.js` | 1 | NOT RUN: Playwright browser missing | Same (blocked) |
+
+The wrapper still produces the same results as the application's own calculation sequence: test-a1-wrapper on all 17 fixtures, and test-a1-state comparing with separate untouched copies of the app.
+
+**Not run / environment blocked (unchanged):** `test-fglt-note.js`, `test-forecast-conf.js`, `test-supplier-eligibility.js`, the Phase 2 comparison in `run-regression.sh`, `test-paging-chrome.js`; and, outside the recorded suite, the seven other Playwright scripts listed in `A1-DEVIATIONS.md` D3.
+
+**Outstanding:** physical Android testing of the 17 tabs (D2); exit-code fix for four v0.6 suites (D4, needs approval).

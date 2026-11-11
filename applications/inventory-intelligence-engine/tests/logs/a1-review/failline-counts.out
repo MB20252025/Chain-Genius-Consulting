@@ -1,0 +1,8 @@
+TZ=UTC test7: 118 PASS / 0 FAIL lines
+TZ=UTC test8: 47 PASS / 0 FAIL lines
+TZ=UTC domtest: 30 PASS / 0 FAIL lines
+TZ=UTC domtest2: 18 PASS / 0 FAIL lines
+TZ=Europe/London test7: 118 PASS / 0 FAIL lines
+TZ=Europe/London test8: 47 PASS / 0 FAIL lines
+TZ=Europe/London domtest: 30 PASS / 0 FAIL lines
+TZ=Europe/London domtest2: 18 PASS / 0 FAIL lines
