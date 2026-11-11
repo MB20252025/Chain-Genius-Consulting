@@ -34,13 +34,22 @@ A2 should read these rules from `SETDEF` and the two `applySettings()` lists at 
 
 ## A2 acceptance criteria for settings (required, not implemented in A1)
 
-1. Every setting used by a new capability must be validated before use.
-2. Invalid, out-of-range and unsupported settings must be rejected safely: the request fails with a clear reason, and nothing is calculated or changed.
-3. Validation must not silently change or clamp user inputs.
-4. Existing v0.6 defaults and calculation behaviour must remain protected: `CFG0` and the Settings screen's behaviour are unchanged, and the v0.6 golden snapshots stay identical.
-5. Tests must cover valid boundary values (each minimum and maximum, both members of each ordered pair at their limits) and invalid values (one below each minimum, one above each maximum, non-whole values for whole-number settings, out-of-order pairs, unknown names, non-numbers).
+**Source: the owner's instruction (A1 review brief, item 5), exact wording.**
 
-**Open decision for A2 (yours):** whether values between steps (for example `z: 1.67`) should be rejected. v0.6 does not enforce steps, so rejecting them would be a new rule.
+1. Every setting used by a new capability must be validated before use.
+2. Invalid, out-of-range and unsupported settings must be rejected safely.
+3. Validation must not silently change or clamp user inputs.
+4. Existing v0.6 defaults and calculation behaviour must remain protected.
+5. Tests must cover valid boundary values and invalid values.
+
+**Proposed details (Claude's proposals, NOT approved; corrected 11 Nov 2026).** An earlier version of this file merged these into the criteria above as if they were part of them.
+
+- For 2: "safely" proposed to mean the request fails with a clear reason, and nothing is calculated or changed.
+- For 4: proposed to mean `CFG0` and the Settings screen's behaviour are unchanged, and the v0.6 golden snapshots stay identical.
+- For 5: proposed boundary values: each minimum and maximum, and both members of each ordered pair at their limits. Proposed invalid values: one below each minimum, one above each maximum, non-whole values for whole-number settings, out-of-order pairs, unknown names, non-numbers.
+- Reading the limits from `SETDEF` and the `applySettings()` lists at run time (section above) is also a proposal.
+
+**Open question for A2 (raised by Claude; your decision):** whether values between steps (for example `z: 1.67`) should be rejected. v0.6 does not enforce steps, so rejecting them would be a new rule.
 
 ## Appendix: the 29 settings and their existing limits (generated from `SETDEF` and `CFG0`)
 
