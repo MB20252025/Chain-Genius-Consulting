@@ -1,0 +1,3 @@
+wrapper changes WBNAME: FAIL (1) successful run with overrides: every top-level variable and the screen caches unchanged (WBNAME) => test-a1-state: 4 passed, 6 failed
+wrapper clears the screen MRP cache: FAIL (1) successful run with overrides: every top-level variable and the screen caches unchanged (R, R.memo) => test-a1-state: 7 passed, 3 failed
+wrapper leaves CFG.hor changed: FAIL (1) successful run with overrides: every top-level variable and the screen caches unchanged (CFG) => test-a1-state: 2 passed, 8 failed

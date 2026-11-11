@@ -1,0 +1,17 @@
+## CFG (6)
+   CGEngine: CFG[k] = @js/engine/engine-api.js:50
+   CGEngine: CFG.pol = @js/engine/engine-api.js:54
+   CGEngine: CFG.sup = @js/engine/engine-api.js:55
+   CGEngine: CFG[k] = @js/engine/engine-api.js:61
+## WB (2)
+   CGEngine: WB = @js/engine/engine-api.js:51
+   CGEngine: WB = @js/engine/engine-api.js:62
+## R (8)
+   CGEngine: R = @js/engine/engine-api.js:53
+   CGEngine: R.alt = @js/engine/engine-api.js:54
+   CGEngine: R.altS = @js/engine/engine-api.js:55
+   CGEngine: R = @js/engine/engine-api.js:62
+   fcAll: R.fcm = @js/forecasting.js:29
+   fcCredAll: R.fcc = @js/forecasting.js:40
+   memo: R.memo = @js/calculations.js:172
+   memo: R.memo[g] = @js/calculations.js:172
