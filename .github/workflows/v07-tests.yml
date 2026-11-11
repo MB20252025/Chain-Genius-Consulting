@@ -8,6 +8,9 @@ run-name: "v0.7 tests: green = no new failures, NOT full coverage"
 on:
   push:
     branches: [development/v0.7]
+    paths-ignore:
+      - "applications/inventory-intelligence-engine/tests/logs/**"
+      - "applications/inventory-intelligence-engine/tests/V07-TEST-RECORD.md"
 
 permissions:
   contents: read
