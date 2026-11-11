@@ -1,0 +1,6 @@
+run id: t2-20261111T221831Z-recovery-run-43110459273
+recovery run after revert commit a5ca36666cc98ecd4f54bebf8d0556ab38ad1045 (reverts the Fix 3 demo commit cd37a8a)
+run-all.sh sha256 at revert commit = at tag v0.7-tests-approved-1 = 5cce88ba905a931e05356925c8a4f24b194ee5b7ec9d0f3c192c4d14bbbef399
+GitHub run 43110459273: success; guard step 1 passed 9/9 (run-all.sh identical) before Node setup; fast tier PASS 18 | FAIL 0 | BLOCKED 0 | REDUCED 0 | ERROR 0; honest summary present
+rows identical to local run t2-20261111T202054Z-opening-guard-check-2
+recorded: 2026-11-11T22:18:32Z

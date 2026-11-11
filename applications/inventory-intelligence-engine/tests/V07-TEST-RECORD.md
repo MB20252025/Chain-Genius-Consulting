@@ -257,3 +257,26 @@ A preliminary full run with the same runner (exit 0, 534 s, the same statuses an
    - Initial attempts are clearly distinguished from valid demonstrations.
 
 **Authorship (owner decision, 11 Nov 2026):** commits keep the existing repository identity `MB20252025`, with no Co-Authored-By line unless the owner authorises one.
+
+---
+
+## T2 — GitHub Actions workflow (11 Nov 2026)
+
+Workflow: `.github/workflows/v07-tests.yml`. It runs on every push to `development/v0.7`. The `paths-ignore` list skips commits that change only `tests/logs/**` or `tests/V07-TEST-RECORD.md`; the entries are written as repository-root paths. Steps run in this order: checkout → **guard** (`check-control.js` from tag `v0.7-tests-approved-1`) → Node → pinned packages → `run-all.sh --fast` → honest summary (`tests/summarise-run.js`) → evidence artifact. If the guard fails, the job stops.
+
+| Event | Commit | GitHub run | Result |
+|---|---|---|---|
+| Workflow added | 7d37acf | 43095658340 | Stuck at GitHub (queued, 0 jobs). Cancel refused with HTTP 409. Kept as evidence |
+| Single authorised retry (evidence-only commit) | 399c627 | 43099063927 | success; guard first |
+| Fix 1: paths-ignore | f3ea28a | 43102251435 | success; guard first |
+| Evidence-only commits | fc62b59, 28a5218, 5d31652 | none | Latest run ID unchanged 60 s after each push |
+| Fix 2 part 1, mixed commit (summarise-run.js + evidence) | 272c7f4 | 43102755252 | success; guard first; waited about 11 min for a runner |
+| Fix 2 part 2: workflow summary | 0228528 | 43106057363 | success; `FAST: PASS 18 \| FAIL 0 \| ERROR 0 · Full tier (recorded in accepted-results.json): BLOCKED 6 \| REDUCED 2` |
+| **Fix 3: intentional altered-runner demonstration** | cd37a8a | 43110161774 | **failure**: guard FAIL `run-all.sh: CHANGED`; steps 2–4 skipped; no tests run |
+| Restore by `git revert` | a5ca366 | 43110459273 | success; guard first; run-all.sh SHA-256 matches the tag (`5cce88ba…`) |
+
+Local full run with the formatter: `FULL: PASS 31 | FAIL 0 | BLOCKED 5 | REDUCED 2 | ERROR 0`. check-control is recorded BLOCKED (STAGED) but now runs and passes, so the observed BLOCKED count is 5 while the recorded count is 6. The summary states this difference.
+
+Incident (my error): an over-broad pattern moved ten tracked screenshot folders out of the repository. They were restored byte-identical and never committed (`tests/logs/t2/t2-20261111T214643Z-incident-screens-glob/`).
+
+Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first opening-check run is marked INVALID.
