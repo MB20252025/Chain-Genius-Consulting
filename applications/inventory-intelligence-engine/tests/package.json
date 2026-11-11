@@ -3,10 +3,10 @@
  "description": "Test tooling for the Inventory Intelligence Engine (not needed to run the app)",
  "dependencies": {
   "xlsx": "0.18.5",
-  "jsdom": "*",
-  "acorn": "*",
+  "jsdom": "31.0.0",
+  "acorn": "8.19.0",
   "pdf-parse": "1.1.1",
-  "puppeteer-core": "*",
-  "@sparticuz/chromium": "*"
+  "puppeteer-core": "25.17.0",
+  "@sparticuz/chromium": "153.0.0"
  }
 }

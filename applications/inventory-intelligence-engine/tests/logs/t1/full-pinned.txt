@@ -1,0 +1,47 @@
+v0.7 tests (FULL) - green means no NEW failures, NOT full coverage
+PASS: 30 | FAIL: 0 | BLOCKED: 5 | REDUCED: 2 | ERROR: 0
+Scope: FULL (36 tests, all time zones, full 1,000-call wrapper) + pre-flight
+Checks counted in this run (first zone of each test): 1595
+Not running: 122 checks in REDUCED tests; 5 BLOCKED tests
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+BLOCKED  test-fglt-note              2      -                 -        D5 #1: needs the Phase 2 source tree (historical zip). [missing /mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2/js/app.js]
+BLOCKED  test-forecast-conf          2      -                 -        D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3. [missing /home/claude/p3tree.txt]
+BLOCKED  test-supplier-eligibility   2      -                 -        D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). [missing /home/claude/p3tree.txt]
+BLOCKED  phase2-comparison           1      -                 -        D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub. [git tag v0.6-candidate-4-phase2 not present]
+BLOCKED  test-paging-chrome          1      -                 -        D5 #5 / D3: Playwright's browser is not installed (download blocked). [playwright package not installed]
+REDUCED  test-phase1                 2      57 (full 125)     57       runs 57 of 125 (68 missing). Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running.
+REDUCED  test-uom                    2      110 (full 164)    110      runs 110 of 164 (54 missing). Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running.
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      40                40       
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              2      20                20       
+PASS     test-a1-sync-path           2      74                74       
+PASS     test-a1-state               2      10                10       
+PASS     test-a1-escaping            2      46                46       
+PASS     test-a1-wrapper             2      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     test7                       2      118               118      
+PASS     test8                       2      47                47       
+PASS     test9                       2      57                57       
+PASS     domtest                     2      30                30       
+PASS     domtest2                    2      18                18       
+PASS     test-failed-import          2      18                18       
+PASS     test-export-nohistory       2      19                19       
+PASS     test-timezones              2      15                15       
+PASS     test-po-edge                2      35                35       
+PASS     test-structure              2      34                34       
+PASS     test-paging                 2      23                23       
+PASS     test-fillcap                2      276               276      
+PASS     test-export-repeat          2      24                24       
+PASS     test-cache                  2      15                15       
+PASS     test-blank-qty              2      19                19       
+PASS     test-missing-values         2      63                63       
+PASS     test-na-constraints         2      88                88       
+PASS     python-verifier             1      17                17       
+PASS     scenarios                   1      16                16       
+PASS     browser-chrome              1      53                53       
+
+EXIT 0: no FAIL and no ERROR. Accepted limitations remain (5 BLOCKED, 2 REDUCED) and are listed above: this is NOT full coverage.
+exit=0 wall=423s

@@ -1,0 +1,94 @@
+# R3-blocked-file-missing: Blocked test file deleted (R3); tier widened to fast so the fast runner sees it
+Expected: test-fglt-note ERROR (file missing), not BLOCKED; check-control PENDING (tier added); exit 1
+Run: 2026-11-11T17:28:06Z
+Disposable copy: /home/claude/t1demo2-R3-blocked-file-missing  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ rm test-fglt-note.js; sed -i 's/"file": "test-fglt-note.js", "zones": "two", "tiers": \["full"\]/"file": "test-fglt-note.js", "zones": "two", "tiers": ["full", "fast"]/' accepted-results.json
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/accepted-results.json
+ D applications/inventory-intelligence-engine/tests/test-fglt-note.js
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/accepted-results.json b/applications/inventory-intelligence-engine/tests/accepted-results.json
+index 9080f3f..250fd30 100644
+--- a/applications/inventory-intelligence-engine/tests/accepted-results.json
++++ b/applications/inventory-intelligence-engine/tests/accepted-results.json
+@@ -36,7 +36,7 @@
+   {"name": "test-uom", "type": "node", "file": "test-uom.js", "zones": "two", "tiers": ["full"], "accepted": 110, "status": "REDUCED", "full": 164, "reduced_condition": {"env_unset": "P1_TREE"}, "reason": "Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running."},
+   {"name": "test-missing-values", "type": "node", "file": "test-missing-values.js", "zones": "two", "tiers": ["full"], "accepted": 63},
+   {"name": "test-na-constraints", "type": "node", "file": "test-na-constraints.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 88},
+-  {"name": "test-fglt-note", "type": "node", "file": "test-fglt-note.js", "zones": "two", "tiers": ["full"], "status": "BLOCKED", "blocker": {"kind": "dir", "env": "PHASE2", "default": "/mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2", "needs": "js/app.js"}, "reason": "D5 #1: needs the Phase 2 source tree (historical zip)."},
++  {"name": "test-fglt-note", "type": "node", "file": "test-fglt-note.js", "zones": "two", "tiers": ["full", "fast"], "status": "BLOCKED", "blocker": {"kind": "dir", "env": "PHASE2", "default": "/mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2", "needs": "js/app.js"}, "reason": "D5 #1: needs the Phase 2 source tree (historical zip)."},
+   {"name": "test-forecast-conf", "type": "node", "file": "test-forecast-conf.js", "zones": "two", "tiers": ["full"], "status": "BLOCKED", "blocker": {"kind": "p3tree", "env": "P3_TREE"}, "reason": "D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3."},
+   {"name": "test-supplier-eligibility", "type": "node", "file": "test-supplier-eligibility.js", "zones": "two", "tiers": ["full"], "status": "BLOCKED", "blocker": {"kind": "p3tree"}, "reason": "D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip)."},
+   {"name": "phase2-comparison", "type": "blocked-only", "file": "run-regression.sh", "tiers": ["full"], "status": "BLOCKED", "blocker": {"kind": "git-tag", "tag": "v0.6-candidate-4-phase2"}, "reason": "D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub."},
+diff --git a/applications/inventory-intelligence-engine/tests/test-fglt-note.js b/applications/inventory-intelligence-engine/tests/test-fglt-note.js
+deleted file mode 100644
+index 7e2b45c..0000000
+--- a/applications/inventory-intelligence-engine/tests/test-fglt-note.js
++++ /dev/null
+@@ -1,24 +0,0 @@
+-// Phase 3 item 4: the finished-goods fixed-production-time note is shown, and NOTHING else changes.
+-// Compares this candidate with the Phase 2 source (read-only) over every fixture workbook: all calculated values identical; every screen identical once the new sentences are removed.
+-const fs=require('fs'),path=require('path');global.XLSX=require('xlsx');global.document={querySelector:()=>({textContent:'',innerHTML:''}),addEventListener(){},querySelectorAll:()=>[]};
+-let pass=0,fail=0;const ok=(c,m)=>{c?(pass++,process.env.VERBOSE&&console.log('PASS:',m)):(fail++,console.log('FAIL:',m))};
+-const load=root=>{const src=['calculations','forecasting','app','excel-import'].map(n=>fs.readFileSync(root+'/js/'+n+'.js','utf8')).join('\n'),A={};new Function('XLSX','document','out',src+';out.go=(wb,pol)=>{WB=wb;CFG.pol=pol;R=analyse();CFG.pol=pol?0:1;try{R.alt=analyse()}finally{CFG.pol=pol}const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}link();return R};out.html=k=>{tab=k;return views[k]()};out.tabs=()=>ORDER.filter(k=>views[k]);out.CFG=CFG')(XLSX,document,A);return A};
+-const NEW=load(path.join(__dirname,'..')),OLD=load(process.env.PHASE2||'/mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2');
+-const FX=[];(function w(d){for(const f of fs.readdirSync(d)){const p=path.join(d,f);fs.statSync(p).isDirectory()?w(p):/\.xlsx$/.test(f)&&FX.push(p)}})(path.join(__dirname,'fixtures'));
+-const SENT=[" Finished goods assume a fixed production time: the calculated safety stock includes demand variability but no production-time variability (σLT is shown as 0 for finished goods even where production orders vary), so it may be understated for products whose production times vary."," Finished-goods safety stock assumes a fixed production time (see Reorder policy)."," Finished-goods safety stock assumes a fixed production time: production-time variability is not included, although raw-material safety stock does include supplier lead-time variability."];
+-const strip=h=>SENT.reduce((s,t)=>s.split(t).join(''),h);
+-const vals=R=>JSON.stringify({fg:R.fg,rm:R.rm,tot:R.tot},(k,v)=>typeof v==='number'&&!isFinite(v)?String(v):v);
+-let shown=0;
+-for(const fx of FX){const wb=XLSX.readFile(fx,{cellDates:true}),nm=path.relative(path.join(__dirname,'fixtures'),fx);let a,b,err=null;
+- for(const pol of [0,1]){try{a=NEW.go(wb,pol);b=OLD.go(wb,pol)}catch(e){err=e;break}
+-  ok(vals(a)===vals(b),'C1 '+nm+' policy '+pol+': items, safety stock, reorder points, risk classes and totals are identical to Phase 2');
+-  {const dn=JSON.stringify(a.dq),do_=JSON.stringify(b.dq);const extra=a.dq.filter(d=>!b.dq.some(e=>JSON.stringify(e)===JSON.stringify(d))),gone=b.dq.filter(d=>!a.dq.some(e=>JSON.stringify(e)===JSON.stringify(d)));
+-   ok(dn===do_||(/willow/.test(nm)&&[...extra,...gone].every(d=>/Missing values in|contains no values/.test(d.msg))),'C3 '+nm+' policy '+pol+': Data Quality findings identical to Phase 2'+(dn===do_?'':' except expected missing-value reclassification (item 2): +'+extra.length+' / -'+gone.length))}
+-  const tabs=NEW.tabs();let same=0,diff=[];for(const k of tabs.filter(t=>!['Data quality','Overview','Suppliers','Data confidence','Summary','Client questions','Forecast accuracy','Settings'].includes(t))){const x=NEW.html(k),y=OLD.html(k);(strip(x)===y)?same++:diff.push(k)}
+-  ok(!diff.length,'C2 '+nm+' policy '+pol+': all '+(tabs.length-1)+' screens other than Data quality are identical to Phase 2 once the new sentences are removed'+(diff.length?' (differ: '+diff.join(', ')+')':''))}
+- if(err)ok(true,'C0 '+nm+': does not analyse in either version ('+err.message.slice(0,50)+') - skipped')}
+-const nsWb=XLSX.readFile(path.join(__dirname,'fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx'),{cellDates:true});NEW.go(nsWb,0);
+-ok(NEW.html('Reorder policy').includes(SENT[0].trim()),'N1 Reorder policy screen states that finished goods assume a fixed production time and that σLT is shown as 0');
+-ok(NEW.html('Finished goods').includes(SENT[1].trim()),'N2 Finished goods screen carries the note');
+-ok(NEW.html('Settings').includes(SENT[2].trim()),'N3 Settings "Fixed rules" carries the note');
+-console.log(`test-fglt-note: ${pass} passed, ${fail} failed`);process.exit(fail?1:0)
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 17 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 1
+Scope: FAST (18 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1113
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+ERROR    test-fglt-note              1      -                 -        test file test-fglt-note.js is MISSING (a missing file is never an accepted blocker)
+FAIL     check-protection            1      127               126      1 check(s) failed: FAIL: file tests/test-fglt-note.js CHANGED: sha256 MISSING (expected 9d4742876316032c)
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 1 FAIL and 1 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

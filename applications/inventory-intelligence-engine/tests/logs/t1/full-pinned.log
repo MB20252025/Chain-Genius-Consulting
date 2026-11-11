@@ -1,0 +1,1204 @@
+v0.7 tests (FULL) - green means no NEW failures, NOT full coverage
+PASS: 30 | FAIL: 0 | BLOCKED: 5 | REDUCED: 2 | ERROR: 0
+Scope: FULL (36 tests, all time zones, full 1,000-call wrapper) + pre-flight
+Checks counted in this run (first zone of each test): 1595
+Not running: 122 checks in REDUCED tests; 5 BLOCKED tests
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+BLOCKED  test-fglt-note              2      -                 -        D5 #1: needs the Phase 2 source tree (historical zip). [missing /mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2/js/app.js]
+BLOCKED  test-forecast-conf          2      -                 -        D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3. [missing /home/claude/p3tree.txt]
+BLOCKED  test-supplier-eligibility   2      -                 -        D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). [missing /home/claude/p3tree.txt]
+BLOCKED  phase2-comparison           1      -                 -        D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub. [git tag v0.6-candidate-4-phase2 not present]
+BLOCKED  test-paging-chrome          1      -                 -        D5 #5 / D3: Playwright's browser is not installed (download blocked). [playwright package not installed]
+REDUCED  test-phase1                 2      57 (full 125)     57       runs 57 of 125 (68 missing). Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running.
+REDUCED  test-uom                    2      110 (full 164)    110      runs 110 of 164 (54 missing). Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running.
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      40                40       
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              2      20                20       
+PASS     test-a1-sync-path           2      74                74       
+PASS     test-a1-state               2      10                10       
+PASS     test-a1-escaping            2      46                46       
+PASS     test-a1-wrapper             2      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     test7                       2      118               118      
+PASS     test8                       2      47                47       
+PASS     test9                       2      57                57       
+PASS     domtest                     2      30                30       
+PASS     domtest2                    2      18                18       
+PASS     test-failed-import          2      18                18       
+PASS     test-export-nohistory       2      19                19       
+PASS     test-timezones              2      15                15       
+PASS     test-po-edge                2      35                35       
+PASS     test-structure              2      34                34       
+PASS     test-paging                 2      23                23       
+PASS     test-fillcap                2      276               276      
+PASS     test-export-repeat          2      24                24       
+PASS     test-cache                  2      15                15       
+PASS     test-blank-qty              2      19                19       
+PASS     test-missing-values         2      63                63       
+PASS     test-na-constraints         2      88                88       
+PASS     python-verifier             1      17                17       
+PASS     scenarios                   1      16                16       
+PASS     browser-chrome              1      53                53       
+
+EXIT 0: no FAIL and no ERROR. Accepted limitations remain (5 BLOCKED, 2 REDUCED) and are listed above: this is NOT full coverage.
+
+===== full output of every command =====
+$ TZ=UTC node check-protection.js  -> exit 0
+PASS: ref refs/heads/main = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: file tests/fixtures/edge/scenario-combined.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-dupexact.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-dupkey.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-multiline.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-overrec.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-overshort.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-partial.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-posupconflict.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-splitline.xlsx unchanged
+PASS: file tests/fixtures/edge/supplier-output-combined.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-dupexact.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-dupkey.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-multiline.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overrec.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overrec.pre-cap-candidate2.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overshort.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-partial.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-posupconflict.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-splitline.json unchanged
+PASS: file tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx unchanged
+PASS: file tests/fixtures/structure/scenario-willow.xlsx unchanged
+PASS: file tests/fixtures/structure/supplier-output-willow.json unchanged
+PASS: file tests/fixtures/suppliers/scenario-allfuture.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-nohist.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-nopo.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-s0.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-three.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-unknown.xlsx unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-allfuture.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-nohist.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-nopo.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-s0.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-three.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-unknown.json unchanged
+PASS: file tests/snapshots/v0.5-golden-20261105T101953Z.json unchanged
+PASS: file tests/snapshots/v0.6.0-baseline-20261109T152050Z.json unchanged
+PASS: file tests/test-a1-wrapper.js unchanged
+check-protection: 40 passed, 0 failed (3 references on "origin", 37 files)
+
+$ TZ=UTC node check-globals.js  -> exit 0
+check-globals: 116 passed, 0 failed (5 files, 92 top-level names, 20 load-time references checked)
+
+$ TZ=UTC node test-a1-static.js  -> exit 0
+rule 2: files outside the allowed list: none yet (rule applies to files added in A2 and later)
+test-a1-static: 20 passed, 0 failed
+
+$ TZ=Europe/London node test-a1-static.js  -> exit 0
+rule 2: files outside the allowed list: none yet (rule applies to files added in A2 and later)
+test-a1-static: 20 passed, 0 failed
+
+$ TZ=UTC node test-a1-sync-path.js  -> exit 0
+test-a1-sync-path: 74 passed, 0 failed
+
+$ TZ=Europe/London node test-a1-sync-path.js  -> exit 0
+test-a1-sync-path: 74 passed, 0 failed
+
+$ TZ=UTC node test-a1-state.js  -> exit 0
+test-a1-state: 10 passed, 0 failed
+
+$ TZ=Europe/London node test-a1-state.js  -> exit 0
+test-a1-state: 10 passed, 0 failed
+
+$ TZ=UTC node test-a1-escaping.js  -> exit 0
+test-a1-escaping: 46 passed, 0 failed
+
+$ TZ=Europe/London node test-a1-escaping.js  -> exit 0
+test-a1-escaping: 46 passed, 0 failed
+
+$ TZ=UTC node test-a1-wrapper.js  -> exit 0
+test-a1-wrapper: 117 passed, 0 failed
+
+$ TZ=Europe/London node test-a1-wrapper.js  -> exit 0
+test-a1-wrapper: 117 passed, 0 failed
+
+$ TZ=UTC node regress.js .. /tmp/runall-hskS5f/regress-UTC.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=UTC node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-hskS5f/regress-UTC.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Europe/London node regress.js .. /tmp/runall-hskS5f/regress-Europe_London.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Europe/London node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-hskS5f/regress-Europe_London.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=America/New_York node regress.js .. /tmp/runall-hskS5f/regress-America_New_York.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=America/New_York node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-hskS5f/regress-America_New_York.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Asia/Kolkata node regress.js .. /tmp/runall-hskS5f/regress-Asia_Kolkata.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Asia/Kolkata node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-hskS5f/regress-Asia_Kolkata.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Pacific/Auckland node regress.js .. /tmp/runall-hskS5f/regress-Pacific_Auckland.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Pacific/Auckland node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-hskS5f/regress-Pacific_Auckland.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=UTC node regress.js .. /tmp/runall-hskS5f/regress-UTC.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=UTC node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-hskS5f/regress-UTC.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Europe/London node regress.js .. /tmp/runall-hskS5f/regress-Europe_London.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Europe/London node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-hskS5f/regress-Europe_London.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=America/New_York node regress.js .. /tmp/runall-hskS5f/regress-America_New_York.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=America/New_York node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-hskS5f/regress-America_New_York.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Asia/Kolkata node regress.js .. /tmp/runall-hskS5f/regress-Asia_Kolkata.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Asia/Kolkata node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-hskS5f/regress-Asia_Kolkata.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=Pacific/Auckland node regress.js .. /tmp/runall-hskS5f/regress-Pacific_Auckland.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=Pacific/Auckland node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-hskS5f/regress-Pacific_Auckland.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=UTC node test7.js  -> exit 0
+PASS view Overview renders
+PASS view Health renders
+PASS view Finished goods renders
+PASS view Materials renders
+PASS view MRP renders
+PASS view Production feasibility renders
+PASS view Excess & dead stock renders
+PASS view Policy comparison renders
+PASS view Reorder policy renders
+PASS view Forecast accuracy renders
+PASS view Demand forecast renders
+PASS view Suppliers renders
+PASS view Data quality renders
+PASS view Client questions renders
+PASS view Data confidence renders
+PASS view Summary renders
+PASS view Settings renders
+PASS FG low cover seeds
+PASS FG excess seeds
+PASS RM low seeds critical
+PASS RM excess seeds
+SUP009 54 High risk otd52 n21 excl0 | SUP006 54 High risk otd52 n21 excl0 | SUP011 48 High risk otd31 n16 excl2 | SUP003 42 High risk otd24 n21 excl0
+PASS SUP003 & SUP011 in bottom 3 by score
+PASS values match v0.1 ref
+PO recon {"invRM":32634,"invFG":2378,"snap":300,"now":0,"PC":{"rec":{"n":296,"ord":24970,"qty":24788,"short":182,"noQty":0,"undated":0},"fut":{"n":4,"q":300,"over":225,"notDue":75,"ids":["PO0003","PO0030","PO0110","PO0190"]},"open":{"n":0,"q":0,"over":0,"notDue":0,"partial":0},"after":{"n":0,"q":0},"can":{"n":0,"q":0},"bad":{"n":0,"ids":[]}},"gap":32334,"explained":0.009192866335723478,"mis":100,"status":"Largely unreconciled"}
+A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is 32,634 units, but purchase orders support 300 units outstanding at the snapshot date. 32,334 units (100 materials differ) cannot be explained from this workbook. This does not by itself show lost stock, mis-valued inventory or a purchasing error. Finished-goods On_Order_Qty (2,378) has no purchase-order source. On-order drives inventory position, so it should be confirmed before it is relied on.
+health overall 87.7 cats 108/11/15/15/1
+classes Active:118 Slow-moving:26 Excess stock:6 Potentially obsolete:0 No recorded demand:0
+seed health FG003:36 stockout / below safety stock/cover below lead time/below reorder point/forecast bias | FG014:60 excess cover/demand variability/forecast bias | RM001:42 stockout / below safety stock/cover below lead time/below reorder point | RM009:80 excess cover
+WAPE FG003/FG014 0.46 0.63
+ROP verdict counts insufficient:22 possibly excessiv:96 ed:32
+pol=1 high+: 28 vs pol=0: 29
+PASS ABC inclusive-cumulative rule FG+RM
+PASS ABC thresholds 100/100 → all A
+PASS XSS payload planted in Products/Materials/Suppliers
+PASS XSS: no raw injected tags in any view
+PASS XSS: payload visible as escaped text
+PASS missing sheet → clear error: Missing sheet(s): BOM
+PASS empty PO sheet does not crash
+PASS zero demand: no NaN/crash, cls=No recorded demand
+PASS dup SKU / negative qty / alloc>onhand detected
+PASS recon uses snapshot POs=300 (short receipts not counted as outstanding)
+PASS recon gap total = 32,334
+PASS every material has 3 POs
+policy changes 34 riskier under calc 7 safer 27 FG001:1→0 FG002:1→0 FG019:1→0 FG021:1→0 FG023:1→0 FG027:3→2
+PASS alt run is the opposite policy
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+RM001 gross 1159.1 ss 115 avail 0 sched receipts 0 net 1274.1 moq 25
+ | RM001 |  | ORDER NOW |  | 0 |  | 0 |  | 1,159 |  | 115 |  | 1,274 |  | 25 |  | 1,275 |  | £8,708 |  | 2026-10-31 |  | overdue by 37d |  | 1,195 | FG001 (87/mo), FG038 (66/mo) |  | 
+PASS MRP status counts present
+MRP ORDER NOW rows 26
+PASS seeded low-cover RMs → ORDER NOW
+PASS seeded excess RMs → Covered
+PASS suggested qty multiples of MOQ
+PASS horizon 6 gives larger or equal spend
+PASS verified mode: FG on-order=0, RM on-order=PO outstanding
+PASS verified mode seeds still detected
+PASS inventory mode: oo = recorded on-order
+PASS supply setting changes position
+PASS MRP applies supply setting (note text)
+PASS feasibility applies supply setting
+PASS supply comparison card present
+items changing class between supply sources: 32
+PASS feasibility flags simulated orders
+feasibility statuses Feasible:16 | Feasible with incoming materials:0 | At risk:1 | Material shortage:33 | Insufficient information:0
+PASS no material over-committed across accepted orders (0 violations)
+first order SIM1 FG003 211 Feasible []
+PASS real open orders used instead of simulated (2 orders)
+confidence H/M/L 42 67 41
+PASS every item has confidence + reason
+PASS RM never High (estimated usage)
+client questions 10
+PASS on-order question generated with 32,334 evidence
+PASS open production order question generated
+PASS summary renders with SIMULATED label & limitations
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+confidence H/M/L (FG) 42/7/1 (RM) 0/60/40
+PASS Low confidence now occurs
+PASS RM shortage items are Low (est. usage + supplier sample)
+PASS RM excess seeds not High (estimated usage)
+PASS supply-source dependency lowers confidence
+PASS banner names supply source
+PASS MRP KPI states supply source
+PASS banner flags UNVERIFIED
+PASS reorder policy view explains each item
+PASS all 50 products forecast
+PASS no NaN/negative forecasts
+PASS 12-month history triggers seasonality warning
+methods chosen mean,19 wma3,15 ma3,13 ma6,1 trend,2 trend No significant trend,34 Rising,1 Falling,15 unc Medium,44 Low,5 High,1
+PASS synthetic 36m seasonal series: seasonality detected & seasonal method available
+PASS seasonal series: no seasonality warning
+PASS rising series → Rising, trend method best
+PASS flat noisy series → no significant trend
+PASS <6 months → no forecast, no crash
+PASS zero demand: finite, no NaN
+PASS no Forecast_Units → existing-forecast baseline null (nothing invented)
+PASS uncertainty range wider than forecast point
+PASS chart is SVG, id escaped
+PASS forecast view renders with chart and method table
+avg analyse ms 84.3
+PASS seasonal disabled with 12-month data (no product offers it)
+PASS all methods produce valid back-test results
+PASS uncertainty bands widen with horizon (all 50)
+PASS no negative forecast or lower bound
+PASS back-test months setting recalculates (3 test points)
+PASS forecast horizon setting changes table column
+PASS forecast view states bands are not guaranteed
+CONFIDENCE all 150 H/M/L 42 67 41 | FG 42/7/1 | RM 0/60/40
+confidence reasons {"risk class changes with the supply source (on-order does not reconcile to POs)":32,"lead time is a proxy from too few production orders":3,"volatile demand":1,"consumption estimated from BOM, not recorded":100,"lead time rests on a small or unreliable supplier sample":26}
+summary 118 pass 0 fail
+
+$ TZ=Europe/London node test7.js  -> exit 0
+PASS view Overview renders
+PASS view Health renders
+PASS view Finished goods renders
+PASS view Materials renders
+PASS view MRP renders
+PASS view Production feasibility renders
+PASS view Excess & dead stock renders
+PASS view Policy comparison renders
+PASS view Reorder policy renders
+PASS view Forecast accuracy renders
+PASS view Demand forecast renders
+PASS view Suppliers renders
+PASS view Data quality renders
+PASS view Client questions renders
+PASS view Data confidence renders
+PASS view Summary renders
+PASS view Settings renders
+PASS FG low cover seeds
+PASS FG excess seeds
+PASS RM low seeds critical
+PASS RM excess seeds
+SUP009 54 High risk otd52 n21 excl0 | SUP006 54 High risk otd52 n21 excl0 | SUP011 48 High risk otd31 n16 excl2 | SUP003 42 High risk otd24 n21 excl0
+PASS SUP003 & SUP011 in bottom 3 by score
+PASS values match v0.1 ref
+PO recon {"invRM":32634,"invFG":2378,"snap":300,"now":0,"PC":{"rec":{"n":296,"ord":24970,"qty":24788,"short":182,"noQty":0,"undated":0},"fut":{"n":4,"q":300,"over":225,"notDue":75,"ids":["PO0003","PO0030","PO0110","PO0190"]},"open":{"n":0,"q":0,"over":0,"notDue":0,"partial":0},"after":{"n":0,"q":0},"can":{"n":0,"q":0},"bad":{"n":0,"ids":[]}},"gap":32334,"explained":0.009192866335723478,"mis":100,"status":"Largely unreconciled"}
+A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is 32,634 units, but purchase orders support 300 units outstanding at the snapshot date. 32,334 units (100 materials differ) cannot be explained from this workbook. This does not by itself show lost stock, mis-valued inventory or a purchasing error. Finished-goods On_Order_Qty (2,378) has no purchase-order source. On-order drives inventory position, so it should be confirmed before it is relied on.
+health overall 87.7 cats 108/11/15/15/1
+classes Active:118 Slow-moving:26 Excess stock:6 Potentially obsolete:0 No recorded demand:0
+seed health FG003:36 stockout / below safety stock/cover below lead time/below reorder point/forecast bias | FG014:60 excess cover/demand variability/forecast bias | RM001:42 stockout / below safety stock/cover below lead time/below reorder point | RM009:80 excess cover
+WAPE FG003/FG014 0.46 0.63
+ROP verdict counts insufficient:22 possibly excessiv:96 ed:32
+pol=1 high+: 28 vs pol=0: 29
+PASS ABC inclusive-cumulative rule FG+RM
+PASS ABC thresholds 100/100 → all A
+PASS XSS payload planted in Products/Materials/Suppliers
+PASS XSS: no raw injected tags in any view
+PASS XSS: payload visible as escaped text
+PASS missing sheet → clear error: Missing sheet(s): BOM
+PASS empty PO sheet does not crash
+PASS zero demand: no NaN/crash, cls=No recorded demand
+PASS dup SKU / negative qty / alloc>onhand detected
+PASS recon uses snapshot POs=300 (short receipts not counted as outstanding)
+PASS recon gap total = 32,334
+PASS every material has 3 POs
+policy changes 34 riskier under calc 7 safer 27 FG001:1→0 FG002:1→0 FG019:1→0 FG021:1→0 FG023:1→0 FG027:3→2
+PASS alt run is the opposite policy
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+RM001 gross 1159.1 ss 115 avail 0 sched receipts 0 net 1274.1 moq 25
+ | RM001 |  | ORDER NOW |  | 0 |  | 0 |  | 1,159 |  | 115 |  | 1,274 |  | 25 |  | 1,275 |  | £8,708 |  | 2026-10-31 |  | overdue by 37d |  | 1,195 | FG001 (87/mo), FG038 (66/mo) |  | 
+PASS MRP status counts present
+MRP ORDER NOW rows 26
+PASS seeded low-cover RMs → ORDER NOW
+PASS seeded excess RMs → Covered
+PASS suggested qty multiples of MOQ
+PASS horizon 6 gives larger or equal spend
+PASS verified mode: FG on-order=0, RM on-order=PO outstanding
+PASS verified mode seeds still detected
+PASS inventory mode: oo = recorded on-order
+PASS supply setting changes position
+PASS MRP applies supply setting (note text)
+PASS feasibility applies supply setting
+PASS supply comparison card present
+items changing class between supply sources: 32
+PASS feasibility flags simulated orders
+feasibility statuses Feasible:16 | Feasible with incoming materials:0 | At risk:1 | Material shortage:33 | Insufficient information:0
+PASS no material over-committed across accepted orders (0 violations)
+first order SIM1 FG003 211 Feasible []
+PASS real open orders used instead of simulated (2 orders)
+confidence H/M/L 42 67 41
+PASS every item has confidence + reason
+PASS RM never High (estimated usage)
+client questions 10
+PASS on-order question generated with 32,334 evidence
+PASS open production order question generated
+PASS summary renders with SIMULATED label & limitations
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+confidence H/M/L (FG) 42/7/1 (RM) 0/60/40
+PASS Low confidence now occurs
+PASS RM shortage items are Low (est. usage + supplier sample)
+PASS RM excess seeds not High (estimated usage)
+PASS supply-source dependency lowers confidence
+PASS banner names supply source
+PASS MRP KPI states supply source
+PASS banner flags UNVERIFIED
+PASS reorder policy view explains each item
+PASS all 50 products forecast
+PASS no NaN/negative forecasts
+PASS 12-month history triggers seasonality warning
+methods chosen mean,19 wma3,15 ma3,13 ma6,1 trend,2 trend No significant trend,34 Rising,1 Falling,15 unc Medium,44 Low,5 High,1
+PASS synthetic 36m seasonal series: seasonality detected & seasonal method available
+PASS seasonal series: no seasonality warning
+PASS rising series → Rising, trend method best
+PASS flat noisy series → no significant trend
+PASS <6 months → no forecast, no crash
+PASS zero demand: finite, no NaN
+PASS no Forecast_Units → existing-forecast baseline null (nothing invented)
+PASS uncertainty range wider than forecast point
+PASS chart is SVG, id escaped
+PASS forecast view renders with chart and method table
+avg analyse ms 74.2
+PASS seasonal disabled with 12-month data (no product offers it)
+PASS all methods produce valid back-test results
+PASS uncertainty bands widen with horizon (all 50)
+PASS no negative forecast or lower bound
+PASS back-test months setting recalculates (3 test points)
+PASS forecast horizon setting changes table column
+PASS forecast view states bands are not guaranteed
+CONFIDENCE all 150 H/M/L 42 67 41 | FG 42/7/1 | RM 0/60/40
+confidence reasons {"risk class changes with the supply source (on-order does not reconcile to POs)":32,"lead time is a proxy from too few production orders":3,"volatile demand":1,"consumption estimated from BOM, not recorded":100,"lead time rests on a small or unreliable supplier sample":26}
+summary 118 pass 0 fail
+
+$ TZ=UTC node test8.js  -> exit 0
+PASS T1 zero planned + missing completed excluded: 3 orders, 1 used, 2 excluded
+PASS T1 totals use only the valid order (missing quantity NOT treated as zero)
+PASS T1 all orders invalid → attainment null (no NaN, no division by zero)
+PASS T1 prCard renders with invalid data
+PASS T1 a genuine zero completed quantity IS counted (planned>0, actual 0)
+PASS T2 supRisk ordered by at-risk desc, score asc, id asc (all 15)
+PASS T2 Overview panel lists the same top 5 in the same order with class, score, at-risk, supplied
+PASS T2 Suppliers tab shows Risk rank, Score rank and the same ordering
+PASS T2 ranking recomputes under the calculated policy and stays ordered
+PASS T3 no history → "Assumed (default setting)", value = setting, says not from data
+PASS T3 one order → "Estimated", n=1, warns fewer than 5
+PASS T3 9 orders → "Calculated", value = independent mean
+PASS T3 order with finish before start excluded and disclosed
+PASS T3 lead-time column in Products → "Supplied", value 9, history shown for comparison only
+PASS T3 other products without a supplied value are still derived (not labelled Supplied)
+PASS T3 material with missing lead time falls back to supplier standard and says so
+PASS T3 baseline: all RM lead times labelled Supplied (+ calculated lateness) with PO count and date range
+PASS T3 Finished goods table shows LT source and LT basis columns
+PASS T4 missing forecasts excluded, not zero-filled: WAPE matches valid-pairs calc and differs from zero-fill
+PASS T4 under 6 periods → Insufficient, "Cannot assess", low confidence, no strong verdict
+PASS T4 zero-demand periods detected (2) and data quality Limited
+PASS T4 one isolated spike = 1 outlier, not a level shift
+PASS T4 two consecutive extreme months = level shift (not an outlier); genuine bias still reported
+PASS T4 two missing periods detected for the SKU
+PASS T4 perfect accuracy → flagged "Unusually high accuracy – validate source", never High confidence
+PASS T4 dataset-level warning appears when ≥50% of products show accuracy ≥ threshold (and says it is not itself a problem)
+PASS T4 genuinely noisy forecasts: no "unusually consistent" warning
+PASS T4 no Forecast_Units column: clear message, nothing invented, all tabs still render
+PASS T4 all-zero demand: no NaN/crash, assessment says cannot judge accuracy
+PASS T4 workbook with renamed IDs and no notes sheets: no demo detection, generic banner, no errors
+PASS T4 same analysis on renamed workbook (High+ count identical to original: 29)
+PASS T4 workbook note with HTML payload shown escaped; declared IDs read from the file
+PASS T4 notes-derived demo banner and tags come from the workbook (START HERE statement detected)
+PASS T5 mixed statuses: received/cancelled/after/undated/short/bad classified exactly as independent logic
+PASS T5 every PO lands in exactly one category (300)
+PASS T5 cancelled and post-snapshot POs are NOT supply; open overdue and not-yet-due ARE; received on the snapshot day is closed
+PASS T5 verified supply feeds the position of the right materials
+PASS T5 status for a large unexplained gap, shown in Data Quality tab with all six outputs
+PASS T5 inventory on-order equal to PO supply → "Reconciled", gap 0, no reconciliation data issue
+PASS T5 reconciled case wording says matches
+PASS T5 30% explained → "Partly reconciled"
+PASS T5 94% explained → "Mostly reconciled"
+PASS T5 POs exceed inventory on-order → explicit status (not "Cannot assess")
+PASS T5 totals match but materials differ → says so
+PASS T5 empty Purchase Orders sheet: no crash, status cannot assess
+PASS T5 Northstar: 300 units (4 POs) future-dated; 296 POs received before snapshot; 32,334 unreconciled
+PASS XSS: imported names escaped on every tab
+summary 47 pass 0 fail
+
+$ TZ=Europe/London node test8.js  -> exit 0
+PASS T1 zero planned + missing completed excluded: 3 orders, 1 used, 2 excluded
+PASS T1 totals use only the valid order (missing quantity NOT treated as zero)
+PASS T1 all orders invalid → attainment null (no NaN, no division by zero)
+PASS T1 prCard renders with invalid data
+PASS T1 a genuine zero completed quantity IS counted (planned>0, actual 0)
+PASS T2 supRisk ordered by at-risk desc, score asc, id asc (all 15)
+PASS T2 Overview panel lists the same top 5 in the same order with class, score, at-risk, supplied
+PASS T2 Suppliers tab shows Risk rank, Score rank and the same ordering
+PASS T2 ranking recomputes under the calculated policy and stays ordered
+PASS T3 no history → "Assumed (default setting)", value = setting, says not from data
+PASS T3 one order → "Estimated", n=1, warns fewer than 5
+PASS T3 9 orders → "Calculated", value = independent mean
+PASS T3 order with finish before start excluded and disclosed
+PASS T3 lead-time column in Products → "Supplied", value 9, history shown for comparison only
+PASS T3 other products without a supplied value are still derived (not labelled Supplied)
+PASS T3 material with missing lead time falls back to supplier standard and says so
+PASS T3 baseline: all RM lead times labelled Supplied (+ calculated lateness) with PO count and date range
+PASS T3 Finished goods table shows LT source and LT basis columns
+PASS T4 missing forecasts excluded, not zero-filled: WAPE matches valid-pairs calc and differs from zero-fill
+PASS T4 under 6 periods → Insufficient, "Cannot assess", low confidence, no strong verdict
+PASS T4 zero-demand periods detected (2) and data quality Limited
+PASS T4 one isolated spike = 1 outlier, not a level shift
+PASS T4 two consecutive extreme months = level shift (not an outlier); genuine bias still reported
+PASS T4 two missing periods detected for the SKU
+PASS T4 perfect accuracy → flagged "Unusually high accuracy – validate source", never High confidence
+PASS T4 dataset-level warning appears when ≥50% of products show accuracy ≥ threshold (and says it is not itself a problem)
+PASS T4 genuinely noisy forecasts: no "unusually consistent" warning
+PASS T4 no Forecast_Units column: clear message, nothing invented, all tabs still render
+PASS T4 all-zero demand: no NaN/crash, assessment says cannot judge accuracy
+PASS T4 workbook with renamed IDs and no notes sheets: no demo detection, generic banner, no errors
+PASS T4 same analysis on renamed workbook (High+ count identical to original: 29)
+PASS T4 workbook note with HTML payload shown escaped; declared IDs read from the file
+PASS T4 notes-derived demo banner and tags come from the workbook (START HERE statement detected)
+PASS T5 mixed statuses: received/cancelled/after/undated/short/bad classified exactly as independent logic
+PASS T5 every PO lands in exactly one category (300)
+PASS T5 cancelled and post-snapshot POs are NOT supply; open overdue and not-yet-due ARE; received on the snapshot day is closed
+PASS T5 verified supply feeds the position of the right materials
+PASS T5 status for a large unexplained gap, shown in Data Quality tab with all six outputs
+PASS T5 inventory on-order equal to PO supply → "Reconciled", gap 0, no reconciliation data issue
+PASS T5 reconciled case wording says matches
+PASS T5 30% explained → "Partly reconciled"
+PASS T5 94% explained → "Mostly reconciled"
+PASS T5 POs exceed inventory on-order → explicit status (not "Cannot assess")
+PASS T5 totals match but materials differ → says so
+PASS T5 empty Purchase Orders sheet: no crash, status cannot assess
+PASS T5 Northstar: 300 units (4 POs) future-dated; 296 POs received before snapshot; 32,334 unreconciled
+PASS XSS: imported names escaped on every tab
+summary 47 pass 0 fail
+
+$ TZ=UTC node test9.js  -> exit 0
+PASS S1 supplier with no POs is listed (15 of 15), Not assessed, no score, evidence None
+PASS S1 its materials are counted: supplied = sheet count, at-risk = materials rated High or Critical
+PASS S1 lead time of its materials: no lateness added and says there is no delivery history (not assumed zero)
+PASS S1 no health penalty "unreliable supplier" for a supplier with no history
+PASS S1 confidence reason is "supplier has no delivery history" (not the generic small-sample reason)
+PASS S1 plain-language explanation mentions no received orders and how to improve
+PASS S1 ranking: ordered by at-risk, then score (unscored last on ties), then id
+PASS S1 Suppliers tab shows the supplier as Not assessed with no NaN/undefined; Overview and Summary render
+PASS S1 Summary says suppliers could not be assessed and are not counted as problems
+PASS S1 client question asks for the missing delivery history, naming the supplier
+PASS S1 inventory valuation / safety stock / MRP quantities for ALL items unchanged except lateness-driven lead time of its materials
+PASS S2 all POs received after the snapshot → Not assessed with reason "no PO received by the snapshot", POs counted as future-dated supply
+PASS S3 three POs → evidence Limited, scored, but never called a confirmed "Performance problem"
+PASS S4 no purchase orders at all: all 15 Not assessed, at-risk still counted, all tabs render, supplier area rated Low
+PASS S5 supplier referenced by materials but missing from the Suppliers sheet is still listed (known=false)
+PASS THRESHOLD fcHighAcc=99: calculations unchanged; fewer products flagged unusually accurate
+PASS THRESHOLD fcHighShare=90: calculations unchanged; dataset-wide warning disappears
+PASS THRESHOLD fcBias=2: calculations unchanged; fewer products called Balanced
+PASS THRESHOLD fcBiasShare=100 (with fcBias=2): calculations unchanged; fewer findings called Consistent
+PASS THRESHOLD outZ=10: calculations unchanged; no level shifts or outliers flagged
+PASS THRESHOLD ltMinN=3: calculations unchanged; 3-order lead times become Calculated
+PASS THRESHOLD ltMinSup=10: calculations unchanged; supplier lateness adjustments become reliable
+PASS THRESHOLD supLow=90,supMed=70: calculations unchanged; supplier classes shift, scores identical
+PASS THRESHOLD supMinPO=25: calculations unchanged; all suppliers become Limited evidence
+PASS THRESHOLD fcAdeqN=24: calculations unchanged; forecast data quality becomes Limited
+PASS THRESHOLD fcMinN: a product with 8 periods is assessable (Limited) at the default 6 but Insufficient at 9
+PASS THRESHOLD hold=50: calculations unchanged; only the illustrative holding-cost text changes (@50%)
+PASS THRESHOLD fcH=3: calculations unchanged; only the forecast table column changes (Next 3m)
+PASS THRESHOLD abcA=70,abcB=90: calculations unchanged; only the A/B/C label changes
+PASS THRESHOLD x=0.1,y=0.2: calculations unchanged; XYZ classes change; stock calculations unchanged
+PASS THRESHOLD otd=70: stock, MRP, supplier and forecast calculations unchanged; health scores change (as stated)
+PASS THRESHOLD z=2.33 (stated as a calculation): outputs do change
+PASS THRESHOLD excess=30 (stated as a calculation): outputs do change
+PASS THRESHOLD basis=3 (stated as a calculation): outputs do change
+PASS THRESHOLD pol=1 (stated as a calculation): outputs do change
+PASS THRESHOLD sup=1 (stated as a calculation): outputs do change
+PASS THRESHOLD late=0 (stated as a calculation): outputs do change
+PASS THRESHOLD hor=6 (stated as a calculation): outputs do change
+PASS THRESHOLD grace=5 (stated as a calculation): outputs do change
+PASS THRESHOLD fgLT: changes only a product with no history (7 → 12), and not products that have history
+PASS every SETDEF entry has a default, a range containing it, an explanation and an effect label
+PASS every setting used by the engine is documented (no hidden configurable threshold)
+PASS Settings view lists every threshold with default, why, if-changed and affects
+PASS High confidence explained as reliable, no remedy needed
+PASS Low confidence explained in plain language (no raw rule keys) with how to improve
+PASS No demand → "Cannot assess" with plain explanation, not High or Low
+PASS Data confidence tab counts "cannot assess" items and renders
+PASS Data confidence: 8 areas, each with rating, reason and what would raise it
+PASS Data confidence: Northstar reconciliation rated Low and MRP Low (depends on it); usage Medium; feasibility Low (illustrative orders)
+PASS Data confidence: a reconciled workbook raises the reconciliation area to High (rating responds to the data)
+PASS Data confidence tab explains that confidence is not performance and defines all four ratings
+PASS Forecast tab: plain-language reasons with how to raise confidence
+PASS XSS: explanation text and new tabs escape imported names
+PASS withCfg restores the configuration even when a test callback throws
+PASS CONFIG ISOLATION: the suite started from the saved defaults (CFG equalled CFG0)
+PASS CONFIG ISOLATION: after the whole suite CFG equals the immutable pre-test snapshot of the defaults
+PASS CONFIG ISOLATION: CFG0 was not mutated and is frozen
+summary 57 pass 0 fail
+
+$ TZ=Europe/London node test9.js  -> exit 0
+PASS S1 supplier with no POs is listed (15 of 15), Not assessed, no score, evidence None
+PASS S1 its materials are counted: supplied = sheet count, at-risk = materials rated High or Critical
+PASS S1 lead time of its materials: no lateness added and says there is no delivery history (not assumed zero)
+PASS S1 no health penalty "unreliable supplier" for a supplier with no history
+PASS S1 confidence reason is "supplier has no delivery history" (not the generic small-sample reason)
+PASS S1 plain-language explanation mentions no received orders and how to improve
+PASS S1 ranking: ordered by at-risk, then score (unscored last on ties), then id
+PASS S1 Suppliers tab shows the supplier as Not assessed with no NaN/undefined; Overview and Summary render
+PASS S1 Summary says suppliers could not be assessed and are not counted as problems
+PASS S1 client question asks for the missing delivery history, naming the supplier
+PASS S1 inventory valuation / safety stock / MRP quantities for ALL items unchanged except lateness-driven lead time of its materials
+PASS S2 all POs received after the snapshot → Not assessed with reason "no PO received by the snapshot", POs counted as future-dated supply
+PASS S3 three POs → evidence Limited, scored, but never called a confirmed "Performance problem"
+PASS S4 no purchase orders at all: all 15 Not assessed, at-risk still counted, all tabs render, supplier area rated Low
+PASS S5 supplier referenced by materials but missing from the Suppliers sheet is still listed (known=false)
+PASS THRESHOLD fcHighAcc=99: calculations unchanged; fewer products flagged unusually accurate
+PASS THRESHOLD fcHighShare=90: calculations unchanged; dataset-wide warning disappears
+PASS THRESHOLD fcBias=2: calculations unchanged; fewer products called Balanced
+PASS THRESHOLD fcBiasShare=100 (with fcBias=2): calculations unchanged; fewer findings called Consistent
+PASS THRESHOLD outZ=10: calculations unchanged; no level shifts or outliers flagged
+PASS THRESHOLD ltMinN=3: calculations unchanged; 3-order lead times become Calculated
+PASS THRESHOLD ltMinSup=10: calculations unchanged; supplier lateness adjustments become reliable
+PASS THRESHOLD supLow=90,supMed=70: calculations unchanged; supplier classes shift, scores identical
+PASS THRESHOLD supMinPO=25: calculations unchanged; all suppliers become Limited evidence
+PASS THRESHOLD fcAdeqN=24: calculations unchanged; forecast data quality becomes Limited
+PASS THRESHOLD fcMinN: a product with 8 periods is assessable (Limited) at the default 6 but Insufficient at 9
+PASS THRESHOLD hold=50: calculations unchanged; only the illustrative holding-cost text changes (@50%)
+PASS THRESHOLD fcH=3: calculations unchanged; only the forecast table column changes (Next 3m)
+PASS THRESHOLD abcA=70,abcB=90: calculations unchanged; only the A/B/C label changes
+PASS THRESHOLD x=0.1,y=0.2: calculations unchanged; XYZ classes change; stock calculations unchanged
+PASS THRESHOLD otd=70: stock, MRP, supplier and forecast calculations unchanged; health scores change (as stated)
+PASS THRESHOLD z=2.33 (stated as a calculation): outputs do change
+PASS THRESHOLD excess=30 (stated as a calculation): outputs do change
+PASS THRESHOLD basis=3 (stated as a calculation): outputs do change
+PASS THRESHOLD pol=1 (stated as a calculation): outputs do change
+PASS THRESHOLD sup=1 (stated as a calculation): outputs do change
+PASS THRESHOLD late=0 (stated as a calculation): outputs do change
+PASS THRESHOLD hor=6 (stated as a calculation): outputs do change
+PASS THRESHOLD grace=5 (stated as a calculation): outputs do change
+PASS THRESHOLD fgLT: changes only a product with no history (7 → 12), and not products that have history
+PASS every SETDEF entry has a default, a range containing it, an explanation and an effect label
+PASS every setting used by the engine is documented (no hidden configurable threshold)
+PASS Settings view lists every threshold with default, why, if-changed and affects
+PASS High confidence explained as reliable, no remedy needed
+PASS Low confidence explained in plain language (no raw rule keys) with how to improve
+PASS No demand → "Cannot assess" with plain explanation, not High or Low
+PASS Data confidence tab counts "cannot assess" items and renders
+PASS Data confidence: 8 areas, each with rating, reason and what would raise it
+PASS Data confidence: Northstar reconciliation rated Low and MRP Low (depends on it); usage Medium; feasibility Low (illustrative orders)
+PASS Data confidence: a reconciled workbook raises the reconciliation area to High (rating responds to the data)
+PASS Data confidence tab explains that confidence is not performance and defines all four ratings
+PASS Forecast tab: plain-language reasons with how to raise confidence
+PASS XSS: explanation text and new tabs escape imported names
+PASS withCfg restores the configuration even when a test callback throws
+PASS CONFIG ISOLATION: the suite started from the saved defaults (CFG equalled CFG0)
+PASS CONFIG ISOLATION: after the whole suite CFG equals the immutable pre-test snapshot of the defaults
+PASS CONFIG ISOLATION: CFG0 was not mutated and is frozen
+summary 57 pass 0 fail
+
+$ TZ=UTC node domtest.js  -> exit 0
+PASS page loads, all 4 scripts + SheetJS defined
+PASS rejects non-Excel file
+PASS corrupted workbook handled gracefully (no crash): Error: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders
+PASS Northstar imports via file input → "Analysed."
+PASS 17 tabs in navigation
+PASS tab "Overview" is active and renders (8744 chars, no undefined/NaN)
+PASS tab "Health" is active and renders (4642 chars, no undefined/NaN)
+PASS tab "Finished goods" is active and renders (34037 chars, no undefined/NaN)
+PASS tab "Materials" is active and renders (90007 chars, no undefined/NaN)
+PASS tab "MRP" is active and renders (27993 chars, no undefined/NaN)
+PASS tab "Production feasibility" is active and renders (19582 chars, no undefined/NaN)
+PASS tab "Excess & dead stock" is active and renders (7778 chars, no undefined/NaN)
+PASS tab "Policy comparison" is active and renders (10294 chars, no undefined/NaN)
+PASS tab "Reorder policy" is active and renders (52713 chars, no undefined/NaN)
+PASS tab "Forecast accuracy" is active and renders (33379 chars, no undefined/NaN)
+PASS tab "Demand forecast" is active and renders (30131 chars, no undefined/NaN)
+PASS tab "Suppliers" is active and renders (11189 chars, no undefined/NaN)
+PASS tab "Data quality" is active and renders (6562 chars, no undefined/NaN)
+PASS tab "Client questions" is active and renders (3339 chars, no undefined/NaN)
+PASS tab "Data confidence" is active and renders (4682 chars, no undefined/NaN)
+PASS tab "Summary" is active and renders (3249 chars, no undefined/NaN)
+PASS tab "Settings" is active and renders (17834 chars, no undefined/NaN)
+PASS tabs show different content (17 distinct)
+PASS banner shows supply source on every tab
+PASS recalculate applies supply setting (UNVERIFIED shown)
+PASS forecast horizon setting applied (Next 3m column)
+PASS product selector re-renders chart for chosen SKU
+PASS reorder policy filter works
+PASS export builds file with original + ENG_ sheets: ENG_FG,ENG_RM,ENG_Forecast,ENG_Suppliers,ENG_DataQuality,ENG_Assumptions,ENG_Confidence,ENG_Attainment,ENG_POReconciliation,ENG_ForecastCredibility
+PASS no script errors during whole session (0)
+summary 30 pass 0 fail
+
+$ TZ=Europe/London node domtest.js  -> exit 0
+PASS page loads, all 4 scripts + SheetJS defined
+PASS rejects non-Excel file
+PASS corrupted workbook handled gracefully (no crash): Error: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders
+PASS Northstar imports via file input → "Analysed."
+PASS 17 tabs in navigation
+PASS tab "Overview" is active and renders (8744 chars, no undefined/NaN)
+PASS tab "Health" is active and renders (4642 chars, no undefined/NaN)
+PASS tab "Finished goods" is active and renders (34037 chars, no undefined/NaN)
+PASS tab "Materials" is active and renders (90007 chars, no undefined/NaN)
+PASS tab "MRP" is active and renders (27993 chars, no undefined/NaN)
+PASS tab "Production feasibility" is active and renders (19582 chars, no undefined/NaN)
+PASS tab "Excess & dead stock" is active and renders (7778 chars, no undefined/NaN)
+PASS tab "Policy comparison" is active and renders (10294 chars, no undefined/NaN)
+PASS tab "Reorder policy" is active and renders (52713 chars, no undefined/NaN)
+PASS tab "Forecast accuracy" is active and renders (33379 chars, no undefined/NaN)
+PASS tab "Demand forecast" is active and renders (30131 chars, no undefined/NaN)
+PASS tab "Suppliers" is active and renders (11189 chars, no undefined/NaN)
+PASS tab "Data quality" is active and renders (6562 chars, no undefined/NaN)
+PASS tab "Client questions" is active and renders (3339 chars, no undefined/NaN)
+PASS tab "Data confidence" is active and renders (4682 chars, no undefined/NaN)
+PASS tab "Summary" is active and renders (3249 chars, no undefined/NaN)
+PASS tab "Settings" is active and renders (17834 chars, no undefined/NaN)
+PASS tabs show different content (17 distinct)
+PASS banner shows supply source on every tab
+PASS recalculate applies supply setting (UNVERIFIED shown)
+PASS forecast horizon setting applied (Next 3m column)
+PASS product selector re-renders chart for chosen SKU
+PASS reorder policy filter works
+PASS export builds file with original + ENG_ sheets: ENG_FG,ENG_RM,ENG_Forecast,ENG_Suppliers,ENG_DataQuality,ENG_Assumptions,ENG_Confidence,ENG_Attainment,ENG_POReconciliation,ENG_ForecastCredibility
+PASS no script errors during whole session (0)
+summary 30 pass 0 fail
+
+$ TZ=UTC node domtest2.js  -> exit 0
+PASS imports Northstar workbook through the real file input
+PASS Overview: supplier panel ranked by at-risk materials; SUP008 first with class, score, at-risk, supplied
+PASS Overview: demonstration banner derived from the workbook
+PASS Suppliers: risk rank + score rank columns, both attainment measures and definitions
+PASS Suppliers: "Show all SKUs" toggles 12 → 50 rows (12 → 50)
+PASS toggle returns to 12
+PASS Suppliers: FG048 shows 398 actual of 425 planned, 92.8 and 93.6
+PASS Finished goods: LT source and LT basis columns; limited-sample estimate text; no value labelled Supplied
+PASS Materials: lead time shown as Supplied + calculated lateness with PO count and date range
+PASS Data quality: six reconciliation outputs, status, and neutral explanation (no claim of loss)
+PASS Forecast accuracy: separate performance / data quality / confidence groups, dataset warning, workbook-declared tags
+PASS Summary: heading uses the loaded file name, not a hardcoded company
+PASS Settings: raising the high-accuracy threshold to 99% reduces flagged products (31 → 0)
+PASS Settings: lowering required orders to 3 turns 3-order lead times to "Calculated"
+PASS Export: original sheets kept and new ENG_ sheets added (ENG_FG, ENG_RM, ENG_Forecast, ENG_Suppliers, ENG_DataQuality, ENG_Assumptions, ENG_Confidence, ENG_Attainment, ENG_POReconciliation, ENG_ForecastCredibility)
+PASS Export content: FG048 attainment 92.8/93.6; FG027 lead time source text; SUP008 at-risk 4 rank 1
+PASS all 17 tabs render without undefined/NaN
+PASS no script errors during the whole session (0)
+summary 18 pass 0 fail
+
+$ TZ=Europe/London node domtest2.js  -> exit 0
+PASS imports Northstar workbook through the real file input
+PASS Overview: supplier panel ranked by at-risk materials; SUP008 first with class, score, at-risk, supplied
+PASS Overview: demonstration banner derived from the workbook
+PASS Suppliers: risk rank + score rank columns, both attainment measures and definitions
+PASS Suppliers: "Show all SKUs" toggles 12 → 50 rows (12 → 50)
+PASS toggle returns to 12
+PASS Suppliers: FG048 shows 398 actual of 425 planned, 92.8 and 93.6
+PASS Finished goods: LT source and LT basis columns; limited-sample estimate text; no value labelled Supplied
+PASS Materials: lead time shown as Supplied + calculated lateness with PO count and date range
+PASS Data quality: six reconciliation outputs, status, and neutral explanation (no claim of loss)
+PASS Forecast accuracy: separate performance / data quality / confidence groups, dataset warning, workbook-declared tags
+PASS Summary: heading uses the loaded file name, not a hardcoded company
+PASS Settings: raising the high-accuracy threshold to 99% reduces flagged products (31 → 0)
+PASS Settings: lowering required orders to 3 turns 3-order lead times to "Calculated"
+PASS Export: original sheets kept and new ENG_ sheets added (ENG_FG, ENG_RM, ENG_Forecast, ENG_Suppliers, ENG_DataQuality, ENG_Assumptions, ENG_Confidence, ENG_Attainment, ENG_POReconciliation, ENG_ForecastCredibility)
+PASS Export content: FG048 attainment 92.8/93.6; FG027 lead time source text; SUP008 at-risk 4 rank 1
+PASS all 17 tabs render without undefined/NaN
+PASS no script errors during the whole session (0)
+summary 18 pass 0 fail
+
+$ TZ=UTC node test-failed-import.js  -> exit 0
+test-failed-import: 18 passed, 0 failed
+
+$ TZ=Europe/London node test-failed-import.js  -> exit 0
+test-failed-import: 18 passed, 0 failed
+
+$ TZ=UTC node test-export-nohistory.js  -> exit 0
+test-export-nohistory: 19 passed, 0 failed
+
+$ TZ=Europe/London node test-export-nohistory.js  -> exit 0
+test-export-nohistory: 19 passed, 0 failed
+
+$ TZ=UTC node test-timezones.js  -> exit 0
+test-timezones: 15 passed, 0 failed
+
+$ TZ=Europe/London node test-timezones.js  -> exit 0
+test-timezones: 15 passed, 0 failed
+
+$ TZ=UTC node test-po-edge.js  -> exit 0
+test-po-edge: 35 passed, 0 failed
+
+$ TZ=Europe/London node test-po-edge.js  -> exit 0
+test-po-edge: 35 passed, 0 failed
+
+$ TZ=UTC node test-structure.js  -> exit 0
+test-structure: 34 passed, 0 failed
+
+$ TZ=Europe/London node test-structure.js  -> exit 0
+test-structure: 34 passed, 0 failed
+
+$ TZ=UTC node test-paging.js  -> exit 0
+test-paging: 23 passed, 0 failed
+
+$ TZ=Europe/London node test-paging.js  -> exit 0
+test-paging: 23 passed, 0 failed
+
+$ TZ=UTC node test-fillcap.js  -> exit 0
+--- supplier fill: netted (before cap) vs capped, where an excess and a shortage coexist
+overrec | SUP014 | 100 | 98.67 | 15 | 1 | 1
+overrec | SUP015 | 99.91 | 99.57 | 4 | 1 | 1
+overrec | SUP008 | 99.73 | 98.64 | 20 | 1 | 2
+overrec | SUP006 | 104.08 | 99.48 | 80 | 1 | 2
+overshort | SUP014 | 97.61 | 94.25 | 38 | 1 | 2
+overshort | SUP015 | 98.7 | 97.84 | 10 | 1 | 2
+overshort | SUP008 | 97.29 | 94.58 | 50 | 1 | 3
+combined | SUP015 | 98.7 | 98.18 | 6 | 1 | 2
+combined | SUP008 | 97.02 | 95.39 | 30 | 1 | 3
+test-fillcap: 276 passed, 0 failed
+
+$ TZ=Europe/London node test-fillcap.js  -> exit 0
+--- supplier fill: netted (before cap) vs capped, where an excess and a shortage coexist
+overrec | SUP014 | 100 | 98.67 | 15 | 1 | 1
+overrec | SUP015 | 99.91 | 99.57 | 4 | 1 | 1
+overrec | SUP008 | 99.73 | 98.64 | 20 | 1 | 2
+overrec | SUP006 | 104.08 | 99.48 | 80 | 1 | 2
+overshort | SUP014 | 97.61 | 94.25 | 38 | 1 | 2
+overshort | SUP015 | 98.7 | 97.84 | 10 | 1 | 2
+overshort | SUP008 | 97.29 | 94.58 | 50 | 1 | 3
+combined | SUP015 | 98.7 | 98.18 | 6 | 1 | 2
+combined | SUP008 | 97.02 | 95.39 | 30 | 1 | 3
+test-fillcap: 276 passed, 0 failed
+
+$ TZ=UTC node test-export-repeat.js  -> exit 0
+test-export-repeat: 24 passed, 0 failed
+
+$ TZ=Europe/London node test-export-repeat.js  -> exit 0
+test-export-repeat: 24 passed, 0 failed
+
+$ TZ=UTC node test-cache.js  -> exit 0
+test-cache: 15 passed, 0 failed
+
+$ TZ=Europe/London node test-cache.js  -> exit 0
+test-cache: 15 passed, 0 failed
+
+$ TZ=UTC node test-phase1.js  -> exit 0
+(C3_TREE not set: candidate 3 render comparison skipped)
+test-phase1: 57 passed, 0 failed
+
+$ TZ=Europe/London node test-phase1.js  -> exit 0
+(C3_TREE not set: candidate 3 render comparison skipped)
+test-phase1: 57 passed, 0 failed
+
+$ TZ=UTC node test-blank-qty.js  -> exit 0
+test-blank-qty: 19 passed, 0 failed
+
+$ TZ=Europe/London node test-blank-qty.js  -> exit 0
+test-blank-qty: 19 passed, 0 failed
+
+$ TZ=UTC node test-uom.js  -> exit 0
+test-uom: 110 passed, 0 failed
+
+$ TZ=Europe/London node test-uom.js  -> exit 0
+test-uom: 110 passed, 0 failed
+
+$ TZ=UTC node test-missing-values.js  -> exit 0
+test-missing-values: 63 passed, 0 failed
+
+$ TZ=Europe/London node test-missing-values.js  -> exit 0
+test-missing-values: 63 passed, 0 failed
+
+$ TZ=UTC node test-na-constraints.js  -> exit 0
+INFO [Northstar, SUP008 every Promised_Date blank] items whose class/action differ from intact Northstar: 0
+test-na-constraints: 88 passed, 0 failed
+
+$ TZ=Europe/London node test-na-constraints.js  -> exit 0
+INFO [Northstar, SUP008 every Promised_Date blank] items whose class/action differ from intact Northstar: 0
+test-na-constraints: 88 passed, 0 failed
+
+$ TZ=UTC node dump.js  -> exit 0
+dumped
+
+$ TZ=UTC python3 verify.py  -> exit 0
+PASS attainment: all 50 SKUs match (avg-of-orders, weighted, planned, actual, counts)
+PASS attainment FG048 = 398/425 units, avg 92.8% vs weighted 93.6%
+PASS supplier score recomputed independently for all 15 suppliers
+PASS supplier risk class matches thresholds (75/60)
+PASS at-risk material counts and materials supplied match for all suppliers
+PASS ranking order (at-risk desc, then score asc, then id) matches app
+   independent top-5: [('SUP008', 4, np.float64(60.4)), ('SUP001', 3, np.float64(67.1)), ('SUP007', 3, np.float64(87.4)), ('SUP003', 2, np.float64(41.6)), ('SUP011', 2, np.float64(48.2))]
+PASS SUP008 has 4 at-risk materials, score 60.4, rank 1 by risk (rank 8 by score only)
+PASS FG lead time value, order count, date range and provenance label match for all 50 SKUs
+PASS FG027 lead time 4.0 d from 3 orders (2025-12-04 to 2026-06-09) labelled "Estimated (limited sample)", never "Supplied"
+PASS Products sheet has no lead-time column, so no FG value is labelled Supplied
+   example basis text: average of (actual finish − actual start) in days over 3 completed production orders, minimum 1 day each; records 2025-12-04 to 2026-06-09; fewer than 5 orders, so treat as an estimate
+PASS forecast accuracy, bias %, direction, data-quality class, outliers, zero periods, confidence and finding match for all 50 SKUs
+   independent: accuracy>=95%: 31 of 50; within 94-98%: 45 of 50; over/under/balanced: (2, 3, 45)
+   independent: accuracy range 36.7–97.9%; direction counts by app: {'Over-forecast': 2, 'Under-forecast': 3, 'Balanced': 45}
+PASS PO: received-by-snapshot POs excluded (count, ordered, received, short balance)
+PASS PO: future-dated supply 300 units (4 POs) and open POs 0 units
+PASS PO: no PO is counted in two categories (300 total = 300)
+PASS PO: inventory on-order 32634, verified supply 300, unreconciled 32334
+PASS PO: status text for 0.9% explained
+PASS PO: the 4 future-dated POs are exactly those with Received_Date after 2026-10-31
+   future-dated POs: [{'PO_ID': 'PO0003', 'Promised_Date': Timestamp('2026-11-12 00:00:00'), 'Received_Date': Timestamp('2026-11-11 00:00:00'), 'Ordered_Qty': 50}, {'PO_ID': 'PO0030', 'Promised_Date': Timestamp('2026-10-25 00:00:00'), 'Received_Date': Timestamp('2026-11-04 00:00:00'), 'Ordered_Qty': 75}, {'PO_ID': 'PO0110', 'Promised_Date': Timestamp('2026-10-22 00:00:00'), 'Received_Date': Timestamp('2026-11-01 00:00:00'), 'Ordered_Qty': 150}, {'PO_ID': 'PO0190', 'Promised_Date': Timestamp('2026-11-14 00:00:00'), 'Received_Date': Timestamp('2026-11-13 00:00:00'), 'Ordered_Qty': 25}]
+summary 17 pass 0 fail
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-s0.xlsx /tmp/runall-hskS5f/dump-s0.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-s0.xlsx /tmp/runall-hskS5f/dump-s0.json s0  -> exit 0
+s0: suppliers independent=15 app=15
+PASS s0 (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-nopo.xlsx /tmp/runall-hskS5f/dump-nopo.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-nopo.xlsx /tmp/runall-hskS5f/dump-nopo.json nopo  -> exit 0
+nopo: suppliers independent=15 app=15
+PASS nopo (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-allfuture.xlsx /tmp/runall-hskS5f/dump-allfuture.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-allfuture.xlsx /tmp/runall-hskS5f/dump-allfuture.json allfuture  -> exit 0
+allfuture: suppliers independent=15 app=15
+PASS allfuture (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-three.xlsx /tmp/runall-hskS5f/dump-three.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-three.xlsx /tmp/runall-hskS5f/dump-three.json three  -> exit 0
+three: suppliers independent=15 app=15
+PASS three (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-unknown.xlsx /tmp/runall-hskS5f/dump-unknown.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-unknown.xlsx /tmp/runall-hskS5f/dump-unknown.json unknown  -> exit 0
+unknown: suppliers independent=15 app=15
+PASS unknown (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/suppliers/scenario-nohist.xlsx /tmp/runall-hskS5f/dump-nohist.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/suppliers/scenario-nohist.xlsx /tmp/runall-hskS5f/dump-nohist.json nohist  -> exit 0
+nohist: suppliers independent=15 app=15
+PASS nohist (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-dupexact.xlsx /tmp/runall-hskS5f/dump-dupexact.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-dupexact.xlsx /tmp/runall-hskS5f/dump-dupexact.json dupexact  -> exit 0
+dupexact: suppliers independent=15 app=15
+PASS dupexact (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-dupkey.xlsx /tmp/runall-hskS5f/dump-dupkey.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-dupkey.xlsx /tmp/runall-hskS5f/dump-dupkey.json dupkey  -> exit 0
+dupkey: suppliers independent=15 app=15
+PASS dupkey (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-overrec.xlsx /tmp/runall-hskS5f/dump-overrec.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-overrec.xlsx /tmp/runall-hskS5f/dump-overrec.json overrec  -> exit 0
+overrec: suppliers independent=15 app=15
+PASS overrec (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-multiline.xlsx /tmp/runall-hskS5f/dump-multiline.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-multiline.xlsx /tmp/runall-hskS5f/dump-multiline.json multiline  -> exit 0
+multiline: suppliers independent=15 app=15
+PASS multiline (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-splitline.xlsx /tmp/runall-hskS5f/dump-splitline.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-splitline.xlsx /tmp/runall-hskS5f/dump-splitline.json splitline  -> exit 0
+splitline: suppliers independent=15 app=15
+PASS splitline (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-posupconflict.xlsx /tmp/runall-hskS5f/dump-posupconflict.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-posupconflict.xlsx /tmp/runall-hskS5f/dump-posupconflict.json posupconflict  -> exit 0
+posupconflict: suppliers independent=15 app=15
+PASS posupconflict (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-partial.xlsx /tmp/runall-hskS5f/dump-partial.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-partial.xlsx /tmp/runall-hskS5f/dump-partial.json partial  -> exit 0
+partial: suppliers independent=15 app=15
+PASS partial (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-overshort.xlsx /tmp/runall-hskS5f/dump-overshort.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-overshort.xlsx /tmp/runall-hskS5f/dump-overshort.json overshort  -> exit 0
+overshort: suppliers independent=15 app=15
+PASS overshort (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/edge/scenario-combined.xlsx /tmp/runall-hskS5f/dump-combined.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/edge/scenario-combined.xlsx /tmp/runall-hskS5f/dump-combined.json combined  -> exit 0
+combined: suppliers independent=15 app=15
+PASS combined (15 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node dump_sup.js fixtures/structure/scenario-willow.xlsx /tmp/runall-hskS5f/dump-willow.json  -> exit 0
+
+$ TZ=UTC python3 verify_sup.py fixtures/structure/scenario-willow.xlsx /tmp/runall-hskS5f/dump-willow.json willow  -> exit 0
+willow: suppliers independent=6 app=6
+PASS willow (6 suppliers; at-risk counts, materials supplied, evidence, class, assessment, score, rank order) 
+
+$ TZ=UTC node browser-chrome.js  -> exit 0
+Browser: HeadlessChrome/153.0.8010.0 | served at http://127.0.0.1:41323/chain-genius/applications/inventory-intelligence-engine/
+
+===== DESKTOP (1280x800) =====
+PASS desktop: page loads under a GitHub-Pages-style subpath; all 6 assets served (200)
+PASS desktop: no requests outside the app folder (fully client-side, no CDN)
+PASS desktop: viewport meta honoured (layout viewport = device width)
+PASS desktop: Northstar workbook imports through the real file input → "Analysed."
+PASS desktop: results in real Chrome equal the saved v0.5 golden totals
+   analysis time in this browser: 14 ms per run
+PASS desktop: analysis under 2 s
+PASS desktop: 17 tabs
+PASS desktop: all 17 tabs respond to clicks, render, and show distinct content (17)
+PASS desktop: active tab exposes aria-current
+PASS desktop: no page-level horizontal overflow on 8 key tabs (wide tables scroll inside their own container)
+   smallest nav button [ 52, 40 ] | action button [ 97, 40 ] | number input [ 90, 40 ] | input font 16px
+PASS desktop: touch targets at least 40px high; input font 16px (no mobile zoom-on-focus)
+PASS desktop: wide table scrolls inside its container and the Item column stays in view (sticky)
+PASS desktop: Settings corrects invalid input (text, below minimum, X ≥ Y) and tells the user
+PASS desktop: Reset to defaults restores every threshold
+PASS desktop: Export downloads a real .xlsx keeping the original sheets and adding the ENG_ sheets (Chain_Genius_Engine_Output.xlsx, 10 ENG sheets)
+PASS desktop: Export success message shown to the user
+PASS desktop: print view hides navigation, upload card and buttons (computed styles in print media)
+PASS desktop: PDF is a valid A4 document (89196 bytes; parser counts 1 page(s), raw scan 1)
+PASS desktop: PDF contains the Summary (heading, recommendations, limitations, simulated-demonstration label)
+PASS desktop: PDF text has no navigation labels, upload prompt or button labels (0 leaked)
+   contrast ratios light: {"body":14.6,"card":15.65,"warn":6.82,"note":4.97,"nav":8.86,"navOn":8.86,"th":4.97,"td":15.65,"s3":5.44,"s2":5.02} 
+                   dark : {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":6.85,"navOn":6.85,"th":6.48,"td":13.63,"s3":6.39,"s2":5.68} | settings(dark): {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":13.63,"navOn":6.85,"tag":9.35}
+PASS desktop: dark mode applies (page background is dark)
+PASS desktop: every sampled text/background pair has contrast ≥ 4.5:1 in light and dark (4.97 / 5.68)
+PASS desktop: works offline after loading (import + analysis need no network)
+PASS desktop: wrong file type and a corrupted .xlsx give clear messages, not a crash ("Please choose an .xlsx file." / "Could not read this workbook (corrupted or not Exc")
+PASS desktop: app recovers and analyses a good file after bad ones
+PASS desktop: no console errors, warnings or uncaught exceptions during the whole session (0)
+
+===== MOBILE (Pixel 5 EMULATION: 393x851, touch, Android Chrome UA) =====
+PASS mobile: page loads under a GitHub-Pages-style subpath; all 6 assets served (200)
+PASS mobile: no requests outside the app folder (fully client-side, no CDN)
+PASS mobile: viewport meta honoured (layout viewport = device width)
+PASS mobile: Northstar workbook imports through the real file input → "Analysed."
+PASS mobile: results in real Chrome equal the saved v0.5 golden totals
+   analysis time in this browser: 12 ms per run
+PASS mobile: analysis under 2 s
+PASS mobile: 17 tabs
+PASS mobile: all 17 tabs respond to touch taps, render, and show distinct content (17)
+PASS mobile: active tab exposes aria-current
+PASS mobile: no page-level horizontal overflow on 8 key tabs (wide tables scroll inside their own container)
+   smallest nav button [ 52, 40 ] | action button [ 97, 40 ] | number input [ 90, 40 ] | input font 16px
+PASS mobile: touch targets at least 40px high; input font 16px (no mobile zoom-on-focus)
+PASS mobile: wide table scrolls inside its container and the Item column stays in view (sticky)
+PASS mobile: Settings corrects invalid input (text, below minimum, X ≥ Y) and tells the user
+PASS mobile: Reset to defaults restores every threshold
+PASS mobile: Export downloads a real .xlsx keeping the original sheets and adding the ENG_ sheets (Chain_Genius_Engine_Output.xlsx, 10 ENG sheets)
+PASS mobile: Export success message shown to the user
+PASS mobile: print view hides navigation, upload card and buttons (computed styles in print media)
+PASS mobile: PDF is a valid A4 document (89196 bytes; parser counts 1 page(s), raw scan 1)
+PASS mobile: PDF contains the Summary (heading, recommendations, limitations, simulated-demonstration label)
+PASS mobile: PDF text has no navigation labels, upload prompt or button labels (0 leaked)
+   contrast ratios light: {"body":14.6,"card":15.65,"warn":6.82,"note":4.97,"nav":8.86,"navOn":8.86,"th":4.97,"td":15.65,"s3":5.44,"s2":5.02} 
+                   dark : {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":6.85,"navOn":6.85,"th":6.48,"td":13.63,"s3":6.39,"s2":5.68} | settings(dark): {"body":15.29,"card":13.63,"warn":9.76,"note":6.48,"nav":13.63,"navOn":6.85,"tag":9.35}
+PASS mobile: dark mode applies (page background is dark)
+PASS mobile: every sampled text/background pair has contrast ≥ 4.5:1 in light and dark (4.97 / 5.68)
+PASS mobile: works offline after loading (import + analysis need no network)
+PASS mobile: wrong file type and a corrupted .xlsx give clear messages, not a crash ("Please choose an .xlsx file." / "Could not read this workbook (corrupted or not Exc")
+PASS mobile: app recovers and analyses a good file after bad ones
+PASS mobile: no console errors, warnings or uncaught exceptions during the whole session (0)
+PASS failure case: Excel library blocked/missing → clear message and no uncaught error ("The Excel library did not load. Check that assets/xlsx.mini.")
+
+summary 53 pass 0 fail 
+

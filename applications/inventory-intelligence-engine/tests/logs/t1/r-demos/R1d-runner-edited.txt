@@ -1,0 +1,62 @@
+# R1d-runner-edited: Runner edited to always exit 0 (residual risk)
+Expected: check-control row FAIL (run-all.sh changed) BUT the edited runner exits 0; the approved guard run directly exits 1
+Run: 2026-11-11T17:25:34Z
+Disposable copy: /home/claude/t1demo2-R1d-runner-edited  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i "s/const code=n('FAIL')||n('ERROR')?1:0/const code=0/" run-all.sh
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/run-all.sh
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/run-all.sh b/applications/inventory-intelligence-engine/tests/run-all.sh
+index 7e92795..85eb060 100644
+--- a/applications/inventory-intelligence-engine/tests/run-all.sh
++++ b/applications/inventory-intelligence-engine/tests/run-all.sh
+@@ -114,7 +114,7 @@ for(const t of A.tests){
+ const n=s=>results.filter(r=>r.st===s).length,real=results.filter(r=>r.name!=='pre-flight');
+ const red=results.filter(r=>r.st==='REDUCED'),missing=red.reduce((q,r)=>{const t=A.tests.find(x=>x.name===r.name);return q+(t.full-(+r.act))},0);
+ const ran=real.filter(r=>/^\d+$/.test(r.act)).reduce((q,r)=>q+(+r.act),0);
+-const code=n('FAIL')||n('ERROR')?1:0,P=[];
++const code=0,P=[];
+ P.push('v0.7 tests ('+tier.toUpperCase()+') - green means no NEW failures, NOT full coverage');
+ P.push('PASS: '+n('PASS')+' | FAIL: '+n('FAIL')+' | BLOCKED: '+n('BLOCKED')+' | REDUCED: '+n('REDUCED')+' | ERROR: '+n('ERROR'));
+ const fullCount=A.tests.filter(t=>t.tiers.includes('full')).length;
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 17 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1113
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-control               1      9                 8        1 check(s) failed: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval)
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      127               127      
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+
+## Exit code: 0
+Disposable copy deleted: yes

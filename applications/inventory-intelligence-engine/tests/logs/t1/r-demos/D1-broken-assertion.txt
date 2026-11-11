@@ -1,0 +1,62 @@
+# D1-broken-assertion: Broken assertion
+Expected: test-cache FAIL; exit 1
+Run: 2026-11-11T17:20:33Z
+Disposable copy: /home/claude/t1demo2-D1-broken-assertion  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i '10s/ok(J(T.mrp())===J(T.mrpCalc())/ok(J(T.mrp())!==J(T.mrpCalc())/' test-cache.js
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/test-cache.js
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/test-cache.js b/applications/inventory-intelligence-engine/tests/test-cache.js
+index 61b23b1..91dd8dc 100644
+--- a/applications/inventory-intelligence-engine/tests/test-cache.js
++++ b/applications/inventory-intelligence-engine/tests/test-cache.js
+@@ -7,7 +7,7 @@ const J=o=>JSON.stringify(o,(k,v)=>v instanceof Date?+v:v),T=__T;
+ T.load(XLSX.readFile(path.join(__dirname,'fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx'),{cellDates:true}));
+ const v=k=>{T.tab=k;return H(T.views[k]())};
+ ok(T.mrp()===T.mrp(),'mrp(): second call returns the cached result');ok(T.feas()===T.feas(),'feas(): second call returns the cached result');
+-ok(J(T.mrp())===J(T.mrpCalc()),'mrp(): cached result equals a fresh calculation');ok(J(T.feas())===J(T.feasCalc()),'feas(): cached result equals a fresh calculation');
++ok(J(T.mrp())!==J(T.mrpCalc()),'mrp(): cached result equals a fresh calculation');ok(J(T.feas())===J(T.feasCalc()),'feas(): cached result equals a fresh calculation');
+ ok(T.fcCredAll()===T.fcCredAll()&&T.fcAll()===T.fcAll(),'forecast accuracy results cached');
+ const base={};['MRP','Summary','Production feasibility','Forecast accuracy'].forEach(k=>base[k]=v(k));
+ ok(['MRP','Summary','Production feasibility','Forecast accuracy'].every(k=>v(k)===base[k]),'views render identically on repeated visits');
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 16 | FAIL: 2 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1112
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-protection            1      127               126      1 check(s) failed: FAIL: file tests/test-cache.js CHANGED: sha256 7007c85e50ab9e7d (expected 51a86611a73d3724)
+FAIL     test-cache                  1      15                14       1 check(s) failed: FAIL: mrp(): cached result equals a fresh calculation
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 2 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

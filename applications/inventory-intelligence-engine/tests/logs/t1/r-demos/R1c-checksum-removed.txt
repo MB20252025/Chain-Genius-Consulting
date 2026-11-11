@@ -1,0 +1,61 @@
+# R1c-checksum-removed: Control file weakened: protected line removed from checksums.txt
+Expected: check-control FAIL (approved line removed); exit 1
+Run: 2026-11-11T17:24:57Z
+Disposable copy: /home/claude/t1demo2-R1c-checksum-removed  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i '/tests\/test-cache.js$/d' checksums.txt
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/checksums.txt
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/checksums.txt b/applications/inventory-intelligence-engine/tests/checksums.txt
+index e15ab41..90d8744 100644
+--- a/applications/inventory-intelligence-engine/tests/checksums.txt
++++ b/applications/inventory-intelligence-engine/tests/checksums.txt
+@@ -102,7 +102,6 @@ file b0a1387b07959934090709b5f5a9cfe1cd672075dfdfa88ff1e153585cc1985b tests/test
+ file 9e208246e5d554fcc8364c7442cdd89399e2293850efb0cb31300231e5c05c4d tests/test-a1-sync-path.js
+ file aafd8ada925e2a222d0e1570f168909f05060a1e9c70e9f2a362941fcb4320d5 tests/test-a1-wrapper.js
+ file 0b3f330a7ef3d5c37a3092d58cac699f1b7a7615c2de7009b4f41ef55924cb7a tests/test-blank-qty.js
+-file 51a86611a73d372482df33db7783f952a0e7c89fa7ecf1da657e07381fe1ad4d tests/test-cache.js
+ file 8b0e39fb5cb700fed2b35e00bddb632a263c90c73c6cb8fe2a9b4d5f9af40301 tests/test-export-nohistory.js
+ file 358db76eb38834c67ebb2b5103e5ac91717cc716a024847b9a6cb08e5a97725b tests/test-export-repeat.js
+ file 9a9238ad297da8f795dc3e921b47550d364dc953d45fafa4776b5dcf02b25990 tests/test-failed-import.js
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 16 | FAIL: 2 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1112
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-control               1      9                 8        1 check(s) failed: FAIL: checksums.txt: 1 approved line(s) REMOVED or CHANGED: tests/test-cache.js
+FAIL     check-protection            1      127               126      COUNT DROPPED: expected 127, actual 126
+PASS     pre-flight                  -      -                 -        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 2 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

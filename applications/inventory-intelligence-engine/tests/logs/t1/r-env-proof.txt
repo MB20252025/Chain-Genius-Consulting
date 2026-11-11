@@ -1,0 +1,31 @@
+# Environment proof (R9/R10), 11 Nov 2026
+
+## Node
+v22.23.4
+npm 10.9.9
+
+## Pinned Node packages: /home/claude/pindeps, installed with npm ci from tests/package-lock.json
+tests/package-lock.json sha256 1abb9004127170f37094b68efe92dce5e176175f07891e50bacdd38154237fcc
+pindeps/package-lock.json sha256 1abb9004127170f37094b68efe92dce5e176175f07891e50bacdd38154237fcc  (npm ci does not rewrite it)
+xlsx 0.18.5
+jsdom 31.0.0
+acorn 8.19.0
+puppeteer-core 25.17.0
+@sparticuz/chromium 153.0.0
+pdf-parse 1.1.1
+
+## Python: clean virtual environment /home/claude/pyvenv
+$ python3 -m venv /home/claude/pyvenv && /home/claude/pyvenv/bin/pip install -r tests/requirements.txt
+Python 3.13.18
+$ pip freeze (the venv holds nothing else)
+et_xmlfile==2.0.0
+numpy==2.5.3
+openpyxl==3.1.5
+pandas==3.0.5
+python-dateutil==2.9.0.post0
+six==1.17.0
+
+Note: pip writes et_xmlfile; requirements.txt says et-xmlfile. Same package (pip normalises - and _).
+
+## The final full run used: python3 -> /home/claude/pyvenv/bin/python3 and NODE_PATH=/home/claude/pindeps/node_modules (see r-full-final.txt, first lines).
+Not verified: installation on another machine or on GitHub (T2).

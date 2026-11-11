@@ -1,0 +1,31 @@
+== P1 altered protected file (copy only): one byte appended to fixtures/edge/supplier-output-overrec.pre-cap-candidate2.json
+$ node check-protection.js
+FAIL: file tests/fixtures/edge/supplier-output-overrec.pre-cap-candidate2.json CHANGED: sha256 133a3e54c4e552c3 (expected ea4d28dc24f9285c)
+check-protection: 39 passed, 1 failed (3 references on "origin", 37 files)
+exit=1
+$ bash run-all.sh --fast (same copy)
+PASS: 16 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+FAIL     check-protection            1      40                39       1 check(s) failed: FAIL: file tests/fixtures/edge/supplier-output-overrec.pre-cap-candidate2.json CHANGED: sha256 133a3e54c4e552c3 (expected ea4d28dc24f9285c)
+EXIT 1: 1 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+exit=1
+restored in the copy: check-protection: 40 passed, 0 failed (3 references on "origin", 37 files)
+
+== P2 moved protected reference: local stand-in remote /tmp/fake-remote.git (real GitHub untouched). The clone is shallow, so the stand-in accepts shallow pushes and refs are pushed one at a time.
+stand-in refs: refs/heads/main=8117c72 refs/heads/release/v0.6=8117c72 refs/tags/v0.6=8117c72 
+$ node check-protection.js --remote /tmp/fake-remote.git   (control: refs correct)
+PASS: ref refs/heads/main = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+check-protection: 40 passed, 0 failed (3 references on "/tmp/fake-remote.git", 37 files)
+exit=0
+stand-in main moved to: 40d3559
+$ node check-protection.js --remote /tmp/fake-remote.git   (after the move)
+FAIL: ref refs/heads/main = 40d35598feed5ded9d6cb52f8508ceb070c3cfbb (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+check-protection: 39 passed, 1 failed (3 references on "/tmp/fake-remote.git", 37 files)
+exit=1
+
+== P3 unreachable remote -> no summary line, exit 2 (run-all.sh reports this as ERROR, never PASS)
+ERROR: cannot read remote "/tmp/does-not-exist.git": and the repository exists.
+exit=2

@@ -1,0 +1,77 @@
+# R4-reduced-without-reason: REDUCED count without its documented reason: test-phase1 skip message removed (R4); tier widened to fast
+Expected: test-phase1 FAIL (expected skip message not printed); exit 1
+Run: 2026-11-11T17:28:42Z
+Disposable copy: /home/claude/t1demo2-R4-reduced-without-reason  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i 's/(C3_TREE not set: candidate 3 render comparison skipped)/(comparison skipped)/' test-phase1.js; sed -i 's/"file": "test-phase1.js", "zones": "two", "tiers": \["full"\]/"file": "test-phase1.js", "zones": "two", "tiers": ["full", "fast"]/' accepted-results.json
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/accepted-results.json
+ M applications/inventory-intelligence-engine/tests/test-phase1.js
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/accepted-results.json b/applications/inventory-intelligence-engine/tests/accepted-results.json
+index 9080f3f..6f36ea0 100644
+--- a/applications/inventory-intelligence-engine/tests/accepted-results.json
++++ b/applications/inventory-intelligence-engine/tests/accepted-results.json
+@@ -31,7 +31,7 @@
+   {"name": "test-fillcap", "type": "node", "file": "test-fillcap.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 276},
+   {"name": "test-export-repeat", "type": "node", "file": "test-export-repeat.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 24},
+   {"name": "test-cache", "type": "node", "file": "test-cache.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 15},
+-  {"name": "test-phase1", "type": "node", "file": "test-phase1.js", "zones": "two", "tiers": ["full"], "accepted": 57, "status": "REDUCED", "full": 125, "reduced_condition": {"env_unset": "C3_TREE", "marker": "(C3_TREE not set"}, "reason": "Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running."},
++  {"name": "test-phase1", "type": "node", "file": "test-phase1.js", "zones": "two", "tiers": ["full", "fast"], "accepted": 57, "status": "REDUCED", "full": 125, "reduced_condition": {"env_unset": "C3_TREE", "marker": "(C3_TREE not set"}, "reason": "Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running."},
+   {"name": "test-blank-qty", "type": "node", "file": "test-blank-qty.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 19},
+   {"name": "test-uom", "type": "node", "file": "test-uom.js", "zones": "two", "tiers": ["full"], "accepted": 110, "status": "REDUCED", "full": 164, "reduced_condition": {"env_unset": "P1_TREE"}, "reason": "Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running."},
+   {"name": "test-missing-values", "type": "node", "file": "test-missing-values.js", "zones": "two", "tiers": ["full"], "accepted": 63},
+diff --git a/applications/inventory-intelligence-engine/tests/test-phase1.js b/applications/inventory-intelligence-engine/tests/test-phase1.js
+index b722ed6..7e7582f 100644
+--- a/applications/inventory-intelligence-engine/tests/test-phase1.js
++++ b/applications/inventory-intelligence-engine/tests/test-phase1.js
+@@ -16,7 +16,7 @@ function harness(dir){global.document={querySelector:()=>({textContent:'',innerH
+ const MD5=s=>crypto.createHash('md5').update(String(s)).digest('hex'),A=harness(ROOT);
+ if(BASE){const B=harness(BASE);for(const f of [NS,E('overshort'),E('combined'),E('multiline')]){A.go(f);B.go(f);const n=path.basename(f);ok(JSON.stringify(A.keys().sort())===JSON.stringify(B.keys().sort()),'1d '+n+': same 17 tab names as candidate 3 ('+A.keys().length+')');
+   for(const k of A.keys()){const a=p3strip(A.html(k)),b=B.html(k);if(['Suppliers','Overview','Data confidence','Summary','Client questions','Forecast accuracy','Settings'].includes(k))continue; // supplier wording and state changed by design in Phase 3B (covered by compare-trees and test-supplier-eligibility)
+-  ok(MD5(a)===MD5(b),'1e '+n+': tab "'+k+'" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)')}}}else console.log('(C3_TREE not set: candidate 3 render comparison skipped)');
++  ok(MD5(a)===MD5(b),'1e '+n+': tab "'+k+'" renders identically to candidate 3 (apart from the Phase 3 finished-goods note)')}}}else console.log('(comparison skipped)');
+ // ---- 2
+ for(const n of ['northstar','overrec','partial','overshort','combined','dupexact','multiline','splitline','posupconflict']){A.go(n==='northstar'?NS:E(n));const R=A.R();ok(R.sup.filter(s=>s.fill!=null).every(s=>Number.isFinite(s.fill)&&s.fill<=100+1e-9&&s.fill>=0),'2a '+n+': every supplier fill is between 0 and 100 on valid data ('+Math.max(...R.sup.filter(s=>s.fill!=null).map(s=>s.fill)).toFixed(2)+' max)')}
+ // impossible quantities: ordered negative and received more negative (already flagged High)
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 17 | FAIL: 2 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (18 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1170
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-protection            1      127               126      1 check(s) failed: FAIL: file tests/test-phase1.js CHANGED: sha256 0f68f734fad44dec (expected 847a54b81be025a4)
+FAIL     test-phase1                 1      57 (full 125)     57       REDUCED count without its documented reason: expected skip message "(C3_TREE not set" not printed
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 2 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

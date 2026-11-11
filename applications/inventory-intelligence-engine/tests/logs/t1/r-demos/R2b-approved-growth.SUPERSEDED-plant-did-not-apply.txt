@@ -1,0 +1,63 @@
+# R2b-approved-growth: Check added AND accepted count raised (growth)
+Expected: test7 PASS 119; check-control PASS with PENDING (raised 118->119); check-protection FAIL (test7.js protected); exit 1
+Run: 2026-11-11T17:27:28Z
+Disposable copy: /home/claude/t1demo2-R2b-approved-growth  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i '0,/^ok(/s//ok(true,"DEMO extra check");ok(/' test7.js; sed -i 's/"file": "test7.js", "zones": "two", "tiers": \["fast", "full"\], "accepted": 118/"file": "test7.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 119/' accepted-results.json
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/accepted-results.json
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/accepted-results.json b/applications/inventory-intelligence-engine/tests/accepted-results.json
+index 9080f3f..9536867 100644
+--- a/applications/inventory-intelligence-engine/tests/accepted-results.json
++++ b/applications/inventory-intelligence-engine/tests/accepted-results.json
+@@ -17,7 +17,7 @@
+   {"name": "test-a1-wrapper-quick", "type": "node", "file": "test-a1-wrapper-quick.js", "label": "test-a1-wrapper-quick:", "zones": "two", "tiers": ["fast"], "accepted": 117, "note": "QUICK 100-call copy. Fast tier only."},
+   {"name": "golden v0.5", "type": "golden", "snapshot": "snapshots/v0.5-golden-20261105T101953Z.json", "zones": "five", "tiers": ["fast", "full"], "accepted": 10, "note": "10 sections; fast tier runs UTC only"},
+   {"name": "golden v0.6.0", "type": "golden", "snapshot": "snapshots/v0.6.0-baseline-20261109T152050Z.json", "zones": "five", "tiers": ["fast", "full"], "accepted": 10, "note": "10 sections; fast tier runs UTC only"},
+-  {"name": "test7", "type": "node", "file": "test7.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 118, "note": "Separate suite from test-a1-wrapper (117). 118 since D4 (27d6313)."},
++  {"name": "test7", "type": "node", "file": "test7.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 119, "note": "Separate suite from test-a1-wrapper (117). 118 since D4 (27d6313)."},
+   {"name": "test8", "type": "node", "file": "test8.js", "zones": "two", "tiers": ["full"], "accepted": 47},
+   {"name": "test9", "type": "node", "file": "test9.js", "zones": "two", "tiers": ["full"], "accepted": 57},
+   {"name": "domtest", "type": "node", "file": "domtest.js", "zones": "two", "tiers": ["full"], "accepted": 30},
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 17 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1114
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     test7                       1      119               118      COUNT DROPPED: expected 119, actual 118
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+         WARNING: PENDING: test7: accepted count raised 118 -> 119 (needs the owner's approval: move the approved tag)
+PASS     check-protection            1      127               127      
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 1 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

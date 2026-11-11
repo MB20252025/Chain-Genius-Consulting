@@ -1,0 +1,8 @@
+# v0.7 T1: Python packages used by the independent verifiers (verify.py, verify_sup.py, verify_structure.py).
+# Exact versions present in the environment that produced the verified results on 11 Nov 2026 (Python 3.13.18).
+pandas==3.0.5
+openpyxl==3.1.5
+numpy==2.5.3
+python-dateutil==2.9.0.post0
+et-xmlfile==2.0.0
+six==1.17.0

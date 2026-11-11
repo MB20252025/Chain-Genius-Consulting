@@ -1,0 +1,19 @@
+00-control exit=0
+D1-broken-assertion exit=1
+D2-removed-check exit=1
+D3-missing-helper exit=1
+D4-missing-package exit=1
+D5-wrong-package-version exit=1
+R1a-count-lowered exit=1
+R1b-new-limitation exit=1
+R1c-checksum-removed exit=1
+R1d-runner-edited exit=0
+R1e-local-only-tag exit=1
+R2a-count-rise exit=0
+R2b-approved-growth exit=1
+R3-blocked-file-missing exit=1
+R4-reduced-without-reason exit=1
+P1-protected-file-altered exit=1
+P2-reference-moved exit=1
+P3-remote-unreachable exit=1
+ALL-DONE

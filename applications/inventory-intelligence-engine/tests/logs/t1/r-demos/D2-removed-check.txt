@@ -1,0 +1,61 @@
+# D2-removed-check: Removed check (count drop)
+Expected: test-po-edge FAIL COUNT DROPPED 35->34; exit 1 (check-protection also FAILs: test-po-edge.js is a protected file)
+Run: 2026-11-11T17:21:10Z
+Disposable copy: /home/claude/t1demo2-D2-removed-check  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ sed -i '10d' test-po-edge.js
+
+## git status --porcelain (copy)
+ M applications/inventory-intelligence-engine/tests/test-po-edge.js
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/test-po-edge.js b/applications/inventory-intelligence-engine/tests/test-po-edge.js
+index beb38e0..e1e448a 100644
+--- a/applications/inventory-intelligence-engine/tests/test-po-edge.js
++++ b/applications/inventory-intelligence-engine/tests/test-po-edge.js
+@@ -7,7 +7,6 @@ let pass=0,fail=0;const ok=(c,m)=>{c?(pass++,process.env.VERBOSE&&console.log('P
+ const E=n=>path.join(__dirname,'fixtures/edge/scenario-'+n+'.xlsx'),dq=(R,re,sev)=>R.dq.filter(d=>d.sheet==='Purchase Orders'&&re.test(d.msg)&&(!sev||d.sev===sev)),sp=()=>CONF().find(a=>a.area==='Supplier performance');
+ const base=G(NS),bsup=Object.fromEntries(base.sup.map(s=>[s.id,s])),bPC=JSON.parse(JSON.stringify(base.po.PC)),bOut=base.po.snap;
+ ok(sp().rating==='High'&&!/purchase-order data problem/.test(sp().why),'Northstar baseline: supplier-performance confidence stays High, no PO data warning');
+-ok(dq(base,/Duplicate records|Impossible quantities|Possible duplicate/).length===0,'Northstar baseline: no duplicate or impossible-quantity PO flags');
+ const noBad=R=>ORD.every(k=>{const h=V[k]().replace(/<[^>]+>/g,' ');return h.length>20&&!/undefined|NaN|\[object|Infinity/.test(h)});
+ // A: exact duplicate rows
+ {const R=G(E('dupexact'));const d=dq(R,/Duplicate records/,'High');ok(d.length===1&&['PO0001','PO0002','PO0003'].every(i=>d[0].ex.includes(i)),'dupexact: High "Duplicate records" lists PO0001, PO0002, PO0003');
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 16 | FAIL: 2 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1112
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-protection            1      127               126      1 check(s) failed: FAIL: file tests/test-po-edge.js CHANGED: sha256 158372bf84eecf8d (expected 7852c976f116a474)
+FAIL     test-po-edge                1      35                34       COUNT DROPPED: expected 35, actual 34
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 2 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes

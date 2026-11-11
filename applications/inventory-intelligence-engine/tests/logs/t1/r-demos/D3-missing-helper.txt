@@ -1,0 +1,63 @@
+# D3-missing-helper: Missing prerequisite not on the accepted list (helper file deleted)
+Expected: golden ERROR, not BLOCKED; exit 1 (check-protection also FAILs: protected file missing)
+Run: 2026-11-11T17:21:47Z
+Disposable copy: /home/claude/t1demo2-D3-missing-helper  (real repository: /home/claude/chain-genius-consulting, not touched)
+Copy is at demo commit b4616ea (simulated approved state; approved tag v0.7-tests-approved-1 on stand-in remote /tmp/standin.git)
+
+## Planted change
+$ rm compare-snapshots.js
+
+## git status --porcelain (copy)
+ D applications/inventory-intelligence-engine/tests/compare-snapshots.js
+
+## git diff (copy, planted change only)
+diff --git a/applications/inventory-intelligence-engine/tests/compare-snapshots.js b/applications/inventory-intelligence-engine/tests/compare-snapshots.js
+deleted file mode 100644
+index a96d342..0000000
+--- a/applications/inventory-intelligence-engine/tests/compare-snapshots.js
++++ /dev/null
+@@ -1,8 +0,0 @@
+-// Usage: node compare-snapshots.js <expected.json> <actual.json>
+-// Compares the regression sections (accepts the legacy flat format or the {meta,core,extended} format). Exit code 1 on any difference.
+-const fs=require('fs'),load=f=>{const o=JSON.parse(fs.readFileSync(f,'utf8'));return o.core||o};
+-const [A,B]=[load(process.argv[2]),load(process.argv[3])];let bad=0;
+-for(const k of [...new Set([...Object.keys(A),...Object.keys(B)])]){const a=JSON.stringify(A[k]),b=JSON.stringify(B[k]);
+- if(a===b){console.log('IDENTICAL  '+k.padEnd(6)+' ('+(Array.isArray(A[k])?A[k].length+' records':'value')+')')}
+- else{bad++;console.log('DIFFERENT  '+k);const x=A[k]||[],y=B[k]||[];let n=0;for(let i=0;i<Math.max(x.length,y.length)&&n<3;i++)if(JSON.stringify(x[i])!==JSON.stringify(y[i])){console.log('   expected',JSON.stringify(x[i]).slice(0,160));console.log('   actual  ',JSON.stringify(y[i]).slice(0,160));n++}}}
+-console.log(bad?bad+' section(s) differ':'ALL SECTIONS IDENTICAL');process.exitCode=bad?1:0;
+
+## Command
+$ NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --fast --remote /tmp/standin.git
+
+## Output
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 15 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 2
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1093
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+ERROR    golden v0.5                 1      10                -        no summary line (exit 1): Error: Cannot find module '/home/claude/t1demo2-D3-missing-helper/applications/inventory-intelligence-engine/tests/compare-snapshots.js'
+ERROR    golden v0.6.0               1      10                -        no summary line (exit 1): Error: Cannot find module '/home/claude/t1demo2-D3-missing-helper/applications/inventory-intelligence-engine/tests/compare-snapshots.js'
+FAIL     check-protection            1      127               126      1 check(s) failed: FAIL: file tests/compare-snapshots.js CHANGED: sha256 MISSING (expected a6313df23dc585bf)
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      9                 9        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 1 FAIL and 2 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+
+## Exit code: 1
+Disposable copy deleted: yes
