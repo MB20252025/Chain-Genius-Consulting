@@ -75,13 +75,24 @@ jobs:
           set -e
           echo "runner exit: $rc" >> "$RUN_DIR/meta.txt"
           cat "$RUN_DIR/summary.txt"
-          S="$RUN_DIR/summary.txt"
+          S="$RUN_DIR/summary.txt"; H="$RUN_DIR/honest-summary.txt"
+          # Fix 2: honest summary from tests/summarise-run.js (reads the runner output and accepted-results.json at run time).
+          set +e
+          node "$APP/tests/summarise-run.js" "$S" --accepted "$APP/tests/accepted-results.json" > "$H" 2>&1
+          frc=$?
+          set -e
+          echo "summariser exit: $frc" >> "$RUN_DIR/meta.txt"
+          cat "$H"
           {
-            echo "## Step 4: $(sed -n 1p "$S")"
-            echo "### $(grep -m1 '^PASS: ' "$S")"
+            echo "## Step 4: fast test tier"
+            if [ "$frc" -ne 0 ]; then echo "### SUMMARY UNAVAILABLE (treat as FAILED)"; echo; cat "$H"; echo; fi
+            if grep -q '^FAILED:' "$H"; then echo "### $(grep -m1 '^FAILED:' "$H")"; fi
+            if grep -q -E '^(FAST|FULL):' "$H"; then echo "### $(grep -m1 -E '^(FAST|FULL):' "$H")"; fi
+            grep -E '^(Full tier|Differs|Meaning):' "$H" | sed 's/$/  /' || true
+            echo
             echo "$(grep -m1 '^Scope: ' "$S")"
             echo
-            echo "$(grep -m1 -E '^(Known limitations|Not running)' "$S")"
+            echo "Raw runner line (this fast run only): \`$(grep -m1 '^PASS: ' "$S")\`"
             echo
             echo "**$(grep -m1 '^EXIT ' "$S" || echo "runner exit $rc, no EXIT line: see the log")**"
             echo
@@ -92,7 +103,8 @@ jobs:
             sed -n '/^STATUS /,/^$/p' "$S" | cut -c1-120; echo '```'; echo "</details>"
             echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."
           } >> "$GITHUB_STEP_SUMMARY"
-          exit "$rc"
+          if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+          exit "$frc"
 
       - name: "5. Keep this run's evidence (artifact)"
         if: always() && env.RUN_DIR != ''

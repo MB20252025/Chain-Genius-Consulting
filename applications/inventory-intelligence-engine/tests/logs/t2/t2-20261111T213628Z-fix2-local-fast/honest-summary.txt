@@ -1,0 +1,2 @@
+FAST: PASS 18 | FAIL 0 | ERROR 0 · Full tier (recorded in accepted-results.json): BLOCKED 6 | REDUCED 2
+Meaning: no new failures in the fast tier. This is NOT the whole framework: the full tier has 6 BLOCKED and 2 REDUCED tests recorded.

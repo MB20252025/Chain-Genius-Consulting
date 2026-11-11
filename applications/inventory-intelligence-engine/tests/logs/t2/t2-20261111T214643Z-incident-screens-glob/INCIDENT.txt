@@ -1,0 +1,10 @@
+INCIDENT (11 Nov 2026, during Fix 2, nothing committed or pushed while it lasted)
+What happened: after the local full run (t2-20261111T213733Z-fix2-local-full), Claude moved the screenshot folder created by
+browser-chrome.js out of the repository with the pattern tests/logs/screens-2026*. That pattern also matched the ten TRACKED
+screenshot folders from 7 and 9 Nov 2026 (screens-20261107T201336Z ... screens-20261109T195522Z), so they showed as deleted
+in the working tree.
+Detection: the very next `git status` listed them as deleted (D).
+Recovery: each folder was moved back from /home/claude/t1ev2/ to tests/logs/. Afterwards `git ls-files -d` listed 0 files and
+`git diff -- tests/logs` was empty, i.e. every tracked screenshot is byte-identical to HEAD. No commit contained the deletion.
+Cause: an over-broad glob. Rule from now on: move only the exact folder name created by the run just finished.
+The new, untracked screenshot folder from this run (screens-20261111T214551Z) stays outside the repository (/home/claude/t1ev2/).
