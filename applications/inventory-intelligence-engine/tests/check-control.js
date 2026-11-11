@@ -11,7 +11,7 @@
 // Exit 0 = no weakening; 1 = weakening found; 2 = cannot check (remote or git failure, no summary printed); 3 = no approved tag.
 const fs=require('fs'),path=require('path'),{spawnSync}=require('child_process');
 const arg=(k,d)=>{const i=process.argv.indexOf(k);return i>0?process.argv[i+1]:d};
-const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-1'),REMOTE=arg('--remote','origin');
+const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-2'),REMOTE=arg('--remote','origin');
 const git=(...a)=>spawnSync('git',a,{cwd:DIR,encoding:'utf8',timeout:120000,maxBuffer:256<<20});
 const die=(code,msg)=>{console.log((code===3?'NO APPROVED BASELINE: ':'ERROR: ')+msg);process.exit(code)};
 // 1. The tag: must exist on the remote; a local copy must match it.
@@ -24,11 +24,12 @@ let pass=0,fail=0;const ok=(c,m)=>{c?pass++:fail++;console.log((c?'PASS: ':'FAIL
 if(!remoteSha){console.log('FAIL: tag '+TAG+' exists only locally ('+localSha.slice(0,7)+'), not on "'+REMOTE+'": a local tag is not an approval');console.log(`check-control: 0 passed, 1 failed (baseline ${TAG} not on remote)`);process.exit(1)}
 if(localSha&&localSha!==remoteSha){console.log('FAIL: local tag '+TAG+' ('+localSha.slice(0,7)+') differs from "'+REMOTE+'" ('+remoteSha.slice(0,7)+')');console.log(`check-control: 0 passed, 1 failed (local and remote baseline differ)`);process.exit(1)}
 if(!localSha){const f=git('fetch','-q','--depth=1',REMOTE,'refs/tags/'+TAG+':refs/tags/'+TAG);if(f.status!==0)die(2,'cannot fetch tag '+TAG+': '+((f.stderr||'').trim().split('\n').pop()))}
-const prefix=git('rev-parse','--show-prefix').stdout.trim();
-const approved=f=>{const r=git('show',TAG+':'+prefix+f);return r.status===0?r.stdout:null};
-const current=f=>fs.existsSync(path.join(DIR,f))?fs.readFileSync(path.join(DIR,f),'utf8'):null;
+const prefix=git('rev-parse','--show-prefix').stdout.trim(),top=git('rev-parse','--show-toplevel').stdout.trim();
+// T2.1: a name starting ':/' is a path from the repository root (used for the workflow file); other names are in tests/.
+const approved=f=>{const r=git('show',TAG+':'+(f.startsWith(':/')?f.slice(2):prefix+f));return r.status===0?r.stdout:null};
+const current=f=>{const p=f.startsWith(':/')?path.join(top,f.slice(2)):path.join(DIR,f);return fs.existsSync(p)?fs.readFileSync(p,'utf8'):null};
 // 2. Byte-identical control files.
-for(const f of ['run-all.sh','check-protection.js','check-control.js','test-a1-wrapper-quick.js','package.json','package-lock.json','requirements.txt']){
+for(const f of ['run-all.sh','check-protection.js','check-control.js','test-a1-wrapper-quick.js','package.json','package-lock.json','requirements.txt','summarise-run.js',':/.github/workflows/v07-tests.yml']){
   const a=approved(f),c=current(f);
   ok(a!==null&&a===c,f+(a===null?': not in the approved baseline':c===null?': MISSING from the working tree':a===c?': identical to the approved baseline':': CHANGED since the approved baseline (needs approval)'))}
 // 3. accepted-results.json ratchet.
