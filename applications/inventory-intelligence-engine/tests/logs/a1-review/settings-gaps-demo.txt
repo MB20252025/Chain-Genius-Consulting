@@ -1,0 +1,10 @@
+A1 wrapper response to values the A2 rules must reject (fixture scenario-s0.xlsx):
+{"z":10} -> accepted (not validated in A1)
+{"excess":0} -> accepted (not validated in A1)
+{"hor":2.5} -> accepted (not validated in A1)
+{"pol":5} -> accepted (not validated in A1)
+{"late":2} -> accepted (not validated in A1)
+{"sup":7} -> accepted (not validated in A1)
+{"x":0.5,"y":0.1} -> accepted (not validated in A1)
+{"abcA":96,"abcB":90} -> accepted (not validated in A1)
+{"z":1.67} -> accepted (not validated in A1)
