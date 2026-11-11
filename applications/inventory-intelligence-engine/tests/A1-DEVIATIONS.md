@@ -2,7 +2,9 @@
 
 ## D1. `confAreas()` and `CONF_TXT` remain in `js/app.js` (module separation incomplete)
 
-**Status:** accepted A1 deviation (approved by the project owner in the A1 review brief). Full separation of business logic from the interface file has **not** been achieved. `confAreas()` has **not** been moved.
+**Status: PENDING THE OWNER'S DECISION (corrected 11 Nov 2026).** This record previously called D1 an accepted deviation. The owner has stated that D1 has not been accepted. Full separation of business logic from the interface file has **not** been achieved, and `confAreas()` has **not** been moved.
+
+**Measured cost of moving now (trial in a throwaway copy, `tests/logs/a1-d1-trial/`):** with `confAreas()` and `CONF_TXT` moved to `js/engine/confidence.js` and nothing else changed, 13 regression suites fail with "confAreas is not defined" or "CONF_TXT is not defined": test7, test8, test9, test-po-edge, test-fillcap, test-export-repeat, test-blank-qty, test-uom, test-missing-values, test-na-constraints, and the three blocked tests. The supplier and edge scenario runs fail too (through `dump_sup.js`). The golden snapshots are unaffected. 26 files in `tests/` load the app through the same fixed four-file list (`loaders-with-fixed-file-list.txt`).
 
 **Planned in Stage 2:** move `confAreas()` and `CONF_TXT` unchanged to a new `js/engine/confidence.js`.
 
