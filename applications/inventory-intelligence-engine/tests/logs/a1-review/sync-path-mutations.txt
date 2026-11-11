@@ -1,0 +1,22 @@
+M1 fcCred made async (forecasting.js)
+   new path test: FAIL js/forecasting.js fcCred: synchronous (async function line 32)  -> test-a1-sync-path: 73 passed, 1 failed
+   existing static test: test-a1-static: 19 passed, 1 failed
+M2 qs() returns a Promise (calculations.js)
+   new path test: FAIL js/calculations.js qs: synchronous (Promise line 193)  -> test-a1-sync-path: 73 passed, 1 failed
+   existing static test: test-a1-static: 19 passed, 1 failed
+M3 helper mean() made async (calculations.js)
+   new path test: FAIL js/calculations.js mean: synchronous (async function line 15)  -> test-a1-sync-path: 73 passed, 1 failed
+   existing static test: test-a1-static: 19 passed, 1 failed
+M4 new async helper called from confAreas (app.js)
+   new path test: FAIL js/app.js confSlow: synchronous (Promise line 190)  -> test-a1-sync-path: 74 passed, 1 failed
+   existing static test: test-a1-static: 20 passed, 0 failed
+M5 link() returns a hand-made thenable (calculations.js)
+   new path test: FAIL js/calculations.js link: synchronous (object with a then method line 207)  -> test-a1-sync-path: 73 passed, 1 failed
+   existing static test: test-a1-static: 20 passed, 0 failed
+M6 timer inside seasn() (forecasting.js)
+   new path test: FAIL js/forecasting.js seasn: synchronous (setTimeout line 10)  -> test-a1-sync-path: 73 passed, 1 failed
+   existing static test: test-a1-static: 19 passed, 1 failed
+M7 rows() made async (excel-import.js)
+   new path test: FAIL js/excel-import.js rows: synchronous (async function line 13)  -> (crashed after flagging; re-run with the fix below)
+   existing static test: test-a1-static: 19 passed, 1 failed
+M7 after runtime-section fix: test-a1-sync-path: 72 passed, 2 failed
