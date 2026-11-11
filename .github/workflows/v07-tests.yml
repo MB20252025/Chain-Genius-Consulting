@@ -1,0 +1,100 @@
+# v0.7 T2: tests on every push to development/v0.7.
+# Order is the point: (0) checkout, (1) GUARD = check-control.js taken from the approved tag, and only if it passes,
+# (2) Node setup, (3) pinned packages, (4) the fast test tier. A failed guard stops the job: no later step runs.
+# Free: standard GitHub-hosted runner, public repository. No secrets are used; test data is fictional.
+name: v0.7 tests
+run-name: "v0.7 tests: green = no new failures, NOT full coverage"
+
+on:
+  push:
+    branches: [development/v0.7]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Guard first, then fast tier
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      APP: applications/inventory-intelligence-engine
+      TAG: v0.7-tests-approved-1
+    steps:
+      - name: "0. Check out the pushed commit"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: "1. GUARD: approved check-control.js (must pass before anything else runs)"
+        run: |
+          RUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"
+          D="$GITHUB_WORKSPACE/$APP/tests/logs/ci/$RUN_ID"; mkdir -p "$D"
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "RUN_DIR=$D" >> "$GITHUB_ENV"
+          { echo "run id: $RUN_ID"; echo "commit: $GITHUB_SHA"; echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; echo "guard started: $(date -u +%FT%TZ)"; echo "node used for the guard (runner's preinstalled): $(node -v)"; } > "$D/meta.txt"
+          set +e
+          git fetch --no-tags --depth=1 origin "refs/tags/$TAG:refs/tags/$TAG" > "$D/guard.txt" 2>&1 \
+            && git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" 2>> "$D/guard.txt" \
+            && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin >> "$D/guard.txt" 2>&1
+          rc=$?
+          set -e
+          echo "guard exit: $rc" >> "$D/meta.txt"
+          cat "$D/guard.txt"
+          {
+            echo "## Step 1: guard (approved check-control.js from tag \`$TAG\`)"
+            if [ "$rc" -eq 0 ]; then echo "**GUARD PASSED.** $(tail -n 1 "$D/guard.txt")"
+            else echo "**GUARD FAILED (exit $rc). The job stopped here: NO tests were run.**"; fi
+            echo; echo '```'; grep -E '^(FAIL|PENDING|ERROR|NO APPROVED|fatal)' "$D/guard.txt" || true; tail -n 1 "$D/guard.txt"; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      - name: "2. Set up Node (recorded version)"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
+
+      - name: "3. Install pinned test packages outside the repository"
+        run: |
+          mkdir -p "$RUNNER_TEMP/testdeps"
+          cp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"
+          (cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)
+          echo "NODE_PATH=$RUNNER_TEMP/testdeps/node_modules" >> "$GITHUB_ENV"
+
+      - name: "4. Fast test tier (run-all.sh --fast)"
+        run: |
+          echo "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"
+          set +e
+          bash "$APP/tests/run-all.sh" --fast --log "$RUN_DIR/run.log" > "$RUN_DIR/summary.txt" 2>&1
+          rc=$?
+          set -e
+          echo "runner exit: $rc" >> "$RUN_DIR/meta.txt"
+          cat "$RUN_DIR/summary.txt"
+          S="$RUN_DIR/summary.txt"
+          {
+            echo "## Step 4: $(sed -n 1p "$S")"
+            echo "### $(grep -m1 '^PASS: ' "$S")"
+            echo "$(grep -m1 '^Scope: ' "$S")"
+            echo
+            echo "$(grep -m1 -E '^(Known limitations|Not running)' "$S")"
+            echo
+            echo "**$(grep -m1 '^EXIT ' "$S" || echo "runner exit $rc, no EXIT line: see the log")**"
+            echo
+            echo "Non-PASS rows and warnings:"; echo '```'
+            grep -E '^(FAIL|ERROR|BLOCKED|REDUCED) |WARNING:' "$S" | cut -c1-160 || true
+            echo '```'
+            echo "<details><summary>All rows (expected and actual counts)</summary>"; echo; echo '```'
+            sed -n '/^STATUS /,/^$/p' "$S" | cut -c1-120; echo '```'; echo "</details>"
+            echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      - name: "5. Keep this run's evidence (artifact)"
+        if: always() && env.RUN_DIR != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2-evidence-${{ env.RUN_ID }}
+          path: ${{ env.RUN_DIR }}
+          retention-days: 90
