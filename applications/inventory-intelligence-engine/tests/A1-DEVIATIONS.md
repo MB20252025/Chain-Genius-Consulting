@@ -34,3 +34,13 @@
 ## D3. Playwright-based browser tests not run
 
 **Status:** NOT RUN / ENVIRONMENT BLOCKED. Playwright's browser download is refused in this environment, and downloading it was not authorised. Affected: `test-paging-chrome.js` (part of the recorded suite) and, outside `run-regression.sh`, `check-standalone.js`, `test-final-chrome.js`, `test-p4-chrome.js`, `test-responsive-chrome.js`, `test-suppliers-export-chrome.js`, `perf-chrome.js`, `perf-chrome-p4.js`. None of them is reported as passed.
+
+## D4. Four v0.6 test suites do not report failures through their exit code (found in the A1 review)
+
+**Status:** outstanding; a fix is proposed and needs approval. No test has been changed.
+
+`test7.js`, `test8.js`, `domtest.js` and `domtest2.js` never call `process.exit`, so they exit with 0 even if a check fails. `run-regression.sh` decides pass or fail from the exit code alone. A FAIL inside these four suites would therefore be printed but would not fail the regression run. In addition, `test7.js` prints its summary line before its last 7 checks, so a failure among those 7 would not appear in the summary either.
+
+Today all their checks pass: test7 118, test8 47, domtest 30, domtest2 18 PASS lines and 0 FAIL lines (`tests/logs/a1-review/test7-count.txt`). Until this is fixed, every A1 and later test record reads their FAIL-line counts as well as the summary.
+
+**Proposed fix (needs approval):** at the end of each of the four files, add `process.exit(bad?1:0)`, using the existing counter names. In `test7.js`, also move the summary line to the end. This strengthens the tests and removes no check. The only visible change is that test7's summary would then read 118 instead of 111.

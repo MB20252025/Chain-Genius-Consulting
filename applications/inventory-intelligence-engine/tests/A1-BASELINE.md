@@ -18,7 +18,7 @@ Environment: Node v22.23.4, Python 3.13.18 with pandas 3.0.5, Linux, headless Ch
 
 | Suite | Result |
 |---|---|
-| test7 / test8 / test9 / domtest / domtest2 | 111 / 47 / 57 / 30 / 18 pass, 0 fail |
+| test7 / test8 / test9 / domtest / domtest2 | 118 / 47 / 57 / 30 / 18 pass, 0 fail (test7's summary line shows 111; see below) |
 | test-failed-import / test-export-nohistory / test-timezones / test-po-edge / test-structure / test-paging | 18 / 19 / 15 / 35 / 34 / 23 pass, 0 fail |
 | test-fillcap / test-export-repeat / test-cache / test-phase1 / test-blank-qty / test-uom / test-missing-values / test-na-constraints | 276 / 24 / 15 / 57 / 19 / 110 / 63 / 88 pass, 0 fail |
 | check-globals | 114 pass, 0 fail |
@@ -40,6 +40,6 @@ These must stay on the list of unresolved verification items until they can be r
 
 These tests have not been removed, weakened, redirected or rewritten.
 
-## Documentation discrepancy (not a failure)
+## Documentation discrepancy: resolved in the A1 review (11 Nov 2026)
 
-`TEST-RECORD.md` line 57 says test7 has 118 checks and calls 111 a miscount; lines 73 and 141 say 111. The baseline run reports 111 passing.
+`TEST-RECORD.md` said both 111 and 118 for test7. **Resolved: test7 runs 118 checks and all pass.** Its summary line ("summary 111 pass 0 fail") is printed before its last 7 checks, so it understates the total. Counted from the output: 118 PASS lines, 0 FAIL lines, in UTC and Europe/London (`tests/logs/a1-review/test7-count.txt`). This record originally repeated the summary figure (111); it now gives the actual count. `TEST-RECORD.md` was corrected the same way. No test was changed.

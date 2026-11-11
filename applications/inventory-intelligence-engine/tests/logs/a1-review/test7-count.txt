@@ -1,0 +1,6 @@
+TZ=UTC test7: 118 PASS lines, 0 FAIL lines; summary line: summary 111 pass 0 fail
+TZ=Europe/London test7: 118 PASS lines, 0 FAIL lines; summary line: summary 111 pass 0 fail
+test8: 47 PASS / 0 FAIL lines; summary 47 pass 0 fail
+test9: 57 PASS / 0 FAIL lines; summary 57 pass 0 fail
+domtest: 30 PASS / 0 FAIL lines; summary 30 pass 0 fail
+domtest2: 18 PASS / 0 FAIL lines; summary 18 pass 0 fail

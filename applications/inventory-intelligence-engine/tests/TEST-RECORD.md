@@ -1,5 +1,8 @@
 # Test record: v0.6 candidate (final verification pass)
 
+> **Correction (v0.7 A1 review, 11 Nov 2026): test7 has 118 checks, all passing.** test7 prints its summary line ("summary 111 pass 0 fail") before its last 7 checks (forecast checks added in v0.4), so the summary understates the total. Counted from its output: 118 PASS lines, 0 FAIL lines, in UTC and Europe/London (`tests/logs/a1-review/test7-count.txt`). Every "111" for test7 below is that summary line; the actual count is 118. Note also that test7, test8, domtest and domtest2 do not set an exit code, so `run-regression.sh` would not fail on their FAIL lines; a fix is proposed in `A1-DEVIATIONS.md` (D4) and needs approval. No test was changed.
+
+
 Run 20261109T154834Z. Node-based suites were run in both UTC and Europe/London (identical results). Logs: tests/logs/*-20261109T154834Z*. Machine: 2 CPU, 8 GB RAM, Node v22.23.4, headless Chromium (desktop emulation, not a phone).
 
 ## Results (second verification pass, run 20261109T170043Z; Node suites in UTC and Europe/London, identical)
@@ -54,7 +57,7 @@ Recommendation (needs approval): count at most the ordered quantity on each PO, 
 | Original seven Git commits | NOT RECOVERABLE (documented as a historical limitation) |
 | Failed-import state (WB/WBNAME) | PASSED (fixed earlier, regression test) |
 | Timezone dependence of dates and results | PASSED (fixed earlier, five-timezone test) |
-| test7 count 111 vs 118 | RECONCILED: 118 is correct; 111 was a miscount |
+| test7 count 111 vs 118 | RECONCILED: 118 checks run and pass; 111 is the summary line printed before the last 7 checks (corrected 11 Nov 2026; earlier wording "111 was a miscount" was inaccurate) |
 | Colour/theme/styling work | Only the contrast text colours above were changed; no layout or palette redesign |
 | Currency, units of measure, data contracts, SME demonstration dataset | Not part of v0.6, not claimed |
 | Over-received quantity rule | INVESTIGATED, recommendation made, NOT changed (awaiting approval) |
@@ -70,7 +73,7 @@ Candidate 2 is preserved unchanged (inventory-intelligence-engine-v0.6-candidate
 ## Results
 | Suite | Result |
 |---|---|
-| test7 / test8 / test9 / domtest / domtest2 (UTC and Europe/London) | 111 / 47 / 57 / 30 / 18 passed, 0 failed, identical in both zones |
+| test7 / test8 / test9 / domtest / domtest2 (UTC and Europe/London) | 118 (summary line shows 111) / 47 / 57 / 30 / 18 passed, 0 failed, identical in both zones |
 | test-failed-import, test-export-nohistory, test-timezones, test-po-edge, test-structure, test-paging | 18, 19, 15, 35, 34, 23 passed, 0 failed |
 | NEW test-fillcap (partial, shortage, over-receipt, combined, duplicates, multi-line, split lines, Northstar; fill/excess recomputed from raw rows) | 276 passed |
 | NEW test-export-repeat | 24 passed (6 of these fail on candidate 2: the mutation defect) |
@@ -83,7 +86,7 @@ Candidate 2 is preserved unchanged (inventory-intelligence-engine-v0.6-candidate
 | browser-chrome (real Chrome desktop/mobile, contrast, offline, PDF, bad files) | 53 passed |
 | Dead-view removal: MD5 of every tab render before/after (51 renders) | identical |
 
-Total this pass: 111+47+57+30+18 (x2 zones) plus the single-run suites above. Chrome tests are desktop Chrome emulating a phone: NOT a physical Android test.
+Total this pass: 118 (summary line 111)+47+57+30+18 (x2 zones) plus the single-run suites above. Chrome tests are desktop Chrome emulating a phone: NOT a physical Android test.
 
 ## Supplier-score differences caused by the per-line cap (expected, documented)
 Only scenario overrec changed (new expected file stored after verify_sup.py, which applies the cap independently, passed): SUP008 60.55->60.39, SUP015 65.50->65.45, SUP014 74.22->74.03, SUP006 53.78->53.70; no class change. Fill examples where an excess and a shortage coexist (netted before -> capped now): overrec SUP014 100 -> 98.67, SUP006 104.08 -> 99.48; overshort SUP008 97.29 -> 94.58, SUP014 97.61 -> 94.25; combined SUP008 97.02 -> 95.39.
@@ -138,7 +141,7 @@ Per-check results: tests/logs/test-phase1-20261109T193900Z.log and tests/logs/te
 ## Existing functionality (regression run 20261109T192000Z)
 | Suite | Expected | Actual | Result |
 |---|---|---|---|
-| test7, test8, test9, domtest, domtest2 (UTC and Europe/London) | 111, 47, 57, 30, 18 pass, 0 fail | same, both zones | PASS |
+| test7, test8, test9, domtest, domtest2 (UTC and Europe/London) | 118 (summary line 111), 47, 57, 30, 18 pass, 0 fail | same, both zones | PASS |
 | test-failed-import, test-export-nohistory, test-timezones, test-po-edge, test-structure, test-paging | 18, 19, 15, 35, 34, 23 pass | same | PASS |
 | test-fillcap, test-export-repeat, test-cache | 276, 24, 15 pass | same | PASS |
 | test-phase1 (new) | 125 pass | 125 pass | PASS |
@@ -210,7 +213,7 @@ Every one of 40 spellings was written to all materials and products of Northstar
 ## Full regression
 | Suite | Expected | Actual | Result |
 |---|---|---|---|
-| test7, test8, test9, domtest, domtest2 (UTC and Europe/London) | 111, 47, 57, 30, 18 pass | same, both zones | PASS |
+| test7, test8, test9, domtest, domtest2 (UTC and Europe/London) | 118 (summary line 111), 47, 57, 30, 18 pass | same, both zones | PASS |
 | test-failed-import, test-export-nohistory, test-timezones, test-po-edge, test-structure, test-paging | 18, 19, 15, 35, 34, 23 | same | PASS |
 | test-fillcap, test-export-repeat, test-cache, test-phase1, test-blank-qty | 276, 24, 15, 125, 18 | same | PASS |
 | check-globals | 108 | 108 passed (85 top-level names; the three new names UOM_KNOWN, UOM_ALIAS and canonUom are unique) | PASS |
@@ -270,7 +273,7 @@ Individual results are in tests/logs/regression-p3b-20261109T194924Z.log (Node, 
 test-phase1 125/125 (1e tolerates only the three Phase 3 sentences); test-blank-qty 18/18 (first-row blank now flagged); test-uom 164/164 (U11 willow exemption). The first regression run (p3-20261109T194317Z) failed these exact assertions (12 + 1 + 2) before they were updated; the clean rerun is p3b.
 
 ## Full regression (UTC and Europe/London, identical both zones)
-test7 111, test8 47, test9 57, domtest 30, domtest2 18, test-failed-import 18, test-export-nohistory 19, test-timezones 15, test-po-edge 35, test-structure 34, test-paging 23, test-fillcap 276, test-export-repeat 24, test-cache 15, test-phase1 125, test-blank-qty 18, test-uom 164, test-missing-values 63, test-fglt-note 105: all 0 failed. check-globals 111 passed. verify.py 17 pass. 16 of 16 supplier scenarios PASS.
+test7 118 (summary line 111), test8 47, test9 57, domtest 30, domtest2 18, test-failed-import 18, test-export-nohistory 19, test-timezones 15, test-po-edge 35, test-structure 34, test-paging 23, test-fillcap 276, test-export-repeat 24, test-cache 15, test-phase1 125, test-blank-qty 18, test-uom 164, test-missing-values 63, test-fglt-note 105: all 0 failed. check-globals 111 passed. verify.py 17 pass. 16 of 16 supplier scenarios PASS.
 Golden: v0.5 golden, v0.6 baseline and Phase 2 (primary), 10 sections, UTC, London, New York, Kolkata, Auckland: ALL SECTIONS IDENTICAL (15 of 15). Data-quality differences in golden workbooks: none (Northstar has no blank columns).
 compare-trees Phase 2 vs Phase 3 (23 workbooks): no calculated result differs. Differences: Finished goods, Reorder policy and Settings tabs (new note) in all 23 [reporting]; structure/willow also dq, Data quality tab and ENG_DataQuality [data-quality, expected, caused by item 2]. Unexpected differences: none.
 Chrome (desktop Chrome, emulated narrow screens): test-prephase3 41, test-paging-chrome 59, test-responsive-chrome 35, test-suppliers-export-chrome 72, browser-chrome 53: all pass. check-standalone 40 pass. verify-protected.sh: all protected candidates, ZIPs and snapshots unchanged.
@@ -288,7 +291,7 @@ Negative control: the same file run against the Phase 3 code fails (recorded whe
 ## Targeted forecast tests: test-forecast-conf.js, 206 checks, PASS
 Two consecutive, three consecutive, separated, mixed, MAD=0 and normal demand; confidence drops exactly one level where shift>0; label, Why text and warning agree; accuracy, bias, verdict, finding, dq and outlier counts identical to Phase 3 in every case; no High label beside a level-shift warning.
 ## Full regression results (each in both time zones)
-test7 111, test8 47, test9 57, domtest 30, domtest2 18, test-failed-import 18, test-export-nohistory 19, test-timezones 15, test-po-edge 35, test-structure 34, test-paging 23, test-fillcap 276, test-export-repeat 24, test-cache 15, test-phase1 101, test-blank-qty 19, test-uom 164, test-missing-values 63, test-fglt-note 105, test-forecast-conf 206, test-supplier-eligibility 301: all pass. check-globals 113. verify.py (independent, Northstar) 17/17. Supplier scenarios s0, nopo, allfuture, three, unknown, nohist: PASS (independent verify_sup.py); edge scenarios (dupexact ... willow): PASS.
+test7 118 (summary line 111), test8 47, test9 57, domtest 30, domtest2 18, test-failed-import 18, test-export-nohistory 19, test-timezones 15, test-po-edge 35, test-structure 34, test-paging 23, test-fillcap 276, test-export-repeat 24, test-cache 15, test-phase1 101, test-blank-qty 19, test-uom 164, test-missing-values 63, test-fglt-note 105, test-forecast-conf 206, test-supplier-eligibility 301: all pass. check-globals 113. verify.py (independent, Northstar) 17/17. Supplier scenarios s0, nopo, allfuture, three, unknown, nohist: PASS (independent verify_sup.py); edge scenarios (dupexact ... willow): PASS.
 Golden snapshots v0.5, v0.6 baseline, Phase 2 (primary): ALL SECTIONS IDENTICAL in UTC, London, New York, Kolkata, Auckland (15 of 15). Note: snapshot sections do not include forecast confidence text; that change is covered by test-forecast-conf and compare-trees.
 Chrome: test-prephase3 41, test-paging-chrome 59, test-responsive-chrome 35, test-suppliers-export-chrome 72, browser-chrome 53: pass. check-standalone 40 pass (also on the unzipped ZIP, below). verify-protected.sh: all protected items OK.
 ## Failures found during Phase 3B and how they were resolved (no assertion weakened to hide a defect)
@@ -314,7 +317,7 @@ Each row below is one suite in one zone; individual assertions are in logs/p4-ve
 | Suite | Result | Reported |
 |---|---|---|
 | **TZ=UTC** | | |
-| test7 | PASS | summary 111 pass 0 fail |
+| test7 | PASS | summary 111 pass 0 fail (118 checks; the last 7 run after the summary line) |
 | test8 | PASS | summary 47 pass 0 fail |
 | test9 | PASS | summary 57 pass 0 fail |
 | domtest | PASS | summary 30 pass 0 fail |
@@ -337,7 +340,7 @@ Each row below is one suite in one zone; individual assertions are in logs/p4-ve
 | test-supplier-eligibility | PASS | test-supplier-eligibility: 301 passed, 0 failed |
 | test-na-constraints | PASS | test-na-constraints: 88 passed, 0 failed |
 | **TZ=Europe/London** | | |
-| test7 | PASS | summary 111 pass 0 fail |
+| test7 | PASS | summary 111 pass 0 fail (118 checks; the last 7 run after the summary line) |
 | test8 | PASS | summary 47 pass 0 fail |
 | test9 | PASS | summary 57 pass 0 fail |
 | domtest | PASS | summary 30 pass 0 fail |
@@ -413,7 +416,7 @@ Evidence: tests/logs/regression-final-20261109T2300Z.log (totals) and tests/logs
 | Suite | Result | Reported |
 |---|---|---|
 | **TZ=UTC** | | |
-| test7 | PASS | summary 111 pass 0 fail |
+| test7 | PASS | summary 111 pass 0 fail (118 checks; the last 7 run after the summary line) |
 | test8 | PASS | summary 47 pass 0 fail |
 | test9 | PASS | summary 57 pass 0 fail |
 | domtest | PASS | summary 30 pass 0 fail |
@@ -436,7 +439,7 @@ Evidence: tests/logs/regression-final-20261109T2300Z.log (totals) and tests/logs
 | test-supplier-eligibility | PASS | test-supplier-eligibility: 301 passed, 0 failed |
 | test-na-constraints | PASS | test-na-constraints: 88 passed, 0 failed |
 | **TZ=Europe/London** | | |
-| test7 | PASS | summary 111 pass 0 fail |
+| test7 | PASS | summary 111 pass 0 fail (118 checks; the last 7 run after the summary line) |
 | test8 | PASS | summary 47 pass 0 fail |
 | test9 | PASS | summary 57 pass 0 fail |
 | domtest | PASS | summary 30 pass 0 fail |
