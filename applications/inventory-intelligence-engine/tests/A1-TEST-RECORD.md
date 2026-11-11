@@ -66,3 +66,10 @@ Change: `test7.js`, `test8.js`, `domtest.js` and `domtest2.js` set `process.exit
 | Same test7 fault on pre-D4 code (`41ef293`) | `TZ=UTC node test7.js` | exit 0, "summary 111 pass 0 fail" while a FAIL line is printed: the gap D4 closes |
 | Runner on the planted copy | `bash run-regression.sh 20261111T-d4fault` | Overall exit 1; each of the four listed as `exit 1` with its FAIL line, in UTC and London |
 | Genuine runner after D4 (export of `27d6313`) | `bash run-regression.sh 20261111T-d4` | Same as the pre-D4 run except test7's summary: 118 instead of 111 (both zones). Exit 1 only from the five NOT RUN items |
+
+## A1 closure (11 Nov 2026)
+
+- D1: deferred to v0.8 under the owner's binding conditions — `A1-DEVIATIONS.md` D1.
+- Five environment-blocked tests: DEFERRED, each listed with its A2 implication — `A1-DEVIATIONS.md` D5.
+- v0.7 performance baseline (5,000-item fixture, deterministic, not committed as a binary) — `V07-PERF-BASELINE.md`, raw results in `logs/v07-perf-baseline/`.
+- No application code changed in this closure.
