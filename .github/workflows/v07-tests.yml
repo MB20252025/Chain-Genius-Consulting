@@ -104,7 +104,7 @@ jobs:
             echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."
           } >> "$GITHUB_STEP_SUMMARY"
           if [ "$rc" -ne 0 ]; then exit "$rc"; fi
-          exit 0
+          exit "$frc"
 
       - name: "5. Keep this run's evidence (artifact)"
         if: always() && env.RUN_DIR != ''
