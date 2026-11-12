@@ -301,3 +301,17 @@ Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first openi
 **T2 regression:** confirmed. Full tier: PASS 31, BLOCKED 5, REDUCED 2. The evidence-only commit started no run, and the README commit started one.
 
 **Evidence:** `tests/logs/t2/T21-EVIDENCE-INDEX.md`.
+
+### T2.1 closure note (12 Nov 2026): CLOSED as PARTIALLY COMPLETE, accepted by the owner
+
+- **Limitation (accepted):** on GitHub Free, nothing can enforce the presence of the workflow guard against someone with push access to `development/v0.7`. See `tests/README.md` §6.
+- **Guard status still recorded as STAGED; the change is deferred.**
+  - `check-control` still reads STAGED (BLOCKED until T2) in `accepted-results.json`. The change to ACTIVE is deferred to T3's first commit, which needs a new approved baseline tag anyway.
+  - As a result, the fast-tier summary reports the recorded full-tier figure **BLOCKED 6**, while the full-tier local result reports **BLOCKED 5**, because check-control now runs and passes.
+  - This is a known reporting inconsistency, not a test failure. **The correct blocked count for the current full-tier result is 5.**
+- **Commit authorship:**
+  - From the T1 commit `eb3111f` onwards, commits carry no `Co-Authored-By` trailer. This follows the owner's T1 approval instruction: no trailer for Claude without explicit authorisation.
+  - The 22 earlier commits (up to `40d3559`) carried one.
+  - Existing commits are not rewritten.
+- **S3:** Restrict updates OFF (owner design). Ordinary merges to `main` are allowed with S3 active. The temporary disable window applies only to a separately authorised operation that S3 blocks. README §5 was corrected in commit `c9b220d`.
+- **Evidence:** `tests/logs/t2/T21-EVIDENCE-INDEX.md`, including its closure addendum.
