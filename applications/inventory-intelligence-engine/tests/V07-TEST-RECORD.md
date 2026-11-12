@@ -390,3 +390,33 @@ The 5 blocked and 2 reduced entries are **not passed tests**. They are the exist
 | `0ab8682380926a05492b0897d09b7e08995f676fc62dfb70f31199c74fab2a3d` | 50703 | `06-Edge-Cases-v1.0.2.zip` |
 
 The v1.0 ZIPs are superseded (their Package 02 and E08 files contain the old keep-first wording).
+
+## M1 pre-tag Commit 3 — characterisation test for lead-time fallbacks (12 Nov 2026; the entries above are unchanged)
+
+**What was added.** `tests/characterisation/characterisation-lead-time-fallbacks.js` (28 assertions) and `tests/characterisation/README.md`. The test records the engine's **current** lead-time behaviour, including known defects. **A pass means the recorded behaviour is unchanged; it does not mean the behaviour is approved or correct.** Approved future behaviour is set by the owner's decisions in `../M1-DESIGN.md` and changes only through separately authorised commits.
+
+| Case | Recorded current behaviour | Status |
+| --- | --- | --- |
+| H1 | PO-history base 26 d + 6 d lateness added again = 32 d | Known defect (double count); `TODO(H1, Commit 4)`: lt becomes 26; the supplier's observed 6-day average lateness stays, it is no longer added on top |
+| H2 | Supplier standard 20 d + 6 d lateness = 26 d | Control case; Commit 4 must not change it |
+| H3, H4 | One PO (40 d, spread 0) and two POs (30 d, spread 20) labelled "Calculated"; `enough` false | Known defect (small samples); `TODO(small samples, Stage 4)` |
+| H5 | Early deliveries: lateness floored at 0, lt 25 d | Current behaviour; no change planned (decision A4 open) |
+| F7 | No evidence: 7-day production default, "Assumed (default setting)" | Known limitation; `TODO(7-day fallback, decision A1)` |
+
+Case numbering follows the H1-assessment evidence: the small-sample cases are H3/H4; H5 is early delivery (the Commit 3 brief's reference to "H5 small-sample variance" does not match the evidence).
+
+**Registration and protection.** `accepted-results.json`: new entry `characterisation-lead-time` (fast and full tiers; full tier in five time zones; accepted 28) whose existing `note` field marks it as CHARACTERISATION; `check-protection` accepted count 337 → 338 (its note updated to match). `checksums.txt`: one comment line and one `file` line for the test, added in the same change. The README is not checksum-protected. No file under `js/`, no existing test, package or generator changed.
+
+**Results (12 Nov 2026, UTC; test-only Node packages installed outside the repository from the pinned `tests/package-lock.json`).**
+
+| Check | Result |
+| --- | --- |
+| Characterisation test, run directly in UTC, Europe/London, America/New_York, Asia/Kolkata, Pacific/Auckland | 28 passed, 0 failed in each zone; outputs byte-identical |
+| `check-protection` | 338 passed, 0 failed (3 references, 335 files) |
+| Guard (`check-control.js` from tag `v0.7-tests-approved-3`) | 12 passed, 0 failed. PENDING: `characterisation-lead-time: new test, accepted 28`; `checksums.txt new protected line … tests/characterisation/characterisation-lead-time-fallbacks.js`; `check-protection: accepted count raised 127 -> 338`; plus the earlier Stage 1 items (`test-a1-static` 20 → 23, `import-stage1` new test, 210 library/tool checksum lines) |
+| Fast tier (`run-all.sh --fast`, UTC only) | exit 0; PASS 21, FAIL 0, ERROR 0; `characterisation-lead-time` 28 of 28 |
+| Full tier (`run-all.sh --full`) | exit 0; PASS 34, FAIL 0, ERROR 0, 5 blocked, 2 reduced; `characterisation-lead-time` 28 in each of 5 zones (140 assertions); golden v0.5 and v0.6.0 10/10 each; confidence snapshot 51/51 |
+
+The 5 blocked and 2 reduced entries are **not passed tests**: they are the existing accepted limitations, unchanged. These results were obtained before this record entry was written; this record is not read by any test.
+
+**Sequencing rule.** No baseline tag may be moved between Commit 3 and Commit 4: the guard would then treat Commit 3's checksum line as approved, and Commit 4's corrected line would fail it (demonstrated in a throwaway copy during the Commit 3 preflight). Commit 4, if authorised, changes the H1 assertions and the test's checksum line in the same commit as the engine correction.
