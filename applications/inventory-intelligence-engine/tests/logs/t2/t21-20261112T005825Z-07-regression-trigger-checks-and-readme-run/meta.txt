@@ -1,0 +1,4 @@
+T2 regression trigger checks (T2 acceptance criteria):
+- Evidence-only commit 70f2ed50088b09ac533b1ec54e923f514f56074e (19 files, all under tests/logs/): latest run 43129281435 before (00:55:14Z) and after 60 s (00:56:16Z): UNCHANGED -> regression-evidence-only-check.txt
+- Ordinary development change: README commit 00d9d55090194dd18260174f222b8125e982b615 (tests/README.md, not ignored) triggered run 43131017835: success; guard 11/11 (line 149) before Node (line 150); FAST: PASS 18 | FAIL 0 | ERROR 0 . Full tier (recorded): BLOCKED 6 | REDUCED 2 -> readme-run-43131017835.log
+- Earlier ordinary-change triggers in T2.1: 43128885652 (summarise-run.js revert), 43129281435 (workflow revert).

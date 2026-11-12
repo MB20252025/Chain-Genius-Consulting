@@ -280,3 +280,24 @@ Local full run with the formatter: `FULL: PASS 31 | FAIL 0 | BLOCKED 5 | REDUCED
 Incident (my error): an over-broad pattern moved ten tracked screenshot folders out of the repository. They were restored byte-identical and never committed (`tests/logs/t2/t2-20261111T214643Z-incident-screens-glob/`).
 
 Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first opening-check run is marked INVALID.
+
+---
+
+## T2.1 — Final protection hardening (11–12 Nov 2026)
+
+**Status: PARTIALLY COMPLETE.** On GitHub Free, nothing can enforce the presence of the workflow guard against someone with push access. See `tests/README.md` §6.
+
+**Change:** commit 0e461a6. The guard now also protects `summarise-run.js` and `.github/workflows/v07-tests.yml` (11 checks). Its baseline is tag `v0.7-tests-approved-2` (created by the owner, pointing to 0e461a6).
+
+**Rulesets** (owner, all active, no bypass):
+- S1: tags, restrict updates and deletions.
+- S2: `development/v0.7`, restrict deletions and block force pushes. Live-tested: GH013 rejection.
+- S3: `main` and `release/v0.6`, restrict deletions and block force pushes.
+
+**Tests:**
+- Test A, formatter tampering: e373e4e → run 43128815957 FAIL; revert e58974a → run 43128885652 PASS.
+- Test B, workflow tampering: e2b8cd7 → run 43129216325 FAIL; revert 96980fd → run 43129281435 PASS.
+
+**T2 regression:** confirmed. Full tier: PASS 31, BLOCKED 5, REDUCED 2. The evidence-only commit started no run, and the README commit started one.
+
+**Evidence:** `tests/logs/t2/T21-EVIDENCE-INDEX.md`.
