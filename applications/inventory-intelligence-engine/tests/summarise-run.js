@@ -25,7 +25,7 @@ let A;try{A=JSON.parse(fs.readFileSync(accPath,'utf8'))}catch(e){bad('cannot rea
 const full=A.tests.filter(t=>(t.tiers||[]).includes('full'));
 const recB=full.filter(t=>t.status==='BLOCKED'),recR=full.filter(t=>t.status==='REDUCED');
 const out=[];
-if(false)out.push('FAILED: FAIL '+F+' | ERROR '+E+' -> '+rows.filter(r=>r.st==='FAIL'||r.st==='ERROR').map(r=>r.st+' '+r.name).join(', '));
+if(F+E>0)out.push('FAILED: FAIL '+F+' | ERROR '+E+' -> '+rows.filter(r=>r.st==='FAIL'||r.st==='ERROR').map(r=>r.st+' '+r.name).join(', '));
 const recLine='Full tier (recorded in accepted-results.json): BLOCKED '+recB.length+' | REDUCED '+recR.length;
 if(tier==='FAST')out.push('FAST: PASS '+P+' | FAIL '+F+' | ERROR '+E+(B?' | BLOCKED '+B:'')+(R?' | REDUCED '+R:'')+' · '+recLine);
 else{out.push('FULL: PASS '+P+' | FAIL '+F+' | BLOCKED '+B+' | REDUCED '+R+' | ERROR '+E);out.push(recLine);
