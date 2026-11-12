@@ -1,0 +1,41 @@
+Planted change n<24 -> n<12, compared with the approved snapshot (field level):
+ FAIL northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-allfuture.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-allfuture.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-nohist.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-nohist.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-nopo.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-nopo.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-s0.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-s0.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-three.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-three.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL suppliers/scenario-unknown.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL suppliers/scenario-unknown.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-combined.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-combined.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-dupexact.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-dupexact.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-dupkey.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-dupkey.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-multiline.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-multiline.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-overrec.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-overrec.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-overshort.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-overshort.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-partial.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-partial.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-posupconflict.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-posupconflict.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+ FAIL edge/scenario-splitline.xlsx forecastCredibility - 148 field(s) differ, e.g. forecastCredibility.FG001.conf : expected "Medium" actual "High"
+ FAIL edge/scenario-splitline.xlsx confidence - 2 field(s) differ, e.g. confidence[4].rating : expected "Low" actual "Medium"
+failing fixture/section checks: 32 of 51
+fields that changed (count across all products):
+   forecastCredibility.<product>.confFix 800
+   forecastCredibility.<product>.confWhy 800
+   forecastCredibility.<product>.conf 768
+   confidence[n].rating 16
+   confidence[n].why 16
+Northstar FG001: n = 12 | conf expected Medium actual High

@@ -325,3 +325,12 @@ Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first openi
 - **Guard:** `check-control` protects 12 files (the snapshot is the 12th). Baseline tag `v0.7-tests-approved-3`.
 - **Records:** `check-control` is now recorded ACTIVE, so the recorded full tier is BLOCKED 5 and REDUCED 2, and the fast-tier summary reports BLOCKED 5. This resolves the T2.1 reporting inconsistency.
 - **Evidence:** `tests/logs/t3/`. Results are appended below as they are verified.
+
+### T3 results (12 Nov 2026, appended at evidence packaging; the entries above are unchanged)
+
+- **Implementation:** commit `9eb578b`. Run 43134754886 attempt 1 failed at the guard, as expected, because tag `v0.7-tests-approved-3` did not yet exist. The owner created the tag (lightweight, → 9eb578b). One API re-run (attempt 2) passed: guard 12/12, `FAST: PASS 19 | FAIL 0 | ERROR 0`, confidence snapshot 51/51.
+- **Planted-change demonstration:** commit `cb7e3a8` changed `js/forecasting.js` line 38 from `n<24` to `n<12` (not a protected file). Run 43136342170 failed at the fast tier only; the guard passed 12/12. The confidence snapshot reported 19/51 with 32 failed, naming `forecastCredibility.FG001.conf: expected "Medium", actual "High"`. No other test failed.
+- **Revert and recovery:** commit `e9efe31`, a normal revert and the exact inverse of `cb7e3a8`. Run 43136962684 passed: guard 12/12, `FAST: PASS 19 | FAIL 0 | ERROR 0`, confidence snapshot 51/51.
+- **Final verification (pre-packaging committed state, `e9efe31`):** all 12 protected files and the committed tree are identical to `v0.7-tests-approved-3`. The evidence commit differs from the tag by exactly the 20 evidence changes (19 files in `tests/logs/t3/` and this appended section). `main`, `release/v0.6`, `v0.6` and tags `-1`, `-2`, `-3` are unchanged. `check-protection`: 127/127.
+- **Accepted results:** unchanged. **Status:** T3 evidence packaged; awaiting the owner's formal closure. A2 not started.
+- **Evidence:** `tests/logs/t3/T3-EVIDENCE-INDEX.md`.

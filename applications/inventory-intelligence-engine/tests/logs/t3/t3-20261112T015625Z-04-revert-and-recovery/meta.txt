@@ -1,0 +1,35 @@
+T3 revert and recovery — generated 2026-11-12T01:56:58Z, read-only
+
+Revert commit: e9efe31d7b6bdb98b7c42236e5705b45f3be565f (parent cb7e3a89362b43730c000b62ce26a676a56a2cf9); normal git revert, normal push cb7e3a8..e9efe31
+ applications/inventory-intelligence-engine/js/forecasting.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Word-level change:
+[-pts=0;if(n<12){why.push('The-]{+pts=0;if(n<24){why.push('The+}
+
+Exact inverse check: diff <(git diff cb7e3a8 cb7e3a8~1) <(git diff e9efe31~1 e9efe31)
+  IDENTICAL
+Tree check: git diff --stat 9eb578b e9efe31
+  (no output: tree identical to the T3 baseline)
+Tree object: 9eb578b^{tree}=4941e7ced04bda1b33773849b086b40272014a75  e9efe31^{tree}=4941e7ced04bda1b33773849b086b40272014a75
+
+run 43136962684 attempt 1: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43136962684
+  event push, branch development/v0.7, sha e9efe31d7b6bdb98b7c42236e5705b45f3be565f
+  status completed, conclusion success, started 2026-11-12T01:47:57Z, updated 2026-11-12T01:48:43Z
+    1. Set up job: success
+    2. 0. Check out the pushed commit: success
+    3. 1. GUARD: approved check-control.js (must pass before anything else runs): success
+    4. 2. Set up Node (recorded version): success
+    5. 3. Install pinned test packages outside the repository: success
+    6. 4. Fast test tier (run-all.sh --fast): success
+    7. 5. Keep this run's evidence (artifact): success
+    13. Post 2. Set up Node (recorded version): success
+    14. Post 0. Check out the pushed commit: success
+    15. Complete job: success
+
+Key lines:
+2026-11-12T01:48:04.2375254Z check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-3 = 9eb578b)
+2026-11-12T01:48:38.7207518Z PASS: 19 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+2026-11-12T01:48:38.7221699Z PASS     confidence snapshot v0.7    1      51                51       
+2026-11-12T01:48:38.7475384Z FAST: PASS 19 | FAIL 0 | ERROR 0 · Full tier (recorded in accepted-results.json): BLOCKED 5 | REDUCED 2
+
+Warnings: 5 routine notices (git default-branch hint, Node deprecation messages, GitHub's Node 20 actions notice) — the same 5 as run 43134754886 attempt 2.

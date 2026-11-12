@@ -1,0 +1,58 @@
+T3 final verification — generated 2026-11-12T01:57:13Z, read-only.
+SCOPE: this records the PRE-PACKAGING COMMITTED STATE, commit e9efe31d7b6bdb98b7c42236e5705b45f3be565f (HEAD before any evidence was added).
+The working tree at packaging time additionally held the 20 uncommitted evidence changes (19 new files in tests/logs/t3/ and the append to V07-TEST-RECORD.md); it is NOT claimed to be identical to the tag.
+The evidence commit that adds this file differs from the tag by exactly those 20 changes.
+
+1. Remote references (git ls-remote origin)
+e9efe31d7b6bdb98b7c42236e5705b45f3be565f	refs/heads/development/v0.7
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/heads/main
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/heads/release/v0.6
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/tags/v0.6
+eb3111f5d25f02678db02b35e9cf4e9ab0e23a73	refs/tags/v0.7-tests-approved-1
+0e461a629d0aa631c92ca6682958071cdf8388e6	refs/tags/v0.7-tests-approved-2
+9eb578b79f0434ede6bef5b766067669c42beb06	refs/tags/v0.7-tests-approved-3
+   Expected: development/v0.7 = e9efe31 (moved by T3 commits 1-3 only); all others unchanged.
+
+2. Protected files: SHA-256 at tag v0.7-tests-approved-3 vs committed e9efe31 (git show HEAD:<file>)
+RESULT SHA-256                                                          FILE
+SAME   79d9bf2eca4c2d332b10ee81a612f271eab9011eba4871101369bae520983d2c applications/inventory-intelligence-engine/tests/run-all.sh
+SAME   c490d64dde9a3c5acb8f6494110815437ea4b26f1ed42a1e4f0f95360c4d7dd8 applications/inventory-intelligence-engine/tests/check-protection.js
+SAME   9304eb2054d5f839ec8a92ca0f6abc8ced58f28a75832743497b9cbbaa1a4ebd applications/inventory-intelligence-engine/tests/check-control.js
+SAME   b186f6fc82d0b7f3d0421080b229250d14ac62098687f27c83dd125bd4de92fb applications/inventory-intelligence-engine/tests/test-a1-wrapper-quick.js
+SAME   c825e3aa9f6024ae39c7ee1239b0871466ce512ec6bb228f2b6770f3655b077d applications/inventory-intelligence-engine/tests/package.json
+SAME   1abb9004127170f37094b68efe92dce5e176175f07891e50bacdd38154237fcc applications/inventory-intelligence-engine/tests/package-lock.json
+SAME   663e53f292b013136f6ee4f0da3fc2fd22421f9ca6f9f68906a3f0003c45ef13 applications/inventory-intelligence-engine/tests/requirements.txt
+SAME   d2c55bbe3a5aec06540f730770ec749f1072b0ad60ad089213db79ba40ec9d36 applications/inventory-intelligence-engine/tests/summarise-run.js
+SAME   87f6d1362c138a46e6c8053842a17ca27b034257a7c682195d5252721db188e9 applications/inventory-intelligence-engine/tests/accepted-results.json
+SAME   68c1f1286486d29898f9d02d938d69d526cb4ac55e738780c06d1347f4d69399 applications/inventory-intelligence-engine/tests/checksums.txt
+SAME   cdf7db3d0ed819f9edb83c0dbdb12b720ee7852c1abefab81b684a62064d917f .github/workflows/v07-tests.yml
+SAME   4cf73b07a4b65549de4bfe80b25d4dd41c682e52c0491ce12dab278504bd6dbd applications/inventory-intelligence-engine/tests/snapshots/v0.7-confidence-20261112T011814Z.json
+
+3. Committed tree e9efe31 vs tag: git diff --stat v0.7-tests-approved-3 HEAD (commits only; working-tree changes not included)
+   (no output: identical)
+
+4. Guard, run exactly as the workflow does (tag's own check-control.js), before any evidence was added
+PASS: run-all.sh: identical to the approved baseline
+PASS: check-protection.js: identical to the approved baseline
+PASS: check-control.js: identical to the approved baseline
+PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+PASS: package.json: identical to the approved baseline
+PASS: package-lock.json: identical to the approved baseline
+PASS: requirements.txt: identical to the approved baseline
+PASS: summarise-run.js: identical to the approved baseline
+PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+PASS: accepted-results.json: no weakening against the approved baseline
+PASS: checksums.txt: every approved line present
+check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-3 = 9eb578b)
+
+5. Branch and working tree before evidence was added
+   git status at start of packaging: clean on development/v0.7, HEAD = origin = e9efe31
+
+6. v0.6 protection: node tests/check-protection.js (3 references, 124 frozen v0.6 test files)
+PASS: file tests/tools/perf-node-baseline.js unchanged
+PASS: file tests/verify-protected.sh unchanged
+PASS: file tests/verify.py unchanged
+PASS: file tests/verify_structure.py unchanged
+PASS: file tests/verify_sup.py unchanged
+check-protection: 127 passed, 0 failed (3 references on "origin", 124 files)

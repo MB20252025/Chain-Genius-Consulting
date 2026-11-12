@@ -1,0 +1,310 @@
+Guard first, then fast tier	Set up job	﻿2026-11-12T01:48:00.8106625Z Current runner version: '2.338.2'
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8129010Z ##[group]Runner Image Provisioner
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8129773Z Hosted Compute Agent
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8130352Z Version: 20261028.624
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8130947Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8131545Z Build Date: 2026-10-28T21:51:42Z
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8132207Z Worker ID: {c3b3eb6f-28f5-44d3-abfe-0ef65f3a2fde}
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8132860Z Region: westus3
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8133363Z Cloud: Azure
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8133876Z ##[endgroup]
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8135024Z ##[group]Operating System
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8135636Z Ubuntu
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8136094Z 24.04.5
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8136570Z LTS
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8137066Z ##[endgroup]
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8137545Z ##[group]Runner Image
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8138447Z Image: ubuntu-24.04
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8139167Z Version: 20261101.360.1
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8140049Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261101.360/images/ubuntu/Ubuntu2404-Readme.md
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8141617Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261101.360
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8142455Z ##[endgroup]
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8143420Z ##[group]GITHUB_TOKEN Permissions
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8145149Z Contents: read
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8145686Z Metadata: read
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8146268Z ##[endgroup]
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8148446Z Secret source: Actions
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8149427Z Cache mode: write
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8150306Z Prepare workflow directory
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8487247Z Prepare all required actions
+Guard first, then fast tier	Set up job	2026-11-12T01:48:00.8527228Z Getting action download info
+Guard first, then fast tier	Set up job	2026-11-12T01:48:01.2050637Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Guard first, then fast tier	Set up job	2026-11-12T01:48:01.2902847Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Guard first, then fast tier	Set up job	2026-11-12T01:48:01.4217447Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Guard first, then fast tier	Set up job	2026-11-12T01:48:01.6519199Z Complete job name: Guard first, then fast tier
+Guard first, then fast tier	0. Check out the pushed commit	﻿2026-11-12T01:48:01.7200174Z ##[group]Run actions/checkout@v4
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7200903Z with:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7201261Z   fetch-depth: 1
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7201680Z   repository: MB20252025/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7204686Z   token: ***
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7205044Z   ssh-strict: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7205411Z   ssh-user: git
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7205776Z   persist-credentials: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7206163Z   clean: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7206516Z   sparse-checkout-cone-mode: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7206932Z   fetch-tags: false
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7207285Z   show-progress: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7207645Z   lfs: false
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7207987Z   submodules: false
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7208349Z   set-safe-directory: true
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7208926Z   allow-unsafe-pr-checkout: false
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7209542Z env:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7209935Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7210452Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.7210838Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9142800Z Syncing repository: MB20252025/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9145164Z ##[group]Getting Git version info
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9146257Z Working directory is '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9147750Z [command]/usr/bin/git version
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9197271Z git version 2.56.0
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9221070Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9227336Z Temporarily overriding HOME='/home/runner/work/_temp/2176ab2e-1119-4360-b125-531a06b2c1d4' before making global git config changes
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9229301Z Adding repository directory to the temporary git global config as a safe directory
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9232897Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9280487Z Deleting the contents of '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9284681Z ##[group]Initializing the repository
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9288943Z [command]/usr/bin/git init /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9366521Z hint: Using 'master' as the name for the initial branch. This default branch name
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9368087Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9369491Z hint: to use in all of your new repositories, which will suppress this warning,
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9370114Z hint: call:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9370637Z hint:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9371091Z hint: 	git config --global init.defaultBranch <name>
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9371670Z hint:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9372532Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9373978Z hint: 'development'. The just-created branch can be renamed via this command:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9375267Z hint:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9375909Z hint: 	git branch -m <name>
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9376520Z hint:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9377281Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9379014Z Initialized empty Git repository in /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/.git/
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9386259Z [command]/usr/bin/git remote add origin https://github.com/MB20252025/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9433113Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9434072Z ##[group]Disabling automatic garbage collection
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9436113Z [command]/usr/bin/git config --local gc.auto 0
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9469212Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9470090Z ##[group]Setting up auth
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9476616Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9510070Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9820879Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:01.9864355Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0069010Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0107292Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0306241Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0535764Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0536595Z ##[group]Fetching the repository
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:02.0549207Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e9efe31d7b6bdb98b7c42236e5705b45f3be565f:refs/remotes/origin/development/v0.7
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0179205Z From https://github.com/MB20252025/Chain-Genius-Consulting
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0180904Z  * [new ref]         e9efe31d7b6bdb98b7c42236e5705b45f3be565f -> origin/development/v0.7
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0183265Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0184217Z ##[group]Determining the checkout info
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0185265Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0187545Z [command]/usr/bin/git sparse-checkout disable
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0240457Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0277615Z ##[group]Checking out the ref
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.0280366Z [command]/usr/bin/git checkout --progress --force -B development/v0.7 refs/remotes/origin/development/v0.7
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.1314771Z Switched to a new branch 'development/v0.7'
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.1317247Z branch 'development/v0.7' set up to track 'origin/development/v0.7'.
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.1374344Z ##[endgroup]
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.1376663Z [command]/usr/bin/git log -1 --format=%H
+Guard first, then fast tier	0. Check out the pushed commit	2026-11-12T01:48:03.1406182Z e9efe31d7b6bdb98b7c42236e5705b45f3be565f
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	﻿2026-11-12T01:48:03.1634250Z ##[group]Run RUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1636412Z [36;1mRUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1638205Z [36;1mD="$GITHUB_WORKSPACE/$APP/tests/logs/ci/$RUN_ID"; mkdir -p "$D"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1640272Z [36;1mecho "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "RUN_DIR=$D" >> "$GITHUB_ENV"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1644080Z [36;1m{ echo "run id: $RUN_ID"; echo "commit: $GITHUB_SHA"; echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; echo "guard started: $(date -u +%FT%TZ)"; echo "node used for the guard (runner's preinstalled): $(node -v)"; } > "$D/meta.txt"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1647510Z [36;1mset +e[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1649124Z [36;1mgit fetch --no-tags --depth=1 origin "refs/tags/$TAG:refs/tags/$TAG" > "$D/guard.txt" 2>&1 \[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1651623Z [36;1m  && git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" 2>> "$D/guard.txt" \[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1654391Z [36;1m  && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin >> "$D/guard.txt" 2>&1[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1656316Z [36;1mrc=$?[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1657120Z [36;1mset -e[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1658006Z [36;1mecho "guard exit: $rc" >> "$D/meta.txt"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1659236Z [36;1mcat "$D/guard.txt"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1660141Z [36;1m{[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1661299Z [36;1m  echo "## Step 1: guard (approved check-control.js from tag \`$TAG\`)"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1663028Z [36;1m  if [ "$rc" -eq 0 ]; then echo "**GUARD PASSED.** $(tail -n 1 "$D/guard.txt")"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1664926Z [36;1m  else echo "**GUARD FAILED (exit $rc). The job stopped here: NO tests were run.**"; fi[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1667399Z [36;1m  echo; echo '```'; grep -E '^(FAIL|PENDING|ERROR|NO APPROVED|fatal)' "$D/guard.txt" || true; tail -n 1 "$D/guard.txt"; echo '```'[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1669455Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1670466Z [36;1mexit "$rc"[0m
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1693929Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1695204Z env:
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1696103Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1697363Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:03.1698305Z ##[endgroup]
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2367665Z From https://github.com/MB20252025/Chain-Genius-Consulting
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2368285Z  * [new tag]         v0.7-tests-approved-3 -> v0.7-tests-approved-3
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2368942Z PASS: run-all.sh: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2369476Z PASS: check-protection.js: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2370066Z PASS: check-control.js: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2370721Z PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2371296Z PASS: package.json: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2371910Z PASS: package-lock.json: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2372573Z PASS: requirements.txt: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2373026Z PASS: summarise-run.js: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2373429Z PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2373943Z PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2374415Z PASS: accepted-results.json: no weakening against the approved baseline
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2374797Z PASS: checksums.txt: every approved line present
+Guard first, then fast tier	1. GUARD: approved check-control.js (must pass before anything else runs)	2026-11-12T01:48:04.2375254Z check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-3 = 9eb578b)
+Guard first, then fast tier	2. Set up Node (recorded version)	﻿2026-11-12T01:48:04.2514639Z ##[group]Run actions/setup-node@v4
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2515139Z with:
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2515349Z   node-version: 22.23.4
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2515576Z   always-auth: false
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2515792Z   check-latest: false
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2517648Z   token: ***
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2517847Z env:
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2518077Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2518385Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2518788Z   RUN_ID: ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2519394Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.2519983Z ##[endgroup]
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.3704115Z Found in cache @ /opt/hostedtoolcache/node/22.23.4/x64
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.3708239Z (node:2181) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.3709148Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.3710247Z ##[group]Environment details
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.6763610Z node: v22.23.4
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.6764001Z npm: 10.9.9
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.6764243Z yarn: 1.22.22
+Guard first, then fast tier	2. Set up Node (recorded version)	2026-11-12T01:48:04.6764894Z ##[endgroup]
+Guard first, then fast tier	3. Install pinned test packages outside the repository	﻿2026-11-12T01:48:04.6886078Z ##[group]Run mkdir -p "$RUNNER_TEMP/testdeps"
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6886393Z [36;1mmkdir -p "$RUNNER_TEMP/testdeps"[0m
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6886757Z [36;1mcp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"[0m
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6887174Z [36;1m(cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)[0m
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6887535Z [36;1mecho "NODE_PATH=$RUNNER_TEMP/testdeps/node_modules" >> "$GITHUB_ENV"[0m
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6913697Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6913987Z env:
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6914190Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6914451Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6914683Z   RUN_ID: ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6915258Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:04.6915820Z ##[endgroup]
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:07.4167019Z 
+Guard first, then fast tier	3. Install pinned test packages outside the repository	2026-11-12T01:48:07.4173517Z added 86 packages in 3s
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	﻿2026-11-12T01:48:07.4589585Z ##[group]Run echo "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4590251Z [36;1mecho "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4590684Z [36;1mset +e[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4591127Z [36;1mbash "$APP/tests/run-all.sh" --fast --log "$RUN_DIR/run.log" > "$RUN_DIR/summary.txt" 2>&1[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4591531Z [36;1mrc=$?[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4591700Z [36;1mset -e[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4591913Z [36;1mecho "runner exit: $rc" >> "$RUN_DIR/meta.txt"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4592169Z [36;1mcat "$RUN_DIR/summary.txt"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4592451Z [36;1mS="$RUN_DIR/summary.txt"; H="$RUN_DIR/honest-summary.txt"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4592937Z [36;1m# Fix 2: honest summary from tests/summarise-run.js (reads the runner output and accepted-results.json at run time).[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4593345Z [36;1mset +e[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4593668Z [36;1mnode "$APP/tests/summarise-run.js" "$S" --accepted "$APP/tests/accepted-results.json" > "$H" 2>&1[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4594076Z [36;1mfrc=$?[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4594246Z [36;1mset -e[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4594460Z [36;1mecho "summariser exit: $frc" >> "$RUN_DIR/meta.txt"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4594720Z [36;1mcat "$H"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4594882Z [36;1m{[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4595062Z [36;1m  echo "## Step 4: fast test tier"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4595433Z [36;1m  if [ "$frc" -ne 0 ]; then echo "### SUMMARY UNAVAILABLE (treat as FAILED)"; echo; cat "$H"; echo; fi[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4595868Z [36;1m  if grep -q '^FAILED:' "$H"; then echo "### $(grep -m1 '^FAILED:' "$H")"; fi[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4596430Z [36;1m  if grep -q -E '^(FAST|FULL):' "$H"; then echo "### $(grep -m1 -E '^(FAST|FULL):' "$H")"; fi[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4596820Z [36;1m  grep -E '^(Full tier|Differs|Meaning):' "$H" | sed 's/$/  /' || true[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4597096Z [36;1m  echo[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4597283Z [36;1m  echo "$(grep -m1 '^Scope: ' "$S")"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4597510Z [36;1m  echo[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4597765Z [36;1m  echo "Raw runner line (this fast run only): \`$(grep -m1 '^PASS: ' "$S")\`"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4598077Z [36;1m  echo[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4598346Z [36;1m  echo "**$(grep -m1 '^EXIT ' "$S" || echo "runner exit $rc, no EXIT line: see the log")**"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4598812Z [36;1m  echo[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4599018Z [36;1m  echo "Non-PASS rows and warnings:"; echo '```'[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4599359Z [36;1m  grep -E '^(FAIL|ERROR|BLOCKED|REDUCED) |WARNING:' "$S" | cut -c1-160 || true[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4599660Z [36;1m  echo '```'[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4599971Z [36;1m  echo "<details><summary>All rows (expected and actual counts)</summary>"; echo; echo '```'[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4600382Z [36;1m  sed -n '/^STATUS /,/^$/p' "$S" | cut -c1-120; echo '```'; echo "</details>"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4600778Z [36;1m  echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4601108Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4601336Z [36;1mif [ "$rc" -ne 0 ]; then exit "$rc"; fi[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4601564Z [36;1mexit "$frc"[0m
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4619317Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4619590Z env:
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4619797Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4620055Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4620265Z   RUN_ID: ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4620846Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4621448Z   NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:07.4621697Z ##[endgroup]
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7206511Z v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7207518Z PASS: 19 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7208780Z Scope: FAST (18 tests, UTC only, quick 100-call wrapper; the full tier has 38 tests) + pre-flight
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7209658Z Checks counted in this run (first zone of each test): 1168
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7210572Z Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7211557Z Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7211982Z 
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7212433Z STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7212865Z PASS     pre-flight                  -      -                 -        
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7213286Z PASS     check-control               1      12                12       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7213900Z PASS     check-protection            1      127               127      
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7215997Z PASS     check-globals               1      116               116      
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7216689Z PASS     test-a1-static              1      20                20       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7217382Z PASS     test-a1-sync-path           1      74                74       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7218089Z PASS     test-a1-state               1      10                10       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7218994Z PASS     test-a1-escaping            1      46                46       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7219644Z PASS     test-a1-wrapper-quick       1      117               117      
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7220245Z PASS     golden v0.5                 1      10                10       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7221090Z PASS     golden v0.6.0               1      10                10       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7221699Z PASS     confidence snapshot v0.7    1      51                51       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7222167Z PASS     test7                       1      118               118      
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7222531Z PASS     test-po-edge                1      35                35       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7222900Z PASS     test-fillcap                1      276               276      
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7223265Z PASS     test-export-repeat          1      24                24       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7223625Z PASS     test-cache                  1      15                15       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7223998Z PASS     test-blank-qty              1      19                19       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7224404Z PASS     test-na-constraints         1      88                88       
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7224610Z 
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7225086Z EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7475384Z FAST: PASS 19 | FAIL 0 | ERROR 0 · Full tier (recorded in accepted-results.json): BLOCKED 5 | REDUCED 2
+Guard first, then fast tier	4. Fast test tier (run-all.sh --fast)	2026-11-12T01:48:38.7476760Z Meaning: no new failures in the fast tier. This is NOT the whole framework: the full tier has 5 BLOCKED and 2 REDUCED tests recorded.
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	﻿2026-11-12T01:48:38.7677642Z ##[group]Run actions/upload-artifact@v4
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7677897Z with:
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7678100Z   name: t2-evidence-ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7678950Z   path: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7679504Z   retention-days: 90
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7679693Z   if-no-files-found: warn
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7679884Z   compression-level: 6
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7680084Z   overwrite: false
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7680259Z   include-hidden-files: false
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7680448Z env:
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7680636Z   APP: applications/inventory-intelligence-engine
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7680889Z   TAG: v0.7-tests-approved-3
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7681103Z   RUN_ID: ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7681659Z   RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-43136962684-1-20261112T014803Z
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7682274Z   NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.7682523Z ##[endgroup]
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.9038972Z (node:2450) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.9039676Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.9126610Z With the provided path, there will be 5 files uploaded
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.9127361Z Artifact name is valid!
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:38.9127867Z Root directory input is valid!
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.2598116Z Beginning upload of artifact content to blob storage
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.2792123Z (node:2450) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.5013989Z Uploaded bytes 8075
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.5645538Z Finished uploading artifact content to blob storage!
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.5646245Z SHA256 digest of uploaded artifact zip is 8472eba9854c818d65dbe577d8f4db64a6eb56fea116535f466a90f80ed83a78
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.5656419Z Finalizing artifact upload
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.9600575Z Artifact t2-evidence-ci-43136962684-1-20261112T014803Z.zip successfully finalized. Artifact ID 13907623118
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.9602092Z Artifact t2-evidence-ci-43136962684-1-20261112T014803Z has been successfully uploaded! Final size is 8075 bytes. Artifact ID is 13907623118
+Guard first, then fast tier	5. Keep this run's evidence (artifact)	2026-11-12T01:48:39.9605969Z Artifact download URL: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43136962684/artifacts/13907623118
+Guard first, then fast tier	Post 2. Set up Node (recorded version)	﻿2026-11-12T01:48:39.9856135Z Post job cleanup.
+Guard first, then fast tier	Post 2. Set up Node (recorded version)	2026-11-12T01:48:40.0874575Z (node:2462) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Guard first, then fast tier	Post 2. Set up Node (recorded version)	2026-11-12T01:48:40.0875262Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Guard first, then fast tier	Post 0. Check out the pushed commit	﻿2026-11-12T01:48:40.1004995Z Post job cleanup.
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1726051Z [command]/usr/bin/git version
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1764220Z git version 2.56.0
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1809920Z Temporarily overriding HOME='/home/runner/work/_temp/fbcfd1e6-ff6d-4c4a-afff-d2ae628c7bd7' before making global git config changes
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1811550Z Adding repository directory to the temporary git global config as a safe directory
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1812916Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1864184Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.1903826Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2230313Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2292796Z http.https://github.com/.extraheader
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2302625Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2359388Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2647189Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Guard first, then fast tier	Post 0. Check out the pushed commit	2026-11-12T01:48:40.2696677Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Guard first, then fast tier	Complete job	﻿2026-11-12T01:48:40.3082156Z Cleaning up orphan processes
+Guard first, then fast tier	Complete job	2026-11-12T01:48:40.3398926Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

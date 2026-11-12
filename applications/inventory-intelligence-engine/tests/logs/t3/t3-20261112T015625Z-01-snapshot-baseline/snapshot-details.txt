@@ -1,0 +1,53 @@
+T3 snapshot baseline — generated 2026-11-12T01:56:25Z by read-only commands at HEAD e9efe31d7b6bdb98b7c42236e5705b45f3be565f
+
+$ git log -1 --format='%H %an <%ae> %s' 9eb578b
+9eb578b79f0434ede6bef5b766067669c42beb06 MB20252025 <Mckinlay.benn@yahoo.co.uk> T3: confidence snapshot (17 fixtures x 5 zones), runner comparison (fast UTC / full 5 zones), guard ACTIVE with 12 protected files; baseline v0.7-tests-approved-3
+
+$ git show --stat --format= 9eb578b
+ .github/workflows/v07-tests.yml                    |  2 +-
+ .../inventory-intelligence-engine/tests/README.md  | 25 ++++++++++++++++---
+ .../tests/V07-TEST-RECORD.md                       | 10 ++++++++
+ .../tests/accepted-results.json                    |  3 ++-
+ .../tests/check-control.js                         |  4 ++--
+ .../inventory-intelligence-engine/tests/run-all.sh | 28 ++++++++++++++++++++--
+ .../v0.7-confidence-20261112T011814Z.json          | 23 ++++++++++++++++++
+ 7 files changed, 86 insertions(+), 9 deletions(-)
+
+$ stat -c '%s bytes' applications/inventory-intelligence-engine/tests/snapshots/v0.7-confidence-20261112T011814Z.json
+582470 bytes
+$ sha256sum
+4cf73b07a4b65549de4bfe80b25d4dd41c682e52c0491ce12dab278504bd6dbd  applications/inventory-intelligence-engine/tests/snapshots/v0.7-confidence-20261112T011814Z.json
+$ git hash-object (blob at tag -3 and HEAD)
+732cd5048f450842e3e02ee945535af6f8c92816
+732cd5048f450842e3e02ee945535af6f8c92816
+
+Structure and coverage (node, read-only):
+top-level keys: about, zones, sections, fixtures
+zones (5): UTC, Europe/London, America/New_York, Asia/Kolkata, Pacific/Auckland
+sections (3): forecastCredibility, confidence, clientQuestions
+fixtures: 17
+  northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-allfuture.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-nohist.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-nopo.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-s0.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-three.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  suppliers/scenario-unknown.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-combined.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-dupexact.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-dupkey.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-multiline.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-overrec.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-overshort.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-partial.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-posupconflict.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  edge/scenario-splitline.xlsx  sections: forecastCredibility,confidence,clientQuestions
+  structure/scenario-willow.xlsx  sections: forecastCredibility,confidence,clientQuestions
+fixture x zone combinations: 17 x 5 = 85
+checks per zone (fixtures x sections): 17 x 3 = 51
+timestamp-like strings (20\d\d-\d\d-\d\dT): 0
+about: "v0.7 confidence snapshot (T3): forecast confidence, confAreas and client questions from CGEngine.runEngine() for every fixture; identical in all listed time zones when created. No timestamps or environment data."
+
+Pre-commit full tier (local, precommit-full.txt): confidence snapshot in all 5 zones = 85 fixture/zone combinations:
+PASS     confidence snapshot v0.7    5      51                51       
+(the single ERROR was check-control, because tag v0.7-tests-approved-3 did not exist before the commit; resolved by run 43134754886 attempt 2)
