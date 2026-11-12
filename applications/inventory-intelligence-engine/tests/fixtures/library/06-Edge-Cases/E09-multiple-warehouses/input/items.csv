@@ -1,0 +1,3 @@
+Item_ID,Item_Name,Item_Group,Is_Sold,Replenishment,Unit_of_Measure,Standard_Cost,Selling_Price,Default_Supplier_ID,Purchase_Lead_Time_Days,Production_Lead_Time_Days,Min_Order_Qty,Order_Multiple,Active
+A1,Edge item A1,Test,Y,Buy,each,10,15,S1,14,,,,Y
+A2,Edge item A2,Test,Y,Buy,each,5,8,S1,14,,,,Y

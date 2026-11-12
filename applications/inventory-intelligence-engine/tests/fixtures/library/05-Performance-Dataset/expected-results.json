@@ -1,0 +1,592 @@
+{
+ "row_counts": {
+  "items": 5000,
+  "locations": 3,
+  "stock": 15000,
+  "demand": 120000,
+  "suppliers": 40,
+  "supplier_items": 5000,
+  "po_lines": 20120,
+  "bom": 0,
+  "production_orders": 0
+ },
+ "items": {
+  "total": 5000,
+  "make": 0,
+  "buy_sold": 5000,
+  "buy_not_sold_materials": 0,
+  "inactive": 0
+ },
+ "stock": {
+  "on_hand_by_location_included": {
+   "DONC": 384535.0,
+   "HULL": 632570.0,
+   "YORK": 1520617.0
+  },
+  "business_wide_on_hand_excluding_negatives": 2537722.0,
+  "rows_in_excluded_locations": 0,
+  "items_with_negative_stock": [],
+  "stock_value_at_cost_gbp": 76645551.27,
+  "items_excluded_from_value_no_cost": []
+ },
+ "demand": {
+  "months_of_history": 24,
+  "units_last_12_months_total": 12469407.0,
+  "sold_items_with_no_demand_history": []
+ },
+ "findings_reference": {
+  "stockout_risk": [
+   {
+    "item": "X00250",
+    "cover_days": 7.4,
+    "lead_time_days": 28.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X00750",
+    "cover_days": 9.0,
+    "lead_time_days": 35.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X01250",
+    "cover_days": 11.6,
+    "lead_time_days": 28.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X01750",
+    "cover_days": 7.5,
+    "lead_time_days": 35.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X02250",
+    "cover_days": 13.4,
+    "lead_time_days": 28.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X02750",
+    "cover_days": 9.2,
+    "lead_time_days": 35.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X03250",
+    "cover_days": 11.6,
+    "lead_time_days": 28.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X03750",
+    "cover_days": 13.9,
+    "lead_time_days": 35.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X04250",
+    "cover_days": 5.4,
+    "lead_time_days": 28.0,
+    "lead_time_source": "supplier_items"
+   },
+   {
+    "item": "X04750",
+    "cover_days": 11.0,
+    "lead_time_days": 35.0,
+    "lead_time_source": "supplier_items"
+   }
+  ],
+  "excess": [
+   {
+    "item": "X00400",
+    "cover_days": 406.2,
+    "excess_qty": 1713.9,
+    "excess_value_gbp": 25812.01
+   },
+   {
+    "item": "X00900",
+    "cover_days": 373.3,
+    "excess_qty": 1443.2,
+    "excess_value_gbp": 59429.51
+   },
+   {
+    "item": "X01400",
+    "cover_days": 315.4,
+    "excess_qty": 1191.5,
+    "excess_value_gbp": 43549.58
+   },
+   {
+    "item": "X01900",
+    "cover_days": 345.5,
+    "excess_qty": 891.0,
+    "excess_value_gbp": 20830.62
+   },
+   {
+    "item": "X02400",
+    "cover_days": 416.9,
+    "excess_qty": 2008.7,
+    "excess_value_gbp": 55460.17
+   },
+   {
+    "item": "X02900",
+    "cover_days": 359.2,
+    "excess_qty": 1650.0,
+    "excess_value_gbp": 75735.63
+   },
+   {
+    "item": "X03400",
+    "cover_days": 344.0,
+    "excess_qty": 2153.3,
+    "excess_value_gbp": 109195.3
+   },
+   {
+    "item": "X03900",
+    "cover_days": 353.2,
+    "excess_qty": 2035.4,
+    "excess_value_gbp": 104842.61
+   },
+   {
+    "item": "X04400",
+    "cover_days": 328.6,
+    "excess_qty": 1016.6,
+    "excess_value_gbp": 13754.64
+   },
+   {
+    "item": "X04900",
+    "cover_days": 406.8,
+    "excess_qty": 608.2,
+    "excess_value_gbp": 20460.03
+   }
+  ],
+  "excess_value_gbp": 529070.09,
+  "dead_stock_items": [
+   "X00450",
+   "X01450",
+   "X02450",
+   "X03450",
+   "X04450"
+  ],
+  "dead_stock_value_gbp": 18000.24,
+  "items_missing_lead_time": []
+ },
+ "purchase_orders": {
+  "line_states": {
+   "fully_received": 15000,
+   "open_not_due": 4870,
+   "overdue_open": 250
+  },
+  "outstanding_qty_total": 2105315.0,
+  "overdue_outstanding_value_gbp": 2299336.95,
+  "suppliers": {
+   "S01": {
+    "fully_received": 375,
+    "on_time": 348,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 92.8,
+    "otd_including_overdue_pct": 92.8
+   },
+   "S02": {
+    "fully_received": 375,
+    "on_time": 358,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 95.5,
+    "otd_including_overdue_pct": 95.5
+   },
+   "S03": {
+    "fully_received": 375,
+    "on_time": 316,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 84.3,
+    "otd_including_overdue_pct": 84.3
+   },
+   "S04": {
+    "fully_received": 375,
+    "on_time": 327,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 87.2,
+    "otd_including_overdue_pct": 87.2
+   },
+   "S05": {
+    "fully_received": 375,
+    "on_time": 351,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 93.6,
+    "otd_including_overdue_pct": 93.6
+   },
+   "S06": {
+    "fully_received": 375,
+    "on_time": 353,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 94.1,
+    "otd_including_overdue_pct": 94.1
+   },
+   "S07": {
+    "fully_received": 375,
+    "on_time": 177,
+    "overdue_open": 250,
+    "partial": 125,
+    "open_not_due": 0,
+    "listed": true,
+    "otd_received_only_pct": 47.2,
+    "otd_including_overdue_pct": 28.3
+   },
+   "S08": {
+    "fully_received": 375,
+    "on_time": 309,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 82.4,
+    "otd_including_overdue_pct": 82.4
+   },
+   "S09": {
+    "fully_received": 375,
+    "on_time": 334,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 89.1,
+    "otd_including_overdue_pct": 89.1
+   },
+   "S10": {
+    "fully_received": 375,
+    "on_time": 320,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 120,
+    "listed": true,
+    "otd_received_only_pct": 85.3,
+    "otd_including_overdue_pct": 85.3
+   },
+   "S11": {
+    "fully_received": 375,
+    "on_time": 367,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 97.9,
+    "otd_including_overdue_pct": 97.9
+   },
+   "S12": {
+    "fully_received": 375,
+    "on_time": 337,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 89.9,
+    "otd_including_overdue_pct": 89.9
+   },
+   "S13": {
+    "fully_received": 375,
+    "on_time": 314,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 83.7,
+    "otd_including_overdue_pct": 83.7
+   },
+   "S14": {
+    "fully_received": 375,
+    "on_time": 353,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 94.1,
+    "otd_including_overdue_pct": 94.1
+   },
+   "S15": {
+    "fully_received": 375,
+    "on_time": 331,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 88.3,
+    "otd_including_overdue_pct": 88.3
+   },
+   "S16": {
+    "fully_received": 375,
+    "on_time": 329,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 87.7,
+    "otd_including_overdue_pct": 87.7
+   },
+   "S17": {
+    "fully_received": 375,
+    "on_time": 356,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 94.9,
+    "otd_including_overdue_pct": 94.9
+   },
+   "S18": {
+    "fully_received": 375,
+    "on_time": 330,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 88.0,
+    "otd_including_overdue_pct": 88.0
+   },
+   "S19": {
+    "fully_received": 375,
+    "on_time": 327,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 87.2,
+    "otd_including_overdue_pct": 87.2
+   },
+   "S20": {
+    "fully_received": 375,
+    "on_time": 319,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 85.1,
+    "otd_including_overdue_pct": 85.1
+   },
+   "S21": {
+    "fully_received": 375,
+    "on_time": 350,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 93.3,
+    "otd_including_overdue_pct": 93.3
+   },
+   "S22": {
+    "fully_received": 375,
+    "on_time": 356,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 94.9,
+    "otd_including_overdue_pct": 94.9
+   },
+   "S23": {
+    "fully_received": 375,
+    "on_time": 307,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 81.9,
+    "otd_including_overdue_pct": 81.9
+   },
+   "S24": {
+    "fully_received": 375,
+    "on_time": 301,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 80.3,
+    "otd_including_overdue_pct": 80.3
+   },
+   "S25": {
+    "fully_received": 375,
+    "on_time": 357,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 95.2,
+    "otd_including_overdue_pct": 95.2
+   },
+   "S26": {
+    "fully_received": 375,
+    "on_time": 362,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 96.5,
+    "otd_including_overdue_pct": 96.5
+   },
+   "S27": {
+    "fully_received": 375,
+    "on_time": 340,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 90.7,
+    "otd_including_overdue_pct": 90.7
+   },
+   "S28": {
+    "fully_received": 375,
+    "on_time": 333,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 88.8,
+    "otd_including_overdue_pct": 88.8
+   },
+   "S29": {
+    "fully_received": 375,
+    "on_time": 306,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 81.6,
+    "otd_including_overdue_pct": 81.6
+   },
+   "S30": {
+    "fully_received": 375,
+    "on_time": 353,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 94.1,
+    "otd_including_overdue_pct": 94.1
+   },
+   "S31": {
+    "fully_received": 375,
+    "on_time": 337,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 89.9,
+    "otd_including_overdue_pct": 89.9
+   },
+   "S32": {
+    "fully_received": 375,
+    "on_time": 317,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 84.5,
+    "otd_including_overdue_pct": 84.5
+   },
+   "S33": {
+    "fully_received": 375,
+    "on_time": 332,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 88.5,
+    "otd_including_overdue_pct": 88.5
+   },
+   "S34": {
+    "fully_received": 375,
+    "on_time": 322,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 85.9,
+    "otd_including_overdue_pct": 85.9
+   },
+   "S35": {
+    "fully_received": 375,
+    "on_time": 340,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 90.7,
+    "otd_including_overdue_pct": 90.7
+   },
+   "S36": {
+    "fully_received": 375,
+    "on_time": 306,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 81.6,
+    "otd_including_overdue_pct": 81.6
+   },
+   "S37": {
+    "fully_received": 375,
+    "on_time": 326,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 86.9,
+    "otd_including_overdue_pct": 86.9
+   },
+   "S38": {
+    "fully_received": 375,
+    "on_time": 330,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 88.0,
+    "otd_including_overdue_pct": 88.0
+   },
+   "S39": {
+    "fully_received": 375,
+    "on_time": 357,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 95.2,
+    "otd_including_overdue_pct": 95.2
+   },
+   "S40": {
+    "fully_received": 375,
+    "on_time": 317,
+    "overdue_open": 0,
+    "partial": 0,
+    "open_not_due": 125,
+    "listed": true,
+    "otd_received_only_pct": 84.5,
+    "otd_including_overdue_pct": 84.5
+   }
+  },
+  "unlisted_suppliers_referenced": []
+ },
+ "integrity": {
+  "stock_rows_unmatched_item": [],
+  "demand_rows_unmatched_item": [],
+  "po_lines_unmatched_item": [],
+  "bom_unmatched": [],
+  "po_lines_for_make_items": []
+ }
+}

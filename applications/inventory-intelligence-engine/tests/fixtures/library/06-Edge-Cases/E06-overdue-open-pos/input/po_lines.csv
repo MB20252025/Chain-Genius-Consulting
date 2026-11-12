@@ -1,0 +1,6 @@
+PO_ID,Line_No,Supplier_ID,Item_ID,Order_Date,Promised_Date,Ordered_Qty,Received_Qty,Last_Receipt_Date,Unit_Cost,Status,Location_ID
+Q1,1,S1,A1,2026-07-24,2026-08-07,30,30,2026-08-06,10,Received,
+Q2,1,S1,A1,2026-08-08,2026-08-22,30,30,2026-08-21,10,Received,
+Q3,1,S1,A1,2026-08-23,2026-09-06,30,30,2026-09-05,10,Received,
+Q4,1,S1,A1,2026-09-07,2026-09-21,30,30,2026-09-20,10,Received,
+Q5,1,S1,A1,2026-10-05,2026-10-19,30,0,,10,Open,

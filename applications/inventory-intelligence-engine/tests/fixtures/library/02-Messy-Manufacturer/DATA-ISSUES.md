@@ -1,0 +1,31 @@
+# Deliberate data issues — 02 Messy Manufacturer
+
+All businesses, people, products and figures in this package are fictional and synthetic. No real company data was used.
+
+Each issue is intentional. The importer must take the "Expected action". Machine-readable copy: `DATA-ISSUES.csv`.
+
+| Issue | File | Where | Raw value | Expected action | Why |
+| --- | --- | --- | --- | --- | --- |
+| I01 | ItemMaster_export.csv | Std Cost (£), all rows | £1,234.56 style | Clean to number | Currency symbol and thousands separator are unambiguous |
+| I02 | ItemMaster_export.csv | P0026 and M0044, Std Cost (£) | TBC | Keep item; cost missing; flag; exclude from £ totals | No cost is ever invented |
+| I03 | ItemMaster_export.csv | P0038, P0039, Status | Obsolete | Map to Active = N | Inactive items are kept but excluded from findings |
+| I04 | ItemMaster_export.csv | Type column | FG / RM | Map FG → Make (sold), RM → Buy (material) | Source system uses its own type codes |
+| I05 | StockByWarehouse.csv | 15 rows, QOH | e.g. 1,067 | Clean to number | Thousands separator |
+| I06 | StockByWarehouse.csv | P0002, P0003, P0016, P0024, P0033 Safety Stock | (blank) | Accept; keep blank in canonical; flag Medium; Engine View uses 0 | Optional field |
+| I07 | StockByWarehouse.csv | M0030 at MAIN, QOH | -12 | Keep as entered; flag High; count as 0 available; exclude from £ value | Negative stock is a data-quality signal |
+| I08 | StockByWarehouse.csv | P0005 at its first location, second copy (near end of file) | identical row | Keep one; report 1 exact duplicate removed | Whole-row duplicate |
+| I09 | StockByWarehouse.csv | P0006, same location twice with different QOH | second row QOH 132 | Keep the FIRST row; flag High "conflicting duplicate"; listed for the user (default needs owner approval — see Deliverable 4) | Two different quantities for one item and location |
+| I10 | StockByWarehouse.csv | Part No P-0014 at FGW | P-0014 | Default: reject as unmatched and SUGGEST P0014. If the user switches on "ignore dashes and spaces", it matches P0014 and is accepted (expected figures below assume the default) | Code written differently from the item master |
+| I11 | StockByWarehouse.csv | Part No P0999 | P0999 | Reject as unmatched stock; listed | Item not in the item master |
+| I12 | StockByWarehouse.csv | last row | TOTAL | Reject; recognise as a summary row (no warehouse, item "TOTAL") | Exports often append totals |
+| I13 | StockByWarehouse.csv | Bin Location column | (extra column) | Ignore; not mapped | Unused columns must not cause errors |
+| I14 | StockByWarehouse.csv | Stock Date | DD/MM/YYYY | Read as UK dates (file format chosen as UK) | Date format differs from other files |
+| I15 | Sales_History.csv | P0012, all months | ' p0012 ' (spaces, lower case) | Trim and match ignoring case → P0012; accepted | Formatting only |
+| I16 | Sales_History.csv | P0020 01/11/2024 appears twice with different Qty Sold | 94 and 103 | Keep the FIRST row; flag High "conflicting duplicate" | Same as I09 |
+| I17 | Sales_History.csv | Month | 01/11/2024 style | Read as UK dates; all are the 1st of the month so every one is technically ambiguous (day ≤ 12): the report must show the count and the user confirms UK | Ambiguous-date handling |
+| I18 | PO_Lines.csv | PO00038, PO00039 | Supplier Code S99 | Keep lines; add placeholder "Unlisted supplier S99"; score only from these 2 lines → Not assessed (too few) | Supplier missing from the supplier list |
+| I19 | PO_Lines.csv | PO00011 line 1, second identical copy at end | identical row | Keep one; report 1 exact duplicate removed | Whole-row duplicate |
+| I20 | PO_Lines.csv | PO99901 | Qty Received = "12 units" | Reject the line; listed with reason | Unit text in a number field is not guessed |
+| I21 | PO_Lines.csv | PO99902 | Due Date = 11/23/2025 | Reject the line (date only valid as US month/day); listed. Proposed rule: a few such dates → reject those rows; most dates → stop and ask to change the file format | Date format conflict |
+| I22 | BOM.csv | Scrap % | 5% / 2% / 0% | Convert percent text to a fraction (5% → 0.05) | Unambiguous percentage |
+| I23 | Works_Orders.csv | all date columns | YYYY-MM-DD | Read as ISO; this file uses a different format from the others | Mixed formats across files |

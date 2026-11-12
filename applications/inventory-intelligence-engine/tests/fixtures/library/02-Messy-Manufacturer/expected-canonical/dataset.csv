@@ -1,0 +1,2 @@
+Format_Version,Business_Name,Business_Type,Snapshot_Date,Currency,Date_Format_By_File,Source_Files,Mapping_Name
+CDv1,Harbour Valve Engineering Ltd (messy export),Manufacturer,2026-10-31,GBP,ISO (all files),source-export/*.csv,canonical (no mapping needed)

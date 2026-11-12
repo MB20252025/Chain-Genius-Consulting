@@ -1,0 +1,121 @@
+Part No,Description,Product Group,Type,Std Cost (£),Sell Price,Supplier,Lead Time (days),Prod LT,MOQ,Status
+M0001,PTFE seal 001,Materials,RM,£21.60,,S01,42,,100,Active
+M0002,Cast iron bolt set 002,Materials,RM,£24.59,,S02,21,,100,Active
+M0003,Brass bolt set 003,Materials,RM,£7.56,,S03,35,,25,Active
+M0004,PTFE housing 004,Materials,RM,£39.02,,S04,35,,25,Active
+M0005,Brass seal 005,Materials,RM,£13.83,,S05,35,,10,Active
+M0006,PTFE spring 006,Materials,RM,£27.72,,S06,42,,50,Active
+M0007,Steel bar 007,Materials,RM,£11.51,,S07,42,,50,Active
+M0008,Nitrile bar 008,Materials,RM,£10.38,,S08,21,,25,Active
+M0009,Steel spring 009,Materials,RM,£39.25,,S09,14,,50,Active
+M0010,Steel seal 010,Materials,RM,£26.31,,S10,28,,25,Active
+M0011,Steel bolt set 011,Materials,RM,£16.12,,S11,35,,100,Active
+M0012,PTFE plate 012,Materials,RM,£32.27,,S12,49,,25,Active
+M0013,Aluminium bolt set 013,Materials,RM,£8.23,,S01,42,,50,Active
+M0014,Steel bar 014,Materials,RM,£11.88,,S02,21,,50,Active
+M0015,Aluminium bolt set 015,Materials,RM,£2.65,,S03,28,,25,Active
+M0016,Steel bar 016,Materials,RM,£6.35,,S04,35,,10,Active
+M0017,Nitrile plate 017,Materials,RM,£15.11,,S05,35,,100,Active
+M0018,Brass bolt set 018,Materials,RM,£27.02,,S06,49,,50,Active
+M0019,Cast iron bolt set 019,Materials,RM,£22.22,,S07,49,,25,Active
+M0020,PTFE spring 020,Materials,RM,£13.07,,S08,21,,50,Active
+M0021,Nitrile bar 021,Materials,RM,£35.34,,S09,21,,25,Active
+M0022,Nitrile gasket 022,Materials,RM,£2.10,,S10,28,,10,Active
+M0023,Nitrile bolt set 023,Materials,RM,£35.21,,S11,42,,100,Active
+M0024,Steel seal 024,Materials,RM,£22.33,,S12,49,,25,Active
+M0025,Aluminium spring 025,Materials,RM,£36.92,,S01,42,,10,Active
+M0026,Aluminium housing 026,Materials,RM,£26.86,,S02,21,,25,Active
+M0027,Cast iron gasket 027,Materials,RM,£34.38,,S03,28,,10,Active
+M0028,Cast iron gasket 028,Materials,RM,£11.01,,S04,28,,10,Active
+M0029,Steel spring 029,Materials,RM,£32.02,,S05,42,,50,Active
+M0030,Cast iron plate 030,Materials,RM,£6.30,,S06,49,,100,Active
+M0031,Nitrile plate 031,Materials,RM,£9.92,,S07,42,,25,Active
+M0032,PTFE plate 032,Materials,RM,£39.26,,S08,28,,25,Active
+M0033,Brass bar 033,Materials,RM,£29.33,,S09,21,,25,Active
+M0034,Brass plate 034,Materials,RM,£39.43,,S10,28,,25,Active
+M0035,PTFE spring 035,Materials,RM,£37.42,,S11,35,,50,Active
+M0036,Brass spring 036,Materials,RM,£26.56,,S12,49,,25,Active
+M0037,Steel plate 037,Materials,RM,£18.21,,S01,42,,10,Active
+M0038,Aluminium gasket 038,Materials,RM,£5.79,,S02,21,,10,Active
+M0039,Nitrile bolt set 039,Materials,RM,£21.46,,S03,28,,10,Active
+M0040,Nitrile bar 040,Materials,RM,£7.05,,S04,28,,100,Active
+M0041,PTFE housing 041,Materials,RM,£6.48,,S05,42,,50,Active
+M0042,Steel bar 042,Materials,RM,£12.54,,S06,49,,25,Active
+M0043,Brass bar 043,Materials,RM,£16.62,,S07,42,,25,Active
+M0044,Aluminium housing 044,Materials,RM,TBC,,S08,21,,50,Active
+M0045,Brass seal 045,Materials,RM,£31.21,,S09,14,,25,Active
+M0046,PTFE seal 046,Materials,RM,£1.82,,S10,28,,100,Active
+M0047,Nitrile spring 047,Materials,RM,£32.98,,S11,35,,50,Active
+M0048,PTFE seal 048,Materials,RM,£34.07,,S12,42,,10,Active
+M0049,Cast iron seal 049,Materials,RM,£4.11,,S01,42,,10,Active
+M0050,Aluminium gasket 050,Materials,RM,£38.84,,S02,21,,100,Active
+M0051,Nitrile plate 051,Materials,RM,£9.66,,S03,28,,100,Active
+M0052,Aluminium housing 052,Materials,RM,£33.49,,S04,28,,25,Active
+M0053,Cast iron bolt set 053,Materials,RM,£31.91,,S05,35,,100,Active
+M0054,Nitrile gasket 054,Materials,RM,£29.27,,S06,42,,50,Active
+M0055,Brass gasket 055,Materials,RM,£6.99,,S07,42,,100,Active
+M0056,Brass housing 056,Materials,RM,£35.19,,S08,21,,10,Active
+M0057,PTFE plate 057,Materials,RM,£28.66,,S09,14,,10,Active
+M0058,Aluminium seal 058,Materials,RM,£18.55,,S10,35,,50,Active
+M0059,Nitrile bar 059,Materials,RM,£14.92,,S11,42,,100,Active
+M0060,Brass gasket 060,Materials,RM,£17.99,,S12,42,,10,Active
+M0061,Steel spring 061,Materials,RM,£30.58,,S01,42,,10,Active
+M0062,Steel bolt set 062,Materials,RM,£18.42,,S02,28,,50,Active
+M0063,Brass gasket 063,Materials,RM,£3.52,,S03,28,,25,Active
+M0064,PTFE spring 064,Materials,RM,£30.76,,S04,35,,100,Active
+M0065,Aluminium gasket 065,Materials,RM,£7.33,,S05,42,,10,Active
+M0066,Cast iron gasket 066,Materials,RM,£23.58,,S06,42,,10,Active
+M0067,Nitrile gasket 067,Materials,RM,£28.78,,S07,42,,25,Active
+M0068,Cast iron seal 068,Materials,RM,£21.40,,S08,28,,25,Active
+M0069,PTFE bolt set 069,Materials,RM,£27.75,,S09,21,,25,Active
+M0070,Steel spring 070,Materials,RM,£7.91,,S10,28,,100,Active
+M0071,PTFE bar 071,Materials,RM,£19.55,,S11,35,,50,Active
+M0072,Brass bar 072,Materials,RM,£6.76,,S12,42,,100,Active
+M0073,Steel bar 073,Materials,RM,£14.66,,S01,42,,10,Active
+M0074,Nitrile bar 074,Materials,RM,£26.91,,S02,28,,10,Active
+M0075,Steel bar 075,Materials,RM,£11.04,,S03,28,,25,Active
+M0076,Aluminium bar 076,Materials,RM,£25.71,,S04,35,,25,Active
+M0077,Brass gasket 077,Materials,RM,£37.07,,S05,35,,50,Active
+M0078,Cast iron housing 078,Materials,RM,£13.11,,S06,42,,50,Active
+M0079,Nitrile spring 079,Materials,RM,£37.56,,S07,42,,25,Active
+M0080,Brass bolt set 080,Materials,RM,£39.13,,S08,28,,100,Active
+P0001,Valve Bodie model 001,Valve Bodies,FG,£46.10,69.98,,,7,,Active
+P0002,Actuator model 002,Actuators,FG,£200.62,341.33,,,14,,Active
+P0003,Manifold model 003,Manifolds,FG,£36.89,61.06,,,10,,Active
+P0004,Pump Housing model 004,Pump Housings,FG,£219.82,341.17,,,14,,Active
+P0005,Coupling model 005,Couplings,FG,£106.95,162.48,,,5,,Active
+P0006,Valve Bodie model 006,Valve Bodies,FG,£98.64,139.24,,,7,,Active
+P0007,Actuator model 007,Actuators,FG,£197.46,270.93,,,5,,Active
+P0008,Manifold model 008,Manifolds,FG,£97.74,143.54,,,7,,Active
+P0009,Pump Housing model 009,Pump Housings,FG,£70.87,103.85,,,7,,Active
+P0010,Coupling model 010,Couplings,FG,£28.53,40.24,,,5,,Active
+P0011,Valve Bodie model 011,Valve Bodies,FG,£166.69,222.51,,,5,,Active
+P0012,Actuator model 012,Actuators,FG,£68.94,95.12,,,5,,Active
+P0013,Manifold model 013,Manifolds,FG,£90.51,162.02,,,7,,Active
+P0014,Pump Housing model 014,Pump Housings,FG,£93.15,149.38,,,5,,Active
+P0015,Coupling model 015,Couplings,FG,£119.31,198.63,,,7,,Active
+P0016,Valve Bodie model 016,Valve Bodies,FG,£125.19,188.36,,,14,,Active
+P0017,Actuator model 017,Actuators,FG,£60.69,84.96,,,7,,Active
+P0018,Manifold model 018,Manifolds,FG,£64.74,91.85,,,5,,Active
+P0019,Pump Housing model 019,Pump Housings,FG,£47.06,80.64,,,10,,Active
+P0020,Coupling model 020,Couplings,FG,£192.65,340.66,,,5,,Active
+P0021,Valve Bodie model 021,Valve Bodies,FG,£214.26,355.26,,,14,,Active
+P0022,Actuator model 022,Actuators,FG,£174.36,236.46,,,14,,Active
+P0023,Manifold model 023,Manifolds,FG,£107.96,180.34,,,5,,Active
+P0024,Pump Housing model 024,Pump Housings,FG,£78.96,119.28,,,14,,Active
+P0025,Coupling model 025,Couplings,FG,£172.28,269.26,,,14,,Active
+P0026,Valve Bodie model 026,Valve Bodies,FG,TBC,310.59,,,5,,Active
+P0027,Actuator model 027,Actuators,FG,£208.77,278.32,,,5,,Active
+P0028,Manifold model 028,Manifolds,FG,£219.81,325.56,,,10,,Active
+P0029,Pump Housing model 029,Pump Housings,FG,£149.60,242.38,,,10,,Active
+P0030,Coupling model 030,Couplings,FG,£30.12,45.67,,,10,,Active
+P0031,Valve Bodie model 031,Valve Bodies,FG,£84.84,136.32,,,14,,Active
+P0032,Actuator model 032,Actuators,FG,£88.25,147.05,,,7,,Active
+P0033,Manifold model 033,Manifolds,FG,£125.79,197.02,,,14,,Active
+P0034,Pump Housing model 034,Pump Housings,FG,£26.17,45.94,,,7,,Active
+P0035,Coupling model 035,Couplings,FG,£148.11,264.07,,,10,,Active
+P0036,Valve Bodie model 036,Valve Bodies,FG,£188.39,290.0,,,7,,Active
+P0037,Actuator model 037,Actuators,FG,£188.33,318.55,,,14,,Active
+P0038,Manifold model 038,Manifolds,FG,£196.32,284.51,,,7,,Obsolete
+P0039,Pump Housing model 039,Pump Housings,FG,£35.32,57.04,,,14,,Obsolete
+P0040,Coupling model 040,Couplings,FG,£212.21,380.04,,,5,,Active

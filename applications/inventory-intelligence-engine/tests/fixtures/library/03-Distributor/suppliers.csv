@@ -1,0 +1,11 @@
+Supplier_ID,Supplier_Name,Standard_Lead_Time_Days,Country,Payment_Terms,Active
+S01,Apex Engineering Ltd,21,United Kingdom,30 days EOM,Y
+S02,Severn Electrics Ltd,35,United Kingdom,60 days,Y
+S03,Fenwick Components Ltd,28,Germany,30 days EOM,Y
+S04,Tamar Fixings Ltd,35,United Kingdom,60 days,Y
+S05,Fenwick Supplies Ltd,35,United Kingdom,30 days EOM,Y
+S06,Morland Seals Ltd,21,United Kingdom,30 days,Y
+S07,Corbridge Engineering Ltd,42,Poland,60 days,Y
+S08,Ashdown Metals Ltd,28,China,60 days,Y
+S09,Severn Adhesives Ltd,21,Poland,60 days,Y
+S10,Ridgeway Components Ltd,21,United Kingdom,30 days,Y

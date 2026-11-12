@@ -1,0 +1,9 @@
+Supplier_ID,Supplier_Name,Standard_Lead_Time_Days,Country,Payment_Terms,Active
+S01,Kestrel Castings Ltd,14,Germany,30 days,Y
+S02,Morland Pumps GmbH,42,Germany,30 days,Y
+S03,Halcyon Hydraulics Ltd,35,United Kingdom,30 days EOM,Y
+S04,Morland Plastics Ltd,42,Poland,30 days,Y
+S05,Northgate Metals Ltd,28,United Kingdom,30 days EOM,Y
+S06,Apex Fasteners Ltd,14,United Kingdom,60 days,Y
+S07,Ridgeway Electrics Ltd,35,United Kingdom,30 days EOM,Y
+S08,Apex Electrics Ltd,28,United Kingdom,30 days EOM,Y

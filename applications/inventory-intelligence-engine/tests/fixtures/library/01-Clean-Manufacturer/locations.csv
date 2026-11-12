@@ -1,0 +1,4 @@
+Location_ID,Location_Name,Include_In_Available
+MAIN,Main Stores (raw materials),Y
+FGW,"Finished Goods Warehouse, Halifax",Y
+SHEF,Sheffield satellite store,Y

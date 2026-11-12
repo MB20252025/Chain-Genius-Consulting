@@ -7,9 +7,10 @@
  "zones_five": ["UTC", "Europe/London", "America/New_York", "Asia/Kolkata", "Pacific/Auckland"],
  "tests": [
   {"name": "check-control", "type": "control", "tag": "v0.7-tests-approved-3", "zones": "one", "tiers": ["fast", "full"], "accepted": 12, "stage": "ACTIVE (T3, 12 Nov 2026)", "note": "Guard run from the approved tag. ACTIVE since T3: the T2 workflow invokes it first (T2/T2.1 demonstrations), so it is no longer recorded BLOCKED/STAGED. 12 protected files (T3 added the confidence snapshot)."},
-  {"name": "check-protection", "type": "node", "file": "check-protection.js", "zones": "one", "tiers": ["fast", "full"], "accepted": 127, "note": "3 references + 124 files (R5 scope)"},
+  {"name": "check-protection", "type": "node", "file": "check-protection.js", "zones": "one", "tiers": ["fast", "full"], "accepted": 337, "note": "3 references + 124 files (R5 scope) + 210 M1 Stage 1 library/tool files (A1, D12; growth pending the owner's tag move)"},
   {"name": "check-globals", "type": "node", "file": "check-globals.js", "zones": "one", "tiers": ["fast", "full"], "accepted": 116},
-  {"name": "test-a1-static", "type": "node", "file": "test-a1-static.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 20},
+  {"name": "test-a1-static", "type": "node", "file": "test-a1-static.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 23, "note": "20 + one rule-2 check per new js/import file (M1 Stage 1: canonical, read, clean)"},
+  {"name": "import-stage1", "type": "node", "file": "test-import-stage1.js", "label": "import-stage1 all zones:", "zones": "one", "tiers": ["fast", "full"], "accepted": 616, "note": "M1 Stage 1 (A1-A3 + CP1 additions): 123 checks in each of 5 time zones run by the script itself, plus 1 cross-zone identity check; a failure in any zone counts as a failure"},
   {"name": "test-a1-sync-path", "type": "node", "file": "test-a1-sync-path.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 74},
   {"name": "test-a1-state", "type": "node", "file": "test-a1-state.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 10},
   {"name": "test-a1-escaping", "type": "node", "file": "test-a1-escaping.js", "zones": "two", "tiers": ["fast", "full"], "accepted": 46},

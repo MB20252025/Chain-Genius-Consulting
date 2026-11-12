@@ -1,0 +1,4 @@
+Item_ID,Location_ID,Snapshot_Date,On_Hand_Qty,Allocated_Qty,On_Order_Qty,Reorder_Point_Qty,Safety_Stock_Qty,Unit_Cost
+A1,W1,2026-10-31,60,0,0,,,10
+A2,W1,2026-10-31,100,0,0,,,5
+A1,W1,2026-10-31,60,0,0,,,10

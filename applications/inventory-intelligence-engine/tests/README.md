@@ -21,7 +21,8 @@ An approved baseline tag records the exact versions of the testing-control files
 1. The change to the control files is reviewed, committed and pushed to `development/v0.7` on its own, as one commit. Claude does not create or push baseline tags.
 2. Before the tag is created:
    - `git show --name-status <commit>` lists only the reviewed files;
-   - `git diff <commit>` (against the working tree) is empty.
+   - `git diff <commit>` (against the working tree) is empty;
+   - every `PENDING` line printed by the guard has been reviewed one by one. Additions (new `checksums.txt` lines, raised counts, new tests) pass the guard without failing it, so **a passing guard is never approval of an addition** (decision recorded at M1 CP1, 12 Nov 2026).
 3. The workflow run for that commit is expected to fail at the guard with `couldn't find remote ref refs/tags/<new tag>`. This is recorded as evidence and is not fixed with another commit.
 4. The owner creates the tag on GitHub, on the phone:
    - Releases → Draft a new release → Choose a tag;

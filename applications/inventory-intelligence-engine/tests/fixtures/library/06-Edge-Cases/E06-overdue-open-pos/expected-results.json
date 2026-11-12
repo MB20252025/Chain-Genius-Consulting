@@ -1,0 +1,71 @@
+{
+ "row_counts": {
+  "items": 2,
+  "locations": 1,
+  "stock": 2,
+  "demand": 24,
+  "suppliers": 1,
+  "supplier_items": 2,
+  "po_lines": 5,
+  "bom": 0,
+  "production_orders": 0
+ },
+ "items": {
+  "total": 2,
+  "make": 0,
+  "buy_sold": 2,
+  "buy_not_sold_materials": 0,
+  "inactive": 0
+ },
+ "stock": {
+  "on_hand_by_location_included": {
+   "W1": 160.0
+  },
+  "business_wide_on_hand_excluding_negatives": 160.0,
+  "rows_in_excluded_locations": 0,
+  "items_with_negative_stock": [],
+  "stock_value_at_cost_gbp": 1100.0,
+  "items_excluded_from_value_no_cost": []
+ },
+ "demand": {
+  "months_of_history": 12,
+  "units_last_12_months_total": 1080.0,
+  "sold_items_with_no_demand_history": []
+ },
+ "findings_reference": {
+  "stockout_risk": [],
+  "excess": [],
+  "excess_value_gbp": 0.0,
+  "dead_stock_items": [],
+  "dead_stock_value_gbp": 0.0,
+  "items_missing_lead_time": []
+ },
+ "purchase_orders": {
+  "line_states": {
+   "fully_received": 4,
+   "overdue_open": 1
+  },
+  "outstanding_qty_total": 30.0,
+  "overdue_outstanding_value_gbp": 300.0,
+  "suppliers": {
+   "S1": {
+    "fully_received": 4,
+    "on_time": 4,
+    "overdue_open": 1,
+    "partial": 0,
+    "open_not_due": 0,
+    "listed": true,
+    "otd_received_only_pct": 100.0,
+    "otd_including_overdue_pct": 80.0
+   }
+  },
+  "unlisted_suppliers_referenced": []
+ },
+ "integrity": {
+  "stock_rows_unmatched_item": [],
+  "demand_rows_unmatched_item": [],
+  "po_lines_unmatched_item": [],
+  "bom_unmatched": [],
+  "po_lines_for_make_items": []
+ }
+}

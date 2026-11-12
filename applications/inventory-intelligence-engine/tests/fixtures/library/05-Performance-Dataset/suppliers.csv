@@ -1,0 +1,41 @@
+Supplier_ID,Supplier_Name,Standard_Lead_Time_Days,Country,Payment_Terms,Active
+S01,Ridgeway Fasteners Ltd,28,United Kingdom,60 days,Y
+S02,Northgate Electrics Ltd,28,United Kingdom,60 days,Y
+S03,Tamar Supplies Ltd,42,Poland,30 days EOM,Y
+S04,Northgate Packaging Ltd,21,United Kingdom,30 days,Y
+S05,Morland Components Ltd,35,China,30 days EOM,Y
+S06,Tamar Fasteners Ltd,28,China,60 days,Y
+S07,Wessex Industrial Ltd,35,United Kingdom,30 days EOM,Y
+S08,Fenwick Castings Ltd,35,United Kingdom,60 days,Y
+S09,Severn Seals Ltd,35,Poland,30 days,Y
+S10,Brook Supplies Ltd,28,Poland,30 days,Y
+S11,Northgate Supplies Ltd,14,Germany,60 days,Y
+S12,Brook Fasteners Ltd,35,United Kingdom,30 days EOM,Y
+S13,Northgate Components Ltd,28,Germany,60 days,Y
+S14,Brook Fasteners Ltd,14,United Kingdom,30 days,Y
+S15,Wessex Packaging Ltd,21,United Kingdom,30 days EOM,Y
+S16,Apex Electrics Ltd,28,United Kingdom,60 days,Y
+S17,Northgate Plastics Ltd,14,United Kingdom,30 days,Y
+S18,Morland Electrics Ltd,35,United Kingdom,30 days EOM,Y
+S19,Kestrel Plastics Ltd,21,Poland,60 days,Y
+S20,Ridgeway Supplies Ltd,42,United Kingdom,30 days EOM,Y
+S21,Tamar Packaging Ltd,21,United Kingdom,30 days,Y
+S22,Ridgeway Electrics Ltd,42,United Kingdom,60 days,Y
+S23,Tamar Electrics Ltd,14,Poland,30 days,Y
+S24,Fenwick Engineering Ltd,35,China,60 days,Y
+S25,Kestrel Fasteners Ltd,35,United Kingdom,30 days EOM,Y
+S26,Lindum Engineering Ltd,14,China,30 days EOM,Y
+S27,Wessex Engineering Ltd,21,United Kingdom,60 days,Y
+S28,Kestrel Supplies Ltd,14,United Kingdom,30 days EOM,Y
+S29,Severn Components Ltd,14,China,30 days,Y
+S30,Northgate Castings Ltd,35,United Kingdom,30 days EOM,Y
+S31,Northgate Supplies Ltd,28,Poland,60 days,Y
+S32,Apex Packaging Ltd,28,United Kingdom,60 days,Y
+S33,Fenwick Engineering Ltd,35,United Kingdom,30 days EOM,Y
+S34,Brook Fasteners Ltd,28,United Kingdom,30 days EOM,Y
+S35,Fenwick Seals Ltd,21,United Kingdom,30 days,Y
+S36,Severn Plastics Ltd,42,China,30 days EOM,Y
+S37,Fenwick Seals Ltd,21,United Kingdom,30 days EOM,Y
+S38,Lindum Packaging Ltd,42,United Kingdom,30 days,Y
+S39,Ashdown Castings Ltd,14,United Kingdom,30 days EOM,Y
+S40,Wessex Electrics Ltd,42,United Kingdom,30 days EOM,Y

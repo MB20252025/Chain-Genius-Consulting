@@ -1,0 +1,4 @@
+Location_ID,Location_Name,Include_In_Available
+LEEDS,Leeds distribution centre,Y
+BRIS,Bristol branch,Y
+QUAR,Quarantine / goods-in inspection,N

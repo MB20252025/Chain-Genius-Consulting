@@ -334,3 +334,11 @@ Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first openi
 - **Final verification (pre-packaging committed state, `e9efe31`):** all 12 protected files and the committed tree are identical to `v0.7-tests-approved-3`. The evidence commit differs from the tag by exactly the 20 evidence changes (19 files in `tests/logs/t3/` and this appended section). `main`, `release/v0.6`, `v0.6` and tags `-1`, `-2`, `-3` are unchanged. `check-protection`: 127/127.
 - **Accepted results:** unchanged. **Status:** T3 evidence packaged; awaiting the owner's formal closure. A2 not started.
 - **Evidence:** `tests/logs/t3/T3-EVIDENCE-INDEX.md`.
+
+## M1 Stage 1 — CP1 decisions (12 Nov 2026, recorded before commit; the entries above are unchanged)
+
+- **Library protection:** option (a), protect the complete library. Every file of `tests/fixtures/library/` and `tests/tools/library/` has its own line in `checksums.txt`. No separate checksum lifecycle and no guard redesign.
+- **PENDING rule:** the guard lets additions pass as `PENDING` (new `checksums.txt` lines, raised counts, new tests) without failing. Every `PENDING` addition must therefore be reviewed before a baseline tag is moved. A passing guard is not approval of an addition.
+- **CI:** option (b). The Stage 1 test is registered in `accepted-results.json` (`import-stage1`, 616 = 123 checks × 5 time zones + 1 cross-zone check). No change to `run-all.sh`. A failure in any time zone is counted, and a non-zero exit is reported as ERROR by `run-all.sh`.
+- **Python cache:** `test-import-stage1.js` runs Python with `-B`; `tools/library/build.py` sets `sys.dont_write_bytecode` before importing its own modules.
+- **Test gap closed:** field-policy and structural tests for all 12 canonical tables, with independently written expected rules and synthetic `sales_lines` and `po_headers` data.

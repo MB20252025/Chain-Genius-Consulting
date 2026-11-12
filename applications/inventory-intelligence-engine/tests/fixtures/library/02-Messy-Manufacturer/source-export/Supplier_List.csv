@@ -1,0 +1,13 @@
+Supplier Code,Supplier Name,Std Lead Time,Country,Terms
+S01,Severn Engineering Ltd,42,United Kingdom,60 days
+S02,Morland Supplies Ltd,21,United Kingdom,60 days
+S03,Ridgeway Seals Ltd,28,United Kingdom,30 days
+S04,Ashdown Electrics Ltd,28,United Kingdom,60 days
+S05,Lindum Castings Ltd,35,United Kingdom,30 days
+S06,Morland Components Ltd,42,Poland,60 days
+S07,Kestrel Castings Ltd,42,United Kingdom,30 days
+S08,Apex Packaging Ltd,21,Germany,30 days
+S09,Brook Seals Ltd,14,United Kingdom,30 days EOM
+S10,Tamar Plastics Ltd,28,United Kingdom,30 days
+S11,Lindum Supplies Ltd,35,United Kingdom,60 days
+S12,Halcyon Plastics Ltd,42,Poland,30 days
