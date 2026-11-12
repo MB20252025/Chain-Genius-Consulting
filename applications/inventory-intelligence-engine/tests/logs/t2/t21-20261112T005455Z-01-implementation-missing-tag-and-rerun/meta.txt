@@ -1,0 +1,8 @@
+T2.1 implementation commit 0e461a629d0aa631c92ca6682958071cdf8388e6 (author MB20252025)
+Files (git show --numstat): .github/workflows/v07-tests.yml 1+/1-; tests/accepted-results.json 1+/1-; tests/check-control.js 6+/5- (total 8+/7-, 3 files, all M)
+git diff 0e461a6 (working tree) at the time: empty (0 bytes)
+precommit-fast.*: local fast run before committing (check-control BLOCKED: tag -2 absent; 17 PASS)
+Initial run 43120841015 attempt 1 (commit 0e461a6): failure; guard step: "fatal: couldn't find remote ref refs/tags/v0.7-tests-approved-2" (exit 128); steps 2-4 skipped -> initial-run-43120841015.log
+Owner created tag v0.7-tests-approved-2 via GitHub: git cat-file -t -> commit (lightweight); dereferences to 0e461a629d0aa631c92ca6682958071cdf8388e6
+Single re-run via API: gh api -X POST repos/MB20252025/Chain-Genius-Consulting/actions/runs/43120841015/rerun -> {} exit 0
+Run 43120841015 attempt 2 (same commit 0e461a6): success; guard 11 passed 0 failed (log lines 138-149) before Node setup (line 150); all 6 steps success; FAST: PASS 18 | FAIL 0 | ERROR 0 . Full tier (recorded): BLOCKED 6 | REDUCED 2 -> rerun-43120841015-attempt2.log

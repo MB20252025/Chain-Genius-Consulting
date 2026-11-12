@@ -1,0 +1,7 @@
+commit: 96980fd8954082a884b3ad765cd5d9bab2a8d12d
+command: PATH=/home/claude/pyvenv/bin:$PATH NODE_PATH=/home/claude/pindeps/node_modules bash tests/run-all.sh --full --log <run.log>; node tests/summarise-run.js <summary.txt>
+started: 2026-11-12T00:45:45Z
+runner exit: 0
+summariser exit: 0
+finished: 2026-11-12T00:54:12Z
+T2 regression confirmation (separate from T2.1 tests). Full local run on commit 96980fd: see summary.txt / honest-summary.txt / run.log. run-all.sh sha256 at T1 tag, tag -2 and HEAD: runall-sha.txt (identical). Ordinary development changes triggered runs: 43128885652 (revert of summarise-run.js) and 43129281435 (revert of the workflow file). Evidence-only no-trigger check: recorded in the next evidence folder after this commit.

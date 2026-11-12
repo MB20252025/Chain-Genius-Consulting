@@ -1,0 +1,4 @@
+INTENTIONAL Test A (formatter tampering). Alteration: summarise-run.js line 28 "if(F+E>0)out.push('FAILED: ..." -> "if(false)out.push('FAILED: ..." (hides the FAILED line). Only that file.
+Tampering commit e373e4e5b8cb92b744397f54cddb03edc01862dd -> run 43128815957: failure; guard "FAIL: summarise-run.js: CHANGED since the approved baseline (needs approval)", "check-control: 10 passed, 1 failed"; Node, packages, fast tier SKIPPED; no npm ci / runner output in the log.
+Revert e58974a472c5ecdf5b45639552149adab0696adc (normal git revert). summarise-run.js sha256 at v0.7-tests-approved-2 and at revert: d2c55bbe3a5aec06540f730770ec749f1072b0ad60ad089213db79ba40ec9d36 (match).
+Recovery run 43128885652: success; guard 11/11 before Node; FAST: PASS 18 | FAIL 0 | ERROR 0 . Full tier (recorded): BLOCKED 6 | REDUCED 2.

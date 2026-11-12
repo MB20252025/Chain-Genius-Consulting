@@ -1,0 +1,4 @@
+FULL: PASS 31 | FAIL 0 | BLOCKED 5 | REDUCED 2 | ERROR 0
+Full tier (recorded in accepted-results.json): BLOCKED 6 | REDUCED 2
+Differs from the record: check-control is recorded BLOCKED (STAGED (BLOCKED until T2)) but was PASS in this run
+Meaning: no new failures, but NOT full coverage: 5 BLOCKED and 2 REDUCED tests in this full run.

@@ -1,0 +1,385 @@
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 17 | FAIL: 0 | BLOCKED: 1 | REDUCED: 0 | ERROR: 0
+Scope: FAST (17 tests, UTC only, quick 100-call wrapper; the full tier has 37 tests) + pre-flight
+Checks counted in this run (first zone of each test): 1105
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 6 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+BLOCKED  check-control               1      11                -        STAGED (BLOCKED until T2). Reason: Awaiting T2 to invoke check-control.js as the first step of the testing workflow. (Owner decision 11 Nov 2026: once the approved tag exists, run-all.sh runs this guard on every run, but it is not treated as fully operational until T2 demonstrates that an edited runner is caught before the runner executes.) [tag v0.7-tests-approved-2 not created yet]
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      127               127      
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      20                20       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 1      10                10       
+PASS     golden v0.6.0               1      10                10       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 0: no FAIL and no ERROR. Accepted limitations remain (1 BLOCKED, 0 REDUCED) and are listed above: this is NOT full coverage.
+
+===== full output of every command =====
+Environment: {"node":"v22.23.4","npm":"10.9.9","xlsx":"0.18.5","jsdom":"31.0.0","acorn":"8.19.0","puppeteer-core":"25.17.0","@sparticuz/chromium":"153.0.0","pdf-parse":"1.1.1"}
+$ TZ=UTC node check-protection.js --remote origin  -> exit 0
+PASS: ref refs/heads/main = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: ref refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082 (expected 8117c72f9bdb846fceff11a63a03218f01df5082)
+PASS: file tests/A1-BASELINE.md unchanged
+PASS: file tests/A1-DEVIATIONS.md unchanged
+PASS: file tests/A1-ESCAPING-AUDIT.md unchanged
+PASS: file tests/A1-SETTINGS-VALIDATION.md unchanged
+PASS: file tests/A1-SHARED-STATE.md unchanged
+PASS: file tests/A1-TEST-RECORD.md unchanged
+PASS: file tests/CODE-REVIEW-FINDINGS.md unchanged
+PASS: file tests/INVESTIGATION-1-BLANK-QUANTITIES.md unchanged
+PASS: file tests/INVESTIGATION-3-FORECAST-CREDIBILITY.md unchanged
+PASS: file tests/INVESTIGATION-SUPPLIER-IMPACT.txt unchanged
+PASS: file tests/PHASE3B-ARCHITECTURE-CHECK.md unchanged
+PASS: file tests/PHASE4-CODE-REVIEW-FINDINGS.md unchanged
+PASS: file tests/PHASE4-GOLDEN-COMPARISON-REPORT.md unchanged
+PASS: file tests/PHASE4-PERFORMANCE-REPORT.md unchanged
+PASS: file tests/PRE-PHASE3-CHECK.md unchanged
+PASS: file tests/PROTECTED-VERSIONS.txt unchanged
+PASS: file tests/SUMMARY-WEAK-SUPPLIER-IMPACT.txt unchanged
+PASS: file tests/TEST-RECORD.md unchanged
+PASS: file tests/audit-escaping-html.js unchanged
+PASS: file tests/audit-escaping-templates.js unchanged
+PASS: file tests/audit-shared-state-writes.js unchanged
+PASS: file tests/browser-chrome.js unchanged
+PASS: file tests/check-globals.js unchanged
+PASS: file tests/check-standalone.js unchanged
+PASS: file tests/compare-snapshots.js unchanged
+PASS: file tests/compare-trees.js unchanged
+PASS: file tests/domtest.js unchanged
+PASS: file tests/domtest2.js unchanged
+PASS: file tests/dump.js unchanged
+PASS: file tests/dump_sup.js unchanged
+PASS: file tests/fc_js.json unchanged
+PASS: file tests/fixtures/edge/scenario-combined.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-dupexact.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-dupkey.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-multiline.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-overrec.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-overshort.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-partial.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-posupconflict.xlsx unchanged
+PASS: file tests/fixtures/edge/scenario-splitline.xlsx unchanged
+PASS: file tests/fixtures/edge/supplier-output-combined.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-dupexact.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-dupkey.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-multiline.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overrec.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overrec.pre-cap-candidate2.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-overshort.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-partial.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-posupconflict.json unchanged
+PASS: file tests/fixtures/edge/supplier-output-splitline.json unchanged
+PASS: file tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx unchanged
+PASS: file tests/fixtures/structure/scenario-willow.xlsx unchanged
+PASS: file tests/fixtures/structure/supplier-output-willow.json unchanged
+PASS: file tests/fixtures/suppliers/scenario-allfuture.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-nohist.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-nopo.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-s0.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-three.xlsx unchanged
+PASS: file tests/fixtures/suppliers/scenario-unknown.xlsx unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-allfuture.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-nohist.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-nopo.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-s0.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-three.json unchanged
+PASS: file tests/fixtures/suppliers/supplier-output-unknown.json unchanged
+PASS: file tests/gen-large-workbook.js unchanged
+PASS: file tests/impact-supplier.js unchanged
+PASS: file tests/investigate-blank-qty.js unchanged
+PASS: file tests/investigate-forecast-credibility.js unchanged
+PASS: file tests/mkedge.js unchanged
+PASS: file tests/mkscen.js unchanged
+PASS: file tests/mkstructure.js unchanged
+PASS: file tests/perf-chrome-p4.js unchanged
+PASS: file tests/perf-chrome.js unchanged
+PASS: file tests/perf-node.js unchanged
+PASS: file tests/quantify-overdue-open.js unchanged
+PASS: file tests/regress.js unchanged
+PASS: file tests/run-a1.sh unchanged
+PASS: file tests/run-edge-scenarios.sh unchanged
+PASS: file tests/run-perf-c3.sh unchanged
+PASS: file tests/run-regression.sh unchanged
+PASS: file tests/run-supplier-scenarios.sh unchanged
+PASS: file tests/run-verbose.sh unchanged
+PASS: file tests/snapshots/README.md unchanged
+PASS: file tests/snapshots/v0.5-golden-20261105T101953Z.json unchanged
+PASS: file tests/snapshots/v0.6.0-baseline-20261109T152050Z.json unchanged
+PASS: file tests/supfields.js unchanged
+PASS: file tests/test-a1-escaping.js unchanged
+PASS: file tests/test-a1-state.js unchanged
+PASS: file tests/test-a1-static.js unchanged
+PASS: file tests/test-a1-sync-path.js unchanged
+PASS: file tests/test-a1-wrapper.js unchanged
+PASS: file tests/test-blank-qty.js unchanged
+PASS: file tests/test-cache.js unchanged
+PASS: file tests/test-export-nohistory.js unchanged
+PASS: file tests/test-export-repeat.js unchanged
+PASS: file tests/test-failed-import.js unchanged
+PASS: file tests/test-fglt-note.js unchanged
+PASS: file tests/test-fillcap.js unchanged
+PASS: file tests/test-final-chrome.js unchanged
+PASS: file tests/test-forecast-conf.js unchanged
+PASS: file tests/test-missing-values.js unchanged
+PASS: file tests/test-na-constraints.js unchanged
+PASS: file tests/test-p4-chrome.js unchanged
+PASS: file tests/test-paging-chrome.js unchanged
+PASS: file tests/test-paging.js unchanged
+PASS: file tests/test-phase1.js unchanged
+PASS: file tests/test-po-edge.js unchanged
+PASS: file tests/test-prephase3.js unchanged
+PASS: file tests/test-responsive-chrome.js unchanged
+PASS: file tests/test-structure.js unchanged
+PASS: file tests/test-supplier-eligibility.js unchanged
+PASS: file tests/test-suppliers-export-chrome.js unchanged
+PASS: file tests/test-timezones.js unchanged
+PASS: file tests/test-uom.js unchanged
+PASS: file tests/test7.js unchanged
+PASS: file tests/test8.js unchanged
+PASS: file tests/test9.js unchanged
+PASS: file tests/tools/perf-browser-baseline.js unchanged
+PASS: file tests/tools/perf-node-baseline.js unchanged
+PASS: file tests/verify-protected.sh unchanged
+PASS: file tests/verify.py unchanged
+PASS: file tests/verify_structure.py unchanged
+PASS: file tests/verify_sup.py unchanged
+check-protection: 127 passed, 0 failed (3 references on "origin", 124 files)
+
+$ TZ=UTC node check-globals.js  -> exit 0
+check-globals: 116 passed, 0 failed (5 files, 92 top-level names, 20 load-time references checked)
+
+$ TZ=UTC node test-a1-static.js  -> exit 0
+rule 2: files outside the allowed list: none yet (rule applies to files added in A2 and later)
+test-a1-static: 20 passed, 0 failed
+
+$ TZ=UTC node test-a1-sync-path.js  -> exit 0
+test-a1-sync-path: 74 passed, 0 failed
+
+$ TZ=UTC node test-a1-state.js  -> exit 0
+test-a1-state: 10 passed, 0 failed
+
+$ TZ=UTC node test-a1-escaping.js  -> exit 0
+test-a1-escaping: 46 passed, 0 failed
+
+$ TZ=UTC node test-a1-wrapper-quick.js  -> exit 0
+test-a1-wrapper-quick: 117 passed, 0 failed
+
+$ TZ=UTC node regress.js .. /tmp/runall-N6CKdc/regress-UTC.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=UTC node compare-snapshots.js snapshots/v0.5-golden-20261105T101953Z.json /tmp/runall-N6CKdc/regress-UTC.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=UTC node regress.js .. /tmp/runall-N6CKdc/regress-UTC.json  -> exit 0
+snapshot written items:150 sup:15 mrp:100 feas:50 fc:50 pr:50 tot:5 fga:50 po:4 dq:5
+
+$ TZ=UTC node compare-snapshots.js snapshots/v0.6.0-baseline-20261109T152050Z.json /tmp/runall-N6CKdc/regress-UTC.json  -> exit 0
+IDENTICAL  items  (150 records)
+IDENTICAL  sup    (15 records)
+IDENTICAL  mrp    (100 records)
+IDENTICAL  feas   (50 records)
+IDENTICAL  fc     (50 records)
+IDENTICAL  pr     (50 records)
+IDENTICAL  tot    (5 records)
+IDENTICAL  fga    (50 records)
+IDENTICAL  po     (4 records)
+IDENTICAL  dq     (5 records)
+ALL SECTIONS IDENTICAL
+
+$ TZ=UTC node test7.js  -> exit 0
+PASS view Overview renders
+PASS view Health renders
+PASS view Finished goods renders
+PASS view Materials renders
+PASS view MRP renders
+PASS view Production feasibility renders
+PASS view Excess & dead stock renders
+PASS view Policy comparison renders
+PASS view Reorder policy renders
+PASS view Forecast accuracy renders
+PASS view Demand forecast renders
+PASS view Suppliers renders
+PASS view Data quality renders
+PASS view Client questions renders
+PASS view Data confidence renders
+PASS view Summary renders
+PASS view Settings renders
+PASS FG low cover seeds
+PASS FG excess seeds
+PASS RM low seeds critical
+PASS RM excess seeds
+SUP009 54 High risk otd52 n21 excl0 | SUP006 54 High risk otd52 n21 excl0 | SUP011 48 High risk otd31 n16 excl2 | SUP003 42 High risk otd24 n21 excl0
+PASS SUP003 & SUP011 in bottom 3 by score
+PASS values match v0.1 ref
+PO recon {"invRM":32634,"invFG":2378,"snap":300,"now":0,"PC":{"rec":{"n":296,"ord":24970,"qty":24788,"short":182,"noQty":0,"undated":0},"fut":{"n":4,"q":300,"over":225,"notDue":75,"ids":["PO0003","PO0030","PO0110","PO0190"]},"open":{"n":0,"q":0,"over":0,"notDue":0,"partial":0},"after":{"n":0,"q":0},"can":{"n":0,"q":0},"bad":{"n":0,"ids":[]}},"gap":32334,"explained":0.009192866335723478,"mis":100,"status":"Largely unreconciled"}
+A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is 32,634 units, but purchase orders support 300 units outstanding at the snapshot date. 32,334 units (100 materials differ) cannot be explained from this workbook. This does not by itself show lost stock, mis-valued inventory or a purchasing error. Finished-goods On_Order_Qty (2,378) has no purchase-order source. On-order drives inventory position, so it should be confirmed before it is relied on.
+health overall 87.7 cats 108/11/15/15/1
+classes Active:118 Slow-moving:26 Excess stock:6 Potentially obsolete:0 No recorded demand:0
+seed health FG003:36 stockout / below safety stock/cover below lead time/below reorder point/forecast bias | FG014:60 excess cover/demand variability/forecast bias | RM001:42 stockout / below safety stock/cover below lead time/below reorder point | RM009:80 excess cover
+WAPE FG003/FG014 0.46 0.63
+ROP verdict counts insufficient:22 possibly excessiv:96 ed:32
+pol=1 high+: 28 vs pol=0: 29
+PASS ABC inclusive-cumulative rule FG+RM
+PASS ABC thresholds 100/100 → all A
+PASS XSS payload planted in Products/Materials/Suppliers
+PASS XSS: no raw injected tags in any view
+PASS XSS: payload visible as escaped text
+PASS missing sheet → clear error: Missing sheet(s): BOM
+PASS empty PO sheet does not crash
+PASS zero demand: no NaN/crash, cls=No recorded demand
+PASS dup SKU / negative qty / alloc>onhand detected
+PASS recon uses snapshot POs=300 (short receipts not counted as outstanding)
+PASS recon gap total = 32,334
+PASS every material has 3 POs
+policy changes 34 riskier under calc 7 safer 27 FG001:1→0 FG002:1→0 FG019:1→0 FG021:1→0 FG023:1→0 FG027:3→2
+PASS alt run is the opposite policy
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+RM001 gross 1159.1 ss 115 avail 0 sched receipts 0 net 1274.1 moq 25
+ | RM001 |  | ORDER NOW |  | 0 |  | 0 |  | 1,159 |  | 115 |  | 1,274 |  | 25 |  | 1,275 |  | £8,708 |  | 2026-10-31 |  | overdue by 37d |  | 1,195 | FG001 (87/mo), FG038 (66/mo) |  | 
+PASS MRP status counts present
+MRP ORDER NOW rows 26
+PASS seeded low-cover RMs → ORDER NOW
+PASS seeded excess RMs → Covered
+PASS suggested qty multiples of MOQ
+PASS horizon 6 gives larger or equal spend
+PASS verified mode: FG on-order=0, RM on-order=PO outstanding
+PASS verified mode seeds still detected
+PASS inventory mode: oo = recorded on-order
+PASS supply setting changes position
+PASS MRP applies supply setting (note text)
+PASS feasibility applies supply setting
+PASS supply comparison card present
+items changing class between supply sources: 32
+PASS feasibility flags simulated orders
+feasibility statuses Feasible:16 | Feasible with incoming materials:0 | At risk:1 | Material shortage:33 | Insufficient information:0
+PASS no material over-committed across accepted orders (0 violations)
+first order SIM1 FG003 211 Feasible []
+PASS real open orders used instead of simulated (2 orders)
+confidence H/M/L 42 67 41
+PASS every item has confidence + reason
+PASS RM never High (estimated usage)
+client questions 10
+PASS on-order question generated with 32,334 evidence
+PASS open production order question generated
+PASS summary renders with SIMULATED label & limitations
+PASS view Overview
+PASS view Health
+PASS view Finished goods
+PASS view Materials
+PASS view MRP
+PASS view Production feasibility
+PASS view Excess & dead stock
+PASS view Policy comparison
+PASS view Reorder policy
+PASS view Forecast accuracy
+PASS view Demand forecast
+PASS view Suppliers
+PASS view Data quality
+PASS view Client questions
+PASS view Data confidence
+PASS view Summary
+PASS view Settings
+confidence H/M/L (FG) 42/7/1 (RM) 0/60/40
+PASS Low confidence now occurs
+PASS RM shortage items are Low (est. usage + supplier sample)
+PASS RM excess seeds not High (estimated usage)
+PASS supply-source dependency lowers confidence
+PASS banner names supply source
+PASS MRP KPI states supply source
+PASS banner flags UNVERIFIED
+PASS reorder policy view explains each item
+PASS all 50 products forecast
+PASS no NaN/negative forecasts
+PASS 12-month history triggers seasonality warning
+methods chosen mean,19 wma3,15 ma3,13 ma6,1 trend,2 trend No significant trend,34 Rising,1 Falling,15 unc Medium,44 Low,5 High,1
+PASS synthetic 36m seasonal series: seasonality detected & seasonal method available
+PASS seasonal series: no seasonality warning
+PASS rising series → Rising, trend method best
+PASS flat noisy series → no significant trend
+PASS <6 months → no forecast, no crash
+PASS zero demand: finite, no NaN
+PASS no Forecast_Units → existing-forecast baseline null (nothing invented)
+PASS uncertainty range wider than forecast point
+PASS chart is SVG, id escaped
+PASS forecast view renders with chart and method table
+avg analyse ms 83.3
+PASS seasonal disabled with 12-month data (no product offers it)
+PASS all methods produce valid back-test results
+PASS uncertainty bands widen with horizon (all 50)
+PASS no negative forecast or lower bound
+PASS back-test months setting recalculates (3 test points)
+PASS forecast horizon setting changes table column
+PASS forecast view states bands are not guaranteed
+CONFIDENCE all 150 H/M/L 42 67 41 | FG 42/7/1 | RM 0/60/40
+confidence reasons {"risk class changes with the supply source (on-order does not reconcile to POs)":32,"lead time is a proxy from too few production orders":3,"volatile demand":1,"consumption estimated from BOM, not recorded":100,"lead time rests on a small or unreliable supplier sample":26}
+summary 118 pass 0 fail
+
+$ TZ=UTC node test-po-edge.js  -> exit 0
+test-po-edge: 35 passed, 0 failed
+
+$ TZ=UTC node test-fillcap.js  -> exit 0
+--- supplier fill: netted (before cap) vs capped, where an excess and a shortage coexist
+overrec | SUP014 | 100 | 98.67 | 15 | 1 | 1
+overrec | SUP015 | 99.91 | 99.57 | 4 | 1 | 1
+overrec | SUP008 | 99.73 | 98.64 | 20 | 1 | 2
+overrec | SUP006 | 104.08 | 99.48 | 80 | 1 | 2
+overshort | SUP014 | 97.61 | 94.25 | 38 | 1 | 2
+overshort | SUP015 | 98.7 | 97.84 | 10 | 1 | 2
+overshort | SUP008 | 97.29 | 94.58 | 50 | 1 | 3
+combined | SUP015 | 98.7 | 98.18 | 6 | 1 | 2
+combined | SUP008 | 97.02 | 95.39 | 30 | 1 | 3
+test-fillcap: 276 passed, 0 failed
+
+$ TZ=UTC node test-export-repeat.js  -> exit 0
+test-export-repeat: 24 passed, 0 failed
+
+$ TZ=UTC node test-cache.js  -> exit 0
+test-cache: 15 passed, 0 failed
+
+$ TZ=UTC node test-blank-qty.js  -> exit 0
+test-blank-qty: 19 passed, 0 failed
+
+$ TZ=UTC node test-na-constraints.js  -> exit 0
+INFO [Northstar, SUP008 every Promised_Date blank] items whose class/action differ from intact Northstar: 0
+test-na-constraints: 88 passed, 0 failed
+

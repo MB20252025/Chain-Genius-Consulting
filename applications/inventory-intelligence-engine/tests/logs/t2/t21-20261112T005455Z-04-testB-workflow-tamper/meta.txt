@@ -1,0 +1,4 @@
+INTENTIONAL Test B (workflow tampering, guard step kept as step 1 before Node). Alteration: .github/workflows/v07-tests.yml line 107 'exit "$frc"' -> 'exit 0' (a summary failure would be ignored). Only that file.
+Tampering commit e2b8cd7e3a3cc8b1a1909a1fd92988034ad33256 -> run 43129216325: failure; guard "FAIL: :/.github/workflows/v07-tests.yml: CHANGED since the approved baseline (needs approval)", "check-control: 10 passed, 1 failed"; Node, packages, fast tier SKIPPED; no npm ci / runner output in the log.
+Revert 96980fd8954082a884b3ad765cd5d9bab2a8d12d (normal git revert). Workflow sha256 at v0.7-tests-approved-2 and at revert: 07f69f6246d07516c263064722375d948934e9f369f48674f2150f0e588f4935 (match).
+Recovery run 43129281435: success; guard 11/11 before Node; FAST: PASS 18 | FAIL 0 | ERROR 0 . Full tier (recorded): BLOCKED 6 | REDUCED 2.

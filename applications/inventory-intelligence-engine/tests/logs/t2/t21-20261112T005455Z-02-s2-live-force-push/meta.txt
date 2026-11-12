@@ -1,0 +1,14 @@
+S2 live force-push test (owner-authorised), 12 Nov 2026 ~00:3x UTC. Test branch ONLY: test/s2-verification (owner temporarily added it to S2; later removed and deleted by the owner).
+Rules applying to test/s2-verification before the test (gh api repos/.../rules/branches/test%2Fs2-verification): deletion@27080313, non_fast_forward@27080313
+Before: test/s2-verification = 0e461a629d0aa631c92ca6682958071cdf8388e6
+Candidate (local object only, created with git commit-tree; tree of 0e461a6, parent 772682b; NOT a fast-forward): ae7411a1f311869f0b3fae2757799fc7e743a74f
+Command: git push --force origin ae7411a1f311869f0b3fae2757799fc7e743a74f:refs/heads/test/s2-verification
+GitHub response:
+remote: error: GH013: Repository rule violations found for refs/heads/test/s2-verification.
+remote: Review all repository rules at https://github.com/MB20252025/Chain-Genius-Consulting/rules?ref=refs%2Fheads%2Ftest%2Fs2-verification
+remote: - Cannot force-push to this branch
+ ! [remote rejected] ae7411a1f311869f0b3fae2757799fc7e743a74f -> test/s2-verification (push declined due to repository rule violations)
+error: failed to push some refs to 'https://github.com/MB20252025/chain-genius-consulting'
+push exit code: 1
+After: test/s2-verification = 0e461a629d0aa631c92ca6682958071cdf8388e6 (unchanged). One attempt, no retry. No other reference changed.
+(The "This repository moved" lines GitHub prints on every push are omitted above; they are not part of the rejection.)

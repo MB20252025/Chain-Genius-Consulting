@@ -1,0 +1,5 @@
+Configuration listing only (S1, S3 not live-tested; S2 live-tested, see 02). Read 2026-11-12T00:54:59Z via gh api repos/MB20252025/Chain-Genius-Consulting/rulesets/<id>.
+rules for branch development%2Fv0.7: deletion@27080313, non_fast_forward@27080313
+rules for branch main: deletion@27081183, non_fast_forward@27081183
+rules for branch release%2Fv0.6: deletion@27081183, non_fast_forward@27081183
+Owner-approved S3 design: Restrict deletions ON, Block force pushes ON, Restrict updates OFF, Restrict creations OFF, bypass empty (owner correction 12 Nov 2026 00:45).
