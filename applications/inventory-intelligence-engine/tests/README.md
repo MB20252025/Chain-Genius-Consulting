@@ -78,7 +78,7 @@ If the guard fails, steps 2–4 are skipped and the run is red. Proven in T2 and
 |---|---|---|---|
 | S1 — Approved Baseline Tag Protection (27079964) | tags `v0.7-tests-approved-*`, `v0.6` | Restrict updates, Restrict deletions | Baselines and the v0.6 tag cannot be moved or deleted. Creating new tags stays possible |
 | S2 — Development Branch Protection (27080313) | `development/v0.7` | Restrict deletions, Block force pushes | History cannot be rewritten or erased, so any change, including one that bypasses the guard, stays visible |
-| S3 — Protected Release Branches (27081183) | `main`, `release/v0.6` | Restrict deletions, Block force pushes. Restrict updates OFF, Restrict creations OFF (owner design) | The v0.6 history cannot be rewritten or deleted. Ordinary pushes and merges remain possible |
+| S3 — Protected Release Branches (27081183) | `main`, `release/v0.6` | Restrict deletions ON, Block force pushes ON. **Restrict updates OFF**, Restrict creations OFF (owner design) | The v0.6 history cannot be rewritten (force-pushed) or deleted; both remain **blocked**. Ordinary direct pushes and merges (fast-forward updates) to `main` and `release/v0.6` **remain possible** for anyone with write access |
 
 **S2 live verification (12 Nov 2026).**
 - The throwaway branch `test/s2-verification` was temporarily added to S2.
@@ -89,20 +89,19 @@ S1 and S3 are verified by configuration listing only. No rejection was provoked 
 
 ### 5. S3 release procedure (Stage 5, v0.7 → `main`): documentation only, not performed
 
-A temporary full disable of S3 is preferred to adding a permanent bypass entry.
+**Ordinary release: S3 is NOT disabled.** S3 has Restrict updates OFF, so an approved ordinary (fast-forward) merge or push of v0.7 into `main` is allowed with S3 active. Record the merge commit, its UTC time and its author in the Stage 5 release notes.
 
-1. Temporarily disable S3 for the approved release window only.
-2. Record the exact UTC time it is disabled.
-3. Complete the approved v0.7 → `main` merge.
-4. Re-enable S3 immediately afterwards.
-5. Record the exact UTC time it is re-enabled.
+**Only if a separately authorised operation needs something S3 blocks** (a non-fast-forward update, i.e. a force-push, or deleting `main` or `release/v0.6`), use a temporary full disable of S3. This is preferred to adding a permanent bypass entry.
 
-**Bounded audit window:**
+1. Obtain the owner's separate authorisation for that specific operation.
+2. Temporarily disable S3, and record the exact UTC time.
+3. Perform only the authorised operation.
+4. Re-enable S3 immediately afterwards, and record the exact UTC time.
+
+**Bounded audit window** (applies only when S3 is disabled):
 - Keep the window as short as possible: minutes, not hours.
 - Record the disable and re-enable timestamps in the Stage 5 release notes.
 - Log every commit, merge or push to `main` or `release/v0.6` during the window, with its timestamp and author.
-
-Note: S3 as configured does not block ordinary (fast-forward) pushes or merges. Disabling it is only strictly necessary if the release needs something S3 blocks, such as a non-fast-forward update. The procedure above is still followed, so the release window is bounded and recorded.
 
 ### 6. Known GitHub Free limitation
 
