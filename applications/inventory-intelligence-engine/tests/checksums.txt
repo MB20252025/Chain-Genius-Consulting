@@ -346,3 +346,5 @@ file 4619ef0ece6041af738ea00b9597a0c804833d530cb9fe2888bea559e8ef6cff tests/tool
 file be698a42f25394f1454e080dd8ab3bf9bcb85f0b099687f0978860dfd1767a15 tests/tools/library/refcalc.py
 # M1 pre-tag Commit 3 (12 Nov 2026): CHARACTERISATION test (records current behaviour, including known defects; not approved rules). See tests/characterisation/README.md. The README is not protected.
 file 7c8eff4a2322a4805bf33bc3fd3745a0b6fba23a7b36030f9c0c4f8a24784ea5 tests/characterisation/characterisation-lead-time-fallbacks.js
+# M1 pre-tag Commit 9 (12 Nov 2026): M1 Stage 1 import test (A1-A3), protected for the Tag-4 review.
+file 7fc521dd6fb14030f52efd0300686dcd4cb77d3d510688498ed9a229ec7068e4 tests/test-import-stage1.js
