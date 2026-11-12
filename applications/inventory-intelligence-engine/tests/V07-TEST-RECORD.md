@@ -462,3 +462,39 @@ The fast tier does not run the full tier's BLOCKED or REDUCED tests, so this run
 The earlier total of 213 (210 library and tool lines plus the `check-protection`, `test-a1-static` and `import-stage1` notices) became 215 in Commit 3, which added one characterisation test notice and one characterisation checksum notice. The `check-protection` notice is a single notice whose reported number changed (127 → 337 after Stage 1, 127 → 338 after Commit 3), not two notices. The guard compares with tag -3, so it always reports from 127.
 
 **The PENDING window.** (1) Files and counts already in the tag -3 approved baseline are protected automatically: the guard fails if any of them is removed, changed or weakened. (2) Changes introduced after tag -3 sit in a PENDING window: they are reported as PENDING but are not enforced. The Tag-4 audit demonstrated, in a temporary copy, that coordinated changes to such files (a file together with its checksum line, or a test together with its accepted count) pass every automatic check. At this checkpoint the safeguard is therefore the owner's review of the PENDING notices, which is an owner-governance safeguard, not an automatic technical control. (3) Once the new baseline is correctly established at tag -4 (created on the baseline-switch commit), the files and counts the owner accepts become part of the automatically protected baseline.
+
+## M1 pre-tag Commit 9.5 — documentation corrections before the baseline switch (12 Nov 2026; the entries above are unchanged)
+
+**Status when recorded:** implemented in the working tree on top of Commit 9 (`2d2559a`) and verified there. At the time of this entry no commit or push had been made; the commit needs the owner's separate approval.
+
+**Scope.** Documentation only, so that the files reviewed for tag -4 are accurate. No engine code, import or test logic, assertions, expected values or accepted counts changed.
+
+- `tests/fixtures/library/MASTER-INDEX.md`: the reproducibility statement now matches the rebuild evidence and states its limits; the Package 02 sentence now discloses the fixture assumptions (I09 and I16 resolutions; identical duplicates I08, I19 and E08 under open decision A6); the obsolete "Transferring to your ChatGPT Library" section is replaced by "Delivered copies". The "Check against today's engine" section is unchanged (1,156 bytes before and after, byte-identical).
+- `tests/fixtures/library/MANIFEST.sha256`: the `MASTER-INDEX.md` entry updated.
+- `tests/checksums.txt`: the `MASTER-INDEX.md` and `MANIFEST.sha256` lines updated, and the comment on the M1 Stage 1 block updated (comment lines are not checked by either checker).
+- `M1-DESIGN.md`: "Identical duplicates" records the A6 fixture assumption (A6 stays open); "Known gap in Package 02's expected results" corrects the I16 statement, with a correction note; "Test-data library" updated for `MASTER-INDEX.md`.
+
+**Checksum changes.**
+
+| File | Before | After |
+| --- | --- | --- |
+| `tests/fixtures/library/MASTER-INDEX.md` | `d57a2e39ec545cb5a1ddea5d06088358ef4d8ab76b47e00eb53d22df91aa8e17` | `cb3a2ea6d84dc789dad0ef20038835718d857f078ecba62c1627b753b6779a65` |
+| `tests/fixtures/library/MANIFEST.sha256` | `a05e0129a7dde2a383cbda6862bbab84e9e6856d8fd80289243389c32749d548` | `cc64b44afa1399c297338bd9853f0b2545b41cbb77792235f2102e0ab8d3f65e` |
+
+**Evidence from this implementation run** (12 Nov 2026, Python 3.13.18, Linux 6.18):
+
+- Rebuild: `cd applications/inventory-intelligence-engine/tests/tools/library && python3 -B build.py /tmp/commit95-regen-1794520832` (output directory outside the repository; it did not exist before the run). Of the 206 library files: 203 byte-identical; 2 differ because they contain hand-written text (`MASTER-INDEX.md`, `06-Edge-Cases/E08-duplicate-records/EXPECTED.md`); 1 not produced by the generator (`MANIFEST.sha256`). The generator also wrote `summary.json` and the ZIPs, which are not part of the library. The rebuild shows the files match the generator, not that the expected results are correct.
+- I16 and I09: `refcalc.py` re-run on disposable copies of Package 02 `expected-canonical/`. The unchanged copy reproduces the committed `expected-results.json` exactly. Changing I16 to Qty Sold 103 changes no figure (`refcalc.py` lines 84–85: `months` sorted, `last12 = set(months[-12:])`, which covers 2025-11 to 2026-10; 2024-11 is outside it). Changing I09 to QOH 132 changes exactly three figures: FGW on hand 5,551 to 5,588; business-wide on hand 53,731 to 53,768; stock value at cost £2,271,511.45 to £2,275,161.13 (37 × £98.64 = £3,649.68).
+- I08 and I19 (re-checked in this run): each pair of source rows is byte-identical in every column (`StockByWarehouse.csv` lines 10 and 161; `PO_Lines.csv` lines 12 and 743). Whether such rows may be removed is open decision A6.
+
+**Checks run in this implementation run** (working tree, UTC):
+
+| Check | Result |
+| --- | --- |
+| Guard (`check-control.js`, tag `v0.7-tests-approved-3`) | 12 passed, 0 failed |
+| PENDING | 216 = 212 checksum + 4 non-checksum, unchanged in number. Exactly two notices changed (the `MASTER-INDEX.md` and `MANIFEST.sha256` lines, same paths, new hashes); the other 214 are byte-identical |
+| `check-protection` | 339 passed, 0 failed |
+| `import-stage1` | 616 passed, 0 failed (including the library manifest check: 205 files, 0 changed; no unlisted files) |
+| Fast tier (`run-all.sh --fast`) | exit 0: 20 tests passed (+ pre-flight), 0 FAIL, 0 ERROR, 0 BLOCKED, 0 REDUCED; characterisation 28/28, golden v0.5 10/10, golden v0.6.0 10/10, confidence snapshot 51/51 |
+| Full tier | NOT RUN (documentation-only change) |
+| GitHub Actions CI | NOT RUN (no push has been made) |

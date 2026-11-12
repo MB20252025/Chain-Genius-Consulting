@@ -133,7 +133,7 @@ file 18a0c80ca9a3b664b73e0bbb6604b6fe25e027978094b09f6c73f27425e12c25 tests/veri
 file 49da7a865b8f02d6975715eb9210b72f41fe6b17c5e62cbe1292dc32d28a730e tests/verify.py
 file 6a594fe0f5a60b6fe869b97a76c7891712ff675fec5f9b94e8907e21347f4024 tests/verify_structure.py
 file 8463fb9b8f43d88cf7a6ac900dc305fb13586748f12f1ffb8b75662c4616882a tests/verify_sup.py
-# M1 Stage 1 (A1, decision D12, 12 Nov 2026): synthetic test-data library v1.0 (packages 01-06) and its reference calculator/generator. Content = v1.0 as generated, plus Commit 1 corrections; E08 EXPECTED.md has a hand-added clarification (Commit 2); MASTER-INDEX.md is unchanged since ca1e800 and carries notes added after generation. Delivered ZIPs: v1.0.2 (see V07-TEST-RECORD.md).
+# M1 Stage 1 (A1, decision D12, 12 Nov 2026): synthetic test-data library v1.0 (packages 01-06) and its reference calculator/generator. Content = v1.0 as generated, plus Commit 1 corrections; E08 EXPECTED.md has a hand-added clarification (Commit 2); MASTER-INDEX.md carries hand-written text (notes added after generation; three passages corrected in Commit 9.5). Delivered ZIPs: v1.0.2 (see V07-TEST-RECORD.md).
 file c99cd569c876c3633cbcb6dc2bdc40f0dce5764c4b4496fdd26180dbf26e1748 tests/fixtures/library/01-Clean-Manufacturer/EXPECTED-RESULTS.md
 file 07becb8e610212526d99dffe42cde645ea26846469dc3f191eaf198877692d07 tests/fixtures/library/01-Clean-Manufacturer/README.md
 file f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff tests/fixtures/library/01-Clean-Manufacturer/bom.csv
@@ -338,8 +338,8 @@ file aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e tests/fixt
 file 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/supplier_items.csv
 file fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/suppliers.csv
 file 0d5b3277307cfd361825436602e07d781361145485bd1b3ca5329776524c7c98 tests/fixtures/library/06-Edge-Cases/README.md
-file a05e0129a7dde2a383cbda6862bbab84e9e6856d8fd80289243389c32749d548 tests/fixtures/library/MANIFEST.sha256
-file d57a2e39ec545cb5a1ddea5d06088358ef4d8ab76b47e00eb53d22df91aa8e17 tests/fixtures/library/MASTER-INDEX.md
+file cc64b44afa1399c297338bd9853f0b2545b41cbb77792235f2102e0ab8d3f65e tests/fixtures/library/MANIFEST.sha256
+file cb3a2ea6d84dc789dad0ef20038835718d857f078ecba62c1627b753b6779a65 tests/fixtures/library/MASTER-INDEX.md
 file 60893d6c70c61f2bfc601cbfebb1c89b016ffe9770bba7f97b732c634e040215 tests/tools/library/build.py
 file 196935822dfdcd7b661b0a41225c72561a991a596813c52e4bc465aa1003badb tests/tools/library/builders.py
 file 4619ef0ece6041af738ea00b9597a0c804833d530cb9fe2888bea559e8ef6cff tests/tools/library/model.py
