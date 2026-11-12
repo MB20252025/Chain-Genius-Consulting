@@ -9,8 +9,8 @@ All businesses, people, products and figures in this package are fictional and s
 - Stock: one copy kept → A1 on hand 60 (not 120)
 - PO: one copy kept → 5 lines, not 6
 - Item: one kept, flagged
-- Demand: first row kept (30), conflicting row (99) flagged High
-- Import report counts: 3 exact duplicates removed, 1 conflict flagged
+- Demand: conflicting duplicate (A1, same month, Units 30 and 99) → the demand import STOPS; no row is chosen automatically (never first or last). The Stage 2 test must assert the stop. Resolving a conflict in canonical input is deferred to M1b
+- Import report counts: 3 exact duplicates removed, 1 conflicting duplicate stopping the demand import
 
 ## Reference calculator output on the raw input
 

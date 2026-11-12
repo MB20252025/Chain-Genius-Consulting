@@ -2,11 +2,11 @@
  "stock_rows_rejected": [
   "P-0014 (unmatched; suggest P0014)",
   "P0999 (unmatched)",
-  "TOTAL (summary row)"
+  "TOTAL (unmatched)"
  ],
  "stock_exact_duplicates_removed": 1,
- "stock_conflicts_flagged": 1,
- "demand_conflicts_flagged": 1,
+ "stock_conflicts_requiring_resolution": 1,
+ "demand_conflicts_requiring_resolution": 1,
  "po_rows_rejected": [
   "PO99901 (unit text)",
   "PO99902 (US-only date)"

@@ -246,9 +246,12 @@ def ds02(b01):
     dup = dict(next(r for r in stock_rows if r['Part No'] == 'P0005'))
     stock_rows.append(dup)
     iss('I08', 'StockByWarehouse.csv', 'P0005 at its first location, second copy (near end of file)', 'identical row', 'Keep one; report 1 exact duplicate removed', 'Whole-row duplicate')
-    conf = dict(next(r for r in stock_rows if r['Part No'] == 'P0006')); conf['QOH'] = (int(str(conf['QOH']).replace(',', '')) + 37)
+    orig6 = next(r for r in stock_rows if r['Part No'] == 'P0006')
+    conf = dict(orig6); conf['QOH'] = (int(str(conf['QOH']).replace(',', '')) + 37)
     stock_rows.append(conf)
-    iss('I09', 'StockByWarehouse.csv', 'P0006, same location twice with different QOH', f"second row QOH {conf['QOH']}", 'Keep the FIRST row; flag High "conflicting duplicate"; listed for the user (default needs owner approval — see Deliverable 4)', 'Two different quantities for one item and location')
+    iss('I09', 'StockByWarehouse.csv', 'P0006, same location twice with different QOH', f"second row QOH {conf['QOH']}",
+        f'Stop the stock import: conflicting duplicate. No row is chosen automatically (never first or last); listed for the user, who must name the row to keep. Expected figures assume that explicit resolution keeps the row with QOH {orig6["QOH"]}',
+        'Two different quantities for one item and location')
     p14r = {'Warehouse': 'FGW', 'Part No': 'P-0014', 'Bin Location': 'A-14', 'QOH': p14['On_Hand_Qty'], 'Allocated': p14['Allocated_Qty'], 'On Order': p14['On_Order_Qty'],
             'Re-order Level': p14['Reorder_Point_Qty'], 'Safety Stock': p14['Safety_Stock_Qty'], 'Unit Cost': p14['Unit_Cost'], 'Stock Date': uk(p14['Snapshot_Date'])}
     stock_rows.append(p14r)
@@ -256,7 +259,7 @@ def ds02(b01):
     stock_rows.append({'Warehouse': 'FGW', 'Part No': 'P0999', 'Bin Location': 'Z-99', 'QOH': 15, 'Allocated': 0, 'On Order': 0, 'Re-order Level': '', 'Safety Stock': '', 'Unit Cost': 42.0, 'Stock Date': uk(d(SNAP))})
     iss('I11', 'StockByWarehouse.csv', 'Part No P0999', 'P0999', 'Reject as unmatched stock; listed', 'Item not in the item master')
     stock_rows.append({'Warehouse': '', 'Part No': 'TOTAL', 'Bin Location': '', 'QOH': f"{sum(int(str(r['QOH']).replace(',', '')) for r in stock_rows if str(r['QOH']).lstrip('-').replace(',', '').isdigit()):,}", 'Allocated': '', 'On Order': '', 'Re-order Level': '', 'Safety Stock': '', 'Unit Cost': '', 'Stock Date': ''})
-    iss('I12', 'StockByWarehouse.csv', 'last row', 'TOTAL', 'Reject; recognise as a summary row (no warehouse, item "TOTAL")', 'Exports often append totals')
+    iss('I12', 'StockByWarehouse.csv', 'last row', 'TOTAL', 'Reject as unmatched stock (item code "TOTAL" is not in the item master); listed with reason. The importer is not expected to recognise totals rows itself: the ordinary unmatched-item rule rejects it', 'Exports often append totals')
     iss('I13', 'StockByWarehouse.csv', 'Bin Location column', '(extra column)', 'Ignore; not mapped', 'Unused columns must not cause errors')
     iss('I14', 'StockByWarehouse.csv', 'Stock Date', 'DD/MM/YYYY', 'Read as UK dates (file format chosen as UK)', 'Date format differs from other files')
     sales = []
@@ -269,7 +272,8 @@ def ds02(b01):
     first = next(r for r in sales if r['Product Code'] == 'P0020')
     dupd = dict(first); dupd['Qty Sold'] = int(first['Qty Sold']) + 9
     sales.append(dupd)
-    iss('I16', 'Sales_History.csv', f"P0020 {first['Month']} appears twice with different Qty Sold", f"{first['Qty Sold']} and {dupd['Qty Sold']}", 'Keep the FIRST row; flag High "conflicting duplicate"', 'Same as I09')
+    iss('I16', 'Sales_History.csv', f"P0020 {first['Month']} appears twice with different Qty Sold", f"{first['Qty Sold']} and {dupd['Qty Sold']}",
+        f"Stop the sales import: conflicting duplicate. No row is chosen automatically (never first or last); listed for the user, who must name the row to keep. Expected figures assume that explicit resolution keeps the row with Qty Sold {first['Qty Sold']}", 'Same as I09')
     iss('I17', 'Sales_History.csv', 'Month', '01/11/2024 style', 'Read as UK dates; all are the 1st of the month so every one is technically ambiguous (day ≤ 12): the report must show the count and the user confirms UK', 'Ambiguous-date handling')
     sups = [{'Supplier Code': s['Supplier_ID'], 'Supplier Name': s['Supplier_Name'], 'Std Lead Time': s['Standard_Lead_Time_Days'], 'Country': s['Country'], 'Terms': s['Payment_Terms']}
             for s in T['suppliers'] if s['Supplier_ID'] != 'S99']
@@ -347,7 +351,8 @@ def edge_cases():
     t = variant(); t['stock'].append(dict(t['stock'][0])); t['po_lines'].append(dict(t['po_lines'][0])); t['items'].append(dict(t['items'][0]))
     t['demand'].append(dict(t['demand'][0], Units=99))
     E.append(('E08-duplicate-records', 'Exact duplicate stock row, exact duplicate PO line, duplicate item row, and a conflicting demand row (same month, different units).', t,
-              ['Stock: one copy kept → A1 on hand 60 (not 120)', 'PO: one copy kept → 5 lines, not 6', 'Item: one kept, flagged', 'Demand: first row kept (30), conflicting row (99) flagged High', 'Import report counts: 3 exact duplicates removed, 1 conflict flagged'],
+              ['Stock: one copy kept → A1 on hand 60 (not 120)', 'PO: one copy kept → 5 lines, not 6', 'Item: one kept, flagged', 'Demand: conflicting duplicate (A1, same month, Units 30 and 99) → the demand import STOPS; no row is chosen automatically (never first or last). The Stage 2 test must assert the stop. Resolving a conflict in canonical input is deferred to M1b',
+               'Import report counts: 3 exact duplicates removed, 1 conflicting duplicate stopping the demand import'],
               ))
     t = variant(locations=[dict(Location_ID='W1', Location_Name='Warehouse 1', Include_In_Available='Y'), dict(Location_ID='W2', Location_Name='Warehouse 2', Include_In_Available='Y'),
                            dict(Location_ID='QC', Location_Name='Quality hold', Include_In_Available='N')])
@@ -408,9 +413,9 @@ def main():
                         ('source-export/BOM.csv', 'BOM with scrap as "5%" text'), ('source-export/Works_Orders.csv', 'Works orders; ISO dates'),
                         ('expected-canonical/*.csv', 'What the importer must produce after applying the expected actions (the comparison target)'),
                         ('DATA-ISSUES.md / .csv', '23 documented issues with expected actions')],
-                       'Expected figures assume default import choices: UK dates for the UK-format files, "ignore dashes and spaces" OFF, conflicting duplicates keep the first row.'))
-    rj = dict(stock_rows_rejected=['P-0014 (unmatched; suggest P0014)', 'P0999 (unmatched)', 'TOTAL (summary row)'], stock_exact_duplicates_removed=1, stock_conflicts_flagged=1,
-              demand_conflicts_flagged=1, po_rows_rejected=['PO99901 (unit text)', 'PO99902 (US-only date)'], po_exact_duplicates_removed=1, supplier_placeholders=['S99'],
+                       'Expected figures assume default import choices: UK dates for the UK-format files, "ignore dashes and spaces" OFF. Conflicting duplicates (I09, I16) stop the import until the user names the row to keep; the expected figures assume the explicit resolutions stated in DATA-ISSUES.md.'))
+    rj = dict(stock_rows_rejected=['P-0014 (unmatched; suggest P0014)', 'P0999 (unmatched)', 'TOTAL (unmatched)'], stock_exact_duplicates_removed=1, stock_conflicts_requiring_resolution=1,
+              demand_conflicts_requiring_resolution=1, po_rows_rejected=['PO99901 (unit text)', 'PO99902 (US-only date)'], po_exact_duplicates_removed=1, supplier_placeholders=['S99'],
               items_cost_missing=['P0026', 'M0044'], items_inactive=['P0038', 'P0039'], negative_stock=['M0030 at MAIN (−12)'])
     extra2 = '## Import report the importer must show\n\n```\n' + json.dumps(rj, indent=1) + '\n```\n\nAfter import, the canonical data must equal `expected-canonical/` row for row (ignoring row order), and all figures above are calculated from it.'
     summary['02'] = finish(f2, '02 Messy Manufacturer', 'Calculated on `expected-canonical/`: the data as it should be after the importer applies every expected action in DATA-ISSUES.md.',

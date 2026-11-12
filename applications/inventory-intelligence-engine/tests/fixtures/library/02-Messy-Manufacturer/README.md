@@ -24,6 +24,6 @@ M1 test-data library v1.0 (generated 12 Nov 2026, seed-deterministic)
 
 Dates are ISO (YYYY-MM-DD) unless stated. Money is GBP. Snapshot date: 31 October 2026. Demand history: November 2024 to October 2026 (24 months).
 
-Expected figures assume default import choices: UK dates for the UK-format files, "ignore dashes and spaces" OFF, conflicting duplicates keep the first row.
+Expected figures assume default import choices: UK dates for the UK-format files, "ignore dashes and spaces" OFF. Conflicting duplicates (I09, I16) stop the import until the user names the row to keep; the expected figures assume the explicit resolutions stated in DATA-ISSUES.md.
 
 Expected results: `EXPECTED-RESULTS.md` (readable) and `expected-results.json` (for automated tests).

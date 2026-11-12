@@ -11,10 +11,10 @@ df893702b50a609562f7ceeec9c26f697fcabcd9f89641df3e0417b945c14d1a  ./01-Clean-Man
 fd146f707c8ad7e0288eac14c950899927766ae3e17c4d13499583742a7e3a9e  ./01-Clean-Manufacturer/stock.csv
 a6ee206c0f93ecb4781be6f44c58fa349d9a7239cc80738b9037cfb54f9f1748  ./01-Clean-Manufacturer/supplier_items.csv
 af0b443944471a611f2b5fbb63050d94dee43c9524c2140ca1df62b026c7dd7b  ./01-Clean-Manufacturer/suppliers.csv
-03d83432eeeb8b9c0e8fdc7c619f82e057a61ecda18e8531c41e5b97065fa93c  ./02-Messy-Manufacturer/DATA-ISSUES.csv
-5349887e3a0338a68844a061a250b0849d63c6ff819dba2745f824f56e1728a5  ./02-Messy-Manufacturer/DATA-ISSUES.md
-df7fc3c9d2552fd1a3600accc7b1a4f05a20db96137d99d83de06b1c646eed43  ./02-Messy-Manufacturer/EXPECTED-RESULTS.md
-827772dc6e91fa85d493240864d1924c248c08af91a1f9c2b63f741c4c71e0b5  ./02-Messy-Manufacturer/README.md
+fe342198ff60bcc6ed728dd36a843747062a8a3b91e4e269ff47f3168ad17f78  ./02-Messy-Manufacturer/DATA-ISSUES.csv
+9b9005fee5092557dd91e13439ebccc14bbb851f6a36739a346ee7bd15498939  ./02-Messy-Manufacturer/DATA-ISSUES.md
+8f66c34a8c7a078e38af4800e2c17af9b5721cbca9367cec22edb406da898f4a  ./02-Messy-Manufacturer/EXPECTED-RESULTS.md
+d468f50a9c1d998aa9d6dcae82ba0040a2adf2f9534dacd14058621d53a9e9b1  ./02-Messy-Manufacturer/README.md
 f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff  ./02-Messy-Manufacturer/expected-canonical/bom.csv
 5415556993dd0db72175e23090b3e7a86f42f1880ce2fa521a59a75550649277  ./02-Messy-Manufacturer/expected-canonical/dataset.csv
 1814ae340b07f16b6684ce55c7141a9c16a84d050e82fada451ee9a2f94ceac3  ./02-Messy-Manufacturer/expected-canonical/demand.csv
@@ -25,7 +25,7 @@ f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff  ./02-Messy-Man
 ddf8874e71ce0b6599d9e6af4327ff93c6574013c7d6315254a2113cfeb6f156  ./02-Messy-Manufacturer/expected-canonical/stock.csv
 f1099c6b2d573a175e19afc2ffb326c0293d2af1fa0a62402ad1e8902395304a  ./02-Messy-Manufacturer/expected-canonical/supplier_items.csv
 176e7f2fb01f2b8e26a50a3ee28bc1b1a1c7d633d7b16ff16ee5a3c8272c2e37  ./02-Messy-Manufacturer/expected-canonical/suppliers.csv
-bee52cf9b21a60200d0a8b599f6f23cc6a9ab763caf95503ce49c6b18f2d78b4  ./02-Messy-Manufacturer/expected-import-report.json
+89e6cad1169dbaed543c2c2f48a912cfec8f2536deefd0cb40167eea51bb0242  ./02-Messy-Manufacturer/expected-import-report.json
 b1af2f936a367cd6a04af2a9005b11bfbe49251ec263a54fc044380952cff0ee  ./02-Messy-Manufacturer/expected-results.json
 ee9459ccbee563cae4b612689f9d55e370611d38de569266a8e679fa5c32174f  ./02-Messy-Manufacturer/source-export/BOM.csv
 b2219b6e602763dcb047eda5d4426204bada051856c5060be0404cffddbb6a0f  ./02-Messy-Manufacturer/source-export/ItemMaster_export.csv
@@ -153,7 +153,7 @@ c4b48118d853c722d5322b61743e88538c6828ab08b1f2e1df2d413d09aafb00  ./06-Edge-Case
 aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e  ./06-Edge-Cases/E07-missing-suppliers/input/stock.csv
 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151  ./06-Edge-Cases/E07-missing-suppliers/input/supplier_items.csv
 fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0  ./06-Edge-Cases/E07-missing-suppliers/input/suppliers.csv
-c52ef86dabd2833cce0b6bebfbc0e5997147ed20219f6e733023a32d29a99eae  ./06-Edge-Cases/E08-duplicate-records/EXPECTED.md
+6c96e9c6649f1172ba556ecd070e8197aa61ee58970176ee070c3d818f58d4c7  ./06-Edge-Cases/E08-duplicate-records/EXPECTED.md
 438caef395b50e44ae41f9dadec70dc081e9328638c476261b34a26551d51005  ./06-Edge-Cases/E08-duplicate-records/expected-results.json
 5b84204f0c267e7085ad986df21e75c5bfedeee602ce44ad4796ed36ebbd16d9  ./06-Edge-Cases/E08-duplicate-records/input/bom.csv
 29ef996a53b1fb2de8a9e9d8880c9ccee2e5e979dd5a32bcb3645224eca79f7c  ./06-Edge-Cases/E08-duplicate-records/input/dataset.csv
