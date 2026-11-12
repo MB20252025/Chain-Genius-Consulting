@@ -315,3 +315,13 @@ Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first openi
   - Existing commits are not rewritten.
 - **S3:** Restrict updates OFF (owner design). Ordinary merges to `main` are allowed with S3 active. The temporary disable window applies only to a separately authorised operation that S3 blocks. README §5 was corrected in commit `c9b220d`.
 - **Evidence:** `tests/logs/t2/T21-EVIDENCE-INDEX.md`, including its closure addendum.
+
+---
+
+## T3 — confidence snapshot and guard ACTIVE (12 Nov 2026)
+
+- **New snapshot:** `tests/snapshots/v0.7-confidence-20261112T011814Z.json`, 582,470 bytes, SHA-256 `4cf73b07…`. It covers 17 fixtures × 3 sections (forecast confidence, confAreas, client questions). It is identical in all 5 zones, and contains no timestamps or environment data.
+- **Runner:** test type `confsnap`, with accepted count 51 per zone. Fast tier UTC; full tier 5 zones.
+- **Guard:** `check-control` protects 12 files (the snapshot is the 12th). Baseline tag `v0.7-tests-approved-3`.
+- **Records:** `check-control` is now recorded ACTIVE, so the recorded full tier is BLOCKED 5 and REDUCED 2, and the fast-tier summary reports BLOCKED 5. This resolves the T2.1 reporting inconsistency.
+- **Evidence:** `tests/logs/t3/`. Results are appended below as they are verified.

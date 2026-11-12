@@ -11,7 +11,7 @@
 // Exit 0 = no weakening; 1 = weakening found; 2 = cannot check (remote or git failure, no summary printed); 3 = no approved tag.
 const fs=require('fs'),path=require('path'),{spawnSync}=require('child_process');
 const arg=(k,d)=>{const i=process.argv.indexOf(k);return i>0?process.argv[i+1]:d};
-const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-2'),REMOTE=arg('--remote','origin');
+const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-3'),REMOTE=arg('--remote','origin');
 const git=(...a)=>spawnSync('git',a,{cwd:DIR,encoding:'utf8',timeout:120000,maxBuffer:256<<20});
 const die=(code,msg)=>{console.log((code===3?'NO APPROVED BASELINE: ':'ERROR: ')+msg);process.exit(code)};
 // 1. The tag: must exist on the remote; a local copy must match it.
@@ -29,7 +29,7 @@ const prefix=git('rev-parse','--show-prefix').stdout.trim(),top=git('rev-parse',
 const approved=f=>{const r=git('show',TAG+':'+(f.startsWith(':/')?f.slice(2):prefix+f));return r.status===0?r.stdout:null};
 const current=f=>{const p=f.startsWith(':/')?path.join(top,f.slice(2)):path.join(DIR,f);return fs.existsSync(p)?fs.readFileSync(p,'utf8'):null};
 // 2. Byte-identical control files.
-for(const f of ['run-all.sh','check-protection.js','check-control.js','test-a1-wrapper-quick.js','package.json','package-lock.json','requirements.txt','summarise-run.js',':/.github/workflows/v07-tests.yml']){
+for(const f of ['run-all.sh','check-protection.js','check-control.js','test-a1-wrapper-quick.js','package.json','package-lock.json','requirements.txt','summarise-run.js',':/.github/workflows/v07-tests.yml','snapshots/v0.7-confidence-20261112T011814Z.json']){
   const a=approved(f),c=current(f);
   ok(a!==null&&a===c,f+(a===null?': not in the approved baseline':c===null?': MISSING from the working tree':a===c?': identical to the approved baseline':': CHANGED since the approved baseline (needs approval)'))}
 // 3. accepted-results.json ratchet.

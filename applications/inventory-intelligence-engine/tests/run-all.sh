@@ -14,8 +14,18 @@ exec node - "$@" <<'JS'
 const fs=require('fs'),path=require('path'),os=require('os'),cp=require('child_process');
 const T=process.cwd(),APP=path.resolve(T,'..');
 const argv=process.argv.slice(2),tier=argv.includes('--full')?'full':argv.includes('--fast')?'fast':null;
-const li=argv.indexOf('--log'),LOG=li>=0?argv[li+1]:null,ri=argv.indexOf('--remote'),REMOTE=ri>=0?argv[ri+1]:'origin';
-if(!tier){console.log('Usage: bash run-all.sh --fast|--full [--log <file>] [--remote <name or URL>]');process.exit(9)}
+const li=argv.indexOf('--log'),LOG=li>=0?argv[li+1]:null,ri=argv.indexOf('--remote'),REMOTE=ri>=0?argv[ri+1]:'origin',ei=argv.indexOf('--emit-confidence'),EMIT=ei>=0?path.resolve(argv[ei+1]):null;
+// T3: confidence snapshot. ONE computation, used both to compare (test type 'confsnap') and to create the snapshot (--emit-confidence <file>).
+// For every fixture workbook it records forecast confidence (fcCredAll), confAreas and client questions, via CGEngine.runEngine().
+function confCompute(){const fs=require('fs'),path=require('path'),XLSX=require('xlsx');global.XLSX=XLSX;const APP=process.argv[2],OUT=process.argv[3],F=path.join(APP,'tests','fixtures');
+ (0,eval)(['calculations','forecasting','app','excel-import','engine/engine-api'].map(n=>fs.readFileSync(path.join(APP,'js',n+'.js'),'utf8')).join('\n')+';globalThis.__E=CGEngine');
+ const rel=[];for(const d of ['northstar','suppliers','edge','structure'])for(const f of fs.readdirSync(path.join(F,d)).filter(f=>/\.xlsx$/.test(f)).sort())rel.push(d+'/'+f);
+ const out={};for(const r of rel){const e=__E.runEngine({workbook:XLSX.readFile(path.join(F,r),{cellDates:true})});out[r]={forecastCredibility:e.forecastCredibility,confidence:e.confidence,clientQuestions:e.clientQuestions}}
+ fs.writeFileSync(OUT,JSON.stringify(out))}
+const CONF_SECTIONS=['forecastCredibility','confidence','clientQuestions'];
+const confDiff=(a,b,p,o)=>{if(o.length>=3)return o;if(JSON.stringify(a)===JSON.stringify(b))return o;if(a&&b&&typeof a==='object'&&typeof b==='object'){for(const k of [...new Set([...Object.keys(a),...Object.keys(b)])])confDiff(a[k],b[k],p+(Array.isArray(a)?'['+k+']':'.'+k),o);return o}
+ o.push(p+': expected '+JSON.stringify(a).slice(0,60)+', actual '+JSON.stringify(b).slice(0,60));return o};
+if(!tier&&!EMIT){console.log('Usage: bash run-all.sh --fast|--full [--log <file>] [--remote <name or URL>]   |   bash run-all.sh --emit-confidence <file>');process.exit(9)}
 const A=JSON.parse(fs.readFileSync('accepted-results.json','utf8'));
 const TMP=fs.mkdtempSync(path.join(os.tmpdir(),'runall-'));let logText='';
 const log=s=>{logText+=s+'\n'};
@@ -54,6 +64,13 @@ function blocked(b){
     if(r.status!==0)return null/* cannot tell: run the check, which reports ERROR */;return (l.status===0||r.stdout.trim())?null:'tag '+b.tag+' not created yet'}
   if(b.kind==='playwright-browser'){try{const p=require('playwright');return fs.existsSync(p.chromium.executablePath())?null:'Playwright browser not installed'}catch(e){return 'playwright package not installed'}}
   return 'unknown blocker kind'}
+if(EMIT){// Create a confidence snapshot: compute in all five zones, require identical results, write one canonical record per fixture.
+ const cf=path.join(TMP,'confsnap.js');fs.writeFileSync(cf,'('+confCompute.toString()+')()');const got={};
+ for(const tz of A.zones_five){const o=path.join(TMP,'conf-'+tz.replace(/\//g,'_')+'.json');const r=run('node',[cf,APP,o],tz);if(r.code!==0||!fs.existsSync(o)){console.log('EMIT FAILED in '+tz+': '+lastErr(r.out));process.exit(1)}got[tz]=fs.readFileSync(o,'utf8')}
+ const z=A.zones_five,same=z.every(tz=>got[tz]===got[z[0]]);if(!same){console.log('EMIT FAILED: results differ between time zones: '+z.filter(tz=>got[tz]!==got[z[0]]).join(', '));process.exit(1)}
+ const fx=JSON.parse(got[z[0]]),head={about:'v0.7 confidence snapshot (T3): forecast confidence, confAreas and client questions from CGEngine.runEngine() for every fixture; identical in all listed time zones when created. No timestamps or environment data.',zones:z,sections:CONF_SECTIONS};
+ const txt='{\n'+Object.entries(head).map(([k,v])=>JSON.stringify(k)+':'+JSON.stringify(v)).join(',\n')+',\n"fixtures":{\n'+Object.entries(fx).map(([k,v])=>JSON.stringify(k)+':'+JSON.stringify(v)).join(',\n')+'\n}}\n';
+ fs.writeFileSync(EMIT,txt);console.log('EMITTED '+EMIT+': '+Object.keys(fx).length+' fixtures x '+z.length+' zones identical, '+Buffer.byteLength(txt)+' bytes');fs.rmSync(TMP,{recursive:true,force:true});process.exit(0)}
 const results=[];
 // Pre-flight: prerequisites that are NOT accepted blockers. Missing -> ERROR.
 {const need=tier==='full'?['xlsx','jsdom','acorn','puppeteer-core','@sparticuz/chromium']:['xlsx','jsdom','acorn'];const miss=need.filter(m=>{try{require.resolve(m);return false}catch(e){return true}});
@@ -95,6 +112,13 @@ for(const t of A.tests){
       if(g.code!==0||!fs.existsSync(snap))res={code:g.code===0?1:g.code,out:g.out,parsed:null};
       else{const c=run('node',['compare-snapshots.js',t.snapshot,snap],tz);const same=(c.out.match(/^IDENTICAL/gm)||[]).length,diff=(c.out.match(/^DIFFERENT/gm)||[]).length;
         res={code:c.code,out:c.out,parsed:/ALL SECTIONS IDENTICAL|section\(s\) differ/.test(c.out)?{pass:same,fail:diff}:null}}}
+    else if(t.type==='confsnap'){// T3: compare this zone's confidence results with the approved snapshot, per fixture and section.
+      const cf=path.join(TMP,'confsnap.js');if(!fs.existsSync(cf))fs.writeFileSync(cf,'('+confCompute.toString()+')()');const o=path.join(TMP,'conf-'+tz.replace(/\//g,'_')+'.json');
+      const r=run('node',[cf,APP,o],tz);let S=null;try{S=JSON.parse(fs.readFileSync(path.join(T,t.snapshot),'utf8')).fixtures}catch(e){}
+      if(r.code!==0||!fs.existsSync(o)||!S)res={code:1,out:r.out+(S?'':'\ncannot read snapshot '+t.snapshot),parsed:null};
+      else{const C=JSON.parse(fs.readFileSync(o,'utf8'));let p=0,f=0;const lines=[];
+        for(const k of [...new Set([...Object.keys(S),...Object.keys(C)])])for(const sec of CONF_SECTIONS){const d=confDiff((S[k]||{})[sec],(C[k]||{})[sec],k+' '+sec,[]);if(d.length){f++;lines.push('FAIL: '+d.join(' | '))}else p++}
+        res={code:f?1:0,out:lines.join('\n')+'\nconfidence-snapshot: '+p+' passed, '+f+' failed',parsed:{pass:p,fail:f}}}}
     else if(t.type==='pyverify'){const d=run('node',['dump.js'],tz);const v=d.code===0?run('python3',['verify.py'],tz):{code:d.code,out:d.out};try{fs.unlinkSync(path.join(T,'dump.json'))}catch(e){}
       res={code:v.code,out:v.out,parsed:d.code===0?parse(v.out):null}}
     else if(t.type==='scenarios'){let p=0,f=0,bad=[],err=null,out='';

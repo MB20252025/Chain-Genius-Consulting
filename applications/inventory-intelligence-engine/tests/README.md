@@ -2,6 +2,8 @@
 
 ## T2.1 — baseline tags, protected files and release procedure
 
+*Updated in T3 (12 Nov 2026): baseline tag `v0.7-tests-approved-3`; 12 protected files including the confidence snapshot; check-control recorded ACTIVE.*
+
 Recorded 12 Nov 2026. Repository `MB20252025/Chain-Genius-Consulting`, branch `development/v0.7`.
 
 ### 1. Approved baseline tags
@@ -11,7 +13,8 @@ An approved baseline tag records the exact versions of the testing-control files
 | Tag | Points to | Contents |
 |---|---|---|
 | `v0.7-tests-approved-1` | `eb3111f5d25f02678db02b35e9cf4e9ab0e23a73` | T1 baseline (kept unchanged) |
-| `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (current) |
+| `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (kept unchanged) |
+| `v0.7-tests-approved-3` | the T3 implementation commit (created by the owner) | T3 baseline (current): adds the confidence snapshot; check-control ACTIVE |
 
 **Creating a baseline tag (permanent procedure)**
 
@@ -45,13 +48,14 @@ Existing baseline tags are never moved or deleted; S1 enforces this.
 - `tests/requirements.txt`
 - `tests/summarise-run.js` (added in T2.1)
 - `.github/workflows/v07-tests.yml` (added in T2.1, written as `:/.github/workflows/v07-tests.yml`; `:/` means a path from the repository root)
+- `tests/snapshots/v0.7-confidence-20261112T011814Z.json` (added in T3: the confidence snapshot)
 
 It also checks two files for weakening:
 
 - `tests/accepted-results.json`: no test removed, no count lowered, no new BLOCKED or REDUCED entry.
 - `tests/checksums.txt`: every approved line still present.
 
-Result: 11 checks. `check-protection.js` separately checks 3 references and 124 frozen v0.6 test files by SHA-256.
+Result: 12 checks (11 until T3). `check-protection.js` separately checks 3 references and 124 frozen v0.6 test files by SHA-256.
 
 **Permanent protected-file maintenance rule (T3 and every later stage).** Any new workflow-adjacent file must be added to `check-control.js`'s protected list **in the same commit that creates it**. That includes test runners, summary formatters, protection-check functions and workflow files. A workflow-adjacent file added without protection is a T-level blocker, not a minor omission.
 
@@ -61,7 +65,7 @@ Result: 11 checks. `check-protection.js` separately checks 3 references and 124 
 
 The steps run in this order:
 0. Checkout.
-1. **Guard:** fetch tag `v0.7-tests-approved-2` from GitHub and run *its* copy of `check-control.js`.
+1. **Guard:** fetch tag `v0.7-tests-approved-3` (`-2` until T3) from GitHub and run *its* copy of `check-control.js`.
 2. Node.
 3. Pinned packages.
 4. `run-all.sh --fast` and `summarise-run.js`.
@@ -122,3 +126,18 @@ The workflow is therefore **not** tamper-proof, and T2.1 is recorded as **PARTIA
 Before another developer or contractor is given push access, review who can push to `development/v0.7` and how workflow integrity will be protected against collaborators.
 
 This is a future consideration only; nothing has been investigated or changed for it.
+
+### T3 — confidence snapshot (12 Nov 2026)
+
+`tests/snapshots/v0.7-confidence-20261112T011814Z.json` records three things for each of the 17 fixtures:
+- forecast confidence (`fcCredAll`);
+- `confAreas`;
+- client questions.
+
+It was created with `bash tests/run-all.sh --emit-confidence <absolute path>`. That computes every fixture in all five time zones and writes the file only if all five results are identical.
+
+`run-all.sh` compares the current results against it: **fast tier UTC only, full tier all five zones** (85 fixture/zone combinations). The check is 17 fixtures × 3 sections = 51 per zone. Any difference is a FAIL naming the fixture, the section and the field.
+
+The GitHub workflow still runs the fast tier only.
+
+`check-control` is now recorded **ACTIVE**, so the recorded full-tier figures are BLOCKED 5 and REDUCED 2. The fast-tier summary now reads BLOCKED 5, which matches the full-tier result; the T2.1 inconsistency is resolved.
