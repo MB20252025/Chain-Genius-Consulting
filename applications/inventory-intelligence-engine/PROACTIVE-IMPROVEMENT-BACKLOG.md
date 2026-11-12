@@ -123,6 +123,16 @@ Dependencies and risks · Suggested stage · Status
 - **Priority:** MEDIUM. A potential material effect on imported files without stated lead times; not yet shown on real data.
 - **Recommended action:** investigate alongside A2/A3 in Stage 4. A characterisation test recording the current behaviour must
   precede any implementation change.
+- **Missing characterisation coverage (added 12 Nov 2026, during Commit 6 preflight):** no assertion in
+  `tests/characterisation/characterisation-lead-time-fallbacks.js` covers a material with no stated lead time, no supplier
+  standard and no purchase orders of its own whose default supplier has received purchase orders for other materials.
+  Investigation showed this material gets the supplier's purchase-order average (synthetic case: 26 d, label "Calculated
+  (supplier PO history)", no lateness added since Commit 4; 32 d before it), never the 7-day default. The suspected
+  "7-day fallback plus lateness" combination does not occur: the 7-day default is reached only when the supplier has no
+  received purchase orders, and its lateness is then undefined (`js/calculations.js` lines 118, 123, 132–133). A proposed
+  test case distinguishes it from H1 (the material's own history) and F7 (the supplier has no history); adding it is a
+  separately authorised test change (new assertions, accepted count and checksum updated together). Related:
+  `KNOWN-LIMITATIONS.md` entry 14; `M1-DESIGN.md` A2/A3.
 - **Status:** Identified.
 
 ### P-005 — Full-tier PASS count includes the pre-flight row
