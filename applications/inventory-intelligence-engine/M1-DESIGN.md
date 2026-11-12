@@ -93,6 +93,8 @@ Stage 2 may use manually authored mapping files. The user-facing upload and mapp
 
 **Upload and mapping interface:** the user-facing upload, worksheet selection, mapping, issue resolution and confirmation screens are planned for M1b. They are not part of M1 Stages 1–4 and are not omitted.
 
+**Engine file protection (decision, recorded 12 Nov 2026).** Files under `js/` are protected by behaviour tests — golden snapshots, confidence snapshots, characterisation tests, and structural checks (`test-a1-static`, `check-globals`) — not by entries in `checksums.txt`. This is the agreed protection approach: the R5 checksum scope covers test files, snapshots and fixtures, while T3 demonstrated behaviour protection on `forecasting.js`. Adding `js/` files to `checksums.txt` would lock every engine change to a checksum update and, once tagged, a tag-move cycle, conflicting with the planned v0.7 modularisation. Future maintainers should not treat the absence of `js/` entries as an oversight.
+
 ## Test-data library: repository content and delivered ZIPs
 
 - The library in `tests/fixtures/library/` keeps its internal label **"M1 test-data library v1.0"** (owner, 15:02). Changing the label would rewrite the header of nearly every generated file.

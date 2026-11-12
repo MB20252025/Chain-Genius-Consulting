@@ -58,11 +58,16 @@ for (const [id] of CASES) ok(!!rm(id), `${id}: material M${id} present in the re
 // Current because js/calculations.js line 133 adds CFG.late lateness to whatever base was chosen (line 132), including the
 // supplier's observed order-to-receipt average (6 POs x 26 d), which already contains the 6 d lateness.
 // Not correct: the lateness is counted twice (KNOWN-LIMITATIONS 14, "Arithmetic defect (H1)").
-// TODO(H1, Commit 4): Commit 4 stops adding the observed lateness to a PO-history-derived base (the supplier's 6-day average
-// lateness remains visible on the supplier; it is no longer double-counted). lt becomes 26 and the label loses ' + calculated lateness'.
+// CORRECTED(H1, Commit 4): the four lines above describe the defect as recorded in Commit 3 (lt 32). Since Commit 4:
+// (1) a PO-history-derived base already includes the supplier's observed lateness (order-to-receipt days);
+// (2) the separate addition of lateness to such a base was removed (js/calculations.js line 133), so it is no longer
+//     double-counted: lt is now 26 d;
+// (3) the supplier's observed average lateness (6 d) remains visible as a separate supplier metric (asserted below);
+// (4) the label no longer appends ' + calculated lateness' for this pathway.
+// H2 (stated supplier standard + lateness) and every other pathway are unchanged.
 near('H1', 'lt0 (base)', rm('L1').lt0, 26);
-near('H1', 'lt (used)', rm('L1').lt, 32);
-eq('H1', 'ltInfo.label', rm('L1').ltInfo.label, 'Calculated (supplier PO history) + calculated lateness');
+near('H1', 'lt (used)', rm('L1').lt, 26);
+eq('H1', 'ltInfo.label', rm('L1').ltInfo.label, 'Calculated (supplier PO history)');
 near('H1', 'supplier late (mean received - promised)', sup('L1').late, 6);
 
 // H2 (ML2). Records: stated supplier standard 20 d + 6 d lateness = 26 d. Current and intended: a promised (stated) lead
