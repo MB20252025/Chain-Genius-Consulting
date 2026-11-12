@@ -15,3 +15,7 @@ All businesses, people, products and figures in this package are fictional and s
 ## Reference calculator output on the raw input
 
 `expected-results.json` is `refcalc.py` run on `input/` **as supplied**. For cases with duplicates or blank warehouses (E08, E09) the raw figures double-count or include the blank row on purpose: the hand-specified expectations above are what the importer must produce after cleaning.
+
+## Clarification for E08 (added by hand in M1 pre-tag Commit 2, 12 Nov 2026; not produced by the generator)
+
+For the demand table there is no result "after cleaning": the import stops on the conflicting row, so the expected outcome for demand is the stop itself, with the conflict reported. The other expectations above (stock, PO, item, import report counts) still apply. This follows interpretation (a), approved by the owner on 12 Nov 2026: in canonical input a conflicting duplicate stops the affected import; the mechanism for resolving it is deferred to M1b. Regenerating the library with `build.py` does not reproduce this section, so a regenerated copy of this file differs from the repository by this section only.

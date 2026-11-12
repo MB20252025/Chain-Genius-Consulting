@@ -153,7 +153,7 @@ c4b48118d853c722d5322b61743e88538c6828ab08b1f2e1df2d413d09aafb00  ./06-Edge-Case
 aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e  ./06-Edge-Cases/E07-missing-suppliers/input/stock.csv
 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151  ./06-Edge-Cases/E07-missing-suppliers/input/supplier_items.csv
 fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0  ./06-Edge-Cases/E07-missing-suppliers/input/suppliers.csv
-6c96e9c6649f1172ba556ecd070e8197aa61ee58970176ee070c3d818f58d4c7  ./06-Edge-Cases/E08-duplicate-records/EXPECTED.md
+8804c083c46ec2fa8a984726f61498f4f490a0969fd851b683b9d1a4f808cb17  ./06-Edge-Cases/E08-duplicate-records/EXPECTED.md
 438caef395b50e44ae41f9dadec70dc081e9328638c476261b34a26551d51005  ./06-Edge-Cases/E08-duplicate-records/expected-results.json
 5b84204f0c267e7085ad986df21e75c5bfedeee602ce44ad4796ed36ebbd16d9  ./06-Edge-Cases/E08-duplicate-records/input/bom.csv
 29ef996a53b1fb2de8a9e9d8880c9ccee2e5e979dd5a32bcb3645224eca79f7c  ./06-Edge-Cases/E08-duplicate-records/input/dataset.csv

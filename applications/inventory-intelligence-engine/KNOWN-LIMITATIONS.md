@@ -13,3 +13,11 @@ Verified facts are marked (V); things not tested are marked (NT).
 11. The Suppliers screen has fixed ordering and no interactive sort/filter control. (V)
 12. The Git history from before the earlier recovery is not recoverable (historical, see CHANGELOG).
 13. Code is monolithic (global scope, one large analyse()); modularisation is v0.7. (V)
+
+## v0.7 additions (12 Nov 2026, M1 pre-tag Commit 2; the entries above are unchanged)
+
+14. **Lead times: three known problems.** Engine behaviour is unchanged; each correction needs separate authorisation (decisions A1–A4 remain open):
+    - **Arithmetic defect (H1)**: when a material's lead time comes from the supplier's purchase-order history, average supplier lateness is added on top, although the history already contains it, so the lateness is counted twice (synthetic case: 26 days of history, 6 days late, used as 32 days). (V)
+    - **Evidence-quality defect (small samples)**: a lead time calculated from one or two purchase orders is labelled "Calculated" like one from many, and its variability comes from one or two points. (V)
+    - **Assumed-data limitation (7-day fallback)**: a purchased item with no stated lead time and no supplier delivery history is given the 7-day production default, labelled "Assumed (default setting)", and the "Lead times" confidence area is rated Low. (V)
+15. **Duplicate stop-and-resolve is a requirement, not yet built.** The agreed policy is that a conflicting duplicate stops the affected import until an explicit resolution is supplied (see `M1-DESIGN.md`). Stage 1 only detects duplicate keys; the stop belongs to Stage 2, and resolution for canonical input to M1b. No current code stops an import, applies a resolution or detects that a changed source cancels one. (NT)

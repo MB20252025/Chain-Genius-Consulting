@@ -133,7 +133,7 @@ file 18a0c80ca9a3b664b73e0bbb6604b6fe25e027978094b09f6c73f27425e12c25 tests/veri
 file 49da7a865b8f02d6975715eb9210b72f41fe6b17c5e62cbe1292dc32d28a730e tests/verify.py
 file 6a594fe0f5a60b6fe869b97a76c7891712ff675fec5f9b94e8907e21347f4024 tests/verify_structure.py
 file 8463fb9b8f43d88cf7a6ac900dc305fb13586748f12f1ffb8b75662c4616882a tests/verify_sup.py
-# M1 Stage 1 (A1, decision D12, 12 Nov 2026): synthetic test-data library v1.0 (packages 01-06, byte-identical to the owner's master ZIPs) and its reference calculator/generator.
+# M1 Stage 1 (A1, decision D12, 12 Nov 2026): synthetic test-data library v1.0 (packages 01-06) and its reference calculator/generator. Content = v1.0 as generated, plus Commit 1 corrections; E08 EXPECTED.md has a hand-added clarification (Commit 2); MASTER-INDEX.md is unchanged since ca1e800 and carries notes added after generation. Delivered ZIPs: v1.0.2 (see V07-TEST-RECORD.md).
 file c99cd569c876c3633cbcb6dc2bdc40f0dce5764c4b4496fdd26180dbf26e1748 tests/fixtures/library/01-Clean-Manufacturer/EXPECTED-RESULTS.md
 file 07becb8e610212526d99dffe42cde645ea26846469dc3f191eaf198877692d07 tests/fixtures/library/01-Clean-Manufacturer/README.md
 file f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff tests/fixtures/library/01-Clean-Manufacturer/bom.csv
@@ -289,7 +289,7 @@ file 5c63fb4d660618ef01d2b123a1b807545e5a1988fdf0af478b82426e7973d33f tests/fixt
 file aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e tests/fixtures/library/06-Edge-Cases/E07-missing-suppliers/input/stock.csv
 file 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151 tests/fixtures/library/06-Edge-Cases/E07-missing-suppliers/input/supplier_items.csv
 file fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0 tests/fixtures/library/06-Edge-Cases/E07-missing-suppliers/input/suppliers.csv
-file 6c96e9c6649f1172ba556ecd070e8197aa61ee58970176ee070c3d818f58d4c7 tests/fixtures/library/06-Edge-Cases/E08-duplicate-records/EXPECTED.md
+file 8804c083c46ec2fa8a984726f61498f4f490a0969fd851b683b9d1a4f808cb17 tests/fixtures/library/06-Edge-Cases/E08-duplicate-records/EXPECTED.md
 file 438caef395b50e44ae41f9dadec70dc081e9328638c476261b34a26551d51005 tests/fixtures/library/06-Edge-Cases/E08-duplicate-records/expected-results.json
 file 5b84204f0c267e7085ad986df21e75c5bfedeee602ce44ad4796ed36ebbd16d9 tests/fixtures/library/06-Edge-Cases/E08-duplicate-records/input/bom.csv
 file 29ef996a53b1fb2de8a9e9d8880c9ccee2e5e979dd5a32bcb3645224eca79f7c tests/fixtures/library/06-Edge-Cases/E08-duplicate-records/input/dataset.csv
@@ -338,7 +338,7 @@ file aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e tests/fixt
 file 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/supplier_items.csv
 file fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/suppliers.csv
 file 0d5b3277307cfd361825436602e07d781361145485bd1b3ca5329776524c7c98 tests/fixtures/library/06-Edge-Cases/README.md
-file e420ccd001195296595a4cb649c477aa530e8fc59a67d4d9a0546257ca7d720c tests/fixtures/library/MANIFEST.sha256
+file a05e0129a7dde2a383cbda6862bbab84e9e6856d8fd80289243389c32749d548 tests/fixtures/library/MANIFEST.sha256
 file d57a2e39ec545cb5a1ddea5d06088358ef4d8ab76b47e00eb53d22df91aa8e17 tests/fixtures/library/MASTER-INDEX.md
 file 60893d6c70c61f2bfc601cbfebb1c89b016ffe9770bba7f97b732c634e040215 tests/tools/library/build.py
 file 196935822dfdcd7b661b0a41225c72561a991a596813c52e4bc465aa1003badb tests/tools/library/builders.py

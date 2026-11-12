@@ -342,3 +342,51 @@ Evidence: `tests/logs/t2/` (one folder per run ID, append-only). The first openi
 - **CI:** option (b). The Stage 1 test is registered in `accepted-results.json` (`import-stage1`, 616 = 123 checks × 5 time zones + 1 cross-zone check). No change to `run-all.sh`. A failure in any time zone is counted, and a non-zero exit is reported as ERROR by `run-all.sh`.
 - **Python cache:** `test-import-stage1.js` runs Python with `-B`; `tools/library/build.py` sets `sys.dont_write_bytecode` before importing its own modules.
 - **Test gap closed:** field-policy and structural tests for all 12 canonical tables, with independently written expected rules and synthetic `sales_lines` and `po_headers` data.
+
+## M1 — acceptance scope statement (recorded 12 Nov 2026; takes effect at CP5)
+
+**Not yet in effect.** M1 has not been accepted. This statement takes effect only when the CP5 acceptance entry is recorded below, and that entry must repeat it unchanged or record why it changed:
+
+"M1 acceptance used synthetic packages 01–06 only; no real-world export was tested at M1; first real-file acceptance is planned before the M4 demonstration release under the local-only policy."
+
+M1 does not prove compatibility with arbitrary business-owned exports. Requirement 6 and its policies are in `../M1-DESIGN.md`. A change to this statement or to Requirement 6 must change both files in the same commit.
+
+## M1 pre-tag corrections — Commits 1 and 2 (12 Nov 2026; the entries above are unchanged)
+
+**Commit 1 (`fb6c5ee`, local, owner-authorised 12:24; kept unchanged at the owner's instruction, 12:43).** Duplicate-policy corrections only: Package 02 I09, I16 (a conflicting duplicate stops the import; no implicit first or last row), I12 (TOTAL rejected by the ordinary unmatched-item rule), the 02 README note, the expected import report (`*_conflicts_requiring_resolution`), Package 06 E08, `build.py`, 6 `MANIFEST.sha256` lines, 8 `checksums.txt` lines. Package 06 E08: interpretation (a), approved by the owner at 12:43 — the canonical fixture expects the demand import to stop; resolution is deferred to M1b. Scratch regeneration: deterministic, exactly the 6 intended generated files changed. Stage 1 616/616; full tier PASS 33, FAIL 0, ERROR 0, 5 BLOCKED, 2 REDUCED (unchanged). Stop-and-resolve is a requirement, not yet built; Commit 1 changed wording and expectations only.
+
+**Commit 2 (documentation; this entry).** `M1-DESIGN.md` (new), this append, `KNOWN-LIMITATIONS.md` entries 14–15 (three-problem lead-time framing; duplicate stop-and-resolve not yet built), the E08 `EXPECTED.md` clarification added by hand (not produced by the generator), its `MANIFEST.sha256` line, and three `checksums.txt` lines (E08 hash, manifest hash, the reworded library comment). No file under `js/` and no engine behaviour changed.
+
+**Protection of the two changed library files.** E08 `EXPECTED.md` and `MANIFEST.sha256` are protected through `checksums.txt`; both entries were updated in this commit (with the reworded library comment, line 136). `MANIFEST.sha256` also lists E08 `EXPECTED.md`, and `test-import-stage1.js` checks every library file against it. E08 `EXPECTED.md` is also included in `06-Edge-Cases-v1.0.2.zip`. Results: `check-protection` 337/337; `MANIFEST.sha256` verification passed; ZIP verification 208 files, 0 differing from the repository.
+
+**Which tests read E08 `EXPECTED.md`.** Search: `grep -rn --exclude-dir=fixtures --exclude-dir=logs --exclude-dir=node_modules "EXPECTED.md" tests/`. Hits: this record; a comment in `test-import-stage1.js` (line 84); `checksums.txt` entries; `tools/library/build.py`, which writes the file and never reads it. No test parses its content. Two tests read its bytes: `test-import-stage1.js` (`MANIFEST.sha256` hash check and unlisted-file check, lines 44–50) and `check-protection.js` (via `checksums.txt`). Both pass (616/0; 337/337).
+
+**Commit 2 test results** (12 Nov 2026, UTC; test-only Node packages installed outside the repository from the pinned `tests/package-lock.json`, as CI does). These were run on the Commit 2 working tree **before** the text-only adjustments of 12 November 2026 (owner's review of 15:30 and 15:36). Those adjustments changed only `M1-DESIGN.md`, `KNOWN-LIMITATIONS.md` and this record, which no test executes or reads, so they do not affect test-executed content:
+
+| Check | Result |
+| --- | --- |
+| Stage 1 import tests (`import-stage1`, 5 time zones) | 616 passed, 0 failed |
+| `check-protection` | 337/337 |
+| Guard (`check-control`) | 12/12 |
+| Fast tier (`run-all.sh --fast`) | exit 0 |
+| Full tier (`run-all.sh --full`) | exit 0: 33 passed, 0 failed, 0 errors, 5 blocked, 2 reduced |
+| Golden v0.5 / v0.6.0 (5 zones) | 10/10 each |
+| Confidence snapshot v0.7 (5 zones) | 51/51 |
+
+The 5 blocked and 2 reduced entries are **not passed tests**. They are the existing accepted limitations (a blocked test did not run; a reduced test ran with reduced coverage), unchanged from the previous runs, so the full tier is not full coverage. `PENDING` warnings from Stage 1 (raised `check-protection` count; new `import-stage1` test; new protected `checksums.txt` lines) remain for the owner's review before any baseline tag is moved.
+
+**Two verification rounds.** (1) Fixture and checksum round, which covers every change that tests read: `check-protection` 337/337; `MANIFEST.sha256` verification; Stage 1 616 passed, 0 failed; ZIP verification 208 files, 0 differing; and the fast and full tiers above. (2) Documentation round, after the text-only adjustments: only `M1-DESIGN.md`, `V07-TEST-RECORD.md` and `KNOWN-LIMITATIONS.md` changed, so the fast and full tiers did not need rerunning. `check-protection`, the guard, `MANIFEST.sha256` verification, Stage 1 and the ZIP hashes and contents were rechecked and are unchanged.
+
+**Delivered ZIPs v1.0.2** (built from the repository files of Commit 2; internal library label still v1.0; the name v1.0.1 is not reused because `00-Generator-Scripts-v1.0.1.zip` already exists with the `ca1e800` generator). Verification, file by file, read back from the ZIPs: 208 files; 0 differ from the repository; against fresh generator output exactly one difference, `06-Edge-Cases/E08-duplicate-records/EXPECTED.md` (the Commit 2 clarification); `MANIFEST.sha256` and `MASTER-INDEX.md` are repository-only and in no ZIP; the file list of every ZIP is the same as v1.0. A ZIP's own hash depends on how it was packed, so the delivered files are identified by these hashes:
+
+| SHA-256 | Bytes | File |
+| --- | --- | --- |
+| `4a17a601468bdc00bb7cdc04533b1ff6c1b09f163db21b415b82793da668f529` | 26288 | `00-Generator-Scripts-v1.0.2.zip` |
+| `409e388d3f9fbc7bb521197182dfc90ab29fa35833869c9729893c317e22628f` | 30718 | `01-Clean-Manufacturer-v1.0.2.zip` |
+| `59ef3a9a6cf458240468bacec473e7515af16d5e59baa8480b5450117dba82a8` | 61001 | `02-Messy-Manufacturer-v1.0.2.zip` |
+| `ee1c2e71bc455ba329cc4f6843739d89604e704a101626795bd8b5e4da5b9e3c` | 40299 | `03-Distributor-v1.0.2.zip` |
+| `510b7109d3d7dc978dfc2df158ad05b2f325f5d1dff24f11e607c4362b1d6e2c` | 22492 | `04-Mixed-Make-Buy-v1.0.2.zip` |
+| `62f8c0fba4a2fa2d75d908c4b3212b262c9b9677714ee1d0d83c1d1be71934cf` | 1217619 | `05-Performance-Dataset-v1.0.2.zip` |
+| `0ab8682380926a05492b0897d09b7e08995f676fc62dfb70f31199c74fab2a3d` | 50703 | `06-Edge-Cases-v1.0.2.zip` |
+
+The v1.0 ZIPs are superseded (their Package 02 and E08 files contain the old keep-first wording).
