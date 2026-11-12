@@ -12,14 +12,14 @@ It builds a small synthetic workbook in memory (fixed values, no random numbers,
 
 | Case | Situation | Recorded current result | Status |
 | --- | --- | --- | --- |
-| H1 | Purchase-order history only: 6 POs promised 20 d, received 26 d | 32 d = history 26 d + 6 d lateness added again; label "... + calculated lateness" | **Known defect** (lateness counted twice). `TODO(H1, Commit 4)` |
+| H1 | Purchase-order history only: 6 POs promised 20 d, received 26 d | 26 d = purchase-order history only; the supplier's 6 d average lateness is still reported on the supplier but no longer added; label "Calculated (supplier PO history)" | **Corrected in Commit 4** (`893e9a9`; it was 32 d, the lateness counted twice). `CORRECTED(H1, Commit 4)` |
 | H2 | Supplier standard 20 d, same 6 late POs | 26 d = 20 d + 6 d lateness | Control case: not a double count; Commit 4 must not change it |
 | H3 | Purchase-order history: one PO, 40 d | 40 d, labelled "Calculated", spread 0, `enough` false | **Known defect** (small sample). `TODO(small samples, Stage 4)` |
 | H4 | Purchase-order history: two POs, 10 d and 50 d | 30 d, labelled "Calculated", spread 20, `enough` false | **Known defect** (small sample). `TODO(small samples, Stage 4)` |
 | H5 | Purchase-order history: 6 POs delivered 5 d early | 25 d; lateness floored at 0 | Current behaviour; no change planned (lateness rule open, decision A4) |
 | F7 | No stated lead time, no supplier standard, no POs | 7 d production default, "Assumed (default setting)" | **Known limitation** (7-day fallback). `TODO(7-day fallback, decision A1)` |
 
-H1 flips in the next commit; the TODO is deliberate — it records the defect state for exactly one commit so the fix's diff shows the change.
+H1 was recorded as a defect (32 d) in Commit 3 and corrected in Commit 4 (`893e9a9`). The TODO was deliberate: it recorded the defect state for exactly one commit, so the fix's diff shows the change. The committed assertions now expect H1 = 26 d and pass. The other lead-time limitations remain open: small samples (H3, H4), the 7-day fallback (F7) and decisions A1–A4 in `../../M1-DESIGN.md`.
 
 **Case numbering.** The numbering follows the evidence from the H1 assessment (synthetic workbook `h-cases`, cases H1–H5). The original Commit 3 brief referred to "H5 small-sample variance"; that does not match the evidence: the small-sample cases are H3 and H4, while H5 is the early-delivery case. F7 is the seven-day fallback case.
 

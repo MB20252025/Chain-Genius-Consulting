@@ -119,6 +119,7 @@ Stage 2 may use manually authored mapping files. The user-facing upload and mapp
 | Library label stays v1.0; ZIPs named v1.0.2 | Owner, 15:02 |
 | Three-problem framing for lead times in `KNOWN-LIMITATIONS.md` | Owner, 15:02 |
 | `ca1e800` is preserved as an untagged historical checkpoint; tag `v0.7-tests-approved-4` was not to be created during the Commit 1 task. Nothing further about tag -4 is decided | Commit 1 authorisation §1 (12:24); confirmed open by the owner, 15:30 |
+| Characterisation test for lead-time fallbacks (Commit 3, `bb63ccb`) and the H1 correction (Commit 4, `893e9a9`), each separately authorised. This covers only these two items; it does not close A1–A3, A5–A8 or A11–A15 | Owner commit authorisations, 16:40 (Commit 3) and 17:53 (Commit 4) |
 
 ### Open (recorded, not decided; DECISION-DOCUMENT-v3 recommendations are not approvals)
 
@@ -127,7 +128,7 @@ Stage 2 may use manually authored mapping files. The user-facing upload and mapp
 | A1 | Lead-time behaviour when there is no evidence (labelling and warnings within the L3 boundary; L2 "cannot assess") |
 | A2 | Order of lead-time sources when they disagree |
 | A3 | Purchase-order-history rule and small samples |
-| A4 | Lateness for bought-in products, and whether and when the H1 correction is made |
+| A4 | Lateness for bought-in products (the H1 double-counting sub-question was corrected in Commit 4, `893e9a9`; the wider lateness rule remains open) |
 | A5 | Any detail of record identity beyond the principles decided above |
 | A6 | Table-specific rules for identical duplicates; treatment of unmapped-column differences |
 | A7 | Detail of the cross-file rule (declared partitions or ordered sources) |
@@ -136,7 +137,6 @@ Stage 2 may use manually authored mapping files. The user-facing upload and mapp
 | A12 | Constant-value mapping and case-only reporting in Stage 2 |
 | A13 | When title rows and wide layouts are built |
 | A15 | Tag -4: whether, on which commit and when it is created. No tag is created or assigned until separately authorised (owner, 15:30) |
-| — | Characterisation test (Commit 3) and H1 correction (Commit 4): each needs its own authorisation |
 
 ## Cross-reference
 

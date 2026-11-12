@@ -37,7 +37,7 @@ Identified, Investigating, Proposed and Awaiting approval grant **no** permissio
 | Record identity, identical-duplicate rules, cross-file rule, reconciliation | `M1-DESIGN.md` open A5–A8 | Duplicate principles already decided are listed in "Decided" |
 | Issue vocabulary, constant mapping, wide and title-row layouts | `M1-DESIGN.md` open A11–A13 | |
 | Tag -4 | `M1-DESIGN.md` open A15 | |
-| Three lead-time problems (H1, small samples, 7-day fallback) | `KNOWN-LIMITATIONS.md` entry 14 | Entry 14 was written before H1 was corrected in M1 pre-tag Commit 4 (`893e9a9`) and still says engine behaviour is unchanged. Small samples (Stage 4) and the 7-day fallback (A1) remain open |
+| Three lead-time problems (H1, small samples, 7-day fallback) | `KNOWN-LIMITATIONS.md` entry 14 | Entry 14 records H1 as corrected in M1 pre-tag Commit 4 (`893e9a9`); updated in Commit 6 (`68c60d1`). Small samples (Stage 4) and the 7-day fallback (A1) remain open |
 | Duplicate stop-and-resolve not yet built | `KNOWN-LIMITATIONS.md` entry 15 | |
 | v0.6 items: performance, tab switching, 15,000 items, Android, overdue POs in OTD, numeric-text quantities, snapshot coverage, modularisation | `OUTSTANDING-DECISIONS.md` items 3–10 | Historical v0.6 list; status not re-checked since v0.6 (see P-008). Its entries are not approved development work |
 | Test statuses, accepted counts, PENDING items, evidence | `tests/V07-TEST-RECORD.md` | |

@@ -420,3 +420,45 @@ Case numbering follows the H1-assessment evidence: the small-sample cases are H3
 The 5 blocked and 2 reduced entries are **not passed tests**: they are the existing accepted limitations, unchanged. These results were obtained before this record entry was written; this record is not read by any test.
 
 **Sequencing rule.** No baseline tag may be moved between Commit 3 and Commit 4: the guard would then treat Commit 3's checksum line as approved, and Commit 4's corrected line would fail it (demonstrated in a throwaway copy during the Commit 3 preflight). Commit 4, if authorised, changes the H1 assertions and the test's checksum line in the same commit as the engine correction.
+
+## M1 pre-tag Commits 4–7 and CI run 43285464866 (12 Nov 2026; the entries above are unchanged)
+
+**Commit 4 (`893e9a99445a4dfd9b20bcfd3e8f4be76b7a4b4f`).** Corrected the H1 lead-time double counting in `js/calculations.js` with a one-line change (line 133): average supplier lateness is no longer added to a lead time that already comes from purchase-order history; it is now added only to a stated lead time or a supplier standard. In the same commit the two H1 characterisation assertions changed from 32 to 26 days (and the label no longer ends " + calculated lateness"), `TODO(H1, Commit 4)` became a `CORRECTED(H1, Commit 4)` note, the test's line in `checksums.txt` was updated, and `M1-DESIGN.md` gained the "Engine file protection" paragraph. The committed characterisation test expects H1 = 26 days and passes. Unchanged golden and confidence snapshots show that no other recorded output changed; they do not prove that the calculation is correct. A 22-workbook whole-engine comparison before and after the change (UTC and Pacific/Auckland) was produced at the time as additional workspace-only evidence; it is not stored in the repository (backlog P-002).
+
+**Commit 5 (`c9e58bcd0fe69fe444217be23af900c9c70aa752`).** Created `CLAUDE.md` and `PROACTIVE-IMPROVEMENT-BACKLOG.md`. Documentation only.
+
+**Commit 6 (`68c60d1fdefa982676bea205209e65fe159ec9a4`).** Updated `KNOWN-LIMITATIONS.md` entry 14 to record H1 as corrected in Commit 4. Documentation only.
+
+**Commit 7 (`5a06010eb47d323ea83c161b6c2fb762166f16b7`).** Extended backlog item P-004 with the missing characterisation-coverage finding. Documentation only.
+
+**CI fast tier — GitHub Actions run 43285464866** (workflow "v0.7 tests", push of `5a06010`; completed, success):
+
+| Check | Result |
+| --- | --- |
+| Guard (`check-control.js` from tag `v0.7-tests-approved-3`) | 12 passed, 0 failed |
+| Fast tier (`run-all.sh --fast`, UTC only) | exit 0: 20 tests passed (+ pre-flight); 0 FAIL, 0 ERROR, 0 BLOCKED, 0 REDUCED |
+| Characterisation (`characterisation-lead-time`) | 28/28 |
+| `check-protection` | 338/338 |
+| `import-stage1` | 616/616 |
+| Golden v0.5 / v0.6.0 | 10/10 each |
+| Confidence snapshot v0.7 | 51/51 |
+
+The fast tier does not run the full tier's BLOCKED or REDUCED tests, so this run does not cover them.
+
+**Full tier — run locally, not in CI.** During the Tag-4 audit the full tier was run at `5a06010` in a temporary copy of the repository on Claude's workspace, not by the GitHub Actions workflow (12 Nov 2026, `run-all.sh --full`): exit 0 in about 482 s; 40 distinct tests: 33 passed (+ pre-flight), 5 BLOCKED, 2 REDUCED, 0 FAIL, 0 ERROR. The 5 BLOCKED and 2 REDUCED tests are the existing accepted limitations and are **not passed tests**. The run's log is not stored in the repository.
+
+**PENDING notices: 215, all still PENDING.** None has been accepted or approved.
+
+| Notices | Count |
+| --- | --- |
+| Checksum notices: library and tool lines (`tests/fixtures/library/`, `tests/tools/library/`) | 210 |
+| Checksum notices: characterisation test line | 1 |
+| Non-checksum: `check-protection` accepted count 127 → 338 | 1 |
+| Non-checksum: `test-a1-static` accepted count 20 → 23 | 1 |
+| Non-checksum: `import-stage1` new test, accepted 616 | 1 |
+| Non-checksum: `characterisation-lead-time` new test, accepted 28 | 1 |
+| **Total** (211 checksum + 4 non-checksum) | **215** |
+
+The earlier total of 213 (210 library and tool lines plus the `check-protection`, `test-a1-static` and `import-stage1` notices) became 215 in Commit 3, which added one characterisation test notice and one characterisation checksum notice. The `check-protection` notice is a single notice whose reported number changed (127 → 337 after Stage 1, 127 → 338 after Commit 3), not two notices. The guard compares with tag -3, so it always reports from 127.
+
+**The PENDING window.** (1) Files and counts already in the tag -3 approved baseline are protected automatically: the guard fails if any of them is removed, changed or weakened. (2) Changes introduced after tag -3 sit in a PENDING window: they are reported as PENDING but are not enforced. The Tag-4 audit demonstrated, in a temporary copy, that coordinated changes to such files (a file together with its checksum line, or a test together with its accepted count) pass every automatic check. At this checkpoint the safeguard is therefore the owner's review of the PENDING notices, which is an owner-governance safeguard, not an automatic technical control. (3) Once the new baseline is correctly established at tag -4 (created on the baseline-switch commit), the files and counts the owner accepts become part of the automatically protected baseline.
