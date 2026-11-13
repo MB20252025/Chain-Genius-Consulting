@@ -705,3 +705,45 @@ Added after Tag-4 existed, in an evidence-only commit. Part A above is unchanged
 | CI log archives: attempt 1, attempt 2 | `fa051daa3d872404c1ecac92a793338f27394595953e8da445f03a4e4aa7f6e5`, `64d24e74a000da3e5ea4b1701f079811f2180820d12f9ee4bde9d3a5a3c6a861` |
 | Detailed test logs: fast, full, post-tag full | `5e3017f31b5da798369296839c3c6fd8d88ca963f35102bca5705c824c5c0078`, `8cc2dbb5ca8437785734996be4c87d316bdd55b65752be0bb8aba4a41c4cb078`, `f165577f57ac3718be7259d9fcd051a9910fe812d9a29677de0d2d86858f82ee` |
 | Private files listed in Part A | As recorded there |
+
+---
+
+## Correction and clarification entry — v0.7 closeout verification (2026-11-13 18:10 UTC)
+
+Added after Tag-4, in an evidence-only commit. Parts A, A2 and B above are unchanged; this entry corrects omissions in them without rewriting them. Tag-4 still points to `5f18335ff66cb151760abf495cf82920f7b290b3`. No decision, test, count or protected file is changed.
+
+**1. D8 security risks were not stated in this record** (relates to Part A, "D8 — owner security checks", which says "the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7)", and Part B, "Still open"). Those plan sections are in a private document, so the risks were not visible here. They are stated now.
+
+None of the five owner checks was performed, and none is passed:
+- Authorised GitHub Apps
+- Authorised OAuth Apps
+- Repository collaborators
+- Deploy keys
+- Two-factor authentication
+
+The owner decided at 16:30 UTC on 13 Nov 2026 to proceed with them outstanding. Until they are done, the following remain **UNKNOWN**:
+- **(a)** the permissions of the GitHub connector route used in Claude sessions, which acts as MB20252025;
+- **(b)** whether ChatGPT/OpenAI or any other app has, or had, access to this account or repository;
+- **(c)** whether anyone besides the owner has collaborator access;
+- **(d)** whether any deploy key, especially one with write access, exists;
+- **(e)** whether two-factor authentication is enabled.
+
+Known and unchanged:
+- The Claude GitHub App has read/write access to code, workflows and Actions, and read-only Administration (OWNER-REPORTED).
+- All actors appear as MB20252025 (D6).
+- The holder of the SSH signing key on the commits is unknown.
+
+**Consequence:** it cannot be ruled out that another app, person or key could push to this repository or create tags.
+
+**2. D9 acceptance wording** (relates to Part A, row "Review (D9)", which records "Owner's decision: accepted"). The owner's decision, verbatim from the decisions message of 13 Nov 2026 at 16:20 UTC, was: "Accept the AI-led review process and its disclosed limitations." The owner therefore accepted, as a known limitation, that there was no independent human review. Errors shared by the drafting and reviewing AI may remain undetected. This is a remaining limitation alongside those listed in Part B, "Still open".
+
+**3. Who created Tag-4** (relates to Part B, row "Who created Tag-4", which says "The owner"). This is **OWNER-REPORTED**. GitHub records the release author as MB20252025, which by itself cannot distinguish the owner from an agent (D6). What is verified: Claude's own tag push was refused, with no tag reaching GitHub, and the tag points to the correct commit.
+
+**4. Where the private evidence is held** (relates to Part A, private-evidence table, "held by the owner"). The private files are in the following bundles, all delivered to the owner:
+- **Final closeout bundle:** `TAG4-CLOSEOUT-EVIDENCE.zip`, 287,290 bytes, SHA-256 `96b6798feabb231cdd395d2e788dd52452d2ae34210052abccbda66c1b2ae9bc`. It holds `reconcile.py`, `RECONCILIATION-216.csv`, `PENDING-INVENTORY-7850891.csv`, the build log, the guard-limitation outputs, all pre- and post-tag logs, and the private full-tier summaries.
+- **Earlier D9 handover bundle:** `D9-HANDOVER-v10-7850891.zip`, 273,258 bytes, SHA-256 `5d15aef757272e9e8d58ba55c98355b07d0c55c7217b7014582380f8f5bef193`. It holds `per-notice-breakdown.csv`, `GATE3-APPROVAL-REGISTER.csv` and `files-by-commit.csv`.
+- **`CP1-Final-Review.zip`** (SHA-256 `dc494357867407763b945f62a82971a627117a0ca2339011dc6cae5d30ffd33a`). It was in neither bundle, so it was delivered to the owner separately when this entry was made.
+
+Whether the owner has stored these files permanently is the owner's responsibility, and Claude does not verify it.
+
+Entry made by Claude, 2026-11-13 18:10 UTC. Sources: the committed record at `5f18335` and `3686905`, Git, GitHub's read-only API, and the evidence files themselves.
