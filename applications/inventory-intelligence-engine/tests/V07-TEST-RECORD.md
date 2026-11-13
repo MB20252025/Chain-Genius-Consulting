@@ -747,3 +747,15 @@ Known and unchanged:
 Whether the owner has stored these files permanently is the owner's responsibility, and Claude does not verify it.
 
 Entry made by Claude, 2026-11-13 18:10 UTC. Sources: the committed record at `5f18335` and `3686905`, Git, GitHub's read-only API, and the evidence files themselves.
+
+---
+
+## Correction entry — D9 quotation (2026-11-13 18:29 UTC)
+
+The correction entry above (item 2) quotes the owner's D9 decision as "Accept the AI-led review process and its disclosed limitations." with a full stop inside the quotation marks. Checked character for character against the original, the owner's wording has **no full stop**. The original is the table row `D9| Accept the AI-led review process and its disclosed limitations` in the owner's decisions document, uploaded to the owner's Claude conversation at 16:20:10 UTC on 13 Nov 2026. An identical copy, with the same SHA-256 `8770c13467bf167b3f17f2158be7580c7d046d862b03ae054365b2e56a6904d3`, was uploaded again at 16:26:13 UTC.
+
+The exact verbatim wording is: Accept the AI-led review process and its disclosed limitations
+
+Only the punctuation inside the quotation is corrected. The substance of the owner's acceptance is unchanged.
+
+Entry made by Claude, 2026-11-13 18:29 UTC.
