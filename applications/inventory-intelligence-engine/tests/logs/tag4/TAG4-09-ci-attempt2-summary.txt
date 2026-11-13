@@ -1,0 +1,10 @@
+CI run 43466012229, attempt 2 (re-run after Tag-4 was created)
+commit: 5f18335ff66cb151760abf495cf82920f7b290b3
+ref: development/v0.7
+conclusion: success
+attempt: 2
+started: 2026-11-13T17:25:52Z
+finished: 2026-11-13T17:27:12Z
+steps: all success (guard, Node, packages, fast tier, evidence artifact)
+guard: check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-4 = 5f18335); PENDING lines: 0
+fast tier: EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts.

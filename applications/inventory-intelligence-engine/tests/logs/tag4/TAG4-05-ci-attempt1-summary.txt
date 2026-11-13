@@ -1,0 +1,12 @@
+CI run 43466012229, attempt 1 (Commit 10, before Tag-4 existed)
+commit: 5f18335ff66cb151760abf495cf82920f7b290b3
+ref: development/v0.7
+event: push
+conclusion: failure
+started: 2026-11-13T16:46:02Z
+steps:
+  0. Check out: success
+  1. GUARD: failure (git fetch of refs/tags/v0.7-tests-approved-4: "fatal: couldn't find remote ref refs/tags/v0.7-tests-approved-4")
+  2-4. Node, packages, fast tier: skipped (no tests ran)
+  5. Evidence artifact: success
+Expected: Tag-4 did not exist yet.

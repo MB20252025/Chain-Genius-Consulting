@@ -1,0 +1,13 @@
+PASS: run-all.sh: identical to the approved baseline
+PASS: check-protection.js: identical to the approved baseline
+PASS: check-control.js: identical to the approved baseline
+PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+PASS: package.json: identical to the approved baseline
+PASS: package-lock.json: identical to the approved baseline
+PASS: requirements.txt: identical to the approved baseline
+PASS: summarise-run.js: identical to the approved baseline
+PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+PASS: accepted-results.json: no weakening against the approved baseline
+PASS: checksums.txt: every approved line present
+check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-4 = 5f18335)

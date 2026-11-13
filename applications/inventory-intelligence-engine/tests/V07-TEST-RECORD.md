@@ -636,3 +636,72 @@ Recorded by Claude on the owner's instruction. Part A is not changed after Commi
 > What I am not accepting or stating: this acceptance does not retrospectively approve any historical change; does not individually approve or review each of the 216 notices; does not state that any historical change was authorised before it was made; does not remove any known test limitation; does not turn any BLOCKED or REDUCED test into a pass; does not state that physical Android testing has been done; does not state that the software is free of defects; does not approve the known defects recorded by characterisation tests; does not establish a personal or cryptographic signature merely because the repository account created the tag; and does not prevent every possible unauthorised future change.
 
 Entry made by Claude, 2026-11-13 16:34 UTC.
+
+---
+
+## Tag-4 baseline acceptance — Part A2 (Commit 10 identification and pre-tag results; evidence-only entry)
+
+Added after Tag-4 existed, in an evidence-only commit. Part A above is unchanged.
+
+| Field | Entry |
+|---|---|
+| Commit 10 (Tag-4 target) | `5f18335ff66cb151760abf495cf82920f7b290b3`, parent `7850891bc68b2501a7e72639abd548d185a2df47`, branch `development/v0.7`, author and committer MB20252025, committed 2026-11-13 16:34:23 UTC, pushed 16:45:58 UTC. Commit message has no trailer lines |
+| Scope | Exactly the five approved files. Test record: 104 lines added, 0 removed. `accepted-results.json`: only the check-control tag value changed. `checksums.txt` unchanged. No binary files |
+| F1 control-change fingerprint | `c20ae85725ef6a22d65084919cec209a49d23a4941ea2e3f1c1441be87af7344`, equal to Part A |
+| F2 whole-commit fingerprint | `408aa05238c6bf8c5f86dc26371620de12946c7a34daaaa3f9993bf7b97cb322` |
+| Test record hashes | Before (H0, at `7850891`): `3f97a4c5c5b5aa0e85726d8fd794bec808802bff3ddd027357182f199c686313`. After (H1, at Commit 10): `ac98f011be53b6ffb904f53866b2a6419184db5cbbd8768bd9ed0da332a3cfc6` (blob `76879f1f8d4fd3e3d63289da844c1b864048bb48`) |
+| Guard against Tag-3 (run on Commit 10 before push) | `check-control: 10 passed, 2 failed (baseline v0.7-tests-approved-3 = 9eb578b)`. The two FAIL lines are exactly the intended `check-control.js` and workflow changes; `accepted-results.json`: no weakening; `checksums.txt`: every approved line present; 216 PENDING lines identical to the reconciled inventory |
+| Fast tier (Commit 10, before push) | 20 PASS, 0 FAIL, 1 ERROR (`check-control`: cannot read Tag-4, which did not yet exist — expected) |
+| Full tier (Commit 10, before push) | 33 PASS, 0 FAIL, 5 BLOCKED, 2 REDUCED, 1 ERROR (the same expected `check-control` error). BLOCKED and REDUCED exactly as documented. Summary kept private (D13) |
+| Rollback test (throwaway copy, revert staged only, never committed) | Full revert of Commit 10: the five files byte-identical to `7850891`; Tag-3 guard 12 passed, 0 failed, 216 PENDING identical |
+| First CI run | Run 43466012229, attempt 1, commit `5f18335`: guard step failed with `fatal: couldn't find remote ref refs/tags/v0.7-tests-approved-4`; Node, packages and fast tier skipped. Expected |
+| Branch | Frozen at Commit 10 from the push until Tag-4 was verified; no other commit was made in that time |
+| Entry made by | Claude, 2026-11-13 17:38 UTC. Sources: Git on the commit, test runs in disposable copies of it, GitHub's API and the run logs |
+
+## Tag-4 baseline acceptance — Part B (Tag-4 approval, creation and post-tag verification; evidence-only entry)
+
+**Pre-tag evidence versus post-tag confirmation.** The pre-tag evidence in Part A2 was produced and reported to the owner before the Tag-4 decision. The post-tag confirmation below shows that the tag and CI behave as intended. Neither replaces the other.
+
+| Field | Entry |
+|---|---|
+| Owner's Tag-4 instruction (verbatim, 2026-11-13 17:01 UTC, owner's Claude conversation) | "Create Tag-4. I explicitly authorise you to create and push "v0.7-tests-approved-4" against exactly commit "5f18335ff66cb151760abf495cf82920f7b290b3"." |
+| Evidence the owner reviewed before instructing | The Commit 10 results in Part A2, reported to the owner after the push and before the 17:01 UTC instruction: commit hash, scope, F1, guard against Tag-3, fast and full tiers, rollback test, first CI run |
+| D15 exception — what happened | Approved by the owner (Claude may create and push Tag-4 under a separate explicit instruction; departs from the README rule that Claude does not create or push baseline tags; reason: the owner's phone-first working without a convenient local Git workflow; applies to this closeout only). **Claude's tag push was refused:** at 17:02:02 UTC the connection was cut, and a single retry at 17:02:17 UTC returned HTTP 403. The tag never reached GitHub (no ruleset evaluation was recorded for it). Read-only investigation (owner-authorised, 17:13 UTC) found no cause in the repository's rulesets, tag protection, account permissions or credential expiry; the most likely cause is the Claude session's own network gateway blocking tag pushes (inferred, not provable from read-only checks). Claude removed its unpushed local tag. **The exception was therefore not used in the end.** |
+| Who created Tag-4 | **The owner**, on GitHub's release page: pre-release "v0.7-tests-approved-4 (Tag-4 test baseline)", tag `v0.7-tests-approved-4`, target branch `development/v0.7` (then frozen at Commit 10), published 2026-11-13 17:22:37 UTC; GitHub's ruleset log records the tag creation as "pass" at 17:22:36 UTC. The release entry is kept |
+| README | The README rule ("Claude does not create or push baseline tags") was upheld in practice. Reviewing that rule remains a later documentation item |
+| Tag verification (read-only, 17:25:19 UTC) | `git ls-remote origin 'refs/tags/v0.7-tests-approved-4*'` returned exactly one line: `5f18335ff66cb151760abf495cf82920f7b290b3	refs/tags/v0.7-tests-approved-4` (a lightweight tag; no `^{}` line). The API reports the tag as pointing directly at commit `5f18335ff66cb151760abf495cf82920f7b290b3`, the Commit 10 hash in Part A2. The release and the tag reference the same commit |
+| S1 read-back (17:25 UTC) | Active; includes `refs/tags/v0.7-tests-approved-*` and `refs/tags/v0.6`; no exclusions; rules `deletion` and `update`; no bypass actors; last updated 2026-11-12 00:03:28 UTC (unchanged). Three rulesets in total |
+| Rule B | Not adopted (D5); no toggle needed |
+| CI re-run | Run 43466012229, attempt 2, commit `5f18335`, branch `development/v0.7`, 17:25:52–17:27:12 UTC: every step succeeded. Guard: `check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-4 = 5f18335)`, **0 PENDING**. Fast tier: `EXIT 0: no FAIL and no ERROR` |
+| Guard against Tag-4 (local, Tag-4's own copy) | `check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-4 = 5f18335)`; 0 FAIL; 0 PENDING |
+| Post-tag full tier (local, Commit 10) | 34 PASS, 0 FAIL, **0 ERROR** (`check-control` now PASS 12), 5 BLOCKED, 2 REDUCED (exactly as documented), `EXIT 0`. Summary kept private (D13) |
+| The 216 notices | **Resolved through the approved process:** the conditions of Part A's acceptance are met (pre-tag checks passed as recorded in Part A2; the owner separately instructed Tag-4; Tag-4 is verified on the Commit 10 hash), and the guard against Tag-4 reports 0 PENDING |
+| New comparison baseline | `v0.7-tests-approved-4` → `5f18335ff66cb151760abf495cf82920f7b290b3`. CI's guard and the test runner both now compare against Tag-4 |
+| Freeze end | Tag-4 verified at 17:25 UTC; the freeze ends with this evidence-only commit |
+| Deviations | Only the D15 deviation above (Claude's tag push refused; the owner created the tag). No other deviation |
+| Still open | D8 security checks outstanding by the owner's decision; all D14 limitations; guard limitations (plan Section 12.3); README rule review |
+| Entry made by | Claude, 2026-11-13 17:38 UTC |
+
+### Evidence (D13)
+
+**Public, in `tests/logs/tag4/` (scanned before commit: no email addresses, credentials, IP addresses or local paths):**
+
+| File | SHA-256 |
+|---|---|
+| `TAG4-01-guard-vs-tag3-5f18335.txt` | `586b3d9a1640d0cbe481967b33abb34c44982e9327c34adefff5fca0e9b99d65` |
+| `TAG4-02-fast-5f18335.txt` | `c920d83801ffa97afe75fb7fbad4c1bf9e684775ade2d6aee062d8878dfbdd4f` |
+| `TAG4-05-ci-attempt1-summary.txt` | `989d5c88d21d9444f96f43c4986453b2832e809a8c5b4001e74f867510cc9c42` |
+| `TAG4-08-guard-vs-tag4-5f18335.txt` | `94dd781ffba01f716b6e8c81ed55b3d922f216e25114799eaa8f2290722ee767` |
+| `TAG4-09-ci-attempt2-summary.txt` | `f64eb37225f798a3a6bdc29abeba1fcc43b17a70f3f7d4ba1bd5c56e0d95c42c` |
+| `TAG4-rollback-guard-5f18335.txt` | `c95ed3b5ea3af57b297850f625feb515d3655efa5cc147c8a522b48ddd181868` |
+
+**Private (held by the owner, not published):**
+
+| File | SHA-256 |
+|---|---|
+| Pre-tag full-tier summary `TAG4-03-full-5f18335.txt` | `ab040352d94cba5214428a0f5619529a1fea3fac752220fdd1cbd21e00d343f8` |
+| Post-tag full-tier summary `TAG4-10-posttag-full-5f18335.txt` | `0d7ba8e77f9a97ae402a00eed298e5cf52ff201efb625b6c253830776d8331fd` |
+| Scope record `TAG4-04-commit10-scope.txt` | `265a66674483b32c8ccd9ee5349f9aa75b0abdfe10c6478f5fb32c63e1685adf` |
+| CI log archives: attempt 1, attempt 2 | `fa051daa3d872404c1ecac92a793338f27394595953e8da445f03a4e4aa7f6e5`, `64d24e74a000da3e5ea4b1701f079811f2180820d12f9ee4bde9d3a5a3c6a861` |
+| Detailed test logs: fast, full, post-tag full | `5e3017f31b5da798369296839c3c6fd8d88ca963f35102bca5705c824c5c0078`, `8cc2dbb5ca8437785734996be4c87d316bdd55b65752be0bb8aba4a41c4cb078`, `f165577f57ac3718be7259d9fcd051a9910fe812d9a29677de0d2d86858f82ee` |
+| Private files listed in Part A | As recorded there |

@@ -1,0 +1,10 @@
+Rollback test on real Commit 10 (throwaway copy, push disabled, revert staged only, never committed)
+--- staged revert files
+M	.github/workflows/v07-tests.yml
+M	applications/inventory-intelligence-engine/tests/README.md
+M	applications/inventory-intelligence-engine/tests/V07-TEST-RECORD.md
+M	applications/inventory-intelligence-engine/tests/accepted-results.json
+M	applications/inventory-intelligence-engine/tests/check-control.js
+--- diff of the five files against 7850891 (bytes, must be 0): 0
+--- guard exit 0: check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-3 = 9eb578b)
+--- PENDING 216; identical to reconciled 216: yes
