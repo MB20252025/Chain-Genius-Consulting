@@ -1,0 +1,342 @@
+{
+ "format": "CG-IMPORT-MAPPING",
+ "version": 1,
+ "name": "L1 alternative headings (synthetic, from Package 01)",
+ "files": {
+  "Products.csv": {
+   "dateFormat": "UK",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "Stock_Report.csv": {
+   "dateFormat": "UK",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "Monthly_Sales.csv": {
+   "dateFormat": "UK"
+  },
+  "Vendors.csv": {
+   "dateFormat": "UK"
+  },
+  "Vendor_Parts.csv": {
+   "dateFormat": "UK",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "Sites.csv": {
+   "dateFormat": "UK"
+  },
+  "Purchase_Orders.csv": {
+   "dateFormat": "UK",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "Recipes.csv": {
+   "dateFormat": "UK"
+  },
+  "Jobs.csv": {
+   "dateFormat": "UK"
+  }
+ },
+ "tables": {
+  "items": {
+   "sources": [
+    {
+     "file": "Products.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "Code"
+      },
+      "Item_Name": {
+       "source": "Title"
+      },
+      "Item_Group": {
+       "source": "Category"
+      },
+      "Is_Sold": {
+       "source": "Sold?"
+      },
+      "Replenishment": {
+       "source": "Make or Buy"
+      },
+      "Unit_of_Measure": {
+       "source": "UoM"
+      },
+      "Standard_Cost": {
+       "source": "Cost"
+      },
+      "Selling_Price": {
+       "source": "Price"
+      },
+      "Default_Supplier_ID": {
+       "source": "Vendor"
+      },
+      "Purchase_Lead_Time_Days": {
+       "source": "Buy LT"
+      },
+      "Production_Lead_Time_Days": {
+       "source": "Make LT"
+      },
+      "Min_Order_Qty": {
+       "source": "Min Qty"
+      },
+      "Order_Multiple": {
+       "source": "Multiple"
+      },
+      "Active": {
+       "source": "Status"
+      }
+     },
+     "ignore": [
+      "Notes"
+     ]
+    }
+   ]
+  },
+  "stock": {
+   "sources": [
+    {
+     "file": "Stock_Report.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "Item"
+      },
+      "Location_ID": {
+       "source": "Site"
+      },
+      "Snapshot_Date": {
+       "source": "As At"
+      },
+      "On_Hand_Qty": {
+       "source": "On Hand"
+      },
+      "Allocated_Qty": {
+       "source": "Allocated Qty"
+      },
+      "On_Order_Qty": {
+       "source": "Incoming"
+      },
+      "Reorder_Point_Qty": {
+       "source": "ROP"
+      },
+      "Safety_Stock_Qty": {
+       "source": "SS"
+      },
+      "Unit_Cost": {
+       "source": "Cost Each"
+      }
+     }
+    }
+   ]
+  },
+  "demand": {
+   "sources": [
+    {
+     "file": "Monthly_Sales.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "SKU"
+      },
+      "Period_Start": {
+       "source": "Period"
+      },
+      "Units": {
+       "source": "Sold"
+      },
+      "Forecast_Units": {
+       "source": "Forecast Qty"
+      }
+     }
+    }
+   ]
+  },
+  "suppliers": {
+   "sources": [
+    {
+     "file": "Vendors.csv",
+     "columns": {
+      "Supplier_ID": {
+       "source": "Vendor Ref"
+      },
+      "Supplier_Name": {
+       "source": "Vendor"
+      },
+      "Standard_Lead_Time_Days": {
+       "source": "Lead Days"
+      },
+      "Country": {
+       "source": "Country"
+      },
+      "Payment_Terms": {
+       "source": "Terms"
+      },
+      "Active": {
+       "source": "Live"
+      }
+     }
+    }
+   ]
+  },
+  "supplier_items": {
+   "sources": [
+    {
+     "file": "Vendor_Parts.csv",
+     "columns": {
+      "Supplier_ID": {
+       "source": "Vendor Ref"
+      },
+      "Item_ID": {
+       "source": "Part"
+      },
+      "Lead_Time_Days": {
+       "source": "LT"
+      },
+      "Unit_Cost": {
+       "source": "Price Each"
+      },
+      "Min_Order_Qty": {
+       "source": "MOQ"
+      },
+      "Preferred": {
+       "source": "Main Vendor"
+      }
+     }
+    }
+   ]
+  },
+  "locations": {
+   "sources": [
+    {
+     "file": "Sites.csv",
+     "columns": {
+      "Location_ID": {
+       "source": "Site"
+      },
+      "Location_Name": {
+       "source": "Site Name"
+      },
+      "Include_In_Available": {
+       "source": "Counts As Available"
+      }
+     }
+    }
+   ]
+  },
+  "po_lines": {
+   "sources": [
+    {
+     "file": "Purchase_Orders.csv",
+     "columns": {
+      "PO_ID": {
+       "source": "Order No"
+      },
+      "Line_No": {
+       "source": "Ln"
+      },
+      "Supplier_ID": {
+       "source": "Vendor Ref"
+      },
+      "Item_ID": {
+       "source": "Part"
+      },
+      "Order_Date": {
+       "source": "Ordered"
+      },
+      "Promised_Date": {
+       "source": "Due"
+      },
+      "Ordered_Qty": {
+       "source": "Qty"
+      },
+      "Received_Qty": {
+       "source": "Qty In"
+      },
+      "Last_Receipt_Date": {
+       "source": "Last In"
+      },
+      "Unit_Cost": {
+       "source": "Cost"
+      },
+      "Status": {
+       "source": "State"
+      },
+      "Location_ID": {
+       "source": "Deliver To"
+      }
+     }
+    }
+   ]
+  },
+  "bom": {
+   "sources": [
+    {
+     "file": "Recipes.csv",
+     "columns": {
+      "Parent_Item_ID": {
+       "source": "Makes"
+      },
+      "Component_Item_ID": {
+       "source": "Uses"
+      },
+      "Qty_Per": {
+       "source": "Per Unit"
+      },
+      "Scrap_Pct": {
+       "source": "Waste"
+      }
+     }
+    }
+   ]
+  },
+  "production_orders": {
+   "sources": [
+    {
+     "file": "Jobs.csv",
+     "columns": {
+      "Production_Order_ID": {
+       "source": "Job"
+      },
+      "Item_ID": {
+       "source": "Product"
+      },
+      "Planned_Start_Date": {
+       "source": "Plan Start"
+      },
+      "Planned_Finish_Date": {
+       "source": "Plan End"
+      },
+      "Actual_Start_Date": {
+       "source": "Started"
+      },
+      "Actual_Finish_Date": {
+       "source": "Finished"
+      },
+      "Planned_Qty": {
+       "source": "Qty"
+      },
+      "Completed_Qty": {
+       "source": "Done"
+      },
+      "Status": {
+       "source": "Job Status"
+      }
+     }
+    }
+   ]
+  }
+ },
+ "dataset": {
+  "Business_Name": "Harbour Valve Engineering Ltd",
+  "Business_Type": "Manufacturer",
+  "Snapshot_Date": "2026-10-31"
+ }
+}

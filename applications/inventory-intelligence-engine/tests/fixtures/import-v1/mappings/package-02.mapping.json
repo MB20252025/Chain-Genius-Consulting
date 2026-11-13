@@ -1,0 +1,41 @@
+{
+ "format": "CG-IMPORT-MAPPING", "version": 1, "name": "Package 02 messy export (Stage 1 test mapping)",
+ "files": {
+  "ItemMaster_export.csv": { "dateFormat": "UK", "currency": { "code": "GBP", "confirmed": true } },
+  "StockByWarehouse.csv": { "dateFormat": "UK", "currency": { "code": "GBP", "confirmed": true } },
+  "Sales_History.csv": { "dateFormat": "UK" },
+  "Supplier_List.csv": { "dateFormat": "UK" },
+  "PO_Lines.csv": { "dateFormat": "UK", "currency": { "code": "GBP", "confirmed": true } },
+  "BOM.csv": { "dateFormat": "UK" },
+  "Works_Orders.csv": { "dateFormat": "ISO" }
+ },
+ "tables": {
+  "items": { "sources": [ { "file": "ItemMaster_export.csv", "columns": {
+   "Item_ID": { "source": "Part No" }, "Item_Name": { "source": "Description" }, "Item_Group": { "source": "Product Group" },
+   "Is_Sold": { "source": "Type", "values": { "FG": "Y", "RM": "N" } },
+   "Replenishment": { "source": "Type", "values": { "FG": "Make", "RM": "Buy" } },
+   "Standard_Cost": { "source": "Std Cost (£)" }, "Selling_Price": { "source": "Sell Price" }, "Default_Supplier_ID": { "source": "Supplier" },
+   "Purchase_Lead_Time_Days": { "source": "Lead Time (days)" }, "Production_Lead_Time_Days": { "source": "Prod LT" }, "Min_Order_Qty": { "source": "MOQ" },
+   "Active": { "source": "Status", "values": { "Active": "Y", "Obsolete": "N" } } } } ] },
+  "stock": { "sources": [ { "file": "StockByWarehouse.csv", "columns": {
+   "Location_ID": { "source": "Warehouse" }, "Item_ID": { "source": "Part No" }, "On_Hand_Qty": { "source": "QOH" }, "Allocated_Qty": { "source": "Allocated" },
+   "On_Order_Qty": { "source": "On Order" }, "Reorder_Point_Qty": { "source": "Re-order Level" }, "Safety_Stock_Qty": { "source": "Safety Stock" },
+   "Unit_Cost": { "source": "Unit Cost" }, "Snapshot_Date": { "source": "Stock Date" } }, "ignore": [ "Bin Location" ] } ] },
+  "demand": { "sources": [ { "file": "Sales_History.csv", "columns": {
+   "Period_Start": { "source": "Month" }, "Item_ID": { "source": "Product Code" }, "Units": { "source": "Qty Sold" }, "Forecast_Units": { "source": "Forecast" } } } ] },
+  "suppliers": { "sources": [ { "file": "Supplier_List.csv", "columns": {
+   "Supplier_ID": { "source": "Supplier Code" }, "Supplier_Name": { "source": "Supplier Name" }, "Standard_Lead_Time_Days": { "source": "Std Lead Time" },
+   "Country": { "source": "Country" }, "Payment_Terms": { "source": "Terms" } } } ] },
+  "po_lines": { "sources": [ { "file": "PO_Lines.csv", "columns": {
+   "PO_ID": { "source": "PO Number" }, "Line_No": { "source": "Line" }, "Supplier_ID": { "source": "Supplier Code" }, "Item_ID": { "source": "Part No" },
+   "Order_Date": { "source": "Order Date" }, "Promised_Date": { "source": "Due Date" }, "Ordered_Qty": { "source": "Qty Ordered" },
+   "Received_Qty": { "source": "Qty Received" }, "Last_Receipt_Date": { "source": "Last Received" }, "Unit_Cost": { "source": "Price" }, "Status": { "source": "Status" } } } ] },
+  "bom": { "sources": [ { "file": "BOM.csv", "columns": {
+   "Parent_Item_ID": { "source": "Parent" }, "Component_Item_ID": { "source": "Component" }, "Qty_Per": { "source": "Qty" }, "Scrap_Pct": { "source": "Scrap %" } } } ] },
+  "production_orders": { "sources": [ { "file": "Works_Orders.csv", "columns": {
+   "Production_Order_ID": { "source": "WO No" }, "Item_ID": { "source": "Product" }, "Planned_Start_Date": { "source": "Start" }, "Planned_Finish_Date": { "source": "Finish" },
+   "Actual_Start_Date": { "source": "Actual Start" }, "Actual_Finish_Date": { "source": "Actual Finish" }, "Planned_Qty": { "source": "Qty" },
+   "Completed_Qty": { "source": "Qty Done" }, "Status": { "source": "Status" } } } ] }
+ },
+ "dataset": { "Business_Name": "Harbour Valve Engineering Ltd (messy export)", "Business_Type": "Manufacturer", "Snapshot_Date": "2026-10-31" }
+}

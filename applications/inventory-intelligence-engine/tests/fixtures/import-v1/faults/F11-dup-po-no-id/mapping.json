@@ -1,0 +1,221 @@
+{
+ "format": "CG-IMPORT-MAPPING",
+ "version": 1,
+ "name": "fault case",
+ "files": {
+  "items.csv": {
+   "dateFormat": "ISO",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "stock.csv": {
+   "dateFormat": "ISO",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  },
+  "demand.csv": {
+   "dateFormat": "ISO"
+  },
+  "suppliers.csv": {
+   "dateFormat": "ISO"
+  },
+  "po_lines.csv": {
+   "dateFormat": "ISO",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  }
+ },
+ "tables": {
+  "items": {
+   "sources": [
+    {
+     "file": "items.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "Item_ID"
+      },
+      "Item_Name": {
+       "source": "Item_Name"
+      },
+      "Item_Group": {
+       "source": "Item_Group"
+      },
+      "Is_Sold": {
+       "source": "Is_Sold"
+      },
+      "Replenishment": {
+       "source": "Replenishment"
+      },
+      "Unit_of_Measure": {
+       "source": "Unit_of_Measure"
+      },
+      "Standard_Cost": {
+       "source": "Standard_Cost"
+      },
+      "Selling_Price": {
+       "source": "Selling_Price"
+      },
+      "Default_Supplier_ID": {
+       "source": "Default_Supplier_ID"
+      },
+      "Purchase_Lead_Time_Days": {
+       "source": "Purchase_Lead_Time_Days"
+      },
+      "Production_Lead_Time_Days": {
+       "source": "Production_Lead_Time_Days"
+      },
+      "Min_Order_Qty": {
+       "source": "Min_Order_Qty"
+      },
+      "Order_Multiple": {
+       "source": "Order_Multiple"
+      },
+      "Active": {
+       "source": "Active"
+      }
+     }
+    }
+   ]
+  },
+  "stock": {
+   "sources": [
+    {
+     "file": "stock.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "Item_ID"
+      },
+      "Location_ID": {
+       "source": "Location_ID"
+      },
+      "Snapshot_Date": {
+       "source": "Snapshot_Date"
+      },
+      "On_Hand_Qty": {
+       "source": "On_Hand_Qty"
+      },
+      "Allocated_Qty": {
+       "source": "Allocated_Qty"
+      },
+      "On_Order_Qty": {
+       "source": "On_Order_Qty"
+      },
+      "Reorder_Point_Qty": {
+       "source": "Reorder_Point_Qty"
+      },
+      "Safety_Stock_Qty": {
+       "source": "Safety_Stock_Qty"
+      },
+      "Unit_Cost": {
+       "source": "Unit_Cost"
+      }
+     }
+    }
+   ]
+  },
+  "demand": {
+   "sources": [
+    {
+     "file": "demand.csv",
+     "columns": {
+      "Item_ID": {
+       "source": "Item_ID"
+      },
+      "Period_Start": {
+       "source": "Period_Start"
+      },
+      "Units": {
+       "source": "Units"
+      },
+      "Forecast_Units": {
+       "source": "Forecast_Units"
+      },
+      "Location_ID": {
+       "source": "Location_ID"
+      }
+     }
+    }
+   ]
+  },
+  "suppliers": {
+   "sources": [
+    {
+     "file": "suppliers.csv",
+     "columns": {
+      "Supplier_ID": {
+       "source": "Supplier_ID"
+      },
+      "Supplier_Name": {
+       "source": "Supplier_Name"
+      },
+      "Standard_Lead_Time_Days": {
+       "source": "Standard_Lead_Time_Days"
+      },
+      "Country": {
+       "source": "Country"
+      },
+      "Payment_Terms": {
+       "source": "Payment_Terms"
+      },
+      "Active": {
+       "source": "Active"
+      }
+     }
+    }
+   ]
+  },
+  "po_lines": {
+   "sources": [
+    {
+     "file": "po_lines.csv",
+     "columns": {
+      "PO_ID": {
+       "source": "PO_ID"
+      },
+      "Supplier_ID": {
+       "source": "Supplier_ID"
+      },
+      "Item_ID": {
+       "source": "Item_ID"
+      },
+      "Order_Date": {
+       "source": "Order_Date"
+      },
+      "Promised_Date": {
+       "source": "Promised_Date"
+      },
+      "Ordered_Qty": {
+       "source": "Ordered_Qty"
+      },
+      "Received_Qty": {
+       "source": "Received_Qty"
+      },
+      "Last_Receipt_Date": {
+       "source": "Last_Receipt_Date"
+      },
+      "Unit_Cost": {
+       "source": "Unit_Cost"
+      },
+      "Status": {
+       "source": "Status"
+      },
+      "Location_ID": {
+       "source": "Location_ID"
+      }
+     }
+    }
+   ]
+  }
+ },
+ "dataset": {
+  "Business_Name": "Fault case (synthetic, from Package 01)",
+  "Business_Type": "Manufacturer",
+  "Snapshot_Date": "2026-10-31"
+ }
+}

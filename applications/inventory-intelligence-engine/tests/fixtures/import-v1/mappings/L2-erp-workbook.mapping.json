@@ -1,0 +1,328 @@
+{
+ "format": "CG-IMPORT-MAPPING",
+ "version": 1,
+ "name": "L2 ERP workbook (synthetic, from Package 01)",
+ "files": {
+  "ERP_Extract.xlsx": {
+   "dateFormat": "US",
+   "currency": {
+    "code": "GBP",
+    "confirmed": true
+   }
+  }
+ },
+ "tables": {
+  "items": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "ITEMS",
+     "columns": {
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Item_Name": {
+       "source": "DESCR"
+      },
+      "Item_Group": {
+       "source": "CLASS"
+      },
+      "Is_Sold": {
+       "source": "SALE",
+       "values": {
+        "S": "Y",
+        "N": "N"
+       }
+      },
+      "Replenishment": {
+       "source": "SRC",
+       "values": {
+        "M": "Make",
+        "P": "Buy"
+       }
+      },
+      "Unit_of_Measure": {
+       "source": "UOM"
+      },
+      "Standard_Cost": {
+       "source": "STDCOST"
+      },
+      "Selling_Price": {
+       "source": "LISTPRICE"
+      },
+      "Default_Supplier_ID": {
+       "source": "PRIMVEND"
+      },
+      "Purchase_Lead_Time_Days": {
+       "source": "PLT"
+      },
+      "Production_Lead_Time_Days": {
+       "source": "MLT"
+      },
+      "Min_Order_Qty": {
+       "source": "MOQ"
+      },
+      "Order_Multiple": {
+       "source": "MULT"
+      },
+      "Active": {
+       "source": "STAT",
+       "values": {
+        "A": "Y",
+        "I": "N"
+       }
+      }
+     }
+    }
+   ]
+  },
+  "stock": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "ONHAND",
+     "columns": {
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Location_ID": {
+       "source": "WHSE"
+      },
+      "Snapshot_Date": {
+       "source": "ASOF"
+      },
+      "On_Hand_Qty": {
+       "source": "QOH"
+      },
+      "Allocated_Qty": {
+       "source": "ALLOC"
+      },
+      "On_Order_Qty": {
+       "source": "ONORD"
+      },
+      "Reorder_Point_Qty": {
+       "source": "ROP"
+      },
+      "Safety_Stock_Qty": {
+       "source": "SS"
+      },
+      "Unit_Cost": {
+       "source": "AVGCOST"
+      }
+     }
+    }
+   ]
+  },
+  "demand": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "SALES",
+     "columns": {
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Period_Start": {
+       "source": "PERIOD"
+      },
+      "Units": {
+       "source": "QTY"
+      },
+      "Forecast_Units": {
+       "source": "FCST"
+      }
+     }
+    }
+   ]
+  },
+  "suppliers": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "VENDORS",
+     "columns": {
+      "Supplier_ID": {
+       "source": "VEND_NO"
+      },
+      "Supplier_Name": {
+       "source": "VEND_NAME"
+      },
+      "Standard_Lead_Time_Days": {
+       "source": "LT"
+      },
+      "Country": {
+       "source": "CTRY"
+      },
+      "Payment_Terms": {
+       "source": "TERMS"
+      },
+      "Active": {
+       "source": "STAT",
+       "values": {
+        "A": "Y",
+        "I": "N"
+       }
+      }
+     }
+    }
+   ]
+  },
+  "supplier_items": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "VENDOR_ITEMS",
+     "columns": {
+      "Supplier_ID": {
+       "source": "VEND_NO"
+      },
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Lead_Time_Days": {
+       "source": "LT"
+      },
+      "Unit_Cost": {
+       "source": "COST"
+      },
+      "Min_Order_Qty": {
+       "source": "MOQ"
+      },
+      "Preferred": {
+       "source": "PRIMARY"
+      }
+     }
+    }
+   ]
+  },
+  "locations": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "LOCATIONS",
+     "columns": {
+      "Location_ID": {
+       "source": "WHSE"
+      },
+      "Location_Name": {
+       "source": "WHSE_NAME"
+      },
+      "Include_In_Available": {
+       "source": "NETTABLE"
+      }
+     }
+    }
+   ]
+  },
+  "po_lines": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "PURCH",
+     "columns": {
+      "PO_ID": {
+       "source": "PO_NO"
+      },
+      "Line_No": {
+       "source": "LINE"
+      },
+      "Supplier_ID": {
+       "source": "VEND_NO"
+      },
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Order_Date": {
+       "source": "PO_DATE"
+      },
+      "Promised_Date": {
+       "source": "PROMISE"
+      },
+      "Ordered_Qty": {
+       "source": "QTY_ORD"
+      },
+      "Received_Qty": {
+       "source": "QTY_RCV"
+      },
+      "Last_Receipt_Date": {
+       "source": "LAST_RCV"
+      },
+      "Unit_Cost": {
+       "source": "PRICE"
+      },
+      "Status": {
+       "source": "PO_STAT"
+      },
+      "Location_ID": {
+       "source": "SHIP_TO"
+      }
+     }
+    }
+   ]
+  },
+  "bom": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "BOM",
+     "columns": {
+      "Parent_Item_ID": {
+       "source": "PARENT"
+      },
+      "Component_Item_ID": {
+       "source": "COMP"
+      },
+      "Qty_Per": {
+       "source": "QTY_PER"
+      },
+      "Scrap_Pct": {
+       "source": "SCRAP"
+      }
+     }
+    }
+   ]
+  },
+  "production_orders": {
+   "sources": [
+    {
+     "file": "ERP_Extract.xlsx",
+     "sheet": "WORKORDERS",
+     "columns": {
+      "Production_Order_ID": {
+       "source": "WO_NO"
+      },
+      "Item_ID": {
+       "source": "ITEM_NO"
+      },
+      "Planned_Start_Date": {
+       "source": "SCHED_START"
+      },
+      "Planned_Finish_Date": {
+       "source": "SCHED_END"
+      },
+      "Actual_Start_Date": {
+       "source": "ACT_START"
+      },
+      "Actual_Finish_Date": {
+       "source": "ACT_END"
+      },
+      "Planned_Qty": {
+       "source": "QTY"
+      },
+      "Completed_Qty": {
+       "source": "QTY_DONE"
+      },
+      "Status": {
+       "source": "WO_STAT"
+      }
+     }
+    }
+   ]
+  }
+ },
+ "dataset": {
+  "Business_Name": "Harbour Valve Engineering Ltd",
+  "Business_Type": "Manufacturer",
+  "Snapshot_Date": "2026-10-31"
+ }
+}

@@ -1,0 +1,121 @@
+Item_ID,Item_Name,Item_Group,Is_Sold,Replenishment,Unit_of_Measure,Standard_Cost,Selling_Price,Default_Supplier_ID,Purchase_Lead_Time_Days,Production_Lead_Time_Days,Min_Order_Qty,Order_Multiple,Active
+M0001,PTFE seal 001,Materials,N,Buy,each,EUR 21.6,,S01,42,,100,,Y
+M0002,Cast iron bolt set 002,Materials,N,Buy,each,24.59,,S02,21,,100,,Y
+M0003,Brass bolt set 003,Materials,N,Buy,each,7.56,,S03,35,,25,,Y
+M0004,PTFE housing 004,Materials,N,Buy,each,39.02,,S04,35,,25,,Y
+M0005,Brass seal 005,Materials,N,Buy,each,13.83,,S05,35,,10,,Y
+M0006,PTFE spring 006,Materials,N,Buy,each,27.72,,S06,42,,50,,Y
+M0007,Steel bar 007,Materials,N,Buy,each,11.51,,S07,42,,50,,Y
+M0008,Nitrile bar 008,Materials,N,Buy,each,10.38,,S08,21,,25,,Y
+M0009,Steel spring 009,Materials,N,Buy,each,39.25,,S09,14,,50,,Y
+M0010,Steel seal 010,Materials,N,Buy,each,26.31,,S10,28,,25,,Y
+M0011,Steel bolt set 011,Materials,N,Buy,each,16.12,,S11,35,,100,,Y
+M0012,PTFE plate 012,Materials,N,Buy,each,32.27,,S12,49,,25,,Y
+M0013,Aluminium bolt set 013,Materials,N,Buy,each,8.23,,S01,42,,50,,Y
+M0014,Steel bar 014,Materials,N,Buy,each,11.88,,S02,21,,50,,Y
+M0015,Aluminium bolt set 015,Materials,N,Buy,each,2.65,,S03,28,,25,,Y
+M0016,Steel bar 016,Materials,N,Buy,each,6.35,,S04,35,,10,,Y
+M0017,Nitrile plate 017,Materials,N,Buy,each,15.11,,S05,35,,100,,Y
+M0018,Brass bolt set 018,Materials,N,Buy,each,27.02,,S06,49,,50,,Y
+M0019,Cast iron bolt set 019,Materials,N,Buy,each,22.22,,S07,49,,25,,Y
+M0020,PTFE spring 020,Materials,N,Buy,each,13.07,,S08,21,,50,,Y
+M0021,Nitrile bar 021,Materials,N,Buy,each,35.34,,S09,21,,25,,Y
+M0022,Nitrile gasket 022,Materials,N,Buy,each,2.1,,S10,28,,10,,Y
+M0023,Nitrile bolt set 023,Materials,N,Buy,each,35.21,,S11,42,,100,,Y
+M0024,Steel seal 024,Materials,N,Buy,each,22.33,,S12,49,,25,,Y
+M0025,Aluminium spring 025,Materials,N,Buy,each,36.92,,S01,42,,10,,Y
+M0026,Aluminium housing 026,Materials,N,Buy,each,26.86,,S02,21,,25,,Y
+M0027,Cast iron gasket 027,Materials,N,Buy,each,34.38,,S03,28,,10,,Y
+M0028,Cast iron gasket 028,Materials,N,Buy,each,11.01,,S04,28,,10,,Y
+M0029,Steel spring 029,Materials,N,Buy,each,32.02,,S05,42,,50,,Y
+M0030,Cast iron plate 030,Materials,N,Buy,each,6.3,,S06,49,,100,,Y
+M0031,Nitrile plate 031,Materials,N,Buy,each,9.92,,S07,42,,25,,Y
+M0032,PTFE plate 032,Materials,N,Buy,each,39.26,,S08,28,,25,,Y
+M0033,Brass bar 033,Materials,N,Buy,each,29.33,,S09,21,,25,,Y
+M0034,Brass plate 034,Materials,N,Buy,each,39.43,,S10,28,,25,,Y
+M0035,PTFE spring 035,Materials,N,Buy,each,37.42,,S11,35,,50,,Y
+M0036,Brass spring 036,Materials,N,Buy,each,26.56,,S12,49,,25,,Y
+M0037,Steel plate 037,Materials,N,Buy,each,18.21,,S01,42,,10,,Y
+M0038,Aluminium gasket 038,Materials,N,Buy,each,5.79,,S02,21,,10,,Y
+M0039,Nitrile bolt set 039,Materials,N,Buy,each,21.46,,S03,28,,10,,Y
+M0040,Nitrile bar 040,Materials,N,Buy,each,7.05,,S04,28,,100,,Y
+M0041,PTFE housing 041,Materials,N,Buy,each,6.48,,S05,42,,50,,Y
+M0042,Steel bar 042,Materials,N,Buy,each,12.54,,S06,49,,25,,Y
+M0043,Brass bar 043,Materials,N,Buy,each,16.62,,S07,42,,25,,Y
+M0044,Aluminium housing 044,Materials,N,Buy,each,37.07,,S08,21,,50,,Y
+M0045,Brass seal 045,Materials,N,Buy,each,31.21,,S09,14,,25,,Y
+M0046,PTFE seal 046,Materials,N,Buy,each,1.82,,S10,28,,100,,Y
+M0047,Nitrile spring 047,Materials,N,Buy,each,32.98,,S11,35,,50,,Y
+M0048,PTFE seal 048,Materials,N,Buy,each,34.07,,S12,42,,10,,Y
+M0049,Cast iron seal 049,Materials,N,Buy,each,4.11,,S01,42,,10,,Y
+M0050,Aluminium gasket 050,Materials,N,Buy,each,38.84,,S02,21,,100,,Y
+M0051,Nitrile plate 051,Materials,N,Buy,each,9.66,,S03,28,,100,,Y
+M0052,Aluminium housing 052,Materials,N,Buy,each,33.49,,S04,28,,25,,Y
+M0053,Cast iron bolt set 053,Materials,N,Buy,each,31.91,,S05,35,,100,,Y
+M0054,Nitrile gasket 054,Materials,N,Buy,each,29.27,,S06,42,,50,,Y
+M0055,Brass gasket 055,Materials,N,Buy,each,6.99,,S07,42,,100,,Y
+M0056,Brass housing 056,Materials,N,Buy,each,35.19,,S08,21,,10,,Y
+M0057,PTFE plate 057,Materials,N,Buy,each,28.66,,S09,14,,10,,Y
+M0058,Aluminium seal 058,Materials,N,Buy,each,18.55,,S10,35,,50,,Y
+M0059,Nitrile bar 059,Materials,N,Buy,each,14.92,,S11,42,,100,,Y
+M0060,Brass gasket 060,Materials,N,Buy,each,17.99,,S12,42,,10,,Y
+M0061,Steel spring 061,Materials,N,Buy,each,30.58,,S01,42,,10,,Y
+M0062,Steel bolt set 062,Materials,N,Buy,each,18.42,,S02,28,,50,,Y
+M0063,Brass gasket 063,Materials,N,Buy,each,3.52,,S03,28,,25,,Y
+M0064,PTFE spring 064,Materials,N,Buy,each,30.76,,S04,35,,100,,Y
+M0065,Aluminium gasket 065,Materials,N,Buy,each,7.33,,S05,42,,10,,Y
+M0066,Cast iron gasket 066,Materials,N,Buy,each,23.58,,S06,42,,10,,Y
+M0067,Nitrile gasket 067,Materials,N,Buy,each,28.78,,S07,42,,25,,Y
+M0068,Cast iron seal 068,Materials,N,Buy,each,21.4,,S08,28,,25,,Y
+M0069,PTFE bolt set 069,Materials,N,Buy,each,27.75,,S09,21,,25,,Y
+M0070,Steel spring 070,Materials,N,Buy,each,7.91,,S10,28,,100,,Y
+M0071,PTFE bar 071,Materials,N,Buy,each,19.55,,S11,35,,50,,Y
+M0072,Brass bar 072,Materials,N,Buy,each,6.76,,S12,42,,100,,Y
+M0073,Steel bar 073,Materials,N,Buy,each,14.66,,S01,42,,10,,Y
+M0074,Nitrile bar 074,Materials,N,Buy,each,26.91,,S02,28,,10,,Y
+M0075,Steel bar 075,Materials,N,Buy,each,11.04,,S03,28,,25,,Y
+M0076,Aluminium bar 076,Materials,N,Buy,each,25.71,,S04,35,,25,,Y
+M0077,Brass gasket 077,Materials,N,Buy,each,37.07,,S05,35,,50,,Y
+M0078,Cast iron housing 078,Materials,N,Buy,each,13.11,,S06,42,,50,,Y
+M0079,Nitrile spring 079,Materials,N,Buy,each,37.56,,S07,42,,25,,Y
+M0080,Brass bolt set 080,Materials,N,Buy,each,39.13,,S08,28,,100,,Y
+P0001,Valve Bodie model 001,Valve Bodies,Y,Make,each,46.1,69.98,,,7,,,Y
+P0002,Actuator model 002,Actuators,Y,Make,each,200.62,341.33,,,14,,,Y
+P0003,Manifold model 003,Manifolds,Y,Make,each,36.89,61.06,,,10,,,Y
+P0004,Pump Housing model 004,Pump Housings,Y,Make,each,219.82,341.17,,,14,,,Y
+P0005,Coupling model 005,Couplings,Y,Make,each,106.95,162.48,,,5,,,Y
+P0006,Valve Bodie model 006,Valve Bodies,Y,Make,each,98.64,139.24,,,7,,,Y
+P0007,Actuator model 007,Actuators,Y,Make,each,197.46,270.93,,,5,,,Y
+P0008,Manifold model 008,Manifolds,Y,Make,each,97.74,143.54,,,7,,,Y
+P0009,Pump Housing model 009,Pump Housings,Y,Make,each,70.87,103.85,,,7,,,Y
+P0010,Coupling model 010,Couplings,Y,Make,each,28.53,40.24,,,5,,,Y
+P0011,Valve Bodie model 011,Valve Bodies,Y,Make,each,166.69,222.51,,,5,,,Y
+P0012,Actuator model 012,Actuators,Y,Make,each,68.94,95.12,,,5,,,Y
+P0013,Manifold model 013,Manifolds,Y,Make,each,90.51,162.02,,,7,,,Y
+P0014,Pump Housing model 014,Pump Housings,Y,Make,each,93.15,149.38,,,5,,,Y
+P0015,Coupling model 015,Couplings,Y,Make,each,119.31,198.63,,,7,,,Y
+P0016,Valve Bodie model 016,Valve Bodies,Y,Make,each,125.19,188.36,,,14,,,Y
+P0017,Actuator model 017,Actuators,Y,Make,each,60.69,84.96,,,7,,,Y
+P0018,Manifold model 018,Manifolds,Y,Make,each,64.74,91.85,,,5,,,Y
+P0019,Pump Housing model 019,Pump Housings,Y,Make,each,47.06,80.64,,,10,,,Y
+P0020,Coupling model 020,Couplings,Y,Make,each,192.65,340.66,,,5,,,Y
+P0021,Valve Bodie model 021,Valve Bodies,Y,Make,each,214.26,355.26,,,14,,,Y
+P0022,Actuator model 022,Actuators,Y,Make,each,174.36,236.46,,,14,,,Y
+P0023,Manifold model 023,Manifolds,Y,Make,each,107.96,180.34,,,5,,,Y
+P0024,Pump Housing model 024,Pump Housings,Y,Make,each,78.96,119.28,,,14,,,Y
+P0025,Coupling model 025,Couplings,Y,Make,each,172.28,269.26,,,14,,,Y
+P0026,Valve Bodie model 026,Valve Bodies,Y,Make,each,205.43,310.59,,,5,,,Y
+P0027,Actuator model 027,Actuators,Y,Make,each,208.77,278.32,,,5,,,Y
+P0028,Manifold model 028,Manifolds,Y,Make,each,219.81,325.56,,,10,,,Y
+P0029,Pump Housing model 029,Pump Housings,Y,Make,each,149.6,242.38,,,10,,,Y
+P0030,Coupling model 030,Couplings,Y,Make,each,30.12,45.67,,,10,,,Y
+P0031,Valve Bodie model 031,Valve Bodies,Y,Make,each,84.84,136.32,,,14,,,Y
+P0032,Actuator model 032,Actuators,Y,Make,each,88.25,147.05,,,7,,,Y
+P0033,Manifold model 033,Manifolds,Y,Make,each,125.79,197.02,,,14,,,Y
+P0034,Pump Housing model 034,Pump Housings,Y,Make,each,26.17,45.94,,,7,,,Y
+P0035,Coupling model 035,Couplings,Y,Make,each,148.11,264.07,,,10,,,Y
+P0036,Valve Bodie model 036,Valve Bodies,Y,Make,each,188.39,290.0,,,7,,,Y
+P0037,Actuator model 037,Actuators,Y,Make,each,188.33,318.55,,,14,,,Y
+P0038,Manifold model 038,Manifolds,Y,Make,each,196.32,284.51,,,7,,,Y
+P0039,Pump Housing model 039,Pump Housings,Y,Make,each,35.32,57.04,,,14,,,Y
+P0040,Coupling model 040,Couplings,Y,Make,each,212.21,380.04,,,5,,,Y

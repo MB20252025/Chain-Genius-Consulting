@@ -1,0 +1,13 @@
+Supplier_ID,Supplier_Name,Standard_Lead_Time_Days,Country,Payment_Terms,Active
+S01,Severn Engineering Ltd,42,United Kingdom,60 days,Y
+S02,Morland Supplies Ltd,21,United Kingdom,60 days,Y
+S03,Ridgeway Seals Ltd,28,United Kingdom,30 days,Y
+S04,Ashdown Electrics Ltd,28,United Kingdom,60 days,Y
+S05,Lindum Castings Ltd,35,United Kingdom,30 days,Y
+S06,Morland Components Ltd,42,Poland,60 days,Y
+S07,Kestrel Castings Ltd,42,United Kingdom,30 days,Y
+S08,Apex Packaging Ltd,21,Germany,30 days,Y
+S09,Brook Seals Ltd,14,United Kingdom,30 days EOM,Y
+S10,Tamar Plastics Ltd,28,United Kingdom,30 days,Y
+S11,Lindum Supplies Ltd,35,United Kingdom,60 days,Y
+S12,Halcyon Plastics Ltd,42,Poland,30 days,Y
