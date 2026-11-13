@@ -129,6 +129,43 @@ Before another developer or contractor is given push access, review who can push
 
 This is a future consideration only; nothing has been investigated or changed for it.
 
+### FUTURE GOVERNANCE — owner decisions of 13 Nov 2026 (recorded; not actioned)
+
+**Canonical public website address (GitHub Pages).**
+- The verified public address is **`https://mb20252025.github.io/Chain-Genius-Consulting/`**.
+  - On 13 Nov 2026 it served the repository's root `index.html` from `main`; the latest `github-pages` deployment status was "success".
+- The repository part of the path is **case-sensitive**: `https://mb20252025.github.io/chain-genius-consulting/` returns **404**.
+- All external communications must use the exact canonical address, including capitalisation:
+  - LinkedIn posts;
+  - business cards;
+  - email signatures;
+  - proposals;
+  - consultancy documents;
+  - website links and marketing materials.
+- A custom domain could be considered later if case-insensitive addressing becomes important. **No custom domain is authorised.**
+- Still a manual check for the owner: Settings → Pages (source branch and the "Your site is live at" address). It could not be read from the verification session.
+- The canonical repository address is `https://github.com/MB20252025/Chain-Genius-Consulting`. This cloud environment may reset the local `origin` remote to its lowercase spelling between sessions. Both spellings resolve to the same GitHub repository. The lowercase spelling may produce a cosmetic 'This repository moved' notice when pushing. No persistent local remote correction is assumed.
+
+**Node 20 deprecation — v1 baseline requirement.**
+- **Requirement:** "Upgrade GitHub Actions that still use deprecated Node 20 runtimes as part of the v1 baseline cycle. Do not make an isolated workflow upgrade mid-development unless separately authorised."
+- Actions currently in `.github/workflows/v07-tests.yml` (verified 13 Nov 2026 from each version's `action.yml`):
+
+  | Action | Current version (runtime) | Required: Node 24 or later |
+  |---|---|---|
+  | `actions/checkout` | v4 (node20) | v5 or later |
+  | `actions/setup-node` | v4 (node20) | v5 or later |
+  | `actions/upload-artifact` | v4 (node20) | **v6** or later — v5 still uses Node 20 and is **not** a completed upgrade |
+
+  Newest releases seen on 13 Nov 2026 were v7 for all three. Every input the workflow uses still exists in v7. Breaking changes and release notes were **not** reviewed: verify current releases, compatibility and release notes when the upgrade is planned.
+- **Baseline protection:**
+  - The workflow file is one of the control files that `check-control.js` compares byte for byte with the approved baseline tag (section 2).
+  - Any change to it is reported as **FAIL** ("CHANGED since the approved baseline (needs approval)"), not as a PENDING addition, until a new approved baseline tag contains it.
+  - Therefore:
+    - do not upgrade GitHub Actions during an ordinary development stage;
+    - include the Node 20 upgrade in the planned v1 baseline preparation;
+    - test and approve the complete workflow change, and include it in the v1 baseline/tag cycle (Option A, recommended);
+    - do not create a separate intermediate tag solely for this upgrade unless the owner explicitly approves that alternative.
+
 ### T3 — confidence snapshot (12 Nov 2026)
 
 `tests/snapshots/v0.7-confidence-20261112T011814Z.json` records three things for each of the 17 fixtures:
