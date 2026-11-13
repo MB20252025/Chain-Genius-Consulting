@@ -25,7 +25,7 @@ jobs:
         shell: bash
     env:
       APP: applications/inventory-intelligence-engine
-      TAG: v0.7-tests-approved-3
+      TAG: v0.7-tests-approved-4
     steps:
       - name: "0. Check out the pushed commit"
         uses: actions/checkout@v4

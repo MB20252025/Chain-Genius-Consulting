@@ -11,7 +11,7 @@
 // Exit 0 = no weakening; 1 = weakening found; 2 = cannot check (remote or git failure, no summary printed); 3 = no approved tag.
 const fs=require('fs'),path=require('path'),{spawnSync}=require('child_process');
 const arg=(k,d)=>{const i=process.argv.indexOf(k);return i>0?process.argv[i+1]:d};
-const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-3'),REMOTE=arg('--remote','origin');
+const DIR=path.resolve(arg('--dir',__dirname)),TAG=arg('--tag','v0.7-tests-approved-4'),REMOTE=arg('--remote','origin');
 const git=(...a)=>spawnSync('git',a,{cwd:DIR,encoding:'utf8',timeout:120000,maxBuffer:256<<20});
 const die=(code,msg)=>{console.log((code===3?'NO APPROVED BASELINE: ':'ERROR: ')+msg);process.exit(code)};
 // 1. The tag: must exist on the remote; a local copy must match it.

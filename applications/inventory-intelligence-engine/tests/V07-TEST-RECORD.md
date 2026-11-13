@@ -532,3 +532,107 @@ All 205 manifest entries verify; no duplicate or missing entries; `checksums.txt
 | GitHub Actions CI | NOT RUN (no push has been made) |
 
 **Observations carried forward:** the scope of "affected import" (one table or the whole package) is not recorded as an open question in `M1-DESIGN.md`; it should be added in the Stage 2 design phase. The package-level "keep one" wording (`02-Messy-Manufacturer/DATA-ISSUES.md`, E08 `EXPECTED.md`) and A6 remain open. The PENDING inventory CSV must be regenerated after this change.
+
+---
+
+## Tag-4 baseline acceptance — Part A (pre-tag acceptance record; inside Commit 10)
+
+Recorded by Claude on the owner's instruction. Part A is not changed after Commit 10 exists; any correction is a separate, dated entry. Parts A2 (Commit 10 identification and pre-tag results) and B (Tag-4 approval, creation and post-tag verification) are added after Tag-4 exists. **Tag-4 does not exist when this Part A is written.**
+
+### Reviewed plan and review
+
+| Field | Entry |
+|---|---|
+| Reviewed plan | `TAG4-BASELINE-RECORD-DRAFT-v11-7850891.md`, 163,509 bytes, SHA-256 `d383917c8549b353bc0918c62603e2821d2936fd259b3d4cdc4305ebc5635a19` (held privately by the owner) |
+| Review (D9) | **Owner's decision: accepted.** Claude drafted the plan and carried out the review and verification. This is not independent human verification, and shared mistakes may survive an AI reviewing its own work. Evidence was checked against the repository, Git, GitHub's read-only API and executed tests wherever possible. The owner retains final approval authority. No human reviewer was used |
+| Owner's decisions message | 13 Nov 2026, 16:20 UTC, in the owner's Claude conversation |
+
+### Owner decisions (as given, 13 Nov 2026 16:20 UTC)
+
+| Decision | Owner decision |
+|---|---|
+| D1a Commit 2 implementation and scope evidence at category 6 (commit and push stay category 4) | Accept |
+| D1b Commits 9, 9.5 and 9.6 at category 4 | Accept |
+| D2 `ca1e800` at category 3 | Accept, with the limitation recorded: the authorisation for `ca1e800` (213 of the 233 recorded changes) rests on the owner's report, held only in summary form, with no wording or time recorded. Its file integrity is independently confirmed (plan Section 5.8); its prior authorisation is not |
+| D3a N01 `check-protection` 127 → 339 | Accept |
+| D3b N02 `test-a1-static` 20 → 23 | Accept |
+| D4 Rule A (block pushes to `main`) | Decline for now; may be reconsidered before commercial release. Risk remains that any credential with write access could change the live site |
+| D5 Rule B (restrict creation of approved tags) | Decline for now; may be reconsidered before commercial release. Risk remains that any credential with write access could create a tag matching the approved pattern |
+| D6 Shared identity | Accept: owner and agents all act as MB20252025, so Git history cannot show who performed an action |
+| D7 `claude-write-test` | Retain |
+| D14 Test limitations | Accept as known gaps, **not** as passing tests (listed below) |
+| D15 Who creates Tag-4 | **Approved exception:** Claude may create and push Tag-4, but only under a separate, explicit written instruction from the owner given after Commit 10's actual results have been reviewed. This departs from the README rule that Claude does not create or push baseline tags. Reason: the owner works mainly from an Android phone and has no convenient local Git workflow. The exception applies to this closeout only. The README should be reviewed in a later documentation change. **Tag-4 creation has not been instructed at the time of this entry** |
+
+### D8 — owner security checks
+
+| Check | Status |
+|---|---|
+| 1. Authorised GitHub Apps | Not performed. **Owner decision (13 Nov 2026, 16:30 UTC): proceed towards Commit 10 with this check outstanding.** Not passed, not completed; the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7) |
+| 2. Authorised OAuth Apps | Not performed. **Owner decision (13 Nov 2026, 16:30 UTC): proceed towards Commit 10 with this check outstanding.** Not passed, not completed; the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7) |
+| 3. Repository collaborators | Not performed. **Owner decision (13 Nov 2026, 16:30 UTC): proceed towards Commit 10 with this check outstanding.** Not passed, not completed; the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7) |
+| 4. Deploy keys | Not performed. **Owner decision (13 Nov 2026, 16:30 UTC): proceed towards Commit 10 with this check outstanding.** Not passed, not completed; the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7) |
+| 5. Two-factor authentication | Not performed. **Owner decision (13 Nov 2026, 16:30 UTC): proceed towards Commit 10 with this check outstanding.** Not passed, not completed; the related security risks remain as documented in the plan (Sections 15.2, 15.6, 15.7) |
+
+### D13 — evidence publication
+
+- **Public (in `tests/logs/tag4/`, after a final scan):** guard summary, fast-tier summary, rollback guard summary, CI result summaries. These are added with Parts A2 and B.
+- **Full-tier summaries kept private (owner decision, 13 Nov 2026, 16:30 UTC):** the pre-tag full-tier summary, because its BLOCKED lines name folders in the assistant's cloud workspace. The post-Tag-4 full-tier summary contains the same lines and is also kept private. Their results are stated in Parts A2 and B, and their SHA-256 values are recorded there.
+- **Private (held by the owner, not deleted):** listed below with SHA-256. They are not published. The two reconciliation CSVs are not published.
+
+| Private file | SHA-256 |
+|---|---|
+| `reconcile.py` | `df93e94c7141325a445c6e9514b9fc25189e1d726a799121cb03382aae40da40` |
+| `RECONCILIATION-216.csv` | `685f8545cd3da694322b38515af71d90fbdfc9a200a826efde501371afce8951` |
+| `PENDING-INVENTORY-7850891.csv` | `9493ef0902d32bdef0171ae31156bb14c0fbe24e5ecda08c86f37c6d77d90a02` |
+| `per-notice-breakdown.csv` | `5ffcd3145858432e4974ba9dfe8ee37be7bdece9e1e3fcb5754008454422e983` |
+| `GATE3-APPROVAL-REGISTER.csv` | `cc00f29281b83a161904261c353cb642d3cd668e88857307804335055938ab8b` |
+| `files-by-commit.csv` | `9ec0f47bf21a8f0dd97d56c991319bf18bb6d8b56139469a4f4f23c2487ef99a` |
+| Library rebuild log | `d0f70ba1656012b575baac426f566fd7316c0613d733df2c2332b5d60a67b9f3` |
+| Guard-limitation test outputs | `d8f08cbbf53eaf3075ec76178dcc0779267df498d7e93fe68ea310d307a413f4` (reason-text and full-removed tests; identical outputs), `a8f00c001aabaa1e22248eccef36cc665f544a458f55bda25c88bb7533fba0e7` (timeout test) |
+| Candidate detailed logs (disposable copy) | fast `4055d891a43189d216bc0c554a6ea949d3fd15f3923deb1d0e6909969f02fe47`, full `e1efbd61d219c443af76e7cedd7f8aba996d8c3bd7dbfc77137935d4f13d3a2f` |
+| `CP1-Final-Review.zip` (contains the owner's email address) | `dc494357867407763b945f62a82971a627117a0ca2339011dc6cae5d30ffd33a` |
+
+### The 216 PENDING notices
+
+- **Reconciled (plan Section 5.8):** 216 of 216, against Tag-3's guard output, `checksums.txt` at Tag-3 and HEAD, Git, the files on disk, the tests, and a fresh rebuild of the test-data library. 0 unexplained; 0 approved Tag-3 lines removed or changed.
+  - 212 are new protected files, all tracked and matching their hashes. 203 rebuild byte-identical; 2 differ only by documented hand-written notes; the manifest checks 205 of 205; the other 6 are generator and test files.
+  - N01 = 3 references + 336 protected files = 339.
+  - N02 = 20 + one check per new importer file = 23.
+  - N03 `import-stage1` passes at 616; N04 `characterisation-lead-time` passes at 28.
+- **Not established:** that the synthetic test data or the characterisation test describes correct business behaviour (N04 records known defects H3, H4 and F7); that every historical change was authorised beforehand (D2).
+- **When they become formally resolved:** only when (a) Commit 10's pre-tag checks pass as recorded in Part A2, (b) the owner separately instructs Tag-4's creation, recorded in Part B, and (c) Tag-4 is verified on the Commit 10 hash and the guard against Tag-4 reports 12 passed, 0 failed and 0 PENDING. Until then they remain PENDING.
+
+### Commit 10
+
+| Field | Entry |
+|---|---|
+| Files | `.github/workflows/v07-tests.yml` (TAG line); `tests/accepted-results.json` (check-control `tag` value only); `tests/check-control.js` (default tag only); `tests/README.md` (Tag-4 reference updates only); this record (Part A) |
+| Control-change fingerprint F1 (four non-record files) | `c20ae85725ef6a22d65084919cec209a49d23a4941ea2e3f1c1441be87af7344` |
+| Test record before Commit 10 (H0, at `7850891`) | SHA-256 `3f97a4c5c5b5aa0e85726d8fd794bec808802bff3ddd027357182f199c686313`, blob `493661670dedd893fa5daaa3fa8c586137806035` |
+| Expected guard against Tag-3 | 10 passed, 2 failed (`check-control.js` and the workflow, both intended); 216 PENDING identical to the inventory |
+| Rollback | Full revert of all five files (plan Section 14.1.1), tested in a throwaway copy: files byte-identical to `7850891`; Tag-3 guard 12 passed, 0 failed, 216 PENDING |
+
+### Known limitations accepted with this baseline (D14)
+
+- Five BLOCKED tests:
+  - `test-fglt-note`, `test-forecast-conf` and `phase2-comparison`: historical comparisons.
+  - `test-supplier-eligibility`: current supplier scoring unverified.
+  - `test-paging-chrome`: real-browser paging at phone width untested.
+- Two REDUCED tests: `test-phase1` (57 of 125), `test-uom` (110 of 164).
+- No physical Android testing.
+- `characterisation-lead-time` records known defects H3, H4 and F7.
+- Guard limitations (plan Section 12.3): some `accepted-results.json` fields are not compared; timeout and environment changes are PENDING only.
+
+### Acceptance (D10)
+
+**Owner decision (13 Nov 2026, 16:32 UTC), verbatim:** "Accept d10 of you think its best". Claude's recommendation, given before this entry: accept, because the wording is conditional and limited. The owner's acceptance of the wording below is recorded on that basis; its conditions (a) and (b) still apply.
+
+> I, the owner of MB20252025/Chain-Genius-Consulting, accept, subject to the conditions below, the test-control state of the commit recorded in Part A2 of this record as the Tag-4 target (Commit 10, or an approved corrective commit; its full hash is recorded afterwards in Part A2, because a commit cannot contain its own hash) as the v0.7 protected test baseline, to be identified by the tag `v0.7-tests-approved-4` attached to that exact commit.
+>
+> Conditions: this acceptance takes effect only if (a) the pre-tag checks in the reviewed plan, Section 10, pass on that commit as recorded in Part A2, and (b) I then separately and explicitly approve the creation of Tag-4, as recorded in Part B with the evidence I reviewed. If either condition is not met, this acceptance has no effect.
+>
+> What I am accepting: (1) that specific snapshot; (2) that the 216 additions listed in `PENDING-INVENTORY-7850891.csv`, each reconciled in `RECONCILIATION-216.csv`, become, collectively, part of the baseline that the guard will protect from now on; (3) the pre-tag and post-tag test evidence as it is recorded in Parts A2 and B once it exists; (4) the test limitations, historical authorisation limitations and risks set out in the reviewed plan; and (5) the unresolved matters recorded there.
+>
+> What I am not accepting or stating: this acceptance does not retrospectively approve any historical change; does not individually approve or review each of the 216 notices; does not state that any historical change was authorised before it was made; does not remove any known test limitation; does not turn any BLOCKED or REDUCED test into a pass; does not state that physical Android testing has been done; does not state that the software is free of defects; does not approve the known defects recorded by characterisation tests; does not establish a personal or cryptographic signature merely because the repository account created the tag; and does not prevent every possible unauthorised future change.
+
+Entry made by Claude, 2026-11-13 16:34 UTC.
