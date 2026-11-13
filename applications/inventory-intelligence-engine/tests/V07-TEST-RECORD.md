@@ -498,3 +498,37 @@ The earlier total of 213 (210 library and tool lines plus the `check-protection`
 | Fast tier (`run-all.sh --fast`) | exit 0: 20 tests passed (+ pre-flight), 0 FAIL, 0 ERROR, 0 BLOCKED, 0 REDUCED; characterisation 28/28, golden v0.5 10/10, golden v0.6.0 10/10, confidence snapshot 51/51 |
 | Full tier | NOT RUN (documentation-only change) |
 | GitHub Actions CI | NOT RUN (no push has been made) |
+
+## M1 pre-tag Commit 9.6 — two MASTER-INDEX wording clarifications before the baseline switch (13 Nov 2026; the entries above are unchanged)
+
+**Status when recorded:** implemented in the working tree on top of Commit 9.5 (`ebffe2e`) and verified there. At the time of this entry no commit or push had been made; the commit needs the owner's separate approval.
+
+**Scope.** Documentation only: two passages of `tests/fixtures/library/MASTER-INDEX.md`, the matching `MANIFEST.sha256` entry and the two `checksums.txt` hash lines. No engine code, test logic, assertions, fixture data, expected values or accepted counts changed. `M1-DESIGN.md`, `accepted-results.json` and the `checksums.txt` comment lines (including line 136) are unchanged.
+
+- Package 02 note: separates the decided rule (conflicting duplicates stop the affected import until the user names the row to keep; `M1-DESIGN.md`, "Conflicting duplicates") from the fixture's assumed row choices (I09: QOH 95, not 132; I16: Qty Sold 94, not 103). "The import" becomes "the affected import" in two places, matching the decided rule's wording. Whether an affected import means one table or the whole package is not decided here; it remains open for the Stage 2 design. The identical-duplicates text (open decision A6) is unchanged.
+- "Delivered copies": the ZIPs are kept unchanged as a record of what was delivered at M1 pre-tag Commit 2; for the test-data library the current repository is the source of truth and is authoritative where the two differ. No ZIP was changed.
+- The "Check against today's engine" section is byte-identical (1,156 bytes before and after).
+
+**Checksum changes.**
+
+| File | Before | After |
+| --- | --- | --- |
+| `tests/fixtures/library/MASTER-INDEX.md` | `cb3a2ea6d84dc789dad0ef20038835718d857f078ecba62c1627b753b6779a65` | `472ed20b50ea46879a4cecd539e661290d627cbe25b705f2ca32c2501a8cb08a` |
+| `tests/fixtures/library/MANIFEST.sha256` | `cc64b44afa1399c297338bd9853f0b2545b41cbb77792235f2102e0ab8d3f65e` | `94047192a3dd2b2c7a46ed77caf0d0c1957558b54ced42d314417d44ce4a4c33` |
+
+All 205 manifest entries verify; no duplicate or missing entries; `checksums.txt` has 3 references and 336 file lines.
+
+**Checks run in this implementation run** (13 Nov 2026, working tree, UTC; Python 3.13.18, Linux 6.18):
+
+| Check | Result |
+| --- | --- |
+| Guard (`check-control.js`, tag `v0.7-tests-approved-3`) | 12 passed, 0 failed |
+| PENDING | 216 = 212 checksum + 4 non-checksum, before and after. Exactly two notices replaced (`MASTER-INDEX.md` and `MANIFEST.sha256`: same paths, new hashes); the other 214 are byte-identical; no duplicates |
+| `check-protection` | 339 passed, 0 failed |
+| `import-stage1` | 616 passed, 0 failed (library manifest: 205 files, 0 changed; no unlisted files) |
+| Fast tier (`run-all.sh --fast`) | exit 0: 20 tests passed (+ pre-flight), 0 FAIL, 0 ERROR, 0 BLOCKED, 0 REDUCED; characterisation 28/28, golden v0.5 10/10, golden v0.6.0 10/10, confidence snapshot 51/51 |
+| Rebuild (`cd applications/inventory-intelligence-engine/tests/tools/library && python3 -B build.py /tmp/c96i-regen-1794532983`; new directory outside the repository) | 206 library files: 203 byte-identical; 2 differ because they contain hand-written text (`MASTER-INDEX.md`, `06-Edge-Cases/E08-duplicate-records/EXPECTED.md`); 1 not produced by the generator (`MANIFEST.sha256`) |
+| Full tier | NOT RUN (documentation-only change) |
+| GitHub Actions CI | NOT RUN (no push has been made) |
+
+**Observations carried forward:** the scope of "affected import" (one table or the whole package) is not recorded as an open question in `M1-DESIGN.md`; it should be added in the Stage 2 design phase. The package-level "keep one" wording (`02-Messy-Manufacturer/DATA-ISSUES.md`, E08 `EXPECTED.md`) and A6 remain open. The PENDING inventory CSV must be regenerated after this change.
