@@ -422,16 +422,21 @@ console.log('\n--- S10 failure and recovery');
 // This test is part of Stage 1 and must not be removed or weakened by later stages (record Part F).
 console.log('\n--- S12 D1 currency classification and the currency journey (money fields only)');
 {
-  // ISO list (record Part F): 163 active List One currencies (publication 2026-09-17, via a mirror) minus metals/funds/testing, + 6 withdrawn.
+  // ISO list (record F-2; pre-Stage 2 correction Part A, 14 Nov 2026): official SIX List One 2026-09-17, 178 current codes, minus the
+  // 16 codes that are not currency amounts (4 metals, 10 funds incl. XAD, XTS testing, XXX no currency) = 162, + 6 withdrawn = 168.
+  // Was 169 with hash 079aaabf… in the Stage 1 commit (XAD then wrongly counted as a currency; see record F-2).
   const L = V.CURRENCY_CODES;
-  ok(L.length === 169 && ['ANG', 'BGN', 'CUC', 'HRK', 'SLL', 'ZWL', 'GBP', 'USD', 'EUR', 'XCG', 'ZWG', 'SLE', 'XDR'].every(c => L.includes(c)) &&
-    !['XAU', 'XAG', 'XPT', 'XPD', 'BOV', 'CHE', 'CHW', 'CLF', 'COU', 'MXV', 'USN', 'UYI', 'UYW', 'XTS', 'XXX'].some(c => L.includes(c)),
-    'currency code list: 169 codes; the 6 approved withdrawn codes included; metal, fund and testing codes excluded');
-  ok(crypto.createHash('sha256').update(L.join(' ')).digest('hex') === '079aaabfde8b326f4c25e3ed6ec745cf52aa0eba3f2f2fb1647c6df3b6f22f75',
+  ok(L.length === 168 && ['ANG', 'BGN', 'CUC', 'HRK', 'SLL', 'ZWL', 'GBP', 'USD', 'EUR', 'XCG', 'ZWG', 'SLE', 'XDR'].every(c => L.includes(c)) &&
+    !['XAU', 'XAG', 'XPT', 'XPD', 'BOV', 'CHE', 'CHW', 'CLF', 'COU', 'MXV', 'USN', 'UYI', 'UYW', 'XAD', 'XTS', 'XXX'].some(c => L.includes(c)),
+    'currency code list: 168 codes; the 6 approved withdrawn codes included; metal, fund (incl. XAD), testing and no-currency codes excluded');
+  ok(crypto.createHash('sha256').update(L.join(' ')).digest('hex') === '0919fdbc4af6ad38b46ebfc91853bfa222a54562b428a40909cd98a071efa178',
     'currency code list content pinned by SHA-256 (any change to the list must be deliberate and recorded)');
   ok(eq(V.FOREIGN_SYMBOLS.slice().sort(), ['US$', 'A$', 'C$', 'NZ$', 'HK$', 'S$', 'R$', '$', '€', '¥', '￥', '₹', '₩', '₽', '₺', '₪', '₫', '₱', '₦', '฿', '₴', '₸', '¢'].sort()) &&
     eq(V.FOREIGN_WORDS.slice().sort(), ['kr', 'zł', 'Kč', 'Ft', 'Rs', 'Rp', 'RM', 'lei'].sort()), 'approved foreign symbols (23) and currency words (8), exactly');
-  // value → [expected classification, expected stored value: number | 'blank' (FIELD_BLANKED) | 'foreign' (withheld) | null (missing)]
+  // value → [expected classification, expected stored value: number | 'blank' (FIELD_BLANKED) | 'foreign' (withheld) |
+  //          'prohibited' (withheld; CURRENCY_PROHIBITED_CODE) | null (missing)]
+  // Part A (14 Nov 2026) changed three expectations: "XAU 5", "XTS 5", "BOV 5" were 'none'/'blank' (blanked, Please check, financial
+  // allowed); they are now 'prohibited' (Must fix, money values withheld).
   const CASES = [
     ['GBP 46.10', 'GBP', 46.1], ['46.10 GBP', 'GBP', 46.1], ['46.10GBP', 'GBP', 46.1], ['GBP46.10', 'GBP', 46.1], ['gbp 46.10', 'GBP', 46.1], ['Gbp 46.10', 'GBP', 46.1],
     ['£46.10', 'GBP', 46.1], ['£1,234.56', 'GBP', 1234.56], ['46.10 £', 'GBP', 46.1], ['GBP £46.10', 'GBP', 46.1], ['(GBP 5)', 'GBP', 'blank'], ['GBP 1.234,50', 'GBP', 'blank'],
@@ -447,7 +452,7 @@ console.log('\n--- S12 D1 currency classification and the currency journey (mone
     ['£46.10 USD', 'foreign', 'foreign'], ['GBP 46.10 USD', 'foreign', 'foreign'], ['46.10usd', 'foreign', 'foreign'],
     ['46.10 apples', 'none', 'blank'], ['BOX 12', 'none', 'blank'], ['46p', 'none', 'blank'], ['all 5', 'none', 'blank'], ['cup 5', 'none', 'blank'], ['top 5', 'none', 'blank'],
     ['pen 5', 'none', 'blank'], ['try 5', 'none', 'blank'], ['mad 5', 'none', 'blank'], ['ron 5', 'none', 'blank'], ['Chf 5', 'none', 'blank'], ['R 5', 'none', 'blank'], ['5 R', 'none', 'blank'],
-    ['5 ft', 'none', 'blank'], ['5 rm', 'none', 'blank'], ['XAU 5', 'none', 'blank'], ['XTS 5', 'none', 'blank'], ['BOV 5', 'none', 'blank'], ['USDA 5', 'none', 'blank'], ['TBC', 'none', 'blank'],
+    ['5 ft', 'none', 'blank'], ['5 rm', 'none', 'blank'], ['XAU 5', 'prohibited', 'prohibited'], ['XTS 5', 'prohibited', 'prohibited'], ['BOV 5', 'prohibited', 'prohibited'], ['USDA 5', 'none', 'blank'], ['TBC', 'none', 'blank'],
     ['46.10', 'none', 46.1], ['(5)', 'none', 'blank'], ['', 'none', null],
   ];
   const q = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
@@ -463,14 +468,17 @@ console.log('\n--- S12 D1 currency classification and the currency journey (mone
     if (mc !== cls) wrongCls.push(JSON.stringify(v) + ' → ' + mc);
     const r = journey(v), cost = r.dataset.items[0].Standard_Cost;
     const fileForeign = byCode(r, 'CURRENCY_FOREIGN_VALUE').length === 1 && r.permissions.financial.status === 'withheld';
+    const fileProhibited = byCode(r, 'CURRENCY_PROHIBITED_CODE').length === 1 && r.permissions.financial.status === 'withheld';
     const blanked = byCode(r, 'FIELD_BLANKED').some(i => i.field === 'Standard_Cost');
-    const got = fileForeign && cost === null && !blanked ? 'foreign' : blanked && cost === null && !fileForeign ? 'blank' : cost;
+    const got = fileForeign && cost === null && !blanked && !fileProhibited ? 'foreign' : fileProhibited && cost === null && !blanked && !fileForeign ? 'prohibited'
+      : blanked && cost === null && !fileForeign && !fileProhibited ? 'blank' : cost;
     if (!(got === out || (typeof out === 'number' && Math.abs(got - out) < 1e-9))) wrongOut.push(JSON.stringify(v) + ' → ' + JSON.stringify(got));
     // no drift: the file-level verdict and the row outcome come from the same classification
-    if ((mc === 'foreign') !== fileForeign || (mc === 'foreign') !== (got === 'foreign') || (r.importAccepted !== true) || r.dataset.stock[0].On_Hand_Qty !== 7) drift.push(JSON.stringify(v));
+    if ((mc === 'foreign') !== fileForeign || (mc === 'foreign') !== (got === 'foreign') || (mc === 'prohibited') !== fileProhibited || (mc === 'prohibited') !== (got === 'prohibited') ||
+      (r.importAccepted !== true) || r.dataset.stock[0].On_Hand_Qty !== 7) drift.push(JSON.stringify(v));
   }
-  ok(wrongCls.length === 0, `moneyCurrency(): ${CASES.length} values classified GBP / foreign / none as approved (codes before or after, case rules, every symbol and word, contradictions → foreign)` + (wrongCls.length ? ' — ' + wrongCls.slice(0, 6).join('; ') : ''));
-  ok(wrongOut.length === 0, `D1 journey: each of the ${CASES.length} values in a money field ends as approved (GBP cleaned, foreign withheld, ordinary text blanked and not foreign)` + (wrongOut.length ? ' — ' + wrongOut.slice(0, 6).join('; ') : ''));
+  ok(wrongCls.length === 0, `moneyCurrency(): ${CASES.length} values classified GBP / foreign / prohibited / none as approved (codes before or after, case rules, every symbol and word, contradictions → foreign)` + (wrongCls.length ? ' — ' + wrongCls.slice(0, 6).join('; ') : ''));
+  ok(wrongOut.length === 0, `D1 journey: each of the ${CASES.length} values in a money field ends as approved (GBP cleaned, foreign and prohibited withheld, ordinary text blanked and not foreign)` + (wrongOut.length ? ' — ' + wrongOut.slice(0, 6).join('; ') : ''));
   ok(drift.length === 0, `D1 journey: for all ${CASES.length} values the file-level currency check and the row-building path agree; quantities and import acceptance are unaffected` + (drift.length ? ' — ' + drift.slice(0, 6).join('; ') : ''));
   // the cleaner cannot override the money decision
   const bx = V.cleanMoney(C.field('items', 'Standard_Cost'), 'BOX 12'), us = V.cleanMoney(C.field('items', 'Standard_Cost'), '46.10 USD'), gb = V.cleanMoney(C.field('items', 'Standard_Cost'), 'GBP 46.10');
@@ -480,19 +488,23 @@ console.log('\n--- S12 D1 currency classification and the currency journey (mone
   const same = ['£1,234.56', '£46.10', '46.10', '1,200', '(5)', 'TBC', '', '12 units'].filter(v => { const a = V.cleanMoney(C.field('items', 'Standard_Cost'), v), c = CL.cleanValue(C.field('items', 'Standard_Cost'), v);
     return a.status !== c.status || a.value !== c.value || a.rule !== c.rule || a.reason !== c.reason; });
   ok(same.length === 0, 'values without a GBP code or foreign indicator that the unchanged cleaner handles (e.g. "£1,234.56", "1,200", "TBC") get exactly the cleaner\'s result (status, value, rule, reason)' + (same.length ? ' — differ: ' + same.join(', ') : ''));
-  // quantity regression: quantity fields keep the unchanged cleaner's behaviour, including its existing currency rule
-  const QTY = [['$5', 'reject', 'currency other than £'], ['GBP 5', 'reject', 'currency other than £'], ['BOX 12', 'reject', 'currency other than £'], ['5 GBP', 'reject', 'number with text attached'],
-    ['46.10 USD', 'reject', 'number with text attached'], ['€5', 'reject', 'currency other than £'], ['£5', 5, null], ['12', 12, null], ['1,200', 1200, null], ['46p', 'reject', 'number with text attached']];
+  // quantity regression: quantity fields are never treated by the MONEY rules. The unchanged cleaner, called directly, still gives its
+  // Stage 1 result (column 4). Pre-Stage 2 correction Part B (14 Nov 2026) changed the import result of six values: "£5" was stored as 5
+  // and is now rejected; "$5", "GBP 5", "€5", "5 GBP", "46.10 USD" are still rejected, now with the money-value reason (S12B).
+  const MV = 'money value (', QW = 'currency other than £', TA = 'number with text attached';
+  const QTY = [['$5', 'reject', MV + '$)', QW], ['GBP 5', 'reject', MV + 'GBP)', QW], ['BOX 12', 'reject', QW, QW], ['5 GBP', 'reject', MV + 'GBP)', TA],
+    ['46.10 USD', 'reject', MV + 'USD)', TA], ['€5', 'reject', MV + '€)', QW], ['£5', 'reject', MV + '£)', 5], ['12', 12, null, 12], ['1,200', 1200, null, 1200], ['46p', 'reject', TA, TA]];
   const qWrong = [];
-  for (const [v, want, why] of QTY) {
+  for (const [v, want, why, directWant] of QTY) {
     const r = V.importFiles(mapping(), [{ name: 'items.csv', text: 'Item_ID,Item_Name,Is_Sold,Replenishment,Standard_Cost\nA1,Widget,Y,Buy,5\n' }, { name: 'stock.csv', text: 'Item_ID,Snapshot_Date,On_Hand_Qty\nA1,2026-10-31,' + q(v) + '\n' }]);
     const direct = CL.cleanValue(C.field('stock', 'On_Hand_Qty'), v);
     const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === 'stock');
-    const okCase = want === 'reject' ? rj && rj.rows[0].reasons[0].startsWith('On_Hand_Qty: ' + why) && direct.status === 'invalid' && direct.reason.startsWith(why) && !codes(r).includes('CURRENCY_FOREIGN_VALUE')
-      : r.dataset.stock && r.dataset.stock[0].On_Hand_Qty === want && direct.value === want;
+    const directOk = typeof directWant === 'number' ? direct.value === directWant : direct.status === 'invalid' && direct.reason.startsWith(directWant);
+    const okCase = directOk && (want === 'reject' ? rj && rj.rows[0].reasons[0].startsWith('On_Hand_Qty: ' + why) && r.dataset.stock.length === 0 && !codes(r).some(c => /^CURRENCY_(FOREIGN|PROHIBITED)/.test(c))
+      : r.dataset.stock && r.dataset.stock[0].On_Hand_Qty === want);
     if (!okCase) qWrong.push(JSON.stringify(v));
   }
-  ok(qWrong.length === 0, `quantity regression: ${QTY.length} values in a quantity field give exactly the unchanged cleaner's result (currency text rejects the row; never treated by the money rules)` + (qWrong.length ? ' — ' + qWrong.join(', ') : ''));
+  ok(qWrong.length === 0, `quantity regression: ${QTY.length} values in a quantity field — never treated by the money rules; currency values rejected (Part B: "£5" no longer stored as 5); the unchanged cleaner called directly gives its Stage 1 result` + (qWrong.length ? ' — ' + qWrong.join(', ') : ''));
   // file fixtures
   const f25 = fault('F25-currency-gbp-codes'), base = canonFolder(path.join(FAULTS, 'base'));
   ok(f25.importAccepted && f25.permissions.financial.status === 'allowed' && eq(f25.dataset.stock.map(x => x.Unit_Cost), base.stock.map(x => x.Unit_Cost)) && !codes(f25).includes('FIELD_BLANKED'),
@@ -509,6 +521,252 @@ console.log('\n--- S12 D1 currency classification and the currency journey (mone
     'F28: "EUR …" in items.csv only → only items.csv money values withheld; stock and PO files keep theirs (confirmations stay per file); financial analysis withheld overall');
   const f29 = fault('F29-currency-contradictory');
   ok(f29.permissions.financial.status === 'withheld' && eq(byCode(f29, 'CURRENCY_FOREIGN_VALUE')[0].rows.map(x => x.indicators), [['£', 'USD'], ['GBP', 'USD']]), 'F29: "£… USD" and "GBP … USD" → contradictory indicators treated as foreign');
+}
+
+// ===================== S12A: pre-Stage 2 correction Part A — code classification (owner, 14 Nov 2026) =====================
+// One table (CODE_CLASS) classifies every recognised ISO 4217 code. Recognising a code is not permission to use its values:
+// only GBP, declared and confirmed for the file, reaches financial analysis. The 16 codes that are not currency amounts (funds, precious
+// metals, XTS testing, XXX no currency) are prohibited in money fields: Must fix, financial scope, the file's money values withheld.
+console.log('\n--- S12A Part A: currency and non-currency code classification');
+{
+  // The 178 current codes of the official SIX List One, Pblshd 2026-09-17 (list-one.xml, 47,491 bytes,
+  // SHA-256 33139b438657d1cee116ba737807ea71d19d6de4b90f799a09c56f0cc6a1b0ff; kept outside the repository; record F-2).
+  const LIST_ONE = ('AED AFN ALL AMD AOA ARS AUD AWG AZN BAM BBD BDT BHD BIF BMD BND BOB BOV BRL BSD BTN BWP BYN BZD CAD CDF CHE CHF CHW ' +
+    'CLF CLP CNY COP COU CRC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GHS GIP GMD GNF GTQ GYD HKD HNL ' +
+    'HTG HUF IDR ILS INR IQD IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA ' +
+    'MKD MMK MNT MOP MRU MUR MVR MWK MXN MXV MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD ' +
+    'RUB RWF SAR SBD SCR SDG SEK SGD SHP SLE SOS SRD SSP STN SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD ' +
+    'USN UYI UYU UYW UZS VED VES VND VUV WST XAD XAF XAG XAU XBA XBB XBC XBD XCD XCG XDR XOF XPD XPF XPT XSU XTS XUA XXX ' +
+    'YER ZAR ZMW ZWG').split(' ');
+  // Withdrawn codes approved by the owner; each is in the official SIX List Three (Pblshd 2026-01-01) and none is in List One.
+  const WITHDRAWN = ['ANG', 'BGN', 'CUC', 'HRK', 'SLL', 'ZWL'];
+  const WANT_PROHIBITED = { BOV: 'fund', CHE: 'fund', CHW: 'fund', CLF: 'fund', COU: 'fund', MXV: 'fund', USN: 'fund', UYI: 'fund', UYW: 'fund', XAD: 'fund',
+    XAG: 'metal', XAU: 'metal', XPD: 'metal', XPT: 'metal', XTS: 'testing', XXX: 'no_currency' };
+  const LABEL = { fund: 'fund code', metal: 'precious metal code', testing: 'testing code', no_currency: 'no-currency code' };
+  const CC = V.CODE_CLASS, keys = Object.keys(CC).sort();
+  const count = k => keys.filter(c => CC[c] === k).length;
+  ok(LIST_ONE.length === 178 && new Set(LIST_ONE).size === 178 && keys.length === 184 && eq(keys, LIST_ONE.concat(WITHDRAWN).sort()) &&
+    LIST_ONE.every(c => CC[c] !== 'withdrawn') && WITHDRAWN.every(c => CC[c] === 'withdrawn'),
+    'CODE_CLASS covers exactly the 178 codes of official SIX List One 2026-09-17 plus the 6 approved withdrawn codes (184), each exactly once');
+  ok(count('gbp') === 1 && CC.GBP === 'gbp' && count('ordinary') === 161 && count('withdrawn') === 6 && count('fund') === 10 && count('metal') === 4 &&
+    count('testing') === 1 && count('no_currency') === 1 && eq([...new Set(keys.map(c => CC[c]))].sort(), ['fund', 'gbp', 'metal', 'no_currency', 'ordinary', 'testing', 'withdrawn']),
+    'classification counts: GBP 1, ordinary 161, withdrawn 6, fund 10, precious metal 4, testing 1 (XTS), no currency 1 (XXX)');
+  ok(eq(V.PROHIBITED_CODES, WANT_PROHIBITED) && Object.keys(V.PROHIBITED_CODES).length === 16 &&
+    eq(V.CURRENCY_CODES, keys.filter(c => !WANT_PROHIBITED[c])) && V.CURRENCY_CODES.length === 168,
+    'derived lists: PROHIBITED_CODES = the 16 expected codes with their kinds; CURRENCY_CODES = the other 168, derived from the same table');
+  ok(crypto.createHash('sha256').update(keys.map(c => c + ':' + CC[c]).join(' ')).digest('hex') === 'd8fc96b70a2dde8611b77e5300e2fc2ced5fe4d77dcc449e351178e2bb6be284' &&
+    crypto.createHash('sha256').update(Object.entries(V.PROHIBITED_CODES).map(([c, k]) => c + ':' + k).join(' ')).digest('hex') === '2ac4c42b856493b3a79a9d440f94ea486e5a830f68800cebcd1c304790262cc0',
+    'CODE_CLASS and PROHIBITED_CODES pinned by SHA-256 (any reclassification must be deliberate and recorded)');
+  ok(Object.isFrozen(CC) && Object.isFrozen(V.PROHIBITED_CODES) && Object.isFrozen(V.CURRENCY_CODES) && Object.getPrototypeOf(CC) === null && CC.constructor === undefined,
+    'the table and both derived lists are frozen; the table has no inherited keys');
+  // duplicate and malformed entries stop the module from loading (checked by loading altered source text into a fresh context)
+  const src = fs.readFileSync(path.join(APP, 'js', 'import', 'validate.js'), 'utf8');
+  const loadAltered = (from, to) => {
+    const ctx = vm.createContext({}); vm.runInContext(fs.readFileSync(path.join(APP, 'assets', 'xlsx.mini.min.js'), 'utf8'), ctx);
+    for (const f of ['canonical', 'read', 'clean', 'mapping']) vm.runInContext(fs.readFileSync(path.join(APP, 'js', 'import', f + '.js'), 'utf8'), ctx);
+    if (!src.includes(from)) return 'source text not found';
+    try { vm.runInContext(src.replace(from, to), ctx); return 'loaded'; } catch (e) { return e.message; }
+  };
+  const dup = loadAltered("codes: 'XTS' })", "codes: 'XTS XAU' })"), dup2 = loadAltered("codes: 'XTS' })", "codes: 'XTS XTS' })"), bad = loadAltered("codes: 'XTS' })", "codes: 'XTS xau' })");
+  ok(/XAU is classified twice \(metal and testing\)/.test(dup) && /XTS is classified twice/.test(dup2) && /malformed currency code "xau"/.test(bad),
+    'a code listed twice (in two kinds or the same kind) or not written as three capitals stops validate.js loading — duplicates cannot slip in' + ` (${dup}; ${bad})`);
+  // classifyCode: capitals only, except GBP/EUR/USD in any case
+  const cls = { GBP: 'gbp', gbp: 'gbp', Eur: 'ordinary', usd: 'ordinary', USD: 'ordinary', JPY: 'ordinary', jpy: null, ANG: 'withdrawn', ang: null, XAD: 'fund', xad: null, Xad: null,
+    BOV: 'fund', XAU: 'metal', xau: null, XTS: 'testing', XXX: 'no_currency', xxx: null, XDR: 'ordinary', ABC: null, ALL: 'ordinary', all: null, GBPX: null, GB: null, '': null };
+  const clsWrong = Object.entries(cls).filter(([w, k]) => V.classifyCode(w) !== k).map(([w]) => w + '→' + V.classifyCode(w));
+  ok(clsWrong.length === 0 && V.classifyCode(null) === null && V.classifyCode(undefined) === null && V.classifyCode(123) === null,
+    `classifyCode(): ${Object.keys(cls).length} words, capitals rule kept ("xau", "xxx", "all" are ordinary words; "gbp", "Eur", "usd" count)` + (clsWrong.length ? ' — ' + clsWrong.join(', ') : ''));
+
+  // the journey for one money value in a GBP-confirmed items file (same mapping as S12)
+  const q = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  const mapping = (cur) => ({ format: 'CG-IMPORT-MAPPING', version: 1, name: 'Part A journey', files: { 'items.csv': { dateFormat: 'ISO', ...(cur === undefined ? { currency: { code: 'GBP', confirmed: true } } : cur ? { currency: cur } : {}) }, 'stock.csv': { dateFormat: 'ISO' } },
+    tables: { items: { sources: [{ file: 'items.csv', columns: { Item_ID: { source: 'Item_ID' }, Item_Name: { source: 'Item_Name' }, Is_Sold: { source: 'Is_Sold' }, Replenishment: { source: 'Replenishment' }, Standard_Cost: { source: 'Standard_Cost' } } }] },
+      stock: { sources: [{ file: 'stock.csv', columns: { Item_ID: { source: 'Item_ID' }, Snapshot_Date: { source: 'Snapshot_Date' }, On_Hand_Qty: { source: 'On_Hand_Qty' } } }] } },
+    dataset: { Snapshot_Date: '2026-10-31' } });
+  const journey = (vals, cur) => V.importFiles(mapping(cur), [{ name: 'items.csv', text: 'Item_ID,Item_Name,Is_Sold,Replenishment,Standard_Cost\n' + vals.map((v, i) => 'A' + (i + 1) + ',Widget,Y,Buy,' + q(v)).join('\n') + '\n' },
+    { name: 'stock.csv', text: 'Item_ID,Snapshot_Date,On_Hand_Qty\n' + vals.map((v, i) => 'A' + (i + 1) + ',2026-10-31,7').join('\n') + '\n' }]);
+  const costs = r => r.dataset.items.map(x => x.Standard_Cost);
+
+  // every prohibited code, before and after the number: Must fix (financial), withheld, never stored, import accepted, quantities intact
+  const pWrong = [];
+  for (const [code, kind] of Object.entries(WANT_PROHIBITED)) for (const v of [code + ' 5', '5 ' + code, code + '5.00']) {
+    const mc = V.moneyCurrency(v), r = journey([v]), pi = byCode(r, 'CURRENCY_PROHIBITED_CODE');
+    const good = mc.currency === 'prohibited' && eq(mc.prohibited, [{ code, kind }]) && pi.length === 1 && pi[0].category === 'Must fix' && pi[0].scope === 'financial' &&
+      pi[0].message.includes(code + ': ' + LABEL[kind]) && pi[0].rows.length === 1 && pi[0].rows[0].value === v && pi[0].rows[0].reason.includes(code + ': ' + LABEL[kind]) &&
+      r.permissions.financial.status === 'withheld' && eq(costs(r), [null]) && r.importAccepted === true && r.dataset.stock[0].On_Hand_Qty === 7 &&
+      !codes(r).includes('CURRENCY_FOREIGN_VALUE') && !codes(r).includes('FIELD_BLANKED') && !codes(r).includes('CURRENCY_CONFIRMED');
+    if (!good) pWrong.push(JSON.stringify(v));
+  }
+  ok(pWrong.length === 0, `all 16 prohibited codes × 3 forms (48 values): "not a currency amount" Must fix (financial), reason names the code and its kind, file money withheld, value never stored, import accepted, quantities intact` + (pWrong.length ? ' — ' + pWrong.slice(0, 6).join('; ') : ''));
+  // XAD: at least its Stage 1 protection (Stage 1: CURRENCY_FOREIGN_VALUE, Must fix, financial scope, money withheld)
+  const xad = journey(['XAD 46.10']), xi = byCode(xad, 'CURRENCY_PROHIBITED_CODE')[0];
+  ok(xi && xi.category === 'Must fix' && xi.scope === 'financial' && xad.permissions.financial.status === 'withheld' && xad.dataset.items[0].Standard_Cost === null &&
+    xi.message === 'items.csv: 1 money value carries a code that is not a currency amount (XAD: fund code). Such values cannot be used as money, so this file\'s money values are withheld from financial analysis. Correct the values and import again.' &&
+    V.cleanMoney(C.field('items', 'Standard_Cost'), 'XAD 46.10').reason === 'not a currency amount (XAD: fund code): withheld, never used as money',
+    'XAD keeps (at least) its Stage 1 protection — Must fix, financial scope, money withheld, nothing stored — now explained as a fund code (exact file and row messages)');
+  // several codes in one value, and codes with GBP or foreign indicators: prohibited wins; every code is named
+  const multi = [['£5 XAD', ['XAD: fund code'], ['£']], ['XAD 5 GBP', ['XAD: fund code'], ['GBP']], ['EUR 5 XAU', ['XAU: precious metal code'], ['EUR']],
+    ['XAU XAG 5', ['XAU: precious metal code', 'XAG: precious metal code'], []], ['USD 5 XTS', ['XTS: testing code'], ['USD']], ['$5 XXX', ['XXX: no-currency code'], ['$']],
+    ['€5 BOV XAU', ['BOV: fund code', 'XAU: precious metal code'], ['€']]];
+  const mWrong = multi.filter(([v, named, also]) => {
+    const r = journey([v]), pi = byCode(r, 'CURRENCY_PROHIBITED_CODE')[0], reason = V.cleanMoney(C.field('items', 'Standard_Cost'), v).reason;
+    return !(V.moneyCurrency(v).currency === 'prohibited' && pi && named.every(n => pi.message.includes(n) && reason.includes(n)) && also.every(a => pi.message.includes('also contain ' + a) && reason.includes('also ' + a)) &&
+      !codes(r).includes('CURRENCY_FOREIGN_VALUE') && r.permissions.financial.status === 'withheld' && eq(costs(r), [null]));
+  }).map(([v]) => v);
+  ok(mWrong.length === 0, `${multi.length} values with several indicators (prohibited + £/GBP/EUR/USD/$/€, two prohibited codes): classified prohibited; the file message and the row reason name every code` + (mWrong.length ? ' — ' + mWrong.join(', ') : ''));
+  // one file mixing prohibited, foreign and plain values: both Must fix issues; prohibited values are not counted as £/plain values
+  const mix = journey(['XAD 5', 'EUR 5', '7', '£8']), mf = byCode(mix, 'CURRENCY_FOREIGN_VALUE')[0], mp = byCode(mix, 'CURRENCY_PROHIBITED_CODE')[0];
+  ok(mf && mp && mf.category === 'Must fix' && mp.category === 'Must fix' && eq(mp.rows.map(x => x.value), ['XAD 5']) && eq(mf.rows.map(x => x.value), ['EUR 5']) &&
+    /alongside 2 £\/plain values/.test(mf.message) && eq(costs(mix), [null, null, null, null]) && mix.permissions.financial.status === 'withheld' &&
+    eq(mix.permissions.financial.reasons, ['items.csv: codes that are not currency amounts, foreign currency values']) && mix.importAccepted === true,
+    'a file with "XAD 5", "EUR 5", "7", "£8": prohibited and foreign Must fix both reported; every money value in that file withheld (the plain 7 and £8 too); import accepted');
+  // the primary currencies in their supported forms: GBP read; USD and EUR recognised but never read as GBP
+  const gbpForms = [['£5', 5], ['GBP 5', 5], ['5 GBP', 5], ['gbp 5', 5], ['5GBP', 5], ['£1,234.56', 1234.56], ['GBP 1,234.56', 1234.56], ['5 £', 5], ['GBP £5', 5]];
+  const usdForms = ['$5', 'USD 5', '5 USD', 'usd 5', 'Usd 5', '5USD', 'US$5', '$1,234.56', 'USD 1,234.56'];
+  const eurForms = ['€5', 'EUR 5', '5 EUR', 'eur 5', 'Eur 5', '5€', '5EUR', '€1.234,56', 'EUR 1,234.56'];
+  const gWrong = gbpForms.filter(([v, n]) => { const r = journey([v]); return !(V.moneyCurrency(v).currency === 'GBP' && r.dataset.items[0].Standard_Cost === n && r.permissions.financial.status === 'allowed'); }).map(([v]) => v);
+  const fWrong = usdForms.concat(eurForms).filter(v => { const r = journey([v]); return !(V.moneyCurrency(v).currency === 'foreign' && byCode(r, 'CURRENCY_FOREIGN_VALUE').length === 1 && eq(costs(r), [null]) && r.permissions.financial.status === 'withheld'); });
+  ok(gWrong.length === 0 && fWrong.length === 0, `primary currencies: ${gbpForms.length} GBP forms read as GBP in a GBP-confirmed file; ${usdForms.length} USD and ${eurForms.length} EUR forms recognised as foreign, withheld and never read as GBP` + (gWrong.concat(fWrong).length ? ' — ' + gWrong.concat(fWrong).join(', ') : ''));
+  // "$" alone is ambiguous: it never means USD (or GBP); a USD declaration does not make dollar values usable
+  const dl = V.moneyCurrency('$5'), cad = V.moneyCurrency('C$5'), usdDecl = journey(['$5', '5'], { code: 'USD', confirmed: true });
+  ok(dl.currency === 'foreign' && eq(dl.indicators, ['$']) && eq(cad.indicators, ['C$']) && !dl.indicators.includes('USD') &&
+    codes(usdDecl).includes('CURRENCY_UNSUPPORTED') && byCode(usdDecl, 'CURRENCY_FOREIGN_VALUE').length === 1 && eq(costs(usdDecl), [null, null]) && usdDecl.permissions.financial.status === 'withheld',
+    '"$5" is recorded as "$" only (never inferred as USD or GBP; "C$5" stays "C$"); a file declared and confirmed as USD is still unsupported — no value is used, nothing is converted');
+  // unknown codes: never GBP, never stored; they stay Please check (FIELD_BLANKED), as approved
+  const unknown = ['ABC 5', '5 ABC', '£5 ABC', 'ABC 5 GBP', 'GBP 5 ABC', 'ABC£5', '5ABC', 'GBP ABC 5', 'xau 5', 'Xad 5'];
+  const uWrong = unknown.filter(v => { const r = journey([v]); const b = byCode(r, 'FIELD_BLANKED')[0];
+    return !(eq(costs(r), [null]) && b && b.category === 'Please check' && b.rows[0].value === v && !codes(r).includes('CURRENCY_PROHIBITED_CODE') && !codes(r).includes('CURRENCY_FOREIGN_VALUE') && r.importAccepted === true); });
+  ok(uWrong.length === 0, `unknown codes in ${unknown.length} positions and combinations (incl. with £/GBP, and lower-case "xau"/"Xad"): never stored, never read as GBP, blanked as Please check` + (uWrong.length ? ' — ' + uWrong.join(', ') : ''));
+  // declarations still mandatory: an undeclared or unconfirmed file with a prohibited code reports both problems
+  const und = journey(['XAD 5', '5'], null), unc = journey(['XAU 5', '5'], { code: 'GBP', confirmed: false });
+  ok(codes(und).includes('CURRENCY_UNCONFIRMED') && codes(und).includes('CURRENCY_PROHIBITED_CODE') && eq(costs(und), [null, null]) &&
+    codes(unc).includes('CURRENCY_UNCONFIRMED') && codes(unc).includes('CURRENCY_PROHIBITED_CODE') && eq(costs(unc), [null, null]) && und.permissions.financial.status === 'withheld' && unc.permissions.financial.status === 'withheld',
+    'GBP declaration and confirmation still required: undeclared or unconfirmed files with a prohibited code report both problems; plain numbers are not used');
+  // money fields in other tables (stock, supplier_items, po_lines, po_headers) use the same rule
+  const stockMap = { format: 'CG-IMPORT-MAPPING', version: 1, name: 'Part A stock', files: { 'items.csv': { dateFormat: 'ISO' }, 'stock.csv': { dateFormat: 'ISO', currency: { code: 'GBP', confirmed: true } } },
+    tables: { items: { sources: [{ file: 'items.csv', columns: { Item_ID: { source: 'Item_ID' }, Item_Name: { source: 'Item_Name' }, Is_Sold: { source: 'Is_Sold' }, Replenishment: { source: 'Replenishment' } } }] },
+      stock: { sources: [{ file: 'stock.csv', columns: { Item_ID: { source: 'Item_ID' }, Snapshot_Date: { source: 'Snapshot_Date' }, On_Hand_Qty: { source: 'On_Hand_Qty' }, Unit_Cost: { source: 'Unit_Cost' } } }] } },
+    dataset: { Snapshot_Date: '2026-10-31' } };
+  const st = V.importFiles(stockMap, [{ name: 'items.csv', text: 'Item_ID,Item_Name,Is_Sold,Replenishment\nA1,W,Y,Buy\nA2,V,Y,Buy\n' }, { name: 'stock.csv', text: 'Item_ID,Snapshot_Date,On_Hand_Qty,Unit_Cost\nA1,2026-10-31,7,XPT 9\nA2,2026-10-31,8,4\n' }]);
+  ok(byCode(st, 'CURRENCY_PROHIBITED_CODE').length === 1 && byCode(st, 'CURRENCY_PROHIBITED_CODE')[0].file === 'stock.csv' && eq(st.dataset.stock.map(x => x.Unit_Cost), [null, null]) &&
+    eq(st.dataset.stock.map(x => x.On_Hand_Qty), [7, 8]) && st.permissions.financial.status === 'withheld' && st.importAccepted === true,
+    'stock Unit_Cost "XPT 9": the same rule in another table — stock.csv money withheld, quantities kept, import accepted');
+}
+
+// ===================== S12B: pre-Stage 2 correction Part B — currency values in quantity and lead-time fields (owner, 14 Nov 2026) ==========
+// Defect: the unchanged number cleaner removes a leading £ from every number, so "£5" in a quantity was stored as 5. A detected currency
+// value in any of the 21 non-money number fields is now invalid and follows that field's EXISTING rule (row rejected or value blanked).
+// Expected outcomes below are written out independently per field (not read from canonical.js), and every case is also compared with an
+// existing invalid value ("abc") in the same place: severities, partial-import results and permissions must be identical.
+console.log('\n--- S12B Part B: currency values in quantity and lead-time fields');
+{
+  const QTY17 = ['items.Min_Order_Qty', 'items.Order_Multiple', 'stock.On_Hand_Qty', 'stock.Allocated_Qty', 'stock.On_Order_Qty', 'stock.Reorder_Point_Qty', 'stock.Safety_Stock_Qty',
+    'demand.Units', 'demand.Forecast_Units', 'sales_lines.Ordered_Qty', 'sales_lines.Shipped_Qty', 'supplier_items.Min_Order_Qty', 'po_lines.Ordered_Qty', 'po_lines.Received_Qty',
+    'bom.Qty_Per', 'production_orders.Planned_Qty', 'production_orders.Completed_Qty'];
+  const DAYS4 = ['items.Purchase_Lead_Time_Days', 'items.Production_Lead_Time_Days', 'suppliers.Standard_Lead_Time_Days', 'supplier_items.Lead_Time_Days'];
+  // existing consequence of an invalid value, per field (Stage 1 rules, unchanged by Part B)
+  const MUST = ['stock.On_Hand_Qty', 'stock.Allocated_Qty', 'stock.On_Order_Qty', 'stock.Reorder_Point_Qty', 'stock.Safety_Stock_Qty', 'bom.Qty_Per']; // row rejected; Must fix; dataset blocked
+  const HIST = ['demand.Units', 'sales_lines.Ordered_Qty', 'sales_lines.Shipped_Qty', 'po_lines.Ordered_Qty', 'po_lines.Received_Qty', 'production_orders.Planned_Qty', 'production_orders.Completed_Qty']; // row rejected; Please check
+  const REQUIRED = ['stock.On_Hand_Qty', 'demand.Units', 'sales_lines.Ordered_Qty', 'po_lines.Ordered_Qty', 'bom.Qty_Per', 'production_orders.Planned_Qty'];
+  const ALL21 = QTY17.concat(DAYS4), BLANK = ALL21.filter(f => !MUST.includes(f) && !HIST.includes(f)); // value blanked; Please check; row kept
+  const nonMoney = []; for (const [t, def] of Object.entries(C.TABLES)) for (const f of def.fields) if (f.type === 'num' && !MP.moneyFields(t).includes(f.name)) nonMoney.push(t + '.' + f.name);
+  ok(QTY17.length === 17 && DAYS4.length === 4 && eq(nonMoney.slice().sort(), ALL21.slice().sort()) && BLANK.length === 8 &&
+    eq(ALL21.filter(f => C.field(f.split('.')[0], f.split('.')[1]).req).sort(), REQUIRED.slice().sort()),
+    'field inventory: the schema has exactly 21 non-money number fields — 17 quantities and 4 lead times in days — and the 6 required ones are as expected (nothing omitted)');
+
+  // a minimal 25-row dataset per table; row 1 of the table under test gets the value (1 row of 25 = 4%, below the 5% history threshold)
+  const N = 25, IT = [...Array(N)].map((_, i) => 'A' + (i + 1));
+  const BASE = {
+    items: { h: ['Item_ID', 'Item_Name', 'Is_Sold', 'Replenishment', 'Purchase_Lead_Time_Days', 'Production_Lead_Time_Days', 'Min_Order_Qty', 'Order_Multiple'], row: i => [IT[i], 'W' + i, 'Y', 'Buy', '10', '11', '12', '13'] },
+    stock: { h: ['Item_ID', 'Snapshot_Date', 'On_Hand_Qty', 'Allocated_Qty', 'On_Order_Qty', 'Reorder_Point_Qty', 'Safety_Stock_Qty'], row: i => [IT[i], '2026-10-31', '7', '0', '0', '2', '1'] },
+    demand: { h: ['Item_ID', 'Period_Start', 'Units', 'Forecast_Units'], row: i => [IT[i], '2026-09-01', '3', '3'] },
+    sales_lines: { h: ['SO_ID', 'Line_No', 'Item_ID', 'Order_Date', 'Ordered_Qty', 'Shipped_Qty'], row: i => ['SO' + i, '1', IT[i], '2026-09-05', '2', '2'] },
+    suppliers: { h: ['Supplier_ID', 'Standard_Lead_Time_Days'], row: i => ['S' + i, '14'] },
+    supplier_items: { h: ['Supplier_ID', 'Item_ID', 'Lead_Time_Days', 'Min_Order_Qty'], row: i => ['S' + i, IT[i], '14', '1'] },
+    po_lines: { h: ['PO_ID', 'Line_No', 'Supplier_ID', 'Item_ID', 'Order_Date', 'Ordered_Qty', 'Received_Qty'], row: i => ['PO' + i, '1', 'S' + i, IT[i], '2026-09-05', '4', '4'] },
+    bom: { h: ['Parent_Item_ID', 'Component_Item_ID', 'Qty_Per'], row: i => [IT[i], IT[(i + 1) % N], '2'] },
+    production_orders: { h: ['Production_Order_ID', 'Item_ID', 'Planned_Qty', 'Completed_Qty'], row: i => ['MO' + i, IT[i], '10', '10'] } };
+  const qv = v => /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  const runField = (tf, vals) => { // vals: values for the first rows of the table under test
+    const [t, fn] = tf.split('.');
+    const tabs = [...new Set(['items', 'stock'].concat(['supplier_items', 'po_lines'].includes(t) ? ['suppliers', t] : [t]))];
+    const mapping = { format: 'CG-IMPORT-MAPPING', version: 1, name: 'Part B', files: {}, tables: {}, dataset: { Snapshot_Date: '2026-10-31' } }, inputs = [];
+    for (const tb of tabs) {
+      const b = BASE[tb], file = tb + '.csv';
+      mapping.files[file] = { dateFormat: 'ISO' };
+      mapping.tables[tb] = { sources: [{ file, columns: Object.fromEntries(b.h.map(h => [h, { source: h }])) }] };
+      const lines = [b.h.join(',')];
+      for (let i = 0; i < N; i++) { const r = b.row(i); if (tb === t && i < vals.length) r[b.h.indexOf(fn)] = vals[i]; lines.push(r.map(qv).join(',')); }
+      inputs.push({ name: file, text: lines.join('\n') + '\n' });
+    }
+    return V.importFiles(mapping, inputs);
+  };
+  // outcome of the test value in row 1: what was stored, and how it was reported
+  const outcome = (tf, r, n) => {
+    const [t, fn] = tf.split('.'), rows = r.dataset[t] || [];
+    const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === t), bl = byCode(r, 'FIELD_BLANKED').find(i => i.table === t && i.field === fn);
+    const rejectedRow = rj && rj.rows.find(x => x.row === 2);
+    return { kept: rows.length, stored: rows.length === N ? rows[0][fn] : undefined, values: rows.map(x => x[fn]),
+      rejected: !!rejectedRow, rejectReason: rejectedRow ? (rejectedRow.reasons.find(s => s.startsWith(fn + ':')) || '').slice(fn.length + 2) : null, rejectCat: rj ? rj.category : null,
+      blanked: !!(bl && bl.rows.some(x => x.row === 2)), blankReason: bl ? (bl.rows.find(x => x.row === 2) || {}).reason : null, blankCat: bl ? bl.category : null,
+      dataset: r.permissions.dataset.status, analyses: JSON.stringify(r.permissions.analyses), accepted: r.importAccepted,
+      shape: JSON.stringify(r.issues.map(i => [i.code, i.category, i.scope, i.table || null, i.field || null])) };
+  };
+  const ending = tf => /_Days$/.test(tf) ? 'lead-time field: a currency amount cannot be used as a number of days' : 'quantity field: a currency amount cannot be used as a quantity';
+  // currency values: £ (with spaces, after, twice, alone, zero, middle, negative, brackets, separators), GBP, EUR, USD, $, € and other codes
+  const CUR = [['£5', '£'], ['£5.50', '£'], ['£ 5', '£'], ['5£', '£'], ['5 £', '£'], ['£5 £5', '£'], ['£', '£'], ['GBP', 'GBP'], ['£0', '£'], ['£0.00', '£'], ['5 £ 5', '£'],
+    ['5£5', '£'], ['-£5', '£'], ['(£5)', '£'], ['£1,234', '£'], ['£-5', '£'], ['GBP 5', 'GBP'], ['5 GBP', 'GBP'], ['gbp 5', 'gbp'], ['GBP5', 'GBP'], ['5GBP', 'GBP'],
+    ['EUR 5', 'EUR'], ['5 EUR', 'EUR'], ['€5', '€'], ['5€', '€'], ['eur 5', 'eur'], ['5 € 5', '€'], ['USD 5', 'USD'], ['5 USD', 'USD'], ['$5', '$'], ['US$5', 'US$'],
+    ['usd 5', 'usd'], ['ANG 5', 'ANG'], ['CHF 5', 'CHF'], ['XAD 5', 'XAD'], ['XAU 5', 'XAU'], ['XTS 5', 'XTS'], ['XXX 5', 'XXX'], ['£5 USD', '£, USD']];
+  const baseline = {}; for (const tf of ALL21) baseline[tf] = outcome(tf, runField(tf, ['abc']));
+  for (const tf of ALL21) {
+    const bad = [], base = baseline[tf];
+    const cls = MUST.includes(tf) ? 'must' : HIST.includes(tf) ? 'hist' : 'blank';
+    const clsOk = cls === 'must' ? base.rejected && base.rejectCat === 'Must fix' && base.dataset === 'blocked' : cls === 'hist' ? base.rejected && base.rejectCat === 'Please check' && base.dataset !== 'blocked'
+      : base.blanked && base.blankCat === 'Please check' && base.stored === null;
+    if (!clsOk) bad.push('existing rule for "abc" is not ' + cls);
+    for (const [v, ind] of CUR) {
+      const o = outcome(tf, runField(tf, [v]));
+      const want = 'money value (' + ind + ') in a ' + ending(tf);
+      // 1. never stored: the row is gone, or the value is null; no accepted row holds the value
+      const neverStored = cls === 'blank' ? o.kept === N && o.stored === null : o.kept === N - 1 && o.stored === undefined;
+      // 2. reported with the money reason, under the field's existing rule
+      const reported = cls === 'blank' ? o.blanked && o.blankReason === want && o.blankCat === 'Please check' && !o.rejected : o.rejected && o.rejectReason === want && o.rejectCat === (cls === 'must' ? 'Must fix' : 'Please check') && !o.blanked;
+      // 3. the same consequences as an existing invalid value in the same place (issues, severities, scopes, permissions, acceptance)
+      const same = o.shape === base.shape && o.dataset === base.dataset && o.analyses === base.analyses && o.accepted === base.accepted && o.kept === base.kept;
+      if (!neverStored || !reported || !same) bad.push(JSON.stringify(v) + (neverStored ? '' : ' STORED ' + JSON.stringify(o.stored)) + (reported ? '' : ' reason "' + (o.rejectReason || o.blankReason) + '"') + (same ? '' : ' consequences differ'));
+    }
+    ok(bad.length === 0, `${tf} (${REQUIRED.includes(tf) ? 'required' : 'optional'}; ${cls === 'must' ? 'row rejected, Must fix' : cls === 'hist' ? 'history row rejected, Please check' : 'value blanked, Please check'}): ${CUR.length} currency values never stored, reported with the ${/_Days$/.test(tf) ? 'number-of-days' : 'quantity'} reason, consequences identical to an existing invalid value` + (bad.length ? ' — ' + bad.slice(0, 5).join('; ') : ''));
+  }
+  // values that are NOT currency values keep exactly the unchanged cleaner's result in every field (stored value, or reason)
+  const PLAIN = ['7', '0', '5.5', '1,234', '(5)', '-5', ' 8 ', '12 units', '5 units', '5 Ft', '5 kr', '5 RM', '5 Rs', 'ABC 5', 'abc', 'n/a', 'TBC', '5 box', 'xau 5', 'cup 5', '46p', '1.200,50'];
+  const pWrong = [];
+  for (const tf of ALL21) for (const v of PLAIN) {
+    const [t, fn] = tf.split('.'), direct = CL.cleanValue(C.field(t, fn), v), o = outcome(tf, runField(tf, [v]));
+    const good = (direct.status === 'ok' || direct.status === 'cleaned') ? o.kept === N && o.stored === direct.value && !o.rejected && !o.blanked
+      : direct.status === 'invalid' && (o.rejectReason === direct.reason || o.blankReason === direct.reason) && !/money value/.test(o.rejectReason || o.blankReason || '');
+    if (!good) pWrong.push(tf + ' ' + JSON.stringify(v));
+  }
+  ok(pWrong.length === 0, `${PLAIN.length} non-currency values (plain, zero, decimal, separators, brackets, negative, units, "5 Ft", "5 kr", "5 RM", "ABC 5", "xau 5") × 21 fields: exactly the unchanged cleaner's result — stored value or existing reason; never the money message` + (pWrong.length ? ' — ' + pWrong.slice(0, 6).join('; ') : ''));
+  // history partial-import thresholds unchanged: 2 rows of 25 (8%) behave exactly like 2 existing invalid values
+  const tWrong = HIST.filter(tf => { const a = outcome(tf, runField(tf, ['£5', '£6'])), b = outcome(tf, runField(tf, ['abc', 'abc'])); return !(a.shape === b.shape && a.analyses === b.analyses && a.dataset === b.dataset && a.kept === N - 2); });
+  ok(tWrong.length === 0, `history tables above the 5% threshold (2 of 25 rows): "£5" rows give exactly the same analysis permissions and issues as existing invalid rows in all ${HIST.length} history quantities` + (tWrong.length ? ' — ' + tWrong.join(', ') : ''));
+  // no currency value reaches accepted data anywhere: every numeric value stored in the 21 fields equals a base value
+  const leak = [];
+  for (const tf of ALL21) { const [t, fn] = tf.split('.'), r = runField(tf, CUR.slice(0, 20).map(x => x[0])); const baseVal = Number(BASE[t].row(24)[BASE[t].h.indexOf(fn)]);
+    (r.dataset[t] || []).forEach(x => { if (x[fn] !== null && x[fn] !== baseVal) leak.push(tf + '=' + x[fn]); }); }
+  ok(leak.length === 0, '20 currency values in one table at once (80% of rows), in each of the 21 fields: no currency value is stored as a number in any accepted row' + (leak.length ? ' — ' + leak.slice(0, 6).join(', ') : ''));
+  // the unchanged cleaner still reads "£5.50" as 5.5 when called directly (Stage 1 rule; Part B never calls it for currency values)
+  ok(CL.cleanValue(C.field('stock', 'On_Hand_Qty'), '£5.50').value === 5.5 && CL.cleanNumber('£5.50').value === 5.5 && CL.cleanNumber('£1,234').value === 1234 &&
+    CL.cleanValue(C.field('items', 'Purchase_Lead_Time_Days'), '£5').value === 5, 'clean.js is unchanged: called directly, "£5.50" → 5.5, "£1,234" → 1234, lead time "£5" → 5 (only validate.js stops these)');
+  // exact messages as the user sees them: required master quantity, optional quantity, history quantity, lead time
+  const e1 = runField('stock.On_Hand_Qty', ['£5']), e2 = runField('items.Min_Order_Qty', ['£5']), e3 = runField('demand.Units', ['£5']), e4 = runField('items.Purchase_Lead_Time_Days', ['£5']);
+  const r1 = byCode(e1, 'ROW_REJECTED').find(i => i.table === 'stock'), b2 = byCode(e2, 'FIELD_BLANKED').find(i => i.field === 'Min_Order_Qty'), r3 = byCode(e3, 'ROW_REJECTED').find(i => i.table === 'demand'), b4 = byCode(e4, 'FIELD_BLANKED').find(i => i.field === 'Purchase_Lead_Time_Days');
+  ok(r1 && eq(r1.rows[0].reasons, ['On_Hand_Qty: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && r1.category === 'Must fix' && e1.dataset.stock.length === N - 1 && !e1.dataset.stock.some(x => x.Item_ID === 'A1') &&
+    b2 && b2.rows[0].reason === 'money value (£) in a quantity field: a currency amount cannot be used as a quantity' && b2.rows[0].value === '£5' && e2.dataset.items[0].Min_Order_Qty === null &&
+    r3 && r3.category === 'Please check' && eq(r3.rows[0].reasons, ['Units: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && !e3.dataset.demand.some(x => x.Item_ID === 'A1') &&
+    b4 && b4.rows[0].reason === 'money value (£) in a lead-time field: a currency amount cannot be used as a number of days' && e4.dataset.items[0].Purchase_Lead_Time_Days === null,
+    '"£5": stock On_Hand_Qty row rejected (Must fix), items Min_Order_Qty blanked, demand Units history row rejected (Please check), Purchase_Lead_Time_Days blanked — exact reasons; never stored as 5');
 }
 
 // ===================== S13: Q2/Q13 suggested links and Q3 Option A =====================

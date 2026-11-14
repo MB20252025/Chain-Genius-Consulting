@@ -386,7 +386,7 @@ Authority: the owner's brief "Owner Decisions and Currency Fix Scope Clarificati
 - Add one pure, synchronous currency classifier for money fields. It recognises £ and dollar/euro/yen/rupee-type symbols, and listed ISO 4217 codes before or after the amount.
 - GBP indicators are removed and the rest is cleaned by the unchanged `cleanNumber`. Any foreign or conflicting indicator marks the file unsafe.
 - Unlisted words stay "text attached" (Please check).
-- Quantity fields are untouched, and `clean.js`, `read.js` and `mapping.js` stay unchanged.
+- Quantity fields are untouched, and `clean.js`, `read.js` and `mapping.js` stay unchanged. *(Stage 1 text. Since Part G, G-7: currency values in the 21 quantity and lead-time fields are rejected or blanked in `validate.js`; `clean.js`, `read.js` and `mapping.js` are still unchanged.)*
 - D8: investigated, not a defect, deferred (see E10).
 
 **E10. D8 — not a defect (investigated; deferred).**
@@ -442,7 +442,8 @@ Authority: the owner's brief "Stage 1 correction implementation — Final approv
   - Q9 (above).
 - **Unresolved, for owner review:** see F-9.
 
-**F-2. Currency code list — source and verification status: UNVERIFIED AGAINST OFFICIAL SOURCE.**
+**F-2. Currency code list — source and verification status: VERIFIED AGAINST THE OFFICIAL SIX FILES (14 Nov 2026), with one correction (XAD). See Part G, G-2.**
+- *The text below is the original Stage 1 entry of 13 Nov 2026, kept unchanged as history. It described the list as 169 codes, unverified. The list is now 168 codes (Part G).*
 - **Official source:** `https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml`. The triple "r" is SIX's own spelling, confirmed by independent references.
 - **It could not be retrieved in this session:** the shell's network proxy refused the site (HTTP 403, not retried), and the web tool reported the URL is not on its allowlist. **The list is therefore not verified against the official file, and no SHA-256 of it exists.**
 - **The list was built from public mirrors** (retrieved 13 Nov 2026; untrusted data, parsed in isolation; not authoritative):
@@ -475,10 +476,10 @@ Authority: the owner's brief "Stage 1 correction implementation — Final approv
 - **D1: one shared currency check, `moneyCurrency(raw)`.** It gives GBP, foreign or none, used for money fields only (the `MONEY` list in `mapping.js`).
   - It's called through `cleanMoney()` by both the file-level currency check and row building, so they cannot disagree.
   - **GBP:** £, or "GBP" before or after the amount. "gbp", "eur" and "usd" count in any case; every other code only in capitals.
-  - **Foreign:** the 169 codes, the 23 approved symbols and the 8 approved words. A contradiction (GBP plus foreign) counts as foreign.
+  - **Foreign:** the 169 codes, the 23 approved symbols and the 8 approved words. A contradiction (GBP plus foreign) counts as foreign. *(Stage 1 text. Since Part G: 168 recognised currencies; the 16 codes that are not currency amounts form a fourth result, "prohibited".)*
   - **GBP values the unchanged cleaner already reads** (e.g. "£1,234.56") get exactly the cleaner's result. Otherwise the GBP indicator is removed and the rest cleaned by the unchanged cleaner.
   - **None:** the unchanged cleaner decides. If it says "currency other than £" (its rule that any 3 letters before a number are a currency, e.g. "BOX 12"), the reason is replaced by "text attached", the value is blanked (Please check), and the file is not treated as foreign.
-  - **Foreign:** the value is withheld and the file marked unsafe. No conversion anywhere; quantity fields still use the unchanged cleaner.
+  - **Foreign:** the value is withheld and the file marked unsafe. No conversion anywhere; quantity fields still use the unchanged cleaner. *(Stage 1 text. Since Part G, G-7, a currency value in a quantity or lead-time field is invalid and never reaches the cleaner; a "£5" quantity is no longer stored as 5.)*
 - **Q2/Q13: suggested links for rejected history rows.** A rejected history row whose code is not in the item list but has exactly one candidate (ignoring dashes and spaces) is linked to that item for permissions only.
   - The row stays rejected, and its original code, the suggested item and the reason are recorded (`linkedItem`, `linkReason`).
   - It's reported as HISTORY_SUGGESTED_LINK ("P-0001 → P0001 (3 rows)").
@@ -517,7 +518,7 @@ Authority: the owner's brief "Stage 1 correction implementation — Final approv
     - 85 raw values through `moneyCurrency()` and the full import journey;
     - no-drift checks;
     - the cleaner-cannot-override checks;
-    - 10 quantity-field regression values;
+    - 10 quantity-field regression values; *(their expectations for six values changed in Part G, G-8)*
     - F25–F36;
     - sales lines with and without IDs;
     - future sales;
@@ -577,5 +578,164 @@ Authority: the owner's brief "Stage 1 correction implementation — Final approv
    - **`not_applicable`**: no relevant data exists, so that analysis does not apply,
 
    remains an **open Stage 2 design decision**. Stage 2 must revisit it and decide how it is represented to users. No fifth status is added in Stage 1, and the helper and its interface are unchanged.
-5. **Currency list.** The units-of-account codes are kept (F-2).
+5. **Currency list.** The units-of-account codes are kept (F-2). *(14 Nov 2026: XAD, listed here as a unit of account, is officially a fund code and is now prohibited; the others — XDR, XSU, XUA, XBA–XBD — remain recognised currencies. Part G.)*
 6. **Correction to F8.** Three expected-result changes, not two (F-4).
+
+## Part G — Pre-Stage 2 corrections (14 Nov 2026; separate from the Stage 1 approval; nothing committed)
+
+The Stage 1 approval (Parts A–F, commit ec8def9) is unchanged. These are later, separately approved corrections. Part A (G-2 to G-6) and
+Part B (G-7 to G-11: quantity and lead-time fields) are separate corrections with separate test sections (S12A, S12B).
+
+**G-1. Approval.** Owner brief of 14 Nov 2026, "Currency Classification and Quantity Validation Corrections". Settled decisions: one
+`CODE_CLASS` table with seven classifications; XAD prohibited as a fund code with at least its Stage 1 protection; prohibited codes take
+precedence over foreign ones; unknown codes stay Please check and are never read as GBP; F-2 updated in the same correction.
+
+**G-2. F-2 verification against the official SIX files.**
+- **Source:** SIX Financial Information, the ISO 4217 maintenance agency — <https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html>
+  (List One file: `https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml`, SIX's own spelling).
+- **Provenance:** the owner downloaded both files directly from the SIX website on 14 Nov 2026 and confirmed they are the original, unedited files.
+  Automated retrieval from this environment was refused by its network proxy and was not attempted another way. **The XML files are kept outside the repository.**
+
+  | File | Contents | Publication date (`Pblshd`) | Size | SHA-256 (computed independently from the supplied files) |
+  |---|---|---|---|---|
+  | `list-one.xml` | Current currency and funds | 2026-09-17 | 47,491 bytes | `33139b438657d1cee116ba737807ea71d19d6de4b90f799a09c56f0cc6a1b0ff` |
+  | `list-three.xml` | Historic denominations | 2026-01-01 | 30,638 bytes | `98fde2423cdb916dd59dcf5fe96222edad8fa198d865c1c83dbc464b9cc52387` |
+
+- **Method:** both files parsed by script (isolated Python); code-by-code reconciliation of the implemented list against List One and List Three (184 rows).
+- **List One:** 280 country/territory records; 277 carry a code (3 have "No universal currency"); **178 distinct codes**; 16 codes appear in more than one record
+  (99 repeats, e.g. EUR 37), always with the same name, number and minor units. 10 codes carry `IsFund="true"`: BOV, CHE, CHW, CLF, COU, MXV, USN, UYI, UYW and **XAD**.
+- **List Three:** 169 records, 137 distinct codes. All six approved withdrawn codes are present; none is in List One:
+
+  | Code | Country/territory | Number | Withdrawn |
+  |---|---|---|---|
+  | ANG | Netherlands Antilles | 532 | 2010-10 |
+  | ANG | Curaçao | 532 | 2025-03 |
+  | ANG | Sint Maarten (Dutch part) | 532 | 2025-03 |
+  | BGN | Bulgaria | 975 | 2026-01 |
+  | CUC | Cuba | 931 | 2021-06 |
+  | HRK | Croatia ("Croatian Kuna") | 191 | 2015-06 |
+  | HRK | Croatia ("Kuna") | 191 | 2023-01 |
+  | SLL | Sierra Leone | 694 | 2023-12 |
+  | ZWL | Zimbabwe | 932 | 2024-09 |
+
+  List Three shows these codes are officially withdrawn. It does not explain why these six were chosen (an owner decision) and says nothing about whether
+  customer data still uses them. It predates List One, so a withdrawal after January 2026 would not appear in it.
+- **Outcome:** 183 of 184 reconciliation rows matched. **One conflict: XAD.** The Stage 1 list kept XAD as a unit of account (F-2, F-9 #5), but SIX flags it as a fund.
+  Owner decision (14 Nov 2026): apply the existing fund rule consistently — XAD is excluded from the currencies and handled as a prohibited fund code (G-3), so its protection does not weaken.
+- **Wording correction:** XTS is the testing code; XXX means "no currency" (Stage 1 called both "testing codes").
+- **Derivation:** 178 List One codes − 4 precious metals − 10 funds − XTS − XXX = 162; + 6 withdrawn = **168 recognised currencies**; + 16 prohibited = **184 classified codes**.
+- **Pinned hashes (in `tests/test-import-mapping.js`):** `CURRENCY_CODES` (168, joined by spaces) `0919fdbc4af6ad38b46ebfc91853bfa222a54562b428a40909cd98a071efa178`
+  (was `079aaabf…f22f75`, 169); `CODE_CLASS` ("CODE:kind", sorted) `d8fc96b70a2dde8611b77e5300e2fc2ced5fe4d77dcc449e351178e2bb6be284`;
+  `PROHIBITED_CODES` `2ac4c42b856493b3a79a9d440f94ea486e5a830f68800cebcd1c304790262cc0`. All three were computed independently from the XML and match the implementation.
+- **Status: F-2 verified.**
+
+**G-3. Part A — what was implemented** (`js/import/validate.js` only; `mapping.js`, `clean.js`, `canonical.js` and `read.js` unchanged).
+- **`CODE_CLASS`:** one frozen table, one entry per code: GBP 1, ordinary 161, withdrawn 6, fund 10, precious metal 4, testing 1 (XTS), no currency 1 (XXX) = 184.
+  It is built from one code string per kind and refuses to load if a code appears twice or is not three capital letters.
+- **Derived, never maintained by hand:** `CURRENCY_CODES` (168: GBP, ordinary, withdrawn) and `PROHIBITED_CODES` (16, with their kinds).
+- **`classifyCode(word)`:** the kind of a three-letter code, or null. Capitals only, except GBP, EUR and USD in any case (unchanged rule).
+- **Recognition is not permission.** Only GBP, declared and confirmed for the file, is used for financial analysis. USD, EUR and every other recognised currency
+  are withheld, never converted. A USD declaration is still unsupported. "$" alone is recorded as "$": it is never taken as USD or GBP.
+- **`moneyCurrency()`** gains a fourth result, `prohibited`. Precedence: prohibited > foreign > GBP > none. Every prohibited code in a value is named.
+- **Money fields:** a prohibited value is never stored. The file-level check raises **`CURRENCY_PROHIBITED_CODE` — Must fix, scope financial** — and withholds that file's
+  money values through the existing mechanism (the same as a foreign currency). Message: "items.csv: 1 money value carries a code that is not a currency amount
+  (XAD: fund code). Such values cannot be used as money, so this file's money values are withheld from financial analysis. Correct the values and import again."
+  Other indicators in the same values are added ("…; the same values also contain EUR"). Row reason: "not a currency amount (XAD: fund code): withheld, never used as money".
+  Kind labels: fund code, precious metal code, testing code, no-currency code.
+- **Unchanged:** currency declaration and confirmation; `CURRENCY_UNSUPPORTED`; foreign and withdrawn handling; partial-import rules; the 23 symbols and 8 words;
+  unknown codes (blanked, Please check, never read as GBP); quantity fields (Part B).
+- **Effect on imports:** money values with XAU, XAG, XPT, XPD, the nine other funds, XTS or XXX were blanked (Please check, financial analysis allowed).
+  They are now Must fix with the file's money values withheld. XAD was already Must fix (as "foreign"); it keeps that severity with the correct explanation.
+  In a file mixing foreign and prohibited values, the foreign message's count of "£/plain values" no longer includes the prohibited ones.
+
+**G-4. Part A — changed expected results** (all in `tests/test-import-mapping.js`; deliberate).
+1. S12 code list: 169 → 168 codes, XAD added to the codes that must be excluded; pinned hash `079aaabf…` → `0919fdbc…`.
+2. S12 money-field cases "XAU 5", "XTS 5" and "BOV 5": blanked (none) → prohibited (withheld). The journey check gains the prohibited outcome and its no-drift condition.
+3. No fixture changed. No fixture or package contains a prohibited code (scan of all 228 fixture files, 14 Nov 2026).
+
+**G-5. Part A — new tests (S12A, 16 checks in each of 5 time zones).** Coverage of exactly the 178 List One codes + 6 withdrawn; classification counts; derived lists;
+pinned hashes; frozen table; duplicate and malformed entries stop loading; `classifyCode` case rules; all 16 prohibited codes × 3 forms end to end; XAD's exact
+messages and protection; values with several indicators; a file mixing prohibited, foreign and plain values; GBP, USD and EUR forms; "$" ambiguity and a USD
+declaration; unknown codes in 10 positions; undeclared and unconfirmed files; a prohibited code in another table (stock Unit_Cost).
+Three deliberate breakages, run in a throwaway copy, were each caught (11, 7 and 8 failing checks).
+
+**G-6. Part A — test results (actual, 14 Nov 2026, disposable copy).**
+- import-mapping: **841 passed, 0 failed**, identical in all 5 time zones (was 761: 152 → 168 checks per zone). `accepted-results.json` updated to 841.
+- Full tier: **34 tests passed (+ pre-flight)**, 0 FAIL, 0 ERROR; 5 BLOCKED and 2 REDUCED, unchanged and pre-existing. import-stage1 616, check-protection 429,
+  check-globals 116, test-a1-static 25: unchanged.
+- Guard (check-control, Tag-4 `5f18335`): 12 passed, 0 failed, 93 PENDING (the same count as before; the import-mapping count and the test file's checksum line were already
+  PENDING and remain PENDING, not FAIL). `checksums.txt`: the test file's line changed to `75c6748a…dcddb4`.
+
+**G-7. Part B — what was implemented** (owner brief of 14 Nov 2026, "Part A approved, Part B implementation and verification"; `js/import/validate.js` only;
+`clean.js`, `canonical.js`, `read.js` and `mapping.js` unchanged).
+- **Defect:** the shared number cleaner removes a leading £ from every number, so "£5" in a quantity or lead-time field was stored as 5, with only a
+  For-information "£ removed" note. Measured before Part B in all 21 fields. No fixture or package contained such a value (scan of all 228 fixture files).
+- **Fix:** every non-money number field — 17 quantities and 4 lead times in days — is checked in `validate.js` (`cleanNonMoneyNumber`) **before** the
+  cleaner sees the value. The fields are the schema's `num` fields that are not money fields, so a future number field is covered automatically.
+- **Detected currency value:** £ or any of the 23 approved currency symbols anywhere in the value (before or after the number, with or without spaces, twice,
+  alone, in the middle, with zero, negative or bracketed), or a recognised code from `CODE_CLASS` — the 168 currencies and the 16 prohibited codes (capitals only,
+  except GBP, EUR and USD in any case). The approved currency **words** (kr, zł, Kč, Ft, Rs, Rp, RM, lei) are deliberately **not** used here, because in a
+  quantity "5 Ft" more likely means feet. Unknown text ("ABC 5", "12 units") is not a currency value and keeps the cleaner's existing result and reason.
+- **Consequence:** a detected currency value is invalid and then follows that field's **existing** rule. No severity or partial-import rule changed:
+
+  | Fields | Existing rule (unchanged) |
+  |---|---|
+  | stock `On_Hand_Qty` (required); stock `Allocated_Qty`, `On_Order_Qty`, `Reorder_Point_Qty`, `Safety_Stock_Qty` (optional); bom `Qty_Per` (required) | Row rejected; ROW_REJECTED, Must fix, scope dataset (stock and BOM must be complete) |
+  | demand `Units`, sales `Ordered_Qty`, PO `Ordered_Qty`, production `Planned_Qty` (required); sales `Shipped_Qty`, PO `Received_Qty`, production `Completed_Qty` (optional) | History row rejected; ROW_REJECTED, Please check; the existing 5% and item-month thresholds apply |
+  | items `Min_Order_Qty`, `Order_Multiple`; demand `Forecast_Units`; supplier_items `Min_Order_Qty`; the 4 lead times | Value blanked (null); FIELD_BLANKED, Please check; row kept |
+
+  Seven **optional** fields reject the row rather than blanking the value, because that is their existing rule for any invalid value (e.g. "abc"). The brief's
+  "optional → blank" summary was applied through each field's existing rule, as the brief also requires; no rule was changed.
+- **Reason text:** quantities — "money value (£) in a quantity field: a currency amount cannot be used as a quantity"; lead times — "money value (£) in a lead-time
+  field: a currency amount cannot be used as a number of days". Every detected indicator is named. No new issue code: the existing ROW_REJECTED and FIELD_BLANKED
+  issues carry the reason (rejected rows list it; blanked values list it per row).
+- **Unchanged:** money fields (Part A); `clean.js` (called directly it still reads "£5.50" as 5.5); every value without a detected currency indicator.
+
+**G-8. Part B — changed expected results** (`tests/test-import-mapping.js`, S12 quantity regression, 10 values in `stock.On_Hand_Qty`; deliberate):
+"£5" was stored as 5 and is now rejected; "$5", "GBP 5", "€5", "5 GBP" and "46.10 USD" were already rejected and now carry the money-value reason;
+"BOX 12", "12", "1,200" and "46p" are unchanged. The same check still asserts the unchanged cleaner's direct result for all 10 values.
+No fixture changed.
+
+**G-9. Part B — new tests (S12B, 27 checks in each of 5 time zones).**
+- Field inventory: exactly 21 non-money number fields (17 + 4) and the 6 required ones, written out independently of the schema.
+- **Each of the 21 fields (21 checks):** 39 currency values — "£5", "£5.50", "£ 5", "5£", "5 £", "£5 £5", "£", "GBP", "£0", "£0.00", "5 £ 5", "5£5", "-£5", "(£5)",
+  "£1,234", "£-5", "GBP 5", "5 GBP", "gbp 5", "GBP5", "5GBP", "EUR 5", "5 EUR", "€5", "5€", "eur 5", "5 € 5", "USD 5", "5 USD", "$5", "US$5", "usd 5", "ANG 5", "CHF 5",
+  "XAD 5", "XAU 5", "XTS 5", "XXX 5", "£5 USD". For each: never stored (row absent, or value null); reported with the exact quantity or number-of-days reason
+  under the field's expected rule (written out per field); and every consequence — issues, severities, scopes, analysis permissions, dataset status, import
+  acceptance — identical to an existing invalid value ("abc") in the same place.
+- 22 non-currency values × 21 fields (plain, zero, decimal, separators, brackets, negative, "12 units", "5 units", "5 Ft", "5 kr", "5 RM", "5 Rs", "ABC 5", "xau 5",
+  "cup 5", "46p", "1.200,50", …): exactly the unchanged cleaner's result — the stored value, or the existing reason — and never the money message.
+- History thresholds: 2 currency rows of 25 (8%, above the 5% threshold) give the same permissions and issues as 2 existing invalid rows, in all 7 history quantities.
+- 20 currency values in one table at once, in each field: no currency value stored as a number in any accepted row.
+- `clean.js` unchanged when called directly. Exact user-facing reasons for the four examples below.
+- Four deliberate breakages, run in a throwaway copy, were each caught: Part B switched off (25 failing checks); currency words also detected (1);
+  lead times given the quantity wording (5); £ detected only at the start (22).
+- Part A's functions (`CODE_CLASS`, `classifyCode`, `moneyCurrency`, `cleanMoney`, the file-level currency check) were not changed by Part B, so Part A's
+  breakage checks were not repeated; Part A's S12 and S12A tests all still pass.
+
+**G-10. Part B — evidence of stored values** (actual import runs, 25-row synthetic files, value in row 2):
+
+| Field | Type | Input | Stored before Part B | Stored now | Row rejected? | Issue and reason |
+|---|---|---|---|---|---|---|
+| `stock.On_Hand_Qty` | Required, master | "£5" | 5 (no issue) | no row (24 of 25 kept) | Yes | ROW_REJECTED, Must fix, scope dataset — "On_Hand_Qty: money value (£) in a quantity field: a currency amount cannot be used as a quantity" |
+| `items.Min_Order_Qty` | Optional | "£5" | 5 (no issue) | null (row kept) | No | FIELD_BLANKED, Please check — "money value (£) in a quantity field: a currency amount cannot be used as a quantity" |
+| `demand.Units` | Required, history | "£5" | 5 (no issue) | no row (24 of 25 kept) | Yes | ROW_REJECTED, Please check — "Units: money value (£) in a quantity field: a currency amount cannot be used as a quantity"; demand analysis available (4% < 5%) |
+| `items.Purchase_Lead_Time_Days` | Lead time | "£5" | 5 (no issue) | null (row kept) | No | FIELD_BLANKED, Please check — "money value (£) in a lead-time field: a currency amount cannot be used as a number of days" |
+
+**G-11. Part B — results, limitations and notes (actual, 14 Nov 2026, disposable copy, Parts A and B both live).**
+- import-mapping: **976 passed, 0 failed**, identical in all 5 time zones (195 checks per zone; was 841 after Part A). `accepted-results.json` updated to 976.
+- import-stage1 (run directly and in the full tier): **616 passed**, unchanged.
+- Full tier: **34 tests passed (+ pre-flight)**, 0 FAIL, 0 ERROR; 5 BLOCKED and 2 REDUCED, unchanged and pre-existing. check-protection 429, check-globals 116,
+  test-a1-static 25, golden v0.5 and v0.6.0, confidence snapshot v0.7: unchanged.
+- Guard (check-control, Tag-4 `5f18335`): 12 passed, 0 failed, 93 PENDING (unchanged count). The test file's checksum line is now `5fbf3e3f…0703`.
+- **Documentation search** (README.txt, index.html, the engine's README.md, tests/README.md and index.html; no `docs/` folder exists): no occurrence of "£", "GBP",
+  "currency removed", "symbols stripped", "numbers extracted" or "currency symbol" (also checked for HTML entities and escapes). No user-facing wording needed changing.
+  The import modules are not yet loaded by the app (`index.html` does not include them), so no on-screen help describes this behaviour.
+- **Limitations:**
+  - Capitalised unit words that are also ISO codes (e.g. "5 CUP", "5 MOP", "5 PEN", "5 ALL") get the money-value reason. Such values were already rejected or blanked
+    as text before Part B, so only the reason changes; lower-case ("5 cup") keeps the existing reason.
+  - The FIELD_BLANKED message lists rows and values but not the reason; the reason is in the issue's row data (pre-existing behaviour).
+  - Currency written in words ("5 pounds") and percentage fields are not covered; both are deferred investigations (owner brief, Part D).
+- **Future message-quality improvement (owner, 14 Nov 2026; not implemented):** "When a file explicitly declares USD, a value such as "$5" is safely withheld, but the
+  displayed explanation may identify the symbol "$" rather than explicitly naming USD. This is not currently a data-integrity or financial-safety defect. It may be
+  improved in a later stage."

@@ -57,29 +57,65 @@
   const freeze = o => { if (o && typeof o === 'object' && !Object.isFrozen(o)) { Object.freeze(o); Object.values(o).forEach(freeze); } return o; };
 
   // ---------- D1 (owner, 13 Nov 2026): currency classification of MONEY fields only ----------
-  // Currency codes: ISO 4217 List One active currencies minus precious metals (XAU XAG XPT XPD), fund codes (BOV CHE CHW CLF COU
-  // MXV USN UYI UYW) and testing codes (XTS XXX), plus the approved withdrawn codes ANG BGN CUC HRK SLL ZWL. 169 codes.
-  // Source and verification status: IMPORT-V1-STAGE1-RECORD.md Part F (built from a mirror of SIX List One dated 2026-09-17;
-  // NOT yet verified against the official SIX file — mandatory before Stage 2).
-  const ISO_CODES = new Set(('AED AFN ALL AMD ANG AOA ARS AUD AWG AZN BAM BBD BDT BGN BHD BIF BMD BND BOB BRL BSD BTN BWP BYN BZD CAD CDF CHF CLP ' +
-    'CNY COP CRC CUC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GBP GEL GHS GIP GMD GNF GTQ GYD HKD HNL HRK HTG HUF IDR ILS INR IQD ' +
-    'IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA MKD MMK MNT MOP MRU MUR MVR MWK MXN MYR ' +
-    'MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK SGD SHP SLE SLL SOS SRD SSP STN ' +
-    'SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD UYU UZS VED VES VND VUV WST XAD XAF XBA XBB XBC XBD XCD XCG XDR XOF XPF ' +
-    'XSU XUA YER ZAR ZMW ZWG ZWL').split(' '));
+  // Pre-Stage 2 correction, Part A (owner, 14 Nov 2026): one classification table for every recognised ISO 4217 code.
+  // Source: the official SIX files supplied by the owner on 14 Nov 2026 — List One (Pblshd 2026-09-17; 178 current codes) and
+  // List Three (Pblshd 2026-01-01; historic codes). See IMPORT-V1-STAGE1-RECORD.md F-2 for fingerprints and the reconciliation.
+  //   gbp, ordinary, withdrawn  = recognised currencies (168). Recognising a currency is NOT permission to use its values:
+  //                               only GBP, declared AND confirmed for the file, is used for financial analysis; nothing is converted.
+  //   fund, metal, testing, no_currency = recognised codes that are not currency amounts (16). They are prohibited in money fields.
+  // fund = every List One entry with IsFund="true" (XAD included). XTS is the testing code; XXX means "no currency" (not testing).
+  // Each code appears exactly once: the table refuses to load if a code is listed twice or is not three capital letters.
+  const CODE_KINDS = Object.freeze({
+    gbp: Object.freeze({ prohibited: false, label: 'pound sterling', codes: 'GBP' }),
+    ordinary: Object.freeze({ prohibited: false, label: 'currency', codes:
+      'AED AFN ALL AMD AOA ARS AUD AWG AZN BAM BBD BDT BHD BIF BMD BND BOB BRL BSD BTN BWP BYN BZD CAD CDF CHF CLP CNY COP ' +
+      'CRC CUP CVE CZK DJF DKK DOP DZD EGP ERN ETB EUR FJD FKP GEL GHS GIP GMD GNF GTQ GYD HKD HNL HTG HUF IDR ILS INR IQD ' +
+      'IRR ISK JMD JOD JPY KES KGS KHR KMF KPW KRW KWD KYD KZT LAK LBP LKR LRD LSL LYD MAD MDL MGA MKD MMK MNT MOP MRU MUR ' +
+      'MVR MWK MXN MYR MZN NAD NGN NIO NOK NPR NZD OMR PAB PEN PGK PHP PKR PLN PYG QAR RON RSD RUB RWF SAR SBD SCR SDG SEK ' +
+      'SGD SHP SLE SOS SRD SSP STN SVC SYP SZL THB TJS TMT TND TOP TRY TTD TWD TZS UAH UGX USD UYU UZS VED VES VND VUV WST ' +
+      'XAF XBA XBB XBC XBD XCD XCG XDR XOF XPF XSU XUA YER ZAR ZMW ZWG' }),
+    withdrawn: Object.freeze({ prohibited: false, label: 'withdrawn currency', codes: 'ANG BGN CUC HRK SLL ZWL' }),
+    fund: Object.freeze({ prohibited: true, label: 'fund code', codes: 'BOV CHE CHW CLF COU MXV USN UYI UYW XAD' }),
+    metal: Object.freeze({ prohibited: true, label: 'precious metal code', codes: 'XAG XAU XPD XPT' }),
+    testing: Object.freeze({ prohibited: true, label: 'testing code', codes: 'XTS' }),
+    no_currency: Object.freeze({ prohibited: true, label: 'no-currency code', codes: 'XXX' }) });
+  const CODE_CLASS = (() => {
+    const t = Object.create(null);
+    for (const [kind, k] of Object.entries(CODE_KINDS)) for (const c of k.codes.split(' ')) {
+      if (!/^[A-Z]{3}$/.test(c)) throw new Error('validate.js: malformed currency code "' + c + '" in ' + kind);
+      if (t[c]) throw new Error('validate.js: currency code ' + c + ' is classified twice (' + t[c] + ' and ' + kind + ')');
+      t[c] = kind;
+    }
+    return Object.freeze(t);
+  })();
+  const CURRENCY_CODES = Object.freeze(Object.keys(CODE_CLASS).filter(c => !CODE_KINDS[CODE_CLASS[c]].prohibited).sort());
+  const PROHIBITED_CODES = Object.freeze(Object.fromEntries(Object.keys(CODE_CLASS).filter(c => CODE_KINDS[CODE_CLASS[c]].prohibited).sort().map(c => [c, CODE_CLASS[c]])));
   // Codes count only in CAPITALS, except these three, which count in any case ("gbp", "Eur", "usd").
   const ANY_CASE = new Set(['GBP', 'EUR', 'USD']);
+  // classifyCode(word) → the kind of a three-letter code ('gbp' | 'ordinary' | 'withdrawn' | 'fund' | 'metal' | 'testing' |
+  // 'no_currency'), or null when the word is not a recognised code or is written in a case that does not count (e.g. "all", "xau").
+  function classifyCode(word) {
+    if (typeof word !== 'string' || word.length !== 3) return null;
+    const W = word.toUpperCase(), kind = CODE_CLASS[W];
+    if (!kind) return null;
+    if (word !== W && !ANY_CASE.has(W)) return null; // e.g. "all", "cup", "try", "pen" are ordinary words
+    return kind;
+  }
+  const describeCodes = list => list.map(p => p.code + ': ' + CODE_KINDS[p.kind].label).join(', ');
   // Foreign symbols, longest first so "US$" is found before "$". Every form of "$" is foreign. £ is GBP.
   const FOREIGN_SYMBOLS = ['US$', 'NZ$', 'HK$', 'A$', 'C$', 'S$', 'R$', '$', '€', '¥', '￥', '₹', '₩', '₽', '₺', '₪', '₫', '₱', '₦', '฿', '₴', '₸', '¢'];
   // Foreign currency words: exact spelling (an optional full stop is allowed), as separate words only. Single letters never count.
   const FOREIGN_WORDS = new Set(['kr', 'zł', 'Kč', 'Ft', 'Rs', 'Rp', 'RM', 'lei']);
 
-  // moneyCurrency(raw) → { currency: 'GBP' | 'foreign' | 'none', indicators: [...], amount: text with GBP indicators removed }
+  // moneyCurrency(raw) → { currency: 'GBP' | 'foreign' | 'prohibited' | 'none', indicators: [...], amount: text with GBP indicators
+  // removed } — plus, for 'prohibited', prohibited: [{ code, kind }] naming every prohibited code found.
   // The ONE function deciding the currency of a money value. Both the file-level currency check and row building use it
-  // (through cleanMoney), so the two can never disagree. Contradictory indicators (GBP and foreign) are 'foreign'.
+  // (through cleanMoney), so the two can never disagree. Precedence (owner, 14 Nov 2026): prohibited > foreign > GBP > none.
+  // Contradictory indicators (GBP and foreign) are 'foreign'; any prohibited code makes the value 'prohibited'.
+  // "$" on its own is only a foreign symbol: it never means USD (or any other dollar) and never GBP.
   function moneyCurrency(raw) {
     const s0 = raw === null || raw === undefined ? '' : String(raw).trim();
-    const gbp = [], foreign = [];
+    const gbp = [], foreign = [], prohibited = [];
     let s = s0;
     for (const sym of FOREIGN_SYMBOLS) if (s.includes(sym)) { foreign.push(sym); s = s.split(sym).join(' '); }
     if (s.includes('£')) gbp.push('£');
@@ -88,12 +124,12 @@
     for (const w0 of words) {
       const w = w0.replace(/\.$/, '');
       if (FOREIGN_WORDS.has(w)) { foreign.push(w); continue; }
-      if (w.length !== 3) continue;
-      const W = w.toUpperCase();
-      if (!ISO_CODES.has(W)) continue;
-      if (w !== W && !ANY_CASE.has(W)) continue; // e.g. "all", "cup", "try", "pen" are ordinary words
-      (W === 'GBP' ? gbp : foreign).push(w);
+      const kind = classifyCode(w);
+      if (!kind) continue;
+      if (CODE_KINDS[kind].prohibited) { if (!prohibited.some(p => p.code === w)) prohibited.push({ code: w, kind }); }
+      else (kind === 'gbp' ? gbp : foreign).push(w);
     }
+    if (prohibited.length) return { currency: 'prohibited', indicators: gbp.concat(foreign, prohibited.map(p => p.code)), prohibited, amount: null };
     if (foreign.length) return { currency: 'foreign', indicators: gbp.concat(foreign), amount: null };
     if (!gbp.length) return { currency: 'none', indicators: [], amount: s0 };
     const amount = s0.replace(/£/g, ' ').replace(/(^|[^\p{L}])gbp(?![\p{L}])/giu, '$1 ').replace(/\s+/g, ' ').trim();
@@ -106,6 +142,11 @@
   const TEXT_ATTACHED = 'number with text attached (e.g. "12 units"): not guessed';
   function cleanMoney(field, raw) {
     const mc = moneyCurrency(raw);
+    if (mc.currency === 'prohibited') {
+      const others = mc.indicators.filter(i => !mc.prohibited.some(p => p.code === i));
+      return { status: 'invalid', value: null, rule: null, reason: 'not a currency amount (' + describeCodes(mc.prohibited) + (others.length ? '; also ' + others.join(', ') : '') + '): withheld, never used as money',
+        currency: 'prohibited', indicators: mc.indicators, prohibited: mc.prohibited };
+    }
     if (mc.currency === 'foreign') return { status: 'invalid', value: null, rule: null, reason: 'currency other than £ (' + mc.indicators.join(', ') + '): withheld, never converted', currency: 'foreign', indicators: mc.indicators };
     let r;
     if (mc.currency === 'GBP') {
@@ -122,6 +163,30 @@
     if (r.status === 'invalid' && /^currency other than/.test(r.reason || '')) r.reason = TEXT_ATTACHED;
     r.currency = mc.currency; r.indicators = mc.indicators;
     return r;
+  }
+
+  // ---------- Pre-Stage 2 correction Part B (owner, 14 Nov 2026): money values in quantity and lead-time fields ----------
+  // The shared number cleaner (clean.js, deliberately unchanged) removes a leading £ from EVERY number, so "£5" in a quantity
+  // became 5. Every non-money number field — the 17 quantities and the 4 lead times in days — is checked HERE, before the cleaner
+  // sees the value. A detected currency value is invalid, and then follows that field's EXISTING rule (row rejected, or value
+  // blanked); no severity or partial-import rule changes. Money fields are not affected (they use cleanMoney above).
+  // Detected = £ or any approved currency symbol anywhere in the value, or a recognised code from CODE_CLASS (the 168 currencies
+  // and the 16 prohibited codes; capitals only, except GBP/EUR/USD in any case). The approved currency WORDS (kr, Ft, Rs, Rp,
+  // RM, lei) are deliberately NOT used here — in a quantity, "5 Ft" is more likely feet. Unknown text ("ABC 5", "12 units") is not
+  // a currency value: it keeps the cleaner's existing result and reason, exactly as before.
+  function quantityCurrencyIndicators(raw) {
+    let s = raw === null || raw === undefined ? '' : String(raw);
+    const found = [];
+    if (s.includes('£')) found.push('£');
+    for (const sym of FOREIGN_SYMBOLS) if (s.includes(sym)) { found.push(sym); s = s.split(sym).join(' '); }
+    for (const w of s.match(/[\p{L}]+/gu) || []) if (classifyCode(w) && !found.includes(w)) found.push(w);
+    return found;
+  }
+  function cleanNonMoneyNumber(field, raw, opts) {
+    const ind = quantityCurrencyIndicators(raw);
+    if (ind.length) return { status: 'invalid', value: null, rule: null, currencyIndicators: ind,
+      reason: 'money value (' + ind.join(', ') + ') in a ' + (/_Days$/.test(field.name) ? 'lead-time field: a currency amount cannot be used as a number of days' : 'quantity field: a currency amount cannot be used as a quantity') };
+    return CL.cleanValue(field, raw, opts);
   }
 
   function run(mapping, loaded) {
@@ -154,13 +219,28 @@
       if (!decl) { reasons.push('not declared'); add(issue('CURRENCY_UNCONFIRMED', CAT.MUST, 'financial', file + ' contains money values (' + fields.join(', ') + ') but its currency has not been declared. The importer cannot tell the currency of plain numbers: please confirm it.', { file, fields })); }
       else if (decl.confirmed !== true) { reasons.push('not confirmed'); add(issue('CURRENCY_UNCONFIRMED', CAT.MUST, 'financial', file + ': the currency ' + decl.code + ' is pre-selected but has not been confirmed. The importer cannot tell the currency of plain numbers: please confirm it.', { file, fields })); }
       if (decl && up(decl.code) !== 'GBP') { reasons.push('unsupported ' + decl.code); add(issue('CURRENCY_UNSUPPORTED', CAT.MUST, 'financial', file + ' is declared as ' + decl.code + '. Only GBP is supported; values are never converted.', { file, fields, currency: decl.code })); }
-      const foreign = [];
+      const foreign = [], prohibited = [];
       let other = 0;
       for (const [t, f, at] of list) at.rows.forEach(r => {
         const raw = r.raw[f]; if (raw === undefined || String(raw).trim() === '') return;
         const x = cleanMoney(C.field(t, f), raw); // the same function row building uses (no drift)
-        if (x.currency === 'foreign') foreign.push({ row: r.src.row, field: f, value: String(raw).trim(), indicators: x.indicators }); else other++;
+        if (x.currency === 'prohibited') prohibited.push({ row: r.src.row, field: f, value: String(raw).trim(), codes: x.prohibited, indicators: x.indicators, reason: x.reason });
+        else if (x.currency === 'foreign') foreign.push({ row: r.src.row, field: f, value: String(raw).trim(), indicators: x.indicators });
+        else other++;
       });
+      // Part A (owner, 14 Nov 2026): fund, precious metal, testing and no-currency codes are never money. Same severity and the same
+      // withholding mechanism as a foreign currency (Must fix, financial scope: this file's money values are withheld).
+      if (prohibited.length) {
+        reasons.push('codes that are not currency amounts');
+        const seen = new Map();
+        const also = new Set();
+        prohibited.forEach(p => {
+          p.codes.forEach(c => { if (!seen.has(c.code.toUpperCase())) seen.set(c.code.toUpperCase(), { code: c.code.toUpperCase(), kind: c.kind }); });
+          p.indicators.forEach(i => { if (!p.codes.some(c => c.code === i)) also.add(i); });
+        });
+        add(issue('CURRENCY_PROHIBITED_CODE', CAT.MUST, 'financial', file + ': ' + plural(prohibited.length, 'money value') + ' ' + vb(prohibited.length, 'carries', 'carry') + ' a code that is not a currency amount (' + describeCodes([...seen.values()]) + (also.size ? '; the same values also contain ' + [...also].join(', ') : '') + '). Such values cannot be used as money, so this file\'s money values are withheld from financial analysis. Correct the values and import again.',
+          { file, rows: prohibited, codes: [...seen.values()] }));
+      }
       if (foreign.length) {
         reasons.push('foreign currency values');
         add(issue('CURRENCY_FOREIGN_VALUE', CAT.MUST, 'financial', file + ': ' + plural(foreign.length, 'money value') + ' ' + vb(foreign.length, 'carries', 'carry') + ' a currency other than £' + (other ? ' alongside ' + other + ' £/plain values (mixed currencies)' : '') + '. Conversion is not supported.', { file, rows: foreign, mixed: other > 0 }));
@@ -464,6 +544,7 @@
         const r = at.rows[i];
         arr[i] = r.codeMiss[f.name] !== undefined ? { status: 'invalid', value: null, rule: null, reason: '"' + r.codeMiss[f.name] + '" is not in the mapping\'s list of values for ' + f.name }
           : money.includes(f.name) ? cleanMoney(f, r.raw[f.name]) // D1: money fields decided by moneyCurrency()
+          : f.type === 'num' ? cleanNonMoneyNumber(f, r.raw[f.name], { dateFormat: fileSet.dateFormat, meta: r.meta[f.name] }) // Part B: currency values never become quantities
           : CL.cleanValue(f, r.raw[f.name], { dateFormat: fileSet.dateFormat, meta: r.meta[f.name] });
       }
       if (f.type === 'date') {
@@ -491,7 +572,7 @@
         const x = res[f.name][i];
         if (money.includes(f.name) && withheld) continue; // withheld: unsafe currency (reported per file)
         if (x.status === 'invalid' || x.status === 'conflict') {
-          if (money.includes(f.name) && x.currency === 'foreign') continue; // reported under CURRENCY_FOREIGN_VALUE (same function)
+          if (money.includes(f.name) && (x.currency === 'foreign' || x.currency === 'prohibited')) continue; // reported under CURRENCY_FOREIGN_VALUE / CURRENCY_PROHIBITED_CODE (same function)
           if (f.onInvalid === 'reject-row') reasons.push(f.name + ': ' + x.reason);
           else (blanked[f.name] = blanked[f.name] || []).push({ row: r.src.row, value: String(r.raw[f.name]).trim(), reason: x.reason });
           continue;
@@ -600,6 +681,6 @@
   }
 
   NS.validate = Object.freeze({ DUP_RULES, KEY_NEEDS, HISTORY, THRESHOLDS, ANALYSIS_TABLES, CAVEAT_DUP, RELIABILITY,
-    CURRENCY_CODES: Object.freeze([...ISO_CODES].sort()), FOREIGN_SYMBOLS: Object.freeze(FOREIGN_SYMBOLS.slice()), FOREIGN_WORDS: Object.freeze([...FOREIGN_WORDS]),
+    CODE_CLASS, CODE_KINDS, CURRENCY_CODES, PROHIBITED_CODES, classifyCode, FOREIGN_SYMBOLS: Object.freeze(FOREIGN_SYMBOLS.slice()), FOREIGN_WORDS: Object.freeze([...FOREIGN_WORDS]),
     moneyCurrency, cleanMoney, reliabilityOf, run, importFiles });
 })(globalThis.CGImport = globalThis.CGImport || {});

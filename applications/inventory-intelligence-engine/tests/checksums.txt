@@ -349,7 +349,7 @@ file 7c8eff4a2322a4805bf33bc3fd3745a0b6fba23a7b36030f9c0c4f8a24784ea5 tests/char
 # M1 pre-tag Commit 9 (12 Nov 2026): M1 Stage 1 import test (A1-A3), protected for the Tag-4 review.
 file 7fc521dd6fb14030f52efd0300686dcd4cb77d3d510688498ed9a229ec7068e4 tests/test-import-stage1.js
 # Universal Data Import v1 Stage 1 (13 Nov 2026, owner condition 3: new fixtures protected from the moment they are introduced): the Stage 1 test, the fixture generator (tests/tools/import-v1), the hand-written Package 02 mapping and the generated synthetic layouts and fault cases (tests/fixtures/import-v1). js/import/mapping.js and validate.js are protected by behaviour tests, not checksums (M1 policy).
-file 794d15dee478d737243001e26099d254ccc7c2de1a8b9f5b1f6f64c7aae90eb2 tests/test-import-mapping.js
+file 5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703 tests/test-import-mapping.js
 file ed5e24e2e7f96a0ba17737546f300b9c41e6d38ba710205bb20ae64676c560c6 tests/tools/import-v1/make-stage1-fixtures.js
 file 3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485 tests/fixtures/import-v1/faults/F01-stock-bad-row/mapping.json
 file 49797f383f0d9b7de3cd670dd9b912d6fb8992239a7b6c2727244b66079dedae tests/fixtures/import-v1/faults/F01-stock-bad-row/stock.csv
