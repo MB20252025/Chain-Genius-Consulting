@@ -439,3 +439,5 @@ file 78fbcab13261db96b16beb225de47f816e1e2da7d545838010ac0613f94a3f2c tests/fixt
 file 6842d0006a3bc3ed8c6be94b1b977c6ecc22491e8c5ebfd7a86a57e8b94fcba8 tests/fixtures/import-v1/mappings/L1-alt-headings.mapping.json
 file 5d087bb3ff3af9c7fe75f8535aa8567b4a430511de388ec4c7b71e4e7228c719 tests/fixtures/import-v1/mappings/L2-erp-workbook.mapping.json
 file 5af4dbb9a50224f1a492d0df769b5f701d5aba9dcd762a554e00779de0260da8 tests/fixtures/import-v1/mappings/package-02.mapping.json
+# Universal Data Import v1 Stage 2, K1 + K2 (14 Nov 2026, owner condition 3: new test protected from the moment it is introduced): the engine-map and cell-writing test. js/import/engine-map.js and engine-workbook.js are protected by behaviour tests, not checksums (M1 policy).
+file 6b2fefd8a3b84b5ee948dc0409ae65158fc1cfb455ea61e1ba99cc4b9a320d98 tests/test-import-engine-map.js
