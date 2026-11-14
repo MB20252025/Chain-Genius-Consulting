@@ -92,7 +92,7 @@ B2–B5, B7–B19 and B21 remain open.
 - This refusal is a technical safeguard, not a policy choice.
 - No unresolved business decision may be silently assumed or implemented.
 
-## Difference register — pending review
+## Difference register (accepted by the owner in K6, 14 Nov 2026: see `IMPORT-V1-DIFFERENCE-REGISTER.md`)
 
 Copied verbatim from the Stage 2 Solution Design Report, section G. All five entries are **pending the owner's review before Stage 2 acceptance**. None is resolved or accepted by this record.
 
@@ -109,21 +109,10 @@ Copied verbatim from the Stage 2 Solution Design Report, section G. All five ent
 
 All seven entries remain pending the owner's review.
 
-## Not yet done (as recorded at K0; superseded by the sections below)
+## Not yet done (as recorded at K0)
 
-K1–K6 are planned but unauthorised:
-
-- K1 — engine map (`js/import/engine-map.js`);
-- K2 — cell writing (`js/import/engine-workbook.js`);
-- K3 — adapter (`js/import/adapter.js`);
-- K4 — result gate and statuses (`js/import/result-gate.js`; `reliabilityDetail()` in `validate.js`);
-- K5 — proof harness, difference register and test registration;
-- K6 — Stage 2 record of results and the implementation commit.
-
-- K0 is the only authorised step.
-- K1–K6 have not been authorised by the K0 brief.
-- The approval of `reliabilityDetail()` is not permission to begin K4.
-- No implementation work may begin until the owner explicitly authorises the next step.
+K0 listed K1–K6 as planned but unauthorised. All six have since been authorised and done; the list is in the history
+of this file (commit `07ca45d`). The current outstanding work is under "Not yet done (as at K6)" at the end of this file.
 
 ## Observations recorded with K0 (not decisions; nothing resolved)
 
@@ -302,8 +291,198 @@ owner's tag move.
 Every existing test kept its accepted count except the three raised by this work (`check-protection`, `test-a1-static`,
 `import-engine-map`). Golden v0.5, golden v0.6.0 and confidence v0.7 passed unchanged in 5 time zones; no snapshot file changed.
 
-## Status
+## B6 revision history (note dated 14 Nov 2026)
 
-- Stage 2 K3, K4 and K5 are implemented. **Stage 2 is not accepted**: the difference register and the items above await the
-  owner's review.
-- No Tag-5. Stage 3 has not started.
+1. **Option A (K0, 14 Nov 2026).** The owner chose to treat negative stock at an included location as 0 before summing.
+2. **Why Option A was superseded.** The B6 clarification (above) established that the engine has one stock input per item
+   (`On_Hand_Qty`), from which it calculates both available stock and stock value. Clamping on-hand therefore also changed
+   physical on-hand and stock valuation, not only available stock. That crosses the boundary that stock value is based on
+   physical stock.
+3. **Option D (owner brief of 14 Nov 2026 for K3–K5).**
+   - Physical on-hand is the sum of the original signed location quantities, and it drives stock valuation.
+   - Usable on-hand is calculated separately, with a zero floor applied to each location before summing.
+   - Available stock = usable on-hand − genuine allocations.
+   - Direct uploads without the new optional column keep their previous behaviour.
+4. **Implementation (commit `01c565f`).** The optional Inventory column `Usable_On_Hand_Qty` is used in `js/calculations.js`
+   (3 places, see "Engine contract" above). The adapter calculates it (`js/import/adapter.js`, gate 3), and the Engine View
+   writes it (`engine-map.js` EM2, `engine-workbook.js` `options.derived`).
+5. **Proof that physical on-hand and valuation are preserved.** `tests/test-import-adapter.js`:
+   - S1 checks the mandatory example through the engine;
+   - S2 cases 1, 3, 7 and 8 compare against the same stock held in one location: physical on-hand, allocated, item value and
+     total stock value are identical, and only available stock differs.
+6. **Backward compatibility.** K6 Test 1 (below): the old engine (`e7b3d2f`) and the new engine give byte-identical output on
+   all 17 fixture workbooks. Golden v0.5, golden v0.6.0 and confidence v0.7 pass unchanged.
+
+## K6 — Final verification and decisions (14 Nov 2026)
+
+Authority: the owner's K6 brief and replies of 14 Nov 2026 (basis "shipments"; "go ahead with K6 documentation only"; DR-1 and
+DR-4 wording approved). K6 is one documentation-only commit containing this file and `IMPORT-V1-DIFFERENCE-REGISTER.md`. No
+engine, test, snapshot, fixture, checksum or manifest file was changed. The checks below were run from scratch scripts outside
+the repository and in throwaway copies of it. Those scripts are not committed.
+
+### Why K6 stopped once
+
+The first K6 attempt stopped before committing, for two reasons:
+- **The fixtures are protected.** The E04 and Package 01 files are protected three ways: by `checksums.txt`, by the library's
+  `MANIFEST.sha256` (checked by `test-import-stage1`) and by the Tag-4 guard. A trial edit of E04 in a throwaway copy turned
+  the fast tier red: `check-protection` and `import-stage1` both failed.
+- **Package 01's demand basis could not be established from its files.** The owner then decided the two items below.
+
+### E04 — arithmetic and decision
+
+Source: `tests/fixtures/library/06-Edge-Cases/E04-negative-stock/input/` (stock, items and locations files).
+
+| Item | W1 | W2 | Unit cost | Allocated / on order |
+| --- | --- | --- | --- | --- |
+| A1 | 60 | −15 | £10 | 0 / 0 |
+| A2 | 100 | — | £5 | 0 / 0 |
+
+Both locations are flagged Y (included). The unit cost is the same in the stock file and the items file. No other valuation,
+allocation or item rule affects the value.
+
+- **Option A:** physical on-hand = sum of max(0, quantity).
+  - A1: 60 + 0 = 60, × £10 = £600.
+  - A2: 100 × £5 = £500.
+  - **Total £1,100**, which matches the protected E04 expectation.
+- **Option D:** physical on-hand = sum of the signed quantities.
+  - A1: 60 − 15 = 45, × £10 = £450.
+  - A2: £500.
+  - **Total £950.** A1's usable on-hand is 60, so its available stock is 60.
+
+**Owner decision.** All Stage 1 files, checksums, the manifest and `refcalc.py` are left untouched.
+- Under B6 Option D, the correct Stage 2 value for E04 is **£950**.
+- The £1,100 in the protected E04 files (`EXPECTED.md` and `expected-results.json`) is the original Option A result, kept as
+  Stage 1 history.
+- E04 cannot currently pass through the adapter. Its items are bought and sold (B14 undecided), and its demand file has no
+  `Demand_Basis` label.
+- The Option D arithmetic is exercised through the engine by `test-import-adapter.js` S2 case 1, which uses the same quantities
+  (60 and −15).
+
+### Package 01 — demand basis and decision
+
+- **Evidence.**
+  - The package README describes `demand.csv` only as "Monthly sales (units)".
+  - The generator (`tests/tools/library/model.py`, `gen_demand`) produces synthetic monthly units with no notion of shipped
+    versus ordered.
+  - The files alone cannot establish the basis (outcome c).
+- **Owner decision (14 Nov 2026).** The owner, as the author of this synthetic data, explicitly defines Package 01's monthly
+  demand quantities as **shipments**.
+- **Not changed in K6.** `dataset.csv`, `checksums.txt`, `MANIFEST.sha256` and every other protected package file are unchanged.
+- **Current result.**
+  - As supplied, the package passes Stage 1 but the adapter refuses it (`DEMAND_BASIS_NOT_LABELLED`).
+  - Proof B (`tests/test-same-results.js`) still adds `Demand_Basis = shipments` in memory. With that label, every expected
+    figure matches: on-hand 55,276; stock value £2,318,695.70; stock-out risk M0012, P0007, P0019, P0031; dead stock P0038,
+    P0039.
+  - **Package 01 does not yet import cleanly from its supplied files.**
+
+**Prepared change for the Tag-5 approval step (notes only; not committed).**
+- `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv`: add the `Demand_Basis` column after `Currency`, with value
+  `shipments`. This changes the header line and the data line, and nothing else:
+  ```
+  Format_Version,Business_Name,Business_Type,Snapshot_Date,Currency,Demand_Basis,Date_Format_By_File,Source_Files,Mapping_Name
+  CDv1,Harbour Valve Engineering Ltd,Manufacturer,2026-10-31,GBP,shipments,ISO (all files),canonical CSVs,canonical (no mapping needed)
+  ```
+- SHA-256 of `dataset.csv`: `ff64d39d102de33c46ec012639161a32e63959339a15d009ae2378a68ee90662` →
+  `0dbaea1cbc229ed5f3fff336c5c2b3a0a5fea156e1d92740f4c0d8716d4cce21`. It must change in two places:
+  - `tests/fixtures/library/MANIFEST.sha256` (the `./01-Clean-Manufacturer/dataset.csv` line);
+  - `tests/checksums.txt` (the `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv` line).
+- SHA-256 of `MANIFEST.sha256` after that edit: `94047192a3dd2b2c7a46ed77caf0d0c1957558b54ced42d314417d44ce4a4c33` →
+  `cd8111855aaf079481b68115191fcc312282acf9a87eb8517d9ff74986377e3c`. Its line in `tests/checksums.txt` must change too.
+- `tests/test-same-results.js`, Proof B, must change at the same time:
+  - the as-supplied check expects a refusal now, and would then expect a complete import;
+  - the in-memory label must be removed.
+  - Its line in `tests/checksums.txt` changes as well. This is a test change and needs the owner's approval at that step.
+- **Trial in a throwaway copy, with the three hash edits applied:**
+  - `import-stage1` 616/0 and `import-mapping` 976/0 pass;
+  - `check-protection` passes only once the `MANIFEST.sha256` line is updated;
+  - `same-results` gives 1 failure until Proof B is updated (expected).
+- **Guard.** The Tag-4 guard reports two approved lines changed (`dataset.csv` and `MANIFEST.sha256`) until the tag is moved.
+  That is why the change belongs with the Tag-5 approval step.
+
+### Both-routes verification (Northstar; scratch script, UTC)
+
+| Comparison | Result | Explanation |
+| --- | --- | --- |
+| Direct upload against pre-change baseline | Identical | The old engine (`calculations.js` at `e7b3d2f`) and the new engine, each in its own context, give byte-identical serialised output on all 17 workbooks. Northstar: 2,762,709 bytes, 5 data-quality warnings. |
+| Universal Import against direct upload | Registered differences | Stage 1 → adapter → engine → result gate: import accepted, adapter complete, gate complete (0 withheld, 0 labelled). The only differences are DR-1 (notes text), DR-2 (`Production_Line_ID`) and DR-6 (`ua`), plus the engine's internal cache, which the gate never releases. All 150 items match on 9,450 item fields apart from `ua`. Stock value is £2,533,596.40 by both routes. |
+| Final cross-check | Pass | With the notes sheets and the 151 `Production_Line_ID` cells removed from the direct workbook, only DR-6 remains; `ua` equals on-hand for every item. |
+
+The first comparison reported 50 "unexplained" `feas.rows[].sd` differences. These were formatter functions, compared by object
+identity. Compared by source text they are identical, so they are not a data difference.
+
+### Allocated-exceeds-on-hand warning (investigation only; nothing changed)
+
+- **Example.** Northstar FG001 with physical on-hand 45, usable 60 and allocated 50 (`Usable_On_Hand_Qty` supplied).
+- **Result.** Available is 10, which is correct. Stock value is still 45 × cost.
+- **Current behaviour.** The High warning "Allocated exceeds on-hand" fires for FG001. The check (`js/calculations.js`,
+  data-quality checks) compares `Allocated_Qty` with the physical `On_Hand_Qty`.
+- **This is a genuine false positive under Option D.** Usable stock (60) covers the allocation (50).
+- **Customer-facing impact.**
+  - A High data-quality warning appears.
+  - The item's confidence drops: FG001 shows Low, with the reason "data-quality flag on this item".
+  - No client question is raised.
+- **Without the column** (on-hand 45, allocated 50), available is −5 and the warning is correct.
+- **Recommendation.** Compare allocated stock with `Usable_On_Hand_Qty` when it is present, and with `On_Hand_Qty` otherwise.
+- **Tests needed:**
+  - the example gives no warning;
+  - allocated 65 against usable 60 gives a warning;
+  - a direct upload without the column is unchanged (golden snapshots);
+  - item confidence follows the warning.
+- **Deferred.** This needs an engine change (see the deferred items).
+
+### Difference register — review outcome
+
+All seven entries were checked against the evidence and the implemented code. `IMPORT-V1-DIFFERENCE-REGISTER.md` holds the full
+text.
+
+| Entry | Verified by | Outcome |
+| --- | --- | --- |
+| DR-1 | Northstar: the notes sheets deleted from the direct workbook remove the difference. | Wording corrected (the full sheet list; `Read me` belongs to Willow only). Accepted. |
+| DR-2 | All 13 accepted workbooks carry the column; removing it removes the difference. | Evidence replaced with this K6 check. Accepted. |
+| DR-3 | Proof A: 3 exact duplicate PO rows; removing them removes the difference. | Accepted. |
+| DR-4 | Cell inspection: 8 POs (7 Open, 1 Cancelled) with empty-text received quantity and date; 19 − 11 = 8. | Wording corrected. Accepted. |
+| DR-5 | Proof A: with the cause removed, DR-4 and DR-5 disappear. | Accepted. |
+| DR-6 | `ua` equals on-hand on every item; no direct-route item has it. | Accepted. |
+| DR-7 | In `result`, `alt` and `altS`: the same 10 warnings, identical in every field; only positions 0 and 1 swap; every other section identical. | Accepted. |
+
+**DR-4.** The direct-upload route has a known bug in handling empty-text cells. Universal Import treats empty text as missing
+and reads correctly. This is an improvement. The direct-upload bug is separate and remains unfixed at the engine level.
+
+### Proofs and tests (K5 results; not re-run for this documentation-only commit)
+
+- **Proof A.** 13 workbooks identical apart from the register. The 4 refusals stay refused.
+- **Proof B.** As above (with the in-memory label).
+- **Proof C.** Golden v0.5 and v0.6.0 are identical in all 10 sections. Confidence v0.7: 11 of 13 identical, 2 differ only in
+  their registered sections.
+- **Proof D.** 19 cases and the 4 mandatory tests pass.
+- **Test runs.**
+  - At K5 (commit `01c565f`): fast tier 24 tests passed (+ pre-flight); full tier 37 tests passed (+ pre-flight), 5 BLOCKED,
+    2 REDUCED; guard 12 passed, 0 failed, 100 PENDING; CI succeeded.
+  - Re-run on `01c565f` during K6: fast tier 24 passed (+ pre-flight), 0 failed, 100 PENDING.
+  - **No tests were run for the K6 commit itself.** It changes documentation only: no code, test, snapshot or fixture.
+
+## Known limitations (Stage 2, as at K6)
+
+| # | Item | Priority | When it must be dealt with |
+| --- | --- | --- | --- |
+| 1 | **B14: bought-for-resale items are refused.** The adapter refuses files with bought-and-sold or made-not-sold items, so wholesalers, distributors and retailers (for example library packages 03 and 04, and E04) cannot be analysed through Universal Import. The refusal must not be changed silently. | HIGH | Must be decided before Stage 3 planning begins. |
+| 2 | **`refcalc.py` still uses Option A.** It clamps stock value and floors available stock at 0, and Stage 1 tests compare it with every package's `expected-results.json`. Any future package with negative stock will get Option A reference figures. | HIGH | Owner decision before more negative-stock fixtures are added. |
+| 3 | **Allocated-exceeds-on-hand false positive** under Option D, which also lowers the item's confidence (see above). Engine change and tests based on physical versus usable stock required. Not fixed in K6. | MEDIUM | Later engine refinement. |
+| 4 | **`Scrap_Pct` NaN.** If a BOM omits the optional `Scrap_Pct` column, production shortage figures become NaN on both direct-upload and imported routes. Pre-existing engine issue, not introduced by Stage 2. Separate engine investigation and dedicated regression tests required. Not fixed in K6. | MEDIUM | Separate engine task. |
+| 5 | **Exports: Available ≠ OnHand − Allocated** for items with negative location quantities under Option D. Stage 4 must explain it through a column heading, an explanatory note or a footnote. | Presentation | Before Stage 4. |
+| 6 | **Package 01 label.** Package 01 is refused as supplied until `Demand_Basis = shipments` is added (prepared above). Every demand file must carry the label (M1 D14). | Acceptance condition | With the Tag-5 approval step. |
+| 7 | **Direct-upload route** (not changed by Stage 2): it misreads empty-text cells (DR-4) and counts exact duplicate PO rows twice (DR-3). | Recorded | Separate engine task if wanted. |
+| 8 | **E04** cannot run through the adapter (B14, no `Demand_Basis` label). Its protected £1,100 is the Option A figure; the Stage 2 value is £950. | Recorded | With B14 and the reference-calculator decision. |
+
+## Not yet done (as at K6)
+
+K0's planned steps K1–K6 are done. K1–K5 are in commits `e7b3d2f` and `01c565f`; K6 is this documentation commit.
+
+**Stage 2 is not complete. It is awaiting:**
+1. the Package 01 `Demand_Basis = shipments` label in `dataset.csv`;
+2. its protection update (`MANIFEST.sha256` and `checksums.txt`) and the matching Proof B test change, at the Tag-5 approval
+   step;
+3. a re-run of the fast and full tiers and CI after that change;
+4. the owner's final acceptance of Stage 2.
+
+Not authorised, and not started: Tag-5, Stage 3, and any engine change (including items 3 and 4 above).
