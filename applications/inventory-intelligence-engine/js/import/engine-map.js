@@ -13,6 +13,8 @@
  *           'generic' the engine reads it only through its whole-sheet checks (empty and missing values in every column,
  *                     whole-row comparison of purchase-order lines) and the raw rows it keeps; never by name
  *   reason  why a column is not supplied (field null only)
+ *   derived the name of a quantity the adapter calculates (no canonical field holds it); written only when the adapter
+ *           supplies it. Such a column is an optional extension of the engine contract, not part of the standard layout.
  * A sheet's `select` lists the canonical values a row must have to belong on that sheet. A row of the table that matches no
  * sheet is not written by engine-workbook.js; it is reported, never silently dropped.
  */
@@ -44,7 +46,11 @@
       c('Item_ID', 'Item_ID', 'name'), c('On_Hand_Qty', 'On_Hand_Qty', 'name'), c('Allocated_Qty', 'Allocated_Qty', 'name'),
       c('On_Order_Qty', 'On_Order_Qty', 'name'), c('Reorder_Point_Qty', 'Reorder_Point_Qty', 'name'),
       c('Safety_Stock_Qty', 'Safety_Stock_Qty', 'name'), c('Unit_Cost_GBP', 'Unit_Cost', 'name'),
-      c('Location', null, 'generic', 'The engine never reads it by name, and the Engine View holds one row per item summed over eligible locations (B1, B6), so no single location applies. Locations stay in the canonical stock rows and the adapter report.')] },
+      c('Location', null, 'generic', 'The engine never reads it by name, and the Engine View holds one row per item summed over eligible locations (B1, B6), so no single location applies. Locations stay in the canonical stock rows and the adapter report.'),
+      // Engine contract extension (Stage 2, B6 Option D, approved 14 Nov 2026): optional. When it holds a number the engine uses
+      // available = Usable_On_Hand_Qty - Allocated_Qty; when absent, On_Hand_Qty - Allocated_Qty as before. Valuation stays on On_Hand_Qty.
+      { column: 'Usable_On_Hand_Qty', field: null, read: 'name', derived: 'Usable_On_Hand_Qty',
+        reason: 'Calculated by the adapter: the sum over eligible locations of each location quantity floored at 0 (B6 Option D). No canonical field holds it.' }] },
     { sheet: 'Suppliers', table: 'suppliers', key: ['Supplier_ID'], columns: [
       c('Supplier_ID', 'Supplier_ID', 'name'), c('Supplier_Name', 'Supplier_Name', 'name'), c('Country', 'Country', 'generic'),
       c('Standard_Lead_Time_Days', 'Standard_Lead_Time_Days', 'name'), c('Payment_Terms', 'Payment_Terms', 'generic'),
@@ -92,7 +98,7 @@
   ];
 
   NS.engineMap = deepFreeze({
-    VERSION: 'EM1',
+    VERSION: 'EM2',
     CANONICAL_VERSION: 'CDv1',
     ENGINE: 'v0.7 js/calculations.js analyse()',
     SHEETS, SELECTORS, NOT_CONSUMED

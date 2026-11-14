@@ -680,7 +680,56 @@
     } catch (err) { return 'blocked'; }
   }
 
+  // ---------- reliabilityDetail (owner approval, 14 Nov 2026; Stage 2 K4): the full set, not just the worst ----------
+  // reliabilityDetail(result, item, analysis) → frozen { status, statuses, reasons: [{ status, code, detail }] }.
+  // status is ALWAYS reliabilityOf(result, item, analysis): reliabilityOf() is unchanged and stays the single display decision.
+  // statuses lists every applicable status (worst first, in RELIABILITY order), so "caveated" can never hide "incomplete".
+  // Reason codes: PERMISSIONS_MALFORMED, ANALYSIS_UNKNOWN, ITEM_NOT_IMPORTED, ITEM_ENTRY_MALFORMED, CAVEAT_UNRECOGNISED,
+  // DATASET_NOT_ALLOWED, ANALYSIS_NOT_AVAILABLE (+ TABLE_NOT_SUPPLIED when the analysis is 'unavailable'), ITEM_BLOCKED,
+  // CAVEAT, INCOMPLETE, NO_DEMAND_HISTORY, INTERNAL_ERROR. A malformed input gives 'blocked' only, with its reason.
+  function reliabilityDetail(result, item, analysis) {
+    const status = reliabilityOf(result, item, analysis);
+    const reasons = [], add = (st, code, detail) => reasons.push(Object.freeze({ status: st, code, detail: detail === undefined ? null : detail }));
+    const done = () => {
+      if (!reasons.length) add('available', 'AVAILABLE');
+      const order = RELIABILITY.slice().reverse();
+      const statuses = order.filter(st => reasons.some(r => r.status === st));
+      return Object.freeze({ status, statuses: Object.freeze(statuses), reasons: Object.freeze(reasons.slice().sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status))) });
+    };
+    try {
+      const p = result && result.permissions;
+      if (!isObj(p) || !isObj(p.dataset) || !isObj(p.analyses) || !isObj(p.items)) { add('blocked', 'PERMISSIONS_MALFORMED'); return done(); }
+      if (typeof analysis !== 'string' || !Object.prototype.hasOwnProperty.call(ANALYSIS_TABLES, analysis)) { add('blocked', 'ANALYSIS_UNKNOWN', String(analysis)); return done(); }
+      const rows = result.dataset && result.dataset.items;
+      if (!Array.isArray(rows) || !rows.some(r => r && r.Item_ID === item)) { add('blocked', 'ITEM_NOT_IMPORTED', String(item)); return done(); }
+      const has = Object.prototype.hasOwnProperty.call(p.items, item), e = has ? p.items[item] : null;
+      if (has) {
+        let bad = !isObj(e) || Object.keys(e).some(k => !ITEM_KEYS.has(k));
+        if (!bad) for (const k of ['blocked', 'incomplete', 'caveats']) {
+          if (e[k] === undefined) continue;
+          if (!isObj(e[k]) || Object.keys(e[k]).some(a => !(Object.prototype.hasOwnProperty.call(ANALYSIS_TABLES, a) || (k === 'blocked' && a === 'all')))) bad = true;
+        }
+        if (!bad && e.noDemandHistory !== undefined && e.noDemandHistory !== true) bad = true;
+        if (bad) { add('blocked', 'ITEM_ENTRY_MALFORMED', String(item)); return done(); }
+        if (e.caveats && Object.values(e.caveats).some(v => v !== CAVEAT_DUP)) add('blocked', 'CAVEAT_UNRECOGNISED', Object.values(e.caveats).filter(v => v !== CAVEAT_DUP).map(String));
+      }
+      if (p.dataset.status !== 'allowed') add('blocked', 'DATASET_NOT_ALLOWED', p.dataset.status === undefined ? null : String(p.dataset.status));
+      if (p.analyses[analysis] !== 'available') {
+        add('blocked', 'ANALYSIS_NOT_AVAILABLE', p.analyses[analysis] === undefined ? null : String(p.analyses[analysis]));
+        if (p.analyses[analysis] === 'unavailable') add('blocked', 'TABLE_NOT_SUPPLIED', ANALYSIS_TABLES[analysis].join(' or '));
+      }
+      if (has) {
+        if (e.blocked && e.blocked.all !== undefined) add('blocked', 'ITEM_BLOCKED', { analysis: 'all', reason: e.blocked.all });
+        if (e.blocked && e.blocked[analysis] !== undefined) add('blocked', 'ITEM_BLOCKED', { analysis, reason: e.blocked[analysis] });
+        if (e.caveats && e.caveats[analysis] === CAVEAT_DUP) add('caveated', 'CAVEAT', { caveat: CAVEAT_DUP, details: e.caveatDetails && e.caveatDetails[analysis] !== undefined ? e.caveatDetails[analysis] : null });
+        if (e.incomplete && e.incomplete[analysis] !== undefined) add('incomplete', 'INCOMPLETE', e.incomplete[analysis]);
+        if (analysis === 'demand' && e.noDemandHistory === true) add('incomplete', 'NO_DEMAND_HISTORY');
+      }
+      return done();
+    } catch (err) { reasons.length = 0; add('blocked', 'INTERNAL_ERROR'); return done(); }
+  }
+
   NS.validate = Object.freeze({ DUP_RULES, KEY_NEEDS, HISTORY, THRESHOLDS, ANALYSIS_TABLES, CAVEAT_DUP, RELIABILITY,
     CODE_CLASS, CODE_KINDS, CURRENCY_CODES, PROHIBITED_CODES, classifyCode, FOREIGN_SYMBOLS: Object.freeze(FOREIGN_SYMBOLS.slice()), FOREIGN_WORDS: Object.freeze([...FOREIGN_WORDS]),
-    moneyCurrency, cleanMoney, reliabilityOf, run, importFiles });
+    moneyCurrency, cleanMoney, reliabilityOf, reliabilityDetail, run, importFiles });
 })(globalThis.CGImport = globalThis.CGImport || {});

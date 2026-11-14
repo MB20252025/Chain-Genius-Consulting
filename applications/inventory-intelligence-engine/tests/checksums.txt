@@ -440,4 +440,8 @@ file 6842d0006a3bc3ed8c6be94b1b977c6ecc22491e8c5ebfd7a86a57e8b94fcba8 tests/fixt
 file 5d087bb3ff3af9c7fe75f8535aa8567b4a430511de388ec4c7b71e4e7228c719 tests/fixtures/import-v1/mappings/L2-erp-workbook.mapping.json
 file 5af4dbb9a50224f1a492d0df769b5f701d5aba9dcd762a554e00779de0260da8 tests/fixtures/import-v1/mappings/package-02.mapping.json
 # Universal Data Import v1 Stage 2, K1 + K2 (14 Nov 2026, owner condition 3: new test protected from the moment it is introduced): the engine-map and cell-writing test. js/import/engine-map.js and engine-workbook.js are protected by behaviour tests, not checksums (M1 policy).
-file 6b2fefd8a3b84b5ee948dc0409ae65158fc1cfb455ea61e1ba99cc4b9a320d98 tests/test-import-engine-map.js
+file 7a4836b4ed4c37f65789ff80ce37d0f003154afc42358603f1aa71f47ddbdd34 tests/test-import-engine-map.js
+# Universal Data Import v1 Stage 2, K3-K5 (14 Nov 2026, owner condition 3): the adapter and result-gate test, the same-results proofs (A, B, C) and the test-only reverse converter. js/import/adapter.js and result-gate.js are protected by behaviour tests, not checksums (M1 policy). test-import-engine-map.js above was updated for the owner-approved EM2 extension (Usable_On_Hand_Qty).
+file fc87d204194d60bc7a9a9ea27bac48cb6cef9656bc22e13e4055f1e95de40639 tests/test-import-adapter.js
+file 9b3567479a4d94606fb5e2518be9e69809c16a19091374223822bb8d9f950f27 tests/test-same-results.js
+file 4685961bfc83a0ded57a95deeccb054151c75c97c5705798b91c1440de207ec7 tests/tools/import-v1/reverse-eight-sheet.js

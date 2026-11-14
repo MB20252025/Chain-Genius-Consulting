@@ -102,7 +102,14 @@ Copied verbatim from the Stage 2 Solution Design Report, section G. All five ent
 - **DR-4.** Willow: empty-text cells become missing values. The direct route then misreads open POs as short-received with invalid dates (19 short vs 11). The import route reads them correctly.
 - **DR-5.** Willow: the unmapped empty `Notes` column is not carried, so the engine's "column contains no values" warning disappears.
 
-## Not yet done
+**Update at K5 (14 Nov 2026).** The full register, with the evidence for each entry, is now kept in `IMPORT-V1-DIFFERENCE-REGISTER.md`. It adds:
+- the explanation of DR-5 from the K1/K2 finding: the engine inspects every column supplied to it, reads 42 column names by name, and some of its warnings depend on columns it does not otherwise use;
+- **DR-6.** Import-route item records carry the new key `ua` (usable on-hand, B6 Option D); it equals on-hand in every fixture;
+- **DR-7.** Willow: two data-quality warnings appear in a different order, because the engine follows the sheet's column order.
+
+All seven entries remain pending the owner's review.
+
+## Not yet done (as recorded at K0; superseded by the sections below)
 
 K1–K6 are planned but unauthorised:
 
@@ -142,3 +149,161 @@ The change is therefore never silent.
 **Correction to the K0 observation 1.** It described this as a point to confirm at K3. It was a conflict with the B6 wording and should have been raised as one.
 
 K1–K6 remain unauthorised.
+
+## History reconciliation (verified 14 Nov 2026, before K3)
+
+`development/v0.7` is linear from the Stage 1 closure; there are no other commits in between:
+
+| Commit | What it is |
+| --- | --- |
+| `46636ed` | Stage 1 closure (record and `tests/README.md`). |
+| `07ca45d` | K0: owner decisions B1, B6 (Option A), B20 and the `reliabilityDetail()` approval recorded in this file. Documentation only. |
+| `8ae201a` | B6 clarification addendum (section above). Documentation only. It was HEAD when K1/K2 began. |
+| `e7b3d2f` | K1 + K2: `js/import/engine-map.js`, `js/import/engine-workbook.js`, `tests/test-import-engine-map.js`, test registration. CI passed. |
+
+At the start of K3: HEAD = remote = `e7b3d2f`, working tree clean, `v0.7-tests-approved-4` → `5f18335`, no Tag-5.
+
+## K1 + K2 (commit `e7b3d2f`, 14 Nov 2026)
+
+Not recorded here at the time; recorded now.
+- `engine-map.js` (map version EM1): the 60 columns the engine's eight sheets carry, and for each column the canonical field that
+  fills it, or the reason none does. **Finding:** the engine inspects every column supplied to it, reads 42 column names by name,
+  and some of its warnings depend on other columns. This is the explanation for DR-5.
+- `engine-workbook.js`: writes the Engine View workbook cell by cell from the canonical dataset; no engine call.
+- Owner decisions applied: `Active_YN` is mapped; `Location` is not mapped.
+- `tests/test-import-engine-map.js`: 246 checks (49 per zone × 5 + 1).
+
+## B6 revised to Option D (owner brief of 14 Nov 2026, "Complete Universal Import Stage 2 — K3, K4 and K5")
+
+Option A (K0) and the B6 clarification above are kept unchanged as history. The owner's brief replaces them with Option D:
+- **Physical on-hand** = the sum of the signed quantities at the eligible locations. It is the valuation basis.
+- **Usable stock** = the sum over eligible locations of each quantity floored at 0.
+- **Available** = usable stock − genuine allocated stock. The final result is not clamped.
+- **Allocated** is unchanged. **Direct uploads** are unchanged.
+- Excluded locations contribute to nothing.
+- Every negative location is reported per item (mandatory fields, ending with the text "treated as 0 for available stock. Please
+  investigate.").
+
+### Engine contract (the controlled engine correction)
+
+Option D needs one figure the engine did not accept: usable stock. The change is in `js/calculations.js` only (3 places):
+1. Both item builders keep an optional `Usable_On_Hand_Qty` from the Inventory sheet as `ua`, **only when the column is present**.
+2. `risk()`, the single place available stock is calculated: available = `ua` − allocated when `ua` is a number; otherwise
+   on-hand − allocated, as before.
+3. A non-numeric `Usable_On_Hand_Qty` raises a High data-quality warning and is not used (that item falls back to on-hand − allocated).
+
+Unchanged by design: on-hand (`oh`), allocated (`al`), valuation (`val = oh × cost`) and everything calculated from them
+(classification, no-demand list, dead-stock quantity, the "Negative quantities" and "Allocated exceeds on-hand" checks).
+Everything calculated from available stock follows the corrected figure (position, cover, safety-stock checks, excess, shortage,
+severity, MRP need and days, the material pool, forecasting, the Avail columns).
+
+**Backward compatibility.** A workbook without the column gives exactly the earlier results: proven on all 17 fixture workbooks ×
+5 time zones (old engine vs new engine, all sections, including item key lists), by golden v0.5 and v0.6.0 and confidence v0.7
+(unchanged, passing), and by `test-import-adapter.js` (a column equal to on-hand everywhere gives an identical result).
+
+**Owner-approved extension of K1/K2** (answer "Approve as proposed"): `engine-map.js` → map version EM2, with
+`Usable_On_Hand_Qty` as an adapter-calculated (`derived`) Inventory column; `engine-workbook.js` writes it only when the adapter
+passes `options.derived`; `tests/test-import-engine-map.js` extended (246 → 276 checks).
+
+### Mandatory example (run through the engine; `test-import-adapter.js`)
+
+| Case | Physical on-hand | Usable | Allocated | Available | Value |
+| --- | --- | --- | --- | --- | --- |
+| W1 60, W2 −15, allocated 0 | 45 | 60 | 0 | 60 | 45 × cost |
+| W1 60, W2 −15, allocated 19 | 45 | 60 | 19 | 41 | 45 × cost |
+
+With the synthetic cost of £50: value £2,250 in both cases. On Northstar item FG001 (cost £54.98): available 45 → 60 → 41, value
+£2,474.10 in every case, total stock value unchanged. Against the same 45 units held in one location, physical on-hand, allocated,
+item value and total stock value are identical; only available differs.
+
+## K3 — Adapter (`js/import/adapter.js`, version AD1)
+
+`CGImport.adapter.build(stage1Result, mapping)` → frozen `{status, workbook, gate, report}`; status `refused`, `restricted` or
+`complete`. Pure function: no engine call, no asynchronous code, network, storage or engine globals (checked by AST in tests). It
+refuses an unfrozen Stage 1 result and any option (none is approved).
+
+Gates, in order:
+0. **Input contract** (`ADAPTER_INPUT_INVALID`, `ADAPTER_INPUT_NOT_FROZEN`, `ADAPTER_MAPPING_INVALID`, `ADAPTER_OPTION_UNKNOWN`).
+1. **Acceptance** (`IMPORT_NOT_ACCEPTED`, `DATASET_NOT_ALLOWED`, `REQUIRED_TABLE_UNAVAILABLE`). Placeholder rows (`__placeholder`)
+   are excluded and counted; held tables are listed.
+2. **Item roles**: bought-and-sold and made-not-sold items are refused (`POLICY_UNDECIDED_B14`).
+3. **Stock** (B1, M1 D5, B6 Option D): eligibility from `Include_In_Available` (N excludes; Y, blank or unknown location counts;
+   no location = UNASSIGNED). Refusals for undecided policies: allocated or on-order stock in an excluded location (B4), different
+   unit costs (B7), more than one reorder point or safety stock (B9); refusals for data it will not guess: on-hand missing,
+   allocated or on-order blank at some locations only, different snapshot dates. Engine row: signed on-hand sum; usable stock;
+   summed allocated and on-order; the single reorder point and safety stock; source-row provenance. Per-item reconciliation, and
+   a hard check that the written Inventory cells equal the rows (`ADAPTER_RECONCILIATION_FAILED`).
+4. **Demand** (M1 D14, E6): demand file and sales lines together refused (B18). A demand file must be labelled
+   `Demand_Basis = shipments`: `orders` refused (B19), no label refused (`DEMAND_BASIS_NOT_LABELLED`). Rows of one item-month are
+   summed only across different locations; rows without a location pass through unchanged (kept duplicates are never merged or
+   doubled); mixed or repeated locations are refused. Sales lines: shipped quantity by month of `Last_Ship_Date`; open quantities
+   become commitments (cancelled lines none); shipped without a date, negative quantities and missing months (B17) are refused.
+
+Undecided policies refused with a code: B4, B7, B9, B14, B17, B18, B19 (and the D14 label). The others cannot reach the adapter
+in a form that needs a decision, checked against the design report's section D:
+- B2, B3, B5: the canonical model has no field for quarantine, blocked or in-transit quantities; such columns stay unmapped, and a
+  quarantine location is decided by B1 (owner §2.6). B2 remains formally open.
+- B8: Stage 1 stops the stock table when an item has several rows in one location, so the adapter refuses
+  (`REQUIRED_TABLE_UNAVAILABLE` or `IMPORT_NOT_ACCEPTED`).
+- B15 and B16 apply only to items excluded under B14 Option B; B14 is refused, so no item is excluded.
+Nothing is assumed for any of them.
+
+## K4 — Result gate and statuses
+
+**`reliabilityDetail(result, item, analysis)`** added to `js/import/validate.js` only; `reliabilityOf()` is unchanged.
+It returns frozen `{status, statuses, reasons}`; `status` always equals `reliabilityOf()` (checked on a 30-case grid); `statuses`
+keeps the full set, worst first, so "caveated" no longer hides "incomplete"; an analysis that was not supplied carries
+`TABLE_NOT_SUPPLIED` beside `blocked` (no fifth status: F-9 #4 and B21 remain open).
+
+**`js/import/result-gate.js`** `CGImport.resultGate.apply(engineOut, spec)` → frozen `{status, withheld, labelled, notes, result}`.
+It never rewrites a number: an output is released unchanged, withheld (replaced by `{withheld: true, reason}`), or labelled.
+- Money: every money-derived output is withheld when financial permission is not allowed or any included item lacks a cost.
+  On the evidence (costs scaled per item on Northstar), this includes health category, score, confidence and ABC as well as
+  values; after the gate no value differs (0 leaks among over 1,000 changed raw values).
+- Client questions are withheld with `POLICY_UNDECIDED_B11` when financial permission is not allowed.
+- Blocked items and blocked or unknown analyses are withheld; caveated and incomplete are labelled, never treated as blocked;
+  an analysis whose table was not supplied is labelled.
+- The engine's internal cache (`result.memo`) is never released.
+- A malformed specification or engine output is refused and releases nothing. There is no bypass option.
+
+## K5 — Proofs and tests
+
+All proofs run the bundled SheetJS, the import modules and the engine in one JavaScript context; every run first checks that
+direct Northstar gives its 5 data-quality warnings.
+
+- **Proof A** (`tests/test-same-results.js`): 17 workbooks × 5 time zones. 13 give identical results apart from the register
+  entries; each entry appears exactly where registered, and DR-3, DR-4 and DR-5 disappear when their cause is removed. The four
+  refused workbooks stay refused.
+- **Proof B**: Package 01 is refused as supplied (no `Demand_Basis` label). With the label added in memory (test assumption):
+  complete; 120 items; on-hand 55,276; on-hand by location FGW 5,623, MAIN 46,598, SHEF 3,055; stock value £2,318,695.70;
+  stock-out risk M0012, P0007, P0019, P0031; dead stock P0038, P0039 — all as expected.
+- **Proof C**: the adapter-built Northstar workbook, read by `regress.js`, is identical to golden v0.5 and v0.6.0 in all 10
+  sections. Confidence v0.7: 11 of 13 accepted workbooks identical; `dupexact` (DR-3) and `willow` (DR-4) differ only in the
+  registered sections. No snapshot file was changed.
+- **Proof D** (`tests/test-import-adapter.js`): the 19 cases (negative stock with positive, multiple, allocated, on-order, all
+  negative and excluded locations; valuation; available; direct uploads; money and currency; blocked, incomplete and caveated;
+  duplicates; roles; optional tables; malformed reliability; frozen input; sales lines; undecided policies), the engine contract,
+  `reliabilityDetail`, the money leak check, and the four mandatory Stage 2 tests.
+- Test-only tool: `tests/tools/import-v1/reverse-eight-sheet.js` (eight-sheet workbook → canonical CSV text and an identity
+  mapping, in memory; assumes `Demand_Basis = shipments`).
+
+New tests registered: `import-adapter` 346 (69 × 5 + 1), `same-results` 356 (71 × 5 + 1); `import-engine-map` 246 → 276;
+`test-a1-static` 27 → 29; `check-protection` 430 → 433 (3 new protected files: the two tests and the tool). All are PENDING the
+owner's tag move.
+
+### Regression, before and after (14 Nov 2026, run in throwaway copies of the repository)
+
+| Run | Before (`e7b3d2f`) | After (K3–K5, uncommitted tree) |
+| --- | --- | --- |
+| Fast tier | 22 tests passed (+ pre-flight), 0 failed | 24 tests passed (+ pre-flight), 0 failed |
+| Full tier | 35 tests passed (+ pre-flight), 5 BLOCKED, 2 REDUCED (the K1/K2 run of the same content) | 37 tests passed (+ pre-flight), 5 BLOCKED, 2 REDUCED (the same accepted limitations) |
+| Guard (`check-control.js` from Tag-4) | 12 passed, 0 failed, 95 PENDING lines | 12 passed, 0 failed, 100 PENDING lines |
+
+Every existing test kept its accepted count except the three raised by this work (`check-protection`, `test-a1-static`,
+`import-engine-map`). Golden v0.5, golden v0.6.0 and confidence v0.7 passed unchanged in 5 time zones; no snapshot file changed.
+
+## Status
+
+- Stage 2 K3, K4 and K5 are implemented. **Stage 2 is not accepted**: the difference register and the items above await the
+  owner's review.
+- No Tag-5. Stage 3 has not started.

@@ -79,7 +79,7 @@ const roundTrip = wb => X.read(X.write(wb, { type: 'array', bookType: 'xlsx' }),
 // ===================== S1: K1 — the engine map =====================
 console.log('\n--- S1 engine map: structure, frozen, coverage of every engine column, uniqueness');
 const deepFrozen = o => !(o && typeof o === 'object') || (Object.isFrozen(o) && Object.values(o).every(deepFrozen));
-ok(deepFrozen(EM) && EM.VERSION === 'EM1' && EM.CANONICAL_VERSION === C.VERSION, 'the map is frozen at every level, version EM1, for canonical CDv1');
+ok(deepFrozen(EM) && EM.VERSION === 'EM2' && EM.CANONICAL_VERSION === C.VERSION, 'the map is frozen at every level, version EM2 (EM1 + the Stage 2 available-stock column), for canonical CDv1');
 { let threw = false; try { vm.runInContext('"use strict"; CGImport.engineMap.SHEETS[0].columns[0].field = "x"', ctx); } catch (e) { threw = true; }
   ok(threw && EM.SHEETS[0].columns[0].field === 'Item_ID', 'a write to the map is refused (strict mode) and the map is unchanged'); }
 const calc = read('js/calculations.js');
@@ -88,21 +88,26 @@ ok(eq(EM.SHEETS.map(s => s.sheet), need), `the map's sheets are exactly the engi
 // Northstar is the standard layout the engine was built on: the map must list every one of its columns, in order.
 {
   const ns = X.read(fs.readFileSync(path.join(__dirname, 'fixtures', 'northstar', 'Chain_Genius_Project_001_Northstar_Dataset_1.xlsx')), { cellDates: true });
-  const wrong = EM.SHEETS.filter(s => !eq(X.utils.sheet_to_json(ns.Sheets[s.sheet], { header: 1 })[0], s.columns.map(c => c.column))).map(s => s.sheet);
-  ok(wrong.length === 0, `every sheet lists exactly the Northstar workbook's columns, in the same order (60 columns)${wrong.length ? ' — differ: ' + wrong.join(', ') : ''}`);
+  const wrong = EM.SHEETS.filter(s => !eq(X.utils.sheet_to_json(ns.Sheets[s.sheet], { header: 1 })[0], s.columns.filter(c => !c.derived).map(c => c.column))).map(s => s.sheet);
+  ok(wrong.length === 0, `apart from adapter-calculated extensions, every sheet lists exactly the Northstar workbook's columns, in the same order (60 columns)${wrong.length ? ' — differ: ' + wrong.join(', ') : ''}`);
 }
 // Every column name the engine reads by name (property access or quoted name in calculations.js and forecasting.js) is in the map.
 const engineSrc = calc + '\n' + read('js/forecasting.js');
 const tokens = new Set([...engineSrc.matchAll(/\.([A-Z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+|SKU)\b/g), ...engineSrc.matchAll(/['"]([A-Z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+|SKU)['"]/g)].map(m => m[1]));
 const allCols = EM.SHEETS.flatMap(s => s.columns), colNames = new Set(allCols.map(c => c.column));
 const unknown = [...tokens].filter(t => !colNames.has(t));
-ok(tokens.size === 42 && unknown.length === 0, `all ${tokens.size} column names the engine reads by name are in the map (mapped or listed as not supplied)${unknown.length ? ' — missing: ' + unknown.join(', ') : ''}`);
+ok(tokens.size === 43 && unknown.length === 0, `all ${tokens.size} column names the engine reads by name are in the map (mapped or listed as not supplied)${unknown.length ? ' — missing: ' + unknown.join(', ') : ''}`);
 ok(allCols.every(c => (c.read === 'name') === tokens.has(c.column) && ['name', 'generic'].includes(c.read)),
   'each column is marked "name" exactly when the engine reads it by name, otherwise "generic" (whole-sheet checks and raw rows only)');
-const notSupplied = allCols.filter(c => c.field === null), mapped = allCols.filter(c => c.field !== null);
-ok(allCols.length === 60 && mapped.length === 56 && eq(notSupplied.map(c => c.column).sort(), ['Customer_Orders', 'Item_Type', 'Location', 'Production_Line_ID']) &&
+const notSupplied = allCols.filter(c => c.field === null && !c.derived), mapped = allCols.filter(c => c.field !== null), derivedCols = allCols.filter(c => c.derived);
+ok(allCols.length - derivedCols.length === 60 && mapped.length === 56 && eq(notSupplied.map(c => c.column).sort(), ['Customer_Orders', 'Item_Type', 'Location', 'Production_Line_ID']) &&
   notSupplied.every(c => typeof c.reason === 'string' && c.reason.length > 20 && c.read === 'generic'),
-  '60 engine columns: 56 mapped, 4 not supplied (Customer_Orders, Item_Type, Location, Production_Line_ID), each with a reason and none read by name');
+  '60 standard engine columns: 56 mapped, 4 not supplied (Customer_Orders, Item_Type, Location, Production_Line_ID), each with a reason and none read by name');
+ok(allCols.length === 61 && derivedCols.length === 1 && EM.SHEETS.find(s => s.sheet === 'Inventory').columns.slice(-1)[0] === derivedCols[0] &&
+  derivedCols[0].column === 'Usable_On_Hand_Qty' && derivedCols[0].derived === 'Usable_On_Hand_Qty' && derivedCols[0].field === null && derivedCols[0].read === 'name' && derivedCols[0].reason.length > 20,
+  'one adapter-calculated extension column (Inventory Usable_On_Hand_Qty, read by name by the engine since Stage 2): no canonical field, reason given, last in its sheet');
+ok(/x\.av=\(typeof x\.ua==='number'&&isFinite\(x\.ua\)\?x\.ua:x\.oh\)-x\.al;/.test(calc) && /ua:r\.Usable_On_Hand_Qty/.test(calc) && /x\.val=x\.oh\*x\.cost/.test(calc),
+  'the engine contract the extension serves is present: available = (Usable_On_Hand_Qty when a number, else On_Hand_Qty) - Allocated_Qty; value = On_Hand_Qty x cost');
 ok(EM.SHEETS.every(s => C.TABLES[s.table] && s.columns.every(c => c.field === null || C.field(s.table, c.field))),
   'every mapped field exists in its canonical table (canonical.js)');
 // Uniqueness. Within a sheet: no engine column twice, no canonical field twice. Across sheets: a canonical field may feed two
@@ -166,7 +171,7 @@ const B = EW.build(DS, M1);
 const wb = B.workbook;
 ok(JSON.stringify(DS) === before2, 'build() does not change the dataset it is given');
 ok(eq(wb.SheetNames, need), 'the workbook has the engine\'s eight sheets in its order');
-ok(deepFrozen(B.report) && B.report.mapVersion === 'EM1', 'the report is frozen and names the map version');
+ok(deepFrozen(B.report) && B.report.mapVersion === 'EM2', 'the report is frozen and names the map version');
 const hdr = s => engineHeaders(wb, s);
 ok(eq(hdr('Products'), ['SKU', 'Product_Name', 'Product_Family', 'Unit_of_Measure', 'Standard_Cost_GBP', 'Selling_Price_GBP']) &&
   eq(hdr('Materials'), ['Material_ID', 'Material_Name', 'Unit_of_Measure', 'Standard_Cost_GBP', 'Default_Supplier_ID', 'Lead_Time_Days', 'Minimum_Order_Qty']),
@@ -227,6 +232,24 @@ ok(eq(hdr('Production Orders'), ['Production_Order_ID', 'SKU', 'Planned_Start_Da
   ok(code(() => EW.build(DS, noDemandMap)) === 'ENGINE_WORKBOOK_INPUT' &&
     eq(engineHeaders(EW.build(DS, noDemandMap, { supplied: { demand: ['Item_ID', 'Period_Start', 'Units'] } }).workbook, 'Demand History'), ['Month_Start', 'SKU', 'Units_Sold']),
     'options.supplied names the fields of a table the adapter builds itself (e.g. demand from sales lines); without it that table is refused');
+}
+// Adapter-calculated columns (Stage 2 extension): written only when requested, numbers only, missing value = no cell.
+{
+  const code = f => { try { f(); return 'no error'; } catch (e) { return e.code || e.message; } };
+  const st = DS.stock.map((r, i) => Object.assign({}, r, i === 2 ? {} : { __derived: { Usable_On_Hand_Qty: [60, 0][i] } }));
+  const D2 = Object.assign({}, DS, { stock: st });
+  ok(!engineHeaders(EW.build(D2, M1).workbook, 'Inventory').includes('Usable_On_Hand_Qty') && !engineHeaders(wb, 'Inventory').includes('Usable_On_Hand_Qty'),
+    'without options.derived the Usable_On_Hand_Qty column is not written, even when rows carry a value');
+  const b2 = EW.build(D2, M1, { derived: ['Usable_On_Hand_Qty'] }), inv = engineRows(b2.workbook, 'Inventory');
+  ok(eq(engineHeaders(b2.workbook, 'Inventory'), ['Snapshot_Date', 'Item_ID', 'On_Hand_Qty', 'Allocated_Qty', 'On_Order_Qty', 'Unit_Cost_GBP', 'Usable_On_Hand_Qty']) &&
+    inv[0].Usable_On_Hand_Qty === 60 && inv[1].Usable_On_Hand_Qty === 0 && !('Usable_On_Hand_Qty' in inv[2]) && inv[1].On_Hand_Qty === -15,
+    'with options.derived the column is written last on Inventory: 60 and 0 as number cells, no cell where the row has no value, On_Hand_Qty untouched (-15)');
+  ok(code(() => EW.build(Object.assign({}, DS, { stock: [Object.assign({}, DS.stock[0], { __derived: { Usable_On_Hand_Qty: '60' } })] }), M1, { derived: ['Usable_On_Hand_Qty'] })) === 'ENGINE_WORKBOOK_VALUE' &&
+    code(() => EW.build(DS, M1, { derived: ['Nope'] })) === 'ENGINE_WORKBOOK_INPUT' && code(() => EW.build(DS, M1, { derived: 'Usable_On_Hand_Qty' })) === 'ENGINE_WORKBOOK_INPUT',
+    'a non-number calculated value is refused (ENGINE_WORKBOOK_VALUE); an unknown or malformed derived list is refused (ENGINE_WORKBOOK_INPUT)');
+  ok(b2.report.sheets.find(s => s.sheet === 'Inventory').omitted.every(o => o.column !== 'Usable_On_Hand_Qty') &&
+    B.report.sheets.find(s => s.sheet === 'Inventory').omitted.some(o => o.column === 'Usable_On_Hand_Qty' && /adapter-calculated/.test(o.why)),
+    'the report lists the calculated column as omitted ("adapter-calculated column not supplied") only when it was not written');
 }
 // Transport cross-check (test-only): the in-memory workbook and the same workbook written to .xlsx and read back give the engine
 // identical rows, value for value and date for date, on every sheet.

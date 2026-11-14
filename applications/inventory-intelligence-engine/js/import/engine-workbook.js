@@ -21,6 +21,8 @@
  *   mapping  the CG-IMPORT-MAPPING object used for the import: the only record of which fields were supplied
  *   options  { supplied: { table: [field] } }  optional; replaces the mapping's field list for the tables it names
  *            (for tables the adapter builds itself, e.g. demand from sales lines)
+ *            { derived: [name] }  optional; adapter-calculated columns to write (engine-map columns with `derived`, e.g.
+ *            Usable_On_Hand_Qty). Each row carries its value in row.__derived[name]; it must be a number; missing = no cell.
  *   report   { mapVersion, sheets: [{ sheet, table, rows, columns, omitted: [{ column, why }], duplicateKeys }],
  *              unplaced: [{ table, Item_ID, Replenishment, Is_Sold, reason }] }
  * Fails closed: an invalid argument, a value of the wrong type, or a value in a field the mapping did not supply throws an
@@ -68,6 +70,9 @@
     if (!isObj(dataset)) throw fail('ENGINE_WORKBOOK_INPUT', 'dataset must be an object of canonical tables');
     if (options !== undefined && !isObj(options)) throw fail('ENGINE_WORKBOOK_INPUT', 'options must be an object');
     const supplied = suppliedFields(mapping);
+    const derivedOk = new Set(EM.SHEETS.flatMap(sh => sh.columns.filter(col => col.derived).map(col => col.derived)));
+    const derived = new Set((options && options.derived) || []);
+    if (options && options.derived !== undefined && (!Array.isArray(options.derived) || options.derived.some(n => !derivedOk.has(n)))) throw fail('ENGINE_WORKBOOK_INPUT', 'options.derived names an unknown adapter-calculated column');
     const over = (options && options.supplied) || {};
     if (!isObj(over)) throw fail('ENGINE_WORKBOOK_INPUT', 'options.supplied must be an object of field lists');
     for (const [t, list] of Object.entries(over)) {
@@ -91,16 +96,16 @@
     const wb = S.utils.book_new(), sheetsReport = [], placed = new Set();
     for (const sh of EM.SHEETS) {
       const have = supplied[sh.table] || new Set(), def = C.TABLES[sh.table];
-      const cols = sh.columns.filter(col => col.field !== null && have.has(col.field));
-      const omitted = sh.columns.filter(col => !cols.includes(col)).map(col => ({ column: col.column, why: col.field === null ? 'not supplied by the canonical model' : 'field ' + col.field + ' not mapped' }));
+      const cols = sh.columns.filter(col => (col.field !== null && have.has(col.field)) || (col.derived && derived.has(col.derived)));
+      const omitted = sh.columns.filter(col => !cols.includes(col)).map(col => ({ column: col.column, why: col.derived ? 'adapter-calculated column not supplied' : col.field === null ? 'not supplied by the canonical model' : 'field ' + col.field + ' not mapped' }));
       const rows = (dataset[sh.table] || []).filter(r => matches(r, sh.select));
       if (sh.table === 'items') rows.forEach(r => placed.add(r));
       const ws = {};
       cols.forEach((col, ci) => { ws[S.utils.encode_cell({ r: 0, c: ci })] = { t: 's', v: col.column }; });
       rows.forEach((r, ri) => cols.forEach((col, ci) => {
-        const v = r[col.field];
+        const v = col.derived ? (isObj(r.__derived) ? r.__derived[col.derived] : undefined) : r[col.field];
         if (v === null || v === undefined) return;
-        const type = def.fields.find(f => f.name === col.field).type;
+        const type = col.derived ? 'num' : def.fields.find(f => f.name === col.field).type;
         ws[S.utils.encode_cell({ r: ri + 1, c: ci })] = cellFor(type, v, sh.sheet + ' row ' + (ri + 2) + ' column ' + col.column);
       }));
       if (cols.length) ws['!ref'] = S.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: rows.length, c: cols.length - 1 } });
