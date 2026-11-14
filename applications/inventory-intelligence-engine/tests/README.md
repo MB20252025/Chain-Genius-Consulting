@@ -166,6 +166,15 @@ This is a future consideration only; nothing has been investigated or changed fo
     - test and approve the complete workflow change, and include it in the v1 baseline/tag cycle (Option A, recommended);
     - do not create a separate intermediate tag solely for this upgrade unless the owner explicitly approves that alternative.
 
+### OUTSTANDING BRANCH RECORD — recorded 14 Nov 2026 (not actioned)
+
+- Branch: `claude-write-test`.
+- Observed commit: `8117c72` (`8117c72f9bdb846fceff11a63a03218f01df5082`, verified on GitHub with `git ls-remote origin` on 14 Nov 2026).
+- This commit matches the previously observed `main` commit (`main` was also at `8117c72` on 14 Nov 2026).
+- Its origin and purpose remain unexplained. It is not part of the documented setup.
+- The branch is retained pending a future owner decision.
+- No deletion, modification, merge or other action is authorised.
+
 ### T3 — confidence snapshot (12 Nov 2026)
 
 `tests/snapshots/v0.7-confidence-20261112T011814Z.json` records three things for each of the 17 fixtures:

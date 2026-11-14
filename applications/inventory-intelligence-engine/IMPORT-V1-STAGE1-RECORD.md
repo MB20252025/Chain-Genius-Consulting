@@ -71,6 +71,15 @@ A conflict never selects a row. Keys and comparisons are listed in `validate.js`
    - Every new Stage 1 fixture is added to `checksums.txt` when it is introduced.
    - Any later change needs a reason, an impact note, test updates, owner approval and a new accepted baseline.
 
+**Mapping and adapter boundary (architectural invariant).**
+
+> **Clarification recorded 14 Nov 2026 (owner; a clarification of the already approved architecture, not a new design decision):**
+> The mapping and adapter layers may translate column names, value representations and file layouts. They may not change the meaning of canonical fields, the meaning of engine fields, the calculations performed, or the units or currency of any value.
+>
+> `canonical.js` remains the single source of truth for canonical field definitions, meanings, types, labels, help text and synonyms.
+>
+> *Factual note (14 Nov 2026, commit `3b94ceb`):* `canonical.js` currently defines the tables, field names, types, required flags and the `onInvalid` and negative-value rules. It does not yet contain labels, help text or synonyms (the synonym list is Stage 3 work, Part B item 8). Under this principle, when they are introduced they belong in `canonical.js`.
+
 ## Part B — Assessment before implementation (findings, not new scope)
 
 1. **Two claims in my design were wrong.**
@@ -739,3 +748,54 @@ No fixture changed.
 - **Future message-quality improvement (owner, 14 Nov 2026; not implemented):** "When a file explicitly declares USD, a value such as "$5" is safely withheld, but the
   displayed explanation may identify the symbol "$" rather than explicitly naming USD. This is not currently a data-integrity or financial-safety defect. It may be
   improved in a later stage."
+
+## Part H — Final pre-Stage 2 investigation of four issues (14 Nov 2026; read-only; no code or test changed)
+
+Authority: the owner's brief of 14 Nov 2026, "Secure Parts A+B, Then Final Stage 1 Investigation", Part 2. Parts A and B (Part G) had been committed
+beforehand as `3b94ceb5a566288b50f2f7e199328a8187d7f953` on `development/v0.7` and pushed (GitHub Actions run 43548358662: success). The investigation was
+read-only: every reproduction ran in memory against the committed code. No file, code or test changed, and no tag was created. The repository remained clean at `3b94ceb`.
+
+**H-1. Mapping value conversion — priority LOW.**
+- **Finding:** a mapping value list can deliberately transform a currency-looking value such as "£5" into "5" in a numeric quantity field (reproduced: a value
+  list `{"£5":"5","7":"7","9":"9"}` on `stock.On_Hand_Qty` stored 5 with no issue).
+  - This requires a deliberately configured mapping; a value list that omits the other values rejects those rows as unmapped.
+  - No existing mapping uses value lists on numeric fields (they are used on `Is_Sold`, `Replenishment` and `Active` only).
+  - The original source value remains preserved in the row's source cells.
+  - Mapping "£5" to itself is caught by Part B validation.
+- **Decision:** does not block Stage 2. Any prohibition on value lists in numeric fields is deferred to the mapping-file design work in Stages 3/6. No immediate code change.
+
+**H-2. Excel currency-formatted numeric cells — priority MEDIUM before real-file testing; not a Stage 2 blocker. An approved design limitation, not a proven defect.**
+- **Finding:** Excel may store a plain number while displaying a currency symbol (reproduced: number cells formatted `"£"#,##0.00`, `[$€-1809]#,##0.00` or `"$"…`
+  are imported as plain numbers — 5 in a quantity field, 46.1 as GBP in a GBP-confirmed money field — with no issue).
+  - Built-in currency formats are not sufficiently reliable to establish currency (E10: they depend on the reading machine's locale and may carry no currency code).
+  - The approved design makes the user's explicit currency declaration authoritative for plain numeric values. The current behaviour is consistent with that design.
+  - However, explicit non-GBP custom currency formats in financial fields, and currency-formatted cells in quantity fields, can reveal potential contradictions or mapping mistakes.
+- **Decision:** no change before Stage 2. **Before Stage 3 real-file acceptance (a firm requirement)**, investigate and implement an advisory for:
+  1. explicit non-GBP custom currency formats in financial fields where the declared currency is GBP;
+  2. currency-formatted cells in quantity fields.
+  - The advisory must not automatically reject or withhold data on formatting evidence alone.
+  - False positives and spreadsheet locale differences must be considered.
+
+**H-3. Currency in percentage fields — priority LOW.**
+- **Finding:** currency symbols can currently be interpreted as a percentage value in `bom.Scrap_Pct` (reproduced: "£0.05" → 0.05, "£5%" → 0.05 and "£0.5" → 0.5,
+  each with only a For-information "£ removed" or conversion note; "GBP 0.05", "EUR 0.05", "€0.05", "$0.05" and "USD 0.05" are blanked with a Please check).
+  - This is a confirmed edge case but requires unusual input.
+  - If it occurs, material requirements could be silently inflated.
+  - The percentage storage convention is a fraction from 0 to 1 (`canonical.js`: "pct: fraction 0..1"), the same convention the engine's calculations use.
+- **Decision:** does not block Stage 2. Optional percentage-field currency validation can be considered later. No immediate code change.
+
+**H-4. Currency written in words — priority LOW.**
+- **Finding:** common expressions such as "5 pounds", "5 dollars" and "5 euros" are already blanked with a Please check issue in financial fields; they are
+  not silently stored as incorrect financial numbers.
+  - Some foreign currency expressions receive stronger Must fix handling ("5 USD", "5 EUR", "$5 dollars", "€5 euros": foreign, the file's money values withheld).
+  - Quantity fields do not accept these expressions: they are invalid as text and are rejected or blanked under each field's existing rule
+    (reproduced in `stock.On_Hand_Qty`: row rejected).
+- **Decision:** does not block Stage 2. Optional recognition of "dollar(s)" and "euro(s)" as foreign currency words may be considered later. "Pounds" must not be
+  interpreted as GBP automatically, because it can refer to weight or to other currencies. No immediate code change.
+
+**H-5. Overall conclusion.**
+- All four issues were investigated and reproduced where applicable. None blocks Stage 2.
+- Outcome A was recommended: proceed to Stage 2 without code changes.
+- The Excel formatting advisory (H-2) is a firm requirement before Stage 3 real-file acceptance.
+- The three LOW-priority issues (H-1, H-3, H-4) are deferred. None of them has been fixed.
+- No code or tests were changed during the investigation. The repository remained clean at the Parts A+B commit `3b94ceb`, and the investigation created no release tag.
