@@ -122,3 +122,23 @@ K1–K6 are planned but unauthorised:
 
 1. **B6 wording and the engine's input.** The engine takes on-hand stock and calculates available stock itself. Clamping a location's negative on-hand to 0 before summing therefore also affects the engine's on-hand and stock-value figures for that item, not only "available". This is consistent with test E04 (stock value excludes the negative row). The exact field the adapter writes must be confirmed at K3 against this decision.
 2. **`M1-DESIGN.md` is now partly superseded.** Its scope line ("M1 = Stages 1–4, A1–A7") predates B20. It was not edited, because K0 authorises one file only.
+
+## B6 clarification (14 Nov 2026)
+
+Authority: the owner's replies of 14 Nov 2026 choosing Option A, listing negative stock in excluded locations, and authorising this one documentation-only commit. K0 above is unchanged.
+
+**Finding.** The engine has one stock input per item (`On_Hand_Qty`). It calculates available stock (`oh − allocated`) and stock value (`oh × cost`) from it (`js/calculations.js` line 149). So the adapter cannot clamp available stock alone: the engine's on-hand and stock value always move with it. Shifting the difference into `Allocated_Qty` was tested and rejected: it writes allocated figures that no source contains, and in one case it silently replaced an allocation of 19 with 4.
+
+**Owner decision: Option A.** For each item, negative stock at each included location is treated as 0 before summing. The Engine View on-hand, available and stock value all use the clamped figure. No engine calculation changes. This is consistent with M1 Part 3, test E04 (£1,100) and the reference calculator.
+
+**Disclosure (mandatory, in addition to the B6 report).** For every affected item, the adapter report also shows:
+- on-hand as entered and on-hand used;
+- the resulting stock-value difference in £.
+
+The change is therefore never silent.
+
+**Excluded locations (owner decision).** Negative stock in excluded locations is also listed in the adapter report, for information only. It does not affect any engine figure.
+
+**Correction to the K0 observation 1.** It described this as a point to confirm at K3. It was a conflict with the B6 wording and should have been raised as one.
+
+K1–K6 remain unauthorised.
