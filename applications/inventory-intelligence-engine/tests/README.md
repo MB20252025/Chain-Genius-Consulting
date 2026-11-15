@@ -2,7 +2,7 @@
 
 ## T2.1 — baseline tags, protected files and release procedure
 
-*Updated in T3 (12 Nov 2026): baseline tag `v0.7-tests-approved-3`; 12 protected files including the confidence snapshot; check-control recorded ACTIVE. Updated for Tag-4 (13 Nov 2026): baseline tag `v0.7-tests-approved-4` on Commit 10; Commit 10 itself changes no test, accepted count or protected file list; Tag-4 accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A.*
+*Updated in T3 (12 Nov 2026): baseline tag `v0.7-tests-approved-3`; 12 protected files including the confidence snapshot; check-control recorded ACTIVE. Updated for Tag-4 (13 Nov 2026): baseline tag `v0.7-tests-approved-4` on Commit 10; Commit 10 itself changes no test, accepted count or protected file list; Tag-4 accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A. Updated for Tag-5 (15 Nov 2026): baseline tag `v0.7-tests-approved-5` on the T5 switching commit. Unlike Commit 10, that commit also changes test data and a test: it labels library Package 01 `Demand_Basis = shipments` and changes Proof B in `test-same-results.js` to read the supplied files. Tag-5 accepts the additions and changes recorded in `V07-TEST-RECORD.md` "Tag-5 baseline acceptance — Part A".*
 
 Recorded 12 Nov 2026. Repository `MB20252025/Chain-Genius-Consulting`, branch `development/v0.7`.
 
@@ -15,7 +15,8 @@ An approved baseline tag records the exact versions of the testing-control files
 | `v0.7-tests-approved-1` | `eb3111f5d25f02678db02b35e9cf4e9ab0e23a73` | T1 baseline (kept unchanged) |
 | `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (kept unchanged) |
 | `v0.7-tests-approved-3` | the T3 implementation commit (created by the owner) | T3 baseline (kept unchanged): adds the confidence snapshot; check-control ACTIVE |
-| `v0.7-tests-approved-4` | Commit 10 (full hash recorded in `V07-TEST-RECORD.md` Part A2) | Tag-4 baseline (current): accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A, with the limitations stated there |
+| `v0.7-tests-approved-4` | Commit 10 (full hash recorded in `V07-TEST-RECORD.md` Part A2) | Tag-4 baseline (kept unchanged): accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A, with the limitations stated there |
+| `v0.7-tests-approved-5` | the T5 switching commit (full hash recorded in `V07-TEST-RECORD.md` Tag-5 Part A2, created by the owner) | Tag-5 baseline (current): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
 
 **Creating a baseline tag (permanent procedure)**
 
@@ -67,7 +68,7 @@ Result: 12 checks (11 until T3). `check-protection.js` separately checks 3 refer
 
 The steps run in this order:
 0. Checkout.
-1. **Guard:** fetch tag `v0.7-tests-approved-4` (`-3` until Tag-4) from GitHub and run *its* copy of `check-control.js`.
+1. **Guard:** fetch tag `v0.7-tests-approved-5` (`-4` until Tag-5) from GitHub and run *its* copy of `check-control.js`.
 2. Node.
 3. Pinned packages.
 4. `run-all.sh --fast` and `summarise-run.js`.

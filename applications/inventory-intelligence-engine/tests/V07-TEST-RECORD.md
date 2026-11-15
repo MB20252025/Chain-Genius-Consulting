@@ -759,3 +759,283 @@ The exact verbatim wording is: Accept the AI-led review process and its disclose
 Only the punctuation inside the quotation is corrected. The substance of the owner's acceptance is unchanged.
 
 Entry made by Claude, 2026-11-13 18:29 UTC.
+
+---
+
+## Tag-5 baseline acceptance — Part A (pre-tag acceptance record; inside the T5 switching commit)
+
+Recorded by Claude on the owner's instruction ("T5 — Full Preparation Authority, With Owner-Controlled Commit Gate", 15 Nov
+2026). Part A is not changed after the T5 commit exists; any correction is a separate, dated entry. Parts A2 (T5 commit
+identification, the owner's commit approval and pre-tag results) and B (Tag-5 creation and post-tag verification) are added
+afterwards, in Commit C. **Tag-5 does not exist when this Part A is written.** The owner creates Tag-5; Claude never creates or
+moves it.
+
+### Scope
+
+| Field | Entry |
+|---|---|
+| Starting point | `development/v0.7` at `d33c105` (K7, closed), remote equal, working tree clean; Tag-4 `v0.7-tests-approved-4` → `5f18335`; no Tag-5 |
+| What Tag-5 will approve | Everything in `checksums.txt` and `accepted-results.json` at the T5 commit. A baseline tag approves the whole state of its commit; it cannot approve part of one |
+| Evidence covered | Universal Import v1 Stage 1 (`ec8def9`, `3b94ceb`) and Stage 2 K1–K7 (`e7b3d2f`, `01c565f`, `d33c105`), plus the T5 changes. Listed below in two parts, so the Stage 1 and Stage 2 evidence can be read and judged separately |
+| Not covered | Stage 2 closure (needs Tag-5, green CI and Commit C); Stage 3 (unauthorised); engine correctness beyond what the tests show |
+| Review | Prepared and reviewed by Claude. This is not independent human verification; shared mistakes can survive an AI reviewing its own work. Evidence was checked against Git, the files on disk and executed tests |
+
+### The T5 switching commit: 8 files
+
+| # | File | Change | Why |
+|---|---|---|---|
+| 1 | `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv` | adds the field `Demand_Basis` = `shipments` after `Currency` (header and data line) | the owner's data definition (14 Nov 2026): Package 01's monthly demand quantities are shipments |
+| 2 | `tests/fixtures/library/MANIFEST.sha256` | the `./01-Clean-Manufacturer/dataset.csv` line takes the new hash | the library-wide manifest must match the file |
+| 3 | `tests/checksums.txt` | 3 lines: `dataset.csv` and `MANIFEST.sha256` (approved Tag-4 lines, changed) and `test-same-results.js` (a pending line, changed) | `check-protection` must match the files |
+| 4 | `tests/test-same-results.js` | Proof B reads the supplied Package 01 files unchanged (no in-memory label). Its first check verifies, from the file on disk, that `dataset.csv` carries `Demand_Basis = shipments` exactly once, and that Stage 1 and the adapter use it. If the adapter refuses Package 01, the six figure checks each fail by name instead of the test crashing. The Proof B count is unchanged (7) | Proof B tests the real files |
+| 5 | `.github/workflows/v07-tests.yml` | `TAG: v0.7-tests-approved-4` → `-5` | CI's guard uses the new baseline |
+| 6 | `tests/accepted-results.json` | check-control `"tag"` `-4` → `-5`; no count changes | `run-all.sh` guard row |
+| 7 | `tests/check-control.js` | default `--tag` `-4` → `-5` | a manual run without `--tag` judges against the current baseline (Tag-4 precedent) |
+| 8 | `tests/V07-TEST-RECORD.md` | this Part A | the record of what Tag-5 approves |
+
+**Eight, not nine.** An earlier list named nine files because it counted the manifest twice. There is one library-wide
+`tests/fixtures/library/MANIFEST.sha256` and no separate Package 01 manifest. `tests/README.md` is a ninth file only if the owner
+approves its diff with the others.
+
+**Departure from the README procedure, step 1** ("the change to the control files is … committed … on its own"): this commit also
+carries the Package 01 label and the Proof B change. A separate data commit before it would fail CI at the Tag-4 guard, because
+two approved checksum lines change, and would stay red until Tag-5 (investigation of 14 Nov 2026). The single switching commit
+was the agreed route.
+
+### Evidence categories
+
+| Category | What | Count |
+|---|---|---|
+| Approved (Tag-4) | `file`/`ref` lines in Tag-4's `checksums.txt` (3 references + 336 files) | 339 |
+| … unchanged at T5 | present, byte-identical | 337 |
+| … changed by T5 | `dataset.csv`, `MANIFEST.sha256`: approved lines whose hash changes (the guard FAILs them until Tag-5) | 2 |
+| Pending before T5 | checksum lines added after Tag-4, at `d33c105` | 95 |
+| … of which hash changed after introduction | `test-import-mapping.js` (`3b94ceb`), `test-import-engine-map.js` (`01c565f`), `test-import-adapter.js` (`d33c105`), and `test-same-results.js` (in T5) | 4 |
+| Pending `accepted-results.json` changes | 5 new tests, 2 raised counts | 7 |
+| New T5 evidence | the Package 01 label (files 1 and 2) and the Proof B change (file 4), with their 3 checksum lines | 3 lines |
+| Tag-reference switches | workflow `TAG:`, `accepted-results.json` check-control `"tag"`, `check-control.js` default | 3 |
+
+At the T5 commit, `checksums.txt` has 434 `file`/`ref` lines (3 references + 431 files = 336 approved + 95 added); none is removed.
+
+### Reconciliation of the historical figures
+
+| Figure | Where it appeared | What it counts | Check |
+|---|---|---|---|
+| 93 | Stage 1 record, end of Stage 1 | Tag-4 guard PENDING: 90 new checksum lines + 3 `accepted-results.json` changes | consistent |
+| 94 | Tag-5 investigation (14 Nov), at `b5e17eb` | new checksum lines: 90 Stage 1 + 4 Stage 2 | consistent |
+| 100 | the same, at `b5e17eb` | Tag-4 guard PENDING: 94 lines + 6 `accepted-results.json` changes | consistent |
+| 102 (before K7) | the same, predicted for a switching commit on `b5e17eb` | 100 + the 2 changed approved lines' new versions | superseded by K7 |
+| 102 (K7) | K7 record and fast tier at `d33c105` | 100 + `test-import-integrity.js` line + the `import-integrity` test | consistent; equal to the figure above by coincidence |
+| 96 | Tag-5 investigation | lines to list at tagging (94 + 2) | now **97** (95 + 2), after K7 |
+| **104** | Tag-4 guard on the T5 tree (15 Nov) | 97 checksum lines (95 new + 2 changed approved lines' new versions) + 7 `accepted-results.json` changes | **matches the inventory below, line by line** |
+
+The guard prints PENDING lines cut at 120 characters, so this inventory was built from `checksums.txt` and
+`accepted-results.json` at Tag-4 and at T5 directly, and every new hash was recomputed from the file on disk.
+
+### Pending inventory, part 1: Stage 1 evidence (90 checksum lines)
+
+| # | Path (under the application folder) | Previous hash | New hash | Introduced | Hash changed later | Purpose |
+|---|---|---|---|---|---|---|
+| 1 | `tests/fixtures/import-v1/faults/F01-stock-bad-row/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F01-stock-bad-row) |
+| 2 | `tests/fixtures/import-v1/faults/F01-stock-bad-row/stock.csv` | new | `49797f383f0d9b7de3cd670dd9b912d6fb8992239a7b6c2727244b66079dedae` | ec8def9 | - | Stage 1 fault fixture (F01-stock-bad-row) |
+| 3 | `tests/fixtures/import-v1/faults/F02-demand-2pct/demand.csv` | new | `9ea5689d949a93288573adeb88eb47634ab668a6b582cff2557a35739f23d0c6` | ec8def9 | - | Stage 1 fault fixture (F02-demand-2pct) |
+| 4 | `tests/fixtures/import-v1/faults/F02-demand-2pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F02-demand-2pct) |
+| 5 | `tests/fixtures/import-v1/faults/F03-demand-10pct/demand.csv` | new | `a1faac16f768972f64767cf44224daa61673809cb2cf2e5a2e5f303e5b0573d5` | ec8def9 | - | Stage 1 fault fixture (F03-demand-10pct) |
+| 6 | `tests/fixtures/import-v1/faults/F03-demand-10pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F03-demand-10pct) |
+| 7 | `tests/fixtures/import-v1/faults/F04-item-months/demand.csv` | new | `b22549cbe6fe0e86c5bd7fb1f45380dbed11f128e24c40752464c9924ff1df02` | ec8def9 | - | Stage 1 fault fixture (F04-item-months) |
+| 8 | `tests/fixtures/import-v1/faults/F04-item-months/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F04-item-months) |
+| 9 | `tests/fixtures/import-v1/faults/F05a-small-table-5pct/demand.csv` | new | `cbe577335e8716c74bf75a9902332730cb1ddcd58ce34640c621c3e4e9455662` | ec8def9 | - | Stage 1 fault fixture (F05a-small-table-5pct) |
+| 10 | `tests/fixtures/import-v1/faults/F05a-small-table-5pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F05a-small-table-5pct) |
+| 11 | `tests/fixtures/import-v1/faults/F05b-small-table-4pct/demand.csv` | new | `460827113fe1637b0ebd08be0720098f40a7b85536f4a39fee5fcb50fbdb1c72` | ec8def9 | - | Stage 1 fault fixture (F05b-small-table-4pct) |
+| 12 | `tests/fixtures/import-v1/faults/F05b-small-table-4pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F05b-small-table-4pct) |
+| 13 | `tests/fixtures/import-v1/faults/F06-no-po-table/mapping.json` | new | `1a70b8b91685359f44ceb004917d2c4c53345ff5f116d8ad234827765cea1472` | ec8def9 | - | Stage 1 fault fixture (F06-no-po-table) |
+| 14 | `tests/fixtures/import-v1/faults/F07-cost-tbc/items.csv` | new | `1d23f07e95fa7a66e504877df05606f1828bec7757bc714aada925e04a3e6a5b` | ec8def9 | - | Stage 1 fault fixture (F07-cost-tbc) |
+| 15 | `tests/fixtures/import-v1/faults/F07-cost-tbc/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F07-cost-tbc) |
+| 16 | `tests/fixtures/import-v1/faults/F08-dup-demand-identical/demand.csv` | new | `c0bb69f2eaf0b75d7681e78c55ff9abab5266ce59c03a4ffc918339a63c384c2` | ec8def9 | - | Stage 1 fault fixture (F08-dup-demand-identical) |
+| 17 | `tests/fixtures/import-v1/faults/F08-dup-demand-identical/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F08-dup-demand-identical) |
+| 18 | `tests/fixtures/import-v1/faults/F09-dup-differs-unmapped/mapping.json` | new | `015df4a1bafe8d61b81f603806a3e6709382c3ab575e353356b8926aeb767f51` | ec8def9 | - | Stage 1 fault fixture (F09-dup-differs-unmapped) |
+| 19 | `tests/fixtures/import-v1/faults/F09-dup-differs-unmapped/stock.csv` | new | `0c2782047b6c65082ab5949aaa3457824a793b8f55d48b3cd06e576d14f73255` | ec8def9 | - | Stage 1 fault fixture (F09-dup-differs-unmapped) |
+| 20 | `tests/fixtures/import-v1/faults/F10-dup-po-with-id/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F10-dup-po-with-id) |
+| 21 | `tests/fixtures/import-v1/faults/F10-dup-po-with-id/po_lines.csv` | new | `0c06201017b202d7f4ba71995e451be3296021abf7a768b68e9ce7ff67f1c6b4` | ec8def9 | - | Stage 1 fault fixture (F10-dup-po-with-id) |
+| 22 | `tests/fixtures/import-v1/faults/F11-dup-po-no-id/mapping.json` | new | `9bcb4a357c9792fbcb7c37702072fa9e572a09969e7779294319aab7e1c5679d` | ec8def9 | - | Stage 1 fault fixture (F11-dup-po-no-id) |
+| 23 | `tests/fixtures/import-v1/faults/F11-dup-po-no-id/po_lines.csv` | new | `bcf8ccbb70f604224575f3438a0b477b26161325b1ff5cb7a8bdf0b9a6bf5d2a` | ec8def9 | - | Stage 1 fault fixture (F11-dup-po-no-id) |
+| 24 | `tests/fixtures/import-v1/faults/F12-dup-item-conflict/items.csv` | new | `7d98bb9bf3e7ffb28f369407de60905317cbb15fcc287054b49ebdd982e41748` | ec8def9 | - | Stage 1 fault fixture (F12-dup-item-conflict) |
+| 25 | `tests/fixtures/import-v1/faults/F12-dup-item-conflict/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F12-dup-item-conflict) |
+| 26 | `tests/fixtures/import-v1/faults/F13-currency-usd/mapping.json` | new | `bdc6a525bdcfc1567b744cb1583fbfa3088bec1e24c5e07044863a7a42703f85` | ec8def9 | - | Stage 1 fault fixture (F13-currency-usd) |
+| 27 | `tests/fixtures/import-v1/faults/F14-currency-dollar-value/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F14-currency-dollar-value) |
+| 28 | `tests/fixtures/import-v1/faults/F14-currency-dollar-value/stock.csv` | new | `9d232f001ffc88f96fc472f9b6ab426b74ef3fa522c0c1fa4db00c78242130b5` | ec8def9 | - | Stage 1 fault fixture (F14-currency-dollar-value) |
+| 29 | `tests/fixtures/import-v1/faults/F15-currency-unconfirmed/mapping.json` | new | `e52abe683fc18b9e79db100c70bec0cb910e22ed0ad3e2820ad927fc68851ff8` | ec8def9 | - | Stage 1 fault fixture (F15-currency-unconfirmed) |
+| 30 | `tests/fixtures/import-v1/faults/F16-currency-undeclared/mapping.json` | new | `a7c56f7c223b7ca752d30b0a3f070c6e783d161f449f83a6a3f33e3ed6f6b378` | ec8def9 | - | Stage 1 fault fixture (F16-currency-undeclared) |
+| 31 | `tests/fixtures/import-v1/faults/F17-no-money-no-currency/mapping.json` | new | `e779dcc09f924d5e8b2bf5765b38fd0a45b1956e76eb325565f2627a7709620d` | ec8def9 | - | Stage 1 fault fixture (F17-no-money-no-currency) |
+| 32 | `tests/fixtures/import-v1/faults/F18-unit-mismatch/mapping.json` | new | `b7641672c1d11d335c4ceaabf306acdd623d9cf1a7b7e5c10552eb7c10d3554e` | ec8def9 | - | Stage 1 fault fixture (F18-unit-mismatch) |
+| 33 | `tests/fixtures/import-v1/faults/F18-unit-mismatch/stock.csv` | new | `6ab23d543ae962c8d0a6e856ffff99db7c679c67886a50638654f6ef3cf3d5ed` | ec8def9 | - | Stage 1 fault fixture (F18-unit-mismatch) |
+| 34 | `tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx` | new | `e7af8d80d95c0188eba07b92abbc8772a53823180dd2bd48f99c8292f9ee15b4` | ec8def9 | - | Stage 1 fault fixture (F19-corrupt-xlsx) |
+| 35 | `tests/fixtures/import-v1/faults/F19-corrupt-xlsx/mapping.json` | new | `6717b3323aaa44b29e9aa3af72a1865cf4a0885d1f64d12ffe270b9d8efe2395` | ec8def9 | - | Stage 1 fault fixture (F19-corrupt-xlsx) |
+| 36 | `tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx` | new | `a58cd5181f1c9dbca2673b3e4c5882a32634ace840af81a741c1bf4bc693b973` | ec8def9 | - | Stage 1 fault fixture (F20-not-a-zip-xlsx) |
+| 37 | `tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/mapping.json` | new | `6717b3323aaa44b29e9aa3af72a1865cf4a0885d1f64d12ffe270b9d8efe2395` | ec8def9 | - | Stage 1 fault fixture (F20-not-a-zip-xlsx) |
+| 38 | `tests/fixtures/import-v1/faults/F21-wrong-type/items.pdf` | new | `77d362fcea673ea6274e4471021c59d418a386adfe0df95c26a6b71216c9bb59` | ec8def9 | - | Stage 1 fault fixture (F21-wrong-type) |
+| 39 | `tests/fixtures/import-v1/faults/F21-wrong-type/mapping.json` | new | `b479a3753e3485ba9f7ab96d0d3adefed4ef012c5bdc9ebcc573b297721d0048` | ec8def9 | - | Stage 1 fault fixture (F21-wrong-type) |
+| 40 | `tests/fixtures/import-v1/faults/F22-empty-file/items.csv` | new | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` | ec8def9 | - | Stage 1 fault fixture (F22-empty-file) |
+| 41 | `tests/fixtures/import-v1/faults/F22-empty-file/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F22-empty-file) |
+| 42 | `tests/fixtures/import-v1/faults/F23-headings-only/items.csv` | new | `d88b076c7d6fdccef6b8d7ae6bd227980e57243b681ee7a9e58d1e0aec66fcd7` | ec8def9 | - | Stage 1 fault fixture (F23-headings-only) |
+| 43 | `tests/fixtures/import-v1/faults/F23-headings-only/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F23-headings-only) |
+| 44 | `tests/fixtures/import-v1/faults/F24-missing-column/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F24-missing-column) |
+| 45 | `tests/fixtures/import-v1/faults/F24-missing-column/stock.csv` | new | `4667a783552a974e30288786a0161bdaa414911a9dadb85dab352dd5abf09788` | ec8def9 | - | Stage 1 fault fixture (F24-missing-column) |
+| 46 | `tests/fixtures/import-v1/faults/F25-currency-gbp-codes/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F25-currency-gbp-codes) |
+| 47 | `tests/fixtures/import-v1/faults/F25-currency-gbp-codes/stock.csv` | new | `43194b1004cb252df881c3c23dc98b4e9802603ab1389b24083de3540383605d` | ec8def9 | - | Stage 1 fault fixture (F25-currency-gbp-codes) |
+| 48 | `tests/fixtures/import-v1/faults/F26-currency-code-after/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F26-currency-code-after) |
+| 49 | `tests/fixtures/import-v1/faults/F26-currency-code-after/stock.csv` | new | `e967d8e63f9821c225cf6cea307791203730406d5e3da891d693a412baa0f532` | ec8def9 | - | Stage 1 fault fixture (F26-currency-code-after) |
+| 50 | `tests/fixtures/import-v1/faults/F27-currency-ordinary-text/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F27-currency-ordinary-text) |
+| 51 | `tests/fixtures/import-v1/faults/F27-currency-ordinary-text/stock.csv` | new | `2dc08521ed562f0c24594924c73ace6115ead3925e537e59d657f25f27340580` | ec8def9 | - | Stage 1 fault fixture (F27-currency-ordinary-text) |
+| 52 | `tests/fixtures/import-v1/faults/F28-currency-separate-files/items.csv` | new | `35d45e97040bdc3c8af0d0c65d7afce7acb383711c0f4aef5cc67009d2749f8b` | ec8def9 | - | Stage 1 fault fixture (F28-currency-separate-files) |
+| 53 | `tests/fixtures/import-v1/faults/F28-currency-separate-files/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F28-currency-separate-files) |
+| 54 | `tests/fixtures/import-v1/faults/F29-currency-contradictory/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F29-currency-contradictory) |
+| 55 | `tests/fixtures/import-v1/faults/F29-currency-contradictory/stock.csv` | new | `89bd3c935a8a307cf154ff0c3b82ca7a3e4ec6ffb3eda98b9add8c2a73168409` | ec8def9 | - | Stage 1 fault fixture (F29-currency-contradictory) |
+| 56 | `tests/fixtures/import-v1/faults/F30-history-suggested-code/demand.csv` | new | `1156f38ab39afe345d54223169f0f79a449cc0d798c5760762e2c661b03ad8c0` | ec8def9 | - | Stage 1 fault fixture (F30-history-suggested-code) |
+| 57 | `tests/fixtures/import-v1/faults/F30-history-suggested-code/items.csv` | new | `c445c0ccfd0593dbb2d89dedcc353721dda7d1453ded266d357363f755d6e28c` | ec8def9 | - | Stage 1 fault fixture (F30-history-suggested-code) |
+| 58 | `tests/fixtures/import-v1/faults/F30-history-suggested-code/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F30-history-suggested-code) |
+| 59 | `tests/fixtures/import-v1/faults/F31-history-unlinked-6pct/demand.csv` | new | `8a3ca1dd3ecae722d4b76e4d88d9c74adab15bbf3d209a7be63164f3a7e64a89` | ec8def9 | - | Stage 1 fault fixture (F31-history-unlinked-6pct) |
+| 60 | `tests/fixtures/import-v1/faults/F31-history-unlinked-6pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F31-history-unlinked-6pct) |
+| 61 | `tests/fixtures/import-v1/faults/F32-history-unlinked-4pct/demand.csv` | new | `9b1b6d4e91d6d06229795223a0072c83d665601f27b4bf73ec6f04bd22d70953` | ec8def9 | - | Stage 1 fault fixture (F32-history-unlinked-4pct) |
+| 62 | `tests/fixtures/import-v1/faults/F32-history-unlinked-4pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F32-history-unlinked-4pct) |
+| 63 | `tests/fixtures/import-v1/faults/F33-future-dated/demand.csv` | new | `1ff14df30854ed86bd0c8af59a38397d653605623c05e7265e92d9ecfd94e746` | ec8def9 | - | Stage 1 fault fixture (F33-future-dated) |
+| 64 | `tests/fixtures/import-v1/faults/F33-future-dated/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F33-future-dated) |
+| 65 | `tests/fixtures/import-v1/faults/F34-stock-date-mismatch/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F34-stock-date-mismatch) |
+| 66 | `tests/fixtures/import-v1/faults/F34-stock-date-mismatch/stock.csv` | new | `344d666999dcfd0d18493f560f7dd6cc412b479a66e0b3cffb83d32fa33b860f` | ec8def9 | - | Stage 1 fault fixture (F34-stock-date-mismatch) |
+| 67 | `tests/fixtures/import-v1/faults/F35-history-unlinked-5pct-exact/demand.csv` | new | `9ec6ac54893a51247293b74679677efc2e4de0a16e4085bae5184f2b6a4bdb17` | ec8def9 | - | Stage 1 fault fixture (F35-history-unlinked-5pct-exact) |
+| 68 | `tests/fixtures/import-v1/faults/F35-history-unlinked-5pct-exact/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F35-history-unlinked-5pct-exact) |
+| 69 | `tests/fixtures/import-v1/faults/F36-history-linked-6pct/demand.csv` | new | `1cc6f9ce064f87fbffd884de8f6c80de8f00d69cff32de442d12e5a460e1b11a` | ec8def9 | - | Stage 1 fault fixture (F36-history-linked-6pct) |
+| 70 | `tests/fixtures/import-v1/faults/F36-history-linked-6pct/mapping.json` | new | `3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485` | ec8def9 | - | Stage 1 fault fixture (F36-history-linked-6pct) |
+| 71 | `tests/fixtures/import-v1/faults/base/demand.csv` | new | `1814ae340b07f16b6684ce55c7141a9c16a84d050e82fada451ee9a2f94ceac3` | ec8def9 | - | Stage 1 fault fixture (base) |
+| 72 | `tests/fixtures/import-v1/faults/base/items.csv` | new | `556007d1a9e1297f7ccd83a1ff55d9f70c345b3816c056f385e0841c540da364` | ec8def9 | - | Stage 1 fault fixture (base) |
+| 73 | `tests/fixtures/import-v1/faults/base/po_lines.csv` | new | `df893702b50a609562f7ceeec9c26f697fcabcd9f89641df3e0417b945c14d1a` | ec8def9 | - | Stage 1 fault fixture (base) |
+| 74 | `tests/fixtures/import-v1/faults/base/stock.csv` | new | `fd146f707c8ad7e0288eac14c950899927766ae3e17c4d13499583742a7e3a9e` | ec8def9 | - | Stage 1 fault fixture (base) |
+| 75 | `tests/fixtures/import-v1/faults/base/suppliers.csv` | new | `af0b443944471a611f2b5fbb63050d94dee43c9524c2140ca1df62b026c7dd7b` | ec8def9 | - | Stage 1 fault fixture (base) |
+| 76 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Jobs.csv` | new | `7f7f320cb8e368ef8ae18e521471fbeb115670f08358bfa189e5fd23d5e083f6` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 77 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Monthly_Sales.csv` | new | `4206b729fed9541992d527e0b35de8414af24c0e0fbd23b58b74af6c345745b5` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 78 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Products.csv` | new | `8d9861f449473a81531741d450366f02e6dbc76a5d8d98cd1f0dee47c02ba6e0` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 79 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Purchase_Orders.csv` | new | `ee9c02d95b03dd32f81640a489f627cddc762ec1b9cb47ec51783b15e2b665ad` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 80 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Recipes.csv` | new | `50a06ce6a16b6fb1317072fb55abbd81dec7db5070f3a8be9217e4a1e3107582` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 81 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Sites.csv` | new | `c81bd291238a20c5271bc53184e334cab4200b0f742cf2d4d753ee1979e7219d` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 82 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Stock_Report.csv` | new | `0632a2592430a796f771029d6b921995306b2aa656f385dd9d78c5daa2e4446e` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 83 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Vendor_Parts.csv` | new | `0de5b926aa5d673ea70bec8b1172c5a2348b9086362a738422e01b03a404d98a` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 84 | `tests/fixtures/import-v1/layouts/L1-alt-headings/Vendors.csv` | new | `48d1e67894730973e9e61a7f0ec7cf03d6ee9db963dad7a477ecb73028448e1a` | ec8def9 | - | Stage 1 layout fixture (L1-alt-headings) |
+| 85 | `tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx` | new | `78fbcab13261db96b16beb225de47f816e1e2da7d545838010ac0613f94a3f2c` | ec8def9 | - | Stage 1 layout fixture (L2-erp-workbook) |
+| 86 | `tests/fixtures/import-v1/mappings/L1-alt-headings.mapping.json` | new | `6842d0006a3bc3ed8c6be94b1b977c6ecc22491e8c5ebfd7a86a57e8b94fcba8` | ec8def9 | - | Stage 1 saved mapping |
+| 87 | `tests/fixtures/import-v1/mappings/L2-erp-workbook.mapping.json` | new | `5d087bb3ff3af9c7fe75f8535aa8567b4a430511de388ec4c7b71e4e7228c719` | ec8def9 | - | Stage 1 saved mapping |
+| 88 | `tests/fixtures/import-v1/mappings/package-02.mapping.json` | new | `5af4dbb9a50224f1a492d0df769b5f701d5aba9dcd762a554e00779de0260da8` | ec8def9 | - | Stage 1 saved mapping |
+| 89 | `tests/test-import-mapping.js` | new | `5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703` | ec8def9 | 3b94ceb | Stage 1 mapping and validation test (import-mapping) |
+| 90 | `tests/tools/import-v1/make-stage1-fixtures.js` | new | `ed5e24e2e7f96a0ba17737546f300b9c41e6d38ba710205bb20ae64676c560c6` | ec8def9 | - | Stage 1 fixture generator |
+
+### Pending inventory, part 2: Stage 2 evidence (5 checksum lines)
+
+| # | Path (under the application folder) | Previous hash | New hash | Introduced | Hash changed later | Purpose |
+|---|---|---|---|---|---|---|
+| 1 | `tests/test-import-engine-map.js` | new | `7a4836b4ed4c37f65789ff80ce37d0f003154afc42358603f1aa71f47ddbdd34` | e7b3d2f | 01c565f | Stage 2 engine-map and cell-writing test (import-engine-map) |
+| 2 | `tests/test-import-adapter.js` | new | `38ff08dcd743db4ec03bf91ea14bd374ca2a60b5c9d4366c04d7d5f9821d51f6` | 01c565f | d33c105 | Stage 2 adapter and result-gate test (import-adapter) |
+| 3 | `tests/test-same-results.js` | new | `9e9c0264356dff0606c48a48088ba4afcb7ff3cfaa133683694031353af07d59` | 01c565f | T5 | Stage 2 same-results proofs A, B, C (same-results) |
+| 4 | `tests/tools/import-v1/reverse-eight-sheet.js` | new | `4685961bfc83a0ded57a95deeccb054151c75c97c5705798b91c1440de207ec7` | 01c565f | - | Stage 2 test-only reverse converter (Proof A) |
+| 5 | `tests/test-import-integrity.js` | new | `305592ee32b2a8f5763b0d82c09f8273658cc8cdebef9beced847cd85bed97bd` | d33c105 | - | Stage 2 K7 integrity test (import-integrity) |
+
+### Pending inventory, part 3: T5 changes to approved lines (2)
+
+| # | Path (under the application folder) | Previous hash | New hash | Introduced | Hash changed later | Purpose |
+|---|---|---|---|---|---|---|
+| 1 | `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv` | `ff64d39d102de33c46ec012639161a32e63959339a15d009ae2378a68ee90662` | `0dbaea1cbc229ed5f3fff336c5c2b3a0a5fea156e1d92740f4c0d8716d4cce21` | (Tag-4) | T5 | Package 01 dataset file: Demand_Basis = shipments (T5) |
+| 2 | `tests/fixtures/library/MANIFEST.sha256` | `94047192a3dd2b2c7a46ed77caf0d0c1957558b54ced42d314417d44ce4a4c33` | `cd8111855aaf079481b68115191fcc312282acf9a87eb8517d9ff74986377e3c` | (Tag-4) | T5 | Library manifest: dataset.csv line (T5) |
+
+`test-same-results.js` (part 2) changes in T5 to `9e9c0264356dff0606c48a48088ba4afcb7ff3cfaa133683694031353af07d59`. That hash was recalculated
+from the file; the pre-K7 note's value (`c79be62e…`) is not reused.
+
+### Pending inventory, part 4: `accepted-results.json` (7 changes; the tag field is a switch, not a pending item)
+
+| # | Test | Tag-4 | T5 | Introduced and changed | Stage |
+|---|---|---|---|---|---|
+| 1 | `check-protection` | 339 | 434 | `ec8def9` 429 (+90), `e7b3d2f` 430, `01c565f` 433, `d33c105` 434: one per new protected file | Stage 1 + Stage 2 |
+| 2 | `test-a1-static` | 23 | 29 | `ec8def9` 25, `e7b3d2f` 27, `01c565f` 29: one per new `js/import` module | Stage 1 + Stage 2 |
+| 3 | `import-mapping` | — | 976 | new in `ec8def9` (761); 976 in `3b94ceb` | Stage 1 |
+| 4 | `import-engine-map` | — | 276 | new in `e7b3d2f` (246); 276 in `01c565f` (EM2) | Stage 2 |
+| 5 | `import-adapter` | — | 346 | new in `01c565f` | Stage 2 |
+| 6 | `same-results` | — | 356 | new in `01c565f`; Proof B changes in T5, count unchanged | Stage 2 |
+| 7 | `import-integrity` | — | 386 | new in `d33c105` (K7) | Stage 2 |
+
+No test is removed and no count is lowered.
+
+### Expected guard and CI behaviour
+
+- **Tag-4 guard on the T5 commit:** `check-control: 9 passed, 3 failed (baseline v0.7-tests-approved-4 = 5f18335)`. The three FAIL
+  lines are the intended changes: `check-control.js` changed; `.github/workflows/v07-tests.yml` changed; `checksums.txt` 2 approved
+  lines changed (`dataset.csv`, `MANIFEST.sha256`). Plus 104 PENDING. The `accepted-results.json` tag switch is not reported,
+  because that check looks only for weakening.
+- **First CI run of the T5 commit:** expected to fail at the guard step with `couldn't find remote ref
+  refs/tags/v0.7-tests-approved-5`. That is the transition failure; it is recorded and not fixed with another commit.
+- **After the owner creates Tag-5 on the T5 commit:** the CI re-run is expected to pass, with the guard against Tag-5 reporting
+  12 passed, 0 failed and 0 PENDING.
+
+### Stage 2 statements required by the K7 record
+
+The Stage 2 record (K7, "What the T5 acceptance record must state") requires these to be stated here:
+- **Contract changes:** the import adapter changed from AD1 to AD2 (exclusions of items blocked for every analysis, scrap
+  classification) and the result gate from RG1 to RG2 (rules R1–R8). `test-import-adapter.js` case 12 was revised for the new
+  dependency behaviour (P2's ABC class and cumulative share are withheld; every other field equals the engine's, with the same
+  field set).
+- **Engine change (E-1, in K7):** `calculations.js`: blank, whitespace-only or missing scrap is 0% with a High warning; unreadable
+  scrap is left out and its orders are "Insufficient information", with a High warning naming the affected materials. The adapter
+  writes `SCRAP_UNREADABLE` for invalid lines. Engine JavaScript is protected by behaviour tests, not checksums, so Tag-5 does not
+  checksum `calculations.js`; the golden and confidence snapshots and all 17 fixture workbooks are unchanged by it.
+- **L3:** Stage 1's exact unit matching ("EA" is not "each") removes such an item from the whole analysis (F18: M0001). The rule
+  is unchanged.
+- **L7:** a bare scrap number is a fraction: "0.5" means 50% and "1" means 100%. Unchanged.
+- **Route differences left open:** a scrap number stored as text ("0.02") and an out-of-range number (1.5); owner decisions.
+- **Test evidence:** `import-integrity` is 77 assertions run in 5 time zones (386 with the identity check). The mutation evidence
+  is the corrected one in the Stage 2 record (24 mutations, each detected by named assertions), not the original K7 claim.
+- **Stage 3 design guidance (not built):** show `gated.disclosures` above the totals; include the unit-conversion hint; show
+  clearly which figures are withheld, caveated or based on an assumption. For figures affected by exclusions, the K7 review
+  recommended an "analysed items only" marker rather than a "changed" marker computed from contaminated data.
+
+### Known limitations accepted with this baseline
+
+- Five BLOCKED tests (`test-fglt-note`, `test-forecast-conf`, `test-supplier-eligibility`, `phase2-comparison`,
+  `test-paging-chrome`) and two REDUCED (`test-phase1` 57 of 125, `test-uom` 110 of 164): known gaps, not passes.
+- GitHub Actions runs the **fast tier only**; the full tier is local-only unless separately configured.
+- No physical Android testing.
+- `characterisation-lead-time` records known defects (H3, H4, F7).
+- Guard limitations: pending lines are not protected between tags (a pending file and its line can change together without
+  notice); the guard cuts PENDING lines at 120 characters; some `accepted-results.json` fields are not compared.
+- D5, D6 and the D8 security checks remain as recorded for Tag-4.
+- After T5, `test-import-integrity.js` still adds `Demand_Basis` to its in-memory copy of Package 01, so its Package 01 input
+  carries the column twice. Stage 1 renames the second one `Demand_Basis_2` and reports it as not imported ("Please check"). No
+  result changes (386/386 pass); the in-memory step is now redundant.
+- Deferred findings, recorded in the Stage 2 record (K7, "What the T5 acceptance record must state"):
+  - negative finite scrap: zero or negative requirements on the direct route; the import route rejects it (HIGH);
+  - B14: bought-and-sold items refused (HIGH for planning);
+  - out-of-range scrap (1.5) and "0.02" stored as text: route differences, owner decisions;
+  - feasibility pool: insufficient orders reserve nothing, but the "Blocking materials" column can list their short lines
+    (MEDIUM);
+  - N1 negative delays (MEDIUM); L3 unit aliases; L7 percentage input;
+  - the direct-route incomplete-usage warning to stay prominent;
+  - BOM row order recorded as a contract (option (a) not adopted).
+
+### Stage 3 programme (planning frame only; Stage 3 is not authorised)
+
+These are grouped planning areas, not a task list.
+
+- **(a) Data-quality corrections:** L7 percentage input, N1 negative delays and warning prominence.
+- **(b) Scrap policy:** investigate the engine's gross-requirement formula, including the additive calculation
+  "quantity × (1 + scrap)" against division by yield, "quantity ÷ (1 − scrap)". Propose one consistent policy for both upload
+  routes before any change (it includes the out-of-range, negative and text-number cases above).
+- **(c) Bought-and-sold capability:** B14, a substantial data-model and logic extension.
+- **(d) Feasibility display and unit handling:** L3 unit aliases, and the distinction between displayed blocking materials
+  and actual material reservation.
+
+### Acceptance
+
+The owner's approval of the T5 commit (the words "commit T5 approved", verbatim, with its time) and the owner's creation of
+Tag-5 are recorded in Parts A2 and B, because this Part A is written before both. Approving the commit approves this record of
+what Tag-5 will contain; Tag-5 itself takes effect only when the owner creates it on the T5 commit and it is verified there.
+
+What approval does not state: that any historical change was authorised beforehand; that the synthetic test data or the
+characterisation test describes correct business behaviour; that BLOCKED or REDUCED tests pass; that physical Android testing
+was done; that the software is free of defects; or that every possible unauthorised future change is prevented.
+
+Entry made by Claude, 2026-11-15 04:40 UTC.

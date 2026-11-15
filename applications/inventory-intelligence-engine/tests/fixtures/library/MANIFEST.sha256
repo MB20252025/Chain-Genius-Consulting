@@ -1,7 +1,7 @@
 c99cd569c876c3633cbcb6dc2bdc40f0dce5764c4b4496fdd26180dbf26e1748  ./01-Clean-Manufacturer/EXPECTED-RESULTS.md
 07becb8e610212526d99dffe42cde645ea26846469dc3f191eaf198877692d07  ./01-Clean-Manufacturer/README.md
 f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff  ./01-Clean-Manufacturer/bom.csv
-ff64d39d102de33c46ec012639161a32e63959339a15d009ae2378a68ee90662  ./01-Clean-Manufacturer/dataset.csv
+0dbaea1cbc229ed5f3fff336c5c2b3a0a5fea156e1d92740f4c0d8716d4cce21  ./01-Clean-Manufacturer/dataset.csv
 1814ae340b07f16b6684ce55c7141a9c16a84d050e82fada451ee9a2f94ceac3  ./01-Clean-Manufacturer/demand.csv
 a48243ad7f226c0e6bd31d2a2345bf797114269275eef3ea8dca512966923374  ./01-Clean-Manufacturer/expected-results.json
 556007d1a9e1297f7ccd83a1ff55d9f70c345b3816c056f385e0841c540da364  ./01-Clean-Manufacturer/items.csv

@@ -114,18 +114,24 @@ console.log('\n--- Proof B: Universal Import Package 01 against expected-results
 {
   const dir = path.join(FIX, 'library', '01-Clean-Manufacturer'), exp = JSON.parse(fs.readFileSync(path.join(dir, 'expected-results.json'), 'utf8'));
   const names = fs.readdirSync(dir).filter(n => n.endsWith('.csv')).sort();
-  const load = label => names.map(n => { let t = fs.readFileSync(path.join(dir, n), 'utf8'); if (label && n === 'dataset.csv') { const [h, r] = t.split(/\r?\n/); t = h + ',Demand_Basis\n' + r + ',shipments\n'; } return { name: n, text: t }; });
+  const files = names.map(n => ({ name: n, text: fs.readFileSync(path.join(dir, n), 'utf8') })); // the supplied files, unchanged
   const mapFor = files => { const m = { format: 'CG-IMPORT-MAPPING', version: 1, name: 'identity', files: {}, tables: {} };
     for (const f of files) { const t = f.name.slice(0, -4); if (!G.canonical.TABLES[t]) continue; const tb = G.read.fromCSVText(f.text, f.name);
       m.files[f.name] = Object.assign({ dateFormat: 'ISO' }, G.mapping.moneyFields(t).some(c => tb.headers.includes(c)) ? { currency: { code: 'GBP', confirmed: true } } : {});
       m.tables[t] = { sources: [{ file: f.name, columns: Object.fromEntries(tb.headers.filter(h => G.canonical.field(t, h)).map(h => [h, { source: h }])) }] }; }
     return m; };
-  const asIs = load(false), mp0 = mapFor(asIs), imp0 = G.validate.importFiles(mp0, asIs), ad0 = G.adapter.build(imp0, mp0);
-  ok(imp0.importAccepted && ad0.status === 'refused' && ad0.report.refusals[0].code === 'DEMAND_BASIS_NOT_LABELLED',
-    'as supplied: Stage 1 accepts it, but the adapter refuses it: dataset.csv has no Demand_Basis label (M1 D14) — recorded for the owner');
-  const files = load(true), mp = mapFor(files), imp = G.validate.importFiles(mp, files), ad = G.adapter.build(imp, mp);
+  const mp = mapFor(files), imp = G.validate.importFiles(mp, files), ad = G.adapter.build(imp, mp);
+  const onDisk = fs.readFileSync(path.join(dir, 'dataset.csv'), 'utf8').split(/\r?\n/), col = onDisk[0].split(',').indexOf('Demand_Basis');
+  ok(col >= 0 && onDisk[0].split(',').filter(h => h === 'Demand_Basis').length === 1 && onDisk[1].split(',')[col] === 'shipments' &&
+    imp.importAccepted && imp.dataset.dataset[0].Demand_Basis === 'shipments' && !imp.issues.some(i => /Demand_Basis_\d/.test(i.message || '')) &&
+    !!ad.report.demand && ad.report.demand.basis === 'demand file (labelled shipments)',
+    'the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis');
+  if (!ad.workbook) {
+    const why = 'not run: the adapter refused Package 01 (' + ((ad.report.refusals || []).map(r => r.code).join(', ') || 'no workbook') + ')';
+    ['adapter complete, 120 items, gate complete', 'on-hand total', 'on-hand by location', 'stock value', 'stock-out risk items', 'dead stock'].forEach(n => ok(false, 'Proof B ' + n + ': ' + why));
+  } else {
   const o = E.runEngine({ workbook: ad.workbook }), all = [...o.result.fg, ...o.result.rm], g = G.resultGate.apply(o, ad.gate);
-  ok(ad.status === 'complete' && g.status === 'complete' && all.length === 120, 'with Demand_Basis = shipments added in memory (documented test assumption): complete, 120 items, gate complete');
+  ok(ad.status === 'complete' && g.status === 'complete' && all.length === 120, 'from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete');
   const oh = all.reduce((s, x) => s + x.oh, 0), ohPos = all.reduce((s, x) => s + Math.max(0, x.oh), 0);
   ok(oh === exp.stock.business_wide_on_hand_excluding_negatives && ohPos === oh && ad.report.negativeStock.length === 0 && exp.stock.items_with_negative_stock.length === 0,
     `on-hand ${oh.toLocaleString('en-GB')} = expected ${exp.stock.business_wide_on_hand_excluding_negatives.toLocaleString('en-GB')} (no negative stock in the package)`);
@@ -136,6 +142,7 @@ console.log('\n--- Proof B: Universal Import Package 01 against expected-results
   ok(so.every(id => all.find(y => y.id === id).fLT === true), `stock-out risk items flagged by the engine (cover below lead time): ${so.join(', ')}`);
   const dead = all.filter(x => x.cls === 'No recorded demand').map(x => x.id).sort();
   ok(JSON.stringify(dead) === JSON.stringify([...exp.findings_reference.dead_stock_items].map(x => x.item || x).sort()), `dead stock: ${dead.join(', ')} as expected`);
+  }
 }
 
 // ===================== Proof C =====================

@@ -137,7 +137,7 @@ file 8463fb9b8f43d88cf7a6ac900dc305fb13586748f12f1ffb8b75662c4616882a tests/veri
 file c99cd569c876c3633cbcb6dc2bdc40f0dce5764c4b4496fdd26180dbf26e1748 tests/fixtures/library/01-Clean-Manufacturer/EXPECTED-RESULTS.md
 file 07becb8e610212526d99dffe42cde645ea26846469dc3f191eaf198877692d07 tests/fixtures/library/01-Clean-Manufacturer/README.md
 file f3d7b8ccd88163c8eab428874ced54a0a3d6c31372be2b1b347489103454b6ff tests/fixtures/library/01-Clean-Manufacturer/bom.csv
-file ff64d39d102de33c46ec012639161a32e63959339a15d009ae2378a68ee90662 tests/fixtures/library/01-Clean-Manufacturer/dataset.csv
+file 0dbaea1cbc229ed5f3fff336c5c2b3a0a5fea156e1d92740f4c0d8716d4cce21 tests/fixtures/library/01-Clean-Manufacturer/dataset.csv
 file 1814ae340b07f16b6684ce55c7141a9c16a84d050e82fada451ee9a2f94ceac3 tests/fixtures/library/01-Clean-Manufacturer/demand.csv
 file a48243ad7f226c0e6bd31d2a2345bf797114269275eef3ea8dca512966923374 tests/fixtures/library/01-Clean-Manufacturer/expected-results.json
 file 556007d1a9e1297f7ccd83a1ff55d9f70c345b3816c056f385e0841c540da364 tests/fixtures/library/01-Clean-Manufacturer/items.csv
@@ -338,7 +338,7 @@ file aff895769c138eb4b936a5f21c085414faa8035fd76278df07bbf7d26f8c7a0e tests/fixt
 file 93c0e1199ad4dd47258c62a8aaedbbb7b77e2a6e7870dc3abd7624d640d2c151 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/supplier_items.csv
 file fbf235bf24a631d7da62b63b02c029e4b0ab1d04afa8728aa09d43c936e1f2d0 tests/fixtures/library/06-Edge-Cases/E11-inactive-products/input/suppliers.csv
 file 0d5b3277307cfd361825436602e07d781361145485bd1b3ca5329776524c7c98 tests/fixtures/library/06-Edge-Cases/README.md
-file 94047192a3dd2b2c7a46ed77caf0d0c1957558b54ced42d314417d44ce4a4c33 tests/fixtures/library/MANIFEST.sha256
+file cd8111855aaf079481b68115191fcc312282acf9a87eb8517d9ff74986377e3c tests/fixtures/library/MANIFEST.sha256
 file 472ed20b50ea46879a4cecd539e661290d627cbe25b705f2ca32c2501a8cb08a tests/fixtures/library/MASTER-INDEX.md
 file 60893d6c70c61f2bfc601cbfebb1c89b016ffe9770bba7f97b732c634e040215 tests/tools/library/build.py
 file 196935822dfdcd7b661b0a41225c72561a991a596813c52e4bc465aa1003badb tests/tools/library/builders.py
@@ -443,7 +443,7 @@ file 5af4dbb9a50224f1a492d0df769b5f701d5aba9dcd762a554e00779de0260da8 tests/fixt
 file 7a4836b4ed4c37f65789ff80ce37d0f003154afc42358603f1aa71f47ddbdd34 tests/test-import-engine-map.js
 # Universal Data Import v1 Stage 2, K3-K5 (14 Nov 2026, owner condition 3): the adapter and result-gate test, the same-results proofs (A, B, C) and the test-only reverse converter. js/import/adapter.js and result-gate.js are protected by behaviour tests, not checksums (M1 policy). test-import-engine-map.js above was updated for the owner-approved EM2 extension (Usable_On_Hand_Qty).
 file 38ff08dcd743db4ec03bf91ea14bd374ca2a60b5c9d4366c04d7d5f9821d51f6 tests/test-import-adapter.js
-file 9b3567479a4d94606fb5e2518be9e69809c16a19091374223822bb8d9f950f27 tests/test-same-results.js
+file 9e9c0264356dff0606c48a48088ba4afcb7ff3cfaa133683694031353af07d59 tests/test-same-results.js
 file 4685961bfc83a0ded57a95deeccb054151c75c97c5705798b91c1440de207ec7 tests/tools/import-v1/reverse-eight-sheet.js
 # Universal Data Import v1 Stage 2, K7 (14 Nov 2026): integrity test for the adapter (AD2) and result gate (RG2). test-import-adapter.js above was updated in K7 (case 12 and the RG2 leak-test specification). Both lines were updated again for the K7 verification corrections (15 Nov 2026, owner Approval 1). test-import-integrity.js was updated again for E-1 (15 Nov 2026, owner approval).
 file 305592ee32b2a8f5763b0d82c09f8273658cc8cdebef9beced847cd85bed97bd tests/test-import-integrity.js
