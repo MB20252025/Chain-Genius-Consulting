@@ -5,6 +5,10 @@ implemented code, DR-1 and DR-4 were corrected and DR-2's evidence was replaced 
 the owner accepted all seven. Accepting an entry records that the difference is understood and explained; it does not fix the
 direct-upload behaviour behind DR-3 or DR-4.**
 
+> **Correction (15 Nov 2026, owner ratification):** Original wording overstated: the seven entries were verified by Claude under the K6 instruction, and the owner's acceptance was delegated, not personal. Ratified by owner on 15 November 2026.
+>
+> This applies to the status above ("the owner accepted all seven") and to each entry's status "Reviewed and accepted by owner, 14 Nov 2026" below. The owner's words: "I confirm the K6 delegated acceptance of the difference register stands as mine, based on Claude's verification of the seven entries."
+
 What it records: every way in which the engine's results for a workbook uploaded directly differ from its results for the same
 data entered through Universal Import (reversed to canonical CSV files → Stage 1 → adapter → engine).
 

@@ -109,6 +109,10 @@ Copied verbatim from the Stage 2 Solution Design Report, section G. All five ent
 
 All seven entries remain pending the owner's review.
 
+> **Correction (15 Nov 2026, owner ratification):** Original wording overstated: the seven entries were verified by Claude under the K6 instruction, and the owner's acceptance was delegated, not personal. Ratified by owner on 15 November 2026.
+>
+> This applies to the heading of this section ("accepted by the owner in K6") and to the entries' status "Reviewed and accepted by owner, 14 Nov 2026" in `IMPORT-V1-DIFFERENCE-REGISTER.md`. The statements above that the entries are pending the owner's review are historical: K6 recorded the delegated acceptance (14 Nov 2026), and the owner ratified it on 15 November 2026 in these words: "I confirm the K6 delegated acceptance of the difference register stands as mine, based on Claude's verification of the seven entries." No difference-register entry is now pending.
+
 ## Not yet done (as recorded at K0)
 
 K0 listed K1–K6 as planned but unauthorised. All six have since been authorised and done; the list is in the history
@@ -472,9 +476,9 @@ and reads correctly. This is an improvement. The direct-upload bug is separate a
 | 1 | **B14: bought-for-resale items are refused.** The adapter refuses files with bought-and-sold or made-not-sold items, so wholesalers, distributors and retailers (for example library packages 03 and 04, and E04) cannot be analysed through Universal Import. The refusal must not be changed silently. | HIGH | Must be decided before Stage 3 planning begins. |
 | 2 | **`refcalc.py` still uses Option A.** It clamps stock value and floors available stock at 0, and Stage 1 tests compare it with every package's `expected-results.json`. Any future package with negative stock will get Option A reference figures. | HIGH | Owner decision before more negative-stock fixtures are added. |
 | 3 | **Allocated-exceeds-on-hand false positive** under Option D, which also lowers the item's confidence (see above). Engine change and tests based on physical versus usable stock required. Not fixed in K6. | MEDIUM | Later engine refinement. |
-| 4 | **`Scrap_Pct` NaN.** If a BOM omits the optional `Scrap_Pct` column, production shortage figures become NaN on both direct-upload and imported routes. Pre-existing engine issue, not introduced by Stage 2. Separate engine investigation and dedicated regression tests required. Not fixed in K6. | MEDIUM | Separate engine task. |
+| 4 | **`Scrap_Pct` NaN.** If a BOM omits the optional `Scrap_Pct` column, production shortage figures become NaN on both direct-upload and imported routes. Pre-existing engine issue, not introduced by Stage 2. Separate engine investigation and dedicated regression tests required. Not fixed in K6. **Resolved by K7/E-1 (`d33c105`, 15 Nov 2026): a missing column or blank cell is 0% with a High warning, and an unreadable value is left out with a High warning; never NaN (see "E-1 implementation").** | MEDIUM | Separate engine task. **Resolved.** |
 | 5 | **Exports: Available ≠ OnHand − Allocated** for items with negative location quantities under Option D. Stage 4 must explain it through a column heading, an explanatory note or a footnote. | Presentation | Before Stage 4. |
-| 6 | **Package 01 label.** Package 01 is refused as supplied until `Demand_Basis = shipments` is added (prepared above). Every demand file must carry the label (M1 D14). | Acceptance condition | With the Tag-5 approval step. |
+| 6 | **Package 01 label.** Package 01 is refused as supplied until `Demand_Basis = shipments` is added (prepared above). Every demand file must carry the label (M1 D14). **Resolved by T5 (`f0e81bb`): `dataset.csv` carries `Demand_Basis = shipments`, and Proof B imports Package 01 from its supplied files.** | Acceptance condition | With the Tag-5 approval step. **Resolved.** |
 | 7 | **Direct-upload route** (not changed by Stage 2): it misreads empty-text cells (DR-4) and counts exact duplicate PO rows twice (DR-3). | Recorded | Separate engine task if wanted. |
 | 8 | **E04** cannot run through the adapter (B14, no `Demand_Basis` label). Its protected £1,100 is the Option A figure; the Stage 2 value is £950. | Recorded | With B14 and the reference-calculator decision. |
 
@@ -1048,7 +1052,7 @@ history and GitHub on 15 Nov 2026; no test was run for this entry.*
 | 2 | E-1 reviewed and committed | **Done**, in the same commit `d33c105`, with the K7 verification corrections | as item 1 |
 | 3 | T5 switching commit | **Done.** `f0e81bb30521a4e798005b0a51b4a531b807441e`, nine files (Package 01 label, protection updates, Proof B reading the supplied files, Tag-5 switch, README) | `V07-TEST-RECORD.md`, Tag-5 Part A and the two later Tag-5 sections. Full tier run **locally, before the tag** (0 FAIL, 1 expected ERROR, 5 BLOCKED, 2 REDUCED); not independently reproduced |
 | 4 | Tag-5 created by the owner | **Done.** `v0.7-tests-approved-5` → `f0e81bb`, created by the owner through GitHub Releases | post-tag GitHub Actions run 43680939374, attempt 2: success, guard 12/0 against Tag-5, **fast tier only** |
-| 5 | The owner's final acceptance of Stage 2 | **Not given. Open.** | — |
+| 5 | The owner's final acceptance of Stage 2 | **Given, 15 Nov 2026** (updated: previously "**Not given. Open.**") | "Stage 2 — owner acceptance" below |
 
 Commit C (`ca7710b`) recorded the Tag-5 creation, the post-tag CI run and nine corrections in `V07-TEST-RECORD.md` only.
 
@@ -1064,14 +1068,17 @@ documentation-only commit after Commit C. Commit C itself is unchanged.
   (`ca7710b`) and the status commit `f08a832`, on `development/v0.7` only.
 - **Tests:** passed **with limitations**. GitHub Actions ran the fast tier only, before and after Tag-5. The full tier was
   run locally before the tag, with 5 BLOCKED and 2 REDUCED tests. Its raw logs were not kept in the repository.
-- **T5:** technically finalised (committed, tagged, post-tag CI green on the fast tier). It has not been formally closed
-  by the owner. The closure conditions from Claude's subsequent review of T5 include owner or human sign-off; that review was not independent, because Claude had previously taken part in the work it reviewed.
+- **T5:** technically finalised (committed, tagged, post-tag CI green on the fast tier). It was formally closed by the owner's acceptance, recorded in commit
+  `6ee4409ba6576e14d2019e2ba7f1998793a56c22` (`tests/V07-TEST-RECORD.md`, "Tag-5 — owner acceptance of T5").
+  *(Updated 15 Nov 2026: this sentence previously read "It has not been formally closed by the owner.")* The closure conditions from Claude's subsequent review of T5 include owner or human sign-off; that review was not independent, because Claude had previously taken part in the work it reviewed.
 - **Stage 2 acceptance criteria:** of the three conditions in the T5 preparation brief, Tag-5 is verified and CI is green
   (fast tier only). Commit C is verified, but it did not contain the completion-status update and Proof B wording the brief
   required of it; those were made later, in `f08a832`. Whether that satisfies the acceptance criteria is the owner's decision.
   *(Corrected in the provenance review, 15 Nov 2026: this point originally said the three conditions "are met". That overstated the Commit C condition.)*
 - **Stage 2 formally completed:** **no.** It needs the owner's final acceptance (item 5). This record does not declare
   Stage 2 complete.
+  *(Updated 15 Nov 2026: the owner has since accepted Stage 2, with the limitations and Stage 3 gates in "Stage 2 — owner
+  acceptance" below.)*
 
 **Still open, not reopened here:** the two scrap route differences ("0.02" as text; 1.5) and the other items left to the
 owner for Stage 3 in K7 and E-1; the authorisation of the `dataset.csv` change, classified in `V07-TEST-RECORD.md`
@@ -1079,3 +1086,52 @@ owner for Stage 3 in K7 and E-1; the authorisation of the `dataset.csv` change, 
 
 Entry made by Claude. Recorded in commit `f08a832`, whose Git commit time is 2026-11-15 14:32:54 UTC.
 *(Corrected in the provenance review, 15 Nov 2026: this line originally read "Entry made by Claude, 2026-11-15 14:55 UTC". That time was typed by hand and never checked; it is later than the commit that contains it, so it is not the time the entry was made.)*
+
+## Stage 2 — owner acceptance (15 Nov 2026)
+
+*Recorded by Claude on the owner's explicit instruction "Final Authorisation — Stage 2 Owner Acceptance" (15 Nov 2026). The
+owner approved this statement. This section records the owner's acceptance; it changes no code, test, fixture, checksum or
+accepted result.*
+
+**Owner statement on Universal Data Import v1 Stage 2 (accepted):**
+
+I accept Stage 2 (K0–K7, E-1 and the T5 baseline) with the following limitations knowingly in place:
+
+1. **Durable evidence is fast-tier CI.** GitHub Actions ran the fast tier only. That includes every Stage 2 test at its full
+   accepted count: `import-adapter` 346, `same-results` 356 and `import-integrity` 386, each of which covers five time zones
+   internally. It also includes `import-engine-map` 276, `import-stage1` 616, `import-mapping` 976, golden v0.5 and v0.6.0
+   (10/10 each), the confidence snapshot 51/51 and `check-protection` 434. **Proof C's five-zone coverage exists only in the
+   temporary local pre-Tag-5 full-tier run.** Durable CI runs the golden and confidence snapshots in UTC only, so a
+   timezone-dependent regression in those snapshots would not be caught by the durable CI evidence.
+2. **The full tier was run locally before Tag-5** (37 tests passed plus pre-flight, 0 FAIL, 1 expected ERROR). Its temporary
+   logs were not kept and cannot be reproduced from them.
+3. **Five BLOCKED tests** (`test-fglt-note`, `test-forecast-conf`, `test-supplier-eligibility`, `phase2-comparison`,
+   `test-paging-chrome`) **and two REDUCED tests** (`test-phase1`, `test-uom`) are older engine tests, not Stage 2 tests. They
+   are not Stage 2 failures, but they limit confidence in the engine as a whole.
+4. **The 104 baseline items accepted at Tag-5 are protected against change, not functionally validated.**
+5. **A known false warning ships with Stage 2 (MEDIUM).** Under Option D, an item with negative stock at one location can show
+   a false High warning, "Allocated exceeds on-hand", which also lowers its confidence.
+6. **The E-1 coverage gap.** The golden snapshots contain no missing or unreadable scrap cases; E-1's behaviour is tested only
+   by the integrity test.
+7. **Manufacturer-only scope.** Bought-for-resale items are refused under B14, so wholesalers, distributors and retailers cannot
+   be analysed through Universal Import.
+8. **Fidelity, not correctness.** Stage 2 proves the import route gives the same results as a direct upload, on synthetic test
+   data. It does not prove the engine's results are correct; known engine issues (for example negative delays on shortages)
+   are reproduced faithfully.
+
+The difference register (DR-1 to DR-7) was accepted by delegation in K6, on the strength of Claude's verification, and
+ratified by me on 15 November 2026. Claude's reviews of Stage 2 were not independent professional assurance: Claude did the
+work it reviewed.
+
+T5's own acceptance (commit 6ee4409) stands; this acceptance incorporates it rather than re-opening it.
+
+**This acceptance does not mean Stage 3 is ready, or that the product is ready for production or for customers.** Before
+Stage 3 planning, these gates must be decided:
+- whether to revisit B14's refusal of wholesale and resale items;
+- negative and out-of-range scrap handling, on both routes;
+- `refcalc.py` still using Option A for negative stock, inconsistent with the engine's Option D;
+- the false "Allocated exceeds on-hand" warning;
+- the three remaining route differences: a scrap value stored as text ("0.02"), an out-of-range scrap value (1.5), and the
+  feasibility pool's "Blocking materials" display.
+
+Stage 3 is not started. The time of this entry is the Git commit time of the commit that adds it.
