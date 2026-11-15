@@ -266,6 +266,7 @@ direct Northstar gives its 5 data-quality warnings.
 - **Proof B**: Package 01 is refused as supplied (no `Demand_Basis` label). With the label added in memory (test assumption):
   complete; 120 items; on-hand 55,276; on-hand by location FGW 5,623, MAIN 46,598, SHEF 3,055; stock value £2,318,695.70;
   stock-out risk M0012, P0007, P0019, P0031; dead stock P0038, P0039 — all as expected.
+  *(Correction, 15 Nov 2026, C2: Proof B as at K5. Since T5 (`f0e81bb`) it reads the supplied label from disk; see the note in K6.)*
 - **Proof C**: the adapter-built Northstar workbook, read by `regress.js`, is identical to golden v0.5 and v0.6.0 in all 10
   sections. Confidence v0.7: 11 of 13 accepted workbooks identical; `dupexact` (DR-3) and `willow` (DR-4) differ only in the
   registered sections. No snapshot file was changed.
@@ -375,6 +376,9 @@ allocation or item rule affects the value.
     P0039.
   - **Package 01 does not yet import cleanly from its supplied files.**
 
+> **Correction (15 Nov 2026, T5 review finding C2):** this was the position at K6. Since the T5 commit `f0e81bb`, `dataset.csv` carries `Demand_Basis = shipments`, and Proof B reads the supplied Package 01 files, checks the label from disk and no longer adds it in memory. `tests/test-import-integrity.js` still sets its own label in memory, by design (`V07-TEST-RECORD.md`, Commit C section, point 6).
+
+
 **Prepared change for the Tag-5 approval step (notes only; not committed).**
 - `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv`: add the `Demand_Basis` column after `Currency`, with value
   `shipments`. This changes the header line and the data line, and nothing else:
@@ -479,6 +483,9 @@ and reads correctly. This is an improvement. The direct-upload bug is separate a
 K0's planned steps K1–K6 are done. K1–K5 are in commits `e7b3d2f` and `01c565f`; K6 is this documentation commit.
 
 **Stage 2 is not complete. It is awaiting:**
+
+> **Correction (15 Nov 2026, T5 review finding C2):** this list is as at K6. Items 1–3 were done by the T5 commit `f0e81bb` (local pre-tag runs; post-tag CI ran the fast tier only). Item 4 remains open. See the final Status section.
+
 1. the Package 01 `Demand_Basis = shipments` label in `dataset.csv`;
 2. its protection update (`MANIFEST.sha256` and `checksums.txt`) and the matching Proof B test change, at the Tag-5 approval
    step;
@@ -488,6 +495,8 @@ K0's planned steps K1–K6 are done. K1–K5 are in commits `e7b3d2f` and `01c56
 Not authorised, and not started: Tag-5, Stage 3, and any engine change (including items 3 and 4 above).
 
 ## K7 — Integrity fixes F1 and F2 (14 Nov 2026; implemented in the working tree, NOT committed)
+
+> **Correction (15 Nov 2026, T5 review finding C2):** "implemented in the working tree, NOT committed" was true when written. K7 was committed in `d33c10563e3da0bb5e1976418afa77992c1b727d` (15 Nov 2026), with the verification corrections and E-1; see the final Status section.
 
 Authority: the owner's K7 brief of 14 Nov 2026 ("investigate, challenge and fix" within K7; no commit, push or tag). The design
 investigation is `K7-investigation-and-plan.md` (delivered to the owner, not in the repository). Nothing in this section is
@@ -732,6 +741,8 @@ pushed).** These figures are historical; they are superseded by the final verifi
 
 ### K7 verification corrections (15 Nov 2026; owner Approval 1; working tree, NOT committed)
 
+> **Correction (15 Nov 2026, T5 review finding C2):** "working tree, NOT committed" was true when written. These corrections were committed with K7 in `d33c105` (15 Nov 2026).
+
 Authority: the owner's approval of 15 Nov 2026 ("Approval 1 — K7 test and documentation corrections"), following the
 independent K7 verification. Test and documentation changes only: no change to `adapter.js`, `result-gate.js`, the engine,
 Stage 1, fixtures, golden results or any approved checksum line.
@@ -794,6 +805,8 @@ Every mutation is detected by named assertions and none crashes the test (every 
   correct.
 
 ### E-1 implementation (15 Nov 2026; owner approval after review of the diff; working tree, NOT committed)
+
+> **Correction (15 Nov 2026, T5 review finding C2):** "working tree, NOT committed" was true when written. E-1 was committed with K7 in `d33c105` (15 Nov 2026).
 
 Authority: the owner's "E-1 Implementation Authorisation" of 15 Nov 2026. Developed in a throwaway copy, then transferred. Not
 changed: `engine-workbook.js`, `result-gate.js`, Stage 1, fixtures, snapshots, workflows, `refcalc.py` and every approved
@@ -1010,6 +1023,9 @@ runs after the push; its result is reported to the owner, not recorded here. No 
 
 ### Status
 
+> **Correction (15 Nov 2026, T5 review finding C2):** this Status is historical (written before the K7 commit). It is superseded by "Stage 2 status after K7, T5, Tag-5 and Commit C" at the end of this record.
+
+
 The K7 changes are in the working tree only: not committed, pushed or tagged. Stage 2 is not complete. Outstanding:
 1. the owner's review of K7, and a commit if approved;
 2. the owner's review of E-1, which is implemented in the working tree with the K7 verification corrections (not
@@ -1017,3 +1033,46 @@ The K7 changes are in the working tree only: not committed, pushed or tagged. St
 3. the T5 switching commit (the Package 01 label and the hash inventory recalculated after K7);
 4. Tag-5, created by the owner;
 5. the owner's final acceptance.
+
+## Stage 2 status after K7, T5, Tag-5 and Commit C (15 Nov 2026; T5 review finding C2)
+
+*Added by Claude under the owner's authorisation "Resolve T5 Review Findings C1, C2 and C3" (15 Nov 2026). Earlier sections
+are kept as written; dated correction notes mark the statements this section supersedes. Facts below were checked against Git
+history and GitHub on 15 Nov 2026; no test was run for this entry.*
+
+**What happened to the five outstanding items in the historical Status above:**
+
+| # | Item | Position now | Evidence |
+|---|---|---|---|
+| 1 | K7 reviewed and committed | **Done.** Commit `d33c10563e3da0bb5e1976418afa77992c1b727d`, 8 files: `js/calculations.js`, `js/import/adapter.js`, `js/import/result-gate.js`, `tests/test-import-integrity.js` (new, 386 checks), `tests/test-import-adapter.js`, `tests/accepted-results.json`, `tests/checksums.txt`, this record | `git show --stat d33c105`; GitHub Actions run 43672617538 on `d33c105`: success, **fast tier only**, guard against Tag-4 |
+| 2 | E-1 reviewed and committed | **Done**, in the same commit `d33c105`, with the K7 verification corrections | as item 1 |
+| 3 | T5 switching commit | **Done.** `f0e81bb30521a4e798005b0a51b4a531b807441e`, nine files (Package 01 label, protection updates, Proof B reading the supplied files, Tag-5 switch, README) | `V07-TEST-RECORD.md`, Tag-5 Part A and the two later Tag-5 sections. Full tier run **locally, before the tag** (0 FAIL, 1 expected ERROR, 5 BLOCKED, 2 REDUCED); not independently reproduced |
+| 4 | Tag-5 created by the owner | **Done.** `v0.7-tests-approved-5` → `f0e81bb`, created by the owner through GitHub Releases | post-tag GitHub Actions run 43680939374, attempt 2: success, guard 12/0 against Tag-5, **fast tier only** |
+| 5 | The owner's final acceptance of Stage 2 | **Not given. Open.** | — |
+
+Commit C (`ca7710b`) recorded the Tag-5 creation, the post-tag CI run and nine corrections in `V07-TEST-RECORD.md` only.
+
+**Reconciling the Commit C requirement.** The owner's T5 preparation brief required Commit C to include "the agreed
+completion-status update and corrected Proof B descriptive wording", and said Stage 2 is not closed until Tag-5, green CI
+and Commit C are all verified. The later Tag-5 finalisation instructions limited Commit C to `V07-TEST-RECORD.md`, so
+Commit C did not update this record. That status update and Proof B wording are made here instead, in a separate
+documentation-only commit after Commit C. Commit C itself is unchanged.
+
+**Status, kept separate:**
+- **Implementation completed:** yes: K1–K7, E-1 and T5.
+- **Committed and pushed:** yes: K1–K5 (`e7b3d2f`, `01c565f`), K6 (`b5e17eb`), K7 (`d33c105`), T5 (`f0e81bb`), Commit C
+  (`ca7710b`) and this commit, on `development/v0.7` only.
+- **Tests:** passed **with limitations**. GitHub Actions ran the fast tier only, before and after Tag-5. The full tier was
+  run locally before the tag, with 5 BLOCKED and 2 REDUCED tests. Its raw logs were not kept in the repository.
+- **T5:** technically finalised (committed, tagged, post-tag CI green on the fast tier). It has not been formally closed
+  by the owner. The independent review's closure conditions include owner or human sign-off.
+- **Stage 2 acceptance criteria:** the technical conditions in the T5 preparation brief (Tag-5, green CI, Commit C) are met,
+  on the limits above. Whether that satisfies the acceptance criteria is the owner's decision.
+- **Stage 2 formally completed:** **no.** It needs the owner's final acceptance (item 5). This record does not declare
+  Stage 2 complete.
+
+**Still open, not reopened here:** the two scrap route differences ("0.02" as text; 1.5) and the other items left to the
+owner for Stage 3 in K7 and E-1; the authorisation of the `dataset.csv` change, classified in `V07-TEST-RECORD.md`
+(Commit C section) as inferred by reference across two documents and not independently reviewed. Stage 3 is not started.
+
+Entry made by Claude, 2026-11-15 14:55 UTC.

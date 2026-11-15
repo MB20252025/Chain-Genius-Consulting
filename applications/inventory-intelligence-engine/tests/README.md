@@ -16,7 +16,7 @@ An approved baseline tag records the exact versions of the testing-control files
 | `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (kept unchanged) |
 | `v0.7-tests-approved-3` | the T3 implementation commit (created by the owner) | T3 baseline (kept unchanged): adds the confidence snapshot; check-control ACTIVE |
 | `v0.7-tests-approved-4` | Commit 10 (full hash recorded in `V07-TEST-RECORD.md` Part A2) | Tag-4 baseline (kept unchanged): accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A, with the limitations stated there |
-| `v0.7-tests-approved-5` | the T5 switching commit (full hash recorded in `V07-TEST-RECORD.md` Tag-5 Part A2, created by the owner) | Tag-5 baseline (current): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
+| `v0.7-tests-approved-5` | the T5 switching commit (`f0e81bb`; full hash recorded in `V07-TEST-RECORD.md`, section "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI"; pre-tag results in "Tag-5 — pre-tag evidence and reference corrections"; created by the owner) | Tag-5 baseline (current): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
 
 **Creating a baseline tag (permanent procedure)**
 

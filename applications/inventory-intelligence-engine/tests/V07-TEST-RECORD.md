@@ -1150,3 +1150,68 @@ The ninth file is `tests/README.md`.
 file and substantive change explicitly rather than approving batches by reference to previously prepared files.
 
 Entry made by Claude, 2026-11-15 14:20 UTC.
+
+### Tag-5 — pre-tag evidence and reference corrections (15 Nov 2026; T5 review findings C1 and C3)
+
+*Added by Claude under the owner's authorisation "Resolve T5 Review Findings C1, C2 and C3" (15 Nov 2026), after Tag-5 and
+Commit C (`ca7710b`). The sections above are unchanged. This is a documentation correction; no test was run for it.*
+
+**C3 — "Part A2" and "Part B".** No sections with those names exist for Tag-5. Part A ("Parts A2 … and B … are added
+afterwards, in Commit C"), correction point 2 of the dated entry ("Part A2 records the approval") and, until this commit,
+`tests/README.md` refer to them. The material they describe is in two sections:
+- "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI": the T5 commit `f0e81bb30521a4e798005b0a51b4a531b807441e`, the
+  owner's approval (both quotations), Tag-5 creation and the post-tag CI run;
+- this section: the pre-tag results.
+
+**C1 — pre-tag evidence.** Part A promised the pre-tag results; Commit C recorded only the post-tag CI run. The pre-tag runs below
+were executed **locally by Claude, in throwaway copies of the repository in its cloud session**, not by GitHub Actions. Their
+raw output exists only as temporary files in that session, outside the repository: it is **not committed and will not
+survive the session**. The results below are transcribed from those files on 15 Nov 2026. They were not independently
+reproduced.
+
+Configuration (all local runs): `tests/run-all.sh` (`--fast` or `--full`), Node v22.23.4, npm 10.9.9 and the test packages
+installed outside the repository from the pinned `tests/package-lock.json`, Python 3.13.18; time zones as each test defines.
+
+| # | Run | Tree | Time (UTC) | Result (as printed) |
+|---|---|---|---|---|
+| 1 | Full tier, local | exact copy of `f0e81bb` (checked identical before the run) | finished 07:01 | runner header `PASS: 38 \| FAIL: 0 \| BLOCKED: 5 \| REDUCED: 2 \| ERROR: 1` (the 38 includes the pre-flight row, so 37 tests passed); scope 45 tests |
+| 2 | Fast tier, local | the same copy | 06:51 | 24 tests passed (+ pre-flight), 0 FAIL, 1 ERROR |
+| 3 | Tag-4 guard (Tag-4's own `check-control.js`), local | the same copy | 06:51 | `check-control: 9 passed, 3 failed (baseline v0.7-tests-approved-4 = 5f18335)`; 104 PENDING lines |
+| 4 | T5 mutations (7 runs: 1 control + 6), local | a copy whose 1,820 tracked files are identical to `f0e81bb` (compared file by file on 15 Nov) | finished 05:24 | all 6 detected by named assertions, no crash (table below) |
+| 5 | K7 mutation matrix (24 mutations), local | a copy identical to `f0e81bb` in the engine folder except `tests/README.md`, which it predates (no test reads it) | finished 04:55 | 24/24 detected by named assertions; all 77 `import-integrity` assertions ran in every run; no crash |
+| 6 | Simulated Tag-5 guard, local | a throwaway commit on a throwaway local remote, **not GitHub** | 04:36 | `check-control: 12 passed, 0 failed`; superseded by the real post-tag CI run |
+
+The same full tier, fast tier and Tag-4 guard were also run between 05:10 and 05:21 on the uncommitted nine-file working tree
+before the T5 commit, with the same results.
+
+**What each status means in run 1** (preserved, not merged):
+- **Passed:** 37 tests, including `check-protection` 434, `same-results` 356, `import-integrity` 386, golden v0.5 and v0.6.0
+  (10/10 each) and the confidence snapshot (51/51) in 5 zones, and `browser-chrome` 53.
+- **Expected ERROR (1):** `check-control`: "cannot read check-control.js from approved tag v0.7-tests-approved-5", because
+  Tag-5 did not yet exist. The runner exits 1 on any ERROR.
+- **BLOCKED (5):** `test-fglt-note`, `test-forecast-conf`, `test-supplier-eligibility` (historical source trees not
+  available), `phase2-comparison` (tag `v0.6-candidate-4-phase2` not on GitHub), `test-paging-chrome` (Playwright's browser
+  not installed).
+- **REDUCED (2):** `test-phase1` 57 of 125, `test-uom` 110 of 164.
+- **PENDING:** not a test status. The 104 PENDING lines are run 3's guard output against Tag-4; since Tag-5 they are
+  protected inventory, not validated behaviour.
+
+**T5 mutations (run 4; counts per zone):**
+
+| # | Mutation | check-protection | import-stage1 | same-results | import-integrity |
+|---|---|---|---|---|---|
+| T5m0 | control: the T5 tree unchanged | 434/0 | 123/0 | 71/0 | 77/0 |
+| T5m1 | label removed from `dataset.csv`; checksums and manifest not updated | 1 failed | 1 failed | 7 failed | 0 failed |
+| T5m2 | label changed to "orders"; manifest and checksums updated to match | 0 failed | 0 failed | 7 failed | 0 failed |
+| T5m3 | label removed; manifest and checksums updated to match | 0 failed | 0 failed | 7 failed | 0 failed |
+| T5m4 | Proof B reverted to adding the label in memory; checksum updated | 0 failed | 0 failed | 1 failed | 0 failed |
+| T5m5 | `test-same-results.js` checksum line left at its pre-T5 hash | 1 failed | 0 failed | 0 failed | 0 failed |
+| T5m6 | manifest line left at the pre-T5 dataset hash | 0 failed | 1 failed | 0 failed | 0 failed |
+
+`import-integrity` is unaffected by design: it sets its own in-memory label (Commit C section, point 6).
+
+**After Tag-5:** only GitHub Actions ran: run 43680939374 attempt 2, the **fast tier only** (25 tests passed + pre-flight;
+guard 12/0 against Tag-5; 0 PENDING). No full-tier run exists after Tag-5. In the Commit C section, point 5's "passing the full
+tier" refers to run 1 above (0 FAIL, 1 expected ERROR), which was local and pre-tag.
+
+Entry made by Claude, 2026-11-15 14:45 UTC.
