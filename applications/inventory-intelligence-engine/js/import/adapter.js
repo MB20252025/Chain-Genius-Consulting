@@ -20,7 +20,16 @@
  *        text; negatives in excluded locations are listed for information. Excluded locations contribute to nothing.
  *   M1 D14 / E6  sales lines: history = Shipped_Qty in the month of Last_Ship_Date; cancelled unshipped quantity is not
  *        history; open quantity is reported as a commitment, never added to history; a summary demand file must be labelled.
- *   E3   blocked items stay in the engine run; their own outputs are withheld by the gate.  E4  money: see result-gate.js.
+ *   E3   items blocked for one analysis stay in the engine run; their own outputs and every output that depends on them are
+ *        withheld by the gate (RG2).  E4  money: see result-gate.js.
+ *   K7/F1 an item Stage 1 blocks for ALL analyses (blocked.all, e.g. a unit mismatch) is told to the user as "excluded from every
+ *        analysis", so it is left out of every Engine View sheet (items, stock, demand, purchase orders, production orders). Its BOM
+ *        rows are KEPT, so the engine itself sees the relationship (orders that need it are "Insufficient information") and the gate
+ *        can withhold the results of items that depend on it. The exclusion, its reason and the source quantities are reported.
+ *   K7/F2 BOM scrap, per line: a supplied value is used; a missing column or a blank cell is ASSUMED 0% (written as 0 in the Engine
+ *        View copy only, and disclosed); a value Stage 1 could not read (FIELD_BLANKED) is INVALID: it is never replaced by a number;
+ *        its Engine View cell holds the text marker SCRAP_UNREADABLE, so the engine reports the line as not readable (E-1) instead of
+ *        assuming 0%, and the gate withholds the production and material results that use it.
  *   E10  rows Stage 1 invented (__placeholder) and held tables never reach the engine.
  * Undecided policies are never assumed: the affected case is refused with POLICY_UNDECIDED_Bn (B4, B7, B9, B14, B17, B18, B19).
  */
@@ -28,7 +37,7 @@
   'use strict';
   const C = NS.canonical, V = NS.validate, EM = NS.engineMap, EW = NS.engineWorkbook;
   if (!C || !V || !EM || !EW || typeof V.reliabilityDetail !== 'function') throw new Error('adapter.js needs canonical.js, validate.js, engine-map.js and engine-workbook.js to be loaded first');
-  const VERSION = 'AD1', NEG_TEXT = 'treated as 0 for available stock. Please investigate.', UNASSIGNED = 'UNASSIGNED';
+  const VERSION = 'AD2', SCRAP_UNREADABLE = 'SCRAP_UNREADABLE', NEG_TEXT = 'treated as 0 for available stock. Please investigate.', UNASSIGNED = 'UNASSIGNED';
   const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
   const isDate = v => Object.prototype.toString.call(v) === '[object Date]';
   const deepFreeze = o => { if (o && typeof o === 'object' && !Object.isFrozen(o) && !isDate(o)) { Object.freeze(o); Object.values(o).forEach(deepFreeze); } return o; };
@@ -78,11 +87,27 @@
       if (refusals.length) return finish('refused');
       const itemRole = new Map(D.items.map(r => [r.Item_ID, role(r)]));
 
+      // ---- K7/F1: items blocked for every analysis are left out of the Engine View (BOM relationships are kept).
+      const pe = id => P.items[id];
+      const excluded = new Map();
+      for (const r of D.items) { const e = pe(r.Item_ID); if (isObj(e) && isObj(e.blocked) && e.blocked.all !== undefined) excluded.set(r.Item_ID, String(e.blocked.all)); }
+      const keep = r => !excluded.has(r.Item_ID);
+      const bomRows = Array.isArray(D.bom) ? D.bom : [];
+      const components = id => [...new Set(bomRows.filter(b => b.Parent_Item_ID === id).map(b => b.Component_Item_ID))].sort();
+      const parents = id => [...new Set(bomRows.filter(b => b.Component_Item_ID === id).map(b => b.Parent_Item_ID))].sort();
+      const unitOf = new Map(D.items.map(r => [r.Item_ID, r.Unit_of_Measure === undefined ? null : r.Unit_of_Measure]));
+      const excludedItems = [...excluded].map(([id, why]) => ({
+        itemId: id, itemName: (D.items.find(r => r.Item_ID === id) || {}).Item_Name || null, role: itemRole.get(id), reason: why, analyses: 'all', itemUnit: unitOf.get(id),
+        sourceStock: (D.stock || []).filter(r => r.Item_ID === id).map(r => ({ locationId: r.Location_ID === null ? UNASSIGNED : r.Location_ID, onHandQty: r.On_Hand_Qty, unitAsSupplied: r.__unit === undefined ? null : r.__unit, source: src(r) })),
+        stockValue: 'not calculated: the item is excluded (' + why + ')', components: components(id), parents: parents(id),
+        hint: why === 'unit mismatch' ? 'If you can supply the item\u2019s unit conversion factor, this item can be analysed.' : null }));
+      report.excludedItems = excludedItems;
+
       // ---- Gate 3: Engine View stock (B1, M1 D5, B6 Option D)
       const flag = new Map((D.locations || []).map(l => [l.Location_ID, l.Include_In_Available]));
       const counts = loc => loc === null ? true : !flag.has(loc) || flag.get(loc) !== 'N';
       const groups = new Map();
-      for (const r of D.stock) { if (!groups.has(r.Item_ID)) groups.set(r.Item_ID, []); groups.get(r.Item_ID).push(r); }
+      for (const r of D.stock) { if (!keep(r)) continue; if (!groups.has(r.Item_ID)) groups.set(r.Item_ID, []); groups.get(r.Item_ID).push(r); }
       const engineStock = [], negatives = [], excludedNegatives = [], recon = [], unknownLocations = new Set();
       const b4 = [], b7 = [], b9 = [], partly = [], snap = [], noHand = [];
       for (const [id, rows] of groups) {
@@ -126,7 +151,11 @@
       report.negativeStock = negatives; report.excludedLocationNegatives = excludedNegatives; report.stockReconciliation = recon;
 
       // ---- Gate 4: demand history (M1 D14, E6)
-      const hasDemand = Array.isArray(D.demand) && D.demand.length, hasSales = Array.isArray(D.sales_lines) && D.sales_lines.length;
+      // Excluded items' history is left out with them (the table's presence is still judged on what was supplied).
+      const suppliedDemand = Array.isArray(D.demand) && D.demand.length, suppliedSales = Array.isArray(D.sales_lines) && D.sales_lines.length;
+      if (suppliedDemand) D.demand = D.demand.filter(keep);
+      if (suppliedSales) D.sales_lines = D.sales_lines.filter(keep);
+      const hasDemand = suppliedDemand, hasSales = suppliedSales;
       let engineDemand = null, demandSupplied = null; const commitments = [];
       if (hasDemand && hasSales) refuse('POLICY_UNDECIDED_B18', 'Both a monthly demand file and sales lines were supplied; which one is the history is undecided (B18).');
       else if (hasDemand) {
@@ -191,12 +220,48 @@
       if (refusals.length) return finish('refused');
 
       // ---- Build the workbook (K2): only the rows chosen above; the engine runs on the full supported population (E3).
-      const ds = {}; for (const t of ['items', 'bom', 'suppliers', 'po_lines', 'production_orders']) if (Array.isArray(D[t])) ds[t] = D[t];
+      const ds = {}; for (const t of ['items', 'suppliers', 'po_lines', 'production_orders']) if (Array.isArray(D[t])) ds[t] = t === 'suppliers' ? D[t] : D[t].filter(keep);
       ds.stock = engineStock; if (engineDemand) ds.demand = engineDemand;
       const sup = {}; if (demandSupplied) sup.demand = demandSupplied;
+
+      // ---- K7/F2: scrap per BOM line. Stage 1 blanks a value it cannot read and records it (FIELD_BLANKED, bom.Scrap_Pct, rows);
+      // that record is the only way to tell "invalid" from "left blank". If it cannot be trusted, every blank is treated as invalid.
+      const scrap = { column: 'supplied', assumed: [], invalid: [] }, invalidAt = [];
+      if (bomRows.length) {
+        const mapped = !!(supplied.bom && supplied.bom.has('Scrap_Pct'));
+        const issues = Array.isArray(S1.issues) ? S1.issues : null;
+        const bomSources = isObj(mapping.tables) && isObj(mapping.tables.bom) && Array.isArray(mapping.tables.bom.sources) ? mapping.tables.bom.sources.length : 0;
+        const blanked = new Map();
+        let trustBlanks = issues !== null && bomSources <= 1;
+        if (issues) for (const i of issues) if (isObj(i) && i.code === 'FIELD_BLANKED' && i.table === 'bom' && i.field === 'Scrap_Pct') {
+          if (!Array.isArray(i.rows)) { trustBlanks = false; continue; }
+          i.rows.forEach(x => { if (isObj(x) && Number.isInteger(x.row)) blanked.set(x.row, x.value === undefined ? null : x.value); else trustBlanks = false; });
+        }
+        scrap.column = mapped ? 'supplied' : 'not-mapped';
+        ds.bom = bomRows.map((b, bi) => {
+          const line = { parent: b.Parent_Item_ID, component: b.Component_Item_ID, row: src(b) ? src(b).row : null };
+          if (!mapped) { scrap.assumed.push(Object.assign(line, { basis: 'column not supplied' })); return Object.assign({}, b, { Scrap_Pct: 0 }); }
+          if (b.Scrap_Pct !== null) return b;
+          if (trustBlanks && !blanked.has(line.row)) { scrap.assumed.push(Object.assign(line, { basis: 'blank cell' })); return Object.assign({}, b, { Scrap_Pct: 0 }); }
+          scrap.invalid.push(Object.assign(line, { value: blanked.has(line.row) ? blanked.get(line.row) : null,
+            basis: trustBlanks ? 'value could not be read (Stage 1 FIELD_BLANKED)' : 'blank, and Stage 1 records cannot separate a blank from an unreadable value' }));
+          invalidAt.push(bi); return b;
+        });
+        if (!mapped) sup.bom = [...(supplied.bom || [])].concat('Scrap_Pct');
+      } else if (Array.isArray(D.bom)) ds.bom = D.bom;
+      report.scrap = { column: scrap.column, assumedLines: scrap.assumed.length, invalidLines: scrap.invalid.length, assumed: scrap.assumed, invalid: scrap.invalid,
+        note: 'Scrap is a fraction 0–1 (a bare 0.5 means 50%; write 0.5% for half a percent). Assumed 0% is a calculation basis, not source data.' };
       let built;
       try { built = EW.build(ds, mapping, { supplied: sup, derived: ['Usable_On_Hand_Qty'] }); }
       catch (e) { refuse(e.code === 'ENGINE_WORKBOOK_INPUT' ? 'ADAPTER_MAPPING_MISMATCH' : 'ADAPTER_VALUE_INVALID', e.message); return finish('refused'); }
+      // E-1 marker: an invalid scrap line gets the text SCRAP_UNREADABLE in its Engine View cell (the workbook builder writes numbers only,
+      // so the marker is placed after the build). A blank cell would be read by the engine as "missing, 0% assumed"; the marker is read as
+      // "not readable", so the engine never uses 0% for it. Hard check: the BOM sheet holds exactly one row per Engine View BOM line.
+      if (invalidAt.length) {
+        const bs = built.report.sheets.find(s => s.table === 'bom'), XLm = typeof XLSX !== 'undefined' ? XLSX : null, col = bs ? bs.columns.indexOf('Scrap_Factor_Pct') : -1;
+        if (!XLm || !bs || bs.rows !== ds.bom.length || col < 0) { refuse('ADAPTER_INTERNAL', 'Internal adapter error: the Engine View BOM sheet does not line up with the BOM lines, so unreadable scrap cannot be marked.'); return finish('refused'); }
+        invalidAt.forEach(i => { built.workbook.Sheets[bs.sheet][XLm.utils.encode_cell({ r: i + 1, c: col })] = { t: 's', v: SCRAP_UNREADABLE }; });
+      }
       // Reconciliation (hard check): the Engine View physical stock equals the counted source rows, item by item.
       const sheet = built.workbook.Sheets.Inventory, idx = built.report.sheets.find(s => s.sheet === 'Inventory').columns;
       const ci = c => idx.indexOf(c), XL = typeof XLSX !== 'undefined' ? XLSX : null;
@@ -212,10 +277,11 @@
       const analyses = {}; ['demand', 'purchasing', 'production', 'materials'].forEach(a => { analyses[a] = typeof P.analyses[a] === 'string' ? P.analyses[a] : 'blocked'; });
       const moneyReasons = [];
       if (P.financial.status !== 'allowed') moneyReasons.push('FINANCIAL_NOT_ALLOWED (' + P.financial.status + ')');
-      const noUnit = engineStock.filter(r => !num(r.Unit_Cost)).map(r => r.Item_ID), noStd = D.items.filter(r => !num(r.Standard_Cost)).map(r => r.Item_ID);
+      const noUnit = engineStock.filter(r => !num(r.Unit_Cost)).map(r => r.Item_ID), noStd = D.items.filter(r => keep(r) && !num(r.Standard_Cost)).map(r => r.Item_ID);
       if (P.financial.status === 'allowed' && (noUnit.length || noStd.length)) moneyReasons.push('COST_MISSING (' + [...new Set([...noUnit, ...noStd])].length + ' item(s))');
       const items = {}, ROLE = { fg: ['demand', 'production'], rm: ['materials', 'purchasing'] };
       for (const r of D.items) {
+        if (excluded.has(r.Item_ID)) continue;
         const id = r.Item_ID, e = { withhold: [], labels: [] };
         for (const a of ROLE[itemRole.get(id)]) {
           const d = V.reliabilityDetail(S1, id, a), codes = d.reasons.map(x => x.code);
@@ -230,10 +296,15 @@
         if (negatives.some(n => n.itemId === id)) e.labels.push({ analysis: 'stock', status: 'labelled', code: 'NEGATIVE_LOCATION_STOCK' });
         if (e.withhold.length || e.labels.length) items[id] = e;
       }
-      const gate = { version: 'RG1', money: { withhold: moneyReasons.length > 0, reasons: moneyReasons },
-        clientQuestions: { withhold: P.financial.status !== 'allowed', reason: P.financial.status !== 'allowed' ? 'POLICY_UNDECIDED_B11' : null }, analyses, items };
-      report.itemsSent = { finishedGoods: D.items.filter(r => itemRole.get(r.Item_ID) === 'fg').length, materials: D.items.filter(r => itemRole.get(r.Item_ID) === 'rm').length };
-      const restricted = gate.money.withhold || gate.clientQuestions.withhold || Object.keys(items).length || Object.values(analyses).some(a => a !== 'available') || excludedNegatives.length;
+      const gate = { version: 'RG2', money: { withhold: moneyReasons.length > 0, reasons: moneyReasons },
+        clientQuestions: { withhold: P.financial.status !== 'allowed', reason: P.financial.status !== 'allowed' ? 'POLICY_UNDECIDED_B11' : null }, analyses, items,
+        excluded: Object.fromEntries(excludedItems.map(x => [x.itemId, { reason: x.reason, role: x.role, itemName: x.itemName, itemUnit: x.itemUnit, sourceStock: x.sourceStock, hint: x.hint }])),
+        dependants: Object.fromEntries(excludedItems.map(x => [x.itemId, { components: x.components, parents: x.parents }])),
+        scrap: { column: scrap.column, assumed: scrap.assumed.map(l => ({ parent: l.parent, component: l.component, basis: l.basis, row: l.row })),
+          invalid: scrap.invalid.map(l => ({ parent: l.parent, component: l.component, basis: l.basis, row: l.row, value: l.value })) } };
+      report.itemsSent = { finishedGoods: D.items.filter(r => keep(r) && itemRole.get(r.Item_ID) === 'fg').length, materials: D.items.filter(r => keep(r) && itemRole.get(r.Item_ID) === 'rm').length, excluded: excluded.size };
+      const restricted = gate.money.withhold || gate.clientQuestions.withhold || Object.keys(items).length || Object.values(analyses).some(a => a !== 'available') || excludedNegatives.length ||
+        excluded.size || scrap.assumed.length || scrap.invalid.length;
       return finish(restricted ? 'restricted' : 'complete', built.workbook, gate);
     } catch (err) {
       refuse('ADAPTER_INTERNAL', 'Internal adapter error: ' + (err && err.message ? err.message : String(err)));
@@ -241,5 +312,5 @@
     }
   }
 
-  NS.adapter = Object.freeze({ VERSION, NEG_TEXT, build });
+  NS.adapter = Object.freeze({ VERSION, NEG_TEXT, SCRAP_UNREADABLE, build });
 })(globalThis.CGImport = globalThis.CGImport || {});

@@ -240,7 +240,11 @@ const nanFree = o => !JSON.stringify(o, (k, v) => (typeof v === 'number' && !isF
   const pb = find(blk.g.result, 'P1'), p2 = find(blk.g.result, 'P2');
   ok(V.reliabilityOf(blk.imp, 'P1', 'demand') === 'blocked' && blk.ad.status === 'restricted' && pb.sev.withheld === true && pb.cover.withheld === true && pb.oh === find(blk.out, 'P1').oh &&
     blk.g.result.forecasts.P1.withheld === true, 'case 12 blocked (two months rejected): P1’s analysis outputs and forecast are withheld; its stock quantities stay');
-  ok(eq(p2, find(blk.out, 'P2')) && blk.g.result.forecasts.P2 && !blk.g.result.forecasts.P2.withheld, 'case 12: P2 (not blocked) is released exactly as the engine calculated it');
+  // K7 (RG2 R4): ABC class and cumulative share are ranked across the whole finished-goods group, which includes the withheld P1,
+  // so they are withheld for P2 too; every other P2 output is released exactly as the engine calculated it.
+  ok(Object.keys(p2).sort().join() === Object.keys(find(blk.out, 'P2')).sort().join() && Object.keys(find(blk.out, 'P2')).every(k => ['abc', 'cum'].includes(k) ? (p2[k].withheld === true && /^DEPENDS_ON_WITHHELD_ITEMS \(fg\): P1$/.test(p2[k].reason)) : eq(p2[k], find(blk.out, 'P2')[k])) &&
+    blk.g.result.forecasts.P2 && !blk.g.result.forecasts.P2.withheld,
+    'case 12: P2 (not blocked) is released exactly as the engine calculated it (the same fields, none added or removed), except its ABC class and cumulative share: they are ranked across the group that includes the withheld P1, so they are withheld (RG2 R4)');
   const cav = go(T => { T.demand.push(Object.assign({}, T.demand.find(d => d.Item_ID === 'P2' && d.Period_Start === MONTHS[5]))); });
   const det = V.reliabilityDetail(cav.imp, 'P2', 'demand');
   ok(V.reliabilityOf(cav.imp, 'P2', 'demand') === 'caveated' && det.statuses.includes('caveated') && cav.ad.gate.items.P2.withhold.length === 0 &&
@@ -363,7 +367,8 @@ console.log('\n--- S6 money: every output that changes with costs is withheld by
   const scaled = f => { const w = nsWb(); for (const [s, cols] of Object.entries(MONEY)) { const rows = X.utils.sheet_to_json(w.Sheets[s], { raw: true, cellDates: true });
     rows.forEach(r => { const id = r.SKU || r.Material_ID || r.Item_ID, k = [...String(id)].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) % 97; cols.forEach(c => { if (typeof r[c] === 'number') r[c] = f(r[c], k); }); });
     w.Sheets[s] = X.utils.json_to_sheet(rows, { cellDates: true }); } return X.read(X.write(w, { type: 'array', bookType: 'xlsx' }), { cellDates: true }); };
-  const spec = { version: 'RG1', money: { withhold: true, reasons: ['TEST'] }, clientQuestions: { withhold: false, reason: null }, analyses: { demand: 'available', purchasing: 'available', production: 'available', materials: 'available' }, items: {} };
+  const spec = { version: 'RG2', money: { withhold: true, reasons: ['TEST'] }, clientQuestions: { withhold: false, reason: null }, analyses: { demand: 'available', purchasing: 'available', production: 'available', materials: 'available' }, items: {},
+    excluded: {}, dependants: {}, scrap: { column: 'supplied', assumed: [], invalid: [] } };
   const leaves = (v, p, o) => { if (Object.prototype.toString.call(v) === '[object Date]') { o[p] = +v; return o; } if (v && typeof v === 'object') { for (const k of Object.keys(v)) leaves(v[k], p + '.' + k, o); return o; } o[p] = typeof v === 'number' && !isFinite(v) ? 'N' + v : v; return o; };
   const g = w => { const r = RG.apply(E.runEngine({ workbook: w }), spec).result; const c = JSON.parse(JSON.stringify(r)); c.mrp.sort((a, b) => (a.x.id < b.x.id ? -1 : 1)); return leaves(c, '', {}); };
   const raw = w => leaves(JSON.parse(JSON.stringify(E.runEngine({ workbook: w }), (k, v) => (typeof v === 'number' && !isFinite(v) ? 'N' : v))), '', {});

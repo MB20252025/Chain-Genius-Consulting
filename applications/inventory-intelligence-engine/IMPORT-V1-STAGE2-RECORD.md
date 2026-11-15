@@ -486,3 +486,534 @@ K0's planned steps K1–K6 are done. K1–K5 are in commits `e7b3d2f` and `01c56
 4. the owner's final acceptance of Stage 2.
 
 Not authorised, and not started: Tag-5, Stage 3, and any engine change (including items 3 and 4 above).
+
+## K7 — Integrity fixes F1 and F2 (14 Nov 2026; implemented in the working tree, NOT committed)
+
+Authority: the owner's K7 brief of 14 Nov 2026 ("investigate, challenge and fix" within K7; no commit, push or tag). The design
+investigation is `K7-investigation-and-plan.md` (delivered to the owner, not in the repository). Nothing in this section is
+accepted: it records what was changed and the evidence, for the owner's review.
+
+### Defects
+
+- **F1 — blocked inputs contaminated released results.**
+  - An item that Stage 1 blocks for every analysis (`blocked.all`, set only for a unit mismatch, `validate.js` line 458) is told
+    to the user as "excluded from every analysis". AD1 still wrote it into every Engine View sheet. RG1 withheld only its own
+    fields, so its stock (in the wrong unit) fed totals, other items' ABC, the material pool and supplier values.
+  - Items blocked for one analysis (demand, purchasing or production) contaminated the totals and other items' results built
+    from that analysis. F03 example: £244,837.55 of the released excess value came from 24 demand-blocked products; ABC was
+    released although 56.63% of the ranked value was blocked.
+  - Root cause: E3 ("blocked items stay in the run, only their own outputs are withheld") assumed that results do not cross
+    items. They do: groups are ranked together, totals are summed, the BOM links products and materials, orders share a pool,
+    and suppliers aggregate materials.
+- **F2 — missing scrap gave false production results marked "complete".**
+  - `Scrap_Pct` is optional. A missing column or blank cell reached the engine as `undefined`, so `qty × (1 + undefined)` = NaN
+    (`calculations.js` lines 116 and 185).
+  - The effect: every order became "Material shortage". The delay was the latest material lead time, because a NaN requirement
+    is never covered by receipts, so the engine assumes a new order today (Northstar order FG003: RM031 36.85 days − 1 day
+    = "~36d"). Materials looked like they had no demand.
+  - An unreadable value is blanked by Stage 1 and reached the engine the same way.
+- **Gaps found in RG1 while fixing F1 (new, fixed in K7):**
+  - feasibility rows of withheld products were never withheld: RG1 matched `r.o.SKU`, but the engine's field is `r.o.sku`;
+  - the engine's second copies of forecasts and forecast credibility (`result.fcm`, `result.fcc`) were not gated;
+  - production performance (`result.pr`) was in no section, and scheduled receipts (`result.sched`, from purchase orders) were
+    filed under production instead of purchasing. *(Correction, 15 Nov 2026: both were implemented in K7, but neither was
+    tested until the K7 verification corrections below. Mutations M12 and M13b survived the original K7 test.)*;
+  - an item's stock value (`val` = on-hand × cost) was withheld with its analysis results although no analysis block changes it.
+
+### Solution and why
+
+- **Adapter AD2** (`js/import/adapter.js`):
+  - `blocked.all` items are left out of the Items, Inventory, Demand, Purchase Orders and Production Orders data. Their BOM rows
+    are **kept**, so the engine itself marks dependent orders "Insufficient information" ("BOM references unknown SKU or
+    material").
+  - The report lists every excluded item: reason, "all analyses", source stock in its own unit, value "not calculated", BOM
+    components and parents, and the hint "If you can supply the item's unit conversion factor, this item can be analysed."
+  - Scrap is classified per BOM line:
+    - a supplied value is used;
+    - a missing column or blank cell is **assumed 0%** (written only into the Engine View copy, and disclosed);
+    - a value Stage 1 recorded as unreadable (`FIELD_BLANKED`, `bom.Scrap_Pct`, row number) is **invalid**: it is never
+      replaced by a number. *(At K7 its Engine View cell was left empty; from E-1 it holds the text marker `SCRAP_UNREADABLE`,
+      see "E-1 implementation".)*
+    If the Stage 1 issue list is missing or malformed, or the BOM came from more than one file (row numbers could collide), every
+    blank is treated as invalid.
+- **Result gate RG2** (`js/import/result-gate.js`; rules R1–R8 below): dependency-aware withholding, a cross-check against the
+  engine output, a safety net for non-finite numbers, and a `disclosures` section.
+- **Why both layers.**
+  - The gate alone cannot take a contribution out of a total or a ranking without recalculating, which the engine-is-the-source
+    rule forbids.
+  - The adapter alone leaves dependants wrong. Tested before implementing:
+    - with P0001 removed, M0058 (whose only parent is P0001) showed a false excess of £6,232.80;
+    - with P0001's BOM rows also removed, P0018 looked feasible without its component M0028.
+- **Rejected alternatives:**
+  - withhold every total when any item is blocked (loses valid analysis);
+  - release subtotals calculated by the gate (numbers the engine did not produce; ABC cannot be rebuilt that way);
+  - withhold production when scrap is missing (many SME exports have no scrap column).
+
+### RG2 contract (supersedes RG1)
+
+**Specification.** RG1's fields plus:
+- `excluded` (per item: reason, role, name, item unit, source stock, hint);
+- `dependants` (per excluded item: its components and parents, from the canonical BOM);
+- `scrap` (column `supplied` or `not-mapped`; assumed lines; invalid lines).
+
+An RG1 specification, or any malformed field, is refused (`RESULT_GATE_SPEC_INVALID`). An engine output without its BOM is
+refused (`RESULT_GATE_ENGINE_OUTPUT_INVALID`).
+
+**Statuses.**
+
+| Status | Meaning | How it is shown |
+| --- | --- | --- |
+| available | released as the engine calculated it | no marker |
+| incomplete or caveated | released with a label | labels, from `reliabilityDetail`; plus `SCRAP_ASSUMED_ZERO` (caveated) |
+| blocked | withheld | `{withheld: true, reason}` |
+
+A result that depends on a withheld input is withheld (rules below). `reliabilityOf` and `reliabilityDetail` are unchanged and
+still fail safe: missing or malformed reliability information gives "blocked", which the adapter turns into a withheld entry.
+
+**Rules.**
+
+| Rule | What it does |
+| --- | --- |
+| R1 cross-check | Refuses the whole result (`RESULT_GATE_SPEC_ENGINE_MISMATCH`, every difference listed) when any of these holds: an excluded item is present in the engine output; an item the BOM names was neither analysed nor declared excluded; declared dependants differ from the engine BOM; an excluded item also has item entries; item entries name an item the engine did not see; declared scrap bases do not match the Engine View BOM line by line |
+| R2 dependants | Components of excluded or demand-withheld products, and components on invalid scrap lines: material and purchasing results withheld |
+| R3 feasibility | Orders, in start order: withheld if the product is production-withheld, uses an excluded component, sits on an invalid scrap line, or uses a material whose shared pool was affected by an excluded parent, withheld receipts or an earlier withheld order. Its materials then count as affected for later orders |
+| R4 group results | ABC class and cumulative share for the whole group, and the group's excess, shortage and annual-value totals (`exF`, `shV`, `cogsF`, or `exR`, `cogsR`; plus `exV`), withheld when any item in the group is withheld for the analysis they come from. The confidence table and client questions are withheld when any item's results are withheld. Stock-value totals (`tot`, `fgV`, `rmV`, `top`, `top10`, `fam`, `rg`) stay, because they use only on-hand and cost |
+| R5 suppliers | Supplier rows of any material with withheld results are withheld. For purchasing-withheld materials: reconciliation lines, the PO summary and scheduled receipts are withheld |
+| R6 assumptions | Results that use an assumed 0% scrap line are labelled caveated (`SCRAP_ASSUMED_ZERO`): feasibility, MRP, each component and product, and the materials totals and rankings. The status is "restricted", never "complete" |
+| R7 safety net | Any non-finite number left in the released copy is withheld (`NON_FINITE_VALUE`) |
+| R8 disclosure | `gated.disclosures`: `excluded`, `dependants`, `withheldTotals`, `ordersWithheld`, `assumptions`, `invalid`, and `text` sentences ready to display |
+
+### Evidence (scratch runs and the new test; figures verified independently)
+
+**Package 01 with P0001 stock in "box" and M0028 stock in "kg" (the Stage 1 rule is unchanged).** Before = clean Package 01;
+after = AD2 + RG2.
+
+| Measure | Before | After (released) | Explanation |
+| --- | --- | --- | --- |
+| Items analysed | 120 | 118 | P0001 and M0028 excluded (unit mismatch) |
+| Total stock value | £2,318,695.70 | £2,298,987.29 | −£19,708.41 = P0001 £9,127.80 + M0028 £10,580.61 |
+| Finished-goods / materials value | £1,287,688.54 / £1,031,007.16 | £1,278,560.74 / £1,020,426.55 | −P0001 / −M0028 |
+| Finished-goods excess / shortage | £515,844.07 / £5,110.86 | £515,844.07 / £5,110.86 | P0001 contributed none |
+| Materials excess, annual value, overall excess | £2,591.48; £5,682,226.63; £518,435.56 | withheld | they would include M0058's false £6,232.80 excess and M0058/M0064's incomplete usage |
+| Top-10 share | 44.71% | 45.10% | smaller denominator |
+| P0018 orders | Feasible | engine "Insufficient information"; released withheld (`USES_EXCLUDED_COMPONENT M0028`) | M0028's kg had been counted as each |
+| M0058, M0064 | released | material and purchasing results withheld (`DEPENDS_ON_EXCLUDED_PARENT P0001`); stock kept | usage without P0001 is incomplete |
+| Other dependants | — | P0021's order withheld (shared pool after a withheld order); suppliers S04 and S10 withheld | R3 and R5 |
+| Blocked data in released results | — | none (checked field by field, test I12) | |
+
+The disclosure sentences (excerpt):
+- "2 item(s) were excluded from this analysis and from every total: M0028 (unit mismatch); P0001 (unit mismatch). Totals, value rankings and ABC classes are calculated over the analysed items only…"
+- "P0001 Valve Bodie model 001: unit mismatch (item unit "each"). Source stock as supplied: 128 box at FGW, 70 box at SHEF. Stock value not calculated. If you can supply the item's unit conversion factor, this item can be analysed."
+- "Orders for P0018 use M0028, so their material feasibility is not shown."
+- …and sentences for the withheld component results, the orders and the suppliers.
+
+**Fault case F18 (P0001 "box", M0001 "EA"; no BOM).**
+
+| Measure | Before | After | Explanation |
+| --- | --- | --- | --- |
+| Total stock value | £2,318,695.70 | £2,307,019.10 | −£11,676.60 = P0001 198 × £46.10 = £9,127.80 + M0001 118 × £21.60 = £2,548.80 |
+| ABC | P0015 C, P0017 A | P0015 B, P0017 B | ranked over the 39 analysed products. The ranked total falls by P0001's annual value, £87,105.95. The released classes equal an independent recalculation |
+| Supplier S01 stock value | £95,010.93 | £92,462.13 | −£2,548.80 (M0001) |
+
+**Materials value equals materials excess value in F18 (£1,028,458.36).** This is correct, not a copying error:
+- F18 has no BOM, so no material has usage (`d = 0` for all 79);
+- the engine counts stock with no usage as wholly excess (`exQty = av`, `exVal = val`);
+- in Package 01, which has a BOM, the two differ (£1,031,007.16 against £2,591.48);
+- the labels are accurate ("value of stock beyond 180 days of cover"; with no usage, that is all of it).
+
+**F2, Package 01 (142 BOM lines; true scrap 0, 2% or 5%).**
+
+| Input | Classified as | Result |
+| --- | --- | --- |
+| column missing | 142 lines assumed | 0 NaN; every order's status and delay equal an explicit-0% run (33 Feasible, 1 shortage, as with true scrap); restricted and labelled |
+| blank cells | 142 lines assumed | the same as a missing column |
+| explicit 0, "5%", 0.05 | supplied | gate complete |
+| 1 (= 100%) | supplied | the line's material usage exactly doubles |
+| "abc" or 1.5 | invalid (row 4) | no number written (at K7 an empty cell; from E-1 the marker `SCRAP_UNREADABLE`); P0001's orders and M0064's results withheld; no NaN released |
+
+**F2 hand check.** On the one shortage order, each shortage with true scrap exceeds the 0%-scrap shortage by exactly
+q × Qty_Per × scrap.
+
+**F2, Northstar (200 lines, 148 at 1–3%).**
+- With the scrap column removed, all 50 orders keep their true-scrap status **and delay**, including the 33 genuine shortages.
+  Order FG003/211 is Feasible, not "~36d".
+- All 100 material severities are unchanged.
+- The assumption understates requirements by at most the true scrap rate (≤ 3% here). It can hide a marginal shortage where
+  scrap is high, which is why every such result is labelled.
+
+**Mutation check (original K7 claim, corrected 15 Nov 2026).** This section originally said that the new test "failed every
+time" a safeguard was switched off. **That overstated the evidence.** The independent K7 verification (15 Nov 2026) ran 16
+required mutations plus 2 extra probes, each alone in a fresh throwaway copy, against the K7 tests as they then stood:
+- 14 of the 16 were detected by named assertions (87.5%), but M1 and M15 also made the test script crash part-way, so the
+  assertions after the crash never ran;
+- M2 (an excluded item's BOM rows dropped) was refused by the gate's own cross-check, but the test only crashed and reported
+  no named failure;
+- M12 (production performance, `result.pr`, released for production-blocked products) **survived**: no test checked it;
+- extra probe M13b (scheduled receipts filed under production) **survived**: no test checked the filing;
+- extra probe M2b was detected;
+- the tests that existed before K7 caught only 1 of the 16 (M7, through adapter test case 12).
+
+See "K7 verification corrections" below for the re-run after the corrections.
+
+### Tests
+
+- **New:** `tests/test-import-integrity.js` (`import-integrity`): at K7, 54 assertions per zone × 5 + 1 = **271**; the five
+  zone runs repeat the same 54 assertions, so this is 54 distinct assertions, not 271 (after the verification corrections: 65 × 5 + 1
+  = **326**, see below). Coverage at K7:
+  - F1: I1–I9 and I12, on Package 01 and F18;
+  - partial blocks: I10 (demand, F03) and I11 (purchasing and production);
+  - I13: 9 tamper cases plus a control;
+  - R7;
+  - F2: S1–S15, on Package 01 and Northstar. At K7, S8–S10 and S11–S12 were each one combined assertion (split in the
+    verification corrections).
+- **Changed:** `tests/test-import-adapter.js`. The count is unchanged at 69 per zone and **346** accepted.
+  - **Case 12 (a contract change):** previously "P2 (not blocked) is released exactly as the engine calculated it"; now "…except
+    its ABC class and cumulative share: they are ranked across the group that includes the withheld P1, so they are withheld
+    (RG2 R4)". The new assertion checks every other P2 field against the engine output, and checks that the two withheld fields
+    carry exactly `DEPENDS_ON_WITHHELD_ITEMS (fg): P1`. Approval 1 added a check that P2's released record has exactly the
+    engine's fields (see "K7 verification corrections").
+  - The money leak test's hand-written specification moved from RG1 to RG2 form (the extra fields are empty). Its check is
+    unchanged: no leaked paths.
+- **Registration:** `accepted-results.json` gains the new `import-integrity` entry (271) and `check-protection` goes 433 → 434
+  (one more protected file). `checksums.txt` gains a new line (`test-import-integrity.js`) and a changed line
+  (`test-import-adapter.js`, a pending line). No approved line changes.
+- **Precision (commit review, 15 Nov 2026).** The counts above (271, and 326 after Approval 1) were working-tree values and were
+  never committed. Against the last commit (`b5e17eb`), the K7 commit contains:
+  - in `accepted-results.json`: a **new** `import-integrity` entry at **386**, and `check-protection` 433 → 434;
+  - in `checksums.txt`: **one changed** line (`test-import-adapter.js`, `fc87d204…` → `38ff08dc…`), **one added** line
+    (`test-import-integrity.js`, `305592ee…`) and one added comment.
+  - The changed line was added after Tag-4 (commit `01c565f`), so it is pending, not approved. No approved line changes: all
+    339 `file`/`ref` lines of Tag-4's `checksums.txt` are present, unchanged.
+
+**Results at K7 (14 Nov 2026, run locally in a throwaway copy of the working tree; GitHub Actions not run, because nothing was
+pushed).** These figures are historical; they are superseded by the final verification in "E-1 implementation".
+
+| Run | Result |
+| --- | --- |
+| Fast tier | 25 tests passed (+ pre-flight), 0 FAIL (was 24 at K5) |
+| Full tier | 38 tests passed (+ pre-flight), 0 FAIL, 5 BLOCKED and 2 REDUCED (the same accepted limitations; was 37 at K5) |
+| Count tests (5 zones, run directly) | `import-integrity` 271/271, `import-adapter` 346/346, `same-results` 356/356, `import-engine-map` 276/276, `import-stage1` 616, `import-mapping` 976 |
+| Golden v0.5 and v0.6.0 | 10/10 each, in 5 time zones (unchanged) |
+| Tag-4 guard on the working tree | 12 passed, 0 failed; 102 PENDING (K6: 100; plus the new test and its checksum line; the changed `test-import-adapter.js` line stays one entry) |
+| `check-protection` | 434/0 |
+| `refcalc.py` | unchanged (line 346 hash `be698a42…` matches the file) |
+
+### E-1 — direct-upload scrap (original proposal; IMPLEMENTED 15 Nov 2026 in the working tree, see "E-1 implementation" below)
+
+- **Reproduced.** On direct Northstar:
+  - one blank `Scrap_Factor_Pct` cell gives 2 NaN values and the engine's existing "Missing values in Scrap_Factor_Pct" warning;
+  - an empty column makes all 50 orders "Material shortage", with 400 NaN values and "Stock held with no demand".
+- **Why the adapter cannot fix it:** the direct route never passes through the adapter.
+- **Proposed change (`calculations.js` only):**
+  - lines 116 and 185 use `sc(b)` instead of `b.Scrap_Factor_Pct`, where `sc` returns the value when it is a finite number,
+    **0 when the cell is empty** (undefined, null or ""), and NaN for any other text;
+  - a line with NaN scrap makes its order "Insufficient information" (the existing `miss` path) and is left out of material
+    usage, never treated as 0;
+  - line 68 adds a High warning: "Scrap missing on N BOM lines: 0% assumed in material use and feasibility", and
+    "Scrap not readable on N lines".
+- **Results that would change:** only direct uploads with empty or text scrap cells. Golden v0.5, v0.6.0 and confidence v0.7
+  have none, so they are expected to be byte-identical; this must be proven.
+- **Tests:** direct workbooks with one blank cell, an empty column, a text value, explicit 0 and valid values; all goldens and
+  snapshots; and the same scenarios through the adapter, to prove both routes agree.
+- *(Historical, before E-1 was implemented:)* **Until E-1 is approved and implemented:** the import route is corrected, but **the direct-upload route still produces NaN
+  and false shortages when scrap cells are blank.**
+- **Interaction with K7's invalid-scrap handling (found in the K7 verification, 15 Nov 2026).** K7 leaves an invalid scrap
+  line (a value Stage 1 could not read) as an empty cell in the Engine View. E-1 makes the engine read an empty cell as
+  "missing, 0% assumed". With E-1 alone, the engine would therefore calculate those lines at 0% and its released data-quality
+  list would call them "Scrap missing … 0% assumed", although the value was unreadable. The gate would still withhold every
+  dependent result (it works from the adapter's declaration), so no number would be wrong, but the released warning would
+  mislead. **E-1 therefore needs a matching adapter change:** an invalid line gets a text marker in its Engine View cell, so the
+  engine reports it as "not readable" and never assumes 0%.
+- **Second direct-route defect found in the verification (before E-1).** A scrap value stored as text in the workbook (for
+  example "0.02") was not converted, and `1 + "0.02"` makes the text "10.02", so the engine silently used 1,002% scrap: on
+  Northstar, RM001's estimated average monthly use went from 386.38 to 1,909.77 with no warning. *(E-1 corrects the silent
+  misreading: such text is now "not readable", left out and warned. It does not convert it, so the routes still differ: Stage 1
+  reads the same text as 0.02. See "E-1 implementation".)*
+
+### K7 verification corrections (15 Nov 2026; owner Approval 1; working tree, NOT committed)
+
+Authority: the owner's approval of 15 Nov 2026 ("Approval 1 — K7 test and documentation corrections"), following the
+independent K7 verification. Test and documentation changes only: no change to `adapter.js`, `result-gate.js`, the engine,
+Stage 1, fixtures, golden results or any approved checksum line.
+
+**`tests/test-import-integrity.js`** (65 assertions per zone; was 54):
+- **No crash can hide an assertion.** Every assertion's condition is a function: an exception inside it is a named FAIL saying
+  what threw. Each block's set-up code is guarded (a set-up failure is a named FAIL for that block), set-up values that read
+  gated results are computed safely, and a final **completeness** assertion fails if any of the expected assertions did not run.
+- **I0 (new):** the gate accepts the adapter's own specification for both Package 01 runs (refused = FAIL). M2 is now a named
+  failure.
+- **I11 production performance (new, M12):** every `result.pr` entry of a production-blocked product (P0005) is withheld
+  (`ITEM_WITHHELD: production …`), and every other entry equals the engine output.
+- **Scheduled receipts (2 new, M13b):** with purchasing blocked for the whole dataset, `result.sched` is withheld
+  (`ANALYSIS_PURCHASING_BLOCKED`), and with production blocked instead it is released unchanged. With no purchase-order file it is
+  labelled "purchasing analysis not available", not as a production result.
+- **R7 (1 new):** Infinity and −Infinity are withheld (`NON_FINITE_VALUE`) as well as NaN, and the neighbouring values are
+  released unchanged.
+- **S8–S12 split (2 → 5 assertions):** S8 production requirement (+ q × Qty_Per × scrap per short material); S9 material
+  requirement (a single-line component's usage × (1 + scrap)); S10 shortage (same materials short, same availability dates);
+  S11 status; S12 delay.
+- **S16, S17 (new; the scrap fallbacks):**
+  - S16: with no Stage 1 issue list, a blank scrap cell is invalid (never assumed 0%) and its orders are withheld;
+  - S17: a BOM named from two files is refused by Stage 1 itself (`MULTI_SOURCE`, "Must fix"), so the adapter branch is a
+    second line of defence. Given such a mapping anyway, the adapter treats a blank as invalid and the gate withholds its orders.
+
+**`tests/test-import-adapter.js` case 12:** also asserts that P2's released record has exactly the engine's fields (none added
+or removed), restoring the property the old `eq()` check had. The count is unchanged (69 per zone, 346).
+
+**Registration:** `accepted-results.json` `import-integrity` 271 → **326** (working-tree values; see the precision note under K7
+"Tests"). The two pending checksum lines (both test files) are updated. No approved line changes, and `check-protection` stays 434 (no new protected file).
+
+**Mutation matrix re-run** (the same 18 mutations; each alone in a fresh throwaway copy, UTC). The integrity counts below are
+per zone, out of 65:
+
+| # | Safeguard switched off | Integrity test | Other tests |
+| --- | --- | --- | --- |
+| M1 | exclusion | 20 named failures, no crash | all pass |
+| M2 | excluded items' BOM rows dropped | 14 named failures (I0 first), no crash | all pass |
+| M2b | M2 plus matching dependants | 10 named failures | all pass |
+| M3 | invalid scrap treated as 0 | 5 | all pass |
+| M4 | missing column treated as blank | 1 (S1) | all pass |
+| M5 | components of excluded parents | 5 | all pass |
+| M6 | shared pool | 2 | all pass |
+| M7 | group rules | 7 | adapter case 12 fails |
+| M8 | suppliers | 2 | all pass |
+| M9 | cross-check | 6 | all pass |
+| M10 | `sku` field name | 8 | all pass |
+| M11 | `fcm` / `fcc` | 1 | all pass |
+| M12 | production performance | **1 (I11 production performance); survived before** | all pass |
+| M13 | scheduled-receipt gating | 1 | all pass |
+| M13b | receipts filed under production | **2 (both sched assertions); survived before** | all pass |
+| M14 | non-finite safety net | 2 (R7 NaN, R7 Infinity) | all pass |
+| M15 | general disclosure | 8, no crash | all pass |
+| M16 | silent scrap assumption | 4 | all pass |
+
+Every mutation is detected by named assertions and none crashes the test (every run reports all 65). The other tests are
+`import-adapter`, `same-results` and `import-engine-map`. Limits:
+- the 18 mutations are a chosen set, not an exhaustive one;
+- the tests and the code have the same author, so this shows that the tests are sensitive, not that the code is independently
+  correct.
+
+### E-1 implementation (15 Nov 2026; owner approval after review of the diff; working tree, NOT committed)
+
+Authority: the owner's "E-1 Implementation Authorisation" of 15 Nov 2026. Developed in a throwaway copy, then transferred. Not
+changed: `engine-workbook.js`, `result-gate.js`, Stage 1, fixtures, snapshots, workflows, `refcalc.py` and every approved
+checksum line.
+
+**`js/calculations.js` (engine; 3 places):**
+- **Data-quality checks (after the existing "Scrap outside 0–1" check):** a scrap cell is *missing* when it is empty, holds only
+  spaces, or the column is absent; it is *unreadable* when it holds any other non-number (text such as "abc", "5%" or "0.02").
+  Two new High warnings:
+  - "Scrap missing on N BOM line(s): 0% assumed in material use and feasibility";
+  - "Scrap not readable on N BOM line(s): not converted and not assumed. Those lines are left out of material use, so material
+    usage may be understated and excess stock overstated. Affected materials: … Do not rely on the usage or excess-stock
+    figures of these materials until the source data is corrected. Production orders that need these lines are 'Insufficient
+    information'". The materials are listed in full and sorted. As for every engine warning, the line list (`ex`) shows the
+    first 6 lines.
+- **Material usage (line 116 at `b5e17eb`, line 120 after E-1) and feasibility (line 185, now 189):** a finite number is used exactly as before; a missing value is 0; an
+  unreadable value leaves the line out of material usage, and its order becomes "Insufficient information" (the existing
+  missing-data path). Never 0 and never NaN.
+- **Unchanged:** a numeric value outside 0–1 (for example 1.5) is used as before, with the existing High warning. Nothing is
+  converted, clamped or normalised.
+
+**`js/import/adapter.js` (AD2 behaviour change):** an invalid scrap line now carries the text `SCRAP_UNREADABLE` in its Engine
+View cell instead of a blank. Without it, the E-1 engine would read the blank as "missing, 0% assumed". `engine-workbook.js`
+writes numbers only, so the marker is placed after the build. Hard check: if the BOM sheet does not hold exactly one data row per
+BOM line, the adapter refuses (`ADAPTER_INTERNAL`) rather than guess. The constant is exported (`CGImport.adapter.SCRAP_UNREADABLE`).
+
+**Test-specification change (not by itself a count change):**
+- S6 ("abc", "1.5") and S7 (mixed lines) previously expected **no Engine View value** for an invalid line. They now expect
+  `SCRAP_UNREADABLE`.
+- S6 also asserts that the engine marks the product's orders "Insufficient information" and reports "Scrap not readable",
+  never "Scrap missing".
+- These edits change what two existing assertions expect. They do not add assertions.
+
+**New assertions (12 per zone; `import-integrity` 65 → 77 per zone, 326 → 386 accepted in the working tree; against `b5e17eb`
+the entry is new, at 386).** 386 = the same 77 assertions run in each
+of 5 time zones + 1 cross-zone identity check. It is 77 distinct assertions, not 386 independent tests.
+
+1. **Eight scrap cases, direct and import routes** (Northstar BOM line 1, FG001/RM001, true scrap 0.02; RM001 = its annual
+   usage; FG001 has one order):
+
+| Case | Direct: RM001 usage / FG001 order / scrap warning | Import: RM001 usage / FG001 order / gate | Routes |
+| --- | --- | --- | --- |
+| 1 valid 0.02 | 4,636.6 / shortage, ~23d / none | 4,636.6 / shortage, ~23d / complete | same |
+| 2 explicit 0 | 4,596.0 / shortage, ~23d / none | 4,596.0 / shortage, ~23d / complete | same |
+| 3 blank cell | 4,596.0 / shortage, ~23d / "Scrap missing on 1" | the same / restricted (1 assumed, SCRAP_ASSUMED_ZERO) | same |
+| 4 column missing | 4,521.3 (= all-0% run) / shortage, ~23d / "Scrap missing on 200" | the same / restricted (200 assumed) | same |
+| 5 "abc" | 2,564.8 / Insufficient information / "Scrap not readable on 1" (names RM001) | the same / restricted; order withheld (SCRAP_INVALID) | same |
+| 6 "0.02" stored as text | 2,564.8 / Insufficient information / "Scrap not readable on 1" | 4,636.6 / shortage, ~23d / complete | **differ (known)** |
+| 7 1.5 | 7,642.7 / shortage, ~23d / existing "Scrap outside 0–1" | 2,564.8 / Insufficient information / restricted; withheld | **differ (known)** |
+| 8 whitespace only | 4,596.0 / shortage, ~23d / "Scrap missing on 1" | the same / restricted (1 assumed) | same |
+
+   No case releases NaN or Infinity on either route (direct engine output; import gated result). "Same" means identical
+   feasibility (every order's status and delay) and identical material usage and severity, compared field by field. The two
+   differences are asserted as differences.
+
+2. **Incomplete-usage warning** (direct route):
+   - 3 unreadable lines on 2 materials (RM001 twice, RM014 once) give "Scrap not readable on 3 BOM line(s)", name exactly
+     "RM001, RM014", and list the 3 lines;
+   - one unreadable line names only RM001;
+   - there is no such warning for valid or blank values;
+   - the import route discloses the same line through the gate (`disclosures.invalid`), and its engine warning names RM001 too.
+3. **Marker placement:**
+   - The Package 01 BOM sheet has a header row plus 142 data rows: `report.rows` = 142 = the number of BOM lines, so the count
+     excludes the header.
+   - Three invalid lines (first, middle and last; source rows 2, 72 and 143) carry `SCRAP_UNREADABLE` in Engine View rows 1,
+     71 and 142. The marker appears nowhere else in the sheet.
+   - The header and every other line (parent, component and scrap) are unchanged.
+4. **Gate, complete route:**
+   - The adapter receives "abc" and the Engine View holds the literal marker.
+   - The engine reports the line as not readable and marks P0001's orders "Insufficient information".
+   - The gate withholds those orders (`ORDER_WITHHELD: SCRAP_INVALID P0001/M0064`) and M0064's material and purchasing results,
+     and keeps its stock.
+   - The disclosure names the line, row 4 and the value "abc".
+5. **Gate predicates, independent of the adapter's declaration** (R1, `result-gate.js` lines 121–122):
+   - a line holding the marker that the specification does not declare invalid is refused (nothing released, so no dependent
+     result can be released);
+   - a declared-invalid line holding a number is refused.
+   - Note: the gate's withholding itself (R2, R3) is driven by the declaration; the gate recognises the marker only through
+     these two R1 predicates.
+
+**BOM row order is a contract** (commit review, 15 Nov 2026; owner decision (b): recorded, not code-checked).
+- **Preserved today.** `js/import/engine-workbook.js`, `build()`:
+  - line 101 filters rows on the sheet's `select`. The BOM sheet has none (`engine-map.js` line 36), so every row is kept, in
+    order;
+  - lines 105–110 write row `ri` of `ds.bom` at sheet row `ri + 1`;
+  - lines 113–118 only report duplicate keys.
+  - There is no sort, grouping or dedupe. The adapter's marker position (`r: i + 1`) relies on this.
+- **If a future change reordered the rows**, the row-count check would still pass. The marker would land on another line's
+  row, and the invalid line's own cell would be blank, which the engine reads as "missing, 0%".
+- **Runtime protection: R1.** The line that received the marker holds text, but the specification does not declare it
+  invalid, so the gate refuses the whole result ("… has no usable scrap value and is not declared invalid") and releases
+  nothing.
+  - Demonstrated: rows 3 and 4 swapped, Package 01 with "abc" on line 3 → refused, nothing released.
+  - The refusal names the line that received the marker, not the invalid line.
+  - A swap among invalid lines only is harmless, because every invalid line still carries the marker.
+- **Existing test coverage (of the tested mutation, not a guarantee).** "E-1 marker placement" compares every Engine View BOM row
+  of its test case (Package 01) with its canonical line. The one row-reordering mutation tested, **Mperm** (`engine-workbook.js`
+  swaps BOM rows 3 and 4), is detected by 6 named `import-integrity` failures (S6 ×2, S7, "E-1 marker placement", "E-1 complete
+  route", "E-1 gate predicates"), with all 77 assertions running. `same-results` (15 assertions) and `import-engine-map` (1) fail
+  as well. These tests cover that mutation on these data sets. They do not guarantee that every possible future change to the
+  workbook builder would be detected; the run-time protection for that is R1, above.
+- **Owner decision (option b):** recorded as a contract, not code-checked. Option (a) (adapter read-back of each marked row's
+  parent and component) was considered and rejected for this round; see K7 commit-gate review notes (15 Nov 2026) for the
+  comparison and the note that (a) would require hardening the S7 set-up line.
+
+**The two known route differences (deliberate in E-1; owner decisions for Stage 3):**
+- **"0.02" stored as text in a workbook cell.**
+  - Direct route: unreadable, not converted; the line is left out and warned.
+  - Import route: Stage 1 reads the same text as the number 0.02.
+  - Before E-1, the direct route read this as 1,002% scrap (`1 + "0.02"` = "10.02"), with no warning.
+  - E-1 deliberately adds no general text-to-number conversion.
+- **1.5 (outside 0–1).**
+  - Direct route: used as 150%, exactly as before, with the existing High warning.
+  - Import route: Stage 1 rejects it, and the line is invalid and withheld.
+  - E-1 does not resolve this policy.
+- No test claims unconditional direct/import parity.
+
+**Direct-route limitation (disclosed, not removed).** An unreadable line is left out of material usage, so that material's usage
+is understated and its excess overstated (case 5: RM001 2,564.8 against 4,636.6). The direct route has no result gate, so these
+figures are still shown. The High warning names the materials and says not to rely on their usage or excess figures. The import
+route withholds them.
+
+**Engine results unchanged for clean data.** All 17 fixture workbooks (`tests/fixtures/*/*.xlsx`) give byte-identical engine
+output with and without E-1. Golden v0.5, v0.6.0 and confidence v0.7 pass at their accepted counts.
+
+**Mutation matrix with E-1** (24 mutations: 23 from the E-1 verification plus Mperm from the commit review; final run 15 Nov 2026, each
+alone in a fresh throwaway copy made from the working tree, UTC). The counts are
+failed `import-integrity` assertions out of 77.
+
+| # | Safeguard switched off | Failed |
+| --- | --- | --- |
+| M1–M16, M2b, M13b | the 18 of the verification matrix (M2 and M2b re-anchored to the E-1 adapter text, same edit) | M1 20, M2 14, M2b 10, M3 11, M4 2, M5 5, M6 2, M7 7 (+ adapter case 12), M8 2, M9 7, M10 11, M11 1, M12 1, M13 1, M13b 2, M14 2, M15 9, M16 7 |
+| Mrow | marker row offset removed (`r: i + 1` → `r: i`) | 11, including "E-1 marker placement" |
+| Mgate | R1 does not count a text value as unusable | 1: "E-1 gate predicates" |
+| Mgate2 (extra) | R3 does not withhold orders on invalid lines | 1: "E-1 complete route" |
+| Mmat (extra) | warning names every material | 1: "E-1 incomplete-usage warning" |
+| Mzero (extra) | engine feasibility uses 0% for an unreadable line | 4 (S6 ×2, case 5, complete route) |
+| Mperm (commit review) | `engine-workbook.js` swaps BOM rows 3 and 4 | 6 (see "BOM row order is a contract"); `same-results` and `import-engine-map` fail too |
+
+All 24 are detected by named assertions. None crashes the test, and every run reports all 77 assertions. `import-adapter`,
+`same-results` and `import-engine-map` pass in every run except M7 (adapter case 12) and Mperm. Limits: this is a chosen set of mutations, not an exhaustive
+one, and the tests and the code have the same author.
+
+**Final verification before the K7 commit (15 Nov 2026; throwaway copies of the final working tree; local only).**
+
+| Check | Result |
+| --- | --- |
+| Fast tier | 25 tests passed (+ pre-flight), 0 FAIL |
+| Full tier | 38 tests passed (+ pre-flight), 0 FAIL; 5 BLOCKED and 2 REDUCED (the same accepted limitations; not full coverage) |
+| Count tests (5 zones) | `import-integrity` 386, `import-adapter` 346, `same-results` 356, `import-engine-map` 276, `import-stage1` 616, `import-mapping` 976 |
+| Golden and snapshots | golden v0.5 10/10 and v0.6.0 10/10, confidence snapshot v0.7 51/51, in 5 zones; all 17 fixture workbooks give byte-identical engine output to the engine at `b5e17eb` |
+| Protection | `check-protection` 434/0; Tag-4 guard 12/0 with 102 PENDING; all 339 approved Tag-4 `file`/`ref` lines unchanged; `refcalc.py` hash `be698a42…` unchanged |
+| Mutations | 24/24 detected by named assertions, all 77 assertions run, no crash (table above) |
+
+These runs used the final code and tests. The only file edited after them is this record, which no test reads. GitHub Actions
+runs after the push; its result is reported to the owner, not recorded here. No Android device testing was performed.
+
+### What the T5 acceptance record must state (from K7)
+
+- The import-adapter contract changed (AD1 → AD2: exclusions, scrap classification). The result-gate contract changed
+  (RG1 → RG2, rules R1–R8). Case 12 was revised to reflect the new dependency behaviour.
+- **L3:** Stage 1's exact unit matching ("EA" is not "each") now removes such an item from the whole analysis (F18: M0001). The
+  rule is unchanged; a unit-synonym table would be a separate Stage 1 decision.
+- **L7:** a bare scrap number is a fraction: "0.5" means 50% and "1" means 100% (write "0.5%" for half a percent). Unchanged.
+- **E-1:** implemented with its adapter marker (see "E-1 implementation"): an engine change to `calculations.js` lines 68,
+  116 and 185 as numbered at `b5e17eb` (after the change: new checks on lines 69–72, usage line 120, feasibility line 189), and an AD2 behaviour change (invalid scrap lines carry `SCRAP_UNREADABLE` in the Engine View).
+- **Known route differences left open by E-1 (owner decisions for Stage 3):** a number stored as text ("0.02") and an
+  out-of-range number (1.5); see "E-1 implementation".
+- **Test evidence:** report `import-integrity` as 77 assertions run in 5 time zones (386 with the identity check), and cite the
+  corrected mutation evidence above, not the original K7 claim.
+- **B14:** bought-and-sold and made-not-sold items remain a deferred capability (refused, not implemented). HIGH for Stage 3
+  planning.
+- **Feasibility pool (deferred; pre-existing, unchanged by E-1).** Orders marked "Insufficient information" (and orders with
+  a material shortage) reserve none of their materials from the shared pool, including lines that could be read
+  (`calculations.js` line 193 applies an order's needs only when it is feasible).
+  - Later orders that share those materials may therefore show more material available than they would if the order's needs
+    were fully known. On the import route R3 withholds such later orders; on the direct route they are shown.
+  - The visible Production feasibility table can nevertheless list an insufficient order's short readable materials in its
+    "Blocking materials" column, although nothing is reserved for it. Example: Northstar with FG001's last BOM line unreadable
+    makes SIM14 "Insufficient information", and it still lists RM001, RM014 and RM027 as short.
+  - The order's material-use figure (the engine's internal per-order list `use`) is not displayed and is not a released result;
+    only the short lines (`bl`) are shown.
+  - **MEDIUM** (owner, 15 Nov 2026): a display and reservation distinction for Stage 3 to consider. The feasibility policy is not
+    changed in K7.
+- **Negative scrap (deferred; pre-existing, unchanged by E-1). HIGH for Stage 3.**
+  - On the direct route, negative finite scrap values are used at face value (with the High "Scrap outside 0–1" warning)
+    rather than rejected or clamped.
+  - At −1 or below, that line's material requirement becomes zero or negative, and this propagates into usage, cover,
+    excess, MRP and feasibility. For example, at −1.5 RM001's annual usage falls from 4,636.6 to 1,549.2.
+  - On the import route, Stage 1's existing validation rejects such values (`FIELD_BLANKED`), so the line is invalid and its
+    results are withheld.
+  - Required: an owner policy decision on out-of-range scrap for both routes (the same decision as 1.5). The behaviour is not
+    changed in K7.
+- **Direct-route incomplete-usage warning:** keep it prominent in the Stage 3 presentation. The understated usage and
+  overstated excess of the named materials are shown on the direct route (the import route withholds them).
+- **Stage 3 design guidance** (not built in K7):
+  - show `gated.disclosures` above the totals;
+  - include the unit-conversion hint;
+  - mark figures that changed because of exclusions;
+  - show clearly which figures are withheld, caveated or based on an assumption.
+
+### New findings outside K7 (recorded, not changed)
+
+- **N1 — shortages with negative delays (engine, MEDIUM).** Some "Material shortage" orders show a negative delay (for
+  example "~-6d"). When no receipt covers the need, the engine measures the delay to a new order placed today
+  (`calculations.js` lines 187–188 at `b5e17eb`, 191–192 after E-1); if that order would arrive before the order's start, the delay is negative, so the order
+  is shown as a shortage with a meaningless delay. This affects the direct route too, and the golden results record it.
+- **N2 — R3 is conservative.** A withheld order makes every later order that shares a material with it withheld. This can
+  remove feasibility for many orders in a dataset with long shared-material chains. That is safer than releasing a pool
+  result that is not known.
+- **N3 — partial blocks remove group totals and ABC.** One demand-blocked product withholds ABC and the excess, shortage and
+  annual-value totals for all finished goods (F03: 24 of 40 blocked). Labelled subtotals over the releasable items are a
+  possible Stage 3 presentation feature, for the owner to decide.
+
+### Status
+
+The K7 changes are in the working tree only: not committed, pushed or tagged. Stage 2 is not complete. Outstanding:
+1. the owner's review of K7, and a commit if approved;
+2. the owner's review of E-1, which is implemented in the working tree with the K7 verification corrections (not
+   committed); the two known scrap route differences ("0.02" as text, 1.5) stay open owner decisions for Stage 3;
+3. the T5 switching commit (the Package 01 label and the hash inventory recalculated after K7);
+4. Tag-5, created by the owner;
+5. the owner's final acceptance.
