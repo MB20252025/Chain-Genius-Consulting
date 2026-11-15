@@ -1039,3 +1039,114 @@ characterisation test describes correct business behaviour; that BLOCKED or REDU
 was done; that the software is free of defects; or that every possible unauthorised future change is prevented.
 
 Entry made by Claude, 2026-11-15 04:40 UTC.
+
+### Tag-5 Part A — dated correction (15 Nov 2026, T5 self-audit; working tree, not committed)
+
+Part A is not changed after the T5 commit (`f0e81bb30521a4e798005b0a51b4a531b807441e`). These corrections are a separate entry,
+found in Claude's self-audit of T5 (not an independent review):
+
+1. **Nine files, not eight.** Part A's table, "The T5 switching commit: 8 files", lists eight files and says `tests/README.md` is
+   a ninth only if the owner approves its diff. The owner approved it ("Tag-5 — Final Commit and Push Authorisation", 15 Nov
+   2026), and the T5 commit contains **nine files**: the eight in the table plus `tests/README.md` (applied exactly from the
+   prepared diff). The other statements of Part A are unchanged by the ninth file: `tests/README.md` is not checksum-protected
+   and no test reads it.
+2. **The approval wording.** Part A says Parts A2 and B will record "the words 'commit T5 approved', verbatim". The owner's
+   approval was instead given by that instruction, which authorised the commit and push of the nine files. Part A2 records the
+   approval as it was actually given, not the anticipated phrase.
+3. **What the PENDING items are.** The 104 PENDING items listed in Part A are inventory and protection coverage: each is a file
+   or count that Tag-5 will protect against unnoticed change. Being in the inventory is not approval before Tag-5 exists, and
+   being protected by Tag-5 is not functional validation of the file or of the behaviour it tests (see Part A, "What approval
+   does not state").
+4. **README wording before the tag.** At `f0e81bb`, `tests/README.md` calls Tag-5 "current" and says it "accepts" the
+   evidence. That is true only once the owner creates Tag-5 on `f0e81bb`; until then Tag-4 is the approved baseline. Tag-4's
+   switching commit (`5f18335`) used the same anticipatory wording. It is not changed, because it becomes accurate when the tag
+   is created on that commit.
+5. **Guard truncation, precisely.** Part A says the guard "cuts PENDING lines at 120 characters". Precisely: `check-control.js`
+   (line 58) cuts the text of each new `checksums.txt` line to 120 characters before printing it, so long paths are cut; the
+   printed PENDING lines are up to about 163 characters. The inventory was built from the files, not from these lines.
+
+### Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI (15 Nov 2026)
+
+*Added in Commit C, after Tag-5. Part A above is the original pre-tag record and is unchanged; the dated correction entry
+above (points 1–5) was written in the T5 self-audit and is committed here unchanged. Where this section and Part A differ, this
+section is authoritative.*
+
+**Tag-5 and post-tag CI (verified facts):**
+- Tag `v0.7-tests-approved-5` was published by the owner through GitHub Releases (pre-release), targeting `development/v0.7`. An
+  earlier attempt by Claude to push the tag from its session was refused by the session's network proxy (HTTP 403) and was not
+  retried. `git ls-remote origin` and the GitHub API show the tag as a lightweight tag whose object is the commit
+  `f0e81bb30521a4e798005b0a51b4a531b807441e` (no separate tag object). Tag-4 is unchanged at `5f18335`; `main` is unchanged at
+  `8117c72`.
+- Post-tag CI: run 43680939374, attempt 2 (the single re-run under `tests/README.md` step 6), workflow "v0.7 tests", commit
+  `f0e81bb30521a4e798005b0a51b4a531b807441e`, https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/43680939374,
+  14:10:56–14:15:24 UTC: **success**, every step succeeded. Guard: `check-control: 12 passed, 0 failed (baseline
+  v0.7-tests-approved-5 = f0e81bb)`, 0 PENDING. Fast tier: 25 tests passed (+ pre-flight), 0 FAIL, 0 ERROR, 0 BLOCKED,
+  0 REDUCED; `EXIT 0`. Evidence artifact `t2-evidence-ci-43680939374-2-20261115T141104Z` (36,414 bytes; zip SHA-256 per the log
+  `49903e44988feaa14a6aaab8b1839224534e854117c431b940f83b18a0b2a01d`).
+- Against the pre-tag T5 evidence: `check-control` changed from ERROR (Tag-5 did not exist) to PASS, as expected; no
+  previously passing test failed. CI runs the fast tier only; the five BLOCKED and two REDUCED tests are full-tier items, so
+  this run does not report on them (point 5).
+
+**Eight-file correspondence (verified before Tag-5 was created).** The eight files named in the T5 preparation instruction
+(document `f85d1fa1`, lines 63–70) were compared with the files of commit `f0e81bb` (`git show --name-status`). The commit has
+nine files; its eight non-README files correspond exactly to the eight named, with none missing, substituted or added
+(`dataset.csv` and `MANIFEST.sha256` each occur once in the commit, so the short names are unambiguous). Paths are under
+`applications/inventory-intelligence-engine/` except the workflow:
+1. `tests/fixtures/library/01-Clean-Manufacturer/dataset.csv`
+2. `tests/fixtures/library/MANIFEST.sha256`
+3. `tests/checksums.txt`
+4. `tests/test-same-results.js`
+5. `.github/workflows/v07-tests.yml`
+6. `tests/accepted-results.json`
+7. `tests/check-control.js`
+8. `tests/V07-TEST-RECORD.md`
+
+The ninth file is `tests/README.md`.
+
+**Corrections (in the owner's required order):**
+
+1. **Dataset authorisation.** K6 (`b5e17eb`) documented the rationale (the owner's definition of Package 01's demand as
+   shipments) and prepared the exact change, but explicitly did not commit it ("Prepared change for the Tag-5 approval step
+   (notes only; not committed)") and left it to the owner's approval at the Tag-5 step. T5 applied it following the owner's
+   later instructions. The repository's pre-T5 evidence is therefore not Explicit. Classification: **Inferred — by reference
+   across two documents, not explicit in a single document.** (Claude's earlier statement that the change was "authorised in
+   writing before T5" overstated this.)
+2. **The approval, verbatim.** The owner accepted (15 Nov 2026) that these two quotations together constitute the approval:
+   - Document `f85d1fa1`, "T5 — Full Preparation Authority, With Owner-Controlled Commit Gate", which named and agreed the
+     change and authorised preparation:
+     > 1. "dataset.csv" — Package 01, "Demand_Basis = shipments".
+   - Document `67326345`, "Tag-5 — Final Commit and Push Authorisation", which authorised committing the eight prepared files:
+     > The approved change consists of exactly nine files:
+     >
+     > - The eight files already prepared for Tag-5.
+     > - "tests/README.md", using the previously prepared "README-proposed.diff".
+
+   Authorisation was by reference across these two documents. These quotations are the durable evidence of the actual
+   authorisation. This authorisation chain was identified during a self-audit of the T5 approval process. The cross-document interpretation has not been independently reviewed.
+3. **K6 clarification.** "Documentation only" in K6's commit message describes what K6 committed (two Markdown records). It does
+   not mean K6 lacked the recorded rationale or decision: both are in K6's Stage 2 record.
+4. **File count.** Part A's statement "The T5 switching commit: 8 files" is kept as originally written. T5 actually changed
+   **nine** files (the eight above plus `tests/README.md`). This correction is authoritative.
+5. **Test limitations.** The 104 PENDING items are now protected inventory coverage under Tag-5, not functional validation. The
+   five BLOCKED tests (`test-fglt-note`, `test-forecast-conf`, `test-supplier-eligibility`, `phase2-comparison`,
+   `test-paging-chrome`) and the two REDUCED tests (`test-phase1`, `test-uom`) keep their limitations; passing the full tier
+   does not resolve them.
+6. **K7 label redundancy.** `test-import-integrity.js` still adds `Demand_Basis` to its in-memory Package 01, now duplicating
+   the column. The fix is non-blocking (no result changes) and is deferred to the next tag cycle.
+7. **CI artefact.** The artifact of run 43680939374 attempt 1 is corroborating, not primary, evidence: the run log is the
+   primary record and contains its `guard.txt` content. Its zip's SHA-256 as recorded in the log is
+   `68d57b1bb18175417b399e05d1c33f3fdcb67b8b4318869c30cd8183b86a1294`. That zip was not downloaded, because its download host
+   was blocked by the session's network allowlist; Claude has not verified its contents.
+8. **Independence.** The T5 audits were self-audits by Claude. The post-tag CI run is externally executed automation, not
+   independent human review. Independent human review remains outstanding before the next baseline change.
+9. **Deferred proposals (all unapplied):**
+   - Proposal 1, the K7 integrity-test label fix: deferred to the next tag cycle, because after Tag-5 it changes an approved
+     checksum line.
+   - Proposal 2, a `checksums.txt` comment explaining T5's three changed lines: deferred, because this commit is limited to this
+     record.
+   - The Stage 2 record's Proof B wording (it still describes the in-memory label): deferred, for the same reason.
+
+**Governance lesson (standing observation for future tag cycles):** Commit-gate instructions should enumerate every protected
+file and substantive change explicitly rather than approving batches by reference to previously prepared files.
+
+Entry made by Claude, 2026-11-15 14:20 UTC.
