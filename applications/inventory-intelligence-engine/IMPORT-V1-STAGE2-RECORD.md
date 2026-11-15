@@ -1061,13 +1061,15 @@ documentation-only commit after Commit C. Commit C itself is unchanged.
 **Status, kept separate:**
 - **Implementation completed:** yes: K1–K7, E-1 and T5.
 - **Committed and pushed:** yes: K1–K5 (`e7b3d2f`, `01c565f`), K6 (`b5e17eb`), K7 (`d33c105`), T5 (`f0e81bb`), Commit C
-  (`ca7710b`) and this commit, on `development/v0.7` only.
+  (`ca7710b`) and the status commit `f08a832`, on `development/v0.7` only.
 - **Tests:** passed **with limitations**. GitHub Actions ran the fast tier only, before and after Tag-5. The full tier was
   run locally before the tag, with 5 BLOCKED and 2 REDUCED tests. Its raw logs were not kept in the repository.
 - **T5:** technically finalised (committed, tagged, post-tag CI green on the fast tier). It has not been formally closed
   by the owner. The independent review's closure conditions include owner or human sign-off.
-- **Stage 2 acceptance criteria:** the technical conditions in the T5 preparation brief (Tag-5, green CI, Commit C) are met,
-  on the limits above. Whether that satisfies the acceptance criteria is the owner's decision.
+- **Stage 2 acceptance criteria:** of the three conditions in the T5 preparation brief, Tag-5 is verified and CI is green
+  (fast tier only). Commit C is verified, but it did not contain the completion-status update and Proof B wording the brief
+  required of it; those were made later, in `f08a832`. Whether that satisfies the acceptance criteria is the owner's decision.
+  *(Corrected in the provenance review, 15 Nov 2026: this point originally said the three conditions "are met". That overstated the Commit C condition.)*
 - **Stage 2 formally completed:** **no.** It needs the owner's final acceptance (item 5). This record does not declare
   Stage 2 complete.
 
@@ -1075,4 +1077,5 @@ documentation-only commit after Commit C. Commit C itself is unchanged.
 owner for Stage 3 in K7 and E-1; the authorisation of the `dataset.csv` change, classified in `V07-TEST-RECORD.md`
 (Commit C section) as inferred by reference across two documents and not independently reviewed. Stage 3 is not started.
 
-Entry made by Claude, 2026-11-15 14:55 UTC.
+Entry made by Claude. Recorded in commit `f08a832`, whose Git commit time is 2026-11-15 14:32:54 UTC.
+*(Corrected in the provenance review, 15 Nov 2026: this line originally read "Entry made by Claude, 2026-11-15 14:55 UTC". That time was typed by hand and never checked; it is later than the commit that contains it, so it is not the time the entry was made.)*

@@ -1149,12 +1149,14 @@ The ninth file is `tests/README.md`.
 **Governance lesson (standing observation for future tag cycles):** Commit-gate instructions should enumerate every protected
 file and substantive change explicitly rather than approving batches by reference to previously prepared files.
 
-Entry made by Claude, 2026-11-15 14:20 UTC.
+Entry made by Claude. Recorded in Commit C, `ca7710b`, whose Git commit time is 2026-11-15 14:16:32 UTC.
+*(Corrected in the provenance review, 15 Nov 2026: this line originally read "Entry made by Claude, 2026-11-15 14:20 UTC". That time was typed by hand and never checked; it is later than the commit that contains it, so it is not the time the entry was made. The Git commit time above is the only verified time.)*
 
 ### Tag-5 — pre-tag evidence and reference corrections (15 Nov 2026; T5 review findings C1 and C3)
 
 *Added by Claude under the owner's authorisation "Resolve T5 Review Findings C1, C2 and C3" (15 Nov 2026), after Tag-5 and
-Commit C (`ca7710b`). The sections above are unchanged. This is a documentation correction; no test was run for it.*
+Commit C (`ca7710b`). The sections above are unchanged, except Commit C's closing "Entry made by" line, corrected later in the
+provenance review. This is a documentation correction; no test was run for it.*
 
 **C3 — "Part A2" and "Part B".** No sections with those names exist for Tag-5. Part A ("Parts A2 … and B … are added
 afterwards, in Commit C"), correction point 2 of the dated entry ("Part A2 records the approval") and, until this commit,
@@ -1170,19 +1172,21 @@ survive the session**. The results below are transcribed from those files on 15 
 reproduced.
 
 Configuration (all local runs): `tests/run-all.sh` (`--fast` or `--full`), Node v22.23.4, npm 10.9.9 and the test packages
-installed outside the repository from the pinned `tests/package-lock.json`, Python 3.13.18; time zones as each test defines.
+installed outside the repository, Python 3.13.18; time zones as each test defines for runs 1–3; **UTC only** for runs 4 and 5.
+*(Corrected in the provenance review, 15 Nov 2026: the packages were described as installed "from the pinned `tests/package-lock.json`". How they were installed is not recorded; what was checked is that their installed versions match that file, 86 of 86. Times in the table are the modification times of each run's output file in the session, not separately recorded start or finish times. Runs 4 and 5 set `TZ=UTC` in their scripts, so they ran in one time zone.)*
 
 | # | Run | Tree | Time (UTC) | Result (as printed) |
 |---|---|---|---|---|
-| 1 | Full tier, local | exact copy of `f0e81bb` (checked identical before the run) | finished 07:01 | runner header `PASS: 38 \| FAIL: 0 \| BLOCKED: 5 \| REDUCED: 2 \| ERROR: 1` (the 38 includes the pre-flight row, so 37 tests passed); scope 45 tests |
-| 2 | Fast tier, local | the same copy | 06:51 | 24 tests passed (+ pre-flight), 0 FAIL, 1 ERROR |
-| 3 | Tag-4 guard (Tag-4's own `check-control.js`), local | the same copy | 06:51 | `check-control: 9 passed, 3 failed (baseline v0.7-tests-approved-4 = 5f18335)`; 104 PENDING lines |
-| 4 | T5 mutations (7 runs: 1 control + 6), local | a copy whose 1,820 tracked files are identical to `f0e81bb` (compared file by file on 15 Nov) | finished 05:24 | all 6 detected by named assertions, no crash (table below) |
-| 5 | K7 mutation matrix (24 mutations), local | a copy identical to `f0e81bb` in the engine folder except `tests/README.md`, which it predates (no test reads it) | finished 04:55 | 24/24 detected by named assertions; all 77 `import-integrity` assertions ran in every run; no crash |
+| 1 | Full tier, local | a clone checked out at `f0e81bb` (corrected: its commit and unchanged tracked files were confirmed during the provenance review, after the run; no record survives of a check before the run) | output written 07:01 | runner header `PASS: 38 \| FAIL: 0 \| BLOCKED: 5 \| REDUCED: 2 \| ERROR: 1` (the 38 includes the pre-flight row, so 37 tests passed); scope 45 tests |
+| 2 | Fast tier, local | the same clone | output written 06:51 | 24 tests passed (+ pre-flight), 0 FAIL, 1 ERROR |
+| 3 | Tag-4 guard (Tag-4's own `check-control.js`), local | the same clone | output written 06:51 | `check-control: 9 passed, 3 failed (baseline v0.7-tests-approved-4 = 5f18335)`; 104 PENDING lines |
+| 4 | T5 mutations (7 runs: 1 control + 6), local | the uncommitted nine-file working tree, the script's source (corrected: its 1,820 tracked files were compared with `f0e81bb` during the C1 correction, after the runs, and are identical; that shows its contents then, not at run time) | output written 05:24:00, 12 s before the T5 commit | all 6 detected by named assertions, no crash (table below) |
+| 5 | K7 mutation matrix (24 mutations), local | **unable to verify** (corrected): an eight-file tree from before the README change. The script reads its source copy from a setting that was not recorded, so which copy it used cannot be established. One surviving copy matches `f0e81bb` in the engine folder except `tests/README.md`, but it is not proven to be the one used | output written 04:55 | 24/24 detected by named assertions; all 77 `import-integrity` assertions ran in every run; no crash |
 | 6 | Simulated Tag-5 guard, local | a throwaway commit on a throwaway local remote, **not GitHub** | 04:36 | `check-control: 12 passed, 0 failed`; superseded by the real post-tag CI run |
 
-The same full tier, fast tier and Tag-4 guard were also run between 05:10 and 05:21 on the uncommitted nine-file working tree
-before the T5 commit, with the same results.
+The same full tier and Tag-4 guard were also run on the uncommitted nine-file working tree before the T5 commit (output written
+05:21 and 05:10), with the same results.
+*(Corrected in the provenance review, 15 Nov 2026: this sentence originally also listed the fast tier. No output of a fast-tier run on that tree survives (the surviving fast-tier outputs are from earlier trees, 04:03 and 04:36), so that part is withdrawn.)*
 
 **What each status means in run 1** (preserved, not merged):
 - **Passed:** 37 tests, including `check-protection` 434, `same-results` 356, `import-integrity` 386, golden v0.5 and v0.6.0
@@ -1196,7 +1200,7 @@ before the T5 commit, with the same results.
 - **PENDING:** not a test status. The 104 PENDING lines are run 3's guard output against Tag-4; since Tag-5 they are
   protected inventory, not validated behaviour.
 
-**T5 mutations (run 4; counts per zone):**
+**T5 mutations (run 4; counts in UTC, the only time zone run):**
 
 | # | Mutation | check-protection | import-stage1 | same-results | import-integrity |
 |---|---|---|---|---|---|
@@ -1214,4 +1218,5 @@ before the T5 commit, with the same results.
 guard 12/0 against Tag-5; 0 PENDING). No full-tier run exists after Tag-5. In the Commit C section, point 5's "passing the full
 tier" refers to run 1 above (0 FAIL, 1 expected ERROR), which was local and pre-tag.
 
-Entry made by Claude, 2026-11-15 14:45 UTC.
+Entry made by Claude. Recorded in commit `f08a832`, whose Git commit time is 2026-11-15 14:32:54 UTC.
+*(Corrected in the provenance review, 15 Nov 2026: this line originally read "Entry made by Claude, 2026-11-15 14:45 UTC". That time was typed by hand and never checked; it is later than the commit that contains it, so it is not the time the entry was made.)*
