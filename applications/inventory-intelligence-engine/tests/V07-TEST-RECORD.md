@@ -1220,3 +1220,33 @@ tier" refers to run 1 above (0 FAIL, 1 expected ERROR), which was local and pre-
 
 Entry made by Claude. Recorded in commit `f08a832`, whose Git commit time is 2026-11-15 14:32:54 UTC.
 *(Corrected in the provenance review, 15 Nov 2026: this line originally read "Entry made by Claude, 2026-11-15 14:45 UTC". That time was typed by hand and never checked; it is later than the commit that contains it, so it is not the time the entry was made.)*
+
+### Tag-5 — owner acceptance of T5 (15 Nov 2026)
+
+*Recorded by Claude on the owner's explicit instruction "T5 Owner Acceptance — Final Documentation Commit" (15 Nov 2026). The
+statement is the proposed acceptance statement from Claude's T5 review (section 11), which the owner adopted, with the
+owner's additional sentence appended verbatim. This section accepts T5 only.*
+
+**Owner statement on T5 (accepted):**
+
+I accept T5 with the following limitations knowingly in place:
+1. No independent human technical review was available. I consciously waive it, understanding that an AI review is not
+   equivalent to professional independent assurance.
+2. Claude's review was not wholly independent: Claude had done the work it reviewed, although it checked its claims against
+   the repository and GitHub.
+3. After Tag-5, GitHub Actions ran the fast tier only: run 43680939374, attempt 2.
+4. The full-tier results were obtained locally, before Tag-5. The original temporary logs are not kept in the repository, so
+   they cannot be reproduced from those logs.
+5. Five tests remain BLOCKED and two remain REDUCED.
+6. The 104 items listed as PENDING before Tag-5 are now in Tag-5's protected baseline. That means changes to them are
+   detected. It does not mean their behaviour has been functionally validated.
+7. The `dataset.csv` authorisation remains an inferred reading across two documents, not explicit approval in one document.
+8. This acceptance refers to the record as corrected in commit `b6e26bf95dfc7e660a0f2223a50834dec36db8bf`.
+
+This accepts T5 only. It does not accept Stage 2.
+
+This acceptance is of the record as it stands at commit b6e26bf. It does not claim the record is complete or error-free; it claims the record accurately discloses the state of T5's evidence at that commit.
+
+**Scope:** Stage 2 is not accepted or completed by this statement; its acceptance remains a separate, open owner decision
+(`IMPORT-V1-STAGE2-RECORD.md`, "Stage 2 status after K7, T5, Tag-5 and Commit C"). Tag-5 stays on `f0e81bb`. No test was run
+for this entry. Its time is the Git commit time of the commit that adds it.

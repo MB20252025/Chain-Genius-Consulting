@@ -1065,7 +1065,7 @@ documentation-only commit after Commit C. Commit C itself is unchanged.
 - **Tests:** passed **with limitations**. GitHub Actions ran the fast tier only, before and after Tag-5. The full tier was
   run locally before the tag, with 5 BLOCKED and 2 REDUCED tests. Its raw logs were not kept in the repository.
 - **T5:** technically finalised (committed, tagged, post-tag CI green on the fast tier). It has not been formally closed
-  by the owner. The independent review's closure conditions include owner or human sign-off.
+  by the owner. The closure conditions from Claude's subsequent review of T5 include owner or human sign-off; that review was not independent, because Claude had previously taken part in the work it reviewed.
 - **Stage 2 acceptance criteria:** of the three conditions in the T5 preparation brief, Tag-5 is verified and CI is green
   (fast tier only). Commit C is verified, but it did not contain the completion-status update and Proof B wording the brief
   required of it; those were made later, in `f08a832`. Whether that satisfies the acceptance criteria is the owner's decision.
