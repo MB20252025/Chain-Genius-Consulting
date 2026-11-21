@@ -1,0 +1,121 @@
+# Candidate verification (added 21 Nov 2026, owner authorisation "Comprehensive issue resolution", section 3).
+# Purpose: run CI against an EXACT candidate commit, which v07-tests.yml cannot do (it runs only on pushes to
+# development/v0.7, and stops at the Tag-5 guard). This workflow does not replace or weaken v07-tests.yml.
+# - It checks out the commit in CANDIDATE_SHA (not the commit that carries this file) and records both.
+# - Step 1 runs the approved guard from Tag-5 exactly as v07-tests.yml does and RECORDS its result. Unlike
+#   v07-tests.yml it does not stop there, so that the tests behind the guard also produce evidence.
+#   The job's final result still reflects the guard and every FAIL/ERROR: nothing is turned green.
+# - Then the fast tier and the full tier, with the recorded package versions, and Playwright 1.63.0 for the
+#   Chrome paging test (tests/PLAYWRIGHT-ENVIRONMENT.md).
+name: candidate verification
+run-name: "candidate verification of dc16902 (exact commit)"
+
+on:
+  push:
+    branches: ["ci/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Guard (recorded), fast tier, full tier
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    env:
+      APP: applications/inventory-intelligence-engine
+      TAG: v0.7-tests-approved-5
+      CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+    steps:
+      - name: "0. Check out the candidate commit (full history and tags)"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+          fetch-depth: 0
+
+      - name: "0b. Record identity"
+        run: |
+          RUN_ID="cand-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          D="$RUNNER_TEMP/evidence/$RUN_ID"; mkdir -p "$D"
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "D=$D" >> "$GITHUB_ENV"
+          {
+            echo "run id: $RUN_ID"
+            echo "workflow file commit (GITHUB_SHA): $GITHUB_SHA"
+            echo "tested commit (HEAD): $(git rev-parse HEAD)"
+            echo "expected candidate:   $CANDIDATE_SHA"
+            echo "app tree hash: $(git rev-parse HEAD:$APP)"
+            echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "started: $(date -u +%FT%TZ)"
+          } | tee "$D/meta.txt"
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+
+      - name: "1. GUARD (approved check-control.js from Tag-5): result recorded"
+        run: |
+          set +e
+          git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" \
+            && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin > "$D/guard.txt" 2>&1
+          rc=$?
+          set -e
+          cat "$D/guard.txt"; echo "guard exit: $rc" | tee -a "$D/meta.txt"
+          echo "GUARD_RC=$rc" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.23.4"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: "2. Pinned packages (outside the repository)"
+        run: |
+          mkdir -p "$RUNNER_TEMP/testdeps" "$RUNNER_TEMP/pw"
+          cp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"
+          (cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)
+          python -m pip install --quiet -r "$APP/tests/requirements.txt"
+          (cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-audit --no-fund playwright@1.63.0)
+          PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers" "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+          {
+            echo "node $(node -v), npm $(npm -v), python $(python --version 2>&1)"
+            python -m pip freeze | grep -iE '^(pandas|openpyxl|numpy|python-dateutil|et-xmlfile|six)=='
+            echo "playwright $(node -p "require('$RUNNER_TEMP/pw/node_modules/playwright/package.json').version")"
+            ls "$RUNNER_TEMP/pw-browsers"
+          } | tee "$D/environment.txt"
+          echo "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/pw-browsers" >> "$GITHUB_ENV"
+
+      - name: "3. Fast tier"
+        run: |
+          set +e
+          NODE_PATH="$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --fast --log "$D/fast.log" > "$D/fast-summary.txt" 2>&1
+          echo "fast exit: $?" | tee -a "$D/meta.txt"; cat "$D/fast-summary.txt"
+
+      - name: "4. Full tier (Playwright 1.63.0 first on NODE_PATH)"
+        run: |
+          set +e
+          NODE_PATH="$RUNNER_TEMP/pw/node_modules:$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --full --log "$D/full.log" > "$D/full-summary.txt" 2>&1
+          echo "full exit: $?" | tee -a "$D/meta.txt"; cat "$D/full-summary.txt"
+          echo "finished: $(date -u +%FT%TZ)" >> "$D/meta.txt"
+          {
+            echo "## Candidate verification: \`$CANDIDATE_SHA\`"; echo
+            echo "Guard (Tag-5 check-control) exit: **$GUARD_RC**"; echo
+            echo "### Fast tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/fast-summary.txt" | cut -c1-170; echo '```'
+            echo "### Full tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/full-summary.txt" | cut -c1-170; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "5. Keep the evidence (artifact)"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-evidence-${{ env.RUN_ID }}
+          path: |
+            ${{ env.D }}
+            ${{ env.APP }}/tests/logs/
+          retention-days: 90
+
+      - name: "6. Overall result (red unless the guard and both tiers exit 0)"
+        run: |
+          cat "$D/meta.txt"
+          grep -q "^fast exit: 0$" "$D/meta.txt" && grep -q "^full exit: 0$" "$D/meta.txt" && [ "$GUARD_RC" = 0 ]
