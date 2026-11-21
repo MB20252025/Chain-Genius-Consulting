@@ -55,7 +55,7 @@ const CGEngine=(()=>{
       const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}
       link();
       // --- results the tabs work out on demand, collected while this result is in place ---
-      const out={result:R,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas()};
+      const out={result:R,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas()}; /* X1 WP4 (20 Nov 2026): when js/validation/x1-integrity.js is loaded, attach field states, provenance, calendar history and dependency assessment as out.integrity (outside result, so route comparisons are unaffected). opts.integrity: a record built by CGValidation.fromImport on the import route. It changes no figure; a failure of the check itself is reported, never hidden as success. */const V=globalThis.CGValidation;if(V&&typeof V.forRun==='function'){if(opts.integrity!==undefined&&!(opts.integrity&&opts.integrity.route==='import'&&Array.isArray(opts.integrity.records)))throw fail('BAD_INTEGRITY','opts.integrity must be a record from CGValidation.fromImport');try{out.integrity=V.forEngineResult({workbook:wb,XLSX:globalThis.XLSX,imported:opts.integrity,result:R,sup:CFG.sup,pol:CFG.pol})}catch(e){out.integrity=Object.freeze({status:'integrity check failed',error:String(e&&e.message||e)})}}
       return deepFreeze(out);
     }finally{
       keys.forEach((k,i)=>{CFG[k]=savedVals[i]});

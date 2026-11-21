@@ -1,0 +1,10 @@
+# PROPOSED, NOT APPLIED (21 Nov 2026). The master authorisation forbids changing accepted results and checksums, so the new test is not
+# registered. If the owner approves, these are the exact additions (CR-03 count-growth process):
+
+## tests/accepted-results.json: new entry after "x1-material-integrity"
+  {"name": "x1-acceptance-wording", "type": "node", "file": "test-x1-acceptance-wording.js", "zones": "five", "tiers": ["fast", "full"], "accepted": 12, "note": "X1 acceptance wording (21 Nov 2026; owner master authorisation; CR-33): banner, Reorder policy Why and Summary zero-count wording."},
+## and check-protection: "accepted": 451 -> 452 (3 references + 449 files), with a dated note.
+
+## tests/checksums.txt: one new line with a dated comment
+# X1 acceptance (21 Nov 2026; owner master authorisation; X1-CHANGE-RECORD.md CR-33). New: tests/test-x1-acceptance-wording.js. No approved line changed.
+file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js

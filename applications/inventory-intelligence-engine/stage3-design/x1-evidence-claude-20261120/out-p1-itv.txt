@@ -1,0 +1,16 @@
+== column removed: On_Hand_Qty
+RangeError: Invalid time value
+    at Date.toISOString (<anonymous>)
+    at dt (js/calculations.js:180:54)
+    at js/calculations.js:182:54
+    at Array.map (<anonymous>)
+    at mrpCalc (js/calculations.js:179:84)
+    at memo (js/calculations.js:176:98)
+== column removed: Allocated_Qty
+RangeError: Invalid time value
+    at Date.toISOString (<anonymous>)
+    at dt (js/calculations.js:180:54)
+    at js/calculations.js:182:54
+    at Array.map (<anonymous>)
+    at mrpCalc (js/calculations.js:179:84)
+    at memo (js/calculations.js:176:98)

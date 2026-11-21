@@ -1,0 +1,12 @@
+// P3: value conditions per field, row 2 of Northstar, both routes: 0, -5, whitespace "   ", 1e12 (large), "abc" (invalid), blank.
+const L=require('./lib.js').load(process.argv[2],true);const X=L.X;
+const set=(w,sh,col,cell)=>{const ws=w.Sheets[sh],rg=X.utils.decode_range(ws['!ref']);for(let c=0;c<=rg.e.c;c++)if((ws[X.utils.encode_cell({r:0,c})]||{}).v===col){const a=X.utils.encode_cell({r:1,c});if(cell===null)delete ws[a];else ws[a]=cell;return}throw new Error(col)};
+const base=L.direct(L.fresh()).o.result,bq=new Set(base.dq.map(q=>q.sev+' '+q.msg));
+const fin=v=>typeof v==='number'&&isFinite(v);const hd=r=>['fgV','rmV','exV'].map(k=>fin(r[k])?Math.round(r[k]):(r[k]&&r[k].withheld?'withheld':'NaN')).join('/');
+const fields=[['Inventory','On_Hand_Qty'],['Inventory','Allocated_Qty'],['Inventory','On_Order_Qty'],['Inventory','Reorder_Point_Qty'],['Inventory','Unit_Cost_GBP'],['Demand History','Units_Sold'],['BOM','Qty_Per_Finished_Unit']];
+const vals=[['0',{t:'n',v:0}],['-5',{t:'n',v:-5}],['whitespace',{t:'s',v:'   '}],['1e12',{t:'n',v:1e12}],['"abc"',{t:'s',v:'abc'}],['blank',null]];
+console.log('baseline headline fgV/rmV/exV',hd(base));
+for(const [sh,col] of fields)for(const [lab,cell] of vals){const w=L.fresh();set(w,sh,col,cell);const d=L.direct(w);let dl;
+ if(d.err)dl='STOPPED: '+String(d.err.message).slice(0,50);else{const r=d.o.result;const nw=r.dq.filter(q=>!bq.has(q.sev+' '+q.msg)).map(q=>q.sev[0]+':'+q.msg.slice(0,38));dl='headline '+hd(r)+'; non-finite '+L.nf(r)+'; new warnings: '+(nw.join(' | ')||'none')}
+ const v=L.viaImport(w);let il=v.stage;if(v.stage==='Stage 1 refused'||v.codes.length)il+=' ['+v.codes.join(',')+']';if(v.stage==='ran'){const r=v.g.result.result;il+=' '+v.status+'; headline '+hd(r)+'; non-finite '+L.nf(r)}if(v.stage==='engine threw')il+=': '+v.err.message.slice(0,40);
+ console.log(`${sh}.${col} = ${lab}\n   direct: ${dl}\n   import: ${il}`)}

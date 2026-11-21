@@ -190,3 +190,20 @@ It was created with `bash tests/run-all.sh --emit-confidence <absolute path>`. T
 The GitHub workflow still runs the fast tier only.
 
 `check-control` is now recorded **ACTIVE**, so the recorded full-tier figures are BLOCKED 5 and REDUCED 2. The fast-tier summary now reads BLOCKED 5, which matches the full-tier result; the T2.1 inconsistency is resolved.
+
+### Registering a new engine module: expected test-count growth (X1, owner approval 21 Nov 2026; CR-03)
+
+Some protected tests count one check **per file** or **per top-level name**, so a legitimate new module raises their counts. The runner fails any
+count above the accepted one. When a new `js/` file is registered:
+
+1. **Predict the growth before running.** Today these tests grow:
+   - `test-a1-static`: +1 per new `.js` file under `js/` (rule 2, "does not touch CFG, R or WB");
+   - `check-globals`: +1 per file added to the `index.html` load list, and +1 per new top-level name in a loaded file;
+   - `check-protection`: +1 per new checksum line.
+2. **Record it at registration** in the same change: raise the entry's `accepted` value and extend its `note` with the date, the new file
+   or name, the old and new count and a pointer to the change record. Keep the earlier text: the note supersedes, it never replaces.
+3. **Show the new check passes**, for example with `VERBOSE=1 node test-a1-static.js | grep <file>`.
+
+Routine increments made this way need no separate owner approval. A change to a test's meaning, scope, rules or protection strength is not
+routine and still needs the owner.
+- (X1 task 3, 21 Nov 2026) `test-a1-sync-path` also grows: +1 per new top-level function or constant reachable from `CGEngine.runEngine`, each checked for synchronous behaviour.

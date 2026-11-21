@@ -370,6 +370,17 @@
         if (x.linkedBy) { o.linkedItem = x.item; o.linkReason = 'only one item matches "' + x.originalCode + '" after ignoring dashes and spaces; counted against ' + x.item + ' for permissions only (row not imported)'; }
         return o;
       });
+      const qList = !hist && t === 'stock' ? list.filter((o, i) => st.rejectedRows[i].item && !st.rejectedRows[i].unmatched && !st.rejectedRows[i].linkedBy) : [];
+      if (qList.length) {
+        // X1 D1(a) (owner, 21 Nov 2026; amended authorisation Q4): a bad STOCK row is QUARANTINED, not a reason to refuse the whole import. The row is not
+        // imported (its values are never used or repaired); its row number and reasons are kept here; the adapter writes its item with no stock values,
+        // so the item stays in the analysis as Not Assessed. Other tables keep the rule below unchanged.
+        // Only rows of an IDENTIFIED item are quarantined. Rows whose item code matches no item (unmatched, suggested links, totals lines) keep the existing
+        // item-matching rules (Q2/Q13, Option A) below, unchanged: extending quarantine to them is a separate owner decision (task-4 report, Q5).
+        add(issue('ROW_QUARANTINED', CAT.CHECK, 'none', t + ': ' + plural(qList.length, 'row') + ' quarantined (not imported, values not used). The affected items stay in the analysis as Not Assessed; every other row is analysed.', { table: t, rows: qList }));
+        list.splice(0, list.length, ...list.filter(o => !qList.includes(o)));
+        if (!list.length) continue;
+      }
       if (!hist) {
         add(issue('ROW_REJECTED', CAT.MUST, 'dataset', t + ': ' + plural(list.length, 'row') + ' could not be imported. ' + t + ' must be complete, so analysis is blocked until the file is corrected.', { table: t, rows: list }));
         datasetBlocked.push(t + ' has rejected rows');

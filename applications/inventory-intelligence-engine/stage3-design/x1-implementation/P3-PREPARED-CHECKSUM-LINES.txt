@@ -1,0 +1,4 @@
+# X1 P3 (prepared 21 Nov 2026; NOT APPLIED; awaits owner approval; X1-TASK2-REPORT.md section 7). Added: the three X1 test files. js/ files are protected by behaviour tests (M1-DESIGN.md, decision 12 Nov 2026), so js/validation/x1-integrity.js gets no line.
+file 44dd720addd82423fdffefb96bbcae4d026f5df25dbc057851208ce693dd09aa tests/test-x1-foundation.js
+file 972d597c5d9526617221165b5d78ac6e6fb594fa5a38ccda0827b41e92584c4f tests/test-x1-containment.js
+file 8afc84714410beff6f1235df6beae3353c5fd3d4c5498478e0a713a7fe812388 tests/browser-x1-chrome.js

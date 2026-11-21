@@ -1,0 +1,4 @@
+BEFORE northstar-x34.xlsx items 5100 analyse median 1053 ms max 1298 | runEngine median 4416 ms
+AFTER northstar-x34.xlsx items 5100 analyse median 1148 ms max 1329 | runEngine median 4818 ms
+BEFORE northstar-x34-blank.xlsx items 5100 analyse median 1184 ms max 1583 | runEngine median 4915 ms
+AFTER northstar-x34-blank.xlsx items 5100 analyse median 1131 ms max 1744 | runEngine median 5081 ms

@@ -1,0 +1,11 @@
+X1 completion task start state, taken 2026-11-21T09:14:02Z. Evidence folder excluded. Baseline regression = the verification run of 21 Nov 08:25 on this same tree (49 passed + pre-flight, 1 FAIL check-control, 5 BLOCKED, 2 REDUCED); only documents changed since.
+branch: development/v0.7
+HEAD: eddf09b43531c3a2226c2e5788246254689ab469
+stashes: 0
+index: 0
+tag v0.6 8117c72
+tag v0.7-tests-approved-1 eb3111f
+tag v0.7-tests-approved-2 0e461a6
+tag v0.7-tests-approved-3 9eb578b
+tag v0.7-tests-approved-4 5f18335
+tag v0.7-tests-approved-5 f0e81bb

@@ -1,0 +1,5 @@
+eddf09b43531c3a2226c2e5788246254689ab469	refs/heads/development/v0.7
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/heads/main
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/heads/release/v0.6
+8117c72f9bdb846fceff11a63a03218f01df5082	refs/tags/v0.6
+f0e81bb30521a4e798005b0a51b4a531b807441e	refs/tags/v0.7-tests-approved-5

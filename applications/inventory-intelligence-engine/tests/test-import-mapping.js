@@ -339,8 +339,12 @@ console.log('\n--- S7 partial imports');
 {
   ok(V.THRESHOLDS.tableShare === 0.05 && V.THRESHOLDS.itemMonthsAllowed === 1, 'thresholds are exactly the approved values: 5% of a history table; more than 1 month of an item\'s demand');
   const f1 = fault('F01-stock-bad-row');
-  const rj = byCode(f1, 'ROW_REJECTED')[0];
-  ok(!f1.importAccepted && f1.permissions.dataset.status === 'blocked' && rj.category === 'Must fix' && rj.scope === 'dataset' && rj.rows.length === 1 && /On_Hand_Qty: not a number/.test(rj.rows[0].reasons[0]), 'F01: one bad stock row → Must fix, analysis blocked for the whole dataset');
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; CR-19): one bad stock row of an identified item is quarantined (ROW_QUARANTINED, Please check);
+// the import is accepted and the dataset is not blocked; the row is never imported and its item is Not Assessed. Original kept as comments.
+// [original]   const rj = byCode(f1, 'ROW_REJECTED')[0];
+// [original]   ok(!f1.importAccepted && f1.permissions.dataset.status === 'blocked' && rj.category === 'Must fix' && rj.scope === 'dataset' && rj.rows.length === 1 && /On_Hand_Qty: not a number/.test(rj.rows[0].reasons[0]), 'F01: one bad stock row → Must fix, analysis blocked for the whole dataset');
+  const rj = byCode(f1, 'ROW_QUARANTINED')[0];
+  ok(f1.importAccepted && f1.permissions.dataset.status !== 'blocked' && !byCode(f1, 'ROW_REJECTED').some(i => i.table === 'stock') && rj.category === 'Please check' && rj.scope === 'none' && rj.rows.length === 1 && /On_Hand_Qty: not a number/.test(rj.rows[0].reasons[0]) && !f1.dataset.stock.some(x => x.__source && x.__source.row === rj.rows[0].row), 'F01 (superseded by D1(a)): one bad stock row is quarantined (Please check, reason kept, row not imported); the import is accepted and the dataset is not blocked');
   const f2 = fault('F02-demand-2pct');
   ok(f2.importAccepted && f2.permissions.dataset.status === 'allowed' && blockedItems(f2, 'demand').length === 0 && incompleteItems(f2, 'demand').length === 19 && f2.completeness.demand.thresholdCrossed === false,
     'F02: 19 bad demand rows (2.0%), one month each → import accepted; 19 items listed as incomplete, none blocked');
@@ -498,7 +502,11 @@ console.log('\n--- S12 D1 currency classification and the currency journey (mone
   for (const [v, want, why, directWant] of QTY) {
     const r = V.importFiles(mapping(), [{ name: 'items.csv', text: 'Item_ID,Item_Name,Is_Sold,Replenishment,Standard_Cost\nA1,Widget,Y,Buy,5\n' }, { name: 'stock.csv', text: 'Item_ID,Snapshot_Date,On_Hand_Qty\nA1,2026-10-31,' + q(v) + '\n' }]);
     const direct = CL.cleanValue(C.field('stock', 'On_Hand_Qty'), v);
-    const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === 'stock');
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; CR-19): one bad stock row of an identified item is quarantined (ROW_QUARANTINED, Please check);
+// the import is accepted and the dataset is not blocked; the row is never imported and its item is Not Assessed. Original kept as comments.
+// [original]     const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === 'stock');
+// [original]     const directOk
+    const rj = byCode(r, 'ROW_QUARANTINED').find(i => i.table === 'stock');
     const directOk = typeof directWant === 'number' ? direct.value === directWant : direct.status === 'invalid' && direct.reason.startsWith(directWant);
     const okCase = directOk && (want === 'reject' ? rj && rj.rows[0].reasons[0].startsWith('On_Hand_Qty: ' + why) && r.dataset.stock.length === 0 && !codes(r).some(c => /^CURRENCY_(FOREIGN|PROHIBITED)/.test(c))
       : r.dataset.stock && r.dataset.stock[0].On_Hand_Qty === want);
@@ -704,7 +712,10 @@ console.log('\n--- S12B Part B: currency values in quantity and lead-time fields
   // outcome of the test value in row 1: what was stored, and how it was reported
   const outcome = (tf, r, n) => {
     const [t, fn] = tf.split('.'), rows = r.dataset[t] || [];
-    const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === t), bl = byCode(r, 'FIELD_BLANKED').find(i => i.table === t && i.field === fn);
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-19): a bad stock row of an IDENTIFIED item is now quarantined (ROW_QUARANTINED, Please check,
+// dataset not blocked; row never imported; item Not Assessed) instead of rejected (Must fix, dataset blocked). Original line(s) kept as comments.
+// [original]     const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === t), bl = byCode(r, 'FIELD_BLANKED').find(i => i.table === t && i.field === fn);
+    const rj = byCode(r, 'ROW_REJECTED').find(i => i.table === t) || byCode(r, 'ROW_QUARANTINED').find(i => i.table === t), bl = byCode(r, 'FIELD_BLANKED').find(i => i.table === t && i.field === fn);
     const rejectedRow = rj && rj.rows.find(x => x.row === 2);
     return { kept: rows.length, stored: rows.length === N ? rows[0][fn] : undefined, values: rows.map(x => x[fn]),
       rejected: !!rejectedRow, rejectReason: rejectedRow ? (rejectedRow.reasons.find(s => s.startsWith(fn + ':')) || '').slice(fn.length + 2) : null, rejectCat: rj ? rj.category : null,
@@ -721,8 +732,12 @@ console.log('\n--- S12B Part B: currency values in quantity and lead-time fields
   const baseline = {}; for (const tf of ALL21) baseline[tf] = outcome(tf, runField(tf, ['abc']));
   for (const tf of ALL21) {
     const bad = [], base = baseline[tf];
-    const cls = MUST.includes(tf) ? 'must' : HIST.includes(tf) ? 'hist' : 'blank';
-    const clsOk = cls === 'must' ? base.rejected && base.rejectCat === 'Must fix' && base.dataset === 'blocked' : cls === 'hist' ? base.rejected && base.rejectCat === 'Please check' && base.dataset !== 'blocked'
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-19): a bad stock row of an IDENTIFIED item is now quarantined (ROW_QUARANTINED, Please check,
+// dataset not blocked; row never imported; item Not Assessed) instead of rejected (Must fix, dataset blocked). Original line(s) kept as comments.
+// [original]     const cls = MUST.includes(tf) ? 'must' : HIST.includes(tf) ? 'hist' : 'blank';
+// [original]     const clsOk = cls === 'must' ? base.rejected && base.rejectCat === 'Must fix' && base.dataset === 'blocked' : cls === 'hist' ?
+    const cls = MUST.includes(tf) ? (tf.startsWith('stock.') ? 'quar' : 'must') : HIST.includes(tf) ? 'hist' : 'blank';
+    const clsOk = cls === 'quar' ? base.rejected && base.rejectCat === 'Please check' && base.dataset !== 'blocked' : cls === 'must' ? base.rejected && base.rejectCat === 'Must fix' && base.dataset === 'blocked' : cls === 'hist' ? base.rejected && base.rejectCat === 'Please check' && base.dataset !== 'blocked'
       : base.blanked && base.blankCat === 'Please check' && base.stored === null;
     if (!clsOk) bad.push('existing rule for "abc" is not ' + cls);
     for (const [v, ind] of CUR) {
@@ -761,8 +776,14 @@ console.log('\n--- S12B Part B: currency values in quantity and lead-time fields
     CL.cleanValue(C.field('items', 'Purchase_Lead_Time_Days'), '£5').value === 5, 'clean.js is unchanged: called directly, "£5.50" → 5.5, "£1,234" → 1234, lead time "£5" → 5 (only validate.js stops these)');
   // exact messages as the user sees them: required master quantity, optional quantity, history quantity, lead time
   const e1 = runField('stock.On_Hand_Qty', ['£5']), e2 = runField('items.Min_Order_Qty', ['£5']), e3 = runField('demand.Units', ['£5']), e4 = runField('items.Purchase_Lead_Time_Days', ['£5']);
-  const r1 = byCode(e1, 'ROW_REJECTED').find(i => i.table === 'stock'), b2 = byCode(e2, 'FIELD_BLANKED').find(i => i.field === 'Min_Order_Qty'), r3 = byCode(e3, 'ROW_REJECTED').find(i => i.table === 'demand'), b4 = byCode(e4, 'FIELD_BLANKED').find(i => i.field === 'Purchase_Lead_Time_Days');
-  ok(r1 && eq(r1.rows[0].reasons, ['On_Hand_Qty: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && r1.category === 'Must fix' && e1.dataset.stock.length === N - 1 && !e1.dataset.stock.some(x => x.Item_ID === 'A1') &&
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-19): a bad stock row of an IDENTIFIED item is now quarantined (ROW_QUARANTINED, Please check,
+// dataset not blocked; row never imported; item Not Assessed) instead of rejected (Must fix, dataset blocked). Original line(s) kept as comments.
+// [original]   const r1 = byCode(e1, 'ROW_REJECTED').find(i => i.table === 'stock'),
+  const r1 = byCode(e1, 'ROW_QUARANTINED').find(i => i.table === 'stock'), b2 = byCode(e2, 'FIELD_BLANKED').find(i => i.field === 'Min_Order_Qty'), r3 = byCode(e3, 'ROW_REJECTED').find(i => i.table === 'demand'), b4 = byCode(e4, 'FIELD_BLANKED').find(i => i.field === 'Purchase_Lead_Time_Days');
+// SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-19): a bad stock row of an IDENTIFIED item is now quarantined (ROW_QUARANTINED, Please check,
+// dataset not blocked; row never imported; item Not Assessed) instead of rejected (Must fix, dataset blocked). Original line(s) kept as comments.
+// [original]   ok(r1 && eq(r1.rows[0].reasons, ['On_Hand_Qty: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && r1.category === 'Must fix' &&
+  ok(r1 && eq(r1.rows[0].reasons, ['On_Hand_Qty: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && r1.category === 'Please check' && e1.importAccepted && e1.dataset.stock.length === N - 1 && !e1.dataset.stock.some(x => x.Item_ID === 'A1') &&
     b2 && b2.rows[0].reason === 'money value (£) in a quantity field: a currency amount cannot be used as a quantity' && b2.rows[0].value === '£5' && e2.dataset.items[0].Min_Order_Qty === null &&
     r3 && r3.category === 'Please check' && eq(r3.rows[0].reasons, ['Units: money value (£) in a quantity field: a currency amount cannot be used as a quantity']) && !e3.dataset.demand.some(x => x.Item_ID === 'A1') &&
     b4 && b4.rows[0].reason === 'money value (£) in a lead-time field: a currency amount cannot be used as a number of days' && e4.dataset.items[0].Purchase_Lead_Time_Days === null,
@@ -860,8 +881,12 @@ console.log('\n--- S15 reliabilityOf(result, item, analysis)');
   ok(wrong.length === 0, `reliabilityOf: ${CASES.length} cases — the four statuses, conflicts (most conservative wins), missing, unknown and malformed (always blocked)` + (wrong.length ? ' — ' + wrong.join('; ') : ''));
   const f02 = fault('F02-demand-2pct'), f03 = fault('F03-demand-10pct'), f18 = fault('F18-unit-mismatch');
   ok(V.reliabilityOf(f02, incompleteItems(f02, 'demand')[0], 'demand') === 'incomplete' && V.reliabilityOf(f03, 'P0001', 'demand') === 'blocked' && V.reliabilityOf(f03, 'P0025', 'demand') === 'available' &&
-    V.reliabilityOf(f18, 'P0001', 'purchasing') === 'blocked' && V.reliabilityOf(f18, 'P0002', 'purchasing') === 'available' && V.reliabilityOf(fault('F01-stock-bad-row'), 'P0001', 'demand') === 'blocked',
-    'reliabilityOf on real results: incomplete (F02), blocked by threshold (F03), unaffected item available, unit mismatch blocks every analysis (F18), blocked dataset (F01)');
+    V.reliabilityOf(f18, 'P0001', 'purchasing') === 'blocked' && V.reliabilityOf(f18, 'P0002', 'purchasing') === 'available' && // SUPERSEDED (X1 D1(a), owner Q4 approval 21 Nov 2026; CR-19): one bad stock row of an identified item is quarantined (ROW_QUARANTINED, Please check);
+// the import is accepted and the dataset is not blocked; the row is never imported and its item is Not Assessed. Original kept as comments.
+// [original] V.reliabilityOf(fault('F01-stock-bad-row'), 'P0001', 'demand') === 'blocked',
+// [original]     'reliabilityOf on real results: incomplete (F02), blocked by threshold (F03), unaffected item available, unit mismatch blocks every analysis (F18), blocked dataset (F01)');
+V.reliabilityOf(fault('F01-stock-bad-row'), 'P0001', 'demand') !== 'blocked' && fault('F01-stock-bad-row').permissions.dataset.status !== 'blocked',
+    'reliabilityOf on real results: incomplete (F02), blocked by threshold (F03), unaffected item available, unit mismatch blocks every analysis (F18); F01 no longer blocks the dataset (quarantine, D1(a))');
 }
 
 // ===================== S11: fixture provenance =====================

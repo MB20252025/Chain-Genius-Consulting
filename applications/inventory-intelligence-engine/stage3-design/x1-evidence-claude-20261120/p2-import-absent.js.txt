@@ -1,0 +1,10 @@
+// P2: import route (reverse -> Stage 1 -> adapter -> engine -> gate), one whole column absent from the source file.
+const L=require('./lib.js').load(process.argv[2],true);
+const withheld=r=>r?['fgV','rmV','exV'].filter(k=>r[k]&&typeof r[k]==='object'&&r[k].withheld):[];
+for(const [sh,col] of [['Inventory','On_Hand_Qty'],['Inventory','Allocated_Qty'],['Inventory','On_Order_Qty'],['Inventory','Reorder_Point_Qty'],['Inventory','Unit_Cost_GBP'],['Demand History','Units_Sold'],['BOM','Qty_Per_Finished_Unit']]){
+ const w=L.edit(L.fresh(),sh,(r,h)=>{r.forEach(x=>delete x[col]);return h.filter(c=>c!==col)});const v=L.viaImport(w);let out=v.stage;
+ if(v.stage==='Stage 1 refused')out+=' — '+v.codes.join(',')+' | '+(v.issues||[]).filter(i=>/MISSING|REQUIRED|COLUMN/i.test(i.code)).slice(0,2).map(i=>String(i.message||i.text||'').slice(0,110)).join(' / ');
+ if(v.stage==='adapter refused')out+=' — '+(v.refusal||[]).map(x=>x.code).join(',');
+ if(v.stage==='engine threw')out+=' — '+String(v.err.message).slice(0,80)+' at '+String(v.err.stack).split('\n')[2].trim();
+ if(v.stage==='ran'){const r=v.g.result&&v.g.result.result;out+=' ('+v.status+'); Stage 1 codes: '+(v.codes.join(',')||'none')+'; money withheld: '+(withheld(r).join(',')||'none')+'; non-finite released: '+(r?L.nf(r):'-')+'; Engine View column written: '+(!!(v.ad.workbook.Sheets[sh]&&L.X.utils.sheet_to_json(v.ad.workbook.Sheets[sh],{header:1})[0].includes(col)))}
+ console.log((sh+'.'+col+' column absent').padEnd(46),out)}

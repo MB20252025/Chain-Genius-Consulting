@@ -127,7 +127,11 @@ guard('F1 Package 01', () => {
   ok(() => R1.top10 === ER.top10 && near(R1.top10, 45.10) && R1.top.length === ER.top.length && near(R1.exF, ER.exF) && typeof R1.exF === 'number' &&
     P(R1.exR) && near(R1.exR.value, sum(relRm, 'exVal')) && P(R1.exV) && near(R1.exV.value, ER.exF + sum(relRm, 'exVal')) && P(R1.cogsR) && near(R1.cogsR.value, sum(relRm, 'ann')) &&
     P(R1.shV) && near(R1.shV.value, sum(ER.fg, 'short') + sum(relRm, 'short')) && ['M0058', 'M0064', 'M0028'].every(id => R1.exR.excludedItems.some(e => e.id === id && e.reason)) &&
-    !R1.exR.excludedItems.some(e => relRm.some(x => x.id === e.id)) && noArith(R1.exV) && noArith(R1.exR) && near(eng.M0058.exVal, 6232.80) && W(rel.M0058.exVal),
+    !R1.exR.excludedItems.some(e => relRm.some(x => x.id === e.id)) &&     // SUPERSEDED (X1 Q1, owner approval 21 Nov 2026; CR-17). This check itself calls M0058's £6,232.80 a "false excess": its only parent P0001 (24 positive
+    // demand rows in Package 01, 0 recorded zeros) is excluded, so the engine saw NO parent demand rows and read usage as 0. Under D6 that is unknown: the
+    // engine no longer computes the false excess (Not Assessed); the gate still withholds it. Original expression kept below.
+// [original] noArith(R1.exV) && noArith(R1.exR) && near(eng.M0058.exVal, 6232.80) && W(rel.M0058.exVal),
+noArith(R1.exV) && noArith(R1.exR) && !isFinite(eng.M0058.exVal) && eng.M0058.cls === 'Not Assessed' && W(rel.M0058.exVal),
     () => `I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£${R1.exR.value.toFixed(2)}), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers`);
   // I7 dependent production: P0018 uses M0028.
   const p18 = tryv(() => C1.o.feas.rows.filter(r => r.o.sku === 'P0018')), p18r = tryv(() => C1.g.result.feas.rows.filter(r => r.o.sku === 'P0018'));

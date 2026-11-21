@@ -1,0 +1,20 @@
+== as supplied
+   direct: history 12 months [76,88,70]; mean 87.3; credibility n 12 expected 12 missing 0 zeros 0 data Adequate verdict Good conf Medium; forecast ok best mean f1 87.3; class Active; excess 0; item conf Medium
+   import (engine, before gate): history 12 months [76,88,70]; mean 87.3; credibility n 12 expected 12 missing 0 zeros 0 data Adequate verdict Good conf Medium; forecast ok best mean f1 87.3; class Active; excess 0; item conf Medium
+   import gate: complete; Stage 1 codes none; FG001 gate entry: none
+== latest month ROW ABSENT
+   direct: history 11 months [99,76,88]; mean 88.8; credibility n 11 expected 12 missing 1 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 88.8; class Active; excess 0; item conf Low
+   import (engine, before gate): history 11 months [99,76,88]; mean 88.8; credibility n 11 expected 12 missing 1 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 88.8; class Active; excess 0; item conf Low
+   import gate: complete; Stage 1 codes none; FG001 gate entry: none
+== latest month Units_Sold BLANK
+   direct: history 12 months [76,88,undef]; mean NaN; credibility n 12 expected 12 missing 0 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 NaN; class Active; excess 81; item conf Medium
+   import (engine, before gate): history 11 months [99,76,88]; mean 88.8; credibility n 11 expected 12 missing 1 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 88.8; class Active; excess 0; item conf Low
+   import gate: restricted; Stage 1 codes ROW_REJECTED,HISTORY_INCOMPLETE; FG001 gate entry: {"withhold":[],"labels":[{"analysis":"demand","status":"incomplete","code":"INCOMPLETE"}]}
+== latest month Units_Sold = 0
+   direct: history 12 months [76,88,0]; mean 81.4; credibility n 12 expected 12 missing 0 zeros 1 data Limited verdict Good conf Low; forecast ok best mean f1 81.4; class Slow-moving; excess 0; item conf Low
+   import (engine, before gate): history 12 months [76,88,0]; mean 81.4; credibility n 12 expected 12 missing 0 zeros 1 data Limited verdict Good conf Low; forecast ok best mean f1 81.4; class Slow-moving; excess 0; item conf Low
+   import gate: complete; Stage 1 codes none; FG001 gate entry: none
+== middle month ROW ABSENT
+   direct: history 11 months [76,88,70]; mean 85.8; credibility n 11 expected 12 missing 1 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 85.8; class Active; excess 0; item conf Low
+   import (engine, before gate): history 11 months [76,88,70]; mean 85.8; credibility n 11 expected 12 missing 1 zeros 0 data Limited verdict Good conf Low; forecast ok best mean f1 85.8; class Active; excess 0; item conf Low
+   import gate: complete; Stage 1 codes none; FG001 gate entry: none

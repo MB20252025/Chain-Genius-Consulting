@@ -1,0 +1,94 @@
+[
+ {
+  "file": "Chain_Genius_Project_001_Northstar_Dataset_1.xlsx",
+  "mode": "desktop",
+  "loadMs": 232,
+  "tabs": 17,
+  "medianTabMs": 32,
+  "maxTabMs": 86,
+  "slowest": [
+   [
+    "Materials",
+    86
+   ],
+   [
+    "Reorder policy",
+    69
+   ],
+   [
+    "Forecast accuracy",
+    47
+   ]
+  ],
+  "consoleErrors": []
+ },
+ {
+  "file": "Chain_Genius_Project_001_Northstar_Dataset_1.xlsx",
+  "mode": "pixel5-cpu4x",
+  "loadMs": 899,
+  "tabs": 17,
+  "medianTabMs": 83,
+  "maxTabMs": 274,
+  "slowest": [
+   [
+    "Materials",
+    274
+   ],
+   [
+    "Demand forecast",
+    196
+   ],
+   [
+    "Finished goods",
+    189
+   ]
+  ],
+  "consoleErrors": []
+ },
+ {
+  "file": "northstar-x34.xlsx",
+  "mode": "desktop",
+  "loadMs": 3688,
+  "tabs": 17,
+  "medianTabMs": 46,
+  "maxTabMs": 203,
+  "slowest": [
+   [
+    "Demand forecast",
+    203
+   ],
+   [
+    "Materials",
+    177
+   ],
+   [
+    "Forecast accuracy",
+    151
+   ]
+  ],
+  "consoleErrors": []
+ },
+ {
+  "file": "northstar-x34.xlsx",
+  "mode": "pixel5-cpu4x",
+  "loadMs": 18220,
+  "tabs": 17,
+  "medianTabMs": 62,
+  "maxTabMs": 252,
+  "slowest": [
+   [
+    "Demand forecast",
+    252
+   ],
+   [
+    "Materials",
+    149
+   ],
+   [
+    "Finished goods",
+    137
+   ]
+  ],
+  "consoleErrors": []
+ }
+]

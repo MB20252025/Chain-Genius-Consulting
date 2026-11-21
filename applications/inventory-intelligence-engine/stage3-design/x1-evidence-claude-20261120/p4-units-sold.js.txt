@@ -1,0 +1,10 @@
+// P4: Units_Sold semantics for FG001 (Northstar, 12 months): month row absent vs blank cell vs zero, both routes.
+const L=require('./lib.js').load(process.argv[2],true);
+const target=(r)=>r.filter(x=>x.SKU==='FG001').sort((a,b)=>a.Month_Start-b.Month_Start);
+const cases=[['as supplied',null],['latest month ROW ABSENT',r=>{const t=target(r);r.splice(r.indexOf(t[t.length-1]),1)}],['latest month Units_Sold BLANK',r=>{const t=target(r);delete t[t.length-1].Units_Sold}],
+ ['latest month Units_Sold = 0',r=>{const t=target(r);t[t.length-1].Units_Sold=0}],['middle month ROW ABSENT',r=>{const t=target(r);r.splice(r.indexOf(t[5]),1)}]];
+const sum=(o,tag)=>{const x=o.result.fg.find(y=>y.id==='FG001'),c=o.forecastCredibility.FG001||{},f=o.forecasts.FG001||{};
+ return `${tag}: history ${x.h.length} months [${x.h.slice(-3).map(v=>v===undefined?'undef':Number.isFinite(v)?Math.round(v):String(v)).join(',')}]; mean ${Number.isFinite(x.m)?x.m.toFixed(1):x.m}; credibility n ${c.n} expected ${c.expected} missing ${c.missing} zeros ${c.zeros} data ${c.dq} verdict ${c.verdict} conf ${c.conf}; forecast ${f.ok?'ok best '+f.best+' f1 '+(Number.isFinite(f.f&&f.f[0])?f.f[0].toFixed(1):String(f.f&&f.f[0])):'NOT ok'}; class ${x.cls}; excess ${Number.isFinite(x.exQty)?Math.round(x.exQty):x.exQty}; item conf ${x.conf}`};
+for(const [lab,fn] of cases){const w=L.fresh();if(fn)L.edit(w,'Demand History',r=>{fn(r)});console.log('== '+lab);
+ const d=L.direct(w);console.log('   '+(d.err?'direct STOPPED '+d.err.message:sum(d.o,'direct')));
+ const v=L.viaImport(w);if(v.stage!=='ran')console.log('   import '+v.stage+' '+v.codes.join(','));else{const it=(v.ad.gate.items||{}).FG001;console.log('   '+sum(v.o,'import (engine, before gate)')+'\n   import gate: '+v.status+'; Stage 1 codes '+(v.codes.join(',')||'none')+'; FG001 gate entry: '+(it?JSON.stringify(it).slice(0,240):'none'))}}

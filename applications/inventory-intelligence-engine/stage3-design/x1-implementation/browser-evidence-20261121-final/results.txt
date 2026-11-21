@@ -1,0 +1,19 @@
+PASS: desktop Materials: RM050 row shows Not Assessed (RM050Not Assessed – Qty_Per_Finished_Unit usage unknown, not zero (this material is on no valid BOM line, but some BOM lines name no known material, so "used by no product" cannot be established) – BOM line(s) with a blank or unknown Material_ID: (blank)2,2112)
+PASS: desktop Materials: no page-level horizontal overflow (0 px)
+PASS: desktop Data quality: High warning names the BOM row and parent
+PASS: desktop Production feasibility: FG001 orders "Insufficient information" with the blank Material_ID reason
+PASS: desktop export: the RM050 row carries Not Assessed and the reason
+PASS: desktop no console errors (0)
+PASS: desktop issue 26: notice names Reorder_Point_Qty and no longer claims risk status is withheld
+PASS: desktop issue 26: 0 items Not Assessed (every item assessed with "No reorder point configured")
+PASS: desktop issue 26: no page errors
+PASS: pixel5 Materials: RM050 row shows Not Assessed (RM050Not Assessed – Qty_Per_Finished_Unit usage unknown, not zero (this material is on no valid BOM line, but some BOM lines name no known material, so "used by no product" cannot be established) – BOM line(s) with a blank or unknown Material_ID: (blank)2,2112)
+PASS: pixel5 Materials: no page-level horizontal overflow (0 px)
+PASS: pixel5 Data quality: High warning names the BOM row and parent
+PASS: pixel5 Production feasibility: FG001 orders "Insufficient information" with the blank Material_ID reason
+PASS: pixel5 export: the RM050 row carries Not Assessed and the reason
+PASS: pixel5 no console errors (0)
+PASS: pixel5 issue 26: notice names Reorder_Point_Qty and no longer claims risk status is withheld
+PASS: pixel5 issue 26: 0 items Not Assessed (every item assessed with "No reorder point configured")
+PASS: pixel5 issue 26: no page errors
+final-browser: 18 passed, 0 failed

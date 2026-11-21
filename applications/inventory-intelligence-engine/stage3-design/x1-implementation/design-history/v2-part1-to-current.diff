@@ -1,0 +1,425 @@
+--- x1-implementation/design-history/X1-NUMERIC-INTEGRITY-DESIGN-v2.PART1-AS-DELIVERED-20261120.md	2026-11-21 01:31:46.833815773 +0000
++++ X1-NUMERIC-INTEGRITY-DESIGN-v2.md	2026-11-20 23:00:23.876376671 +0000
+@@ -4,10 +4,11 @@
+ implemented, adopted, accepted or approved, and no implementation authority is granted or implied by any section, including the work
+ packages. It replaces `X1-NUMERIC-INTEGRITY-DESIGN.md` (v1) in content; v1 is kept unchanged as the record of what was first proposed.*
+ 
+-**Delivery status: PART 1 of 2 — sections 1–9.** Part 2 (sections 10–14, revision log, protection report, outstanding issues register)
+-follows after the owner's review of Part 1.
++**Status: complete DRAFT (Parts 1 and 2), not approved.** Part 1 (sections 1–9) was delivered on 20 Nov 2026 and has been amended with the six
++clarifications C1–C6 requested in the owner's review; Part 2 (sections 10–14 and the appendices) completes the package. Implementation of the
++decision-independent foundations was separately authorised on 20 Nov 2026; its results are reported in `x1-implementation/X1-IMPLEMENTATION-REPORT.md`.
+ 
+-| Part 1 (this delivery) | Part 2 (to follow) |
++| Part 1 | Part 2 |
+ |---|---|
+ | 1 Purpose, status and scope · 2 Evidence base and its limits · 3 Field grouping and source contracts · 4 Field-state model · 5 Field policies (seven fields) · 6 Missing columns and import-crash containment · 7 Route provenance and shared validation contract · 8 Calculation dependencies, on-order error direction and allocation-unknown rules · 9 Demand history and time-series integrity | 10 Result-status model (Calculated, Validated, Verified) and CIS · 11 Roadmap compatibility · 12 Architecture and implementation work packages · 13 Owner decision register D1–D7 · 14 Test specification, acceptance criteria, X1 design matrix, user-facing reporting, what was not changed · Revision log · Protection report · Outstanding issues register |
+ 
+@@ -52,10 +53,21 @@
+ 
+ ## 2. Evidence base and its limits
+ 
+-**Repository state at the start of this task (fresh check, 2026-11-20T22:39:11Z) [E]:** branch `development/v0.7`, HEAD `eddf09b`, Tag-5
+-`v0.7-tests-approved-5` → `f0e81bb`; GitHub (read-only `ls-remote`) reports `development/v0.7` `eddf09b`, `main` `8117c72`, Tag-5 `f0e81bb`;
+-working tree 35 status entries, 1,878 files hashed (`x1-v2-protection/start-tree.sha256`, Part 2). The v1 design document and its evidence
+-folder hash as left at the end of the v1 task. Full protection report: Part 2.
++**Working-tree state, explained (C6) [E].** The working tree is *not* clean, and almost all of its uncommitted content predates the X1 design
++work. Relative to HEAD `eddf09b` (branch `development/v0.7`; Tag-5 `f0e81bb`; GitHub `ls-remote` reports the same), the uncommitted content at
++the start of each X1 task was, by origin:
++
++| Origin | Content | Created by |
++|---|---|---|
++| Stage 3 Round 1 and Round 2 (16–18 Nov) | 22 modified tracked files (engine, import modules, tests, registers, records) and new tests, snapshots and `STAGE3-CHANGE-REGISTER.md` | earlier Stage 3 tasks (frozen Round 2 tree) |
++| Evidence reconciliation (19 Nov) | `stage3-evidence/` and one pointer line in `STAGE3-CHANGE-REGISTER.md` | the 19 Nov reconciliation task |
++| Unexplained folder | `stage3-design/evidence/` | **unknown**; not created in this conversation; deliberately left untouched and excluded |
++| X1 v1 (20 Nov) | `stage3-design/X1-NUMERIC-INTEGRITY-DESIGN.md`, `stage3-design/x1-evidence-claude-20261120/` | the X1 v1 design task |
++| X1 v2 Part 1 (20 Nov) | this document (Part 1), `stage3-design/x1-v2-protection/` | the X1 v2 design task |
++| X1 implementation (20 Nov) | listed in the implementation report's change register | the X1 implementation task |
++
++Each task recorded its own starting state and compared its end state against that start, not against a clean repository. These are Claude's
++own checks, not independent verification. Details: Appendix B (protection report).
+ 
+ **Sources used in this revision.**
+ 
+@@ -269,23 +281,31 @@
+ optional field; the adapter leaves it absent; the gate's R7 safety net withholds non-finite numbers — but **R7 runs after the engine**, so it
+ cannot act on an exception thrown inside it. The engine itself has no notion of "not supplied" for this field.
+ 
+-### 6.2 Containment design (D3(ii) scope only) [P]
++### 6.2 Containment design (D3(ii) scope only) [P] — order of controls (C1)
++
++A date-formatting guard alone is **insufficient**: it would stop the crash but could still publish a plausible-looking figure built on an
++unknown input. The controls apply in this order; **the dependency gate is the primary integrity control**, the guards are secondary protection:
+ 
+-Containment must sit **inside the engine computation**, at the boundary where a non-finite intermediate would otherwise reach code that throws,
+-plus a declaration upstream so the withheld figures carry a specific reason:
++1. **Classify the input and keep its provenance.** The route layer records `Allocated_Qty` as `column-absent` (direct: header row; import: the
++   mapping's supplied set) or, per record, `blank` / `invalid` / `non-finite` / `negative-prohibited`, with source, row and raw value (§4, §7).
++2. **Identify dependent calculations.** The dependency registry (§8) lists what needs allocation: physical available stock, stock position,
++   cover, shortage, excess, the item's MRP net requirement, order quantity, stock-out and order-by dates, and its feasibility contribution.
++3. **Withhold before publishing.** Those calculations are not performed for the affected items, or their results are replaced by a withheld
++   status, *before* any output is published. Nothing downstream receives a number that depends on the unknown input.
++4. **Prevent propagation.** Inside the engine, each calculation that consumes another's result checks that its inputs are finite before
++   combining them (for MRP: available stock, receipts, usage, safety stock before `net`; lead time before `order-by`), so a non-finite
++   intermediate cannot flow into later arithmetic.
++5. **Defensive guards** on operations that throw or mislead: date construction and formatting (`dt`, `iso`, `sd`), status text derived from
++   comparisons with a non-finite value. A guard returns "not calculated", never a substitute number.
++6. **Report** which outputs are affected and why: "Allocated_Qty was not supplied. Available stock, stock position, shortage, excess and MRP
++   requirements cannot be calculated for N items; physical stock quantities, valuation (where cost is valid), demand and supplier analysis are
++   complete." Severity High (figures withheld).
+ 
+-1. **Engine guard (both routes).** Where MRP and feasibility derive dates or statuses from availability (`days`, `ob`, `dt`, the status text),
+-   a non-finite input yields the status "not calculated – allocation unknown" (or the specific missing input) instead of formatting a date.
+-   General rule: no engine formatting or date construction may receive a non-finite number. This is local to the engine; no Stage 1 change.
+-2. **Declaration (field state).** The route layer records `Allocated_Qty: column-absent` (direct: from the header row; import: from the mapping's
+-   supplied set, already known to the adapter). The withholding specification then marks allocation-dependent outputs of every item
+-   `ALLOCATION_NOT_SUPPLIED`, so they are withheld with that reason instead of the generic `NON_FINITE_VALUE`.
+-3. **Reporting.** One clear message: "Allocated_Qty was not supplied. Available stock, excess, shortage and MRP requirements cannot be calculated;
+-   stock quantities, valuation, demand and supplier analysis are complete." Severity High (figures withheld).
+-4. **Unrelated outputs.** Valuation, physical stock, forecasting, supplier performance and BOM structure are unaffected and released normally.
++**What this does not do.** It does not repair the allocation data or make the affected MRP figures valid: a contained failure is not a
++successful calculation. It changes no Stage 1 rule, mapping rule, `REQUIRED_UNMAPPED` behaviour or import acceptance.
+ 
+-**Not expanded into Stage 1 redesign:** Stage 1, the mapping rules, `REQUIRED_UNMAPPED` and import acceptance are untouched; the change is an
+-engine guard plus a field-state declaration read by the existing gate. **The crash is not fixed; this is a design recommendation.**
++**Evidence that containment is needed beyond the column case [E] (implementation task probe):** a *single* blank `Allocated_Qty` on one raw
++material (RM001) already stops the whole direct-upload run at the same line; so does a non-finite lead time reaching `order-by`.
+ 
+ ## 7. Route provenance and shared validation contract
+ 
+@@ -303,6 +323,24 @@
+ already applies one through `result-gate.js`; the direct route would build one and use the same gate. R7 stays as the final safety net, but specific
+ reasons replace generic ones wherever the cause is known.
+ 
++### 7.1 Existing route differences (C2) [E]
++
++The routes are **not** equivalent today, and X1 does not claim they will become so. Known differences for these fields:
++
++| Situation | Import route (Stage 1 → adapter → gate) | Direct route (engine) | X1 handling |
++|---|---|---|---|
++| Required column absent (On_Hand_Qty, Units_Sold in a supplied demand table, Qty_Per in a supplied BOM) | Stage 1 `REQUIRED_UNMAPPED`: **import refused** | engine runs; dependent outputs unreliable or the run stops | direct: contain and withhold dependent outputs (§5.1 B); import: **unchanged** (D3(ii)); difference documented |
++| Invalid or blank On_Hand cell; invalid BOM quantity; negative Allocated / On_Order / Reorder_Point / Qty_Per | row rejected → **import refused** | warning; value flows into calculations | direct: classify and withhold; import: unchanged unless D1 approves the separate Stage 1 work package |
++| Blank Allocated / On_Order / Reorder_Point / Unit_Cost cell | null, no Engine View cell; dependent figures withheld by the gate (R7 generic) | NaN flows; may stop the run | both: classified the same way; specific reasons |
++| Optional column absent (Allocated_Qty) | passes Stage 1 and the adapter, **engine stops** | **engine stops** | both: contained (§6.2) |
++| Blank Units_Sold cell | row rejected, history labelled incomplete | NaN in history | both: a missing month (D6 decides its meaning) |
++| Zero unit cost | accepted silently | accepted (Medium "differs from master" only if the master differs) | both: per D7 |
++| Where the code runs | the import modules are **not loaded by the browser page** (`index.html` loads six scripts, asserted by `check-globals`); the import route runs in the test pipeline today | browser page and tests | X1 shared layer: see §12 (loading it in the page is blocked by a protected assertion) |
++
++**Future reconciliation requirements [P].** (1) A Stage 1 decision (D1/D3, separately authorised) on refusing versus containing at row and
++column level. (2) The import route's generic R7 withholding replaced by the specific X1 reasons. (3) The shared layer loaded on both routes in
++the page. Until then, each difference is shown to the user in the run report, with its route.
++
+ **Reproducibility [P].** The field-state records, contract version and rule versions are retained with each run, so a figure can be traced to its
+ inputs, their states and the rules applied — the precondition for future independent verification (Part 2, §10).
+ 
+@@ -346,6 +384,12 @@
+ | PO reconciliation | Inventory on-order vs open PO quantity | cannot reconcile | n/a: reported "not supplied" | [E] |
+ | Excess inventory | today: `av − 90 days × demand` (line 156) — on-order **not** included | none under the current definition | none today; **under E1** (on-order counted as supply) excluding it would ordinarily *understate* excess | current [E]; E1 effect depends on D5 [U] |
+ 
++**What stays calculable (C4) [E].** Physical available stock (`usable − allocated`) never includes on-order, so it remains calculable
++whenever on-hand and allocation are valid. In the default setting (`CFG.sup = 0`) the Inventory `On_Order_Qty` enters only the PO
++reconciliation and the alternative MRP figure `netU`; stock position, receipts and feasibility use scheduled purchase orders instead. Only with
++`CFG.sup = 1` does it become the supply in position, MRP receipts and the feasibility pool. No statement is made about excess beyond its
++current definition (which excludes on-order); any E1-based effect waits for D5.
++
+ **Policy derived from the table [P].** Where on-order is unknown:
+ - figures it does not enter (physical available, shortage value, current excess) are shown normally;
+ - figures where exclusion only *understates* a quantity without driving an action (stock position, projected availability) are shown with the
+@@ -355,21 +399,33 @@
+ - in mode 0 only the reconciliation and `netU` are affected; they are shown "not available – on-order not supplied";
+ - unknown on-order is never represented as 0. "Conservative" is not used as a blanket description.
+ 
+-### 8.3 Allocation unknown: integrity rules independent of the D4 layout
++### 8.3 Allocation unknown: what remains, what does not (C5) — independent of the D4 layout
++
++When allocation is unknown for an item, the outputs fall into these classes, under **every** D4 option [P]:
+ 
+-These rules apply under **every** D4 option; D4 chooses only how the result is displayed [P]:
+-1. Unknown allocation is never treated as zero in any figure.
+-2. The item's stock is never presented as confirmed *unallocated* stock: physical available stock, stock position and cover are shown as
+-   "unknown – allocation not supplied", not as numbers.
+-3. It contributes nothing to **confirmed** excess totals; excess quantity and value for the item are "not calculated".
+-4. Every total it would have entered (excess, available stock, shortage) is a **partial total**, identified as such, with coverage (items, and
+-   value where known: the item's physical value is known even though its excess is not) and the excluded value shown where meaningful.
+-5. Shortage value and MRP net requirement for the item are withheld (they depend on `av`); MRP dates are "not calculated" (§6.2).
+-6. Physical stock quantity and valuation remain available.
+-7. Dead-stock *visibility* is a presentation matter (D4); the dead-stock rule's internal use of 0 to decide visibility (v3.1) never becomes a value,
+-   and no confirmed £0 excess can result.
++| Output | Status | Why |
++|---|---|---|
++| Physical on-hand quantity | **available** | does not use allocation |
++| Physical valuation | **available where cost is valid**; otherwise withheld by the cost rule (§5.3) | quantity × cost, no allocation |
++| Available stock (`usable − allocated`) | **not calculated** — "allocation unknown" | needs allocation |
++| Stock position, cover, position cover | **not calculated** | built on available stock |
++| Shortage (quantity and value) | **not calculated** | built on available stock |
++| Excess quantity and value | **not calculated**; never £0 confirmed | built on available stock |
++| Dead-stock assessment | visibility per D4; never confirmed unallocated or confirmed excess | needs uncommitted stock |
++| Allocation-dependent MRP (net requirement, order quantity, stock-out and order-by dates, urgency) and the item's feasibility supply | **not calculated** | built on available stock |
++| Independent demand outputs (history, forecast, credibility) and supplier outputs (on-time, risk) | **available, unaffected** | do not use allocation |
++
++It is wrong to say that "inventory quantities remain complete": only the *physical* quantity and its valuation do. Integrity rules, whatever
++D4 decides:
++1. unknown allocation is never treated as zero in any figure;
++2. the item is never presented as confirmed unallocated stock;
++3. it contributes nothing to confirmed excess totals;
++4. every total it would have entered (available stock, excess, shortage, MRP replenishment value) is a **partial total**, identified as such,
++   with coverage (items) and, where meaningful, the excluded physical value;
++5. physical quantity and valuation remain available (valuation subject to cost validity);
++6. the dead-stock rule's internal use of 0 to decide *visibility* (v3.1) never becomes a value.
+ 
+-D4's options (a) visible with warning, (b) "unknown" group, (c) hybrid differ only in where and how such items appear, never in these rules.
++D4's options (a) visible with warning, (b) "unknown" group, (c) hybrid differ only in where and how such items appear.
+ 
+ ## 9. Demand history and time-series integrity
+ 
+@@ -380,6 +436,19 @@
+ already counts `expected`, `missing` and `zeros` per item, so the engine knows a month is missing but its forecast methods (mean, moving averages,
+ weighted average, trend, per the forecast output) do not see where.
+ 
++**Three different conditions (C3).** They must never be confused:
++
++| Condition | Meaning | Today [E] (implementation-task probe, FG001) | X1 treatment [P] |
++|---|---|---|---|
++| **Partially usable history** — some valid or zero months, some missing | evidence for some periods only | gaps compressed; credibility counts them; forecast produced from the compressed list | calendar series with gaps kept in place; forecast only by methods whose gap rule fits; confidence lowered; dependent results labelled "incomplete history" |
++| **Entirely missing or blank history** — no usable observation (no rows, or every cell blank/invalid) | no evidence at all | forecast correctly **not produced** (`ok: false`, credibility "Cannot assess", 12 missing); but daily demand is taken as 0, so the item is classed "No recorded demand" and all 81 available units count as excess, exactly as for genuine zero | forecast unavailable: "no usable demand history"; demand-based classification, cover and excess **not calculated from an assumed zero**; how the item is shown is decided with D6 (see below) |
++| **Genuine recorded zero history** — every month present and recorded as 0 | evidence of no sales | forecast produced (0); "No recorded demand"; all available stock is excess | unchanged: zero demand is real evidence; forecast 0 is legitimate |
++
++A completely absent history must not produce a normal zero-demand forecast (it does not today [E]) and must not be treated as zero demand in
++classification or excess (it is today [E]). Changing the classification and excess of an item with no usable history alters accepted behaviour
++(the dead-stock "No recorded demand" class) and depends on D6, so it is **not** implemented with the foundations; the foundations only make the
++three conditions distinguishable in the field states and the calendar series.
++
+ **Representation [P].** Each item's history is a **calendar-indexed series** over the analysis window (the engine's existing `expected` window), one
+ slot per month, each with a state:
+ - `valid` (recorded quantity), `zero` (recorded zero sales), `missing` (absent row, blank, invalid, non-finite or negative cell — with the
+@@ -407,4 +476,229 @@
+ 
+ ---
+ 
+-*End of Part 1. Part 2 (sections 10–14, revision log, protection report, outstanding issues register) follows after review.*
++# Part 2
++
++## 10. Result-status model and the future CIS
++
++**Three distinct statuses [P]** (never interchangeable):
++
++| Status | Meaning | Who can set it |
++|---|---|---|
++| **Calculated** | the production calculation ran and produced a value | the engine |
++| **Validated** | every input it depends on was in an accepted state (`valid`, or `zero` where the field allows it), no `assumed` input was used, and the defined validation checks passed | the X1 dependency mechanism |
++| **Verified** | an independent recomputation, separate from the production code, reproduced the value | only the future CIS; **X1 never sets it** |
++
++A result is not Verified because its tests pass or because it is Validated. A **withheld** result has none of these statuses; a **partial** or
++**labelled** result is at most Calculated. User-facing statuses (§14.4) map onto this model: *Complete* = Validated; *Partial* = Calculated with
++coverage below 100%; *Not calculated* / *Unavailable because of a dependency* / *Not supplied* / *Invalid input* = withheld with that reason;
++*Assumed input* = Calculated with a disclosed assumption.
++
++**How X1 prepares for CIS [P].** CIS will need, for any figure: its inputs, their states, the rules applied and the code path. X1 retains the
++first three (field-state records with provenance, contract and rule versions, dependency assessments per calculation and record). An independent
++verifier can then recompute from the same recorded inputs and compare. X1 deliberately does not build the verifier, does not claim
++verification, and keeps its records JSON-safe (non-finite raw values are stored as text) so they can be exported unchanged.
++
++## 11. Roadmap compatibility
++
++| Roadmap area | What X1 provides | What X1 does not do |
++|---|---|---|
++| Forecasting and predictive intelligence (Forecaster planned for v0.8) | calendar-indexed history with explicit gaps and the three history conditions (§9) | choose algorithms, gap rules or thresholds |
++| Universal data import | the same field states and reasons on the import route; Stage 1 untouched | Stage 1 redesign, mapping profiles (A12) |
++| Inventory and replenishment; MRP | dependency declarations for availability, position, shortage, excess, MRP; MRP crash containment | new replenishment logic; the excess definition (D5) |
++| Supplier intelligence | declares that supplier outputs do not depend on the seven fields, so they stay available | supplier scoring changes |
++| Production planning | BOM-line states and the feasibility dependency | feasibility redesign |
++| Visual intelligence | status per figure (§10) that charts can show (no NaN plotted as a number) | chart redesign |
++| Client Scenario Mode, Recommendation Impact Mode | reproducible recorded inputs and states, so a scenario changes declared inputs, not silent defaults | the modes themselves |
++| CIS | §10 | the verifier |
++
++Design choices made for compatibility: one namespace with versioned contract; records keyed by field and record (item, item+location,
++parent+component, item+month); no route-specific shapes; no framework, build step, dependency or service.
++
++## 12. Architecture and implementation work packages
++
++### 12.1 Architecture [P; status per item in the implementation report]
++
++- `js/validation/x1-integrity.js` — one plain script (same pattern as `js/import/*.js`), namespace `CGValidation`, frozen, versioned: field
++  descriptors (seven fields; descriptive facts only, no unresolved policy), state classifier, provenance records, dependency registry,
++  withholding records (shape compatible with the gate's `{ withheld, reason }`), calendar-indexed history, report text, and two route adapters
++  (direct workbook; Stage 1 result + mapping). One file because the parts are small and always used together; splitting further would add load
++  order without benefit.
++- `js/calculations.js` — only containment: dependency checks and defensive guards in MRP (and the date helpers), inline, no new top-level names,
++  line count unchanged.
++- `js/engine/engine-api.js` — `runEngine` attaches `integrity` (field states, history conditions, dependency assessment) when `CGValidation` is
++  loaded; accepts a precomputed import-route record through `opts.integrity` (unknown options are already ignored, so this is additive).
++- `js/app.js` — MRP view: withheld rows shown as "Not calculated" with their reason; replenishment total excludes them and says "partial".
++- Not changed: Stage 1 (`js/import/validate.js`, `mapping.js`, `canonical.js`), `adapter.js`, `result-gate.js`.
++
++**Protection conflict (blocks one step) [E].** Loading `x1-integrity.js` in the browser page requires a new `<script>` in `index.html`. The
++protected test `tests/check-globals.js` asserts the exact six-script list, and its checksum line is protected; changing it needs an assertion change
++(accepted-assertion area 4) **and** a re-hash of a protected checksum line, which the authorisation forbids (§10 of the instruction). So the shared
++layer runs in the engine wrapper, the import pipeline and the tests, but **not yet in the browser page**; the MRP containment, which is inside
++`calculations.js`, does run in the page.
++
++### 12.2 Work packages
++
++| WP | Objective and scope | Files | Depends on | Behaviour change | Risks | Tests and acceptance | Protection implications | Owner authorisation |
++|---|---|---|---|---|---|---|---|---|
++| WP1 | field-state classifier and provenance record | `x1-integrity.js` | — | none (new module) | state rules too coarse | unit tests for all ten states and provenance fields; JSON-safe records | new test file; additive registry entry | authorised 20 Nov |
++| WP2 | dependency registry and withholding records | same | WP1 | none | declarations incomplete | declare/assess tests; independent calcs unaffected | as WP1 | authorised |
++| WP3 | contain the MRP crash and unsafe operations | `calculations.js`, `app.js` | WP2 (concepts) | only inputs that crashed before: run completes, affected rows "Not calculated" | changing output for valid data | crash cases on both routes complete; golden/confidence exact; affected rows withheld; others unchanged | none beyond new tests | authorised |
++| WP4 | route integration | `engine-api.js`, `x1-integrity.js` | WP1–2 | new `integrity` output key | key contract tests; route provenance | both routes classified alike where Stage 1 permits; documented differences represented | browser loading **blocked** (§12.1) | authorised; page loading needs a separate decision on the protected assertion |
++| WP5 | field policies | engine, adapter/gate | D1, D3, D4, D7 | yes | accepted assertions (areas 1, 2) | per approved policy | superseding records | **needs decisions** |
++| WP6 | demand-history behaviour (classification/excess for absent history; gap-aware methods) | engine, forecasting | D6 | yes | forecast changes for gapped fixtures | three history conditions | possibly area 3 | **needs D6** |
++| WP7 | result statuses and coverage across views | `app.js`, engine | D4, D7 (partly) | yes | UI shape | statuses per §14.4 | — | partly authorised (MRP view only, as part of WP3) |
++| WP8 | regression and readiness | — | all | — | — | fast and full tiers; acceptance assessment | records additive only | authorised (no commit) |
++
++**Sequence.** WP1 → WP2 → WP3 → WP4 (implemented in this task), then WP5–WP7 after decisions, then WP8. WP3 precedes WP4 because the crash
++stops the run before any integration output can be observed.
++
++## 13. Owner decision register (D1–D7)
++
++Each entry: question; options; consequences; provisional preference (not an approval); my independent recommendation; evidence needed; work
++affected. None is decided here.
++
++**D1 — Field-level policies.** *Question:* approve or amend §5 (seven fields), including its sub-questions: (a) quarantine an item vs refuse the
++import for a bad stock row (import route Stage 1 work package); (b) zero BOM quantity invalid or permitted; (c) where the design has not settled
++it, stop a whole run vs withhold outputs (§5.1 B total absence); (d) negative Allocated/On_Order/Reorder_Point invalid on the direct route too.
++*Options:* approve; amend per sub-question. *Consequences:* (a) quarantine keeps unrelated analysis but changes accepted Stage 1 assertions
++(area 1, 2); refusal keeps today's behaviour. (b) invalid → material plans never use a zero line; permitted → phantom lines allowed. *Provisional
++preference:* amend to resolve contradictions (done in v2). *My recommendation:* approve §5 as written; for (b) I recommend *invalid* unless
++phantom components are a real case in target businesses. *Evidence needed:* whether target ERPs export zero-quantity BOM lines. *Work affected:*
++WP5, accepted-assertion areas 1–2.
++
++**D2 — Provenance.** *Options:* (a) shared field-state record on both routes; (b) route stamp only; (c) full cell lineage. *Consequences:* (a)
++traceable to record and source, modest effort, supports future source declarations; (b) cheap, cannot say which record caused a withheld figure;
++(c) heavy, beyond X1. *Provisional preference:* (a). *My recommendation:* (a) — it is what the foundations already implement generically, and
++it is what CIS needs. *Evidence needed:* none further. *Work affected:* WP4, WP5.
++
++**D3 — Missing-column handling in X1.** *Options:* (i) include all, including Stage 1 table-level changes; (ii) crash containment and clear
++messages now, Stage 1 deferred; (iii) defer all. *Consequences:* (i) closes route differences sooner, changes accepted Stage 1 behaviour;
++(ii) removes the crash and silent NaN, leaves the documented route differences (§7.1); (iii) leaves a valid import and one blank raw-material
++allocation able to stop the run. *Provisional preference:* (ii). *My recommendation:* (ii); the containment part is already implemented under the
++foundations authorisation because it prevents a crash rather than choosing a policy. *Evidence needed:* none. *Work affected:* WP3 (done),
++WP5 (Stage 1 part).
++
++**D4 — Allocation-unknown presentation.** *Options:* (a) visible with warning; (b) separate "unknown" group; (c) hybrid, in place with a
++distinct status, excluded from excess totals; plus layout A/B/C from the Round 2 mock-ups. *Consequences:* presentation only — the integrity
++rules of §8.3 are identical under every option. (a) least change, risk of being read as excess; (b) clearest, moves stock out of the list;
++(c) keeps stock in place and visibly not calculated. *Provisional preference:* (c). *My recommendation:* (c) with layout A (four columns),
++because it shows physical stock beside "allocation unknown" without moving rows. *Evidence needed:* the owner's view of the mock-ups. *Work
++affected:* WP5, WP7.
++
++**D5 — Excess definition.** *Options:* keep the 90-day rule; adopt E1 (unallocated usable + on-order − forecast − safety stock) later. *Consequences:*
++E1 makes unknown on-order and forecast credibility matter for excess (§8.2). *Provisional preference:* defer. *My recommendation:* defer; record
++that E1 would need on-order known-state handling and forecast eligibility first. *Evidence needed:* forecasting programme outputs. *Work
++affected:* none in X1.
++
++**D6 — Missing demand month.** *Options:* unknown; zero. *Consequences:* unknown — honest, lowers confidence, needs gap-aware methods (§9) and
++changes classification/excess for items with no usable history (no longer "No recorded demand" from an assumed zero); zero — continuity, but
++invents demand of zero, inflating excess when a month was simply not exported. *Provisional preference:* unknown. *My recommendation:* unknown,
++consistent with what both routes already do for absent rows. *Evidence needed:* whether any golden/confidence fixture item has an internal gap
++(regression impact). *Work affected:* WP6, accepted-assertion area 3.
++
++**D7 — Zero unit cost.** *Options:* valid; suspicious; source-dependent. *Consequences:* §5.3 — suspicious keeps the number (0 is mathematically
++valid) but stops zero-cost items counting as costed; it does **not** make zero invalid. *Provisional preference:* suspicious. *My recommendation:*
++suspicious now, moving to source-dependent once D2 declarations exist, because some stock (free issue, consignment) is genuinely zero-cost.
++*Evidence needed:* whether target businesses hold zero-cost stock. *Work affected:* WP5, WP7.
++
++## 14. Tests, acceptance criteria, design matrix, reporting, assertion changes
++
++### 14.1 Test specification
++
++Foundations (WP1–WP4), implemented in this task: classification of every state; provenance fields; JSON safety; registry declare/assess;
++withholding records; calendar history for the three conditions; MRP containment on both routes (blank raw-material allocation, absent column,
++non-finite lead time) with unaffected outputs unchanged; route classification equivalence where Stage 1 permits; documented route differences
++represented. Decision-dependent behaviour (WP5–WP7): per field, blank / whitespace / absent column / all blank / invalid / NaN / ±Infinity /
++zero / negative / large / partial and total absence, both routes; the five cross-field scenarios and fixed Tests A and B of v1 §11, re-stated
++here unchanged in substance, run once their decisions are made. Regression: golden v0.5 and v0.6.0 and confidence v0.7 exact in five zones; the
++fast and full tiers at their accepted counts.
++
++### 14.2 Acceptance criteria
++
++The 22 criteria of the implementation authorisation (§16 there) are the acceptance criteria; the implementation report assesses each.
++
++### 14.3 X1 design matrix (summary)
++
++| Field | Status | Blank | Column absent | Invalid / non-finite | Zero | Negative | Owner decision |
++|---|---|---|---|---|---|---|---|
++| On_Hand | required | item quarantined [P] | dependent outputs withheld (direct); import refused (unchanged) | quarantined + High | valid | valid, High warning | D1 |
++| Allocated | optional at source, required for availability | unknown [P] | unknown for all; contained [E impl.] | unknown + High | valid | invalid [P] | D1, D4 |
++| Unit_Cost | optional, required for money | item money withheld | all money withheld | withheld + High | per D7 | withheld | D1, D7 |
++| Units_Sold | required if demand supplied | missing month | demand not supplied (direct); import refused | missing + High | recorded zero | invalid | D1, D6 |
++| Qty_Per | required if BOM supplied | line invalid | BOM unusable (direct); import refused | line invalid | invalid [A] | invalid | D1 |
++| On_Order | optional | not supplied | not supplied | not supplied + High | valid | invalid | D1 |
++| Reorder_Point | optional | not configured | not configured | not configured + High | valid | invalid | D1 |
++
++### 14.4 User-facing reporting
++
++Statuses shown to a planner: **Complete**, **Partial** (with coverage), **Not calculated** (with the missing dependency), **Not supplied**, **Invalid
++input** (naming the cell and its text), **Assumed input** (naming the rule), **Unavailable because of a dependency**. Examples: "Physical on-hand
++quantity available; allocation unknown"; "Available stock not calculated because allocation is missing (Inventory row 14)"; "Financial valuation
++incomplete: unit cost unavailable for 2 items (coverage 148 of 150)" (illustrative); "Forecast unavailable: no usable demand history";
++"Replenishment incomplete: on-order quantities not supplied". Warnings are scoped to the figures they affect; unaffected results carry no warning.
++
++### 14.5 Accepted-assertion changes (the four identified areas)
++
++| Area | Existing assertion | Proposed behaviour | Depends on | Status |
++|---|---|---|---|---|
++| 1 | Stage 1 refuses an import with an invalid/blank On_Hand cell (`test-import-stage1`, `test-import-integrity`) | item quarantine | D1(a), D3 | not changed; awaiting decision |
++| 2 | Stage 1 refuses an import with an invalid BOM quantity | line invalid | D1(a), D3 | not changed; awaiting decision |
++| 3 | Medium "Zero/negative demand months" for genuine zeros (no golden fixture has zeros [U]) | informational note; negatives invalid | D1, D6 | not changed; awaiting decision |
++| 4 | `check-globals` asserts the six-script page list (protected file and checksum) | add `x1-integrity.js` to the page | approval of the assertion change and of re-hashing a protected checksum line | not changed; **blocked by the protection rules** |
++
++Any approved change will keep the old record, add a superseding record with reason and authorisation, and link the two.
++
++### 14.6 What was not changed by the design work
++
++No Stage 1 file, test, baseline, snapshot, checksum, accepted result, tag or historical record; the v1 document is unchanged; nothing committed,
++pushed or published; the unexplained folder was not read or used.
++
++---
++
++## Appendix A — Revision history
++
++| # | Change | Sections | Prompted by | Type |
++|---|---|---|---|---|
++| 1 | On_Hand partial vs total absence; total absence withholds dependent outputs only | 5.1, 6, 8.1, 14.3 | DeepSeek finding 1 (on the v1 text) | changes a recommendation |
++| 2 | Stage 1 table-level change withdrawn; containment design added | 6, 6.1, 6.2 | DeepSeek finding 2 | changes a recommendation |
++| 3 | On-order effects per figure and supply setting; "conservative" removed | 5.6, 8.2 | DeepSeek finding 3 | corrects an error |
++| 4 | Allocation-unknown rules independent of D4 | 8.3 | DeepSeek finding 4 | clarifies scope |
++| 5 | Calendar-indexed history; gaps keep position | 9 | owner clarification (v2 instruction) | changes a recommendation |
++| 6 | Ten-state field model | 4 | owner v2 instruction §7 | clarifies scope |
++| 7 | D7 four meanings of zero | 5.3, 13 | owner v2 instruction §6 | clarifies a decision |
++| C1 | Order of controls: classify → dependencies → withhold → prevent propagation → guards → report; gate primary | 6.2 | owner review clarification C1 | corrects the design |
++| C2 | Honest route-difference table and future reconciliation requirements | 7.1 | clarification C2 | clarifies scope |
++| C3 | Three demand-history conditions; absent history today treated as zero demand in classification/excess (evidence) | 9 | clarification C3 | identifies an unresolved decision (D6) |
++| C4 | What stays calculable without on-order; `CFG.sup` modes; no excess-direction claim | 8.2 | clarification C4 | clarifies |
++| C5 | Allocation-unknown output classes; physical quantity ≠ inventory quantities complete | 8.3 | clarification C5 | corrects wording |
++| C6 | Working-tree origin table; checks are Claude's, not independent | 2, Appendix B | clarification C6 | clarifies |
++| 8 | Part 2 written (10–14, appendices) | 10–14 | v2 instruction | completes the package |
++
++## Appendix B — Protection report (design work)
++
++Checks performed by Claude (own checks, not independent verification). Starting states: v2 task `x1-v2-protection/` (2026-11-20T22:39Z);
++implementation task `x1-implementation/start-state/` (2026-11-20T22:54Z). The end-of-task results are in the implementation report.
++
++| Check | Status |
++|---|---|
++| Branch, HEAD, tags, stashes, refs recorded at start | PERFORMED (both tasks) |
++| Working tree hashed at start, evidence folder excluded | PERFORMED (implementation task; the v2 design task hashed it before the owner's no-read instruction) |
++| v1 design document unchanged | PERFORMED (hash compared at the start of each task) |
++| GitHub refs read-only (`ls-remote`) | PERFORMED |
++| Unexplained folder untouched | Implementation task: **NOT PERFORMED – NOT VERIFIED** by content (the owner forbids inspecting it); only its absence from every command and output is asserted |
++| Independent verification of any of the above | **NOT PERFORMED – NOT VERIFIED** |
++
++## Appendix C — Outstanding issues register (not owner decisions unless listed in D1–D7)
++
++| # | Issue | Type |
++|---|---|---|
++| 1 | Browser page cannot load the shared layer without changing a protected test (§12.1) | protection conflict, needs owner direction |
++| 2 | Adding X1 test checksum lines raises `check-protection`'s accepted count, an existing entry | protection-register question (implementation report) |
++| 3 | `forecasting.js`, `app.js` views and Stage 1 acceptance logic not fully re-read | evidence gap |
++| 4 | No repository description of CIS or the forecasting programme | evidence gap |
++| 5 | Whether any golden/confidence fixture item has an internal demand gap | to check before WP6 |
++| 6 | Text-number policy (Option C / XCRT) still REVIEW; X1 classifies text as invalid meanwhile | dependency |
++| 7 | No upper plausibility bound for quantities or costs | open technical question, no rule proposed |
++| 8 | Import route still uses the gate's generic R7 reason for non-finite values | to replace with specific reasons in WP5 |
++| 9 | Absent demand history classed "No recorded demand" with all stock as excess | D6 (WP6) |
++| 10 | Required/optional field matrix for all canonical fields (M1 Clarification 2) not found | evidence gap, outside X1 |

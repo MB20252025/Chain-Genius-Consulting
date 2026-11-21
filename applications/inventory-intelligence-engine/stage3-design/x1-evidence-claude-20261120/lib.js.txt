@@ -1,0 +1,16 @@
+// Shared loader for the X1 design probes (read-only). Loads each engine and import file under its own name so stack traces show file:line.
+const fs=require('fs'),vm=require('vm'),path=require('path');
+exports.load=(APP,withImport)=>{const read=f=>fs.readFileSync(path.join(APP,f),'utf8');const ctx=vm.createContext({TextDecoder,Uint8Array,Buffer,console});ctx.globalThis=ctx;
+ vm.runInContext(read('assets/xlsx.mini.min.js'),ctx,{filename:'xlsx.mini.min.js'});
+ if(withImport){for(const f of['canonical','read','clean','mapping','validate','engine-map','engine-workbook','result-gate','adapter'])vm.runInContext(read('js/import/'+f+'.js'),ctx,{filename:'js/import/'+f+'.js'});}
+ for(const n of['calculations','forecasting','app','excel-import','engine/engine-api'])vm.runInContext(read('js/'+n+'.js'),ctx,{filename:'js/'+n+'.js'});
+ vm.runInContext('globalThis.__E=CGEngine;',ctx);if(withImport)vm.runInContext(read('tests/tools/import-v1/reverse-eight-sheet.js'),ctx,{filename:'reverse-eight-sheet.js'});
+ const X=ctx.XLSX,NS=fs.readFileSync(path.join(APP,'tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx'));
+ const fresh=()=>X.read(NS,{cellDates:true});const rt=w=>X.read(X.write(w,{type:'array',bookType:'xlsx',cellDates:true}),{cellDates:true});
+ const edit=(w,sh,fn)=>{const hdr=X.utils.sheet_to_json(w.Sheets[sh],{header:1})[0];const r=X.utils.sheet_to_json(w.Sheets[sh],{raw:true,cellDates:true});const h2=fn(r,hdr)||hdr;w.Sheets[sh]=X.utils.json_to_sheet(r,{header:h2,cellDates:true});return w};
+ const nf=o=>JSON.stringify(o,(k,v)=>typeof v==='number'&&!isFinite(v)?'__NF__':v).split('__NF__').length-1;
+ const direct=w=>{try{return {o:ctx.__E.runEngine({workbook:rt(w)})}}catch(e){return {err:e}}};
+ const viaImport=w=>{const G=ctx.CGImport;const rv=ctx.CGTestTools.reverseEightSheet(rt(w)),imp=G.validate.importFiles(rv.mapping,rv.files);const codes=[...new Set((imp.issues||[]).map(i=>i.code))].filter(c=>!/UNIT_NOT_CHECKED|CURRENCY_CONFIRMED/.test(c));
+  if(!imp.importAccepted)return {stage:'Stage 1 refused',codes,issues:imp.issues};const ad=G.adapter.build(imp,rv.mapping);if(!ad.workbook)return {stage:'adapter refused',codes,refusal:ad.report.refusals};
+  let o;try{o=ctx.__E.runEngine({workbook:ad.workbook})}catch(e){return {stage:'engine threw',codes,err:e}}const g=G.resultGate.apply(o,ad.gate);return {stage:'ran',status:g.status,codes,g,o,ad}};
+ return {ctx,X,fresh,rt,edit,nf,direct,viaImport};};

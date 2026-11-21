@@ -1,0 +1,48 @@
+[
+ {
+  "file": "northstar-x34.xlsx",
+  "mode": "desktop",
+  "loadMs": 3890,
+  "tabs": 17,
+  "medianTabMs": 70,
+  "maxTabMs": 189,
+  "slowest": [
+   [
+    "Materials",
+    189
+   ],
+   [
+    "Finished goods",
+    180
+   ],
+   [
+    "Forecast accuracy",
+    172
+   ]
+  ],
+  "consoleErrors": []
+ },
+ {
+  "file": "northstar-x34.xlsx",
+  "mode": "pixel5-cpu4x",
+  "loadMs": 15056,
+  "tabs": 17,
+  "medianTabMs": 69,
+  "maxTabMs": 218,
+  "slowest": [
+   [
+    "Demand forecast",
+    218
+   ],
+   [
+    "Materials",
+    123
+   ],
+   [
+    "Reorder policy",
+    123
+   ]
+  ],
+  "consoleErrors": []
+ }
+]

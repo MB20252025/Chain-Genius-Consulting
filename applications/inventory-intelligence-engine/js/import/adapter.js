@@ -109,8 +109,19 @@
       const groups = new Map();
       for (const r of D.stock) { if (!keep(r)) continue; if (!groups.has(r.Item_ID)) groups.set(r.Item_ID, []); groups.get(r.Item_ID).push(r); }
       const engineStock = [], negatives = [], excludedNegatives = [], recon = [], unknownLocations = new Set();
+      // X1 D1(a) (owner Q4, 21 Nov 2026): items with a quarantined stock row (Stage 1 ROW_QUARANTINED). Their item balance is unreliable, so NO stock value is
+      // written for them (never a partial sum of their other locations): the engine then shows them Not Assessed. The quarantined rows are kept in the report.
+      const quarantine = new Map();
+      (Array.isArray(S1.issues) ? S1.issues : []).filter(i => i && i.code === 'ROW_QUARANTINED' && i.table === 'stock').forEach(i => (i.rows || []).forEach(x => { const qid = x.linkedItem || x.item; if (qid) { if (!quarantine.has(qid)) quarantine.set(qid, []); quarantine.get(qid).push({ row: x.row, reasons: x.reasons }); } }));
       const b4 = [], b7 = [], b9 = [], partly = [], snap = [], noHand = [];
+      for (const [qid, qrows] of quarantine) {
+        if (excluded.has(qid)) continue;
+        engineStock.push({ Item_ID: qid, Location_ID: null, Snapshot_Date: null, On_Hand_Qty: null, Allocated_Qty: null, On_Order_Qty: null, Reorder_Point_Qty: null, Safety_Stock_Qty: null, Unit_Cost: null,
+          __derived: { Usable_On_Hand_Qty: null }, __sources: (groups.get(qid) || []).map(src), __quarantined: qrows });
+        recon.push({ itemId: qid, quarantined: qrows, otherRows: (groups.get(qid) || []).length, note: 'Stock row(s) quarantined by Stage 1: no stock value written (item Not Assessed); other rows of this item are not summed.' });
+      }
       for (const [id, rows] of groups) {
+        if (quarantine.has(id)) continue;
         const inc = rows.filter(r => counts(r.Location_ID)), exc = rows.filter(r => !counts(r.Location_ID));
         rows.forEach(r => { if (r.Location_ID !== null && !flag.has(r.Location_ID) && D.locations) unknownLocations.add(r.Location_ID); });
         exc.forEach(r => {
@@ -252,11 +263,15 @@
       let built;
       try { built = EW.build(ds, mapping, { supplied: sup, derived: ['Usable_On_Hand_Qty'] }); }
       catch (e) { refuse(e.code === 'ENGINE_WORKBOOK_INPUT' ? 'ADAPTER_MAPPING_MISMATCH' : 'ADAPTER_VALUE_INVALID', e.message); return finish('refused'); }
+      // X1 material-integrity correction (21 Nov 2026): items excluded for ALL analyses are left out of the sheets, but their BOM lines stay. Stage 1 identified
+      // them (a truly blank or unknown component is rejected there), so the engine is told their codes: a BOM line naming one is a known, excluded item,
+      // never "could be any material". Hidden (non-enumerable) workbook property: no sheet, cell or report changes.
+      Object.defineProperty(built.workbook, 'CGExcludedItems', { value: Object.freeze([...excluded.keys()]), enumerable: false });
       // Reconciliation (hard check): the Engine View physical stock equals the counted source rows, item by item.
       const sheet = built.workbook.Sheets.Inventory, idx = built.report.sheets.find(s => s.sheet === 'Inventory').columns;
       const ci = c => idx.indexOf(c), XL = typeof XLSX !== 'undefined' ? XLSX : null;
       if (XL) {
-        const bad = engineStock.filter((r, i) => { const cell = sheet[XL.utils.encode_cell({ r: i + 1, c: ci('On_Hand_Qty') })]; const u = sheet[XL.utils.encode_cell({ r: i + 1, c: ci('Usable_On_Hand_Qty') })];
+        const bad = engineStock.filter((r, i) => { if (r.__quarantined) { const c0 = sheet[XL.utils.encode_cell({ r: i + 1, c: ci('On_Hand_Qty') })]; return !!c0; } const cell = sheet[XL.utils.encode_cell({ r: i + 1, c: ci('On_Hand_Qty') })]; const u = sheet[XL.utils.encode_cell({ r: i + 1, c: ci('Usable_On_Hand_Qty') })];
           return !cell || cell.v !== r.On_Hand_Qty || !u || u.v !== r.__derived.Usable_On_Hand_Qty; });
         if (bad.length) { refuse('ADAPTER_RECONCILIATION_FAILED', 'Engine View stock does not equal the counted source rows.', bad.map(r => r.Item_ID)); return finish('refused'); }
       }

@@ -13,6 +13,7 @@ Both compare as ALL SECTIONS IDENTICAL (items, sup, mrp, feas, fc, pr, tot, fga,
 |---|---|---|
 | v0.7-confidence-20261112T011814Z.json | The original v0.7 confidence snapshot (T3, 12 Nov 2026): forecast credibility, confidence areas and client questions for 17 fixtures. | Historical. Never overwrite. Still read by `test-same-results.js` (Proof C, import route against the accepted v0.7 direct results). |
 | v0.7-confidence-20261116T034921Z.json | A new version emitted on 16 Nov 2026 with `run-all.sh --emit-confidence` from the Stage 3 DR-4 code (17 fixtures x 5 zones identical). Its internal "about" text is the emitter's standard wording, unchanged. | The reference of the "confidence snapshot v0.7" test from Stage 3. Not the original result. |
+| v0.7-confidence-20261121T075533Z.json | X1 Q3 (owner approval 21 Nov 2026): emitted with `run-all.sh --emit-confidence` from the final X1 code (17 fixtures x 5 zones identical). Differs from the 16 Nov file in exactly one value, `structure/scenario-willow.xlsx` `clientQuestions[6].ev` "4 items" -> "3 items" (D6/WP6 calendar-aligned raw-material usage; see `stage3-design/x1-implementation/X1-CHANGE-RECORD.md` CR-20). | Current (read by the confidence snapshot test). The 16 Nov and 12 Nov files are kept unchanged. |
 
 The two files differ in exactly one value: `structure/scenario-willow.xlsx` `clientQuestions[3].ev`, "19 POs received short" in the
 12 Nov file and "11 POs received short" in the 16 Nov file. Cause: DR-4 (the direct-upload reader now reads empty-text cells as

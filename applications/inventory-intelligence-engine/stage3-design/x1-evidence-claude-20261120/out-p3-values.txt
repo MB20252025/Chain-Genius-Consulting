@@ -1,0 +1,127 @@
+baseline headline fgV/rmV/exV 922704/1610892/106934
+Inventory.On_Hand_Qty = 0
+   direct: headline 917206/1610892/106934; non-finite 0; new warnings: H:Allocated exceeds usable on-hand
+   import: ran complete; headline 917206/1610892/106934; non-finite 0
+Inventory.On_Hand_Qty = -5
+   direct: headline 916931/1610892/106934; non-finite 0; new warnings: H:Negative quantities | H:Allocated exceeds usable on-hand
+   import: ran [NEGATIVE_KEPT] restricted; headline 916931/1610892/106934; non-finite 0
+Inventory.On_Hand_Qty = whitespace
+   direct: headline NaN/1610892/NaN; non-finite 78; new warnings: M:Missing values in On_Hand_Qty
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.On_Hand_Qty = 1e12
+   direct: headline 54980000917206/1610892/54980000091695; non-finite 0; new warnings: none
+   import: ran complete; headline 54980000917206/1610892/54980000091695; non-finite 0
+Inventory.On_Hand_Qty = "abc"
+   direct: headline NaN/1610892/NaN; non-finite 78; new warnings: H:Non-numeric or non-finite values in nu
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.On_Hand_Qty = blank
+   direct: headline NaN/1610892/NaN; non-finite 78; new warnings: M:Missing values in On_Hand_Qty
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.Allocated_Qty = 0
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: none
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.Allocated_Qty = -5
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:Negative quantities
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.Allocated_Qty = whitespace
+   direct: headline 922704/1610892/NaN; non-finite 60; new warnings: M:Missing values in Allocated_Qty
+   import: ran restricted; headline 922704/1610892/withheld; non-finite 0
+Inventory.Allocated_Qty = 1e12
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:Allocated exceeds usable on-hand
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.Allocated_Qty = "abc"
+   direct: headline 922704/1610892/NaN; non-finite 60; new warnings: H:Non-numeric or non-finite values in nu
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.Allocated_Qty = blank
+   direct: headline 922704/1610892/NaN; non-finite 60; new warnings: M:Missing values in Allocated_Qty
+   import: ran restricted; headline 922704/1610892/withheld; non-finite 0
+Inventory.On_Order_Qty = 0
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:A reconciliation difference was detect
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.On_Order_Qty = -5
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:Negative quantities | H:A reconciliation difference was detect
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.On_Order_Qty = whitespace
+   direct: headline 922704/1610892/106934; non-finite 6; new warnings: M:Missing values in On_Order_Qty | H:A reconciliation difference was detect
+   import: ran restricted; headline 922704/1610892/106934; non-finite 0
+Inventory.On_Order_Qty = 1e12
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:A reconciliation difference was detect
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.On_Order_Qty = "abc"
+   direct: headline 922704/1610892/106934; non-finite 3; new warnings: H:Non-numeric or non-finite values in nu | H:A reconciliation difference was detect
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.On_Order_Qty = blank
+   direct: headline 922704/1610892/106934; non-finite 6; new warnings: M:Missing values in On_Order_Qty | H:A reconciliation difference was detect
+   import: ran restricted; headline 922704/1610892/106934; non-finite 0
+Inventory.Reorder_Point_Qty = 0
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: M:Reorder point below safety stock
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.Reorder_Point_Qty = -5
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: M:Reorder point below safety stock
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.Reorder_Point_Qty = whitespace
+   direct: headline 922704/1610892/106934; non-finite 9; new warnings: M:Missing values in Reorder_Point_Qty
+   import: ran restricted; headline 922704/1610892/106934; non-finite 0
+Inventory.Reorder_Point_Qty = 1e12
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: none
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Inventory.Reorder_Point_Qty = "abc"
+   direct: headline 922704/1610892/106934; non-finite 9; new warnings: H:Non-numeric or non-finite values in nu
+   import: Stage 1 refused [ROW_REJECTED]
+Inventory.Reorder_Point_Qty = blank
+   direct: headline 922704/1610892/106934; non-finite 9; new warnings: M:Missing values in Reorder_Point_Qty
+   import: ran restricted; headline 922704/1610892/106934; non-finite 0
+Inventory.Unit_Cost_GBP = 0
+   direct: headline 917206/1610892/106934; non-finite 0; new warnings: M:Inventory unit cost differs from maste
+   import: ran complete; headline 917206/1610892/106934; non-finite 0
+Inventory.Unit_Cost_GBP = -5
+   direct: headline 916706/1610892/106934; non-finite 0; new warnings: M:Inventory unit cost differs from maste | H:Negative costs
+   import: ran [FIELD_BLANKED] restricted; headline withheld/withheld/withheld; non-finite 0
+Inventory.Unit_Cost_GBP = whitespace
+   direct: headline NaN/1610892/NaN; non-finite 495; new warnings: M:Missing values in Unit_Cost_GBP
+   import: ran restricted; headline withheld/withheld/withheld; non-finite 0
+Inventory.Unit_Cost_GBP = 1e12
+   direct: headline 100000000917206/1610892/106934; non-finite 0; new warnings: M:Inventory unit cost differs from maste
+   import: ran complete; headline 100000000917206/1610892/106934; non-finite 0
+Inventory.Unit_Cost_GBP = "abc"
+   direct: headline NaN/1610892/NaN; non-finite 495; new warnings: H:Non-numeric or non-finite values in nu
+   import: ran [FIELD_BLANKED] restricted; headline withheld/withheld/withheld; non-finite 0
+Inventory.Unit_Cost_GBP = blank
+   direct: headline NaN/1610892/NaN; non-finite 495; new warnings: M:Missing values in Unit_Cost_GBP
+   import: ran restricted; headline withheld/withheld/withheld; non-finite 0
+Demand History.Units_Sold = 0
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: M:Zero/negative demand months
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Demand History.Units_Sold = -5
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: M:Zero/negative demand months
+   import: ran [ROW_REJECTED,HISTORY_INCOMPLETE] restricted; headline 922704/1610892/106934; non-finite 0
+Demand History.Units_Sold = whitespace
+   direct: headline 922704/1610892/111387; non-finite 574; new warnings: M:Missing values in Units_Sold | M:Zero/negative demand months
+   import: ran [ROW_REJECTED,HISTORY_INCOMPLETE] restricted; headline 922704/1610892/106934; non-finite 0
+Demand History.Units_Sold = 1e12
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: none
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+Demand History.Units_Sold = "abc"
+   direct: headline 922704/1610892/111387; non-finite 573; new warnings: H:Non-numeric or non-finite values in nu | M:Zero/negative demand months
+   import: ran [ROW_REJECTED,HISTORY_INCOMPLETE] restricted; headline 922704/1610892/106934; non-finite 0
+Demand History.Units_Sold = blank
+   direct: headline 922704/1610892/111387; non-finite 574; new warnings: M:Missing values in Units_Sold | M:Zero/negative demand months
+   import: ran [ROW_REJECTED,HISTORY_INCOMPLETE] restricted; headline 922704/1610892/106934; non-finite 0
+BOM.Qty_Per_Finished_Unit = 0
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:BOM quantity per finished unit is zero | L:130 BOM lines use fractional quantitie
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+BOM.Qty_Per_Finished_Unit = -5
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: H:BOM quantity per finished unit is zero | L:130 BOM lines use fractional quantitie
+   import: Stage 1 refused [ROW_REJECTED]
+BOM.Qty_Per_Finished_Unit = whitespace
+   direct: headline 922704/1610892/106934; non-finite 1; new warnings: M:Missing values in Qty_Per_Finished_Uni | H:BOM quantity per finished unit is zero | L:130 BOM lines use fractional quantitie
+   import: Stage 1 refused [ROW_REJECTED]
+BOM.Qty_Per_Finished_Unit = 1e12
+   direct: headline 922704/1610892/106934; non-finite 0; new warnings: L:130 BOM lines use fractional quantitie
+   import: ran complete; headline 922704/1610892/106934; non-finite 0
+BOM.Qty_Per_Finished_Unit = "abc"
+   direct: headline 922704/1610892/106934; non-finite 1; new warnings: H:Non-numeric or non-finite values in nu | H:BOM quantity per finished unit is zero | L:130 BOM lines use fractional quantitie
+   import: Stage 1 refused [ROW_REJECTED]
+BOM.Qty_Per_Finished_Unit = blank
+   direct: headline 922704/1610892/106934; non-finite 1; new warnings: M:Missing values in Qty_Per_Finished_Uni | H:BOM quantity per finished unit is zero | L:130 BOM lines use fractional quantitie
+   import: Stage 1 refused [ROW_REJECTED]

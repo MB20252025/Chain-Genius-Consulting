@@ -1,0 +1,6 @@
+== /tmp/rA
+Inventory.Allocated_Qty column absent          engine threw — Invalid time value at at dt (js/calculations.js:180:54)
+Inventory.On_Order_Qty column absent           ran (restricted); Stage 1 codes: none; money withheld: none; non-finite released: 0; Engine View column written: false
+== /tmp/rB1
+Inventory.Allocated_Qty column absent          engine threw — Invalid time value at at dt (js/calculations.js:180:54)
+Inventory.On_Order_Qty column absent           ran (restricted); Stage 1 codes: none; money withheld: none; non-finite released: 0; Engine View column written: false

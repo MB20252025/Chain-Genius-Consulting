@@ -1,0 +1,4 @@
+// P1: where does "Invalid time value" come from? Direct route, whole On_Hand_Qty (then Allocated_Qty) column removed.
+const L=require('./lib.js').load(process.argv[2],false);
+for(const col of['On_Hand_Qty','Allocated_Qty']){const w=L.edit(L.fresh(),'Inventory',(r,h)=>{r.forEach(x=>delete x[col]);return h.filter(c=>c!==col)});const res=L.direct(w);
+ console.log('== column removed:',col);console.log(res.err?String(res.err.stack).split('\n').slice(0,7).join('\n'):'ran')}

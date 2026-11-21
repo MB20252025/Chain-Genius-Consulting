@@ -37,15 +37,29 @@ const stk = (id, oh, ua, al, mode) => { const w = X.read(NS, { cellDates: true }
     else if (mode === 'nodemand') r.splice(0, r.length, ...r.filter(x => x.SKU !== id)); });
   const r = run(w); return { r, x: [...r.fg, ...r.rm].find(y => y.id === id), w: warned(r, /Stock held with no demand/, id) }; };
 const inViewOf = s => ctx.__view(s.r).includes('<td>FG050</td>');
+// SUPERSEDED (X1 Q1, owner approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-17). D6 applies to items with no usable demand history: FG050/FG014 here have their
+// 12 positive demand rows REMOVED (fixture evidence: Northstar FG050 and FG014 each have 12 rows, 0 recorded zeros), so demand is UNKNOWN, not zero.
+// Class 'No recorded demand'/'Active' and excess N are replaced by 'Not Assessed' and excess not a number; the warning/listing expectations are kept
+// unchanged (uncommitted stock is never hidden: separate warning 'Stock held with no demand history'). Original lines kept below as comments.
+// [original] for (const [oh, ua, al, cls, w, ex, why] of [
+// [original]   [10, 10, 0, 'No recorded demand', true, 10, 'nothing allocated: all 10 uncommitted'],
+// [original]   [10, 10, 10, 'Active', false, 0, 'all 10 allocated to firm orders: nothing uncommitted, so not dead stock'],
+// [original]   [10, 10, 4, 'No recorded demand', true, 6, '4 of 10 allocated: 6 uncommitted, excess 6'],
+// [original]   [-2, 10, 0, 'No recorded demand', true, 10, 'physical -2 (locations net), usable 10, none allocated'],
+// [original]   [10, 0, 0, 'No recorded demand', true, 0, 'physical 10 held/quarantined, none usable or allocated: still listed (excess is measured on usable stock, so 0)'],
+// [original]   [10, 0, 10, 'Active', false, 0, 'physical 10, none usable, 10 allocated: fully committed'],
+// [original]   [0, 0, 0, 'Active', false, 0, 'no stock at all']]) {
 for (const [oh, ua, al, cls, w, ex, why] of [
-  [10, 10, 0, 'No recorded demand', true, 10, 'nothing allocated: all 10 uncommitted'],
-  [10, 10, 10, 'Active', false, 0, 'all 10 allocated to firm orders: nothing uncommitted, so not dead stock'],
-  [10, 10, 4, 'No recorded demand', true, 6, '4 of 10 allocated: 6 uncommitted, excess 6'],
-  [-2, 10, 0, 'No recorded demand', true, 10, 'physical -2 (locations net), usable 10, none allocated'],
-  [10, 0, 0, 'No recorded demand', true, 0, 'physical 10 held/quarantined, none usable or allocated: still listed (excess is measured on usable stock, so 0)'],
-  [10, 0, 10, 'Active', false, 0, 'physical 10, none usable, 10 allocated: fully committed'],
-  [0, 0, 0, 'Active', false, 0, 'no stock at all']]) {
-  ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'); return s.x.cls === cls && s.w === w && Math.round(s.x.exQty) === ex; },
+  [10, 10, 0, 'Not Assessed', true, null, 'nothing allocated: all 10 uncommitted'],
+  [10, 10, 10, 'Not Assessed', false, null, 'all 10 allocated to firm orders: nothing uncommitted, so not dead stock'],
+  [10, 10, 4, 'Not Assessed', true, null, '4 of 10 allocated: 6 uncommitted, excess 6'],
+  [-2, 10, 0, 'Not Assessed', true, null, 'physical -2 (locations net), usable 10, none allocated'],
+  [10, 0, 0, 'Not Assessed', true, null, 'physical 10 held/quarantined, none usable or allocated: still listed (excess is measured on usable stock, so 0)'],
+  [10, 0, 10, 'Not Assessed', false, null, 'physical 10, none usable, 10 allocated: fully committed'],
+  [0, 0, 0, 'Not Assessed', false, null, 'no stock at all']]) {
+// SUPERSEDED (X1 Q1, CR-17): excess is not a number when demand is unknown (ex === null).
+// [original]   ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'); return s.x.cls === cls && s.w === w && Math.round(s.x.exQty) === ex; },
+  ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'); return s.x.cls === cls && s.w === w && (ex === null ? !isFinite(s.x.exQty) : Math.round(s.x.exQty) === ex); },
     () => { const s = stk('FG050', oh, ua, al, 'nodemand'); return `R2-STK FG050 no demand, ${why}: "${cls}", no-demand warning ${w ? 'yes' : 'no'}, excess ${ex} (got "${s.x.cls}", ${s.w ? 'yes' : 'no'}, ${Math.round(s.x.exQty)})`; });
 }
 ok(() => { const s = stk('FG050', 10, 10, 10, 'obsolete'); return s.x.cls === 'Active' && !ctx.__view(s.r).includes('<td>FG050</td>') && stk('FG050', 10, 10, 4, 'obsolete').x.cls === 'Potentially obsolete'; },
@@ -57,14 +71,23 @@ for (const [oh, ua, al, listed, why] of [
   [10, 10, 15, false, 'allocation 15 above stock 10: nothing uncommitted'],
   [undefined, 10, 0, true, 'On_Hand_Qty blank, usable 10: the usable stock is not hidden'],
   [10, 4, 6, true, 'physical 10, usable 4, allocated 6: listed (uncommitted = larger of physical and usable minus allocated = 4; documented assumption)']]) {
-  ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'), inView = ctx.__view(s.r).includes('<td>FG050</td>'); return (s.x.cls !== 'Active') === listed && inView === listed && s.w === listed; },
+// SUPERSEDED (X1 Q1, CR-17): with demand rows removed the class is 'Not Assessed' (D6); listed-in-view and warned expectations unchanged.
+// [original]   ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'), inView = ctx.__view(s.r).includes('<td>FG050</td>'); return (s.x.cls !== 'Active') === listed && inView === listed && s.w === listed; },
+  ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'), inView = ctx.__view(s.r).includes('<td>FG050</td>'); return s.x.cls === 'Not Assessed' && inView === listed && s.w === listed; },
     () => { const s = stk('FG050', oh, ua, al, 'nodemand'); return `R2-STK FG050 no demand, ${why}: ${listed ? 'listed and warned' : 'not listed, not warned'} (got "${s.x.cls}", view ${ctx.__view(s.r).includes('<td>FG050</td>') ? 'listed' : 'not listed'}, warning ${s.w ? 'yes' : 'no'})`; });
 }
-ok(() => { const s = stk('FG050', 10, 10, 'abc', 'nodemand'); return s.x.cls === 'No recorded demand' && inViewOf(s) && !isFinite(s.x.av) && s.r.dq.some(q => q.sev === 'High' && /Allocated_Qty row \d+ "abc"/.test(q.msg)); },
+// SUPERSEDED (X1 Q1, CR-17): class 'Not Assessed' (demand rows removed, D6); still listed, available stock unknown, High warning kept.
+// [original] ok(() => { const s = stk('FG050', 10, 10, 'abc', 'nodemand'); return s.x.cls === 'No recorded demand' && inViewOf(s) && !isFinite(s.x.av) && s.r.dq.some(q => q.sev === 'High' && /Allocated_Qty row \d+ "abc"/.test(q.msg)); },
+ok(() => { const s = stk('FG050', 10, 10, 'abc', 'nodemand'); return s.x.cls === 'Not Assessed' && inViewOf(s) && !isFinite(s.x.av) && s.r.dq.some(q => q.sev === 'High' && /Allocated_Qty row \d+ "abc"/.test(q.msg)); },
   'R2-STK unreadable allocation "abc": available stock is unknown, so the item stays listed (counted as nothing allocated) beside the High warning naming the cell (documented limitation, Round 2 review)');
 ok(() => { const s = stk('FG050', 0, 0, 0, 'obsolete'); return s.x.cls === 'Active' && !inViewOf(s); }, 'R2-STK no stock at all and demand that stopped 9 months ago: "Active", not listed (nothing to be dead or slow-moving)');
-ok(() => { const s = stk('FG050', 10, 10, -5, 'nodemand'); return s.x.av === 15 && Math.round(s.x.exQty) === 15 && warned(s.r, /^Negative quantities/, 'FG050'); }, 'R2-STK a negative allocation is flagged High and gives the same uncommitted figure (15) in classification, unallocated usable and excess');
-ok(() => { const s = stk('FG014', 882, 882, 882, 'nodemand'); return s.x.cls === 'Active' && !s.w && s.x.exVal === 0; }, 'R2-STK FG014 (real item) with demand removed and all 882 allocated: not dead stock, excess £0');
+// SUPERSEDED (X1 Q2, owner approval 21 Nov 2026; CR-18): owner decision D1(d) prohibits negative Allocated_Qty on both routes and forbids normalising it into a
+// valid number; the original expectation (a negative allocation ADDS 5, giving 15) is the behaviour D1(d) removed. Original kept below.
+// [original] ok(() => { const s = stk('FG050', 10, 10, -5, 'nodemand'); return s.x.av === 15 && Math.round(s.x.exQty) === 15 && warned(s.r, /^Negative quantities/, 'FG050'); }, 'R2-STK a negative allocation is flagged High and gives the same uncommitted figure (15) in classification, unallocated usable and excess');
+ok(() => { const s = stk('FG050', 10, 10, -5, 'nodemand'); return !isFinite(s.x.av) && /Allocated_Qty negative \(not allowed\)/.test(s.x.naWhy) && s.x.uncomm === 10 && !isFinite(s.x.exQty) && warned(s.r, /^Negative quantities/, 'FG050'); }, 'R2-STK (superseded by D1(d)) a negative allocation is flagged High and is never used as a number: available stock not assessed, uncommitted 10 (the -5 no longer adds), excess not assessed');
+// SUPERSEDED (X1 Q1, CR-17): FG014 has 12 positive demand rows in Northstar (0 recorded zeros); removing them makes demand unknown (D6).
+// [original] ok(() => { const s = stk('FG014', 882, 882, 882, 'nodemand'); return s.x.cls === 'Active' && !s.w && s.x.exVal === 0; }, 'R2-STK FG014 (real item) with demand removed and all 882 allocated: not dead stock, excess £0');
+ok(() => { const s = stk('FG014', 882, 882, 882, 'nodemand'); return s.x.cls === 'Not Assessed' && !s.w && !isFinite(s.x.exVal) && !inViewOf(s) === true; }, 'R2-STK (superseded by D6/Q1) FG014 (real item) with demand removed and all 882 allocated: Not Assessed, not warned, excess not assessed, not listed as dead stock');
 ok(() => { const s = stk('RM009', 4060, 4060, 258); return s.x.cls === 'Excess stock' && Math.round(s.x.exQty) === 1618 && s.x.av === 3802; },
   'R2-STK RM009 (real item, as supplied): still "Excess stock", 1,618 excess units measured on unallocated usable stock 3,802 (unchanged)');
 ok(() => { const a = stk('FG050', 10, 10, 4, 'nodemand').x, b = stk('FG050', 10, 10, 0, 'nodemand').x; return a.val === b.val && a.val === 10 * a.cost; }, 'R2-STK stock value is unchanged by allocation: physical × cost');

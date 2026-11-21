@@ -1,0 +1,7 @@
+Inventory.On_Hand_Qty column absent            Stage 1 refused — REQUIRED_UNMAPPED | stock: the required field On_Hand_Qty is not mapped to any column.
+Inventory.Allocated_Qty column absent          engine threw — Invalid time value at at dt (js/calculations.js:180:54)
+Inventory.On_Order_Qty column absent           ran (restricted); Stage 1 codes: none; money withheld: none; non-finite released: 0; Engine View column written: false
+Inventory.Reorder_Point_Qty column absent      ran (restricted); Stage 1 codes: none; money withheld: none; non-finite released: 0; Engine View column written: false
+Inventory.Unit_Cost_GBP column absent          ran (restricted); Stage 1 codes: none; money withheld: fgV,rmV,exV; non-finite released: 0; Engine View column written: false
+Demand History.Units_Sold column absent        Stage 1 refused — REQUIRED_UNMAPPED | demand: the required field Units is not mapped to any column.
+BOM.Qty_Per_Finished_Unit column absent        Stage 1 refused — REQUIRED_UNMAPPED | bom: the required field Qty_Per is not mapped to any column.

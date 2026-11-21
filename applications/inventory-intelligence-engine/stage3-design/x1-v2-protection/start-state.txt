@@ -1,0 +1,14 @@
+taken_at 2026-11-20T22:39:11Z
+branch development/v0.7
+HEAD eddf09b43531c3a2226c2e5788246254689ab469
+tag5 f0e81bb30521a4e798005b0a51b4a531b807441e
+tags v0.6 v0.7-tests-approved-1 v0.7-tests-approved-2 v0.7-tests-approved-3 v0.7-tests-approved-4 v0.7-tests-approved-5 
+stash 0
+ref refs/heads/development/v0.7 eddf09b43531c3a2226c2e5788246254689ab469
+ref refs/heads/main 8117c72f9bdb846fceff11a63a03218f01df5082
+ref refs/remotes/origin/HEAD 8117c72f9bdb846fceff11a63a03218f01df5082
+ref refs/remotes/origin/claude-write-test 8117c72f9bdb846fceff11a63a03218f01df5082
+ref refs/remotes/origin/development/v0.7 46636edb79c2edc2e79dad783131bfa1fb4bc21a
+ref refs/remotes/origin/main 8117c72f9bdb846fceff11a63a03218f01df5082
+ref refs/remotes/origin/release/v0.6 8117c72f9bdb846fceff11a63a03218f01df5082
+status_entries 35

@@ -1,0 +1,203 @@
+ M applications/inventory-intelligence-engine/CHANGELOG.md
+ M applications/inventory-intelligence-engine/IMPORT-V1-DIFFERENCE-REGISTER.md
+ M applications/inventory-intelligence-engine/IMPORT-V1-STAGE2-RECORD.md
+ M applications/inventory-intelligence-engine/index.html
+ M applications/inventory-intelligence-engine/js/app.js
+ M applications/inventory-intelligence-engine/js/calculations.js
+ M applications/inventory-intelligence-engine/js/engine/engine-api.js
+ M applications/inventory-intelligence-engine/js/excel-import.js
+ M applications/inventory-intelligence-engine/js/forecasting.js
+ M applications/inventory-intelligence-engine/js/import/adapter.js
+ M applications/inventory-intelligence-engine/js/import/canonical.js
+ M applications/inventory-intelligence-engine/js/import/clean.js
+ M applications/inventory-intelligence-engine/js/import/result-gate.js
+ M applications/inventory-intelligence-engine/js/import/validate.js
+ M applications/inventory-intelligence-engine/tests/README.md
+ M applications/inventory-intelligence-engine/tests/V07-TEST-RECORD.md
+ M applications/inventory-intelligence-engine/tests/accepted-results.json
+ M applications/inventory-intelligence-engine/tests/check-globals.js
+ M applications/inventory-intelligence-engine/tests/checksums.txt
+ M applications/inventory-intelligence-engine/tests/compare-snapshots.js
+ M applications/inventory-intelligence-engine/tests/run-all.sh
+ M applications/inventory-intelligence-engine/tests/snapshots/README.md
+ M applications/inventory-intelligence-engine/tests/test-import-integrity.js
+ M applications/inventory-intelligence-engine/tests/test-import-mapping.js
+ M applications/inventory-intelligence-engine/tests/test-import-stage1.js
+ M applications/inventory-intelligence-engine/tests/test-same-results.js
+ M applications/inventory-intelligence-engine/tests/test-uom.js
+ M applications/inventory-intelligence-engine/tests/tools/import-v1/reverse-eight-sheet.js
+?? applications/inventory-intelligence-engine/STAGE3-CHANGE-REGISTER.md
+?? applications/inventory-intelligence-engine/js/validation/x1-integrity.js
+?? applications/inventory-intelligence-engine/stage3-design/X1-NUMERIC-INTEGRITY-DESIGN-v2.md
+?? applications/inventory-intelligence-engine/stage3-design/X1-NUMERIC-INTEGRITY-DESIGN.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/EVIDENCE.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/README.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/lib.js.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/out-p1-itv.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/out-p2-allocated-absent-A-B.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/out-p2-import-absent.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/out-p3-values.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/out-p4-units-sold.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/p1-itv.js.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/p2-import-absent.js.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/p3-values.js.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-evidence-claude-20261120/p4-units-sold.js.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/MANUAL-ANDROID-TEST.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/P3-PREPARED-CHECKSUM-LINES.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/SNAPSHOT-IMPACT-INVENTORY.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/STAGE3A-PROPOSAL-test-paging-chrome.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-CHANGE-RECORD.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-IMPLEMENTATION-REPORT.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-TASK2-REPORT.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-TASK3-REPORT.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-TASK4-REPORT.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/X1-VERIFICATION-REPORT.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/SHA256SUMS.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/browser-x1-chrome-run.log
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-blank-several-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/desktop-invalid-mixed-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-blank-several-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task3/mobile-invalid-mixed-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/SHA256SUMS.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/browser-x1-chrome-run.log
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-blank-several-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/desktop-invalid-mixed-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-blank-several-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Excessdeadstock.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Finishedgoods.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Health.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Materials.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Overview.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121-task4/mobile-invalid-mixed-Summary.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/SHA256SUMS.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/browser-x1-chrome-run.log
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/desktop-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/desktop-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/desktop-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/desktop-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/desktop-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/mobile-blank-one-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/mobile-blank-several-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/mobile-clean-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/mobile-column-absent-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/browser-evidence-20261121/mobile-invalid-mixed-MRP.png
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/candidate-snapshot-Q3/v0.7-confidence-CANDIDATE-X1-D6-20261121.json
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/design-history/README.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/design-history/X1-NUMERIC-INTEGRITY-DESIGN-v2.PART1-AS-DELIVERED-20261120.md
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/design-history/v2-part1-to-current.diff
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-2/STATE.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-2/status-all-files.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-2/tree.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-3/STATE.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-3/status-all-files.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-3/tree.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-4/STATE.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-4/status-all-files.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-4/tree.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-5/STATE.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state-5/status-all-files.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state/STATE.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state/remote.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state/status-all-files.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-implementation/start-state/tree.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/START-FILES.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/start-remote.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/start-state.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/start-status.txt
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/start-tree.sha256
+?? applications/inventory-intelligence-engine/stage3-design/x1-v2-protection/start-unexplained-folder-listing.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/RAW-EVIDENCE.sha256
+?? applications/inventory-intelligence-engine/stage3-evidence/ROUND2-EVIDENCE-RECONCILIATION.md
+?? applications/inventory-intelligence-engine/stage3-evidence/ROUND2-IMPACT-INPUT-INVENTORY.csv
+?? applications/inventory-intelligence-engine/stage3-evidence/ROUND2-PROTECTION-INVENTORY.csv
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/column-absent-or-empty-on-B.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/fast-tier-final-tree.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/final-tree-inventory-at-freeze.sha256
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/full-tier-final-tree.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/import-route-blank-on-B.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/probe-blanks-on-B.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v24-on-baseline-B.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v24-on-own-tree.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v30-on-baseline-B.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v30-on-own-tree.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v35-on-baseline-B.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r1-v35-on-own-tree.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r2-wider-final-tree.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r3-probe.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r5-fast-tier-X1R-parallel.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/r5-fast-tier-X1R-standalone.log
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/test-stage3-round2.v24.js.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/test-stage3-round2.v30.js.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/test-stage3-round2.v35.js.txt
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/v24-to-v30.diff
+?? applications/inventory-intelligence-engine/stage3-evidence/raw/v30-to-v35.diff
+?? applications/inventory-intelligence-engine/tests/browser-x1-chrome.js
+?? applications/inventory-intelligence-engine/tests/snapshots/permitted-differences.json
+?? applications/inventory-intelligence-engine/tests/snapshots/v0.7-confidence-20261116T034921Z.json
+?? applications/inventory-intelligence-engine/tests/snapshots/v0.7-confidence-20261121T075533Z.json
+?? applications/inventory-intelligence-engine/tests/test-allocated-usable.js
+?? applications/inventory-intelligence-engine/tests/test-empty-text.js
+?? applications/inventory-intelligence-engine/tests/test-partial-totals.js
+?? applications/inventory-intelligence-engine/tests/test-scrap-rules.js
+?? applications/inventory-intelligence-engine/tests/test-shortage-delay.js
+?? applications/inventory-intelligence-engine/tests/test-stage3-quality.js
+?? applications/inventory-intelligence-engine/tests/test-stage3-round2.js
+?? applications/inventory-intelligence-engine/tests/test-tz-boundaries.js
+?? applications/inventory-intelligence-engine/tests/test-x1-containment.js
+?? applications/inventory-intelligence-engine/tests/test-x1-foundation.js
+?? applications/inventory-intelligence-engine/tests/test-x1-wp5.js

@@ -35,12 +35,21 @@ const stk = (oh, ua, obsolete) => { const w = X.read(NS, { cellDates: true });
   sheetEdit(w, 'Demand History', r => { if (obsolete) { const f = r.filter(x => x.SKU === 'FG050').sort((a, b) => a.Month_Start - b.Month_Start); f.forEach((x, i) => { x.Units_Sold = i < 3 ? 40 : 0; }); } else r.splice(0, r.length, ...r.filter(x => x.SKU !== 'FG050')); });
   const o = E.runEngine({ workbook: rt(w) }); return { x: o.result.fg.find(y => y.id === 'FG050'), warned: o.result.dq.some(q => /no recorded demand|Stock held with no demand/i.test(q.msg) && q.ex.split(', ').includes('FG050')) }; };
 for (const [oh, ua, cls, warned, why] of [
-  [10, 10, 'No recorded demand', true, 'normal stock (on-hand 10 = usable 10)'],
-  [-2, 10, 'No recorded demand', true, 'Option D: locations net to -2 but 10 are usable'],
-  [0, 5, 'No recorded demand', true, 'Option D: locations net to 0 but 5 are usable'],
-  [10, 0, 'No recorded demand', true, 'Option D: 10 on hand but none usable (held or quarantined): still flagged, as before'],
-  [10, undefined, 'No recorded demand', true, 'usable cell blank: falls back to on-hand 10'],
-  [0, 0, 'Active', false, 'no stock at all']]) {
+// SUPERSEDED (X1 Q1, owner approval 21 Nov 2026; CR-17). FG050's 12 positive demand rows are REMOVED here (Northstar: 12 rows, 0 recorded zeros), so
+// under D6 demand is unknown: class 'Not Assessed' replaces 'No recorded demand'/'Active'. The 'listed by the no-demand warning' expectations are kept
+// unchanged (warning 'Stock held with no demand history'). Original rows kept below as comments.
+// [original]   [10, 10, 'No recorded demand', true, 'normal stock (on-hand 10 = usable 10)'],
+// [original]   [-2, 10, 'No recorded demand', true, 'Option D: locations net to -2 but 10 are usable'],
+// [original]   [0, 5, 'No recorded demand', true, 'Option D: locations net to 0 but 5 are usable'],
+// [original]   [10, 0, 'No recorded demand', true, 'Option D: 10 on hand but none usable (held or quarantined): still flagged, as before'],
+// [original]   [10, undefined, 'No recorded demand', true, 'usable cell blank: falls back to on-hand 10'],
+// [original]   [0, 0, 'Active', false, 'no stock at all']]) {
+  [10, 10, 'Not Assessed', true, 'normal stock (on-hand 10 = usable 10)'],
+  [-2, 10, 'Not Assessed', true, 'Option D: locations net to -2 but 10 are usable'],
+  [0, 5, 'Not Assessed', true, 'Option D: locations net to 0 but 5 are usable'],
+  [10, 0, 'Not Assessed', true, 'Option D: 10 on hand but none usable (held or quarantined): still flagged, as before'],
+  [10, undefined, 'Not Assessed', true, 'usable cell blank: falls back to on-hand 10'],
+  [0, 0, 'Not Assessed', false, 'no stock at all']]) {
   ok(() => { const r = stk(oh, ua); return r.x.cls === cls && r.warned === warned; }, () => { const r = stk(oh, ua); return `C-STK ${why}: FG050 with no demand is "${cls}"${warned ? ' and listed by the no-demand warning' : ' and not listed'} (got "${r.x.cls}", ${r.warned ? 'listed' : 'not listed'})`; });
 }
 for (const [oh, ua, cls, why] of [[10, 10, 'Potentially obsolete', 'normal stock'], [-2, 10, 'Potentially obsolete', 'Option D: physical -2, usable 10'],

@@ -31,7 +31,7 @@ file ac9113044c1be81b74facec502c478ba03414dca5031c29d49a9225d121b3607 tests/audi
 file 4d23f08d5ac3b72d88c3ed46367f025cf686cfdb97533a1c08c5bef4e9e5c580 tests/audit-escaping-templates.js
 file ba1ab8baead8aefc7c2bae1aee52779eb36f3bd49a2d1be13e5da1f765f7fa9e tests/audit-shared-state-writes.js
 file 8926dd239327e0fbce300936740d514bd3bc1ac184c1b1597221bb3c93380464 tests/browser-chrome.js
-file c4964c206034cb3f40b1a8ec2fe6053aa1301d67935daace01cff61e4411246f tests/check-globals.js
+file 1a51855a9727c5fb12a6b3648b1c1b807386d04bb27d0e477cd050d279a3708c tests/check-globals.js
 file b1d544ab1271538b2a40ff08f59349bdbd70b0799aff69c8c610c043163be358 tests/check-standalone.js
 file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js
 file dcc1d0ced72aa9cdde7aab7ad9ab5020258d0e96c4d295fa98272b2bf8cec380 tests/compare-trees.js
@@ -92,7 +92,7 @@ file bcfba0fb13c2d98e7c0c614292a4342271177af6f8b5a39e0d716b275a0dfa9e tests/run-
 file 4f7837519943a99861a1ff8a6cbe5de9bb61df627208a7a667ace29ae15f1a42 tests/run-regression.sh
 file 689de2a0bafd7e85f53446deefb1bc52bf7f5189c95761fd67e21afb7dc674bb tests/run-supplier-scenarios.sh
 file c91bc07fea501374b90e755e74985ee70ab15fa7a86221c812c38e451d5f20ad tests/run-verbose.sh
-file 6a00557fdc3d956eceec486b5765650eff3b57aa2536f13c5a11a66e288b2c5f tests/snapshots/README.md
+file ee3ce5fe1e3fb848b188fd94041d42a82a1b50ec60b53169eecf9e4d8dd9ac19 tests/snapshots/README.md
 file 7f38bc567da528f1606d71a8873aea29ceface42f7ad8fef45b1682b19fce00a tests/snapshots/v0.5-golden-20261105T101953Z.json
 file 7f38bc567da528f1606d71a8873aea29ceface42f7ad8fef45b1682b19fce00a tests/snapshots/v0.6.0-baseline-20261109T152050Z.json
 file 9d287907c33bd93142f7f8fd54f2868af183fed75fea7cdc942215abdd0f4928 tests/supfields.js
@@ -349,7 +349,7 @@ file 7c8eff4a2322a4805bf33bc3fd3745a0b6fba23a7b36030f9c0c4f8a24784ea5 tests/char
 # M1 pre-tag Commit 9 (12 Nov 2026): M1 Stage 1 import test (A1-A3), protected for the Tag-4 review.
 file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js
 # Universal Data Import v1 Stage 1 (13 Nov 2026, owner condition 3: new fixtures protected from the moment they are introduced): the Stage 1 test, the fixture generator (tests/tools/import-v1), the hand-written Package 02 mapping and the generated synthetic layouts and fault cases (tests/fixtures/import-v1). js/import/mapping.js and validate.js are protected by behaviour tests, not checksums (M1 policy).
-file 5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703 tests/test-import-mapping.js
+file c764216615193f8c9337c89476051aab14f5baccfc9a844f5108a77c257ba5dc tests/test-import-mapping.js
 file ed5e24e2e7f96a0ba17737546f300b9c41e6d38ba710205bb20ae64676c560c6 tests/tools/import-v1/make-stage1-fixtures.js
 file 3e0c43030b4c074fc4ad95e263c38f8bf9c1c0bbb19d2a2a535a9f06b9a0e485 tests/fixtures/import-v1/faults/F01-stock-bad-row/mapping.json
 file 49797f383f0d9b7de3cd670dd9b912d6fb8992239a7b6c2727244b66079dedae tests/fixtures/import-v1/faults/F01-stock-bad-row/stock.csv
@@ -446,7 +446,7 @@ file 38ff08dcd743db4ec03bf91ea14bd374ca2a60b5c9d4366c04d7d5f9821d51f6 tests/test
 file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js
 file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js
 # Universal Data Import v1 Stage 2, K7 (14 Nov 2026): integrity test for the adapter (AD2) and result gate (RG2). test-import-adapter.js above was updated in K7 (case 12 and the RG2 leak-test specification). Both lines were updated again for the K7 verification corrections (15 Nov 2026, owner Approval 1). test-import-integrity.js was updated again for E-1 (15 Nov 2026, owner approval).
-file c373df7d0bc8fcc2f9302ad16ce99a33127586c2ec8278f4973e6af6c0fba8df tests/test-import-integrity.js
+file 4b56ca43ed09f0ae95309079a8966694d6926bc05118b4a821a1023cce1ef34e tests/test-import-integrity.js
 # Stage 3 (16 Nov 2026; owner mandate "Stage 3 - Controlled Autonomous Execution", Tag-6 consolidation; new files protected from the moment they are
 # introduced). Changed approved lines above: tests/test-uom.js (U5: blank units are missing, not unrecognised; owner option (a), DR-4),
 # tests/test-same-results.js (Willow DR-4 checks restated as route equality: both routes 11), tests/snapshots/README.md (v0.7 confidence
@@ -464,6 +464,22 @@ file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test
 file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js
 file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json
 # Stage 3 completion (18 Nov 2026; STAGE3-CHANGE-REGISTER.md). Re-hashed approved lines above: tests/compare-snapshots.js (C-CMP printer fix), tests/test-allocated-usable.js (D5 wording). Added:
-file ae7112568af01b8bedf8158f211e50bae1cadfabe7d56f35b432681d18a77ad4 tests/test-stage3-quality.js
+file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js
 # Stage 3 Round 2 (18 Nov 2026; Baseline B attribution, STAGE3-CHANGE-REGISTER.md). Re-hashed: tests/test-stage3-quality.js (FG050 scenarios state Allocated_Qty 0 explicitly). Added:
-file c15e0a17a5d2666c96b7d982568d59675d800b82d2675cd55c24382cfe6fc84d tests/test-stage3-round2.js
+file 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980 tests/test-stage3-round2.js
+# X1 P1 browser integration (21 Nov 2026; owner approval of P1; stage3-design/x1-implementation/X1-CHANGE-RECORD.md CR-02). Re-hashed approved line above: tests/check-globals.js (EXPECT load list adds js/validation/x1-integrity.js; rules unchanged). Previous hash c4964c206034cb3f40b1a8ec2fe6053aa1301d67935daace01cff61e4411246f. No line added or removed.
+# X1 P3 (21 Nov 2026; owner authorisation of P3; X1-CHANGE-RECORD.md CR-09). Added the three initial X1 test files after the P3 inspection (two weak checks in test-x1-containment.js tightened first). js/ files get no line (behaviour-test protection, M1-DESIGN.md, 12 Nov 2026).
+file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js
+file aa7f0124c38cbddae1c0c8319657bc2cfb457719d06a83ce3d7bf0ac930f685b tests/test-x1-containment.js
+file 739e4f9c0801ff3c0e527d1bf0400e4c9187e71e211d78d362d7607b1db7fdca tests/browser-x1-chrome.js
+# X1 task 3 (21 Nov 2026; P3 re-hash rule; X1-CHANGE-RECORD.md CR-12, CR-13). Re-hashed approved lines above: tests/test-x1-foundation.js (previous 44dd720addd82423fdffefb96bbcae4d026f5df25dbc057851208ce693dd09aa); tests/test-x1-containment.js (previous 08cda87dee116ace064c181a21619c2129ff3cddb42a4962c909d076cb2b6b21); tests/browser-x1-chrome.js (previous 8afc84714410beff6f1235df6beae3353c5fd3d4c5498478e0a713a7fe812388). Reason: owner vocabulary "Not Assessed" (§6.3), Q1 interim no-rows condition, WP7 view and export coverage. Added:
+file e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc tests/test-x1-wp5.js
+# X1 Q3 (21 Nov 2026; owner approval; CR-20). New: the 21 Nov confidence snapshot (D6/WP6: one value differs from the 16 Nov snapshot, Willow clientQuestions[6].ev). The 12 Nov and 16 Nov snapshot lines are unchanged.
+file cf27c4fd7a9cd97064f1e2a4bebd6282227bfe3317036e344d2043552d36e080 tests/snapshots/v0.7-confidence-20261121T075533Z.json
+# X1 task 4 (21 Nov 2026; owner approvals Q1-Q4; X1-CHANGE-RECORD.md CR-17 to CR-21). Re-hashed approved lines above (superseding notes, originals kept as comments): tests/snapshots/README.md (previous 6a00557fdc3d956eceec486b5765650eff3b57aa2536f13c5a11a66e288b2c5f); tests/test-import-mapping.js (previous 5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703); tests/test-import-integrity.js (previous c373df7d0bc8fcc2f9302ad16ce99a33127586c2ec8278f4973e6af6c0fba8df); tests/test-stage3-quality.js (previous ae7112568af01b8bedf8158f211e50bae1cadfabe7d56f35b432681d18a77ad4); tests/test-stage3-round2.js (previous c15e0a17a5d2666c96b7d982568d59675d800b82d2675cd55c24382cfe6fc84d); tests/test-x1-foundation.js (previous 0b22aa2f5783a5b2fbb72765932281b4945933ff49aefa301bab12fcf2147c78); tests/test-x1-wp5.js (previous 1e498af8e1123021e11baeb2d720eaa28c4967ff308a791407ac6f545f312baf). No line removed.
+# X1 completion (21 Nov 2026; owner X1 Final Completion Authorisation; X1-CHANGE-RECORD.md CR-26). New: tests/test-x1-completion.js. No approved line changed. js/ files get no line (behaviour is covered by the tests).
+file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test-x1-completion.js
+# X1 material-integrity correction (21 Nov 2026; owner "X1 Final Material Integrity Correction"; X1-CHANGE-RECORD.md CR-30). Re-hashed approved line above: tests/test-x1-completion.js (previous 81dc5397ae144fbf24215890cbe8b6d65c3d166950bfe245c081ceea31b13ea1; two assertions superseded with notes, originals kept as comments, count 48 unchanged). New: tests/test-x1-material-integrity.js.
+file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js
+# X1 acceptance (21 Nov 2026; owner master authorisation "Complete X1 …"; X1-CHANGE-RECORD.md CR-34). Registered prospectively. New: tests/test-x1-acceptance-wording.js (created 21 Nov 2026, CR-33). No approved line changed.
+file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js

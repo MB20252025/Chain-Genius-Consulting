@@ -1,0 +1,19 @@
+PASS: T1 clean: no "Not Assessed" on Materials; every Exposed £/mo is a figure
+PASS: T1 no page errors
+PASS: T2.2 High warning, "row … (FG001 / blank)"
+PASS: T2.3 RM050 "Not Assessed – … usage unknown, not zero", no null
+PASS: T2.4 (changed) RM001 Not Assessed, "usage incomplete", "at least … (incomplete: not used in any calculation)" [RM001Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage cannot be established) – BOM line(s) naming n]
+PASS: T2.5 FG001 orders "Insufficient information" with "blank Material_ID" (1 orders)
+PASS: T2.6 export RM050 Not Assessed with the reason
+PASS: T2 no page errors
+PASS: T3.2 notice names Reorder_Point_Qty, no "risk status withheld"
+PASS: T3.3 Materials: no "Not Assessed", "No reorder point configured" shown
+PASS: T3.3 Finished goods: no "Not Assessed", "No reorder point configured" shown
+PASS: T4.1 RM001 "at least 386 (incomplete: not used in any calculation)", Not Assessed
+PASS: T4.1 note above the table
+PASS: T4.2 MRP RM001 Not Assessed, no gross or net number [Material=RM001 ; Status=Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage cannot be established) – BOM line(s) naming no known material could add to it: row 202 (parent FG002) (known part of usage: at]
+PASS: T4.3 FG002 orders Insufficient; nothing feasible after the first one (first: FG002; later: 38)
+PASS: T4.4 Finished goods: normal statuses, no "Not Assessed"
+PASS: T4.5 export RM001 reason ends "known part of usage: at least 386.4/mo, incomplete, not used in any calculation"
+PASS: T4.6 no "null/undefined/NaN" on any tab or in the export (none)
+PASS: T4 no page errors

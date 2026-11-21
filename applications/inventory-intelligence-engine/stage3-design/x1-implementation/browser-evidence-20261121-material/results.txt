@@ -1,0 +1,33 @@
+PASS: desktop Materials: RM001 Not Assessed, "usage incomplete", known part shown as "at least … (incomplete: not used in any calculation)" (RM001Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage cannot be established) – BOM line(s) naming no known material could add to it: row 20)
+PASS: desktop Materials: screen note explains incomplete usage; no "null/undefined/NaN" on the page
+PASS: desktop Materials: no page-level horizontal overflow
+PASS: desktop MRP: RM001 Not Assessed; no "null/undefined/NaN" (RM001Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage canno)
+PASS: desktop Feasibility: no order after the first unknown one is shown feasible; reason on screen
+PASS: desktop Excess & dead stock: no "null/undefined/NaN"
+PASS: desktop Data quality: High warning names row and parent FG002; no "undefined" in BOM reference text
+PASS: desktop export: RM001 Not Assessed with the reason and the labelled known part
+PASS: desktop export: no cell reads "null", "undefined" or "NaN"
+PASS: desktop no console errors (0)
+PASS: desktop RM050 (no valid BOM line): "usage unknown, not zero", no partial figure
+PASS: desktop no console errors
+PASS: desktop issue 26 still fixed: notice names the column only; 0 Not Assessed
+PASS: desktop no console errors
+PASS: desktop clean Northstar: nothing Not Assessed, no partial figure, no incomplete-usage note
+PASS: desktop clean: no console errors
+PASS: pixel5 Materials: RM001 Not Assessed, "usage incomplete", known part shown as "at least … (incomplete: not used in any calculation)" (RM001Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage cannot be established) – BOM line(s) naming no known material could add to it: row 20)
+PASS: pixel5 Materials: screen note explains incomplete usage; no "null/undefined/NaN" on the page
+PASS: pixel5 Materials: no page-level horizontal overflow
+PASS: pixel5 MRP: RM001 Not Assessed; no "null/undefined/NaN" (RM001Not Assessed – Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full usage canno)
+PASS: pixel5 Feasibility: no order after the first unknown one is shown feasible; reason on screen
+PASS: pixel5 Excess & dead stock: no "null/undefined/NaN"
+PASS: pixel5 Data quality: High warning names row and parent FG002; no "undefined" in BOM reference text
+PASS: pixel5 export: RM001 Not Assessed with the reason and the labelled known part
+PASS: pixel5 export: no cell reads "null", "undefined" or "NaN"
+PASS: pixel5 no console errors (0)
+PASS: pixel5 RM050 (no valid BOM line): "usage unknown, not zero", no partial figure
+PASS: pixel5 no console errors
+PASS: pixel5 issue 26 still fixed: notice names the column only; 0 Not Assessed
+PASS: pixel5 no console errors
+PASS: pixel5 clean Northstar: nothing Not Assessed, no partial figure, no incomplete-usage note
+PASS: pixel5 clean: no console errors
+mi-browser: 32 passed, 0 failed

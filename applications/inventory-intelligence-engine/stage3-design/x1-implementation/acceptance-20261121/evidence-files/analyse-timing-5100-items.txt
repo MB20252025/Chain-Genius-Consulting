@@ -1,0 +1,2 @@
+northstar-x34.xlsx items 5100 analyse() median 1007 ms, min 957 max 1179 ms (7 runs, Node v22.23.4)
+northstar-x34-blank.xlsx items 5100 analyse() median 1097 ms, min 985 max 1263 ms (7 runs, Node v22.23.4)

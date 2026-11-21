@@ -1,0 +1,187 @@
+Browser: HeadlessChrome/153.0.8010.0 | served at http://127.0.0.1:PORT/chain-genius/applications/inventory-intelligence-engine/ | screenshots /tmp/x1-shots-final
+
+===== DESKTOP (1280x800) =====
+PASS desktop clean: the page loads js/validation/x1-integrity.js and exposes CGValidation (P1)
+PASS desktop clean: A: the upload completes ("Analysed."), no page error
+PASS desktop clean: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop clean: B: the record names exactly the affected fields
+PASS desktop clean: B: status inputs-valid; never "Verified"
+PASS desktop clean: C: 0 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS desktop clean: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop clean: C: "Not calculated" count card is absent
+PASS desktop clean: C: net-requirement count has no qualifier
+PASS desktop clean: C: integrity notice is absent on clean data
+PASS desktop clean: C: replenishment total is not labelled partial
+PASS desktop clean: C: order-now count has no qualifier
+PASS desktop clean: C: replenishment total is a £ figure
+PASS desktop clean: C: every tab has no missing-input banner
+PASS desktop clean: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop clean: no page error while visiting every tab
+PASS desktop blank-one: A: the upload completes ("Analysed."), no page error
+PASS desktop blank-one: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop blank-one: B: the record names exactly the affected fields
+PASS desktop blank-one: B: status inputs-not-all-valid; never "Verified"
+PASS desktop blank-one: C: 1 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS desktop blank-one: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop blank-one: C: "Not calculated" count card shows 1
+PASS desktop blank-one: C: net-requirement count says how many were not calculated
+PASS desktop blank-one: C: integrity notice names Allocated_Qty
+PASS desktop blank-one: C: replenishment total is labelled partial and says what it excludes
+PASS desktop blank-one: C: order-now count says how many materials were calculated
+PASS desktop blank-one: C: replenishment total is a £ figure
+PASS desktop blank-one: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop blank-one: C: every unaffected material (99 shown) displays exactly what it displays on clean data
+PASS desktop blank-one: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS desktop blank-one: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop blank-one: no page error while visiting every tab
+PASS desktop blank-several: A: the upload completes ("Analysed."), no page error
+PASS desktop blank-several: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop blank-several: B: the record names exactly the affected fields
+PASS desktop blank-several: B: status inputs-not-all-valid; never "Verified"
+PASS desktop blank-several: C: 3 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS desktop blank-several: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop blank-several: C: "Not calculated" count card shows 3
+PASS desktop blank-several: C: net-requirement count says how many were not calculated
+PASS desktop blank-several: C: integrity notice names Allocated_Qty
+PASS desktop blank-several: C: replenishment total is labelled partial and says what it excludes
+PASS desktop blank-several: C: order-now count says how many materials were calculated
+PASS desktop blank-several: C: replenishment total is a £ figure
+PASS desktop blank-several: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop blank-several: C: every unaffected material (97 shown) displays exactly what it displays on clean data
+PASS desktop blank-several: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS desktop blank-several: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop blank-several: no page error while visiting every tab
+PASS desktop column-absent: A: the upload completes ("Analysed."), no page error
+PASS desktop column-absent: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop column-absent: B: the record names exactly the affected fields
+PASS desktop column-absent: B: status inputs-not-all-valid; never "Verified"
+PASS desktop column-absent: C: every withheld MRP row(s) shown as "Not calculated" with a reason
+PASS desktop column-absent: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop column-absent: C: "Not calculated" count card shows 100
+PASS desktop column-absent: C: net-requirement count says how many were not calculated
+PASS desktop column-absent: C: integrity notice names Allocated_Qty
+PASS desktop column-absent: C: replenishment total is labelled partial and says what it excludes
+PASS desktop column-absent: C: order-now count says how many materials were calculated
+PASS desktop column-absent: C: replenishment total shows "–", not £0, when no material was calculated
+PASS desktop column-absent: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop column-absent: C: every unaffected material (0 shown) displays exactly what it displays on clean data
+PASS desktop column-absent: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS desktop column-absent: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop column-absent: no page error while visiting every tab
+PASS desktop invalid-mixed: A: the upload completes ("Analysed."), no page error
+PASS desktop invalid-mixed: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop invalid-mixed: B: the record names exactly the affected fields
+PASS desktop invalid-mixed: B: status inputs-not-all-valid; never "Verified"
+PASS desktop invalid-mixed: C: 2 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS desktop invalid-mixed: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop invalid-mixed: C: "Not calculated" count card shows 2
+PASS desktop invalid-mixed: C: net-requirement count says how many were not calculated
+PASS desktop invalid-mixed: C: integrity notice names On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP
+PASS desktop invalid-mixed: C: replenishment total is labelled partial and says what it excludes
+PASS desktop invalid-mixed: C: order-now count says how many materials were calculated
+PASS desktop invalid-mixed: C: replenishment total is a £ figure
+PASS desktop invalid-mixed: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop invalid-mixed: C: every unaffected material (97 shown) displays exactly what it displays on clean data
+PASS desktop invalid-mixed: C: every tab shows the missing-input banner naming On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP and saying other views may be understated
+PASS desktop invalid-mixed: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop invalid-mixed: no page error while visiting every tab
+
+===== MOBILE (Pixel 5 EMULATION, not a physical device) =====
+PASS mobile clean: the page loads js/validation/x1-integrity.js and exposes CGValidation (P1)
+PASS mobile clean: A: the upload completes ("Analysed."), no page error
+PASS mobile clean: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile clean: B: the record names exactly the affected fields
+PASS mobile clean: B: status inputs-valid; never "Verified"
+PASS mobile clean: C: 0 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS mobile clean: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile clean: C: "Not calculated" count card is absent
+PASS mobile clean: C: net-requirement count has no qualifier
+PASS mobile clean: C: integrity notice is absent on clean data
+PASS mobile clean: C: replenishment total is not labelled partial
+PASS mobile clean: C: order-now count has no qualifier
+PASS mobile clean: C: replenishment total is a £ figure
+PASS mobile clean: C: every tab has no missing-input banner
+PASS mobile clean: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile clean: no page error while visiting every tab
+PASS mobile blank-one: A: the upload completes ("Analysed."), no page error
+PASS mobile blank-one: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile blank-one: B: the record names exactly the affected fields
+PASS mobile blank-one: B: status inputs-not-all-valid; never "Verified"
+PASS mobile blank-one: C: 1 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS mobile blank-one: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile blank-one: C: "Not calculated" count card shows 1
+PASS mobile blank-one: C: net-requirement count says how many were not calculated
+PASS mobile blank-one: C: integrity notice names Allocated_Qty
+PASS mobile blank-one: C: replenishment total is labelled partial and says what it excludes
+PASS mobile blank-one: C: order-now count says how many materials were calculated
+PASS mobile blank-one: C: replenishment total is a £ figure
+PASS mobile blank-one: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile blank-one: C: every unaffected material (49 shown) displays exactly what it displays on clean data
+PASS mobile blank-one: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS mobile blank-one: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile blank-one: no page error while visiting every tab
+PASS mobile blank-several: A: the upload completes ("Analysed."), no page error
+PASS mobile blank-several: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile blank-several: B: the record names exactly the affected fields
+PASS mobile blank-several: B: status inputs-not-all-valid; never "Verified"
+PASS mobile blank-several: C: 3 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS mobile blank-several: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile blank-several: C: "Not calculated" count card shows 3
+PASS mobile blank-several: C: net-requirement count says how many were not calculated
+PASS mobile blank-several: C: integrity notice names Allocated_Qty
+PASS mobile blank-several: C: replenishment total is labelled partial and says what it excludes
+PASS mobile blank-several: C: order-now count says how many materials were calculated
+PASS mobile blank-several: C: replenishment total is a £ figure
+PASS mobile blank-several: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile blank-several: C: every unaffected material (47 shown) displays exactly what it displays on clean data
+PASS mobile blank-several: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS mobile blank-several: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile blank-several: no page error while visiting every tab
+PASS mobile column-absent: A: the upload completes ("Analysed."), no page error
+PASS mobile column-absent: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile column-absent: B: the record names exactly the affected fields
+PASS mobile column-absent: B: status inputs-not-all-valid; never "Verified"
+PASS mobile column-absent: C: every withheld MRP row(s) shown as "Not calculated" with a reason
+PASS mobile column-absent: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile column-absent: C: "Not calculated" count card shows 100
+PASS mobile column-absent: C: net-requirement count says how many were not calculated
+PASS mobile column-absent: C: integrity notice names Allocated_Qty
+PASS mobile column-absent: C: replenishment total is labelled partial and says what it excludes
+PASS mobile column-absent: C: order-now count says how many materials were calculated
+PASS mobile column-absent: C: replenishment total shows "–", not £0, when no material was calculated
+PASS mobile column-absent: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile column-absent: C: every unaffected material (0 shown) displays exactly what it displays on clean data
+PASS mobile column-absent: C: every tab shows the missing-input banner naming Allocated_Qty and saying other views may be understated
+PASS mobile column-absent: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile column-absent: no page error while visiting every tab
+PASS mobile invalid-mixed: A: the upload completes ("Analysed."), no page error
+PASS mobile invalid-mixed: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile invalid-mixed: B: the record names exactly the affected fields
+PASS mobile invalid-mixed: B: status inputs-not-all-valid; never "Verified"
+PASS mobile invalid-mixed: C: 2 withheld MRP row(s) shown as "Not calculated" with a reason
+PASS mobile invalid-mixed: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile invalid-mixed: C: "Not calculated" count card shows 2
+PASS mobile invalid-mixed: C: net-requirement count says how many were not calculated
+PASS mobile invalid-mixed: C: integrity notice names On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP
+PASS mobile invalid-mixed: C: replenishment total is labelled partial and says what it excludes
+PASS mobile invalid-mixed: C: order-now count says how many materials were calculated
+PASS mobile invalid-mixed: C: replenishment total is a £ figure
+PASS mobile invalid-mixed: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile invalid-mixed: C: every unaffected material (47 shown) displays exactly what it displays on clean data
+PASS mobile invalid-mixed: C: every tab shows the missing-input banner naming On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP and saying other views may be understated
+PASS mobile invalid-mixed: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile invalid-mixed: no page error while visiting every tab
+
+===== IMPORT ROUTE (harness inside the real page, desktop) =====
+PASS import clean: A: Stage 1, adapter and engine complete in the browser
+PASS import clean: B: out.integrity is an import-route record (inputs-valid)
+PASS import clean: A: withheld MRP rows none, no NaN or invalid date
+PASS import blank-one: A: Stage 1, adapter and engine complete in the browser
+PASS import blank-one: B: out.integrity is an import-route record (names Allocated_Qty)
+PASS import blank-one: A: withheld MRP rows RM001, no NaN or invalid date
+PASS import column-absent: A: Stage 1, adapter and engine complete in the browser
+PASS import column-absent: B: out.integrity is an import-route record (names Allocated_Qty)
+PASS import column-absent: A: withheld MRP rows all, no NaN or invalid date
+PASS import harness: no page error
+
+browser-x1-chrome: 178 passed, 0 failed | screenshots in /tmp/x1-shots-final
