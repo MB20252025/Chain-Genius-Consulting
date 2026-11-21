@@ -1,0 +1,4 @@
+nodem-alloc-0 {'oh': 10, 'al': 0, 'av': 10, 'uncomm': 10, 'cls': 'No recorded demand', 'exQty': 10, 'exVal': 749.5999999999999, 'assess': 'Assessed', 'naWhy': ''}
+nodem-alloc-10 {'oh': 10, 'al': 10, 'av': 0, 'uncomm': 0, 'cls': 'Active', 'exQty': 0, 'exVal': 0, 'assess': 'Assessed', 'naWhy': ''}
+nodem-alloc-blank {'oh': 10, 'al': None, 'av': None, 'uncomm': 10, 'cls': 'No recorded demand', 'exQty': None, 'exVal': None, 'assess': 'Not Assessed', 'naWhy': 'Allocated_Qty blank'}
+nodem-alloc-abc {'oh': 10, 'al': 'abc', 'av': None, 'uncomm': 10, 'cls': 'No recorded demand', 'exQty': None, 'exVal': None, 'assess': 'Not Assessed', 'naWhy': 'Allocated_Qty invalid'}

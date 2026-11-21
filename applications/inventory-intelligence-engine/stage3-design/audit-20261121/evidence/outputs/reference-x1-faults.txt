@@ -1,0 +1,3 @@
+# X1 reference on ns-x1-faults.xlsx (FG007, RM005, RM017, RM042 cost blank; FG020, RM060 on-hand blank; RM070 allocated 'abc')
+unaffected items whose ABC class moved because other items became Not Assessed: FG018 B->C, FG030 A->B, RM020 A->B, RM051 C->B
+X1 reference checks: 495, agree 495, differ 0

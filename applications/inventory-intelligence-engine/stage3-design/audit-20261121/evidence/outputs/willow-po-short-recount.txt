@@ -1,0 +1,5 @@
+# willow 'POs received short', recounted from the raw Purchase Orders sheet with openpyxl (21 Nov 2026)
+rule used: Received_Date present, Received_Qty and Ordered_Qty numeric, Received_Qty < Ordered_Qty
+received: 62 of 70 rows; short: 11 (wf-po-1001, 1002, 1015, 1019, 1023, 1037, 1044, 1045, 1046, 1055, 1063)
+confidence snapshot v0.7-confidence-20261121T075533Z.json says: '11 POs received short' -> agrees
+historical 12 Nov snapshot said 19 (before DR-4); not reproduced by this rule

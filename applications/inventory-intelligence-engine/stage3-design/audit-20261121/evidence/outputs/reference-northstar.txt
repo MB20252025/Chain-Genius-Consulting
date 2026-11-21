@@ -1,0 +1,33 @@
+# Reference calculation, Northstar, commit dc16902, 2026-11-21T21:51:34Z
+# engine dump: node reference/dumpitems.js <app> fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx ns-items.json
+## population s.d. (engine definition)
+reference checks: 1103, agree 1103, differ 0
+  annual  agree  150 differ   0
+  av      agree  150 differ   0
+  d       agree  150 differ   0
+  fgV     agree    1 differ   0
+  m       agree  150 differ   0
+  rmV     agree    1 differ   0
+  ropR    agree  150 differ   0
+  sg      agree   50 differ   0
+  ssR     agree  150 differ   0
+  tot     agree    1 differ   0
+  val     agree  150 differ   0
+## sample s.d. (for comparison)
+reference checks: 1103, agree 753, differ 350
+  annual  agree  150 differ   0
+  av      agree  150 differ   0
+  d       agree  150 differ   0
+  fgV     agree    1 differ   0
+  m       agree  150 differ   0
+  rmV     agree    1 differ   0
+  ropR    agree    0 differ 150
+  sg      agree    0 differ  50
+  ssR     agree    0 differ 150
+  tot     agree    1 differ   0
+  val     agree  150 differ   0
+Traceback (most recent call last):
+  File "/home/claude/scie-git/applications/inventory-intelligence-engine/stage3-design/audit-20261121/reference/reference_calc.py", line 47, in <module>
+    for r in bad[:15]: print('  DIFF', r)
+                       ~~~~~^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe

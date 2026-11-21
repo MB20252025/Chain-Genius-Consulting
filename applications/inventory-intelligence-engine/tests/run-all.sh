@@ -141,6 +141,7 @@ const ran=real.filter(r=>/^\d+$/.test(r.act)).reduce((q,r)=>q+(+r.act),0);
 const code=n('FAIL')||n('ERROR')?1:0,P=[];
 P.push('v0.7 tests ('+tier.toUpperCase()+') - green means no NEW failures, NOT full coverage');
 P.push('PASS: '+n('PASS')+' | FAIL: '+n('FAIL')+' | BLOCKED: '+n('BLOCKED')+' | REDUCED: '+n('REDUCED')+' | ERROR: '+n('ERROR'));
+P.push('Tests: '+real.filter(r=>r.st==='PASS').length+' passed (+ pre-flight '+((results.find(r=>r.name==='pre-flight')||{}).st||'not run')+'), of '+real.length+' tests. The PASS figure above includes the pre-flight row, which is not a test.');   // 21 Nov 2026: stops the PASS figure being reported as a test count
 const fullCount=A.tests.filter(t=>t.tiers.includes('full')).length;
 P.push('Scope: '+(tier==='fast'?'FAST ('+real.length+' tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has '+fullCount+' tests)':'FULL ('+real.length+' tests, all time zones, full 1,000-call wrapper)')+' + pre-flight');
 P.push('Checks counted in this run (first zone of each test): '+ran);P.push(global.ENV_LINE||'Environment: not recorded');
