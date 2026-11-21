@@ -1,0 +1,928 @@
+Guard (recorded), fast tier, full tier	Set up job	﻿2026-11-21T21:36:01.9551764Z Current runner version: '2.338.2'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261111.635
+Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+Build Date: 2026-11-11T01:49:01Z
+Worker ID: {96350c4b-d64c-45c1-a617-3603369ef351}
+Region: us-west-2
+Cloud: AWS
+##[endgroup]
+##[group]Operating System
+Ubuntu
+24.04.5
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-24.04
+Version: 20261116.133.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.133/images/ubuntu/Ubuntu2404-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.133
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Contents: read
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: Guard (recorded), fast tier, full tier
+Guard (recorded), fast tier, full tier	0. Check out the candidate commit (full history and tags)	﻿2026-11-21T21:36:04.2723527Z ##[group]Run actions/checkout@v4
+with:
+  ref: dc169025220548c03a0ad82e47828e5dceebaa15
+  fetch-depth: 0
+  repository: MB20252025/Chain-Genius-Consulting
+  token: ***
+  ssh-strict: true
+  ssh-user: git
+  persist-credentials: true
+  clean: true
+  sparse-checkout-cone-mode: true
+  fetch-tags: false
+  show-progress: true
+  lfs: false
+  submodules: false
+  set-safe-directory: true
+  allow-unsafe-pr-checkout: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+##[endgroup]
+Syncing repository: MB20252025/Chain-Genius-Consulting
+##[group]Getting Git version info
+Working directory is '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+[command]/usr/bin/git version
+git version 2.56.1
+##[endgroup]
+Temporarily overriding HOME='/home/runner/work/_temp/d7f835c6-ddec-4c8d-8bee-39632c3fb396' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Deleting the contents of '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+##[group]Initializing the repository
+[command]/usr/bin/git init /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/.git/
+[command]/usr/bin/git remote add origin https://github.com/MB20252025/Chain-Genius-Consulting
+##[endgroup]
+##[group]Disabling automatic garbage collection
+[command]/usr/bin/git config --local gc.auto 0
+##[endgroup]
+##[group]Setting up auth
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+[command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+##[endgroup]
+##[group]Fetching the repository
+[command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+From https://github.com/MB20252025/Chain-Genius-Consulting
+ * [new branch]      audit/scie-20261121     -> origin/audit/scie-20261121
+ * [new branch]      candidate/tag6-20261121 -> origin/candidate/tag6-20261121
+ * [new branch]      ci/candidate-verification-20261121 -> origin/ci/candidate-verification-20261121
+ * [new branch]      claude-write-test       -> origin/claude-write-test
+ * [new branch]      corrections/x1-20261121 -> origin/corrections/x1-20261121
+ * [new branch]      development/v0.7        -> origin/development/v0.7
+ * [new branch]      main                    -> origin/main
+ * [new branch]      recovery/stage3-unaccepted-20261116-19 -> origin/recovery/stage3-unaccepted-20261116-19
+ * [new branch]      release/v0.6            -> origin/release/v0.6
+ * [new branch]      x1/accepted-20261121    -> origin/x1/accepted-20261121
+ * [new tag]         v0.6                    -> v0.6
+ * [new tag]         v0.7-tests-approved-1   -> v0.7-tests-approved-1
+ * [new tag]         v0.7-tests-approved-2   -> v0.7-tests-approved-2
+ * [new tag]         v0.7-tests-approved-3   -> v0.7-tests-approved-3
+ * [new tag]         v0.7-tests-approved-4   -> v0.7-tests-approved-4
+ * [new tag]         v0.7-tests-approved-5   -> v0.7-tests-approved-5
+[command]/usr/bin/git rev-parse --verify --quiet dc169025220548c03a0ad82e47828e5dceebaa15^{object}
+dc169025220548c03a0ad82e47828e5dceebaa15
+##[endgroup]
+##[group]Determining the checkout info
+##[endgroup]
+[command]/usr/bin/git sparse-checkout disable
+[command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+##[group]Checking out the ref
+[command]/usr/bin/git checkout --progress --force dc169025220548c03a0ad82e47828e5dceebaa15
+Note: switching to 'dc169025220548c03a0ad82e47828e5dceebaa15'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at dc16902 Audit, baseline protection and Stage 3 reconciliation record (21 Nov 2026)
+##[endgroup]
+[command]/usr/bin/git log -1 --format=%H
+dc169025220548c03a0ad82e47828e5dceebaa15
+Guard (recorded), fast tier, full tier	0b. Record identity	﻿2026-11-21T21:36:07.7467305Z ##[group]Run RUN_ID="cand-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+[36;1mRUN_ID="cand-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"[0m
+[36;1mD="$RUNNER_TEMP/evidence/$RUN_ID"; mkdir -p "$D"[0m
+[36;1mecho "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "D=$D" >> "$GITHUB_ENV"[0m
+[36;1m{[0m
+[36;1m  echo "run id: $RUN_ID"[0m
+[36;1m  echo "workflow file commit (GITHUB_SHA): $GITHUB_SHA"[0m
+[36;1m  echo "tested commit (HEAD): $(git rev-parse HEAD)"[0m
+[36;1m  echo "expected candidate:   $CANDIDATE_SHA"[0m
+[36;1m  echo "app tree hash: $(git rev-parse HEAD:$APP)"[0m
+[36;1m  echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"[0m
+[36;1m  echo "started: $(date -u +%FT%TZ)"[0m
+[36;1m} | tee "$D/meta.txt"[0m
+[36;1mtest "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+##[endgroup]
+run id: cand-44952372282-1
+workflow file commit (GITHUB_SHA): c9e32de799539dbf93da0acaa6ca71a406d93f7d
+tested commit (HEAD): dc169025220548c03a0ad82e47828e5dceebaa15
+expected candidate:   dc169025220548c03a0ad82e47828e5dceebaa15
+app tree hash: d30f939c95c78f8db61b4306ee179fd4518f64b4
+workflow run: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/44952372282
+started: 2026-11-21T21:36:07Z
+Guard (recorded), fast tier, full tier	1. GUARD (approved check-control.js from Tag-5): result recorded	﻿2026-11-21T21:36:07.9920166Z ##[group]Run set +e
+[36;1mset +e[0m
+[36;1mgit show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" \[0m
+[36;1m  && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin > "$D/guard.txt" 2>&1[0m
+[36;1mrc=$?[0m
+[36;1mset -e[0m
+[36;1mcat "$D/guard.txt"; echo "guard exit: $rc" | tee -a "$D/meta.txt"[0m
+[36;1mecho "GUARD_RC=$rc" >> "$GITHUB_ENV"[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+##[endgroup]
+FAIL: run-all.sh: CHANGED since the approved baseline (needs approval)
+PASS: check-protection.js: identical to the approved baseline
+PASS: check-control.js: identical to the approved baseline
+PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+PASS: package.json: identical to the approved baseline
+PASS: package-lock.json: identical to the approved baseline
+PASS: requirements.txt: identical to the approved baseline
+PASS: summarise-run.js: identical to the approved baseline
+PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+PENDING: check-protection: accepted count raised 434 -> 452
+PENDING: check-globals: accepted count raised 116 -> 124
+PENDING: test-a1-static: accepted count raised 29 -> 30
+PENDING: same-results: accepted count raised 356 -> 416
+PENDING: import-integrity: accepted count raised 386 -> 396
+PENDING: test-a1-sync-path: accepted count raised 74 -> 76
+PENDING: allocated-usable: new test, accepted 23
+PENDING: empty-text: new test, accepted 46
+PENDING: shortage-delay: new test, accepted 19
+PENDING: scrap-rules: new test, accepted 71
+PENDING: tz-boundaries: new test, accepted 71
+PENDING: partial-totals: new test, accepted 8
+PENDING: stage3-quality: new test, accepted 28
+PENDING: stage3-round2: new test, accepted 35
+PENDING: x1-foundation: new test, accepted 40
+PENDING: x1-containment: new test, accepted 41
+PENDING: browser-x1-chrome: new test, accepted 334
+PENDING: x1-wp5: new test, accepted 56
+PENDING: x1-completion: new test, accepted 48
+PENDING: x1-material-integrity: new test, accepted 42
+PENDING: x1-acceptance-wording: new test, accepted 12
+FAIL: accepted-results.json: WEAKENED: confidence snapshot v0.7: snapshot changed
+PENDING: checksums.txt new protected line: file 1a51855a9727c5fb12a6b3648b1c1b807386d04bb27d0e477cd050d279a3708c tests/check-globals.js
+PENDING: checksums.txt new protected line: file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js
+PENDING: checksums.txt new protected line: file ee3ce5fe1e3fb848b188fd94041d42a82a1b50ec60b53169eecf9e4d8dd9ac19 tests/snapshots/README.md
+PENDING: checksums.txt new protected line: file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js
+PENDING: checksums.txt new protected line: file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js
+PENDING: checksums.txt new protected line: file c764216615193f8c9337c89476051aab14f5baccfc9a844f5108a77c257ba5dc tests/test-import-mapping.js
+PENDING: checksums.txt new protected line: file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js
+PENDING: checksums.txt new protected line: file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js
+PENDING: checksums.txt new protected line: file 4b56ca43ed09f0ae95309079a8966694d6926bc05118b4a821a1023cce1ef34e tests/test-import-integrity.js
+PENDING: checksums.txt new protected line: file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js
+PENDING: checksums.txt new protected line: file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js
+PENDING: checksums.txt new protected line: file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.j
+PENDING: checksums.txt new protected line: file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js
+PENDING: checksums.txt new protected line: file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js
+PENDING: checksums.txt new protected line: file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js
+PENDING: checksums.txt new protected line: file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js
+PENDING: checksums.txt new protected line: file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json
+PENDING: checksums.txt new protected line: file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js
+PENDING: checksums.txt new protected line: file 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980 tests/test-stage3-round2.js
+PENDING: checksums.txt new protected line: file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js
+PENDING: checksums.txt new protected line: file aa7f0124c38cbddae1c0c8319657bc2cfb457719d06a83ce3d7bf0ac930f685b tests/test-x1-containment.js
+PENDING: checksums.txt new protected line: file 739e4f9c0801ff3c0e527d1bf0400e4c9187e71e211d78d362d7607b1db7fdca tests/browser-x1-chrome.js
+PENDING: checksums.txt new protected line: file e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc tests/test-x1-wp5.js
+PENDING: checksums.txt new protected line: file cf27c4fd7a9cd97064f1e2a4bebd6282227bfe3317036e344d2043552d36e080 tests/snapshots/v0.7-confidence-20261121T075533Z.j
+PENDING: checksums.txt new protected line: file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test-x1-completion.js
+PENDING: checksums.txt new protected line: file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js
+PENDING: checksums.txt new protected line: file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js
+FAIL: checksums.txt: 9 approved line(s) REMOVED or CHANGED: tests/check-globals.js, tests/compare-snapshots.js, tests/snapshots/README.md
+check-control: 9 passed, 3 failed (baseline v0.7-tests-approved-5 = f0e81bb)
+guard exit: 1
+Guard (recorded), fast tier, full tier	Run actions/setup-node@v4	﻿2026-11-21T21:36:10.7161138Z ##[group]Run actions/setup-node@v4
+with:
+  node-version: 22.23.4
+  always-auth: false
+  check-latest: false
+  token: ***
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+##[endgroup]
+Attempting to download 22.23.4...
+(node:2198) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Acquiring 22.23.4 - x64 from https://github.com/actions/node-versions/releases/download/22.23.4-39619033003/node-22.23.4-linux-x64.tar.gz
+Extracting ...
+[command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/2eea28c0-aadd-450b-bace-c21c76cfb85f -f /home/runner/work/_temp/01a53c2d-4a94-449a-a023-0ccb2734d380
+Adding to the cache ...
+##[group]Environment details
+node: v22.23.4
+npm: 10.9.9
+yarn: 1.22.22
+##[endgroup]
+Guard (recorded), fast tier, full tier	Run actions/setup-python@v5	﻿2026-11-21T21:36:14.5225929Z ##[group]Run actions/setup-python@v5
+with:
+  python-version: 3.13
+  check-latest: false
+  token: ***
+  update-environment: true
+  allow-prereleases: false
+  freethreaded: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+##[endgroup]
+##[group]Installed versions
+(node:2232) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Successfully set up CPython (3.13.18)
+##[endgroup]
+Guard (recorded), fast tier, full tier	2. Pinned packages (outside the repository)	﻿2026-11-21T21:36:14.7696558Z ##[group]Run mkdir -p "$RUNNER_TEMP/testdeps" "$RUNNER_TEMP/pw"
+[36;1mmkdir -p "$RUNNER_TEMP/testdeps" "$RUNNER_TEMP/pw"[0m
+[36;1mcp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"[0m
+[36;1m(cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)[0m
+[36;1mpython -m pip install --quiet -r "$APP/tests/requirements.txt"[0m
+[36;1m(cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-audit --no-fund playwright@1.63.0)[0m
+[36;1mPLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers" "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium[0m
+[36;1m{[0m
+[36;1m  echo "node $(node -v), npm $(npm -v), python $(python --version 2>&1)"[0m
+[36;1m  python -m pip freeze | grep -iE '^(pandas|openpyxl|numpy|python-dateutil|et-xmlfile|six)=='[0m
+[36;1m  echo "playwright $(node -p "require('$RUNNER_TEMP/pw/node_modules/playwright/package.json').version")"[0m
+[36;1m  ls "$RUNNER_TEMP/pw-browsers"[0m
+[36;1m} | tee "$D/environment.txt"[0m
+[36;1mecho "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/pw-browsers" >> "$GITHUB_ENV"[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+##[endgroup]
+
+added 86 packages in 2s
+
+added 2 packages in 1s
+Installing dependencies...
+Switching to root user to install dependencies...
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+Hit:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Get:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [832 kB]
+Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [762 kB]
+Get:4 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:9 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1475 kB]
+Get:10 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [319 kB]
+Get:11 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1716 kB]
+Get:12 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [346 kB]
+Get:13 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1922 kB]
+Get:14 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [443 kB]
+Get:15 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1198 kB]
+Get:16 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/main Translation-en [239 kB]
+Get:17 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1231 kB]
+Get:18 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1792 kB]
+Get:19 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [414 kB]
+Fetched 13.1 MB in 2s (8431 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+libasound2t64 set to manually installed.
+libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+libatk-bridge2.0-0t64 set to manually installed.
+libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+libatk1.0-0t64 set to manually installed.
+libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+libatspi2.0-0t64 set to manually installed.
+libcairo2 is already the newest version (1.18.0-3build1).
+libcairo2 set to manually installed.
+libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+libcups2t64 set to manually installed.
+libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+libdbus-1-3 set to manually installed.
+libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+libdrm2 set to manually installed.
+libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.10).
+libglib2.0-0t64 set to manually installed.
+libnspr4 is already the newest version (2:4.35-1.1build1).
+libnspr4 set to manually installed.
+libnss3 is already the newest version (2:3.98-1ubuntu0.3).
+libnss3 set to manually installed.
+libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+libpango-1.0-0 set to manually installed.
+libx11-6 is already the newest version (2:1.8.7-1ubuntu0.1).
+libx11-6 set to manually installed.
+libxcb1 is already the newest version (1.15-1ubuntu2).
+libxcb1 set to manually installed.
+libxcomposite1 is already the newest version (1:0.4.5-1build3).
+libxcomposite1 set to manually installed.
+libxdamage1 is already the newest version (1:1.1.6-1build1).
+libxdamage1 set to manually installed.
+libxext6 is already the newest version (2:1.3.4-1build2).
+libxext6 set to manually installed.
+libxfixes3 is already the newest version (1:6.0.0-2build1).
+libxfixes3 set to manually installed.
+libxkbcommon0 is already the newest version (1.6.0-1build1).
+libxkbcommon0 set to manually installed.
+libxrandr2 is already the newest version (2:1.5.2-2build1).
+libxrandr2 set to manually installed.
+xvfb is already the newest version (2:21.1.12-1ubuntu1.9).
+fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+libfontconfig1 set to manually installed.
+libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.2).
+libfreetype6 set to manually installed.
+fonts-liberation is already the newest version (1:2.1.5-3).
+fonts-liberation set to manually installed.
+The following additional packages will be installed:
+  libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+Recommended packages:
+  fonts-ipafont-mincho fonts-tlwg-loma
+The following NEW packages will be installed:
+  fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+  fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+  xfonts-utils
+The following packages will be upgraded:
+  libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+4 upgraded, 9 newly installed, 0 to remove and 61 not upgraded.
+Need to get 32.1 MB of archives.
+After this operation, 79.7 MB of additional disk space will be used.
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [152 B]
+Get:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+Get:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+Get:4 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+Get:5 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+Get:6 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+Get:7 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.5 [38.0 kB]
+Get:8 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.5 [110 kB]
+Get:9 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.5 [34.2 kB]
+Get:10 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.5 [10.8 MB]
+Get:11 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+Get:12 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+Get:13 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+Get:14 http://us-east-2.ec2.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+Fetched 32.1 MB in 2s (15.5 MB/s)
+Selecting previously unselected package fonts-ipafont-gothic.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 216720 files and directories currently installed.)
+Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+Selecting previously unselected package fonts-freefont-ttf.
+Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+Selecting previously unselected package fonts-tlwg-loma-otf.
+Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+Selecting previously unselected package fonts-unifont.
+Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+Unpacking fonts-unifont (1:15.1.01-1build1) ...
+Selecting previously unselected package fonts-wqy-zenhei.
+Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../06-libglx-mesa0_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../07-libgbm1_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../08-mesa-libgallium_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Selecting previously unselected package xfonts-encodings.
+Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+Selecting previously unselected package xfonts-utils.
+Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+Unpacking xfonts-utils (1:7.7+6build3) ...
+Selecting previously unselected package xfonts-cyrillic.
+Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+Selecting previously unselected package xfonts-scalable.
+Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up fonts-wqy-zenhei (0.9.45-8) ...
+Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+Setting up fonts-unifont (1:15.1.01-1build1) ...
+Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up xfonts-utils (1:7.7+6build3) ...
+Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+Setting up xfonts-scalable (1:1.0.3-1.3) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.12) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Not building database; man-db/auto-update is not 'true'.
+Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+Downloading Chrome for Testing 153.0.8010.12 (playwright chromium v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip
+|                                                                                |   0% of 186.8 MiB
+|■■■■■■■■                                                                        |  10% of 186.8 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 186.8 MiB
+Chrome for Testing 153.0.8010.12 (playwright chromium v1243) downloaded to /home/runner/work/_temp/pw-browsers/chromium-1243
+Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+|                                                                                |   0% of 2.3 MiB
+|■■■■■■■■                                                                        |  10% of 2.3 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/work/_temp/pw-browsers/ffmpeg-1011
+Downloading Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-headless-shell-linux64.zip
+|                                                                                |   0% of 114.3 MiB
+|■■■■■■■■                                                                        |  10% of 114.3 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.3 MiB
+Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) downloaded to /home/runner/work/_temp/pw-browsers/chromium_headless_shell-1243
+node v22.23.4, npm 10.9.9, python Python 3.13.18
+numpy==2.5.3
+openpyxl==3.1.5
+pandas==3.0.5
+python-dateutil==2.9.0.post0
+six==1.17.0
+playwright 1.63.0
+chromium-1243
+chromium_headless_shell-1243
+ffmpeg-1011
+Guard (recorded), fast tier, full tier	3. Fast tier	﻿2026-11-21T21:37:02.6711954Z ##[group]Run set +e
+[36;1mset +e[0m
+[36;1mNODE_PATH="$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --fast --log "$D/fast.log" > "$D/fast-summary.txt" 2>&1[0m
+[36;1mecho "fast exit: $?" | tee -a "$D/meta.txt"; cat "$D/fast-summary.txt"[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+fast exit: 1
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 39 | FAIL: 1 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Scope: FAST (39 tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has 60 tests) + pre-flight
+Checks counted in this run (first zone of each test): 5104
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-control               1      12                9        3 check(s) failed: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval) | FAIL: accepted-results.json: WEAKENED: confidence snapshot v0.7: snapshot changed | FAIL: checksums.txt: 9 approved line(s) REMOVED or CHANGED: tests/check-globals.js, tests/compare-snapshots.js, tests/snapshots/README.md
+         WARNING: PENDING: check-protection: accepted count raised 434 -> 452 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: check-globals: accepted count raised 116 -> 124 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-static: accepted count raised 29 -> 30 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: same-results: accepted count raised 356 -> 416 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: import-integrity: accepted count raised 386 -> 396 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-sync-path: accepted count raised 74 -> 76 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: allocated-usable: new test, accepted 23 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: empty-text: new test, accepted 46 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: shortage-delay: new test, accepted 19 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: scrap-rules: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: tz-boundaries: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: partial-totals: new test, accepted 8 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-quality: new test, accepted 28 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-round2: new test, accepted 35 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-foundation: new test, accepted 40 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-containment: new test, accepted 41 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: browser-x1-chrome: new test, accepted 334 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-wp5: new test, accepted 56 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-completion: new test, accepted 48 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-material-integrity: new test, accepted 42 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-acceptance-wording: new test, accepted 12 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 1a51855a9727c5fb12a6b3648b1c1b807386d04bb27d0e477cd050d279a3708c tests/check-globals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ee3ce5fe1e3fb848b188fd94041d42a82a1b50ec60b53169eecf9e4d8dd9ac19 tests/snapshots/README.md (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c764216615193f8c9337c89476051aab14f5baccfc9a844f5108a77c257ba5dc tests/test-import-mapping.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 4b56ca43ed09f0ae95309079a8966694d6926bc05118b4a821a1023cce1ef34e tests/test-import-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980 tests/test-stage3-round2.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file aa7f0124c38cbddae1c0c8319657bc2cfb457719d06a83ce3d7bf0ac930f685b tests/test-x1-containment.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 739e4f9c0801ff3c0e527d1bf0400e4c9187e71e211d78d362d7607b1db7fdca tests/browser-x1-chrome.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc tests/test-x1-wp5.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file cf27c4fd7a9cd97064f1e2a4bebd6282227bfe3317036e344d2043552d36e080 tests/snapshots/v0.7-confidence-20261121T075533Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test-x1-completion.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js (needs the owner's approval: move the approved tag)
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      452               452      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              1      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            1      23                23       
+PASS     empty-text                  1      46                46       
+PASS     shortage-delay              1      19                19       
+PASS     scrap-rules                 1      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              1      8                 8        
+PASS     stage3-quality              1      28                28       
+PASS     stage3-round2               1      35                35       
+PASS     characterisation-lead-time  1      28                28       
+PASS     test-a1-sync-path           1      76                76       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     x1-foundation               1      40                40       
+PASS     x1-containment              1      41                41       
+PASS     x1-wp5                      1      56                56       
+PASS     x1-completion               1      48                48       
+PASS     x1-material-integrity       1      42                42       
+PASS     x1-acceptance-wording       1      12                12       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 1 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+Guard (recorded), fast tier, full tier	4. Full tier (Playwright 1.63.0 first on NODE_PATH)	﻿2026-11-21T21:42:14.9779746Z ##[group]Run set +e
+[36;1mset +e[0m
+[36;1mNODE_PATH="$RUNNER_TEMP/pw/node_modules:$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --full --log "$D/full.log" > "$D/full-summary.txt" 2>&1[0m
+[36;1mecho "full exit: $?" | tee -a "$D/meta.txt"; cat "$D/full-summary.txt"[0m
+[36;1mecho "finished: $(date -u +%FT%TZ)" >> "$D/meta.txt"[0m
+[36;1m{[0m
+[36;1m  echo "## Candidate verification: \`$CANDIDATE_SHA\`"; echo[0m
+[36;1m  echo "Guard (Tag-5 check-control) exit: **$GUARD_RC**"; echo[0m
+[36;1m  echo "### Fast tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/fast-summary.txt" | cut -c1-170; echo '```'[0m
+[36;1m  echo "### Full tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/full-summary.txt" | cut -c1-170; echo '```'[0m
+[36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+full exit: 1
+v0.7 tests (FULL) - green means no NEW failures, NOT full coverage
+PASS: 54 | FAIL: 1 | BLOCKED: 4 | REDUCED: 2 | ERROR: 0
+Scope: FULL (60 tests, all time zones, full 1,000-call wrapper) + pre-flight
+Checks counted in this run (first zone of each test): 6074
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1, python 3.13.18, py:pandas 3.0.5, py:openpyxl 3.1.5, py:numpy 2.5.3, py:python-dateutil 2.9.0.post0, py:et-xmlfile 2.0.0, py:six 1.17.0
+Not running: 122 checks in REDUCED tests; 4 BLOCKED tests
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-control               1      12                9        3 check(s) failed: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval) | FAIL: accepted-results.json: WEAKENED: confidence snapshot v0.7: snapshot changed | FAIL: checksums.txt: 9 approved line(s) REMOVED or CHANGED: tests/check-globals.js, tests/compare-snapshots.js, tests/snapshots/README.md
+         WARNING: PENDING: check-protection: accepted count raised 434 -> 452 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: check-globals: accepted count raised 116 -> 124 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-static: accepted count raised 29 -> 30 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: same-results: accepted count raised 356 -> 416 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: import-integrity: accepted count raised 386 -> 396 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-sync-path: accepted count raised 74 -> 76 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: allocated-usable: new test, accepted 23 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: empty-text: new test, accepted 46 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: shortage-delay: new test, accepted 19 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: scrap-rules: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: tz-boundaries: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: partial-totals: new test, accepted 8 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-quality: new test, accepted 28 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-round2: new test, accepted 35 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-foundation: new test, accepted 40 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-containment: new test, accepted 41 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: browser-x1-chrome: new test, accepted 334 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-wp5: new test, accepted 56 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-completion: new test, accepted 48 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-material-integrity: new test, accepted 42 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-acceptance-wording: new test, accepted 12 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 1a51855a9727c5fb12a6b3648b1c1b807386d04bb27d0e477cd050d279a3708c tests/check-globals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ee3ce5fe1e3fb848b188fd94041d42a82a1b50ec60b53169eecf9e4d8dd9ac19 tests/snapshots/README.md (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c764216615193f8c9337c89476051aab14f5baccfc9a844f5108a77c257ba5dc tests/test-import-mapping.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 4b56ca43ed09f0ae95309079a8966694d6926bc05118b4a821a1023cce1ef34e tests/test-import-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980 tests/test-stage3-round2.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file aa7f0124c38cbddae1c0c8319657bc2cfb457719d06a83ce3d7bf0ac930f685b tests/test-x1-containment.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 739e4f9c0801ff3c0e527d1bf0400e4c9187e71e211d78d362d7607b1db7fdca tests/browser-x1-chrome.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc tests/test-x1-wp5.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file cf27c4fd7a9cd97064f1e2a4bebd6282227bfe3317036e344d2043552d36e080 tests/snapshots/v0.7-confidence-20261121T075533Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test-x1-completion.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js (needs the owner's approval: move the approved tag)
+BLOCKED  test-fglt-note              2      -                 -        D5 #1: needs the Phase 2 source tree (historical zip). [missing /mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2/js/app.js]
+BLOCKED  test-forecast-conf          2      -                 -        D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3. [missing /home/claude/p3tree.txt]
+BLOCKED  test-supplier-eligibility   2      -                 -        D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). [missing /home/claude/p3tree.txt]
+BLOCKED  phase2-comparison           1      -                 -        D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub. [git tag v0.6-candidate-4-phase2 not present]
+REDUCED  test-phase1                 2      57 (full 125)     57       runs 57 of 125 (68 missing). Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running.
+REDUCED  test-uom                    2      110 (full 164)    110      runs 110 of 164 (54 missing). Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running.
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      452               452      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              2      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            2      23                23       
+PASS     empty-text                  2      46                46       
+PASS     shortage-delay              2      19                19       
+PASS     scrap-rules                 2      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              2      8                 8        
+PASS     stage3-quality              2      28                28       
+PASS     stage3-round2               2      35                35       
+PASS     characterisation-lead-time  5      28                28       
+PASS     test-a1-sync-path           2      76                76       
+PASS     test-a1-state               2      10                10       
+PASS     test-a1-escaping            2      46                46       
+PASS     x1-foundation               5      40                40       
+PASS     x1-containment              5      41                41       
+PASS     browser-x1-chrome           1      334               334      
+PASS     x1-wp5                      5      56                56       
+PASS     x1-completion               5      48                48       
+PASS     x1-material-integrity       5      42                42       
+PASS     x1-acceptance-wording       5      12                12       
+PASS     test-a1-wrapper             2      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       2      118               118      
+PASS     test8                       2      47                47       
+PASS     test9                       2      57                57       
+PASS     domtest                     2      30                30       
+PASS     domtest2                    2      18                18       
+PASS     test-failed-import          2      18                18       
+PASS     test-export-nohistory       2      19                19       
+PASS     test-timezones              2      15                15       
+PASS     test-po-edge                2      35                35       
+PASS     test-structure              2      34                34       
+PASS     test-paging                 2      23                23       
+PASS     test-fillcap                2      276               276      
+PASS     test-export-repeat          2      24                24       
+PASS     test-cache                  2      15                15       
+PASS     test-blank-qty              2      19                19       
+PASS     test-missing-values         2      63                63       
+PASS     test-na-constraints         2      88                88       
+PASS     test-paging-chrome          1      -                 59       
+         WARNING: documented blocker is no longer present: running the test; update accepted-results.json and the records
+PASS     python-verifier             1      17                17       
+PASS     scenarios                   1      16                16       
+PASS     browser-chrome              1      53                53       
+
+EXIT 1: 1 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+Guard (recorded), fast tier, full tier	5. Keep the evidence (artifact)	﻿2026-11-21T21:57:34.4088849Z ##[group]Run actions/upload-artifact@v4
+with:
+  name: candidate-evidence-cand-44952372282-1
+  path: /home/runner/work/_temp/evidence/cand-44952372282-1
+Guard (recorded), fast tier, full tier	5. Keep the evidence (artifact)	applications/inventory-intelligence-engine/tests/logs/
+Guard (recorded), fast tier, full tier	5. Keep the evidence (artifact)	
+  retention-days: 90
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+(node:6441) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Multiple search paths detected. Calculating the least common ancestor of all paths
+The least common ancestor is /home/runner/work. This will be the root directory of the artifact
+With the provided path, there will be 1340 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:6441) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 8388608
+Uploaded bytes 16777216
+Uploaded bytes 25165824
+Uploaded bytes 33554432
+Uploaded bytes 41943040
+Uploaded bytes 45179845
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is ebb30d7527889d8214ebba380b63b6cfbec6d9ce75043a4db4985d38a58eac65
+Finalizing artifact upload
+Artifact candidate-evidence-cand-44952372282-1.zip successfully finalized. Artifact ID 14726917168
+Artifact candidate-evidence-cand-44952372282-1 has been successfully uploaded! Final size is 45179845 bytes. Artifact ID is 14726917168
+Artifact download URL: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/44952372282/artifacts/14726917168
+Guard (recorded), fast tier, full tier	6. Overall result (red unless the guard and both tiers exit 0)	﻿2026-11-21T21:57:38.0153297Z ##[group]Run cat "$D/meta.txt"
+[36;1mcat "$D/meta.txt"[0m
+[36;1mgrep -q "^fast exit: 0$" "$D/meta.txt" && grep -q "^full exit: 0$" "$D/meta.txt" && [ "$GUARD_RC" = 0 ][0m
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-5
+  CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+  RUN_ID: cand-44952372282-1
+  D: /home/runner/work/_temp/evidence/cand-44952372282-1
+  GUARD_RC: 1
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+run id: cand-44952372282-1
+workflow file commit (GITHUB_SHA): c9e32de799539dbf93da0acaa6ca71a406d93f7d
+tested commit (HEAD): dc169025220548c03a0ad82e47828e5dceebaa15
+expected candidate:   dc169025220548c03a0ad82e47828e5dceebaa15
+app tree hash: d30f939c95c78f8db61b4306ee179fd4518f64b4
+workflow run: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/44952372282
+started: 2026-11-21T21:36:07Z
+guard exit: 1
+fast exit: 1
+full exit: 1
+finished: 2026-11-21T21:57:34Z
+##[error]Process completed with exit code 1.
+Guard (recorded), fast tier, full tier	Post 0. Check out the candidate commit (full history and tags)	﻿2026-11-21T21:57:38.0347112Z Post job cleanup.
+[command]/usr/bin/git version
+git version 2.56.1
+Temporarily overriding HOME='/home/runner/work/_temp/81c3ab59-ef2c-4c1a-b777-b4d6ec92c5c9' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Guard (recorded), fast tier, full tier	Complete job	﻿2026-11-21T21:57:38.1793285Z Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
