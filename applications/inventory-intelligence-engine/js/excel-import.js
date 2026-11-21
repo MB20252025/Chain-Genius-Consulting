@@ -10,7 +10,7 @@ let WBNAME='';
 const calDate=d=>new Date(Math.round((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)*864e5);
 // Column names of a sheet's header row, spelled as sheet_to_json spells them (a repeated name becomes Name_1, Name_2 ...). Blank header cells are skipped.
 const sheetHeaders=n=>{if(!WB.Sheets[n])return[];const h=(XLSX.utils.sheet_to_json(WB.Sheets[n],{header:1,raw:true})[0]||[]),seen={},out=[];for(let i=0;i<h.length;i++){let v=h[i];if(v===undefined||v===null||String(v).trim()==='')continue;v=String(v);const k=seen[v]=(seen[v]===undefined?-1:seen[v])+1;out.push(k?v+'_'+k:v)}return out};
-const rows=n=>WB.Sheets[n]?XLSX.utils.sheet_to_json(WB.Sheets[n],{raw:true,cellDates:true}).map(r=>{for(const k in r)if(r[k] instanceof Date&&!isNaN(r[k]))r[k]=calDate(r[k]);return r}):null;
+const rows=n=>WB.Sheets[n]?XLSX.utils.sheet_to_json(WB.Sheets[n],{raw:true,cellDates:true}).map(r=>{for(const k in r)if(r[k]===null||(typeof r[k]==='string'&&r[k].trim()===''))delete r[k];else if(r[k] instanceof Date&&!isNaN(r[k]))r[k]=calDate(r[k]);return r}):null; // DR-4: a null cell or text that is empty after trimming spaces is read as an empty cell (absent), as Stage 1 reads it; numbers, 0 and other text are unchanged.
 // v0.7 A1: page bindings run only when a page is present, so this file can also be loaded without one (tests, a worker). In the browser the behaviour is unchanged.
 if(typeof document!=='undefined'){
 $('#f').onchange=async e=>{const inp=e.target,fl=inp.files&&inp.files[0];if(!fl)return;if(!/\.xlsx?$/i.test(fl.name)){$('#st').textContent='Please choose an .xlsx file.';return}if(fl.size>30e6){$('#st').textContent='File too large (over 30MB).';return}

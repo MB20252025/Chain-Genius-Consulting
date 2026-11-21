@@ -1,0 +1,15 @@
+negative physical -2, usable 10, allocated 0
+   class "No recorded demand", listed in view: true, available stock 10, excess 10 units, value £-149.92
+   warnings naming FG050 or the allocation cell: High "Negative quantities"; Medium "Stock held with no demand"
+zero usable: physical 10, usable 0, allocated 0
+   class "No recorded demand", listed in view: true, available stock 0, excess 0 units, value £749.60
+   warnings naming FG050 or the allocation cell: Medium "Stock held with no demand"
+unreadable allocation "abc": physical 10, usable 10
+   class "No recorded demand", listed in view: true, available stock NaN, excess 0 units, value £749.60
+   warnings naming FG050 or the allocation cell: High "Non-numeric or non-finite values in numeric c"; Medium "Stock held with no demand"
+MISSING allocation (blank): physical 10, usable 10
+   class "No recorded demand", listed in view: true, available stock NaN, excess 0 units, value £749.60
+   warnings naming FG050 or the allocation cell: Medium "Missing values in Allocated_Qty"; Medium "Stock held with no demand"
+held stock fully allocated: physical 10, usable 0, allocated 10
+   class "Active", listed in view: false, available stock -10, excess 0 units, value £749.60
+   warnings naming FG050 or the allocation cell: High "Allocated exceeds usable on-hand"

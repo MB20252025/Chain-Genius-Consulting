@@ -18,19 +18,22 @@
  *                items: { [Item_ID]: { withhold: [{ analysis, reason }], labels: [{ analysis, status, code }] } },
  *                excluded: { [Item_ID]: { reason, role, itemName, itemUnit, sourceStock: [..], hint } },   left out of the Engine View
  *                dependants: { [Item_ID]: { components: [id], parents: [id] } },   for every excluded item, from the canonical BOM
- *                scrap: { column: 'supplied'|'not-mapped', assumed: [{ parent, component, basis, row }], invalid: [{ parent, component, basis, row, value }] } }
+ *                scrap: { column: 'supplied'|'not-mapped', assumed: [{ parent, component, basis, row }], invalid: [] } }   (invalid: always empty since Stage 3, D2; a declared invalid line refuses the result)
  *   status     'refused'    engineOut or spec malformed, or spec and engine output disagree: nothing is released (result null)
  *              'restricted' something is withheld or labelled, or an item was excluded
  *              'complete'   nothing withheld, labelled or excluded
  *
+ * Output contract RG3 (Stage 3, 18 Nov 2026) = RG2 plus: a group total (exF, exR, exV, shV, cogsF, cogsR) that RG2 withheld because items
+ * of its group were withheld is released as a frozen { value, partial: true, excludedItems: [{ id, reason }] } (owner decision D4);
+ * consumers must test it with isPartial() and must never present it as a complete total (it throws on arithmetic and string use).
  * RG2 rules (K7). A released number never depends on a withheld, excluded or invalid input:
  *   R1 cross-check   every excluded item must be absent from the engine output; every item the BOM names but the engine did not
  *                    analyse must be declared excluded; the declared dependants must equal the BOM in the engine output; the
  *                    declared scrap basis must match the Engine View BOM line by line. Any disagreement refuses the whole result.
- *   R2 dependants    components of an excluded or demand-withheld product, and components on an invalid scrap line, have their
+ *   R2 dependants    components of an excluded or demand-withheld product, have their
  *                    material and purchasing results withheld (their usage is incomplete or unknown).
  *   R3 feasibility   orders are judged in start order against a shared material pool; an order is withheld when its product is
- *                    withheld for production, uses an excluded component, sits on an invalid scrap line, or uses a material whose
+ *                    withheld for production, uses an excluded component, or uses a material whose
  *                    pool was already affected by an excluded or withheld input. Its materials are then treated as affected for
  *                    every later order.
  *   R4 aggregates    group-ranked fields (ABC class, cumulative share) and excess, shortage and annual-value totals are withheld
@@ -48,7 +51,9 @@
  */
 (function (NS) {
   'use strict';
-  const VERSION = 'RG2';
+  // Stage 3 C-RG3 (18 Nov 2026): the OUTPUT contract is RG3 (a group total may be a partial-total object, see TOTAL_DEF and isPartial;
+  // disclosures.partialTotals; scrap.invalid always empty). The INPUT specification the adapter writes is unchanged and stays RG2.
+  const VERSION = 'RG3', SPEC_VERSION = 'RG2';
   const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
   const isDate = v => Object.prototype.toString.call(v) === '[object Date]';
   const isStr = v => typeof v === 'string' && v.length > 0;
@@ -68,6 +73,17 @@
   const GROUP_FIELDS = ['abc', 'cum'];
   // Totals by group, and the analysis each comes from (R4).
   const GROUP_TOTALS = { fg: ['exF', 'shV', 'cogsF'], rm: ['exR', 'cogsR'], both: ['exV'] };
+  // Stage 3 (owner decision D4, 16 Nov 2026): each group total is a plain sum of one item field (calculations.js line 172-173). When a
+  // group is incomplete, the total is released as a PARTIAL total over the items whose value is released, never as a complete figure.
+  const TOTAL_DEF = { exF: { groups: ['fg'], field: 'exVal' }, exR: { groups: ['rm'], field: 'exVal' }, exV: { groups: ['fg', 'rm'], field: 'exVal' },
+    shV: { groups: ['fg', 'rm'], field: 'short' }, cogsF: { groups: ['fg'], field: 'ann' }, cogsR: { groups: ['rm'], field: 'ann' } };
+  // A partial total: frozen { value, partial: true, excludedItems: [{ id, reason }] }. It cannot be used as a number by accident: any
+  // arithmetic or comparison on it throws (non-enumerable valueOf / toPrimitive, so JSON and copies show only the three fields).
+  const PARTIAL_MSG = 'partial total: read .value and disclose .excludedItems; it is not a complete total';
+  const partialTotal = (value, excludedItems) => { const o = { value, partial: true, excludedItems: Object.freeze(excludedItems.map(e => Object.freeze(e))) };
+    const no = () => { throw new TypeError(PARTIAL_MSG); };
+    Object.defineProperty(o, 'valueOf', { value: no }); Object.defineProperty(o, Symbol.toPrimitive, { value: no }); return Object.freeze(o); };
+  const isPartial = v => v !== null && typeof v === 'object' && v.partial === true && typeof v.value === 'number' && Array.isArray(v.excludedItems);
   // Sections that belong to one analysis (withheld when it is stopped or blocked, labelled when its table was not supplied).
   const SECTIONS = {
     demand: [['forecasts'], ['forecastCredibility'], ['result', 'fcm'], ['result', 'fcc']],
@@ -80,7 +96,7 @@
   const idList = a => Array.isArray(a) && a.every(isStr);
   const line = l => isObj(l) && isStr(l.parent) && isStr(l.component) && typeof l.basis === 'string';
   function validSpec(s) {
-    if (!isObj(s) || s.version !== VERSION || !isObj(s.money) || typeof s.money.withhold !== 'boolean' || !Array.isArray(s.money.reasons)) return false;
+    if (!isObj(s) || s.version !== SPEC_VERSION || !isObj(s.money) || typeof s.money.withhold !== 'boolean' || !Array.isArray(s.money.reasons)) return false;
     if (!isObj(s.clientQuestions) || typeof s.clientQuestions.withhold !== 'boolean') return false;
     if (!isObj(s.analyses) || !Object.keys(SECTIONS).every(a => typeof s.analyses[a] === 'string')) return false;
     if (!isObj(s.items) || !isObj(s.excluded) || !isObj(s.dependants) || !isObj(s.scrap)) return false;
@@ -118,7 +134,7 @@
     lines.forEach(l => { const k = key(l.SKU, l.Material_ID); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(l.Scrap_Factor_Pct); });
     const assumed = new Set(spec.scrap.assumed.map(l => key(l.parent, l.component))), invalid = new Set(spec.scrap.invalid.map(l => key(l.parent, l.component)));
     for (const k of assumed) { const v = byKey.get(k); if (!v || !v.every(x => x === 0)) bad.push('scrap: line ' + k.replace('\u0000', '/') + ' is declared assumed 0% but the Engine View does not hold 0 for it'); }
-    for (const k of invalid) { const v = byKey.get(k); if (!v || v.every(fin)) bad.push('scrap: line ' + k.replace('\u0000', '/') + ' is declared invalid but the Engine View holds a number for it'); }
+    for (const k of invalid) bad.push('scrap: line ' + k.replace('\u0000', '/') + ' is declared invalid; invalid scrap is rejected by Stage 1 since Stage 3 (D2), so a result that declares one is refused');
     for (const [k, v] of byKey) if (v.some(x => !fin(x)) && !invalid.has(k)) bad.push('scrap: line ' + k.replace('\u0000', '/') + ' has no usable scrap value and is not declared invalid');
     if (spec.scrap.column === 'not-mapped') for (const k of byKey.keys()) if (!assumed.has(k)) bad.push('scrap: the column was not supplied, but line ' + k.replace('\u0000', '/') + ' is not declared assumed');
     return bad;
@@ -127,7 +143,7 @@
   function apply(engineOut, spec) {
     const refused = (why, extra) => deepFreeze({ version: VERSION, status: 'refused', withheld: [], labelled: [], notes: [why].concat(extra || []), disclosures: null, result: null });
     try {
-      if (!validSpec(spec)) return refused('RESULT_GATE_SPEC_INVALID: the gate specification is missing, malformed or not ' + VERSION + '; nothing is released.');
+      if (!validSpec(spec)) return refused('RESULT_GATE_SPEC_INVALID: the gate specification is missing, malformed or not ' + SPEC_VERSION + '; nothing is released.');
       if (!validOut(engineOut)) return refused('RESULT_GATE_ENGINE_OUTPUT_INVALID: the engine output is missing or malformed; nothing is released.');
       const mismatch = crossCheck(engineOut, spec);
       if (mismatch.length) return refused('RESULT_GATE_SPEC_ENGINE_MISMATCH: the gate specification does not describe this engine output (' + mismatch.length + ' difference(s)); nothing is released.', mismatch);
@@ -197,7 +213,7 @@
       const dependOn = (comp, why, cause) => { if (!rmIds.has(comp)) return; addHold(comp, 'materials', why); addHold(comp, 'purchasing', why); dependantNotes.push({ itemId: comp, analyses: ['materials', 'purchasing'], reason: why, cause }); };
       for (const p of Object.keys(spec.excluded)) comps(p).forEach(c => dependOn(c, 'DEPENDS_ON_EXCLUDED_PARENT ' + p, p));
       for (const p of demandHeld) comps(p).forEach(c => dependOn(c, 'DEPENDS_ON_WITHHELD_DEMAND ' + p, p));
-      spec.scrap.invalid.forEach(l => dependOn(l.component, 'SCRAP_INVALID on ' + l.parent + '/' + l.component, l.parent + '/' + l.component));
+      // Stage 3 (D2): withholding on invalid scrap lines retired (a declared invalid line is refused by R1 above).
       const holdItem = (id, why) => {
         let n = 0;
         allItems().filter(x => x.id === id).forEach(x => Object.keys(x).forEach(k => { if (!ITEM_KEEP.has(k) && !isW(x[k])) { x[k] = W(why); n++; } }));
@@ -223,12 +239,12 @@
       const directOrder = new Map();
       prodHeld.forEach(id => directOrder.set(id, 'PRODUCT_WITHHELD'));
       for (const ex of Object.keys(spec.excluded)) parentsOf(ex).forEach(p => { if (!directOrder.has(p)) directOrder.set(p, 'USES_EXCLUDED_COMPONENT ' + ex); });
-      spec.scrap.invalid.forEach(l => { if (!directOrder.has(l.parent)) directOrder.set(l.parent, 'SCRAP_INVALID ' + l.parent + '/' + l.component); });
+      // Stage 3 (D2): no order is withheld for an invalid scrap line (retired; R1 refuses such a result).
       const purchHeld = new Set([...holds].filter(([id, m]) => rmIds.has(id) && m.has('purchasing') && !String(m.get('purchasing')).startsWith('DEPENDS_ON') && !String(m.get('purchasing')).startsWith('SCRAP_')).map(([id]) => id));
       const affected = new Map();   // material -> why its pool is affected
       Object.keys(spec.excluded).forEach(ex => { affected.set(ex, 'EXCLUDED_COMPONENT ' + ex); comps(ex).forEach(c => { if (!affected.has(c)) affected.set(c, 'POOL_WITHOUT_EXCLUDED_PARENT ' + ex); }); });
       purchHeld.forEach(m => { if (!affected.has(m)) affected.set(m, 'RECEIPTS_WITHHELD ' + m); });
-      spec.scrap.invalid.forEach(l => { if (!affected.has(l.component)) affected.set(l.component, 'SCRAP_INVALID ' + l.parent + '/' + l.component); });
+      // Stage 3 (D2): invalid-scrap materials retired from the pool chain (R1 refuses such a result).
       let feasHeld = 0;
       if (!isW(out.feas)) out.feas.rows.forEach(r => {
         if (!isObj(r) || !isObj(r.o)) return;
@@ -255,8 +271,12 @@
       // R4: group-ranked fields and group totals.
       const heldFg = uniq([...holds].filter(([id, m]) => fgIds.has(id) && m.has('demand')).map(([id]) => id));
       const heldRmMat = uniq([...holds].filter(([id, m]) => rmIds.has(id) && m.has('materials')).map(([id]) => id));
-      const aggregates = [];
+      const aggregates = [], partials = [];
+      // Items of each group left out of the Engine View (spec.excluded): they are in no engine total, so a total without them is incomplete.
+      const exclOf = g => Object.entries(spec.excluded).filter(([, e]) => e.role === g).map(([id, e]) => ({ id, reason: 'EXCLUDED_FROM_ENGINE_VIEW: ' + e.reason }));
       for (const [p, r] of results) {
+        // Group-ranked fields (ABC class, cumulative share) stay withheld when the group has withheld items, as before (D4 safeguard 4).
+        // (Items only EXCLUDED from the Engine View keep the accepted K7 behaviour: ABC recalculated over the analysed items, disclosed.)
         const groups = { fg: heldFg, rm: heldRmMat };
         for (const [g, ids] of Object.entries(groups)) {
           if (!ids.length) continue;
@@ -265,11 +285,20 @@
           itemsIn(r).filter(x => (g === 'fg' ? fgIds : rmIds).has(x.id)).forEach(x => GROUP_FIELDS.forEach(k => { if (k in x && !isW(x[k])) { x[k] = W(why); n++; } }));
           if (p === 'result') out.mrp.forEach(m => { if (isObj(m) && isObj(m.x) && (g === 'fg' ? fgIds : rmIds).has(m.x.id)) GROUP_FIELDS.forEach(k => { if (k in m.x && !isW(m.x[k])) m.x[k] = W(why); }); });
           if (n) hold(p + ' ' + g + ' items [*].abc|cum', why, n);
-          GROUP_TOTALS[g].forEach(k => { if (k in r && !isW(r[k])) { r[k] = W(why); hold(p + '.' + k, why); if (p === 'result') aggregates.push({ path: k, reason: why, becauseOf: ids }); } });
         }
-        if ((heldFg.length || heldRmMat.length) && 'exV' in r && !isW(r.exV)) {
-          const why = 'DEPENDS_ON_WITHHELD_ITEMS: ' + uniq([...heldFg, ...heldRmMat]).join(', ');
-          r.exV = W(why); hold(p + '.exV', why); if (p === 'result') aggregates.push({ path: 'exV', reason: why, becauseOf: uniq([...heldFg, ...heldRmMat]) });
+        // Group totals (D4, the N3 case): where a total used to be withheld because its groups have withheld items, it is released as a
+        // partial total over the items whose value is released, naming every left-out item and why (withheld items, and items excluded from
+        // the Engine View); with no eligible item it stays withheld (never a misleading 0). Exclusion-only totals keep the accepted K7 form.
+        for (const [k, def] of Object.entries(TOTAL_DEF)) {
+          if (!(k in r) || isW(r[k]) || !def.groups.some(g => groups[g].length)) continue;
+          const rows = def.groups.flatMap(g => Array.isArray(r[g]) ? r[g] : []), eligible = rows.filter(x => typeof x[def.field] === 'number' && isFinite(x[def.field]));
+          const excludedItems = [...rows.filter(x => !eligible.includes(x)).map(x => ({ id: x.id, reason: isW(x[def.field]) ? x[def.field].reason : 'VALUE_NOT_AVAILABLE' })), ...def.groups.flatMap(exclOf)];
+          if (!excludedItems.length) continue;
+          if (!eligible.length) { const why = 'NO_ELIGIBLE_ITEMS: every item of ' + def.groups.join(' and ') + ' is excluded or withheld'; r[k] = W(why); hold(p + '.' + k, why); if (p === 'result') aggregates.push({ path: k, reason: why, becauseOf: excludedItems.map(e => e.id) }); continue; }
+          const value = eligible.reduce((a, x) => a + x[def.field], 0);
+          r[k] = partialTotal(value, excludedItems);
+          labelled.push({ path: p + '.' + k, label: 'PARTIAL_TOTAL: ' + eligible.length + ' of ' + (eligible.length + excludedItems.length) + ' items; excluded: ' + excludedItems.map(e => e.id).join(', ') });
+          if (p === 'result') partials.push({ path: k, value, partial: true, items: eligible.length, of: eligible.length + excludedItems.length, excludedItems: excludedItems.slice() });
         }
       }
       if (holds.size) {
@@ -320,15 +349,16 @@
       const depByItem = new Map(); dependantNotes.forEach(d => { if (!depByItem.has(d.itemId)) depByItem.set(d.itemId, d); });
       const own = Object.entries(spec.items).filter(([, e]) => e.withhold.length).map(([id, e]) => id + ' (' + uniq(e.withhold.map(w => w.analysis)).join(', ') + ')');
       if (own.length) text.push('Results are withheld for ' + own.length + ' item(s) because Stage 1 blocked part of their data: ' + own.join('; ') + '. Their stock quantities and stock value are still shown.');
-      if (heldFg.length) text.push('Demand-based results are withheld for ' + heldFg.join(', ') + '; ABC classes, excess, shortage and annual-value totals for finished goods depend on them and are withheld too.');
-      if (heldRmMat.length) text.push('Material results are withheld for ' + heldRmMat.join(', ') + '; ABC classes and excess and annual-value totals for materials depend on them and are withheld too.');
+      if (heldFg.length) text.push('Demand-based results are withheld for ' + heldFg.join(', ') + '; ABC classes for finished goods depend on them and are withheld too; the excess, shortage and annual-value totals are released only as partial totals (see below).');
+      if (heldRmMat.length) text.push('Material results are withheld for ' + heldRmMat.join(', ') + '; ABC classes for materials depend on them and are withheld too; the excess and annual-value totals are released only as partial totals (see below).');
       if (feasHeld) text.push(feasHeld + ' production order(s) are not assessed for feasibility because they depend on excluded or withheld information (directly, or through materials shared with an earlier order).');
       if (heldSup.size) text.push('Supplier results for ' + uniq([...heldSup]).join(', ') + ' are withheld because they include withheld materials.');
       if (spec.scrap.assumed.length) text.push('Scrap percentage: ' + (spec.scrap.column === 'not-mapped' ? 'not supplied' : 'blank on ' + spec.scrap.assumed.length + ' BOM line(s)') + '. 0% was assumed for these lines; material requirements, shortages and feasibility that use them are an estimate that assumes no scrap.');
-      if (spec.scrap.invalid.length) text.push('Scrap percentage could not be read on ' + spec.scrap.invalid.length + ' BOM line(s) (' + spec.scrap.invalid.map(l => l.parent + '/' + l.component + (l.row ? ' row ' + l.row : '')).join(', ') + '). The results that use them are withheld; no value was assumed.');
-      const disclosures = { excluded: exc, dependants: [...depByItem.values()], withheldTotals: aggregates, ordersWithheld: feasHeld,
+      // Stage 3 (D2): the invalid-scrap disclosure text is retired (R1 refuses a result that declares an invalid line).
+      if (partials.length) text.push('Partial totals (not complete totals): ' + partials.map(t => t.path + ' covers ' + t.items + ' of ' + t.of + ' items (excluded: ' + t.excludedItems.map(e => e.id).join(', ') + ')').join('; ') + '. Do not present them as complete exposure or financial totals.');
+      const disclosures = { excluded: exc, dependants: [...depByItem.values()], withheldTotals: aggregates, partialTotals: partials, ordersWithheld: feasHeld,
         assumptions: spec.scrap.assumed.length ? [{ kind: 'scrap', value: 0, basis: uniq(spec.scrap.assumed.map(l => l.basis)), lines: spec.scrap.assumed.length, products: assumedParents, materials: assumedComps }] : [],
-        invalid: spec.scrap.invalid.map(l => ({ kind: 'scrap', parent: l.parent, component: l.component, row: l.row === undefined ? null : l.row, value: l.value === undefined ? null : l.value })),
+        invalid: [],   // Stage 3 (D2): always empty
         text };
 
       const status = withheld.length || labelled.length || exc.length ? 'restricted' : 'complete';
@@ -336,5 +366,5 @@
     } catch (err) { return refused('RESULT_GATE_INTERNAL: ' + (err && err.message ? err.message : String(err))); }
   }
 
-  NS.resultGate = Object.freeze({ VERSION, apply, RESULT_MONEY: Object.freeze(RESULT_MONEY.slice()), ITEM_MONEY: Object.freeze(ITEM_MONEY.slice()), ROLE_ANALYSES: deepFreeze(clone(ROLE_ANALYSES)) });
+  NS.resultGate = Object.freeze({ VERSION, SPEC_VERSION, apply, isPartial, RESULT_MONEY: Object.freeze(RESULT_MONEY.slice()), ITEM_MONEY: Object.freeze(ITEM_MONEY.slice()), ROLE_ANALYSES: deepFreeze(clone(ROLE_ANALYSES)) });
 })(globalThis.CGImport = globalThis.CGImport || {});

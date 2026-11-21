@@ -3,7 +3,9 @@
  *  A  every eight-sheet fixture workbook (17) run two ways: direct upload, and reversed to canonical CSV files -> Stage 1 import ->
  *     adapter -> engine. Outputs must be identical apart from the entries of the difference register (DR-1 ... DR-6), and every
  *     registered difference is itself checked: it must appear exactly where registered, and disappear when its cause is removed.
- *     The four workbooks Stage 1 refuses (combined, multiline, posupconflict, splitline) must stay refused.
+ *     Until Stage 3 the four workbooks combined, multiline, posupconflict and splitline were refused by Stage 1 because the comparison
+ *     tool invented Line_No "1" on every PO row (key conflicts on genuine multi-line orders). The tool no longer invents it (owner
+ *     decision D3, 16 Nov 2026): they are imported and compared like every other workbook.
  *  B  Universal Import Package 01 (canonical CSV files) against its expected-results.json.
  *  C  the approved snapshots: golden v0.5 and v0.6.0 (regress.js on the adapter-built Northstar workbook) and confidence v0.7
  *     (every fixture through the adapter). Snapshot files are read only, never written.
@@ -65,7 +67,8 @@ const viaAdapter = buf => { const rv = REV(wbOf(buf)), imp = G.validate.importFi
 
 // ===================== Proof A =====================
 console.log('\n--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine');
-const REFUSED = ['edge/scenario-combined.xlsx', 'edge/scenario-multiline.xlsx', 'edge/scenario-posupconflict.xlsx', 'edge/scenario-splitline.xlsx'];
+// Stage 3 (D3): no workbook is refused any more. Until then: combined, multiline, posupconflict, splitline (an artefact of the invented Line_No).
+const REFUSED = [];
 // DR-3: exact duplicate rows removed by Stage 1 (A6). Cause removed: drop the same exact duplicates from the direct workbook.
 const dedupe = (wb, sheet) => { const seen = new Set(), rows = X.utils.sheet_to_json(wb.Sheets[sheet], { raw: true, cellDates: true }), keep = [];
   for (const r of rows) { const k = JSON.stringify(r, (kk, v) => (isDate(v) ? +v : v)); if (!seen.has(k)) { seen.add(k); keep.push(r); } }
@@ -88,15 +91,24 @@ for (const f of fixtures) {
     `${f}: imported and adapted (${r.ad.status}); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua`);
   ok(norm(D.result.demo || null) !== 'null' ? A.result.demo == null : true, `${f}: DR-1: the notes sheet text is not carried (not part of the canonical model)`);
   if (f === 'edge/scenario-dupexact.xlsx') {
-    ok(d.join() === 'clientQuestions,confidence,feas,mrp,result.alt,result.altS,result.dq,result.po,result.recon,result.rm,result.sched,result.sup,result.supRisk,result.top',
-      `${f}: DR-3 differences appear exactly where registered (${d.length} sections)`);
+    // DR-3 resolved (Stage 3, owner decision D3, 16 Nov 2026): the PO sheet has no line number, so identical-looking rows can be genuine
+    // separate transactions. BOTH routes keep all 303 rows and warn (Stage 1 DUP_EXACT_KEPT, "Please check"; the engine High
+    // "Duplicate records"). Until Stage 3 the comparison tool's invented Line_No "1" made Stage 1 remove 3 rows, which was DR-3.
+    const rows = X.utils.sheet_to_json(wbOf(buf).Sheets['Purchase Orders'], { raw: true }).length, dupIssue = r.imp.issues.find(i => i.code === 'DUP_EXACT_KEPT' && i.table === 'po_lines');
+    const dupW = o => o.result.dq.find(q => q.sev === 'High' && q.sheet === 'Purchase Orders' && q.msg === 'Duplicate records');
+    ok(d.length === 0 && r.imp.dataset.po_lines.length === rows && rows === 303 && dupIssue && dupIssue.category === 'Please check' && /rows 2 & 302, rows 3 & 303, rows 4 & 304/.test(dupIssue.message) && dupW(D) && dupW(A) && dupW(D).ex === dupW(A).ex,
+      `${f}: both routes keep all ${rows} PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for ${dupW(D) ? dupW(D).ex : '?'}`);
     const w = wbOf(buf), n = dedupe(w, 'Purchase Orders'), D2 = E.runEngine({ workbook: X.read(X.write(w, { type: 'array', bookType: 'xlsx' }), { cellDates: true }) }), d2 = diff(D2, A);
-    ok(n === 3 && d2.length === 0, `${f}: DR-3 explained: removing the same ${n} exact duplicate PO rows from the direct workbook leaves no difference (${d2.join(', ') || 'none'})`);
+    ok(n === 3 && d2.length > 0 && d2.includes('result.recon') && d2.includes('result.sup'),
+      `${f}: the duplicates matter: removing the ${n} identical rows would change ${d2.length} sections (${d2.join(', ')}), so keeping them is a real choice, made by the owner (D3), and disclosed`);
   } else if (f === 'structure/scenario-willow.xlsx') {
-    ok(d.join() === 'clientQuestions,result.alt,result.altS,result.dq', `${f}: DR-4/DR-5 differences appear exactly where registered (${d.join(', ')})`);
-    const s = x => x.result.dq.map(q => q.msg), only = (a, b) => s(a).filter(m => !s(b).includes(m));
-    ok(only(D, A).some(m => /Column Notes contains no values/.test(m)) && only(D, A).some(m => /^19 POs received short/.test(m)) && only(A, D).some(m => /^11 POs received short/.test(m)),
-      `${f}: the direct route has the empty-Notes warning (DR-5) and 19 short receipts; the import route 11 (DR-4)`);
+    // DR-4 resolved (Stage 3, 16 Nov 2026): the direct-upload reader now reads empty-text and null cells as missing, as Stage 1 does.
+    // These two checks state route EQUALITY (both routes give the same short-receipt count, 11, and no "Inconsistent PO dates"), so
+    // they fail again if the routes diverge. Before DR-4 they recorded the difference (direct 19, import 11). DR-5 and DR-7 remain.
+    ok(d.join() === 'result.alt,result.altS,result.dq', `${f}: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (${d.join(', ')})`);
+    const s = x => x.result.dq.map(q => q.msg), only = (a, b) => s(a).filter(m => !s(b).includes(m)), sh = x => (s(x).find(m => /^\d+ POs received short$/.test(m)) || 'none').split(' ')[0];
+    ok(sh(D) === '11' && sh(A) === '11' && !s(D).includes('Inconsistent PO dates') && !s(A).includes('Inconsistent PO dates') && only(D, A).some(m => /Column Notes contains no values/.test(m)),
+      `${f}: both routes give 11 POs received short and no "Inconsistent PO dates" (direct ${sh(D)}, import ${sh(A)}); the empty-Notes warning stays direct-only (DR-5)`);
     const w = wbOf(buf), c = dropEmptyTextAndColumn(w, 'Notes'), D2 = E.runEngine({ workbook: w }), d2 = diff(D2, A);
     // DR-7: the engine lists data-quality warnings in the order of the sheet's columns. Willow's columns are in reverse order;
     // the Engine View writes them in the standard order, so two warnings swap places. Same warnings, different order.
@@ -161,7 +173,7 @@ console.log('\n--- Proof C: approved snapshots (read only)');
     }
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
   const conf = JSON.parse(fs.readFileSync(path.join(__dirname, 'snapshots', 'v0.7-confidence-20261112T011814Z.json'), 'utf8'));
-  const REG = { 'edge/scenario-dupexact.xlsx': 'confidence,clientQuestions', 'structure/scenario-willow.xlsx': 'clientQuestions' };
+  const REG = { 'structure/scenario-willow.xlsx': 'clientQuestions' };   // Stage 3 (D3): dupexact no longer differs (was 'confidence,clientQuestions', DR-3)
   for (const f of fixtures.filter(x => !REFUSED.includes(x))) {
     const o = viaAdapter(fs.readFileSync(path.join(FIX, f))).out, want = conf.fixtures[f];
     const d = conf.sections.filter(s => norm(JSON.parse(JSON.stringify(o[s]))) !== norm(want[s]));

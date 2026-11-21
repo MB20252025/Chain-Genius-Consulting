@@ -1,0 +1,33 @@
+
+production attainment (pr): NO DIFFERENCE on any of 25 inputs
+
+MRP: NO DIFFERENCE on any of 25 inputs
+
+production feasibility: NO DIFFERENCE on any of 25 inputs
+
+inventory valuation (fgV/rmV/val): NO DIFFERENCE on any of 25 inputs
+
+stock availability (av/pos/cover): NO DIFFERENCE on any of 25 inputs
+
+excess (exQty/exVal/exV): NO DIFFERENCE on any of 25 inputs
+
+forecasting: NO DIFFERENCE on any of 25 inputs
+
+supplier performance: NO DIFFERENCE on any of 25 inputs
+
+item risk & health: NO DIFFERENCE on any of 25 inputs
+
+classification (cls/act): 1 input(s) differ
+   SCEN FG050 no demand, fully allocated [FG050: No recorded demand → Active]
+
+recommendations / client questions: NO DIFFERENCE on any of 25 inputs
+
+confidence ratings: NO DIFFERENCE on any of 25 inputs
+
+data-quality messages: 6 input(s) differ
+   structure/scenario-willow.xlsx [+Medium Completed quantity exceeds planned quantity (over-pro]
+   SCEN negative Planned_Qty [+High Negative planned or completed quantity: production atta]
+   SCEN Completed > Planned [+Medium Completed quantity exceeds planned quantity (over-pro]
+   SCEN negative material lead time [+High Negative lead times: a lead time cannot be below zero, ]
+   SCEN BOM qty 0 [+High BOM quantity per finished unit is zero, negative or not | −High Scrap outside 0–1 (percent vs fraction?) or qty<=0]
+   SCEN FG050 no demand, fully allocated [+ | −Medium Stock held with no demand]

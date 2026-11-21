@@ -1,0 +1,26 @@
+n,input,kind,source_or_edit,compared,baseline_B_outcome,final_tree_outcome,areas_differing_B_vs_final
+1,edge/scenario-combined.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-combined.xlsx,yes,ran,ran,
+2,edge/scenario-dupexact.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-dupexact.xlsx,yes,ran,ran,
+3,edge/scenario-dupkey.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-dupkey.xlsx,yes,ran,ran,
+4,edge/scenario-multiline.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-multiline.xlsx,yes,ran,ran,
+5,edge/scenario-overrec.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-overrec.xlsx,yes,ran,ran,
+6,edge/scenario-overshort.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-overshort.xlsx,yes,ran,ran,
+7,edge/scenario-partial.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-partial.xlsx,yes,ran,ran,
+8,edge/scenario-posupconflict.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-posupconflict.xlsx,yes,ran,ran,
+9,edge/scenario-splitline.xlsx,fixture file (tests/fixtures),tests/fixtures/edge/scenario-splitline.xlsx,yes,ran,ran,
+10,import-v1/faults/F19-corrupt-xlsx/items.xlsx,fixture file (tests/fixtures),tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx,no,Unsupported ZIP encryption,Unsupported ZIP encryption,n/a (both trees refuse the file with the identical message)
+11,import-v1/faults/F20-not-a-zip-xlsx/items.xlsx,fixture file (tests/fixtures),tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx,no,"Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders","Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders",n/a (both trees refuse the file with the identical message)
+12,import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx,fixture file (tests/fixtures),tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx,no,"Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders","Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Purchase Orders, Production Orders",n/a (both trees refuse the file with the identical message)
+13,northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx,fixture file (tests/fixtures),tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx,yes,ran,ran,
+14,structure/scenario-willow.xlsx,fixture file (tests/fixtures),tests/fixtures/structure/scenario-willow.xlsx,yes,ran,ran,data-quality messages
+15,suppliers/scenario-allfuture.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-allfuture.xlsx,yes,ran,ran,
+16,suppliers/scenario-nohist.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-nohist.xlsx,yes,ran,ran,
+17,suppliers/scenario-nopo.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-nopo.xlsx,yes,ran,ran,
+18,suppliers/scenario-s0.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-s0.xlsx,yes,ran,ran,
+19,suppliers/scenario-three.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-three.xlsx,yes,ran,ran,
+20,suppliers/scenario-unknown.xlsx,fixture file (tests/fixtures),tests/fixtures/suppliers/scenario-unknown.xlsx,yes,ran,ran,
+21,SCEN negative Planned_Qty,scenario,Northstar; Production Orders row 2 Planned_Qty = -10,yes,ran,ran,data-quality messages
+22,SCEN Completed > Planned,scenario,Northstar; Production Orders row 2 Completed_Qty = Planned_Qty + 500,yes,ran,ran,data-quality messages
+23,SCEN negative material lead time,scenario,Northstar; Materials row 2 Lead_Time_Days = -5,yes,ran,ran,data-quality messages
+24,SCEN BOM qty 0,scenario,Northstar; BOM row 2 Qty_Per_Finished_Unit = 0,yes,ran,ran,data-quality messages
+25,"SCEN FG050 no demand, fully allocated",scenario,"Northstar; FG050 On_Hand 10, Allocated 10; FG050 demand rows removed",yes,ran,ran,classification (cls/act); data-quality messages

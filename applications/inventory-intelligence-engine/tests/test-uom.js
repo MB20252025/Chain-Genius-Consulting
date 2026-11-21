@@ -25,8 +25,12 @@ for(const u of ['Each','EACH',' each ',' Each','EA','ea',' EA '])ok(frac(A.go(w
 for(const u of ['kg','KG',' kg','pcs','set','box','m','l','g'])ok(frac(A.go(withUnits(u)))===0,'U4 fractional: '+JSON.stringify(u)+' is a different unit; fractional BOM quantities are not flagged (0)');
 {const wb=withUnits((x,i)=>i%2?'EA':'Kg ');const R=A.go(wb);ok(frac(R)===rawFrac(wb,indep)&&frac(R)>0&&frac(R)<baseFrac,'U4 mixed: half the materials EA, half "Kg ": fractional lines = '+frac(R)+' (recomputed from raw rows: '+rawFrac(wb,indep)+'), fewer than all-each ('+baseFrac+')')}
 // ---- U5 unknown / ambiguous units stay flagged, are not converted, and are not treated as "each"
-const UNK=['pack','Pack',' pack','PACK','pc','PC','lb','kgs','ea.','each.','eaches','e a','zzz','','   ','​each','each/EA','cs','tub'];
+const UNK=['pack','Pack',' pack','PACK','pc','PC','lb','kgs','ea.','each.','eaches','e a','zzz','​each','each/EA','cs','tub'];
 for(const u of UNK){const R=A.go(withUnits(u));ok(!!flag(R),'U5 unknown: '+JSON.stringify(u)+' is still flagged as unrecognised');ok(frac(R)===0,'U5 unknown: '+JSON.stringify(u)+' is not silently treated as "each" (0 fractional lines)')}
+// ---- U5 blank units (owner decision, option (a), 16 Nov 2026, with DR-4): a unit cell that is empty or only spaces is a MISSING value,
+// reported as missing (every Materials/Products unit blank here, so "Column Unit_of_Measure contains no values"), not as an
+// unrecognised unit, and never treated as "each". Until DR-4 these two values were in UNK above (flagged as unrecognised).
+for(const u of ['','   ']){const R=A.go(withUnits(u)),miss=R.dq.filter(d=>/^Column Unit_of_Measure contains no values/.test(d.msg)).map(d=>d.sheet).sort().join();ok(!flag(R)&&miss==='Materials,Products','U5 blank: '+JSON.stringify(u)+' is reported as missing in Materials and Products ('+(miss||'not reported')+'), not as an unrecognised unit');ok(frac(R)===0,'U5 blank: '+JSON.stringify(u)+' is not silently treated as "each" (0 fractional lines)')}
 {const wb=withUnits('pack'),before=JSON.stringify(sheet(wb,'Materials').map(m=>m.Unit_of_Measure));A.go(wb);ok(JSON.stringify(sheet(wb,'Materials').map(m=>m.Unit_of_Measure))===before,'U5 no conversion: the uploaded Materials units are left exactly as written ("pack" stays "pack")')}
 {const wb=withUnits(' kg\t');const before=JSON.stringify(sheet(wb,'Materials').map(m=>m.Unit_of_Measure)),R=A.go(wb);A.exp();ok(JSON.stringify(sheet(wb,'Materials').map(m=>m.Unit_of_Measure))===before&&!flag(R),'U5 no rewriting: a recognised unit with spaces is accepted but the uploaded cell text is not altered, including after an export')}
 // ---- U6 genuinely different units stay different; flag lists exactly the offending items

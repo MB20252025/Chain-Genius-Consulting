@@ -122,7 +122,7 @@ const SPEC = {
   po_headers: ['PO_ID', 'PO_ID:id:R:RJ', 'Supplier_ID:id:R:RJ', 'Order_Date:date:R:RJ', 'Currency:text:O:BF', 'Freight:num:O:BF:no', 'Tax:num:O:BF:no', 'Header_Total:num:O:BF:no', 'Status:text:O:RJ'],
   po_lines: ['PO_ID+Line_No', 'PO_ID:id:R:RJ', 'Line_No:id:O:RJ', 'Supplier_ID:id:R:RJ', 'Item_ID:id:R:RJ', 'Order_Date:date:R:RJ', 'Promised_Date:date:O:RJ', 'Ordered_Qty:num:R:RJ:no',
     'Received_Qty:num:O:RJ:no', 'Last_Receipt_Date:date:O:RJ', 'Unit_Cost:num:O:BF:no', 'Status:text:O:RJ', 'Location_ID:id:O:RJ'],
-  bom: ['Parent_Item_ID+Component_Item_ID', 'Parent_Item_ID:id:R:RJ', 'Component_Item_ID:id:R:RJ', 'Qty_Per:num:R:RJ:no', 'Scrap_Pct:pct:O:BF'],
+  bom: ['Parent_Item_ID+Component_Item_ID', 'Parent_Item_ID:id:R:RJ', 'Component_Item_ID:id:R:RJ', 'Qty_Per:num:R:RJ:no', 'Scrap_Pct:pct:O:RJ'], // Stage 3 (owner scrap rules, 15 Nov 2026): invalid scrap now rejects the row (RJ), which blocks the import; it was blank-and-flag (BF)
   production_orders: ['Production_Order_ID', 'Production_Order_ID:id:R:RJ', 'Item_ID:id:R:RJ', 'Planned_Start_Date:date:O:RJ', 'Planned_Finish_Date:date:O:RJ', 'Actual_Start_Date:date:O:RJ',
     'Actual_Finish_Date:date:O:RJ', 'Planned_Qty:num:R:RJ:no', 'Completed_Qty:num:O:RJ:no', 'Status:text:O:RJ'],
 };

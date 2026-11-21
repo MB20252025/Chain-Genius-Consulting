@@ -1,0 +1,69 @@
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 30 | FAIL: 2 | BLOCKED: 0 | REDUCED: 0 | ERROR: 1
+Scope: FAST (32 tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has 52 tests) + pre-flight
+Checks counted in this run (first zone of each test): 4355
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+ERROR    check-protection            1      443               -        no summary line (exit 0): PASS: file tests/fixtures/import-v1/faults/base/items.csv unchanged
+FAIL     check-control               1      12                9        3 check(s) failed: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval) | FAIL: accepted-results.json: WEAKENED: confidence snapshot v0.7: snapshot changed | FAIL: checksums.txt: 7 approved line(s) REMOVED or CHANGED: tests/compare-snapshots.js, tests/snapshots/README.md, tests/test-uom.js
+         WARNING: PENDING: check-protection: accepted count raised 434 -> 443 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: same-results: accepted count raised 356 -> 416 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: import-integrity: accepted count raised 386 -> 396 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: allocated-usable: new test, accepted 23 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: empty-text: new test, accepted 46 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: shortage-delay: new test, accepted 19 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: scrap-rules: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: tz-boundaries: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: partial-totals: new test, accepted 8 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-quality: new test, accepted 28 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 6a00557fdc3d956eceec486b5765650eff3b57aa2536f13c5a11a66e288b2c5f tests/snapshots/README.md (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c373df7d0bc8fcc2f9302ad16ce99a33127586c2ec8278f4973e6af6c0fba8df tests/test-import-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 1ce978aff99ea76e91c6cd4d00476d1a4a8ff15ab5cda23488e146bcb0b9381b tests/test-stage3-quality.js (needs the owner's approval: move the approved tag)
+FAIL     stage3-quality              1      28                16       12 check(s) failed: FAIL: C-NUM Inventory.On_Hand_Qty = "abc": one High warning on Inventory naming "On_Hand_Qty row 2 "abc"" [threw: Invalid or missing numbers that the  | FAIL: C-NUM Inventory.On_Hand_Qty = NaN: one High warning on Inventory naming "On_Hand_Qty row 2 NaN" [threw: Invalid or missing numbers that the resu | FAIL: C-NUM Inventory.Allocated_Qty = Infinity: one High warning on Inventory naming "Allocated_Qty row 2 Infinity" [threw: Invalid or missing numbers
+PASS     pre-flight                  -      -                 -        
+PASS     check-globals               1      116               116      
+PASS     test-a1-static              1      29                29       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            1      23                23       
+PASS     empty-text                  1      46                46       
+PASS     shortage-delay              1      19                19       
+PASS     scrap-rules                 1      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              1      8                 8        
+PASS     characterisation-lead-time  1      28                28       
+PASS     test-a1-sync-path           1      74                74       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 1: 2 FAIL and 1 ERROR. Something new is wrong; see the FAIL/ERROR lines above.

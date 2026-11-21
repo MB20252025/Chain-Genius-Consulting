@@ -1,0 +1,21 @@
+Products.Standard_Cost_GBP           non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Standard_Cost_GBP ; Medium:Inventory unit cost differs from master cost  ; High:Missing or zero cost
+Products.Selling_Price_GBP           non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Selling_Price_GBP
+Materials.Standard_Cost_GBP          non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Standard_Cost_GBP ; Medium:Inventory unit cost differs from master cost  ; High:Missing or zero cost
+Materials.Lead_Time_Days             non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Lead_Time_Days ; Medium:Material lead time differs from supplier stan
+Materials.Minimum_Order_Qty          non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Minimum_Order_Qty
+BOM.Qty_Per_Finished_Unit            non-finite 1 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Qty_Per_Finished_Unit ; High:Scrap outside 0–1 (percent vs fraction?) or q ; Low:130 BOM lines use fractional quantities of ma
+BOM.Scrap_Factor_Pct                 non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Scrap_Factor_Pct ; High:Scrap missing on 1 BOM line(s): 0% assumed in
+Demand History.Units_Sold            non-finite 574 | headline fgV 922704 rmV 1610892 exV 111387 | new warnings: Medium:Missing values in Units_Sold ; Medium:Zero/negative demand months
+Demand History.Forecast_Units        non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Forecast_Units
+Inventory.On_Hand_Qty                non-finite 78 | headline fgV NaN rmV 1610892 exV NaN | new warnings: Medium:Missing values in On_Hand_Qty
+Inventory.Allocated_Qty              non-finite 60 | headline fgV 922704 rmV 1610892 exV NaN | new warnings: Medium:Missing values in Allocated_Qty
+Inventory.On_Order_Qty               non-finite 6 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in On_Order_Qty ; High:A reconciliation difference was detected betw
+Inventory.Reorder_Point_Qty          non-finite 9 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Reorder_Point_Qty
+Inventory.Safety_Stock_Qty           non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Safety_Stock_Qty
+Inventory.Unit_Cost_GBP              non-finite 495 | headline fgV NaN rmV 1610892 exV NaN | new warnings: Medium:Missing values in Unit_Cost_GBP
+Suppliers.Standard_Lead_Time_Days    non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Standard_Lead_Time_Days ; Medium:Material lead time differs from supplier stan
+Purchase Orders.Ordered_Qty          non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Ordered_Qty
+Purchase Orders.Received_Qty         non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Received_Qty
+Purchase Orders.Unit_Cost_GBP        non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Unit_Cost_GBP
+Production Orders.Planned_Qty        non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Planned_Qty
+Production Orders.Completed_Qty      non-finite 0 | headline fgV 922704 rmV 1610892 exV 106934 | new warnings: Medium:Missing values in Completed_Qty

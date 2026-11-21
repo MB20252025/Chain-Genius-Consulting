@@ -66,7 +66,7 @@
       F('Promised_Date', 'date', false), F('Ordered_Qty', 'num', true), F('Received_Qty', 'num', false), F('Last_Receipt_Date', 'date', false),
       cost('Unit_Cost'), F('Status', 'text', false), F('Location_ID', 'id', false)] },
     bom: { key: ['Parent_Item_ID', 'Component_Item_ID'], required: false, fields: [
-      F('Parent_Item_ID', 'id', true), F('Component_Item_ID', 'id', true), F('Qty_Per', 'num', true), F('Scrap_Pct', 'pct', false, { onInvalid: 'blank-flag' })] },
+      F('Parent_Item_ID', 'id', true), F('Component_Item_ID', 'id', true), F('Qty_Per', 'num', true), F('Scrap_Pct', 'pct', false, { onInvalid: 'reject-row' })] },
     production_orders: { key: ['Production_Order_ID'], required: false, fields: [
       F('Production_Order_ID', 'id', true), F('Item_ID', 'id', true), F('Planned_Start_Date', 'date', false), F('Planned_Finish_Date', 'date', false),
       F('Actual_Start_Date', 'date', false), F('Actual_Finish_Date', 'date', false), F('Planned_Qty', 'num', true), F('Completed_Qty', 'num', false),

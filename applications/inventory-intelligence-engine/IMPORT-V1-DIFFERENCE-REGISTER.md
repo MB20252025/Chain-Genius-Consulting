@@ -42,3 +42,46 @@ committed; the committed checks are in `tests/test-same-results.js`).
   present in any case: its items are bought and sold (B14 undecided) and its demand file has no `Demand_Basis` label.
 - **Package 01 has no `Demand_Basis` label.** The adapter refuses it as supplied (`DEMAND_BASIS_NOT_LABELLED`, M1 D14). Proof B
   adds `Demand_Basis = shipments` in memory as a documented test assumption.
+
+## Stage 3 resolution notes (dated; the entries above are kept as written)
+
+- **DR-4 resolved (16 Nov 2026, Stage 3, technically verified; not yet owner-accepted).** The direct-upload reader
+  (`js/excel-import.js`, `rows()`) now reads a cell that holds null or text that is empty after trimming spaces as an empty cell,
+  as Universal Import Stage 1 does (`clean.js`: blank → missing, never 0). Numbers, 0 and any other text are unchanged.
+  - Willow: 8 fewer purchase orders now trigger the "received short" warning on the direct-upload route; **both routes now produce
+    11**, and neither raises "Inconsistent PO dates". This records route agreement only: whether the 11 are correctly classified
+    against the PO source data has not been separately reconciled (follow-up, not a DR-4 gate).
+  - Client-facing: Willow's client question on short receipts (Q3) now cites 11 POs on the direct-upload route (previously 19).
+    If the earlier figure was shared, the corrected figure should be communicated.
+  - `tests/test-same-results.js` now asserts route equality for Willow (both 11, no "Inconsistent PO dates"), so it fails again if
+    the routes diverge; with the pre-DR-4 reader it fails with "direct 19, import 11". Regression test: `tests/test-empty-text.js`.
+  - Observation: Willow's Inventory sheet also has 36 empty-text cells, its whole `Notes` column. They now read as empty cells; the
+    "Column Notes contains no values" warning remains because the header remains.
+  - Not addressed by DR-4: numbers stored as text in numeric fields (for example "0" or "0.02") stay as text, subject to the
+    owner's scrap-text decision.
+- **DR-5 unchanged.** The unmapped empty `Notes` column is still not carried by Universal Import; its warning remains direct-only.
+  With DR-4 resolved, Willow's remaining route differences are DR-5's and DR-7's (`result.alt`, `result.altS`, `result.dq`).
+- **DR-3 resolved (16 Nov 2026, Stage 3, owner decision D3, option 1; technically verified, not yet formally accepted).** DR-3 was
+  an artefact of the comparison tool, not of either route. The engine's Purchase Orders sheet has no line number; the test-only
+  tool `tests/tools/import-v1/reverse-eight-sheet.js` gave every PO row an invented `Line_No "1"`, so Stage 1 (A6) treated the three
+  identical-looking pairs in `edge/scenario-dupexact.xlsx` as proven copies and removed them. The tool no longer invents a line
+  number. Now **both routes keep all 303 rows**: Stage 1 reports `DUP_EXACT_KEPT` ("Please check", rows 2 & 302, 3 & 303, 4 & 304:
+  "they can be genuine separate records"), both engines warn "Duplicate records" (High) for PO0001, PO0002 and PO0003, and the two
+  routes give identical results. No identical-looking record is merged or deleted.
+  - Identifier types, kept distinct: `PO_ID` is a source identifier; `Line_No "1"` was tool-generated and is gone; a genuine
+    duplicate cannot be told apart from two genuine lines without a source line identifier, so both are kept and flagged.
+  - Potential impact of keeping them (if the pairs are in fact copies), measured on `dupexact`: RM022's on-order position 100 instead
+    of 50; PO outstanding in the reconciliation 350 instead of 300; on-time delivery 63.2% instead of 61.1% for SUP015 and 45.5%
+    instead of 42.9% for SUP008. Inventory on hand is not affected; on-order, available-plus-on-order cover and supplier performance
+    are. The High warning is the user's prompt to check.
+  - The same invented identifier made Stage 1 refuse four workbooks with genuinely multi-line orders (`combined`, `multiline`,
+    `posupconflict`, `splitline`) as key conflicts. They are now imported, and each gives results identical to its direct upload.
+    The note above that they "produce no import-route result" is historical.
+
+## Stage 3 completion note (18 Nov 2026; recorded by Claude; the entries above are kept as written)
+
+- **F-XR1 (open, owner decision).** Numbers stored as text: the import route cleans "120", "£5", "1,200" and "(25)" into numbers
+  (Stage 1 D8) and rejects true junk ("abc", "TBC", NaN, Infinity) as invalid; the direct route converts none of them. Since Stage 3
+  C-NUM the direct route reports every such cell with a High warning (previously silent) but still runs. The two routes therefore still
+  differ for text-stored numbers. Options (none implemented): convert on the direct route with the Stage 1 grammar, or refuse
+  (experiment X1, `STAGE3-CHANGE-REGISTER.md`). Both change accepted direct-route results.

@@ -1250,3 +1250,104 @@ This acceptance is of the record as it stands at commit b6e26bf. It does not cla
 **Scope:** Stage 2 is not accepted or completed by this statement; its acceptance remains a separate, open owner decision
 (`IMPORT-V1-STAGE2-RECORD.md`, "Stage 2 status after K7, T5, Tag-5 and Commit C"). Tag-5 stays on `f0e81bb`. No test was run
 for this entry. Its time is the Git commit time of the commit that adds it.
+
+## Stage 3 — implementation record (16 Nov 2026; uncommitted; for the owner's review and the Tag-6 decision)
+
+*Recorded by Claude under the owner's mandate "Stage 3 – Controlled Autonomous Execution". Nothing here is committed, tagged or
+owner-accepted except where stated. 3A's implementation was accepted by the owner on 16 Nov 2026; everything else is technically
+verified only. All runs were local, in throwaway copies or Git clones of the working tree (origin = GitHub), not GitHub Actions.*
+
+**Changes (working tree):**
+
+| Task | Code | Test (assertions; result on the old code) | Status |
+|---|---|---|---|
+| 3A | `js/calculations.js` line 56: "Allocated exceeds on-hand" uses the availability basis (usable on-hand when finite, else On_Hand_Qty) | `test-allocated-usable.js` (23; fails 4) | implementation owner-accepted; warning wording still "on-hand" (follow-up) |
+| DR-4 | `js/excel-import.js` `rows()`: null and empty-after-trim text read as missing | `test-empty-text.js` (46; fails 13) | verified |
+| N1 | `js/calculations.js` feasCalc: a non-positive delay reads "No delay if ordered today (arrives ~N d before start)"; an open order with no valid start date is "Insufficient information" (it made the whole run throw) | `test-shortage-delay.js` (19; fails 12) | verified; golden treatment pending owner decision |
+| Scrap rules | direct: `js/calculations.js` line 68 (`scrapParse` inside `analyse`); import: `js/import/clean.js` cleanPercent, `canonical.js` Scrap_Pct reject-row, `validate.js` PERCENT_CONVERTED | `test-scrap-rules.js` (71, both routes; fails 40) | verified; `test-import-integrity.js` amendment pending owner decision |
+| Time zones | `tests/run-all.sh`: tests marked `fast_zones: "five"` (golden v0.5, golden v0.6.0, confidence v0.7) run in all five zones in the fast tier, so CI covers them | `test-tz-boundaries.js` (71; fails 41 without the reader's date correction) | verified |
+
+**Protected records changed:** `accepted-results.json` (5 new tests; check-protection 434 → 440; confidence reference → the 16 Nov
+snapshot; `fast_zones` on three snapshot tests), `checksums.txt` (changed approved lines: `test-uom.js`, `test-same-results.js`,
+`snapshots/README.md`, `test-import-stage1.js`; new lines for the 5 tests and the 16 Nov snapshot), `test-same-results.js` (Willow:
+both routes 11), `test-uom.js` (U5 blank units: missing, owner option (a)), `test-import-stage1.js` (Scrap_Pct policy RJ),
+`run-all.sh`, `snapshots/README.md`, the new snapshot `snapshots/v0.7-confidence-20261116T034921Z.json` (one difference from the
+12 Nov file: Willow Q3 19 → 11), and `IMPORT-V1-DIFFERENCE-REGISTER.md` (DR-4 note). No historical snapshot was changed.
+
+**Final local results (fresh Git clone of the final working tree):**
+- Fast tier: 25 tests passed (+ pre-flight; runner header "PASS: 26"), 5 FAIL, 0 BLOCKED, 0 REDUCED, 0 ERROR. Golden and confidence ran
+  in 5 zones. New tests all pass: allocated-usable 23, empty-text 46, shortage-delay 19, scrap-rules 71, tz-boundaries 71;
+  check-protection 440/440; import-stage1 616/616; confidence snapshot 51/51 in 5 zones.
+- Full tier (before the last change, moving `scrapParse` inside `analyse`, which restored check-globals 116 and
+  test-a1-sync-path 74, both re-run and passing): 36 passed, 8 FAIL, 5 BLOCKED, 2 REDUCED, 0 ERROR.
+- Every remaining FAIL is declared and decision-dependent:
+  - `check-control`: the Tag-5 guard fails on every approved change until the owner approves and creates Tag-6 (run-all.sh
+    changed; approved checksum lines changed; the confidence reference change is labelled "WEAKENED" by the guard, which cannot
+    tell an equally strict replacement from a weakening);
+  - `golden v0.5`, `golden v0.6.0`, `test-timezones` and `same-results` Proof C: N1's 20 intended delay-text changes against the
+    historical golden files (nothing else differs) — owner decision on the golden-test treatment;
+  - `import-integrity`: 45 failures in the accepted E-1/F2 assertions superseded by the scrap rules — owner decision on the E-1
+    withhold mechanism.
+
+Entry made by Claude; its time is that of the commit that eventually records it.
+
+### Stage 3 — owner decisions D1–D4 implemented (16 Nov 2026; uncommitted; technically verified, not formally accepted)
+
+*Recorded by Claude. Owner-approved decisions (16 Nov 2026): D1 option A, D2 option A, D3 option 1, D4 with six safeguards. The
+implementation and verification are Claude's; nothing here is formally accepted, committed or tagged. D5 (the 3A warning wording)
+is not changed.*
+
+| Decision | Implementation | Verification |
+|---|---|---|
+| D1 golden snapshots | `snapshots/permitted-differences.json` lists the 20 N1 changes (order, original text, new text, reason); `compare-snapshots.js` applies exactly those to its in-memory copy of the two golden files; snapshot files unchanged | golden v0.5 and v0.6.0 10/10 in 5 zones, test-timezones 15, same-results Proof C pass; still fails on the pre-N1 output, on an unlisted status change, on a wrong N and on a changed section |
+| D2 scrap | E-1 SCRAP_UNREADABLE marker and gate withholding retired (adapter, result-gate, engine); a blank that cannot be verified now refuses (SCRAP_BLANK_UNVERIFIABLE, K7 safeguard kept); a blanked scrap from Stage 1 refuses (SCRAP_INVALID_UPSTREAM) | import-integrity 396 (79 per zone): 45 E-1/F2 assertions replaced by rejection-policy assertions; fails 9 per zone on the pre-D2 adapter and gate |
+| D3 duplicate PO rows | the comparison tool no longer invents `Line_No "1"` | dupexact: both routes keep 303 rows, DUP_EXACT_KEPT + High "Duplicate records", identical results; combined, multiline, posupconflict, splitline now imported and identical to direct; same-results 416 (83 per zone) |
+| D4 partial totals | result-gate R4: frozen `{ value, partial: true, excludedItems }` where totals used to be withheld; NO_ELIGIBLE_ITEMS when none is eligible; PARTIAL_TOTAL labels, `disclosures.partialTotals`, a "not complete totals" sentence; `isPartial` exported; arithmetic and string use throw | partial-totals 8 (fails 7 on the pre-D4 gate); import-integrity I6, I9, I10 restated with values recomputed from the engine's item values |
+
+**Full tier, fresh Git clone of the final working tree (origin = GitHub), Node v22.23.4:** PASS 44 (43 tests + pre-flight), FAIL 1,
+BLOCKED 5, REDUCED 2, ERROR 0. The only FAIL is `check-control` (the Tag-5 guard), by design until the owner approves and creates
+Tag-6: run-all.sh changed; the confidence reference change is labelled "WEAKENED" by the guard; 7 approved checksum lines changed (none
+removed). check-protection 442 = 3 references + 439 files (Tag-5: 434 = 3 + 431; 8 added, 7 re-hashed, 0 removed).
+
+Entry made by Claude; its time is that of the commit that eventually records it.
+
+### Stage 3 — engineering completion (18 Nov 2026; uncommitted; technically verified, not formally accepted)
+
+*Recorded by Claude under the owner's approval of 18 Nov 2026. Full detail, old-versus-new evidence, experiments and outstanding
+findings: `STAGE3-CHANGE-REGISTER.md`. Approval to implement is not acceptance.*
+
+| ID | Change | Verification |
+|---|---|---|
+| C-NUM | High warning for text, NaN or Infinity in numeric engine columns (direct route), naming column and row | `stage3-quality` C-NUM 13 checks |
+| D5 | 3A wording "Allocated exceeds usable on-hand" | `allocated-usable` 23 (message constant updated, same 23 checks) |
+| C-STK | Dead-stock flags test stock held on either basis, physical or usable (revised after independent review); valuation unchanged | `stage3-quality` C-STK 11 checks |
+| C-RG3 | Gate output contract RG3; input spec stays RG2 | `stage3-quality` C-RG3 2; `import-integrity` 396 unchanged |
+| C-CMP | `compare-snapshots.js` no longer crashes on an emptied section | `stage3-quality` C-CMP 1 |
+
+New test `stage3-quality` (28, fast + full, two zones): 28/28 now, 18/28 fail on the pre-change tree. An independent reviewer's findings and their reconciliation are in the change register. check-protection 443 = 3 references
++ 440 files (442 + `test-stage3-quality.js`; `compare-snapshots.js` and `test-allocated-usable.js` re-hashed; none removed). No
+snapshot changed: golden v0.5 and the v0.7 confidence snapshot reproduce exactly. The only expected FAIL remains `check-control`
+(Tag-5 guard) until Tag-6. Experiments X1 (C-NUM refusal) and X2 (K7 exclusion-only partial totals) are kept outside the repository
+and are not part of these results.
+
+Full tier (revised tree, throwaway copy): 44 tests passed (+ pre-flight), FAIL 1 (`check-control`), BLOCKED 5, REDUCED 2, ERROR 0.
+
+Entry made by Claude; its time is that of the commit that eventually records it.
+
+### Stage 3 Round 2 (18 Nov 2026; uncommitted; technically verified, not formally accepted)
+
+*Recorded by Claude under the owner's Round 2 brief. Details, baselines, experiments and the independent review: `STAGE3-CHANGE-REGISTER.md`,
+Round 2. Approval to implement is not acceptance.*
+
+| ID | Change | Verification |
+|---|---|---|
+| R2-STK | Dead-stock classes require uncommitted stock = max(physical, usable) − allocated (allocated stock is never excess or obsolete) | `stage3-round2` (35) |
+| R2-VIEW | Dead-stock view shows Physical, Allocated, Usable, Unallocated usable (layout pending the owner's mock-up choice) | `stage3-round2` R2-VIEW |
+| F-A1..F-A4 | Negative planned/completed quantity (High), completed above planned (Medium), negative lead times (High), BOM quantity wording | `stage3-round2` |
+| T-R2 | `stage3-quality` scenarios state allocation 0 explicitly (same 28 checks and expectations) | 28/28 |
+
+Full tier (throwaway copy): 45 tests passed (+ pre-flight), FAIL 1 (`check-control`), BLOCKED 5, REDUCED 2, ERROR 0. Golden v0.5 and v0.6.0
+and confidence v0.7 identical in all five zones. check-protection 444 = 3 references + 441 files. Numeric-validation and cross-route options
+are experiments outside the repository (REVIEW / EXPERIMENTAL), not part of these results.
+
+Entry made by Claude; its time is that of the commit that eventually records it.

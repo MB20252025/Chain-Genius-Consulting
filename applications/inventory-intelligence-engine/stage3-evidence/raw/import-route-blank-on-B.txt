@@ -1,0 +1,7 @@
+Inventory.On_Hand_Qty              import NOT accepted (Stage 1 issues: ROW_REJECTED)
+Inventory.Allocated_Qty            ran (restricted); Stage 1 issues: ; WITHHELD exV; excluded items: none
+Inventory.On_Order_Qty             ran (restricted); Stage 1 issues: ; headline finite; excluded items: none
+Inventory.Reorder_Point_Qty        ran (restricted); Stage 1 issues: ; headline finite; excluded items: none
+Inventory.Unit_Cost_GBP            ran (restricted); Stage 1 issues: ; WITHHELD fgV,rmV,exV; excluded items: none
+Demand History.Units_Sold          ran (restricted); Stage 1 issues: ROW_REJECTED,HISTORY_INCOMPLETE; headline finite; excluded items: none
+BOM.Qty_Per_Finished_Unit          import NOT accepted (Stage 1 issues: ROW_REJECTED)

@@ -1135,3 +1135,14 @@ Stage 3 planning, these gates must be decided:
   feasibility pool's "Blocking materials" display.
 
 Stage 3 is not started. The time of this entry is the Git commit time of the commit that adds it.
+
+## Contract RG3 — dated amendment (18 Nov 2026; recorded by Claude; Stage 3, uncommitted; the RG2 text above is kept as written)
+
+The result gate's **output** contract is now **RG3** (`resultGate.VERSION`); the **input** specification written by the adapter is
+unchanged and remains **RG2** (`resultGate.SPEC_VERSION`; any other specification version is refused). RG3 differs from RG2 only in
+R4 group totals, per owner decision D4 (16 Nov 2026): where RG2 withheld `exF`, `exR`, `exV`, `shV`, `cogsF` or `cogsR` because items of
+the group were *withheld*, RG3 releases a frozen `{ value, partial: true, excludedItems: [{ id, reason }] }` summed over the released
+items, naming every withheld and every Engine-View-excluded item of the group, labelled `PARTIAL_TOTAL` and listed in
+`disclosures.partialTotals`; with no eligible item it stays withheld (`NO_ELIGIBLE_ITEMS`). Consumers test it with
+`resultGate.isPartial()`; numeric and string use throw. Groups with only *excluded* items keep the accepted K7 form (plain total plus
+disclosure). Group-ranked fields (ABC class, cumulative share) are withheld as in RG2. See `STAGE3-CHANGE-REGISTER.md` (C-RG3).

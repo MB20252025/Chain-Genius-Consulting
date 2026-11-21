@@ -1,0 +1,22 @@
+21a22
+> for (const f of ['canonical', 'read', 'clean', 'mapping', 'validate', 'engine-map', 'engine-workbook', 'result-gate', 'adapter']) vm.runInContext(read('js/import/' + f + '.js'), ctx, { filename: f + '.js' });
+24c25,26
+< const X = ctx.XLSX, E = ctx.__E;
+---
+> vm.runInContext(read('tests/tools/import-v1/reverse-eight-sheet.js'), ctx, { filename: 'reverse-eight-sheet.js' });
+> const X = ctx.XLSX, E = ctx.__E, G = ctx.CGImport, REV = ctx.CGTestTools.reverseEightSheet;
+36a39
+> const inViewOf = s => ctx.__view(s.r).includes('<td>FG050</td>');
+59a63,65
+> ok(() => { const s = stk('FG050', 10, 10, 'abc', 'nodemand'); return s.x.cls === 'No recorded demand' && inViewOf(s) && !isFinite(s.x.av) && s.r.dq.some(q => q.sev === 'High' && /Allocated_Qty row \d+ "abc"/.test(q.msg)); },
+>   'R2-STK unreadable allocation "abc": available stock is unknown, so the item stays listed (counted as nothing allocated) beside the High warning naming the cell (documented limitation, Round 2 review)');
+> ok(() => { const s = stk('FG050', 0, 0, 0, 'obsolete'); return s.x.cls === 'Active' && !inViewOf(s); }, 'R2-STK no stock at all and demand that stopped 9 months ago: "Active", not listed (nothing to be dead or slow-moving)');
+88a95,102
+> 
+> // ---------- Import route (same input through reverse -> Stage 1 -> adapter): each new direct-route check has a counterpart there.
+> const viaImport = w => { const rv = REV(w), imp = G.validate.importFiles(rv.mapping, rv.files); const ad = imp.importAccepted ? G.adapter.build(imp, rv.mapping) : null;
+>   return { imp, codes: (imp.issues || []).map(i => i.code), out: ad && ad.workbook ? E.runEngine({ workbook: ad.workbook }).result : null }; };
+> const wbEdit = (sh, fn) => { const w = X.read(NS, { cellDates: true }); sheetEdit(w, sh, fn); return rt(w); };
+> ok(() => { const r = viaImport(wbEdit('Production Orders', r => { r[0].Planned_Qty = -10; })); return r.imp.importAccepted && r.codes.includes('ROW_REJECTED'); }, 'import route: a negative Planned_Qty row is rejected by Stage 1 (ROW_REJECTED) instead of warned');
+> ok(() => { const r = viaImport(wbEdit('Production Orders', r => { r[0].Completed_Qty = r[0].Planned_Qty + 500; })); return r.out && warned(r.out, /^Completed quantity exceeds planned quantity/); }, 'import route: completed above planned gives the same Medium warning');
+> ok(() => { const r = viaImport(wbEdit('Materials', r => { r[0].Lead_Time_Days = -5; })); return r.codes.includes('FIELD_BLANKED') && r.out && !warned(r.out, /^Negative lead times/); }, 'import route: a negative lead time is blanked by Stage 1 (FIELD_BLANKED), so it never reaches the engine');

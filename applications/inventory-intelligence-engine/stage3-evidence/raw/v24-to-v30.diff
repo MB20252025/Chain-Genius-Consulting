@@ -1,0 +1,21 @@
+33c33
+<   sheetEdit(w, 'Inventory', r => r.forEach(x => { x.Usable_On_Hand_Qty = x.On_Hand_Qty; if (x.Item_ID === id) { x.On_Hand_Qty = oh; x.Usable_On_Hand_Qty = ua; x.Allocated_Qty = al; } }));
+---
+>   sheetEdit(w, 'Inventory', r => r.forEach(x => { x.Usable_On_Hand_Qty = x.On_Hand_Qty; if (x.Item_ID === id) { const set = (k, v) => { if (v === undefined) delete x[k]; else x[k] = v; }; set('On_Hand_Qty', oh); set('Usable_On_Hand_Qty', ua); set('Allocated_Qty', al); } }));
+48,49c48,60
+< ok(() => stk('FG050', 10, 10, 10, 'obsolete').x.cls !== 'Potentially obsolete' && stk('FG050', 10, 10, 4, 'obsolete').x.cls === 'Potentially obsolete',
+<   'R2-STK obsolete (last sale 9 months ago): fully allocated stock is not "Potentially obsolete"; partly allocated stock still is');
+---
+> ok(() => { const s = stk('FG050', 10, 10, 10, 'obsolete'); return s.x.cls === 'Active' && !ctx.__view(s.r).includes('<td>FG050</td>') && stk('FG050', 10, 10, 4, 'obsolete').x.cls === 'Potentially obsolete'; },
+>   () => 'R2-STK obsolete (last sale 9 months ago): fully allocated stock is "Active" and not listed in the dead-stock view (got "' + stk('FG050', 10, 10, 10, 'obsolete').x.cls + '"); partly allocated stock is still "Potentially obsolete"');
+> // Round 2 review additions: allocation read the same way as available stock; blanks; allocation above stock.
+> for (const [oh, ua, al, listed, why] of [
+>   [10, 10, '10', false, 'allocation stored as text "10" (read as 10, as available stock reads it): fully committed'],
+>   [10, 10, -5, true, 'negative allocation -5 (flagged High): uncommitted 15, the same figure as unallocated usable'],
+>   [10, 10, 15, false, 'allocation 15 above stock 10: nothing uncommitted'],
+>   [undefined, 10, 0, true, 'On_Hand_Qty blank, usable 10: the usable stock is not hidden'],
+>   [10, 4, 6, true, 'physical 10, usable 4, allocated 6: listed (uncommitted = larger of physical and usable minus allocated = 4; documented assumption)']]) {
+>   ok(() => { const s = stk('FG050', oh, ua, al, 'nodemand'), inView = ctx.__view(s.r).includes('<td>FG050</td>'); return (s.x.cls !== 'Active') === listed && inView === listed && s.w === listed; },
+>     () => { const s = stk('FG050', oh, ua, al, 'nodemand'); return `R2-STK FG050 no demand, ${why}: ${listed ? 'listed and warned' : 'not listed, not warned'} (got "${s.x.cls}", view ${ctx.__view(s.r).includes('<td>FG050</td>') ? 'listed' : 'not listed'}, warning ${s.w ? 'yes' : 'no'})`; });
+> }
+> ok(() => { const s = stk('FG050', 10, 10, -5, 'nodemand'); return s.x.av === 15 && Math.round(s.x.exQty) === 15 && warned(s.r, /^Negative quantities/, 'FG050'); }, 'R2-STK a negative allocation is flagged High and gives the same uncommitted figure (15) in classification, unallocated usable and excess');

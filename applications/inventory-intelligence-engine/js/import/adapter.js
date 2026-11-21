@@ -27,9 +27,9 @@
  *        rows are KEPT, so the engine itself sees the relationship (orders that need it are "Insufficient information") and the gate
  *        can withhold the results of items that depend on it. The exclusion, its reason and the source quantities are reported.
  *   K7/F2 BOM scrap, per line: a supplied value is used; a missing column or a blank cell is ASSUMED 0% (written as 0 in the Engine
- *        View copy only, and disclosed); a value Stage 1 could not read (FIELD_BLANKED) is INVALID: it is never replaced by a number;
- *        its Engine View cell holds the text marker SCRAP_UNREADABLE, so the engine reports the line as not readable (E-1) instead of
- *        assuming 0%, and the gate withholds the production and material results that use it.
+ *        View copy only, and disclosed). Stage 3 (owner decision D2, 16 Nov 2026): Stage 1 rejects an invalid scrap value (ROW_REJECTED,
+ *        so the import is not accepted), so an accepted Stage 1 result never holds one. The E-1 SCRAP_UNREADABLE marker and the gate's
+ *        withholding of invalid scrap lines are retired; if a Stage 1 result still reports a blanked scrap value, the adapter refuses.
  *   E10  rows Stage 1 invented (__placeholder) and held tables never reach the engine.
  * Undecided policies are never assumed: the affected case is refused with POLICY_UNDECIDED_Bn (B4, B7, B9, B14, B17, B18, B19).
  */
@@ -37,7 +37,7 @@
   'use strict';
   const C = NS.canonical, V = NS.validate, EM = NS.engineMap, EW = NS.engineWorkbook;
   if (!C || !V || !EM || !EW || typeof V.reliabilityDetail !== 'function') throw new Error('adapter.js needs canonical.js, validate.js, engine-map.js and engine-workbook.js to be loaded first');
-  const VERSION = 'AD2', SCRAP_UNREADABLE = 'SCRAP_UNREADABLE', NEG_TEXT = 'treated as 0 for available stock. Please investigate.', UNASSIGNED = 'UNASSIGNED';
+  const VERSION = 'AD2', NEG_TEXT = 'treated as 0 for available stock. Please investigate.', UNASSIGNED = 'UNASSIGNED';
   const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
   const isDate = v => Object.prototype.toString.call(v) === '[object Date]';
   const deepFreeze = o => { if (o && typeof o === 'object' && !Object.isFrozen(o) && !isDate(o)) { Object.freeze(o); Object.values(o).forEach(deepFreeze); } return o; };
@@ -224,28 +224,26 @@
       ds.stock = engineStock; if (engineDemand) ds.demand = engineDemand;
       const sup = {}; if (demandSupplied) sup.demand = demandSupplied;
 
-      // ---- K7/F2: scrap per BOM line. Stage 1 blanks a value it cannot read and records it (FIELD_BLANKED, bom.Scrap_Pct, rows);
-      // that record is the only way to tell "invalid" from "left blank". If it cannot be trusted, every blank is treated as invalid.
-      const scrap = { column: 'supplied', assumed: [], invalid: [] }, invalidAt = [];
+      // ---- K7/F2: scrap per BOM line. Stage 3 (D2): Stage 1 rejects invalid scrap, so a null Scrap_Pct in an accepted result is a blank
+      // cell. A FIELD_BLANKED record for bom.Scrap_Pct (only an older Stage 1 could produce it) means an invalid value reached this point:
+      // the import is refused, never assumed 0% and never marked. scrap.invalid stays in the spec and report and is always empty.
+      const scrap = { column: 'supplied', assumed: [], invalid: [] };
       if (bomRows.length) {
         const mapped = !!(supplied.bom && supplied.bom.has('Scrap_Pct'));
         const issues = Array.isArray(S1.issues) ? S1.issues : null;
         const bomSources = isObj(mapping.tables) && isObj(mapping.tables.bom) && Array.isArray(mapping.tables.bom.sources) ? mapping.tables.bom.sources.length : 0;
-        const blanked = new Map();
-        let trustBlanks = issues !== null && bomSources <= 1;
-        if (issues) for (const i of issues) if (isObj(i) && i.code === 'FIELD_BLANKED' && i.table === 'bom' && i.field === 'Scrap_Pct') {
-          if (!Array.isArray(i.rows)) { trustBlanks = false; continue; }
-          i.rows.forEach(x => { if (isObj(x) && Number.isInteger(x.row)) blanked.set(x.row, x.value === undefined ? null : x.value); else trustBlanks = false; });
-        }
+        // K7 safeguard, kept: a blank is assumed 0% only when the Stage 1 record can show it was blank (an issue list, one BOM source).
+        const trustBlanks = issues !== null && bomSources <= 1;
+        const blankedScrap = (issues || []).find(i => isObj(i) && i.code === 'FIELD_BLANKED' && i.table === 'bom' && i.field === 'Scrap_Pct');
+        if (blankedScrap) { refuse('SCRAP_INVALID_UPSTREAM', 'The Stage 1 result reports BOM scrap values that could not be read' + (Array.isArray(blankedScrap.rows) ? ' (rows ' + blankedScrap.rows.map(x => isObj(x) ? x.row : '?').join(', ') + ')' : '') + '. Invalid scrap must be rejected by Stage 1 and corrected in the source; it is never assumed 0%.'); return finish('refused'); }
+        const unverifiable = mapped && !trustBlanks ? bomRows.filter(b => b.Scrap_Pct === null) : [];
+        if (unverifiable.length) { refuse('SCRAP_BLANK_UNVERIFIABLE', unverifiable.length + ' BOM line(s) have a blank scrap value (rows ' + unverifiable.map(b => src(b) ? src(b).row : '?').join(', ') + '), and the Stage 1 record ' + (issues === null ? 'has no issue list' : 'covers a BOM built from more than one file') + ', so it cannot show that the cells were blank rather than unreadable. A blank is assumed 0% only when that can be shown; correct the source or supply the BOM from one file.'); return finish('refused'); }
         scrap.column = mapped ? 'supplied' : 'not-mapped';
         ds.bom = bomRows.map((b, bi) => {
           const line = { parent: b.Parent_Item_ID, component: b.Component_Item_ID, row: src(b) ? src(b).row : null };
           if (!mapped) { scrap.assumed.push(Object.assign(line, { basis: 'column not supplied' })); return Object.assign({}, b, { Scrap_Pct: 0 }); }
           if (b.Scrap_Pct !== null) return b;
-          if (trustBlanks && !blanked.has(line.row)) { scrap.assumed.push(Object.assign(line, { basis: 'blank cell' })); return Object.assign({}, b, { Scrap_Pct: 0 }); }
-          scrap.invalid.push(Object.assign(line, { value: blanked.has(line.row) ? blanked.get(line.row) : null,
-            basis: trustBlanks ? 'value could not be read (Stage 1 FIELD_BLANKED)' : 'blank, and Stage 1 records cannot separate a blank from an unreadable value' }));
-          invalidAt.push(bi); return b;
+          scrap.assumed.push(Object.assign(line, { basis: 'blank cell' })); return Object.assign({}, b, { Scrap_Pct: 0 });
         });
         if (!mapped) sup.bom = [...(supplied.bom || [])].concat('Scrap_Pct');
       } else if (Array.isArray(D.bom)) ds.bom = D.bom;
@@ -254,14 +252,6 @@
       let built;
       try { built = EW.build(ds, mapping, { supplied: sup, derived: ['Usable_On_Hand_Qty'] }); }
       catch (e) { refuse(e.code === 'ENGINE_WORKBOOK_INPUT' ? 'ADAPTER_MAPPING_MISMATCH' : 'ADAPTER_VALUE_INVALID', e.message); return finish('refused'); }
-      // E-1 marker: an invalid scrap line gets the text SCRAP_UNREADABLE in its Engine View cell (the workbook builder writes numbers only,
-      // so the marker is placed after the build). A blank cell would be read by the engine as "missing, 0% assumed"; the marker is read as
-      // "not readable", so the engine never uses 0% for it. Hard check: the BOM sheet holds exactly one row per Engine View BOM line.
-      if (invalidAt.length) {
-        const bs = built.report.sheets.find(s => s.table === 'bom'), XLm = typeof XLSX !== 'undefined' ? XLSX : null, col = bs ? bs.columns.indexOf('Scrap_Factor_Pct') : -1;
-        if (!XLm || !bs || bs.rows !== ds.bom.length || col < 0) { refuse('ADAPTER_INTERNAL', 'Internal adapter error: the Engine View BOM sheet does not line up with the BOM lines, so unreadable scrap cannot be marked.'); return finish('refused'); }
-        invalidAt.forEach(i => { built.workbook.Sheets[bs.sheet][XLm.utils.encode_cell({ r: i + 1, c: col })] = { t: 's', v: SCRAP_UNREADABLE }; });
-      }
       // Reconciliation (hard check): the Engine View physical stock equals the counted source rows, item by item.
       const sheet = built.workbook.Sheets.Inventory, idx = built.report.sheets.find(s => s.sheet === 'Inventory').columns;
       const ci = c => idx.indexOf(c), XL = typeof XLSX !== 'undefined' ? XLSX : null;
@@ -312,5 +302,5 @@
     }
   }
 
-  NS.adapter = Object.freeze({ VERSION, NEG_TEXT, SCRAP_UNREADABLE, build });
+  NS.adapter = Object.freeze({ VERSION, NEG_TEXT, build });
 })(globalThis.CGImport = globalThis.CGImport || {});

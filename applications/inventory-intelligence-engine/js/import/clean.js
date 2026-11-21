@@ -52,21 +52,20 @@
     return rules.length ? res('cleaned', n, rules.join('; ')) : res('ok', n);
   }
 
-  // ---------- percentages (for fields such as BOM scrap) ----------
-  // "5%" -> 0.05; 0.05 -> 0.05; a plain number above 1 without % is ambiguous (5 = 5% or 500%?) and rejected.
+  // ---------- percentages (BOM scrap is the only percentage field) ----------
+  // Stage 3 scrap rules (owner, 15 Nov 2026), the same grammar as the direct-upload route (calculations.js scrapParse):
+  // a plain decimal 0-1 ("0.02") or a percentage 0%-100% ("5%" -> 0.05) is accepted; a negative value, a value above 100%, a plain
+  // number above 1 (5 = 5% or 500%?) and anything else (decimal comma, currency, brackets, exponents, text) is invalid.
   function cleanPercent(raw) {
     const t = str(raw).trim();
     if (t === '') return res('missing', null);
-    if (/%$/.test(t)) {
-      const n = cleanNumber(t.slice(0, -1));
-      if (n.status !== 'ok' && n.status !== 'cleaned') return res('invalid', null, null, 'not a percentage');
-      return res('cleaned', Math.round(n.value * 1e9) / 1e11, 'percent text converted to a fraction');
-    }
-    const n = cleanNumber(t);
-    if (n.status === 'missing') return n;
-    if (n.value === null) return n;
-    if (n.value < 0 || n.value > 1) return res('invalid', null, null, 'a plain number outside 0–1 is ambiguous as a percentage; write it with %');
-    return n;
+    const m = /^(-?)(\d+(?:\.\d+)?|\d*\.\d+)\s*(%?)$/.exec(t);
+    if (!m) return res('invalid', null, null, 'not a plain decimal or a percentage');
+    let n = Number(m[2]);
+    if (m[3]) n = Math.round(n * 1e9) / 1e11;
+    if (m[1] && n !== 0) return res('invalid', null, null, 'negative scrap is not allowed');
+    if (n > 1) return res('invalid', null, null, m[3] ? 'above 100% is not allowed' : 'a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)');
+    return m[3] ? res('cleaned', n, 'percent text converted to a fraction') : res('ok', n);
   }
 
   // ---------- dates (D6, D7) ----------

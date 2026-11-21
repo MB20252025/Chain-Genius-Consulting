@@ -10,7 +10,9 @@
  *  - Products -> items (Replenishment Make, Is_Sold Y); Materials -> items (Buy, N). Column renames follow engine-map.js.
  *  - A canonical column is written only when the source sheet has the source column, so "absent" stays "absent".
  *  - Inventory.Location values become locations with Include_In_Available Y (every Northstar-layout location is in use).
- *  - Purchase Orders get Line_No "1": the engine layout has one row per order line and no line number.
+ *  - Purchase Orders carry NO Line_No: the engine layout has one row per order line and no line number, and the tool must not
+ *    invent one. (Until Stage 3 it wrote Line_No "1" on every row. That invented identifier made Stage 1 remove whole-row copies
+ *    (DR-3) and refuse genuinely multi-line orders as key conflicts. Owner decision D3, 16 Nov 2026.)
  *  - dataset.Demand_Basis = "shipments": the engine's Demand History column is Units_Sold, which the direct upload treats as
  *    history. M1 D14 requires the label; the engine layout cannot carry it, so the test states it here.
  *  - Dates: a date cell becomes its calendar date (the engine's own calDate rule), ISO text.
@@ -50,7 +52,7 @@
     put('demand', 'Demand History', [['Item_ID', 'SKU'], ['Period_Start', 'Month_Start'], ['Units', 'Units_Sold'], ['Forecast_Units', 'Forecast_Units']], S('Demand History'));
     put('suppliers', 'Suppliers', [['Supplier_ID', 'Supplier_ID'], ['Supplier_Name', 'Supplier_Name'], ['Standard_Lead_Time_Days', 'Standard_Lead_Time_Days'],
       ['Country', 'Country'], ['Payment_Terms', 'Payment_Terms'], ['Active', 'Active_YN']], S('Suppliers'));
-    put('po_lines', 'Purchase Orders', [['PO_ID', 'PO_ID'], ['Line_No', () => '1'], ['Supplier_ID', 'Supplier_ID'], ['Item_ID', 'Material_ID'], ['Order_Date', 'Order_Date'],
+    put('po_lines', 'Purchase Orders', [['PO_ID', 'PO_ID'], ['Supplier_ID', 'Supplier_ID'], ['Item_ID', 'Material_ID'], ['Order_Date', 'Order_Date'],
       ['Promised_Date', 'Promised_Date'], ['Ordered_Qty', 'Ordered_Qty'], ['Received_Qty', 'Received_Qty'], ['Last_Receipt_Date', 'Received_Date'], ['Unit_Cost', 'Unit_Cost_GBP'], ['Status', 'PO_Status']], S('Purchase Orders'));
     put('bom', 'BOM', [['Parent_Item_ID', 'SKU'], ['Component_Item_ID', 'Material_ID'], ['Qty_Per', 'Qty_Per_Finished_Unit'], ['Scrap_Pct', 'Scrap_Factor_Pct']], S('BOM'));
     put('production_orders', 'Production Orders', [['Production_Order_ID', 'Production_Order_ID'], ['Item_ID', 'SKU'], ['Planned_Start_Date', 'Planned_Start_Date'],

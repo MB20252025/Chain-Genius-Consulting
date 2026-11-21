@@ -1,0 +1,14 @@
+Inventory.On_Hand_Qty              column removed    REFUSED: Invalid time value
+Inventory.On_Hand_Qty              every cell blank  REFUSED: Invalid time value
+Inventory.Allocated_Qty            column removed    REFUSED: Invalid time value
+Inventory.Allocated_Qty            every cell blank  REFUSED: Invalid time value
+Inventory.On_Order_Qty             column removed    ran; non-finite 1400; warnings: High "A reconciliation difference was detected between two source "
+Inventory.On_Order_Qty             every cell blank  ran; non-finite 1400; warnings: Medium "Column On_Order_Qty contains no values (every cell in the co" | High "A reconciliation difference was detected between two source "
+Inventory.Reorder_Point_Qty        column removed    ran; non-finite 1150; warnings: 
+Inventory.Reorder_Point_Qty        every cell blank  ran; non-finite 1150; warnings: Medium "Column Reorder_Point_Qty contains no values (every cell in t"
+Inventory.Unit_Cost_GBP            column removed    ran; non-finite 5278; warnings: 
+Inventory.Unit_Cost_GBP            every cell blank  ran; non-finite 5278; warnings: Medium "Column Unit_Cost_GBP contains no values (every cell in the c"
+Demand History.Units_Sold          column removed    ran; non-finite 6203; warnings: 
+Demand History.Units_Sold          every cell blank  ran; non-finite 6203; warnings: Medium "Column Units_Sold contains no values (every cell in the colu"
+BOM.Qty_Per_Finished_Unit          column removed    ran; non-finite 200; warnings: 
+BOM.Qty_Per_Finished_Unit          every cell blank  ran; non-finite 200; warnings: Medium "Column Qty_Per_Finished_Unit contains no values (every cell "

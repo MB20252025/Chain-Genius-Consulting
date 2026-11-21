@@ -33,7 +33,7 @@ file ba1ab8baead8aefc7c2bae1aee52779eb36f3bd49a2d1be13e5da1f765f7fa9e tests/audi
 file 8926dd239327e0fbce300936740d514bd3bc1ac184c1b1597221bb3c93380464 tests/browser-chrome.js
 file c4964c206034cb3f40b1a8ec2fe6053aa1301d67935daace01cff61e4411246f tests/check-globals.js
 file b1d544ab1271538b2a40ff08f59349bdbd70b0799aff69c8c610c043163be358 tests/check-standalone.js
-file a6313df23dc585bfde7605bb315c7b8900ac84fc6ffb375d32a45ed3e278200a tests/compare-snapshots.js
+file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js
 file dcc1d0ced72aa9cdde7aab7ad9ab5020258d0e96c4d295fa98272b2bf8cec380 tests/compare-trees.js
 file 2222a2c2986c4d09b69f45ebef407f3674a3bfa30178a75f076c7010aeaf71cf tests/domtest.js
 file 18ca95dc514ab595a4a26bb5126be8ec75e0fc4a26dfe9f51c1aad34e99f26bb tests/domtest2.js
@@ -92,7 +92,7 @@ file bcfba0fb13c2d98e7c0c614292a4342271177af6f8b5a39e0d716b275a0dfa9e tests/run-
 file 4f7837519943a99861a1ff8a6cbe5de9bb61df627208a7a667ace29ae15f1a42 tests/run-regression.sh
 file 689de2a0bafd7e85f53446deefb1bc52bf7f5189c95761fd67e21afb7dc674bb tests/run-supplier-scenarios.sh
 file c91bc07fea501374b90e755e74985ee70ab15fa7a86221c812c38e451d5f20ad tests/run-verbose.sh
-file 3d7636fd982a7b172aec23b15c2be10368880e5f2174ad90fd38f9163d38b218 tests/snapshots/README.md
+file 6a00557fdc3d956eceec486b5765650eff3b57aa2536f13c5a11a66e288b2c5f tests/snapshots/README.md
 file 7f38bc567da528f1606d71a8873aea29ceface42f7ad8fef45b1682b19fce00a tests/snapshots/v0.5-golden-20261105T101953Z.json
 file 7f38bc567da528f1606d71a8873aea29ceface42f7ad8fef45b1682b19fce00a tests/snapshots/v0.6.0-baseline-20261109T152050Z.json
 file 9d287907c33bd93142f7f8fd54f2868af183fed75fea7cdc942215abdd0f4928 tests/supfields.js
@@ -123,7 +123,7 @@ file 7e139882bddec588e1eb3501b3a375f6f228f19cbf0c65f8428fc64eadda43f3 tests/test
 file bbaf1ac47bebe5a88b5a764159a048118f6965cb2418915449deac439aaebc17 tests/test-supplier-eligibility.js
 file 675a4dc6f031c2d31952f24de356b26148fa88797acfd805beaa7d00730f5665 tests/test-suppliers-export-chrome.js
 file e87f31d9a64864f7cad448c5fa3b5d5aa190094cb172b4be9d55e090191bcf4d tests/test-timezones.js
-file 266dc0efcc9188902efdee159ef2ff287c571e3b253111328a65ccaf9edd2283 tests/test-uom.js
+file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js
 file e27012c390a3baf5aa4859e2c8e1a7efa3dcadbefa9cc70f61b56db9c49461ee tests/test7.js
 file 985681d0e4b3ea0b5426ec0f017342f883f6cc9f1e236844c406149db32666dd tests/test8.js
 file 022d9fd34ea055f0ccfa653bec33926e62207563ff272c4f62b94cd769d173d8 tests/test9.js
@@ -347,7 +347,7 @@ file be698a42f25394f1454e080dd8ab3bf9bcb85f0b099687f0978860dfd1767a15 tests/tool
 # M1 pre-tag Commit 3 (12 Nov 2026): CHARACTERISATION test (records current behaviour, including known defects; not approved rules). See tests/characterisation/README.md. The README is not protected.
 file 7c8eff4a2322a4805bf33bc3fd3745a0b6fba23a7b36030f9c0c4f8a24784ea5 tests/characterisation/characterisation-lead-time-fallbacks.js
 # M1 pre-tag Commit 9 (12 Nov 2026): M1 Stage 1 import test (A1-A3), protected for the Tag-4 review.
-file 7fc521dd6fb14030f52efd0300686dcd4cb77d3d510688498ed9a229ec7068e4 tests/test-import-stage1.js
+file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js
 # Universal Data Import v1 Stage 1 (13 Nov 2026, owner condition 3: new fixtures protected from the moment they are introduced): the Stage 1 test, the fixture generator (tests/tools/import-v1), the hand-written Package 02 mapping and the generated synthetic layouts and fault cases (tests/fixtures/import-v1). js/import/mapping.js and validate.js are protected by behaviour tests, not checksums (M1 policy).
 file 5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703 tests/test-import-mapping.js
 file ed5e24e2e7f96a0ba17737546f300b9c41e6d38ba710205bb20ae64676c560c6 tests/tools/import-v1/make-stage1-fixtures.js
@@ -443,7 +443,27 @@ file 5af4dbb9a50224f1a492d0df769b5f701d5aba9dcd762a554e00779de0260da8 tests/fixt
 file 7a4836b4ed4c37f65789ff80ce37d0f003154afc42358603f1aa71f47ddbdd34 tests/test-import-engine-map.js
 # Universal Data Import v1 Stage 2, K3-K5 (14 Nov 2026, owner condition 3): the adapter and result-gate test, the same-results proofs (A, B, C) and the test-only reverse converter. js/import/adapter.js and result-gate.js are protected by behaviour tests, not checksums (M1 policy). test-import-engine-map.js above was updated for the owner-approved EM2 extension (Usable_On_Hand_Qty).
 file 38ff08dcd743db4ec03bf91ea14bd374ca2a60b5c9d4366c04d7d5f9821d51f6 tests/test-import-adapter.js
-file 9e9c0264356dff0606c48a48088ba4afcb7ff3cfaa133683694031353af07d59 tests/test-same-results.js
-file 4685961bfc83a0ded57a95deeccb054151c75c97c5705798b91c1440de207ec7 tests/tools/import-v1/reverse-eight-sheet.js
+file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js
+file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js
 # Universal Data Import v1 Stage 2, K7 (14 Nov 2026): integrity test for the adapter (AD2) and result gate (RG2). test-import-adapter.js above was updated in K7 (case 12 and the RG2 leak-test specification). Both lines were updated again for the K7 verification corrections (15 Nov 2026, owner Approval 1). test-import-integrity.js was updated again for E-1 (15 Nov 2026, owner approval).
-file 305592ee32b2a8f5763b0d82c09f8273658cc8cdebef9beced847cd85bed97bd tests/test-import-integrity.js
+file c373df7d0bc8fcc2f9302ad16ce99a33127586c2ec8278f4973e6af6c0fba8df tests/test-import-integrity.js
+# Stage 3 (16 Nov 2026; owner mandate "Stage 3 - Controlled Autonomous Execution", Tag-6 consolidation; new files protected from the moment they are
+# introduced). Changed approved lines above: tests/test-uom.js (U5: blank units are missing, not unrecognised; owner option (a), DR-4),
+# tests/test-same-results.js (Willow DR-4 checks restated as route equality: both routes 11), tests/snapshots/README.md (v0.7 confidence
+# snapshot versions). New: the 3A and DR-4 regression tests and the 16 Nov confidence snapshot. The 12 Nov snapshot line is unchanged.
+file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js
+file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js
+file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.json
+# Stage 3 N1 (16 Nov 2026): the negative-shortage-delay regression test.
+file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js
+# Stage 3 scrap rules (16 Nov 2026): the two-route scrap test. Changed approved line above: tests/test-import-stage1.js (policy: Scrap_Pct invalid -> reject-row).
+file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js
+# Stage 3 time-zone verification (16 Nov 2026): the five-zone date-boundary test.
+file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js
+# Stage 3 D1-D4 (16 Nov 2026; owner decisions D1-D4). Changed approved lines above: tests/compare-snapshots.js, tests/snapshots/README.md, tests/test-same-results.js, tests/tools/import-v1/reverse-eight-sheet.js, tests/test-import-integrity.js.
+file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js
+file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json
+# Stage 3 completion (18 Nov 2026; STAGE3-CHANGE-REGISTER.md). Re-hashed approved lines above: tests/compare-snapshots.js (C-CMP printer fix), tests/test-allocated-usable.js (D5 wording). Added:
+file ae7112568af01b8bedf8158f211e50bae1cadfabe7d56f35b432681d18a77ad4 tests/test-stage3-quality.js
+# Stage 3 Round 2 (18 Nov 2026; Baseline B attribution, STAGE3-CHANGE-REGISTER.md). Re-hashed: tests/test-stage3-quality.js (FG050 scenarios state Allocated_Qty 0 explicitly). Added:
+file c15e0a17a5d2666c96b7d982568d59675d800b82d2675cd55c24382cfe6fc84d tests/test-stage3-round2.js

@@ -1,0 +1,172 @@
+{
+ "format": "CG-PERMITTED-DIFFERENCES",
+ "version": 1,
+ "about": "Exact, enumerated differences permitted between the historical golden snapshots and the current engine. compare-snapshots.js applies them to its in-memory copy of the expected file only; the snapshot files are never changed. Every listed change must match exactly (order, column, original text) or the comparison fails; any difference not listed still fails.",
+ "approval": "Owner decision D1 (option A), 16 Nov 2026: retain the historical golden snapshots and enumerate the 20 permitted N1 changes. Implemented and technically verified by Claude; not yet formally accepted (Stage 3 open).",
+ "appliesTo": [
+  "v0.5-golden-20261105T101953Z.json",
+  "v0.6.0-baseline-20261109T152050Z.json"
+ ],
+ "changes": [
+  {
+   "section": "feas",
+   "order": "SIM17",
+   "column": 3,
+   "from": "Likely: ~-6d",
+   "to": "No delay if ordered today (arrives ~6d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 6 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM18",
+   "column": 3,
+   "from": "Likely: ~-7d",
+   "to": "No delay if ordered today (arrives ~7d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 7 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM30",
+   "column": 3,
+   "from": "Likely: ~-8d",
+   "to": "No delay if ordered today (arrives ~8d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 8 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM31",
+   "column": 3,
+   "from": "Likely: ~-20d",
+   "to": "No delay if ordered today (arrives ~20d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 20 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM32",
+   "column": 3,
+   "from": "Likely: ~-23d",
+   "to": "No delay if ordered today (arrives ~23d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 23 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM33",
+   "column": 3,
+   "from": "Likely: ~-17d",
+   "to": "No delay if ordered today (arrives ~17d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 17 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM34",
+   "column": 3,
+   "from": "Likely: ~-3d",
+   "to": "No delay if ordered today (arrives ~3d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 3 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM35",
+   "column": 3,
+   "from": "Likely: ~-4d",
+   "to": "No delay if ordered today (arrives ~4d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 4 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM36",
+   "column": 3,
+   "from": "Likely: ~-5d",
+   "to": "No delay if ordered today (arrives ~5d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 5 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM37",
+   "column": 3,
+   "from": "Likely: ~-26d",
+   "to": "No delay if ordered today (arrives ~26d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 26 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM39",
+   "column": 3,
+   "from": "Likely: ~-23d",
+   "to": "No delay if ordered today (arrives ~23d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 23 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM40",
+   "column": 3,
+   "from": "Likely: ~-12d",
+   "to": "No delay if ordered today (arrives ~12d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 12 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM41",
+   "column": 3,
+   "from": "Likely: ~-21d",
+   "to": "No delay if ordered today (arrives ~21d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 21 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM43",
+   "column": 3,
+   "from": "Likely: ~-13d",
+   "to": "No delay if ordered today (arrives ~13d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 13 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM45",
+   "column": 3,
+   "from": "Likely: ~-23d",
+   "to": "No delay if ordered today (arrives ~23d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 23 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM46",
+   "column": 3,
+   "from": "Likely: ~-30d",
+   "to": "No delay if ordered today (arrives ~30d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 30 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM47",
+   "column": 3,
+   "from": "Likely: ~-36d",
+   "to": "No delay if ordered today (arrives ~36d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 36 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM48",
+   "column": 3,
+   "from": "Likely: ~-20d",
+   "to": "No delay if ordered today (arrives ~20d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 20 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM49",
+   "column": 3,
+   "from": "Likely: ~-26d",
+   "to": "No delay if ordered today (arrives ~26d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 26 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  },
+  {
+   "section": "feas",
+   "order": "SIM50",
+   "column": 3,
+   "from": "Likely: ~-39d",
+   "to": "No delay if ordered today (arrives ~39d before start)",
+   "reason": "N1: a negative delay means the order is short on recorded supply but a new order placed today arrives 39 days before the planned start; the shortage stays visible (status \"Material shortage\" unchanged) and the delay no longer shows a negative number"
+  }
+ ]
+}

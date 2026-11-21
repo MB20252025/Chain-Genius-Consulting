@@ -1,0 +1,32 @@
+PASS: R2-STK FG050 no demand, nothing allocated: all 10 uncommitted: "No recorded demand", no-demand warning yes, excess 10 (got "No recorded demand", yes, 10)
+FAIL: R2-STK FG050 no demand, all 10 allocated to firm orders: nothing uncommitted, so not dead stock: "Active", no-demand warning no, excess 0 (got "No recorded demand", yes, 0)
+PASS: R2-STK FG050 no demand, 4 of 10 allocated: 6 uncommitted, excess 6: "No recorded demand", no-demand warning yes, excess 6 (got "No recorded demand", yes, 6)
+PASS: R2-STK FG050 no demand, physical -2 (locations net), usable 10, none allocated: "No recorded demand", no-demand warning yes, excess 10 (got "No recorded demand", yes, 10)
+PASS: R2-STK FG050 no demand, physical 10 held/quarantined, none usable or allocated: still listed (excess is measured on usable stock, so 0): "No recorded demand", no-demand warning yes, excess 0 (got "No recorded demand", yes, 0)
+FAIL: R2-STK FG050 no demand, physical 10, none usable, 10 allocated: fully committed: "Active", no-demand warning no, excess 0 (got "No recorded demand", yes, 0)
+PASS: R2-STK FG050 no demand, no stock at all: "Active", no-demand warning no, excess 0 (got "Active", no, 0)
+FAIL: R2-STK obsolete (last sale 9 months ago): fully allocated stock is "Active" and not listed in the dead-stock view (got "Potentially obsolete"); partly allocated stock is still "Potentially obsolete"
+FAIL: R2-STK FG050 no demand, allocation stored as text "10" (read as 10, as available stock reads it): fully committed: not listed, not warned (got "No recorded demand", view listed, warning yes)
+PASS: R2-STK FG050 no demand, negative allocation -5 (flagged High): uncommitted 15, the same figure as unallocated usable: listed and warned (got "No recorded demand", view listed, warning yes)
+FAIL: R2-STK FG050 no demand, allocation 15 above stock 10: nothing uncommitted: not listed, not warned (got "No recorded demand", view listed, warning yes)
+FAIL: R2-STK FG050 no demand, On_Hand_Qty blank, usable 10: the usable stock is not hidden: listed and warned (got "Active", view not listed, warning no)
+PASS: R2-STK FG050 no demand, physical 10, usable 4, allocated 6: listed (uncommitted = larger of physical and usable minus allocated = 4; documented assumption): listed and warned (got "No recorded demand", view listed, warning yes)
+PASS: R2-STK a negative allocation is flagged High and gives the same uncommitted figure (15) in classification, unallocated usable and excess
+FAIL: R2-STK FG014 (real item) with demand removed and all 882 allocated: not dead stock, excess £0
+PASS: R2-STK RM009 (real item, as supplied): still "Excess stock", 1,618 excess units measured on unallocated usable stock 3,802 (unchanged)
+PASS: R2-STK stock value is unchanged by allocation: physical × cost
+FAIL: R2-VIEW columns Physical, Allocated, Usable, Unallocated usable appear side by side (got: Item, Description, Qty, Value, Months since demand, Cover d, Class, Potential excess, Action)
+FAIL: R2-VIEW FG050 row shows physical -2, allocated 3, usable 10, unallocated usable 7 (got -2, £-150, –, –)
+FAIL: R2-VIEW the summary says "physical stock value" and the note explains that allocated stock is never excess or obsolete
+FAIL: R2-VIEW a fully allocated no-demand item is not listed in the dead-stock view
+FAIL: F-A1 a negative Planned_Qty (PRD0001) is reported (High)
+FAIL: F-A1 a negative Completed_Qty is reported
+FAIL: F-A2 Completed_Qty above Planned_Qty is reported (Medium: may be genuine over-production)
+PASS: F-A2 completed equal to planned is not reported
+FAIL: F-A3 a negative Materials.Lead_Time_Days is reported explicitly (High), naming the material and value
+FAIL: F-A3 a negative Suppliers.Standard_Lead_Time_Days is reported
+PASS: F-A1..A3 Northstar as supplied: none of the new warnings
+FAIL: F-A4 BOM quantity 0: the warning names the quantity, not scrap
+PASS: F-A4 scrap 5 (above 100%) still stops the analysis before that warning, so the scrap wording was unreachable
+
+stage3-round2: 13 passed, 17 failed

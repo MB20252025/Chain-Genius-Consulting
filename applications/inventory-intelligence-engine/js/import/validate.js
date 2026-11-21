@@ -557,7 +557,7 @@
     // Q6 (owner, 13 Nov 2026): demand/sales rows dated after the snapshot date are excluded from history BEFORE any
     // required-field rejection (future forecast rows may have blank Units); they are listed, never counted as rejected.
     const futureField = snapshot ? FUTURE_FIELD[t] : null;
-    const blanked = {}, rules = {}, negRows = [], zeroRows = [];
+    const blanked = {}, rules = {}, negRows = [], zeroRows = [], pctConv = [];
     for (const i of live) {
       if (futureField && res[futureField]) {
         const d = res[futureField][i];
@@ -579,6 +579,7 @@
         }
         row[f.name] = x.value;
         if (x.rule) rules[x.rule] = (rules[x.rule] || 0) + 1;
+        if (f.type === 'pct' && x.status === 'cleaned') pctConv.push({ row: r.src.row, value: String(r.raw[f.name]).trim(), to: x.value, field: f.name }); // Stage 3: disclose each converted percentage
         if (x.flag) negRows.push({ row: r.src.row, field: f.name, value: x.value });
         if (x.warning) zeroRows.push(r.src.row);
       }
@@ -591,6 +592,7 @@
         st.rejectedRows.push({ row: r.src.row, rawItem: rawItem || null, item: null, period: periodOf(t, row), reasons });
       } else st.rows.push(row);
     }
+    if (pctConv.length) add(issue('PERCENT_CONVERTED', CAT.CHECK, 'none', t + '.' + pctConv[0].field + ': ' + plural(pctConv.length, 'value') + ' written as a percentage ' + vb(pctConv.length, 'was', 'were') + ' converted to a fraction: ' + pctConv.slice(0, 5).map(c => 'row ' + c.row + ' "' + c.value + '" → ' + c.to).join(', ') + (pctConv.length > 5 ? ' and ' + (pctConv.length - 5) + ' more' : '') + '.', { table: t, rows: pctConv }));
     for (const [f, list] of Object.entries(blanked)) add(issue('FIELD_BLANKED', CAT.CHECK, 'none', t + '.' + f + ': ' + plural(list.length, 'value') + ' could not be read and ' + vb(list.length, 'was', 'were') + ' left blank (rows kept): ' + list.slice(0, 5).map(b => 'row ' + b.row + ' "' + b.value + '"').join(', ') + (list.length > 5 ? ', …' : '') + '.', { table: t, field: f, rows: list }));
     if (negRows.length) add(issue('NEGATIVE_KEPT', CAT.CHECK, 'none', t + ': ' + plural(negRows.length, 'negative value') + ' kept as entered and flagged: ' + negRows.map(n => 'row ' + n.row + ' ' + n.field + ' ' + n.value).join(', ') + '.', { table: t, rows: negRows }));
     if (zeroRows.length) add(issue('LEADING_ZEROS', CAT.CHECK, 'none', t + ': ' + plural(zeroRows.length, 'code') + ' ' + vb(zeroRows.length, 'was', 'were') + ' stored as numbers in the spreadsheet, so leading zeros may already have been lost.', { table: t, rows: zeroRows }));

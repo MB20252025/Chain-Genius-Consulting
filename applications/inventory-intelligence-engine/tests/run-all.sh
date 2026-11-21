@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # v0.7 T1 unified test runner.
 # Usage (from anywhere): NODE_PATH=<node_modules with the pinned test packages> bash tests/run-all.sh --fast|--full [--log <file>] [--remote <name or URL>]
-#   --fast  per-commit tier: quick tests, UTC only, quick 100-call wrapper. About 30-60 s.
+#   --fast  per-commit tier: quick tests, UTC only (except tests marked fast_zones "five": the golden and confidence snapshots, 5 zones since Stage 3), quick 100-call wrapper.
 #   --full  checkpoint / pre-release tier: every test, 2 time zones (golden snapshots 5), the FULL 1,000-call wrapper. About 8 min.
 # Statuses (per test; time zones folded in): PASS, FAIL, BLOCKED, REDUCED, ERROR. Accepted counts: tests/accepted-results.json.
 # Exit code: 0 when there is no FAIL and no ERROR (accepted BLOCKED/REDUCED items allowed and always listed); 1 otherwise.
@@ -29,7 +29,7 @@ if(!tier&&!EMIT){console.log('Usage: bash run-all.sh --fast|--full [--log <file>
 const A=JSON.parse(fs.readFileSync('accepted-results.json','utf8'));
 const TMP=fs.mkdtempSync(path.join(os.tmpdir(),'runall-'));let logText='';
 const log=s=>{logText+=s+'\n'};
-const zonesOf=t=>tier==='fast'?['UTC']:t.zones==='five'?A.zones_five:t.zones==='two'?A.zones_two:['UTC'];
+const zonesOf=t=>tier==='fast'?(t.fast_zones==='five'?A.zones_five:['UTC']):t.zones==='five'?A.zones_five:t.zones==='two'?A.zones_two:['UTC'];
 const run=(cmd,args,tz,env)=>{const r=cp.spawnSync(cmd,args,{cwd:T,env:{...process.env,TZ:tz,...(env||{})},encoding:'utf8',timeout:A.timeout_seconds*1000,maxBuffer:256<<20});
   const out=(r.stdout||'')+(r.stderr||'');log('$ TZ='+tz+' '+cmd+' '+args.join(' ')+'  -> exit '+r.status+(r.signal?' signal '+r.signal:'')+'\n'+out);
   return {code:r.error&&r.error.code==='ETIMEDOUT'?'timeout':r.status,out,err:r.error}};
@@ -142,7 +142,7 @@ const code=n('FAIL')||n('ERROR')?1:0,P=[];
 P.push('v0.7 tests ('+tier.toUpperCase()+') - green means no NEW failures, NOT full coverage');
 P.push('PASS: '+n('PASS')+' | FAIL: '+n('FAIL')+' | BLOCKED: '+n('BLOCKED')+' | REDUCED: '+n('REDUCED')+' | ERROR: '+n('ERROR'));
 const fullCount=A.tests.filter(t=>t.tiers.includes('full')).length;
-P.push('Scope: '+(tier==='fast'?'FAST ('+real.length+' tests, UTC only, quick 100-call wrapper; the full tier has '+fullCount+' tests)':'FULL ('+real.length+' tests, all time zones, full 1,000-call wrapper)')+' + pre-flight');
+P.push('Scope: '+(tier==='fast'?'FAST ('+real.length+' tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has '+fullCount+' tests)':'FULL ('+real.length+' tests, all time zones, full 1,000-call wrapper)')+' + pre-flight');
 P.push('Checks counted in this run (first zone of each test): '+ran);P.push(global.ENV_LINE||'Environment: not recorded');
 const allBlocked=A.tests.filter(t=>t.status==='BLOCKED').length,allRed=A.tests.filter(t=>t.status==='REDUCED');
 P.push(tier==='full'?'Not running: '+missing+' checks in REDUCED tests; '+n('BLOCKED')+' BLOCKED tests':'Known limitations (full tier): '+allRed.reduce((q,t)=>q+t.full-t.accepted,0)+' checks not running in '+allRed.length+' REDUCED tests; '+allBlocked+' BLOCKED tests. Not run in this fast tier.');

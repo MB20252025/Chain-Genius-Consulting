@@ -43,7 +43,7 @@ const ok = (c, m) => { let v = false, why = '';
   v ? pass++ : fail++; console.log((v ? 'PASS: ' : 'FAIL: ') + t + why); };
 const guard = (name, fn) => { try { fn(); } catch (e) { fail++; console.log('FAIL: ' + name + ': set-up threw (' + (e && e.message ? e.message : String(e)) + '); the assertions after it in this block did not run'); } };
 const tryv = f => { try { return f(); } catch (e) { return undefined; } };
-const EXPECTED = 77;   // assertions per zone, including the completeness check at the end
+const EXPECTED = 79;   // assertions per zone, including the completeness check at the end (77 until Stage 3, D2: S7 split in two, +1 adapter defence)
 const read = f => fs.readFileSync(path.join(APP, f), 'utf8');
 console.log('time zone: ' + (process.env.TZ || '(default)'));
 const ctx = vm.createContext({ TextDecoder, Uint8Array, Buffer, console }); ctx.globalThis = ctx;
@@ -77,6 +77,9 @@ function fault(name) { const files = {}; for (const f of fs.readdirSync(path.joi
 const items = r => [...r.fg, ...r.rm];
 const byId = r => Object.fromEntries(items(r).map(x => [x.id, x]));
 const W = v => v !== null && typeof v === 'object' && v.withheld === true;
+// Stage 3 (D4): a partial total, and proof it cannot be used as a number by accident.
+const P = v => RG.isPartial(v) && Object.isFrozen(v) && Object.keys(v).join() === 'value,partial,excludedItems';
+const noArith = v => { try { return v + 0 === 'never'; } catch (e) { return /^partial total: read \.value/.test(e.message); } };
 const near = (a, b) => Math.abs(a - b) < 0.005;
 const nonFinite = o => { let n = 0; const w = v => { if (typeof v === 'number' && !isFinite(v)) n++; else if (v && typeof v === 'object') for (const k in v) w(v[k]); }; w(o); return n; };
 const sheetRows = (wb, s) => { ctx.__wb = wb; ctx.__s = s; return vm.runInContext('WB = __wb; rows(__s)', ctx); };
@@ -118,9 +121,14 @@ guard('F1 Package 01', () => {
   ok(() => R1.fg.every(x => x.abc === fgIndep[x.id]) && R1.rm.every(x => W(x.abc) && (['M0058', 'M0064'].includes(x.id) ? /DEPENDS_ON_EXCLUDED_PARENT P0001/ : /^DEPENDS_ON_WITHHELD_ITEMS \(rm\): M0058, M0064$/).test(x.abc.reason)),
     'I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete');
   // I6 top, top-10, excess and shortage totals.
-  ok(() => R1.top10 === ER.top10 && near(R1.top10, 45.10) && R1.top.length === ER.top.length && near(R1.shV, ER.shV) && near(R1.exF, ER.exF) && W(R1.exR) && W(R1.exV) && W(R1.cogsR) &&
-    near(eng.M0058.exVal, 6232.80) && W(rel.M0058.exVal),
-    'I6: top-10 share 45.10% and finished-goods excess and shortage totals are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld, and so are the materials and overall excess and annual-value totals that would contain it');
+  // Stage 3 (D4): the materials, overall excess, materials annual-value and shortage totals are released as PARTIAL totals over the released items
+  // (they used to be withheld; shV sums materials too, so it is partial as well). Each value is recomputed here from the engine's own item values.
+  const relRm = ER.rm.filter(x => !W(rel[x.id].exVal)), sum = (a, f) => a.reduce((t, x) => t + x[f], 0);
+  ok(() => R1.top10 === ER.top10 && near(R1.top10, 45.10) && R1.top.length === ER.top.length && near(R1.exF, ER.exF) && typeof R1.exF === 'number' &&
+    P(R1.exR) && near(R1.exR.value, sum(relRm, 'exVal')) && P(R1.exV) && near(R1.exV.value, ER.exF + sum(relRm, 'exVal')) && P(R1.cogsR) && near(R1.cogsR.value, sum(relRm, 'ann')) &&
+    P(R1.shV) && near(R1.shV.value, sum(ER.fg, 'short') + sum(relRm, 'short')) && ['M0058', 'M0064', 'M0028'].every(id => R1.exR.excludedItems.some(e => e.id === id && e.reason)) &&
+    !R1.exR.excludedItems.some(e => relRm.some(x => x.id === e.id)) && noArith(R1.exV) && noArith(R1.exR) && near(eng.M0058.exVal, 6232.80) && W(rel.M0058.exVal),
+    () => `I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£${R1.exR.value.toFixed(2)}), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers`);
   // I7 dependent production: P0018 uses M0028.
   const p18 = tryv(() => C1.o.feas.rows.filter(r => r.o.sku === 'P0018')), p18r = tryv(() => C1.g.result.feas.rows.filter(r => r.o.sku === 'P0018'));
   ok(() => C0.o.feas.rows.filter(r => r.o.sku === 'P0018').every(r => r.status === 'Feasible') && p18.length && p18.every(r => r.status === 'Insufficient information') &&
@@ -140,8 +148,9 @@ guard('F1 Package 01', () => {
     m28.sourceStock.map(s => s.onHandQty + s.unitAsSupplied).join() === '961kg' && p1.stockValue === 'not calculated' && p1.components.join() === 'M0028,M0058,M0064' && m28.parents.join() === 'P0001,P0018' &&
     /unit conversion factor/.test(p1.hint), 'I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint');
   ok(() => d.text.some(t => /^2 item\(s\) were excluded/.test(t) && /calculated over the analysed items only/.test(t)) && d.text.some(t => /Orders for P0018 use M0028/.test(t)) &&
-    d.text.some(t => /P0001 uses M0028, M0058, M0064/.test(t)) && d.withheldTotals.map(x => x.path).join() === 'exR,cogsR,exV,confidence,clientQuestions' && C1.g.status === 'restricted',
-    'I9: the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld totals are listed');
+    d.text.some(t => /P0001 uses M0028, M0058, M0064/.test(t)) && d.withheldTotals.map(x => x.path).join() === 'confidence,clientQuestions' && d.partialTotals.map(x => x.path).join() === 'exR,exV,shV,cogsR' &&
+    d.text.some(t => /^Partial totals \(not complete totals\): exR covers \d+ of \d+ items/.test(t) && /Do not present them as complete/.test(t)) && C1.g.labelled.some(l => l.path === 'result.exV' && /^PARTIAL_TOTAL: /.test(l.label)) && C1.g.status === 'restricted',
+    'I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete');
   // I12 unaffected items keep their results exactly.
   const affected = new Set(['M0058', 'M0064']);
   ok(() => R1.fg.every(x => Object.keys(eng[x.id]).every(k => JSON.stringify(x[k]) === JSON.stringify(eng[x.id][k]))) &&
@@ -181,14 +190,18 @@ guard('Partial blocks', () => {
   const F = fault('F03-demand-10pct'), R = tryv(() => F.g.result.result), e = tryv(() => byId(F.o.result)), r = tryv(() => byId(R));
   const held = Object.entries(F.imp.permissions.items).filter(([, x]) => x.blocked && x.blocked.demand).map(([id]) => id);
   const heldEx = F.o.result.fg.filter(x => held.includes(x.id)).reduce((s, x) => s + x.exVal, 0);
-  ok(() => held.length === 24 && near(heldEx, 244837.55) && W(R.exF) && W(R.exV) && W(R.shV) && W(R.cogsF) && near(R.tot, F.o.result.tot) && near(R.fgV, F.o.result.fgV),
-    'I10: 24 products blocked for demand would have put £244,837.55 into excess value: excess, shortage and annual-value totals are withheld; stock value totals (on-hand x cost) are released as calculated');
+  const heldOf = f => F.o.result.fg.filter(x => held.includes(x.id)).reduce((s, x) => s + x[f], 0);
+  ok(() => held.length === 24 && near(heldEx, 244837.55) && P(R.exF) && near(R.exF.value, F.o.result.exF - heldEx) && P(R.exV) && near(R.exV.value, F.o.result.exV - heldEx) &&
+    P(R.shV) && near(R.shV.value, F.o.result.shV - heldOf('short')) && P(R.cogsF) && near(R.cogsF.value, F.o.result.cogsF - heldOf('ann')) &&
+    held.every(id => R.exF.excludedItems.some(e => e.id === id && /DEPENDS|DEMAND|BLOCK/i.test(e.reason))) && R.exF.excludedItems.length === 24 && noArith(R.exF) && near(R.tot, F.o.result.tot) && near(R.fgV, F.o.result.fgV),
+    () => `I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £${R.exF.value.toFixed(2)} = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated`);
   ok(() => R.fg.every(x => W(x.abc) && W(x.cum)) && R.fg.filter(x => !held.includes(x.id)).every(x => Object.keys(e[x.id]).every(k => ['abc', 'cum'].includes(k) || JSON.stringify(x[k]) === JSON.stringify(e[x.id][k]))) &&
     held.every(id => W(r[id].sev) && r[id].oh === e[id].oh && r[id].val === e[id].val) && held.every(id => W(F.g.result.forecasts[id])) && F.o.result.fg.filter(x => !held.includes(x.id)).every(x => !W(F.g.result.forecasts[x.id])),
     'I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld');
   ok(() => Object.values(R.fcm || {}).length && held.every(id => W(R.fcm[id]) && W(R.fcc[id])),
     'I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)');
-  ok(() => F.g.disclosures.text.some(t => /Demand-based results are withheld for P0001/.test(t)) && F.g.disclosures.withheldTotals.some(x => x.path === 'exV'), 'I10: the disclosure names the products and the withheld totals');
+  ok(() => F.g.disclosures.text.some(t => /Demand-based results are withheld for P0001/.test(t) && /released only as partial totals/.test(t)) && F.g.disclosures.partialTotals.some(x => x.path === 'exV' && x.items + x.excludedItems.length === x.of) &&
+      !F.g.disclosures.withheldTotals.some(x => ['exF', 'exV', 'shV', 'cogsF'].includes(x.path)), 'I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)');
 
   const T = pkg01(); let n = 0; for (const x of T.po_lines.rows) if (n < Math.ceil(T.po_lines.rows.length * 0.06) && ['M0005', 'M0006', 'M0007', 'M0008', 'M0009', 'M0010'].includes(x.Item_ID)) { x.Ordered_Qty = 'abc'; n++; }
   const Pu = run(T), PR = tryv(() => Pu.g.result.result), pHeld = tryv(() => Object.entries(Pu.imp.permissions.items).filter(([, x]) => x.blocked && x.blocked.purchasing).map(([id]) => id)) || [], pe = tryv(() => byId(Pu.o.result));
@@ -283,20 +296,23 @@ guard('F2 Package 01', () => {
   const ann = r => r.o.result.rm.find(x => x.id === cid).annual;
   ok(() => one.ad.report.scrap.assumedLines === 0 && one.ad.report.scrap.invalidLines === 0 && ann(zero) > 0 && Math.abs(ann(one) / ann(zero) - 2) < 1e-9,
     () => `S5 boundary 1 (= 100%, a supplied value): ${cid} (one parent line) uses exactly twice its 0% usage (${ann(one)} vs ${ann(zero)}); requirement = qty x Qty_Per x (1 + scrap)`);
+  // S6/S7 (Stage 3, owner decision D2, 16 Nov 2026): invalid scrap is rejected by Stage 1, so the import is not accepted and nothing reaches
+  // the adapter. Replaces the E-1 assertions that the line was marked SCRAP_UNREADABLE and its results withheld.
+  const rejRows = r => { const i = r.imp.issues.find(x => x.code === 'ROW_REJECTED'); return i ? i : { rows: [] }; };
+  const refusedAll = r => !r.imp.importAccepted && r.ad.status === 'refused' && r.ad.workbook === null && r.ad.report.refusals.some(x => x.code === 'IMPORT_NOT_ACCEPTED') && r.o === null && r.g === null;
   for (const bad of ['abc', '1.5']) {
-    const I = variant(T => { T.bom.rows[2].Scrap_Pct = bad; }), line = I.ad.report.scrap.invalid[0], parent = S0.imp.dataset.bom[2].Parent_Item_ID, comp = S0.imp.dataset.bom[2].Component_Item_ID;
-    const engLine = tryv(() => I.o.result.bomS[parent].find(l => l.Material_ID === comp)), relOrders = tryv(() => I.g.result.feas.rows.filter(r => r.o.sku === parent));
-    ok(() => I.ad.report.scrap.invalidLines === 1 && I.ad.report.scrap.assumedLines === 0 && line.parent === parent && line.component === comp && line.row === 4 && line.value === bad &&
-      engLine.Scrap_Factor_Pct === G.adapter.SCRAP_UNREADABLE && I.o.feas.rows.filter(r => r.o.sku === parent).every(r => r.status === 'Insufficient information') &&
-      I.o.result.dq.some(d => /^Scrap not readable on 1 BOM line/.test(d.msg)) && !I.o.result.dq.some(d => /^Scrap missing/.test(d.msg)) && relOrders.length && relOrders.every(r => W(r.status) && /SCRAP_INVALID/.test(r.status.reason)) && W(byId(I.g.result.result)[comp].sev) &&
-      nonFinite(I.g.result) === 0 && I.g.disclosures.text.some(t => /could not be read on 1 BOM line/.test(t) && /no value was assumed/.test(t)),
-      () => `S6 invalid "${bad}" (row 4, ${parent}/${comp}): never replaced (the Engine View holds the text marker SCRAP_UNREADABLE, so the engine reports it as not readable and never assumes 0%), the orders of ${parent} and the results of ${comp} are withheld, no NaN is released, and the disclosure says no value was assumed`);
+    const I = variant(T => { T.bom.rows[2].Scrap_Pct = bad; }), rj = rejRows(I), parent = S0.imp.dataset.bom[2].Parent_Item_ID, comp = S0.imp.dataset.bom[2].Component_Item_ID;
+    ok(() => refusedAll(I) && rj.category === 'Must fix' && rj.rows.length === 1 && rj.rows[0].row === 4 && rj.rows[0].reasons.some(t => /^Scrap_Pct: /.test(t)) &&
+      /BOM|bom/.test(rj.message) && !(I.imp.dataset && I.imp.dataset.bom && I.imp.dataset.bom.some(b => b.Parent_Item_ID === parent && b.Component_Item_ID === comp && b.Scrap_Pct === 0 && b.__source && b.__source.row === 4)),
+      () => `S6 invalid "${bad}" (row 4, ${parent}/${comp}): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: ${rj.rows[0] ? rj.rows[0].reasons.join('; ') : 'none'}), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0`);
   }
-  const mixed = variant(T => { T.bom.rows[0].Scrap_Pct = ''; T.bom.rows[1].Scrap_Pct = '0.02'; T.bom.rows[2].Scrap_Pct = 'abc'; });
+  const mixedBad = variant(T => { T.bom.rows[0].Scrap_Pct = ''; T.bom.rows[1].Scrap_Pct = '0.02'; T.bom.rows[2].Scrap_Pct = 'abc'; });
+  ok(() => refusedAll(mixedBad) && rejRows(mixedBad).rows.map(x => x.row).join() === '4', 'S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid');
+  const mixed = variant(T => { T.bom.rows[0].Scrap_Pct = ''; T.bom.rows[1].Scrap_Pct = '0.02'; });
   const eb = sheetRows(mixed.ad.workbook, 'BOM');
-  ok(() => eb[0].Scrap_Factor_Pct === 0 && eb[1].Scrap_Factor_Pct === 0.02 && eb[2].Scrap_Factor_Pct === G.adapter.SCRAP_UNREADABLE && eb.slice(3).every((b, i) => b.Scrap_Factor_Pct === S0.imp.dataset.bom[i + 3].Scrap_Pct) &&
-    mixed.ad.report.scrap.assumed.map(l => l.row).join() === '2' && mixed.ad.report.scrap.invalid.map(l => l.row).join() === '4',
-    'S7 mixed lines: blank -> 0 (assumed, row 2), 0.02 kept, "abc" never given a number (the SCRAP_UNREADABLE marker; invalid, row 4), every other line keeps its own supplied value');
+  ok(() => mixed.imp.importAccepted && eb[0].Scrap_Factor_Pct === 0 && eb[1].Scrap_Factor_Pct === 0.02 && eb.slice(2).every((b, i) => b.Scrap_Factor_Pct === S0.imp.dataset.bom[i + 2].Scrap_Pct) &&
+    mixed.ad.report.scrap.assumed.map(l => l.row).join() === '2' && mixed.ad.report.scrap.invalidLines === 0,
+    'S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists');
   // S8–S12 against hand arithmetic on the one shortage order, one behaviour per assertion. Requirement = q x Qty_Per x (1 + scrap);
   // shortage = requirement - available by the start date, so taking scrap away lowers each shortage by exactly q x Qty_Per x scrap.
   const sh0 = S0.o.feas.rows.find(r => r.status === 'Material shortage'), shz = tryv(() => Sm.o.feas.rows.find(r => r.o.id === sh0.o.id));
@@ -318,20 +334,19 @@ guard('F2 Package 01', () => {
   ok(() => Sb.g.disclosures.text.some(t => /blank on 142 BOM line\(s\)\. 0% was assumed/.test(t) && /assumes no scrap/.test(t)), 'S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap');
   // S16–S17 (K7 verification): when Stage 1's records cannot separate a blank cell from an unreadable value, a blank is never assumed 0%.
   const oneBlank = T => { T.bom.rows[0].Scrap_Pct = ''; }, parent0 = S0.imp.dataset.bom[0].Parent_Item_ID, comp0 = S0.imp.dataset.bom[0].Component_Item_ID;
-  const fallbackOk = (ad, o, g, what) => ad.report.scrap.assumedLines === 0 && ad.report.scrap.invalidLines === 1 && ad.report.scrap.invalid[0].parent === parent0 && ad.report.scrap.invalid[0].component === comp0 &&
-    /Stage 1 records cannot separate a blank from an unreadable value/.test(ad.report.scrap.invalid[0].basis) && g.status === 'restricted' &&
-    g.result.feas.rows.filter(r => r.o.sku === parent0).every(r => W(r.status) && /SCRAP_INVALID/.test(r.status.reason)) && g.result.feas.rows.some(r => r.o.sku === parent0) && nonFinite(g.result) === 0;
+  // Stage 3 (D2): the marker that let such a blank be withheld is retired, so the adapter now REFUSES the import instead (never assumed 0%).
+  const fallbackOk = ad => ad.status === 'refused' && ad.workbook === null && ad.report.refusals.some(x => x.code === 'SCRAP_BLANK_UNVERIFIABLE' && /rows 2\b/.test(x.message) && /never|only when that can be shown/.test(x.message));
   ok(() => { const T = pkg01(); oneBlank(T); const files = Object.entries(T).map(([t, v]) => ({ name: t + '.csv', text: out(v.h, v.rows) })), m = mapFor(T), imp = G.validate.importFiles(m, files);
-      const ad = G.adapter.build(Object.freeze(Object.assign({}, imp, { issues: undefined })), m), o = E.runEngine({ workbook: ad.workbook }); return Array.isArray(imp.issues) && fallbackOk(ad, o, RG.apply(o, ad.gate)); },
-    'S16 no Stage 1 issue list: a blank scrap cell is treated as invalid (never assumed 0%), the orders that use it are withheld (SCRAP_INVALID) and no NaN is released');
+      const ad = G.adapter.build(Object.freeze(Object.assign({}, imp, { issues: undefined })), m); return Array.isArray(imp.issues) && fallbackOk(ad); },
+    'S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built');
   // S17: Stage 1 refuses a table built from several files (MULTI_SOURCE, "Must fix"), so this adapter branch is a second line of
   // defence: the adapter is given a mapping that names two BOM files and must not trust Stage 1 row numbers for the blank.
   ok(() => { const T = pkg01(); oneBlank(T); const files = Object.entries(T).map(([t, v]) => ({ name: t + '.csv', text: out(v.h, v.rows) })), m = mapFor(T), imp = G.validate.importFiles(m, files);
       const m2 = JSON.parse(JSON.stringify(m)); m2.files['bom2.csv'] = m2.files['bom.csv']; m2.tables.bom.sources.push({ file: 'bom2.csv', columns: m2.tables.bom.sources[0].columns });
       const s1 = G.validate.importFiles(m2, files.concat({ name: 'bom2.csv', text: out(T.bom.h, T.bom.rows.slice(0, 1)) }));
-      const ad = G.adapter.build(imp, m2), o = E.runEngine({ workbook: ad.workbook });
-      return !s1.importAccepted && s1.issues.some(i => i.code === 'MULTI_SOURCE' && i.table === 'bom') && fallbackOk(ad, o, RG.apply(o, ad.gate)); },
-    'S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is treated as invalid (never assumed 0%) and its orders are withheld');
+      const ad = G.adapter.build(imp, m2);
+      return !s1.importAccepted && s1.issues.some(i => i.code === 'MULTI_SOURCE' && i.table === 'bom') && fallbackOk(ad); },
+    'S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)');
 });
 guard('F2 Northstar', () => {
   // S15 Northstar (200 BOM lines, 148 with 1–3% scrap): the artificial ~36-day delay is gone and no genuine shortage is hidden.
@@ -367,7 +382,12 @@ guard('E-1 routes', () => {
   const feasSig = o => JSON.stringify(o.feas.rows.map(x => x.o.id + '|' + x.status + '|' + x.delay));
   const useSig = o => JSON.stringify(o.result.rm.map(x => x.id + '|' + x.annual + '|' + x.sev));
   const scrapDq = o => o.result.dq.filter(d => /^Scrap (missing|not readable|outside)/.test(d.msg)).map(d => d.msg.split(':')[0]);
-  const D = {}, I = {}; for (const k of Object.keys(V)) { D[k] = tryv(() => direct(k)); if (k !== 'allZero') I[k] = tryv(() => viaImport(k)); }
+  const D = {}, I = {}, DE = {}, IR = {}; for (const k of Object.keys(V)) { D[k] = tryv(() => direct(k)); if (k !== 'allZero') I[k] = tryv(() => viaImport(k)); }
+  // Stage 3 (D2): refusals. DE = the direct route's refusal message; IR = the import route stopped at Stage 1 and the adapter.
+  const impOnly = w => { const r = ctx.CGTestTools.reverseEightSheet(w), imp = G.validate.importFiles(r.mapping, r.files); return { imp, ad: G.adapter.build(imp, r.mapping) }; };
+  for (const k of ['text', 'out']) { try { direct(k); DE[k] = null; } catch (e) { DE[k] = e.message; } IR[k] = impOnly(wbWith(V[k])); }
+  const rejected = (r, rowsWanted, why) => { const i = r.imp.issues.find(x => x.code === 'ROW_REJECTED'); return !r.imp.importAccepted && i && i.category === 'Must fix' && i.rows.map(x => x.row).join() === rowsWanted.join() &&
+    i.rows.every(x => x.reasons.some(t => /^Scrap_Pct: /.test(t) && why.test(t))) && r.ad.status === 'refused' && r.ad.workbook === null; };
   const fg1 = o => o.feas.rows.filter(r => r.o.sku === 'FG001'), rm1 = o => o.result.rm.find(x => x.id === 'RM001').annual;
   const clean = (r, st) => nonFinite(r.g.result) === 0 && r.g.status === st;
   const same = k => feasSig(D[k]) === feasSig(I[k].o) && useSig(D[k]) === useSig(I[k].o);
@@ -381,65 +401,52 @@ guard('E-1 routes', () => {
   ok(() => nonFinite(D.missing) === 0 && scrapDq(D.missing).join() === 'Scrap missing on 200 BOM line(s)' && feasSig(D.missing) === feasSig(D.allZero) && useSig(D.missing) === useSig(D.allZero) && same('missing') &&
       !D.missing.result.dq.some(d => /Stock held with no demand/.test(d.msg)) && I.missing.ad.report.scrap.assumedLines === 200 && I.missing.ad.report.scrap.column === 'not-mapped' && clean(I.missing, 'restricted'),
     'E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results');
-  ok(() => nonFinite(D.text) === 0 && scrapDq(D.text).join() === 'Scrap not readable on 1 BOM line(s)' && fg1(D.text).length > 0 && fg1(D.text).every(r => r.status === 'Insufficient information') && rm1(D.text) < rm1(D.zero) &&
-      same('text') && I.text.ad.report.scrap.invalidLines === 1 && I.text.g.result.feas.rows.filter(r => r.o.sku === 'FG001').every(r => W(r.status) && /SCRAP_INVALID/.test(r.status.reason)) && clean(I.text, 'restricted'),
-    'E-1 case 5 text "abc": never 0 or NaN; direct leaves the line out of RM001 usage (below even the 0% usage) and marks FG001\'s orders "Insufficient information" with "Scrap not readable on 1 BOM line(s)"; import (marker) gives identical engine results and withholds those orders (SCRAP_INVALID)');
-  ok(() => nonFinite(D.numText) === 0 && scrapDq(D.numText).join() === 'Scrap not readable on 1 BOM line(s)' && feasSig(D.numText) === feasSig(D.text) && useSig(D.numText) === useSig(D.text) &&
-      I.numText.imp.dataset.bom[0].Scrap_Pct === 0.02 && I.numText.ad.report.scrap.invalidLines === 0 && feasSig(I.numText.o) === feasSig(D.valid) && useSig(I.numText.o) === useSig(D.valid) && clean(I.numText, 'complete') && !same('numText'),
-    'E-1 case 6 "0.02" stored as text (a KNOWN ROUTE DIFFERENCE, deliberate in E-1): direct does not convert it (treated exactly like "abc": line left out, orders "Insufficient information", warned); import reads 0.02 (Stage 1) and equals the valid case; the routes differ');
-  ok(() => nonFinite(D.out) === 0 && D.out.result.bomS.FG001.find(l => l.Material_ID === 'RM001').Scrap_Factor_Pct === 1.5 && scrapDq(D.out).join() === 'Scrap outside 0–1 (percent vs fraction?) or qty<=0' &&
-      D.out.result.dq.find(d => /^Scrap outside/.test(d.msg)).ex.split(', ').includes('FG001/RM001') && rm1(D.out) > rm1(D.valid) && !fg1(D.out).some(r => r.status === 'Insufficient information') &&
-      I.out.ad.report.scrap.invalid.map(l => l.parent + '/' + l.component + ':' + l.value).join() === 'FG001/RM001:1.5' && I.out.g.result.feas.rows.filter(r => r.o.sku === 'FG001').every(r => W(r.status)) && clean(I.out, 'restricted') && !same('out'),
-    'E-1 case 7 1.5 (a KNOWN ROUTE DIFFERENCE, unchanged by E-1): direct uses 150% exactly as before, with the existing High "Scrap outside 0–1" warning naming FG001/RM001; import: Stage 1 rejects it, the line is invalid and FG001\'s orders are withheld; the routes differ');
+  ok(() => !D.text && /^Invalid scrap in the BOM sheet, so the analysis was not run/.test(DE.text) && DE.text.includes('row 2 (FG001 / RM001) "abc": not a plain decimal or a percentage') && rejected(IR.text, [2], /not a plain decimal or a percentage/),
+    () => `E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "${(DE.text || '').slice(0, 120)}…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently`);
+  ok(() => nonFinite(D.numText) === 0 && !scrapDq(D.numText).some(m => /not readable/.test(m)) && D.numText.result.dq.some(d => d.msg === 'Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) "0.02" → 0.02') &&
+      feasSig(D.numText) === feasSig(D.valid) && useSig(D.numText) === useSig(D.valid) && I.numText.imp.dataset.bom[0].Scrap_Pct === 0.02 && same('numText') && clean(I.numText, 'complete'),
+    'E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case');
+  ok(() => !D.out && DE.out.includes('row 2 (FG001 / RM001) 1.5: a value above 1 is above 100% or ambiguous') && rejected(IR.out, [2], /above 100% or ambiguous/),
+    'E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%');
   ok(() => nonFinite(D.space) === 0 && scrapDq(D.space).join() === 'Scrap missing on 1 BOM line(s)' && feasSig(D.space) === feasSig(D.zero) && useSig(D.space) === useSig(D.zero) && same('space') &&
       I.space.ad.report.scrap.assumed.length === 1 && I.space.ad.report.scrap.invalidLines === 0 && clean(I.space, 'restricted'),
     'E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results');
-  // Confirmation 3: the incomplete-usage warning names exactly the materials of the unreadable lines.
+  // Confirmation 3 (Stage 3, D2): the E-1 incomplete-usage warning is retired; several invalid lines are all named in one refusal.
   const multi = tryv(() => { const w = wbWith(() => {}), ws = w.Sheets.BOM, { c } = colOf(ws), rows = sheetRows(w, 'BOM');
     const other = rows.findIndex((r, i) => i > 0 && r.Material_ID !== 'RM001'), again = rows.findIndex((r, i) => i > 0 && r.Material_ID === 'RM001');
     [0, other, again].forEach(i => { ws[X.utils.encode_cell({ r: i + 1, c })] = { t: 's', v: 'n/a' }; });
-    return { o: E.runEngine({ workbook: w }), mats: [...new Set([rows[0], rows[other], rows[again]].map(r => r.Material_ID))].sort(), lines: [rows[0], rows[other], rows[again]].map(r => r.SKU + '/' + r.Material_ID), again }; });
-  ok(() => { const d = readable(multi.o), named = /Affected materials: ([^.]*)\./.exec(d.msg)[1].split(', ');
-      return multi.again > 0 && /^Scrap not readable on 3 BOM line\(s\)/.test(d.msg) && named.join() === multi.mats.join() && named.length === 2 && d.ex.split(', ').sort().join() === multi.lines.slice().sort().join() &&
-        /material usage may be understated and excess stock overstated/.test(d.msg) && /Do not rely on the usage or excess-stock figures of these materials/.test(d.msg) && d.sev === 'High' &&
-        /Affected materials: RM001\./.test(readable(D.text).msg) && /Affected materials: RM001\./.test(readable(D.numText).msg) && !readable(D.valid) && !readable(D.blank) &&
-        /Affected materials: RM001\./.test(readable(I.text.o).msg) && I.text.g.disclosures.invalid.length === 1 && I.text.g.disclosures.invalid[0].component === 'RM001'; },
-    () => `E-1 incomplete-usage warning (direct route, High): 3 unreadable lines on 2 materials name exactly those materials (${multi.mats.join(', ')}), count the 3 lines and say not to rely on their usage or excess figures; one unreadable line names only RM001; no warning when nothing is unreadable; the import route discloses the same line through the gate`);
+    let err = null; try { E.runEngine({ workbook: w }); } catch (e) { err = e.message; }
+    return { err, imp: impOnly(w), sheetRowsAt: [0, other, again].map(i => i + 2).sort((a, b) => a - b), lines: [rows[0], rows[other], rows[again]].map(r => r.SKU + ' / ' + r.Material_ID) }; });
+  ok(() => multi.err && /Correct these 3 lines/.test(multi.err) && multi.sheetRowsAt.every((n, k) => multi.err.includes('row ' + n + ' (')) && multi.lines.every(l => multi.err.includes(l)) &&
+      rejected(multi.imp, multi.sheetRowsAt, /not a plain decimal or a percentage/) && ![D.valid, D.blank, D.numText].some(o => o.result.dq.some(d => /^Scrap not readable/.test(d.msg))),
+    () => `E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows ${multi.sheetRowsAt.join(', ')}) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears`);
 });
 
-// =============== E-1 confirmation 1: the marker lands on the right Engine View row
-console.log('\n--- E-1: SCRAP_UNREADABLE is written to the Engine View row of the invalid line, and nowhere else');
-guard('E-1 marker placement', () => {
+// =============== E-1 confirmations 1 and 2, as amended by Stage 3 (owner decision D2, 16 Nov 2026): the SCRAP_UNREADABLE marker and the gate's
+// withholding of invalid scrap lines are retired. Invalid scrap stops at Stage 1; the gate and adapter keep their defensive checks.
+console.log('\n--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain');
+guard('E-1 retired marker', () => {
   const T = pkg01(), n = T.bom.rows.length, bad = [0, 70, n - 1]; bad.forEach(i => { T.bom.rows[i].Scrap_Pct = 'abc'; });
-  const R = run(T), ws = R.ad.workbook.Sheets.BOM, rg = X.utils.decode_range(ws['!ref']), rep = R.ad.report.workbook.sheets.find(s => s.table === 'bom'), col = rep.columns.indexOf('Scrap_Factor_Pct');
-  const cell = (r, c) => (ws[X.utils.encode_cell({ r, c })] || {}).v, eb = sheetRows(R.ad.workbook, 'BOM'), canon = R.imp.dataset.bom;
-  const markers = []; for (let r = 0; r <= rg.e.r; r++) for (let c = 0; c <= rg.e.c; c++) if (cell(r, c) === G.adapter.SCRAP_UNREADABLE) markers.push(r + ':' + c);
-  ok(() => rep.rows === n && canon.length === n && eb.length === n && rg.e.r === n && cell(0, col) === 'Scrap_Factor_Pct' && cell(0, 0) === 'SKU' &&
-      markers.join() === bad.map(i => (i + 1) + ':' + col).join() &&
-      bad.every(i => eb[i].SKU === canon[i].Parent_Item_ID && eb[i].Material_ID === canon[i].Component_Item_ID && eb[i].Scrap_Factor_Pct === G.adapter.SCRAP_UNREADABLE) &&
-      R.ad.report.scrap.invalid.map(l => l.row).join() === bad.map(i => i + 2).join() &&
-      eb.every((b, i) => bad.includes(i) || (b.SKU === canon[i].Parent_Item_ID && b.Material_ID === canon[i].Component_Item_ID && b.Scrap_Factor_Pct === canon[i].Scrap_Pct)),
-    () => `E-1 marker placement: the BOM sheet has a header row plus ${n} data rows (report rows ${rep.rows} = ${n} BOM lines, so the count excludes the header); the 3 invalid lines (first, middle, last; source rows ${bad.map(i => i + 2).join(', ')}) carry SCRAP_UNREADABLE in Engine View rows ${bad.map(i => i + 1).join(', ')} and nowhere else; the header and every other line are unchanged`);
+  const R = run(T), rj = R.imp.issues.find(x => x.code === 'ROW_REJECTED');
+  ok(() => !R.imp.importAccepted && rj && rj.rows.map(x => x.row).join() === bad.map(i => i + 2).join() && R.ad.status === 'refused' && R.ad.workbook === null && R.o === null && G.adapter.SCRAP_UNREADABLE === undefined,
+    () => `E-1 marker retired: 3 invalid lines (first, middle, last; source rows ${bad.map(i => i + 2).join(', ')}) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE`);
 });
-
-// =============== E-1 confirmation 2: the gate on an Engine View that holds the literal marker
-console.log('\n--- E-1: the result gate and the literal SCRAP_UNREADABLE marker');
 guard('E-1 gate', () => {
-  const T = pkg01(); T.bom.rows[2].Scrap_Pct = 'abc'; const R = run(T), line = tryv(() => R.ad.gate.scrap.invalid[0]) || { parent: 'P0001', component: 'M0064' }, key = line.parent + '/' + line.component;
-  const engLine = tryv(() => R.o.result.bomS[line.parent].find(l => l.Material_ID === line.component)), rel = tryv(() => byId(R.g.result.result));
-  ok(() => engLine.Scrap_Factor_Pct === 'SCRAP_UNREADABLE' && readable(R.o).ex.split(', ').includes(key) && R.o.feas.rows.filter(r => r.o.sku === line.parent).every(r => r.status === 'Insufficient information') &&
-      R.g.status === 'restricted' && R.g.result.feas.rows.filter(r => r.o.sku === line.parent).every(r => W(r.status) && r.status.reason === 'ORDER_WITHHELD: SCRAP_INVALID ' + key) &&
-      W(rel[line.component].sev) && /SCRAP_INVALID on /.test(rel[line.component].sev.reason) && rel[line.component].oh === byId(R.o.result)[line.component].oh &&
-      R.g.disclosures.invalid.length === 1 && R.g.disclosures.invalid[0].parent === line.parent && R.g.disclosures.invalid[0].component === line.component && R.g.disclosures.invalid[0].value === 'abc' &&
-      R.g.disclosures.text.some(t => t.includes(key + ' row 4') && /results that use them are withheld/.test(t)) && nonFinite(R.g.result) === 0,
-    () => `E-1 complete route for "abc" on ${key}: the Engine View holds the literal SCRAP_UNREADABLE; the engine reports the line not readable and marks ${line.parent}'s orders "Insufficient information"; the gate withholds those orders and ${line.component}'s results (SCRAP_INVALID), keeps its stock, and the disclosure names the line, row 4 and the value`);
-  // The gate recognises the literal marker itself, independent of the adapter's declaration (R1 predicates in result-gate.js).
-  const cp4 = s => JSON.parse(JSON.stringify(s));
-  ok(() => { const undeclared = cp4(R.ad.gate); undeclared.scrap.invalid = [];
-      const asNumber = Object.assign({}, R.o, { result: Object.assign({}, R.o.result, { bomS: Object.assign({}, R.o.result.bomS, { [line.parent]: R.o.result.bomS[line.parent].map(l => (l === engLine ? Object.assign({}, l, { Scrap_Factor_Pct: 0 }) : l)) }) }) });
-      const gU = RG.apply(R.o, undeclared), gN = RG.apply(asNumber, R.ad.gate); return engLine && engLine.Scrap_Factor_Pct === 'SCRAP_UNREADABLE' && gU.status === 'refused' && gU.result === null && gU.notes.some(t => t.includes('scrap: line ' + key + ' has no usable scrap value and is not declared invalid')) &&
-      gN.status === 'refused' && gN.result === null && gN.notes.some(t => t.includes('scrap: line ' + key + ' is declared invalid but the Engine View holds a number for it')); },
-    'E-1 gate predicates: an Engine View line holding SCRAP_UNREADABLE that the specification does not declare invalid is refused (nothing released, so no dependent result can be released); a declared-invalid line holding a number is refused too');
+  const T = pkg01(); T.bom.rows[2].Scrap_Pct = 'abc'; const R = run(T), rj = R.imp.issues.find(x => x.code === 'ROW_REJECTED');
+  ok(() => rj && rj.category === 'Must fix' && rj.rows.length === 1 && rj.rows[0].row === 4 && rj.rows[0].reasons.join() === 'Scrap_Pct: not a plain decimal or a percentage' && /row/.test(rj.message) &&
+      R.ad.report.refusals.some(x => x.code === 'IMPORT_NOT_ACCEPTED') && R.g === null,
+    () => `E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: ${rj ? rj.message.slice(0, 120) : 'none'}…); the adapter refuses; nothing is released`);
+  // The gate's R1 checks still refuse a result that declares an invalid line, or whose Engine View holds a non-number scrap value.
+  const V0 = run(pkg01()), cp4 = s => JSON.parse(JSON.stringify(s)), l0 = V0.o.result.bomS.P0001[0];
+  ok(() => { const declared = cp4(V0.ad.gate); declared.scrap.invalid = [{ parent: 'P0001', component: l0.Material_ID, basis: 'test', row: 2, value: 'abc' }];
+      const asText = Object.assign({}, V0.o, { result: Object.assign({}, V0.o.result, { bomS: Object.assign({}, V0.o.result.bomS, { P0001: V0.o.result.bomS.P0001.map(l => (l === l0 ? Object.assign({}, l, { Scrap_Factor_Pct: 'abc' }) : l)) }) }) });
+      const gD = RG.apply(V0.o, declared), gT = RG.apply(asText, V0.ad.gate);
+      return gD.status === 'refused' && gD.result === null && gD.notes.some(t => /is declared invalid; invalid scrap is rejected by Stage 1/.test(t)) &&
+        gT.status === 'refused' && gT.result === null && gT.notes.some(t => t.includes('scrap: line P0001/' + l0.Material_ID + ' has no usable scrap value and is not declared invalid')); },
+    'E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case');
+  ok(() => { const S1 = V0.imp, inj = Object.freeze(Object.assign({}, S1, { issues: Object.freeze([...S1.issues, Object.freeze({ code: 'FIELD_BLANKED', table: 'bom', field: 'Scrap_Pct', rows: Object.freeze([Object.freeze({ row: 4, value: 'abc' })]) })]) }));
+      const ad = G.adapter.build(inj, V0.m); return ad.status === 'refused' && ad.workbook === null && ad.report.refusals.some(x => x.code === 'SCRAP_INVALID_UPSTREAM' && /rows 4/.test(x.message) && /never assumed 0%/.test(x.message)); },
+    'E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%');
 });
 
 // Completeness: a crash or a skipped block can never pass silently.

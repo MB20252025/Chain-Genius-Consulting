@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.7 Stage 3 Round 2 (18 Nov 2026; uncommitted, awaiting owner review)
+- **Allocated stock is never dead stock.** An item is listed as excess, obsolete, slow-moving or with no demand only while stock not committed to orders remains (the larger of physical and usable stock, minus allocated). A fully allocated item is no longer listed. (js/calculations.js)
+- **Dead-stock view shows four quantities:** Physical, Allocated, Usable and Unallocated usable, with a note explaining each. Final layout awaits the owner's choice of mock-up. (js/app.js)
+- **New data-quality checks:** negative planned or completed production quantities (High); completed above planned (Medium); negative lead times (High). The BOM quantity warning no longer mentions scrap. (js/calculations.js)
+- Numeric-validation and cross-route options were investigated as separate experiments; none is adopted.
+Details: STAGE3-CHANGE-REGISTER.md, Round 2.
+
+## v0.7 Stage 3 engineering completion (18 Nov 2026; uncommitted, awaiting owner review)
+- **Invalid numbers are now reported.** Text, NaN or Infinity in a numeric column (costs, quantities, lead times, demand) used to pass silently and corrupt results; a High data-quality warning now names each column and row. (js/calculations.js)
+- **Dead-stock flags count usable stock too.** "No recorded demand", "Potentially obsolete" and the no-demand warning now flag stock held on either basis, physical or usable on-hand, so an item whose locations net to zero or below but which holds usable stock is no longer missed. Stock value is unchanged. (js/calculations.js)
+- **Wording:** "Allocated exceeds on-hand" now reads "Allocated exceeds usable on-hand" (same check). (js/calculations.js)
+- **Result gate contract RG3:** the output version now reflects that a group total may be a partial total. (js/import/result-gate.js)
+- **Test tool:** the snapshot comparison no longer crashes when a section is empty. (tests/compare-snapshots.js)
+Details: STAGE3-CHANGE-REGISTER.md.
+
 ## v0.6 (candidate, awaiting owner acceptance)
 Added: supplier completeness and "Not assessed" handling for suppliers with no delivery history; Confidence tab with plain-language reasons; Settings with 28 documented thresholds (default, why, what changes); clear fallback messages when a file cannot be read; sticky first column on mobile tables; snapshot-aware PO classification and supply-source modes.
 
