@@ -43,6 +43,7 @@ function judge(t,res){
   if(res.code==='timeout')return {st:'ERROR',why:'timed out after '+A.timeout_seconds+' s'};
   if(!res.parsed)return {st:'ERROR',why:'no summary line (exit '+res.code+'): '+lastErr(res.out)};
   const {pass,fail}=res.parsed;
+  if(typeof t.accepted!=='number')return {st:'ERROR',count:pass,why:'no accepted count recorded for this test, so its result cannot be judged (PROPOSED 21 Nov 2026: before, any count passed)'};
   if(fail>0)return {st:'FAIL',count:pass,why:fail+' check(s) failed: '+failLines(res.out).join(' | ')};
   if(res.code!==0)return {st:'ERROR',count:pass,why:'summary shows 0 failed but exit code '+res.code};
   if(pass<t.accepted)return {st:'FAIL',count:pass,why:'COUNT DROPPED: expected '+t.accepted+', actual '+pass};
