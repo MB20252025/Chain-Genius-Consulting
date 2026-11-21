@@ -8,7 +8,7 @@
 # - Then the fast tier and the full tier, with the recorded package versions, and Playwright 1.63.0 for the
 #   Chrome paging test (tests/PLAYWRIGHT-ENVIRONMENT.md).
 name: candidate verification
-run-name: "candidate verification of dc16902 (exact commit)"
+run-name: "candidate verification of 43b6b55 (exact commit)"
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
     env:
       APP: applications/inventory-intelligence-engine
       TAG: v0.7-tests-approved-5
-      CANDIDATE_SHA: dc169025220548c03a0ad82e47828e5dceebaa15
+      CANDIDATE_SHA: 43b6b5587cef0e63aa9c4faaa955cc3ff1f228f6
     steps:
       - name: "0. Check out the candidate commit (full history and tags)"
         uses: actions/checkout@v4
