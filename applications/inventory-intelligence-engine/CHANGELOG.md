@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.7 Tag-6 candidate r3 (22 Nov 2026; owner-approved change plan; NOT a release, Tag-6 not created)
+- **Totals no longer blank out.** The dead-stock totals and the reconciliation gap value show a partial total with its
+  coverage ("£X partial: N of M items") when some values are unknown, instead of "£–" (E-1).
+- **Unknown allocations are not dead stock.** An item with a blank, unreadable or negative Allocated_Qty and stock on hand
+  is "Not Assessed" in the stock class, not "No recorded demand" or another dead-stock class (A2).
+- **New warning:** "Stock fully allocated to orders but no recorded demand: check the allocations" (A1). Committed stock is
+  still never dead stock.
+- **New warning:** "Usable on-hand exceeds physical on-hand: check the stock record" (A3, an owner-approved departure). The
+  dead-stock basis stays max(physical, usable) − allocated.
+- **Dead-stock view:** summary cards, one principal Uncommitted column, and Stock detail (physical, allocated, usable).
+  Negative on-hand is shown as a flag, not a negative £ value. The Excel export adds Usable and Uncommitted (B1).
+- **ABC note** when items could not be valued: "classes are based on N of M items…" (B2).
+- **Documentation:** KNOWN-LIMITATIONS 16–20 (population s.d., 90-day excess rule, route differences, historical tests,
+  lead-time provenance, GBP only, display precision).
+- **Tests:** new test-tag6-changes.js (23 checks, five zones); test-stage3-round2 R2-VIEW follows the new view.
+No calculation of figures changed. Details: stage3-design/tag6/.
+
 ## v0.7 Stage 3 Round 2 (18 Nov 2026; uncommitted, awaiting owner review)
 - **Allocated stock is never dead stock.** An item is listed as excess, obsolete, slow-moving or with no demand only while stock not committed to orders remains (the larger of physical and usable stock, minus allocated). A fully allocated item is no longer listed. (js/calculations.js)
 - **Dead-stock view shows four quantities:** Physical, Allocated, Usable and Unallocated usable, with a note explaining each. Final layout awaits the owner's choice of mock-up. (js/app.js)
