@@ -66,6 +66,23 @@ All five clear only against Tag-6.
 - All 50 entries are formally accepted into the Tag-6 baseline. "ACCEPT" now means accepted for the Tag-6 baseline, not only proposed.
 - This is engineering acceptance of the test baseline only. It is not deployment or publishing approval.
 
-## 4. Tag and Release
+## 4. Tag and Release: NOT CREATED (blocked, 22 Nov 2026)
 
-To be completed below once the operations have been carried out.
+- **Attempt:** GitHub REST `POST /repos/MB20252025/chain-genius-consulting/releases`:
+  - `tag_name` v0.7-tests-approved-6;
+  - `target_commitish` e65600cf7b74f7f25ec73ec24ef9fae1d648c619;
+  - pre-release, as for Tag-5.
+- **Result:** HTTP 403: "Creating, editing, or deleting releases is not permitted for this session type." This is a platform restriction on this session.
+- Tag pushes from this session were already known to be blocked by the proxy. No browser route was connected.
+- The restriction was not worked around. No other route (a git-refs API call, a tag push, another commit) was tried.
+- **Checked afterwards:** no `v0.7-tests-approved-6` tag, no Tag-6 release and no `release/v0.7*` branch exist. Nothing partial was created.
+
+**Still to do (the owner, GitHub web, Releases → Draft a new release):**
+- **Tag:** `v0.7-tests-approved-6`, as a new tag.
+- **Target:** the commit `e65600c`. Select branch `candidate/tag6-20261122-r4`, whose tip is that commit. Do **not** choose `development/v0.7`.
+- **Title:** "Supply Chain Intelligence Engine v0.7 — T6 Tests Approved".
+- **Options:** tick "Set as a pre-release" and leave "Set as the latest release" unticked, as for Tag-5.
+
+## 5. Post-tag verification: NOT RUN
+
+Requires the real tag. A local simulation exists (`verification/tag6-switch-20261122`) but is **not** a substitute and is not reported as post-tag evidence.
