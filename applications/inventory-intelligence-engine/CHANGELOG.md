@@ -7,8 +7,9 @@
   is "Not Assessed" in the stock class, not "No recorded demand" or another dead-stock class (A2).
 - **New warning:** "Stock fully allocated to orders but no recorded demand: check the allocations" (A1). Committed stock is
   still never dead stock.
-- **New warning:** "Usable on-hand exceeds physical on-hand: check the stock record" (A3, an owner-approved departure). The
-  dead-stock basis stays max(physical, usable) − allocated.
+- **A3 (owner-approved departure):** availability keeps using usable stock; the dead-stock basis stays max(physical,
+  usable) − allocated. The planned "Usable on-hand exceeds physical on-hand" warning was **not** shipped: it conflicts with
+  the accepted Stage 2 rule B6 (usable can legitimately exceed physical when a location is negative) and was stopped.
 - **Dead-stock view:** summary cards, one principal Uncommitted column, and Stock detail (physical, allocated, usable).
   Negative on-hand is shown as a flag, not a negative £ value. The Excel export adds Usable and Uncommitted (B1).
 - **ABC note** when items could not be valued: "classes are based on N of M items…" (B2).

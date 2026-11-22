@@ -4,7 +4,9 @@
  *   E-1  totals that sum item values are X1 partial-aware (dead-stock cards, reconciliation gap value): never "£–" for a whole total
  *   A2   unknown allocation (blank, unreadable, negative) while stock is held -> stock class "Not Assessed", never a dead-stock class
  *   A1   stock fully allocated to orders with no recorded demand -> class unchanged ("Active"), plus a Medium warning naming it
- *   A3   usable above physical -> Medium warning; physical above usable -> no warning; availability on usable; dead stock on max()
+ *   A3   availability on usable; dead stock on max(physical, usable) - allocated; NO usable-vs-physical warning (the approved
+ *        'usable exceeds physical' warning was stopped: it conflicts with accepted Stage 2 decision B6, where usable legitimately
+ *        exceeds physical when a location is negative; see stage3-design/tag6/IMPLEMENTATION-RECORD.md)
  *   B1   dead-stock view: Uncommitted column (blank when the allocation is unknown); export adds Usable and Uncommitted
  *   B2   ABC note "based on N of M items" only when an item is Not Assessed
  *   E-9  the recorded-ZERO-demand path of the dead-stock rule (the Round 2 tests remove demand rows, i.e. unknown demand)
@@ -74,7 +76,7 @@ for (const [lab, al, why] of [['blank', undefined, /Allocated_Qty blank/], ['"ab
 
 // ---------- A3: usable vs physical
 { const o = zeroDem({ On_Hand_Qty: 10, Usable_On_Hand_Qty: 12, Allocated_Qty: 0 }, true);
-  ok(() => names(o.R, UOVER) === 'FG050' && warn(o.R, UOVER).sev === 'Medium', () => 'A3 usable 12 above physical 10: the Medium warning names FG050 only (got "' + names(o.R, UOVER) + '")'); }
+  ok(() => !warn(o.R, UOVER) && o.x.av === 12, () => 'A3 usable 12 above physical 10 (legitimate under Stage 2 B6): no usable-vs-physical warning, availability 12 (got "' + names(o.R, UOVER) + '", ' + o.x.av + ')'); }
 { const o = zeroDem({ On_Hand_Qty: 10, Usable_On_Hand_Qty: 6, Allocated_Qty: 2 }, true);
   ok(() => !warn(o.R, UOVER) && o.x.av === 4, () => 'A3 physical 10 above usable 6 (normal quarantine): no warning, and availability uses usable: 6 − 2 = 4 (got ' + o.x.av + ')'); }
 { const o = zeroDem({ On_Hand_Qty: 10, Usable_On_Hand_Qty: 6, Allocated_Qty: 6 }, true);
