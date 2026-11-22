@@ -5,10 +5,12 @@
 # - Step 1 runs the approved guard from Tag-5 exactly as v07-tests.yml does and RECORDS its result. Unlike
 #   v07-tests.yml it does not stop there, so that the tests behind the guard also produce evidence.
 #   The job's final result still reflects the guard and every FAIL/ERROR: nothing is turned green.
+# 22 Nov 2026 (post-tag): TAG is now v0.7-tests-approved-6, read from the real remote tag, so step 1 is the
+#   same guard step v07-tests.yml runs. Owner instruction of 22 Nov 05:39 (post-release verification).
 # - Then the fast tier and the full tier, with the recorded package versions, and Playwright 1.63.0 for the
 #   Chrome paging test (tests/PLAYWRIGHT-ENVIRONMENT.md).
 name: candidate verification
-run-name: "candidate verification of e65600c (exact commit, Tag-6 switching commit)"
+run-name: "post-tag verification of e65600c against the real v0.7-tests-approved-6"
 
 on:
   push:
@@ -28,7 +30,7 @@ jobs:
         shell: bash
     env:
       APP: applications/inventory-intelligence-engine
-      TAG: v0.7-tests-approved-5
+      TAG: v0.7-tests-approved-6
       CANDIDATE_SHA: e65600cf7b74f7f25ec73ec24ef9fae1d648c619
     steps:
       - name: "0. Check out the candidate commit (full history and tags)"
@@ -53,7 +55,7 @@ jobs:
           } | tee "$D/meta.txt"
           test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
 
-      - name: "1. GUARD (approved check-control.js from Tag-5): result recorded"
+      - name: "1. GUARD (approved check-control.js from Tag-6): result recorded"
         run: |
           set +e
           git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" \
@@ -100,7 +102,7 @@ jobs:
           echo "finished: $(date -u +%FT%TZ)" >> "$D/meta.txt"
           {
             echo "## Candidate verification: \`$CANDIDATE_SHA\`"; echo
-            echo "Guard (Tag-5 check-control) exit: **$GUARD_RC**"; echo
+            echo "Guard (Tag-6 check-control) exit: **$GUARD_RC**"; echo
             echo "### Fast tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/fast-summary.txt" | cut -c1-170; echo '```'
             echo "### Full tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/full-summary.txt" | cut -c1-170; echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
