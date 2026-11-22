@@ -17,3 +17,4 @@ Deferred by the owner. Not part of Tag-6; recorded so they are not lost. No item
 | ARCH | Major architectural refactoring | owner, 22 Nov | Not planned |
 | BIZ | New business-type engines and dashboards | owner, 22 Nov | Not planned |
 | HIST | Six historical comparison tests (4 BLOCKED, 2 REDUCED) | KNOWN-LIMITATIONS 19 | Needs the v0.6 zips the owner may hold, or a decision to retire them |
+| REL-PROC | Release procedure: document the switching commit as an explicit step in `tests/README.md` (change the workflow TAG, the registry check-control tag and the guard's default `--tag` in the commit to be tagged, as Tags 4, 5 and 6 did) | Tag-6 release preparation, proactive finding 1; owner, 22 Nov (full authorisation, section 11) | Governance edit to a protected-area document; its own controlled change after Tag-6. Not done in the Tag-6 release |
