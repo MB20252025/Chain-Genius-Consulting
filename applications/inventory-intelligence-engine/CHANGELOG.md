@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.7 Stage 3B readiness (22 Nov 2026; owner readiness authorisation; NOT a release, no tag)
+- **Tests.** Four new full-tier tests restore 307 original current-behaviour checks hidden behind the BLOCKED historical
+  tests H1–H3, and add 9 new approval-spec checks. Each is hash-pinned to its protected original and was shown to fail when
+  the behaviour it covers is broken.
+  - `test-h1-fglt-note-current`: 3 checks (finished-goods production-time caveat).
+  - `test-h2-forecast-conf-current`: 5 (the MAD = 0 note).
+  - `test-h2-level-shift-spec`: 9 (approved confidence levels).
+  - `test-h3-supplier-eligibility-current`: 299 (supplier eligibility A–J).
+  - Registry and checksum additions are PENDING until the next baseline tag.
+- **Records.**
+  - Final disposition of H1–H6.
+  - Dated correction to KNOWN-LIMITATIONS 19.
+  - Independent protection-check script.
+  - Readiness record with an owner decision register.
+  - Stage 3B blueprint (planning only).
+  - Note: the message of commit `5be757a` also names this entry and the V07-TEST-RECORD entry; both were added in the
+    commit that follows it.
+No engine, calculation, interface, CSS, workflow or baseline change.
+
 ## v0.7 Tag-6 candidate r4 (22 Nov 2026; owner-authorised completion; NOT a release, Tag-6 not created)
 - **Exports never contain "NaN".** Every ENG_ sheet writes an unknown value as an empty cell (it was only ENG_FG/ENG_RM);
   ENG_POReconciliation.GapValueGBP was the case seen (defect A).

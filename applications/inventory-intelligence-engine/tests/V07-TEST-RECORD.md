@@ -1454,3 +1454,17 @@ verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `veri
   - `main` `8117c72`, `x1/accepted-20261121` `a4e05e8`, `release/v0.6` and the recovery branch are unchanged.
   - The recovery copy, the X1 r2 identity, the Tag-5 archive and the Stage 3 baseline verify.
   - The last Pages deployment was 10 Nov, from `main`. Nothing was deployed.
+
+## Stage 3B readiness — test additions (22 Nov 2026; branch `readiness/stage3b-20261122`)
+
+*Recorded by Claude under the owner's Stage 3B readiness authorisation. Earlier entries are unchanged.*
+
+- **New full-tier tests** (two time zones each). All are additions and PENDING against Tag-6; the guard gives 12 passed, 0 failed, 10 PENDING:
+  - `test-h1-fglt-note-current`: 3 checks;
+  - `test-h2-forecast-conf-current`: 5;
+  - `test-h2-level-shift-spec`: 9;
+  - `test-h3-supplier-eligibility-current`: 299.
+- **Protection:** `check-protection` goes from 453 to 458 (+5 protected files).
+- **H1–H6:** registry entries unchanged (4 BLOCKED, 2 REDUCED). Their disposition is in `stage3-design/stage3b-readiness/HISTORICAL-TESTS-DISPOSITION.md`.
+- **Full tier at the pinned start `6b73254`:** 55 tests passed (+ pre-flight) of 61; 0 FAIL, 0 ERROR, 4 BLOCKED, 2 REDUCED.
+- The final-commit result is recorded on `verification/stage3b-readiness-20261122` and in the readiness report.
