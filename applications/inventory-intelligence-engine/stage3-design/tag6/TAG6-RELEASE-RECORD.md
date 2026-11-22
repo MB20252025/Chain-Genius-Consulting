@@ -193,3 +193,29 @@ It was not repeated, because the commit, tag and workflow inputs are identical.
 **Deployment:** none.
 - GitHub Pages deploys from `main`. The last deployment was 10 Nov 2026, and `main` is unchanged.
 - No release or other tag was created.
+
+## 8. Final administration (22 Nov 2026, owner instruction "Tag-6 Final Administration")
+
+**Starting check (13:22 UTC instruction).**
+- `development/v0.7` = Tag-6 = `e65600c`.
+- `main` `8117c72`; X1 `a4e05e8`; recovery `0d71aab`; tags v0.6 and Tag-1 to Tag-6 unchanged.
+- 32 remote branches, all at their recorded commits.
+- No workflow run since 06:18 UTC. Last Pages deployment 10 Nov.
+- Working tree clean.
+- No difference from §7.
+
+**Records merged.**
+- `release-records/tag6-20261122` (`6444754`) was merged into `development/v0.7` with an explicit merge commit (`--no-ff`).
+- 10 files, all documentation or evidence: this record, `DEFERRED-HISTORICAL-TESTS.md`, the roadmap, `KNOWN-LIMITATIONS.md`, `V07-TEST-RECORD.md` Parts A2 and A3, and 5 evidence logs.
+- No conflicts. None of these files is guard-protected or checksum-protected.
+- No application, test, snapshot or registry file was changed.
+
+**Release procedure.**
+- `tests/README.md` section 1 "Creating a baseline tag" was rewritten to document the switching commit, and both routes actually used (A: Tags 4 and 5; B: Tag-6).
+- MUST steps are distinguished from recommended checks. The checks of the previous text were kept, and the old text remains in git history.
+- The Tag-5 and Tag-6 table rows were updated to their actual state.
+- This closes roadmap item REL-PROC.
+
+**Historical tests.** `KNOWN-LIMITATIONS.md` entry 19 now lists H1–H6, with each test's missing zip or tag, in line with `DEFERRED-HISTORICAL-TESTS.md`.
+
+Verification results are in `tests/V07-TEST-RECORD.md` Part A4.

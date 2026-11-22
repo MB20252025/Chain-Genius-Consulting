@@ -38,6 +38,15 @@ Verified facts are marked (V); things not tested are marked (NT).
     code; golden and confidence snapshots now cover the same ground.
     *(22 Nov 2026, after Tag-6:)* formally deferred by the owner. Each test, its reason and the conditions for revisiting it
     are in `stage3-design/tag6/DEFERRED-HISTORICAL-TESTS.md` (H1–H6). They do not block Stage 3B.
+    The six, as recorded at Tag-6 (none passed, deleted, retired or reduced; counts unchanged):
+    - H1 `test-fglt-note`: BLOCKED. Missing: the v0.6 Phase 2 source tree (`inventory-intelligence-engine-c4-phase2` zip).
+    - H2 `test-forecast-conf`: BLOCKED. Missing: the v0.6 Phase 3 tree (historical zip, named in `p3tree.txt`).
+    - H3 `test-supplier-eligibility`: BLOCKED. Missing: the same Phase 3 tree.
+    - H4 `phase2-comparison`: BLOCKED. Missing: the git tag `v0.6-candidate-4-phase2`, not on GitHub.
+    - H5 `test-phase1`: REDUCED, 57 of 125 checks. Missing: the tag `c4-base`, needed for item 1e.
+    - H6 `test-uom`: REDUCED, 110 of 164 checks. Missing: the tag `v0.6-candidate-4-phase1-final`, needed for the comparison
+      with Phase 1 final.
+    They can be revisited if the material becomes available or the owner makes a separate decision.
 20. **Lead time, currency and display precision.** Raw-material lead time is Materials.Lead_Time_Days plus the
     default supplier's average lateness (received − promised, over lines received and ordered by the snapshot date,
     added only if positive). When no lead time is stated, the fallback order is: the supplier's standard lead time,
