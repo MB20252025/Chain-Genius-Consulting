@@ -16,7 +16,8 @@ An approved baseline tag records the exact versions of the testing-control files
 | `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (kept unchanged) |
 | `v0.7-tests-approved-3` | the T3 implementation commit (created by the owner) | T3 baseline (kept unchanged): adds the confidence snapshot; check-control ACTIVE |
 | `v0.7-tests-approved-4` | Commit 10 (full hash recorded in `V07-TEST-RECORD.md` Part A2) | Tag-4 baseline (kept unchanged): accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A, with the limitations stated there |
-| `v0.7-tests-approved-5` | the T5 switching commit (`f0e81bb`; full hash recorded in `V07-TEST-RECORD.md`, section "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI"; pre-tag results in "Tag-5 — pre-tag evidence and reference corrections"; created by the owner) | Tag-5 baseline (current): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
+| `v0.7-tests-approved-5` | the T5 switching commit (`f0e81bb`; full hash recorded in `V07-TEST-RECORD.md`, section "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI"; pre-tag results in "Tag-5 — pre-tag evidence and reference corrections"; created by the owner) | Tag-5 baseline (kept unchanged; current until Tag-6 is created): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
+| `v0.7-tests-approved-6` | the Tag-6 switching commit on `candidate/tag6-20261122-r4` (full hash recorded in `V07-TEST-RECORD.md`, "Tag-6 baseline acceptance — Part A"; to be created by the owner) | Tag-6 baseline (current once created): the registry block assessed in `stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md` (50 items), Stage 3 work accepted in `stage3-design/tag6/OWNER-DECISIONS-TAG6.md`, X1, and the Tag-6 changes |
 
 **Creating a baseline tag (permanent procedure)**
 
@@ -68,7 +69,7 @@ Result: 12 checks (11 until T3). `check-protection.js` separately checks 3 refer
 
 The steps run in this order:
 0. Checkout.
-1. **Guard:** fetch tag `v0.7-tests-approved-5` (`-4` until Tag-5) from GitHub and run *its* copy of `check-control.js`.
+1. **Guard:** fetch tag `v0.7-tests-approved-6` (`-5` until Tag-6) from GitHub and run *its* copy of `check-control.js`.
 2. Node.
 3. Pinned packages.
 4. `run-all.sh --fast` and `summarise-run.js`.

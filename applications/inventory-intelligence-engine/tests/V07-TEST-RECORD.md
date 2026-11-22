@@ -1351,3 +1351,45 @@ and confidence v0.7 identical in all five zones. check-protection 444 = 3 refere
 are experiments outside the repository (REVIEW / EXPERIMENTAL), not part of these results.
 
 Entry made by Claude; its time is that of the commit that eventually records it.
+
+## Tag-6 baseline acceptance — Part A (pre-tag acceptance record; inside the Tag-6 switching commit; 22 Nov 2026)
+
+*Recorded by Claude. The entries above are unchanged. This follows the Tag-4 and Tag-5 precedent (`5f18335`, `f0e81bb`): the
+commit to be tagged switches the guard's baseline to the new tag. It has no effect until the owner creates the tag.*
+
+**The commit to be tagged** is the switching commit on `candidate/tag6-20261122-r4`. Its full hash is in the final
+release-readiness report; Part A2 will record it after the tag exists. Its parent `3822045` carries all Tag-6 work and was
+verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `verification/tag6-r4-20261122`).
+
+### Switching changes (5 files)
+
+| # | File | Change |
+|---|---|---|
+| 1 | `.github/workflows/v07-tests.yml` | `TAG: v0.7-tests-approved-5` → `-6` (CI's guard uses the new baseline) |
+| 2 | `tests/accepted-results.json` | check-control `"tag"` `-5` → `-6`; no count changes |
+| 3 | `tests/check-control.js` | default `--tag` `-5` → `-6` (the rules are unchanged) |
+| 4 | `tests/README.md` | Tag-6 row added; Tag-5 row says "current until Tag-6 is created"; step 1 names `-6` |
+| 5 | `tests/V07-TEST-RECORD.md` | this Part A |
+
+### What Tag-6 would approve
+
+- The registry block: the 50 PENDING items, each assessed in `stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md` ("ACCEPT" = prepared for this approval, not approved). Also the three guard FAILs that only a new tag clears:
+  - `run-all.sh` changed;
+  - the confidence reference replaced (19 → 11 POs, A4; 4 → 3 items, A6);
+  - 9 approved checksum lines re-hashed;
+  - and, from this commit, the three control-file changes above.
+- The Stage 3 work as decided by the owner (`stage3-design/tag6/OWNER-DECISIONS-TAG6.md` and `OWNER-DECISIONS-TAG6-ROUND2.md`).
+- X1 (accepted 21 Nov) and the Tag-6 changes (E-1, A1, A2, A3 remainder, B1, B2, E-9, defects A and B).
+
+### What approval does not state
+
+- That unexecuted tests passed. Four tests are BLOCKED and two REDUCED (KNOWN-LIMITATIONS 19).
+- That D1–D4 match their original full wording. Only the option labels are recoverable.
+- That Claude's tests are independent verification. The owner's five human checks (22 Nov 2026, all passed) are the human verification.
+- That a physical Android device was tested for this candidate.
+
+### Expected state before the tag exists
+
+- `run-all.sh`'s check-control row cannot read `check-control.js` from the not-yet-existing tag `-6`, so it reports an ERROR, not a pass.
+- CI on `development/v0.7` would stop at the guard for the same reason.
+- Run explicitly against Tag-5 (`--tag v0.7-tests-approved-5`), the guard reports the earlier 3 FAILs plus FAILs for the changed control files (`check-control.js`, the workflow, the registry's tag field). All of these clear only when the owner creates Tag-6 on this commit.
