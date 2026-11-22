@@ -1393,3 +1393,36 @@ verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `veri
 - `run-all.sh`'s check-control row cannot read `check-control.js` from the not-yet-existing tag `-6`, so it reports an ERROR, not a pass.
 - CI on `development/v0.7` would stop at the guard for the same reason.
 - Run explicitly against Tag-5 (`--tag v0.7-tests-approved-5`), the guard reports the earlier 3 FAILs plus FAILs for the changed control files (`check-control.js`, the workflow, the registry's tag field). All of these clear only when the owner creates Tag-6 on this commit.
+
+## Tag-6 baseline acceptance — Part A2 (post-tag record; branch `release-records/tag6-20261122`; 22 Nov 2026)
+
+*Recorded by Claude after the tag existed. Part A and every earlier entry are unchanged. This entry is not inside the tagged commit.*
+
+- **Registry block:** 50 entries (6 raised counts, 16 new tests, 28 protected lines). Accepted by Claude under delegated owner authority on 22 Nov 2026 (`stage3-design/tag6/TAG6-RELEASE-RECORD.md` §3).
+- **Tag:** `v0.7-tests-approved-6`.
+  - Lightweight tag, created by the owner through GitHub Releases, 22 Nov 2026, 05:38 UTC.
+  - Points to `e65600cf7b74f7f25ec73ec24ef9fae1d648c619`.
+- **Release:** "Supply Chain Intelligence Engine v0.7 — T6 Tests Approved".
+  - Pre-release; target `candidate/tag6-20261122-r4`; not the latest release.
+  - https://github.com/MB20252025/Chain-Genius-Consulting/releases/tag/v0.7-tests-approved-6
+  - No `release/` branch was created.
+- **Post-tag CI:** GitHub Actions run 44990351755, workflow "candidate verification", on branch `ci/candidate-verification-tag6-20261122` (`e71f074`), with TAG `v0.7-tests-approved-6`. Conclusion: success.
+  - Tested commit: `e65600c…`, checked by the workflow.
+  - Guard, read from the real Tag-6: 12 passed, 0 failed, 0 PENDING.
+  - Fast tier: 40 tests passed (+ pre-flight) of 40. 0 FAIL, 0 ERROR.
+  - Full tier: 55 tests passed (+ pre-flight) of 61. 0 FAIL, 0 ERROR, 4 BLOCKED, 2 REDUCED. These are not passes (KNOWN-LIMITATIONS 19).
+- **Same check run locally:** a fresh clone at `e65600c`, against the real remote tag, gave the same results on the guard and both tiers.
+- **Not yet exercised:** the protected `v07-tests.yml`. It runs only on a push to `development/v0.7`, which still points at `eddf09b`. Moving it is the owner's decision. Its guard step is the same as step 1 of the run above.
+- **Corrections after the tag:** none.
+
+## Tag-6 development alignment — Part A3 (branch `release-records/tag6-20261122`; 22 Nov 2026)
+
+*Recorded by Claude under the owner's authorisation of 22 Nov 2026, 06:18. Earlier entries are unchanged.*
+
+- `development/v0.7` was fast-forwarded `eddf09b..e65600c` (23 commits; no force; no new commit). It now equals `v0.7-tests-approved-6`.
+- **Protected CI run 44993162485** ("v0.7 tests", push): success.
+  - Guard from Tag-6: 12 passed, 0 failed, 0 PENDING.
+  - Fast tier: 40 tests passed (+ pre-flight) of 40. 0 FAIL, 0 ERROR.
+- **Full tier for this commit:** run 44990351755 (Part A2). 55 tests passed (+ pre-flight) of 61; 4 BLOCKED, 2 REDUCED. These six are not passes.
+- **The six historical tests** are formally deferred: `stage3-design/tag6/DEFERRED-HISTORICAL-TESTS.md` (H1–H6). They are not passed, not deleted and not weakened. They do not block Stage 3B unless new evidence shows a material risk.
+- `main` is unchanged and nothing was deployed.
