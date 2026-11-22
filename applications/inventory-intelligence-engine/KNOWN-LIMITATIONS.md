@@ -21,3 +21,27 @@ Verified facts are marked (V); things not tested are marked (NT).
     - **Evidence-quality defect (small samples)**: a lead time calculated from one or two purchase orders is labelled "Calculated" like one from many, and its variability comes from one or two points. (V)
     - **Assumed-data limitation (7-day fallback)**: a purchased item with no stated lead time and no supplier delivery history is given the 7-day production default, labelled "Assumed (default setting)", and the "Lead times" confidence area is rated Low. The default is used only when the material's default supplier has no received purchase orders at all, so no lateness is ever added to it; a material with no history of its own whose supplier has history for other materials gets that supplier's purchase-order average instead (see `PROACTIVE-IMPROVEMENT-BACKLOG.md` P-004). (V)
 15. **Duplicate stop-and-resolve is a requirement, not yet built.** The agreed policy is that a conflicting duplicate stops the affected import until an explicit resolution is supplied (see `M1-DESIGN.md`). Stage 1 only detects duplicate keys; the stop belongs to Stage 2, and resolution for canonical input to M1b. No current code stops an import, applies a resolution or detects that a changed source cancels one. (NT)
+
+## Tag-6 additions (22 Nov 2026, owner decision B5 of the Tag-6 change plan; the entries above are unchanged)
+
+16. **Standard deviation is the population form** (divide by n). Demand and lead-time variability, and therefore
+    safety stock and reorder points, use it. With 12 months of data the sample form (n − 1) would give about 4.4%
+    higher safety stock. Recorded behaviour, not yet reviewed as a policy.
+17. **Excess stock uses a 90-day rule:** unallocated usable stock above 90 days of average daily demand (12 months);
+    with no demand, all unallocated usable stock. Stock on order, safety stock and the forecast are not considered.
+    A forecast-based definition is planned as separate work.
+18. **The two input routes read text numbers differently.** The import route converts "1,200", "(25)" and "£5" (money
+    columns) into numbers. The direct workbook route does not: those cells are Not Assessed with a reason, and a
+    High warning names them. The same workbook can therefore give different results by route.
+19. **Six historical comparison tests cannot run in full.** Four are BLOCKED and two REDUCED because the v0.6
+    zips and tags they compare against (`tests/PROTECTED-VERSIONS.txt`) are not available. They compare with v0.6-era
+    code; golden and confidence snapshots now cover the same ground.
+20. **Lead time, currency and display precision.** Raw-material lead time is Materials.Lead_Time_Days plus the
+    default supplier's average lateness (received − promised, over lines received and ordered by the snapshot date,
+    added only if positive). When no lead time is stated, the fallback order is: the supplier's standard lead time,
+    then the supplier's average order-to-receipt time, then the default setting. Its variability (σLT) is the population s.d. of
+    order-to-receipt days. Finished-goods lead time is the mean of completed production orders' actual durations
+    (minimum 1 day). The test data cannot tell the stated rule from "order-to-receipt", because every promised date
+    equals order date + Materials lead time; a dedicated test file is planned (E-7). All money is read and shown as
+    GBP: there is no currency column or conversion. Screens round money to £1 and quantities to 0–1 decimal places;
+    calculations and the Excel export use full precision.

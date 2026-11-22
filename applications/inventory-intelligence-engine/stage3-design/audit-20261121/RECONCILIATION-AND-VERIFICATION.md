@@ -171,3 +171,11 @@ golden and confidence snapshots now cover the same ground. Nothing was substitut
 
 ## 9. Candidate CI results
 (appended below when the run finishes)
+
+**Note added 22 Nov 2026 (owner decision E-13; the text above is unchanged).** The candidate CI results were never
+appended here. They are recorded on branch `audit/scie-20261121-pass2` (`7ecc03e`):
+- `stage3-design/audit-20261121/evidence/ci/ci-44952372282-dc16902.log`;
+- `ci-44954005216-43b6b55.log`.
+
+Both runs: fast tier 38 tests passed (+ pre-flight) and full tier 53 tests passed (+ pre-flight). FAIL 1 (the Tag-5
+guard), BLOCKED 4, REDUCED 2, ERROR 0. The verification of 22 Nov is on `verification/tag6-20261122` (`af8eb6d`).
