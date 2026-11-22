@@ -1426,3 +1426,31 @@ verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `veri
 - **Full tier for this commit:** run 44990351755 (Part A2). 55 tests passed (+ pre-flight) of 61; 4 BLOCKED, 2 REDUCED. These six are not passes.
 - **The six historical tests** are formally deferred: `stage3-design/tag6/DEFERRED-HISTORICAL-TESTS.md` (H1–H6). They are not passed, not deleted and not weakened. They do not block Stage 3B unless new evidence shows a material risk.
 - `main` is unchanged and nothing was deployed.
+
+## Tag-6 final administration — Part A4 (on `development/v0.7`; 22 Nov 2026)
+
+*Recorded by Claude under the owner's instruction "Tag-6 Final Administration" (22 Nov 2026, 13:22). Earlier entries are unchanged.*
+
+- **Starting state:** `development/v0.7` = Tag-6 = `e65600c`. There was no difference from Part A3.
+- **Commits on `development/v0.7`** (documentation only; each push was a fast-forward and nothing was force-pushed):
+  - `71a43d3`: merge (`--no-ff`) of `release-records/tag6-20261122` (`6444754`). It brings in 10 documentation and evidence files. No conflicts.
+  - `1ccda1f`: `tests/README.md`. The tag procedure now documents the switching commit and Routes A and B.
+  - `ffb770f`: KNOWN-LIMITATIONS 19 lists H1–H6; release record §8; roadmap REL-PROC done.
+  - this commit: Part A4 and the CI evidence logs.
+- **Against Tag-6:** `js/`, `index.html`, snapshots, fixtures, logs, characterisation tests, `accepted-results.json`, `checksums.txt` and `.github/` are identical. Every changed path is documentation or evidence.
+- **Protected CI, run 45027507177** ("v0.7 tests", push, `ffb770f`): success.
+  - Guard: 12 passed, 0 failed, 0 PENDING (baseline `v0.7-tests-approved-6 = e65600c`).
+  - Fast tier: 40 tests passed (+ pre-flight) of 40. 0 FAIL, 0 ERROR, 0 BLOCKED, 0 REDUCED.
+- **Full tier in CI, run 45027521135** (candidate verification of `ffb770f`, TAG `-6`, branch `ci/candidate-verification-dev-admin-20261122`): success.
+  - Guard exit 0.
+  - Fast tier: 40 of 40.
+  - Full tier: 55 tests passed (+ pre-flight) of 61. 0 FAIL, 0 ERROR.
+  - **4 BLOCKED:** test-fglt-note, test-forecast-conf, test-supplier-eligibility, phase2-comparison.
+  - **2 REDUCED:** test-phase1 (57 of 125 checks), test-uom (110 of 164 checks).
+  - The BLOCKED and REDUCED tests are not passes.
+- **Same checks run locally** (a throwaway worktree at `ffb770f`, against the real Tag-6): identical results.
+- **Protection:**
+  - Tags v0.6 and Tag-1 to Tag-6 are unchanged.
+  - `main` `8117c72`, `x1/accepted-20261121` `a4e05e8`, `release/v0.6` and the recovery branch are unchanged.
+  - The recovery copy, the X1 r2 identity, the Tag-5 archive and the Stage 3 baseline verify.
+  - The last Pages deployment was 10 Nov, from `main`. Nothing was deployed.

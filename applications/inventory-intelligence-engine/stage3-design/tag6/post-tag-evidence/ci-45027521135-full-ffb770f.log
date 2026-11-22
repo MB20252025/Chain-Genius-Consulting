@@ -1,0 +1,798 @@
+0Z Current runner version: '2.338.2'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261111.635
+Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+Build Date: 2026-11-11T01:49:01Z
+Worker ID: {bdb4afbc-61e3-4654-847d-232701a76468}
+Region: centralus
+Cloud: Azure
+##[endgroup]
+##[group]Operating System
+Ubuntu
+24.04.5
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-24.04
+Version: 20261116.376.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.376/images/ubuntu/Ubuntu2404-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.376
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Contents: read
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: Guard (recorded), fast tier, full tier
+##[group]Run actions/checkout@v4
+with:
+  ref: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  fetch-depth: 0
+  repository: MB20252025/Chain-Genius-Consulting
+  token: ***
+  ssh-strict: true
+  ssh-user: git
+  persist-credentials: true
+  clean: true
+  sparse-checkout-cone-mode: true
+  fetch-tags: false
+  show-progress: true
+  lfs: false
+  submodules: false
+  set-safe-directory: true
+  allow-unsafe-pr-checkout: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+##[endgroup]
+Syncing repository: MB20252025/Chain-Genius-Consulting
+##[group]Getting Git version info
+Working directory is '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+[command]/usr/bin/git version
+git version 2.56.1
+##[endgroup]
+Temporarily overriding HOME='/home/runner/work/_temp/6bdaf929-2586-4a6d-8588-6cebfbaae0cb' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Deleting the contents of '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+##[group]Initializing the repository
+[command]/usr/bin/git init /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/.git/
+[command]/usr/bin/git remote add origin https://github.com/MB20252025/Chain-Genius-Consulting
+##[endgroup]
+##[group]Disabling automatic garbage collection
+[command]/usr/bin/git config --local gc.auto 0
+##[endgroup]
+##[group]Setting up auth
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+[command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+##[endgroup]
+##[group]Fetching the repository
+[command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+From https://github.com/MB20252025/Chain-Genius-Consulting
+ * [new branch]      audit/scie-20261121     -> origin/audit/scie-20261121
+ * [new branch]      audit/scie-20261121-pass2 -> origin/audit/scie-20261121-pass2
+ * [new branch]      candidate/tag6-20261121 -> origin/candidate/tag6-20261121
+ * [new branch]      candidate/tag6-20261121-r2 -> origin/candidate/tag6-20261121-r2
+ * [new branch]      candidate/tag6-20261122-r3 -> origin/candidate/tag6-20261122-r3
+ * [new branch]      candidate/tag6-20261122-r4 -> origin/candidate/tag6-20261122-r4
+ * [new branch]      ci/candidate-verification-20261121 -> origin/ci/candidate-verification-20261121
+ * [new branch]      ci/candidate-verification-dev-admin-20261122 -> origin/ci/candidate-verification-dev-admin-20261122
+ * [new branch]      ci/candidate-verification-r2-20261121 -> origin/ci/candidate-verification-r2-20261121
+ * [new branch]      ci/candidate-verification-r3-20261122 -> origin/ci/candidate-verification-r3-20261122
+ * [new branch]      ci/candidate-verification-r3b-20261122 -> origin/ci/candidate-verification-r3b-20261122
+ * [new branch]      ci/candidate-verification-r4-20261122 -> origin/ci/candidate-verification-r4-20261122
+ * [new branch]      ci/candidate-verification-r4s-20261122 -> origin/ci/candidate-verification-r4s-20261122
+ * [new branch]      ci/candidate-verification-tag6-20261122 -> origin/ci/candidate-verification-tag6-20261122
+ * [new branch]      claude-write-test       -> origin/claude-write-test
+ * [new branch]      corrections/records-runner-20261121 -> origin/corrections/records-runner-20261121
+ * [new branch]      corrections/x1-20261121 -> origin/corrections/x1-20261121
+ * [new branch]      development/v0.7        -> origin/development/v0.7
+ * [new branch]      human-checks/tag6-r3-owner-20261122 -> origin/human-checks/tag6-r3-owner-20261122
+ * [new branch]      human-checks/tag6-r3-sealed-answers-20261122 -> origin/human-checks/tag6-r3-sealed-answers-20261122
+ * [new branch]      main                    -> origin/main
+ * [new branch]      plan/tag6-20261122      -> origin/plan/tag6-20261122
+ * [new branch]      prep/known-limitations-20261122 -> origin/prep/known-limitations-20261122
+ * [new branch]      proposal/paging-count-20261121 -> origin/proposal/paging-count-20261121
+ * [new branch]      recovery/stage3-unaccepted-20261116-19 -> origin/recovery/stage3-unaccepted-20261116-19
+ * [new branch]      release-prep/tag6-20261122 -> origin/release-prep/tag6-20261122
+ * [new branch]      release-records/tag6-20261122 -> origin/release-records/tag6-20261122
+ * [new branch]      release/v0.6            -> origin/release/v0.6
+ * [new branch]      verification/tag6-20261122 -> origin/verification/tag6-20261122
+ * [new branch]      verification/tag6-r3-20261122 -> origin/verification/tag6-r3-20261122
+ * [new branch]      verification/tag6-r4-20261122 -> origin/verification/tag6-r4-20261122
+ * [new branch]      verification/tag6-switch-20261122 -> origin/verification/tag6-switch-20261122
+ * [new branch]      x1/accepted-20261121    -> origin/x1/accepted-20261121
+ * [new tag]         v0.6                    -> v0.6
+ * [new tag]         v0.7-tests-approved-1   -> v0.7-tests-approved-1
+ * [new tag]         v0.7-tests-approved-2   -> v0.7-tests-approved-2
+ * [new tag]         v0.7-tests-approved-3   -> v0.7-tests-approved-3
+ * [new tag]         v0.7-tests-approved-4   -> v0.7-tests-approved-4
+ * [new tag]         v0.7-tests-approved-5   -> v0.7-tests-approved-5
+ * [new tag]         v0.7-tests-approved-6   -> v0.7-tests-approved-6
+[command]/usr/bin/git rev-parse --verify --quiet ffb770f63f3d9591862c3a239954c3d19fb704eb^{object}
+ffb770f63f3d9591862c3a239954c3d19fb704eb
+##[endgroup]
+##[group]Determining the checkout info
+##[endgroup]
+[command]/usr/bin/git sparse-checkout disable
+[command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+##[group]Checking out the ref
+[command]/usr/bin/git checkout --progress --force ffb770f63f3d9591862c3a239954c3d19fb704eb
+Note: switching to 'ffb770f63f3d9591862c3a239954c3d19fb704eb'.
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+  git switch -c <new-branch-name>
+Or undo this operation with:
+  git switch -
+Turn off this advice by setting config variable advice.detachedHead to false
+HEAD is now at ffb770f Tag-6 administration records: KNOWN-LIMITATIONS 19 lists H1-H6 with the missing zip or tag for each; release record section 8; roadmap REL-PROC done
+##[endgroup]
+[command]/usr/bin/git log -1 --format=%H
+ffb770f63f3d9591862c3a239954c3d19fb704eb
+##[group]Run RUN_ID="cand-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+RUN_ID="cand-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+D="$RUNNER_TEMP/evidence/$RUN_ID"; mkdir -p "$D"
+echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "D=$D" >> "$GITHUB_ENV"
+{
+  echo "run id: $RUN_ID"
+  echo "workflow file commit (GITHUB_SHA): $GITHUB_SHA"
+  echo "tested commit (HEAD): $(git rev-parse HEAD)"
+  echo "expected candidate:   $CANDIDATE_SHA"
+  echo "app tree hash: $(git rev-parse HEAD:$APP)"
+  echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+  echo "started: $(date -u +%FT%TZ)"
+} | tee "$D/meta.txt"
+test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+##[endgroup]
+run id: cand-45027521135-1
+workflow file commit (GITHUB_SHA): b4f2ff2e2d88be51e6db851e3708132c37f6f9cd
+tested commit (HEAD): ffb770f63f3d9591862c3a239954c3d19fb704eb
+expected candidate:   ffb770f63f3d9591862c3a239954c3d19fb704eb
+app tree hash: e8e244f93ffd87d37d203828178f5ac3ab00f63a
+workflow run: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/45027521135
+started: 2026-11-22T13:26:51Z
+##[group]Run set +e
+set +e
+git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" \
+  && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin > "$D/guard.txt" 2>&1
+rc=$?
+set -e
+cat "$D/guard.txt"; echo "guard exit: $rc" | tee -a "$D/meta.txt"
+echo "GUARD_RC=$rc" >> "$GITHUB_ENV"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+##[endgroup]
+PASS: run-all.sh: identical to the approved baseline
+PASS: check-protection.js: identical to the approved baseline
+PASS: check-control.js: identical to the approved baseline
+PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+PASS: package.json: identical to the approved baseline
+PASS: package-lock.json: identical to the approved baseline
+PASS: requirements.txt: identical to the approved baseline
+PASS: summarise-run.js: identical to the approved baseline
+PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+PASS: accepted-results.json: no weakening against the approved baseline
+PASS: checksums.txt: every approved line present
+check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-6 = e65600c)
+guard exit: 0
+##[group]Run actions/setup-node@v4
+with:
+  node-version: 22.23.4
+  always-auth: false
+  check-latest: false
+  token: ***
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+##[endgroup]
+Attempting to download 22.23.4...
+(node:2152) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Acquiring 22.23.4 - x64 from https://github.com/actions/node-versions/releases/download/22.23.4-39619033003/node-22.23.4-linux-x64.tar.gz
+Extracting ...
+[command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/bc2d842f-b46b-4f60-9760-154fbb80eefa -f /home/runner/work/_temp/ad70164f-78ca-4c6f-a980-fed19959562a
+Adding to the cache ...
+##[group]Environment details
+node: v22.23.4
+npm: 10.9.9
+yarn: 1.22.22
+##[endgroup]
+##[group]Run actions/setup-python@v5
+with:
+  python-version: 3.13
+  check-latest: false
+  token: ***
+  update-environment: true
+  allow-prereleases: false
+  freethreaded: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+##[endgroup]
+##[group]Installed versions
+(node:2199) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Successfully set up CPython (3.13.18)
+##[endgroup]
+(Use `node --trace-deprecation ...` to show where the warning was created)
+##[group]Run mkdir -p "$RUNNER_TEMP/testdeps" "$RUNNER_TEMP/pw"
+mkdir -p "$RUNNER_TEMP/testdeps" "$RUNNER_TEMP/pw"
+cp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"
+(cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)
+python -m pip install --quiet -r "$APP/tests/requirements.txt"
+(cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-audit --no-fund playwright@1.63.0)
+PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/pw-browsers" "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+{
+  echo "node $(node -v), npm $(npm -v), python $(python --version 2>&1)"
+  python -m pip freeze | grep -iE '^(pandas|openpyxl|numpy|python-dateutil|et-xmlfile|six)=='
+  echo "playwright $(node -p "require('$RUNNER_TEMP/pw/node_modules/playwright/package.json').version")"
+  ls "$RUNNER_TEMP/pw-browsers"
+} | tee "$D/environment.txt"
+echo "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/pw-browsers" >> "$GITHUB_ENV"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+##[endgroup]
+added 86 packages in 2s
+added 2 packages in 1s
+Installing dependencies...
+Switching to root user to install dependencies...
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [762 kB]
+Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [832 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1475 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [319 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1716 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [346 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1922 kB]
+Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [443 kB]
+Get:15 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1198 kB]
+Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [239 kB]
+Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1231 kB]
+Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1792 kB]
+Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [414 kB]
+Fetched 13.1 MB in 1s (11.7 MB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+libasound2t64 set to manually installed.
+libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+libatk-bridge2.0-0t64 set to manually installed.
+libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+libatk1.0-0t64 set to manually installed.
+libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+libatspi2.0-0t64 set to manually installed.
+libcairo2 is already the newest version (1.18.0-3build1).
+libcairo2 set to manually installed.
+libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+libcups2t64 set to manually installed.
+libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+libdbus-1-3 set to manually installed.
+libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+libdrm2 set to manually installed.
+libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.10).
+libglib2.0-0t64 set to manually installed.
+libnspr4 is already the newest version (2:4.35-1.1build1).
+libnspr4 set to manually installed.
+libnss3 is already the newest version (2:3.98-1ubuntu0.3).
+libnss3 set to manually installed.
+libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+libpango-1.0-0 set to manually installed.
+libx11-6 is already the newest version (2:1.8.7-1ubuntu0.1).
+libx11-6 set to manually installed.
+libxcb1 is already the newest version (1.15-1ubuntu2).
+libxcb1 set to manually installed.
+libxcomposite1 is already the newest version (1:0.4.5-1build3).
+libxcomposite1 set to manually installed.
+libxdamage1 is already the newest version (1:1.1.6-1build1).
+libxdamage1 set to manually installed.
+libxext6 is already the newest version (2:1.3.4-1build2).
+libxext6 set to manually installed.
+libxfixes3 is already the newest version (1:6.0.0-2build1).
+libxfixes3 set to manually installed.
+libxkbcommon0 is already the newest version (1.6.0-1build1).
+libxkbcommon0 set to manually installed.
+libxrandr2 is already the newest version (2:1.5.2-2build1).
+libxrandr2 set to manually installed.
+xvfb is already the newest version (2:21.1.12-1ubuntu1.9).
+fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+libfontconfig1 set to manually installed.
+libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.2).
+libfreetype6 set to manually installed.
+fonts-liberation is already the newest version (1:2.1.5-3).
+fonts-liberation set to manually installed.
+The following additional packages will be installed:
+  libgl1-mesa-dri libglx-mesa0 mesa-libgallium xfonts-encodings xfonts-utils
+Recommended packages:
+  fonts-ipafont-mincho fonts-tlwg-loma
+The following NEW packages will be installed:
+  fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+  fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+  xfonts-utils
+The following packages will be upgraded:
+  libgbm1 libgl1-mesa-dri libglx-mesa0 mesa-libgallium
+4 upgraded, 9 newly installed, 0 to remove and 64 not upgraded.
+Need to get 32.1 MB of archives.
+After this operation, 79.7 MB of additional disk space will be used.
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgl1-mesa-dri amd64 25.2.8-0ubuntu0.24.04.5 [38.0 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglx-mesa0 amd64 25.2.8-0ubuntu0.24.04.5 [110 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libgbm1 amd64 25.2.8-0ubuntu0.24.04.5 [34.2 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 mesa-libgallium amd64 25.2.8-0ubuntu0.24.04.5 [10.8 MB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+Get:14 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+Fetched 32.1 MB in 1s (36.1 MB/s)
+Selecting previously unselected package fonts-ipafont-gothic.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 217092 files and directories currently installed.)
+Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+Selecting previously unselected package fonts-freefont-ttf.
+Preparing to unpack .../01-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+Selecting previously unselected package fonts-tlwg-loma-otf.
+Preparing to unpack .../02-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+Selecting previously unselected package fonts-unifont.
+Preparing to unpack .../03-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+Unpacking fonts-unifont (1:15.1.01-1build1) ...
+Selecting previously unselected package fonts-wqy-zenhei.
+Preparing to unpack .../04-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+Preparing to unpack .../05-libgl1-mesa-dri_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../06-libglx-mesa0_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../07-libgbm1_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Preparing to unpack .../08-mesa-libgallium_25.2.8-0ubuntu0.24.04.5_amd64.deb ...
+Unpacking mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) over (25.2.8-0ubuntu0.24.04.4) ...
+Selecting previously unselected package xfonts-encodings.
+Preparing to unpack .../09-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+Selecting previously unselected package xfonts-utils.
+Preparing to unpack .../10-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+Unpacking xfonts-utils (1:7.7+6build3) ...
+Selecting previously unselected package xfonts-cyrillic.
+Preparing to unpack .../11-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+Selecting previously unselected package xfonts-scalable.
+Preparing to unpack .../12-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+Setting up mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up libgbm1:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up fonts-wqy-zenhei (0.9.45-8) ...
+Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+Setting up fonts-unifont (1:15.1.01-1build1) ...
+Setting up libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.5) ...
+Setting up xfonts-utils (1:7.7+6build3) ...
+Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+Setting up xfonts-scalable (1:1.0.3-1.3) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.12) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Not building database; man-db/auto-update is not 'true'.
+Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+Running kernel seems to be up-to-date.
+No services need to be restarted.
+No containers need to be restarted.
+No user sessions are running outdated binaries.
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+Downloading Chrome for Testing 153.0.8010.12 (playwright chromium v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-linux64.zip
+|                                                                                |   0% of 186.8 MiB
+|■■■■■■■■                                                                        |  10% of 186.8 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 186.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 186.8 MiB
+Chrome for Testing 153.0.8010.12 (playwright chromium v1243) downloaded to /home/runner/work/_temp/pw-browsers/chromium-1243
+Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+|                                                                                |   0% of 2.3 MiB
+|■■■■■■■■                                                                        |  10% of 2.3 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/work/_temp/pw-browsers/ffmpeg-1011
+Downloading Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) from https://cdn.playwright.dev/builds/cft/153.0.8010.12/linux64/chrome-headless-shell-linux64.zip
+|                                                                                |   0% of 114.3 MiB
+|■■■■■■■■                                                                        |  10% of 114.3 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.3 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.3 MiB
+Chrome Headless Shell 153.0.8010.12 (playwright chromium-headless-shell v1243) downloaded to /home/runner/work/_temp/pw-browsers/chromium_headless_shell-1243
+node v22.23.4, npm 10.9.9, python Python 3.13.18
+numpy==2.5.3
+openpyxl==3.1.5
+pandas==3.0.5
+python-dateutil==2.9.0.post0
+six==1.17.0
+playwright 1.63.0
+chromium-1243
+chromium_headless_shell-1243
+ffmpeg-1011
+##[group]Run set +e
+set +e
+NODE_PATH="$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --fast --log "$D/fast.log" > "$D/fast-summary.txt" 2>&1
+echo "fast exit: $?" | tee -a "$D/meta.txt"; cat "$D/fast-summary.txt"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+fast exit: 0
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 41 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Tests: 40 passed (+ pre-flight PASS), of 40 tests. The PASS figure above includes the pre-flight row, which is not a test.
+Scope: FAST (40 tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has 61 tests) + pre-flight
+Checks counted in this run (first zone of each test): 5138
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      12                12       
+PASS     check-protection            1      453               453      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              1      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            1      23                23       
+PASS     empty-text                  1      46                46       
+PASS     shortage-delay              1      19                19       
+PASS     scrap-rules                 1      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              1      8                 8        
+PASS     stage3-quality              1      28                28       
+PASS     stage3-round2               1      35                35       
+PASS     characterisation-lead-time  1      28                28       
+PASS     test-a1-sync-path           1      76                76       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     x1-foundation               1      40                40       
+PASS     x1-containment              1      41                41       
+PASS     x1-wp5                      1      56                56       
+PASS     x1-completion               1      48                48       
+PASS     x1-material-integrity       1      42                42       
+PASS     x1-acceptance-wording       1      12                12       
+PASS     tag6-changes                1      30                30       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+##[group]Run set +e
+set +e
+NODE_PATH="$RUNNER_TEMP/pw/node_modules:$RUNNER_TEMP/testdeps/node_modules" bash "$APP/tests/run-all.sh" --full --log "$D/full.log" > "$D/full-summary.txt" 2>&1
+echo "full exit: $?" | tee -a "$D/meta.txt"; cat "$D/full-summary.txt"
+echo "finished: $(date -u +%FT%TZ)" >> "$D/meta.txt"
+{
+  echo "## Candidate verification: \`$CANDIDATE_SHA\`"; echo
+  echo "Guard (Tag-6 check-control) exit: **$GUARD_RC**"; echo
+  echo "### Fast tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/fast-summary.txt" | cut -c1-170; echo '```'
+  echo "### Full tier"; echo '```'; grep -E '^(EXIT|PASS:)|^(FAIL|ERROR|BLOCKED|REDUCED) ' "$D/full-summary.txt" | cut -c1-170; echo '```'
+} >> "$GITHUB_STEP_SUMMARY"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+full exit: 0
+v0.7 tests (FULL) - green means no NEW failures, NOT full coverage
+PASS: 56 | FAIL: 0 | BLOCKED: 4 | REDUCED: 2 | ERROR: 0
+Tests: 55 passed (+ pre-flight PASS), of 61 tests. The PASS figure above includes the pre-flight row, which is not a test.
+Scope: FULL (61 tests, all time zones, full 1,000-call wrapper) + pre-flight
+Checks counted in this run (first zone of each test): 6108
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1, python 3.13.18, py:pandas 3.0.5, py:openpyxl 3.1.5, py:numpy 2.5.3, py:python-dateutil 2.9.0.post0, py:et-xmlfile 2.0.0, py:six 1.17.0
+Not running: 122 checks in REDUCED tests; 4 BLOCKED tests
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+BLOCKED  test-fglt-note              2      -                 -        D5 #1: needs the Phase 2 source tree (historical zip). [missing /mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2/js/app.js]
+BLOCKED  test-forecast-conf          2      -                 -        D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3. [missing /home/claude/p3tree.txt]
+BLOCKED  test-supplier-eligibility   2      -                 -        D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). [missing /home/claude/p3tree.txt]
+BLOCKED  phase2-comparison           1      -                 -        D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub. [git tag v0.6-candidate-4-phase2 not present]
+REDUCED  test-phase1                 2      57 (full 125)     57       runs 57 of 125 (68 missing). Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running.
+REDUCED  test-uom                    2      110 (full 164)    110      runs 110 of 164 (54 missing). Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running.
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      12                12       
+PASS     check-protection            1      453               453      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              2      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            2      23                23       
+PASS     empty-text                  2      46                46       
+PASS     shortage-delay              2      19                19       
+PASS     scrap-rules                 2      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              2      8                 8        
+PASS     stage3-quality              2      28                28       
+PASS     stage3-round2               2      35                35       
+PASS     characterisation-lead-time  5      28                28       
+PASS     test-a1-sync-path           2      76                76       
+PASS     test-a1-state               2      10                10       
+PASS     test-a1-escaping            2      46                46       
+PASS     x1-foundation               5      40                40       
+PASS     x1-containment              5      41                41       
+PASS     browser-x1-chrome           1      334               334      
+PASS     x1-wp5                      5      56                56       
+PASS     x1-completion               5      48                48       
+PASS     x1-material-integrity       5      42                42       
+PASS     x1-acceptance-wording       5      12                12       
+PASS     tag6-changes                5      30                30       
+PASS     test-a1-wrapper             2      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       2      118               118      
+PASS     test8                       2      47                47       
+PASS     test9                       2      57                57       
+PASS     domtest                     2      30                30       
+PASS     domtest2                    2      18                18       
+PASS     test-failed-import          2      18                18       
+PASS     test-export-nohistory       2      19                19       
+PASS     test-timezones              2      15                15       
+PASS     test-po-edge                2      35                35       
+PASS     test-structure              2      34                34       
+PASS     test-paging                 2      23                23       
+PASS     test-fillcap                2      276               276      
+PASS     test-export-repeat          2      24                24       
+PASS     test-cache                  2      15                15       
+PASS     test-blank-qty              2      19                19       
+PASS     test-missing-values         2      63                63       
+PASS     test-na-constraints         2      88                88       
+PASS     test-paging-chrome          1      -                 59       
+         WARNING: documented blocker is no longer present: running the test; update accepted-results.json and the records
+PASS     python-verifier             1      17                17       
+PASS     scenarios                   1      16                16       
+PASS     browser-chrome              1      53                53       
+EXIT 0: no FAIL and no ERROR. Accepted limitations remain (4 BLOCKED, 2 REDUCED) and are listed above: this is NOT full coverage.
+##[group]Run actions/upload-artifact@v4
+with:
+  name: candidate-evidence-cand-45027521135-1
+  path: /home/runner/work/_temp/evidence/cand-45027521135-1
+igence-engine/tests/logs/
+  retention-days: 90
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+(node:6477) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Multiple search paths detected. Calculating the least common ancestor of all paths
+The least common ancestor is /home/runner/work. This will be the root directory of the artifact
+With the provided path, there will be 1340 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:6477) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 8388608
+Uploaded bytes 16777216
+Uploaded bytes 25165824
+Uploaded bytes 33554432
+Uploaded bytes 41943040
+Uploaded bytes 45173598
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is 57e46cab5ae5ff1b58331e3e69d64b4688e27389dfca6f86921328f7db33f1c8
+Finalizing artifact upload
+Artifact candidate-evidence-cand-45027521135-1.zip successfully finalized. Artifact ID 14756678212
+Artifact candidate-evidence-cand-45027521135-1 has been successfully uploaded! Final size is 45173598 bytes. Artifact ID is 14756678212
+Artifact download URL: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/45027521135/artifacts/14756678212
+##[group]Run cat "$D/meta.txt"
+cat "$D/meta.txt"
+grep -q "^fast exit: 0$" "$D/meta.txt" && grep -q "^full exit: 0$" "$D/meta.txt" && [ "$GUARD_RC" = 0 ]
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  CANDIDATE_SHA: ffb770f63f3d9591862c3a239954c3d19fb704eb
+  RUN_ID: cand-45027521135-1
+  D: /home/runner/work/_temp/evidence/cand-45027521135-1
+  GUARD_RC: 0
+  pythonLocation: /opt/hostedtoolcache/Python/3.13.18/x64
+  PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib/pkgconfig
+  Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.13.18/x64
+  LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.13.18/x64/lib
+  PLAYWRIGHT_BROWSERS_PATH: /home/runner/work/_temp/pw-browsers
+##[endgroup]
+run id: cand-45027521135-1
+workflow file commit (GITHUB_SHA): b4f2ff2e2d88be51e6db851e3708132c37f6f9cd
+tested commit (HEAD): ffb770f63f3d9591862c3a239954c3d19fb704eb
+expected candidate:   ffb770f63f3d9591862c3a239954c3d19fb704eb
+app tree hash: e8e244f93ffd87d37d203828178f5ac3ab00f63a
+workflow run: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/45027521135
+started: 2026-11-22T13:26:51Z
+guard exit: 0
+fast exit: 0
+full exit: 0
+finished: 2026-11-22T13:49:27Z
+Post job cleanup.
+(node:6493) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Post job cleanup.
+(node:6501) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Post job cleanup.
+[command]/usr/bin/git version
+git version 2.56.1
+Temporarily overriding HOME='/home/runner/work/_temp/e91ecff5-e4f5-4d9d-84c0-15edda87d3b0' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
