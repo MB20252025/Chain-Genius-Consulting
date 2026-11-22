@@ -63,5 +63,15 @@ const CGEngine=(()=>{
     }
   }
 
-  return Object.freeze({runEngine,isBusy:()=>busy,version:'v0.7-a1'});
+  // current() (Stage 3B Phase 0, 22 Nov 2026): the results ALREADY calculated for the screen, for the view layer
+  //   (js/views/contract.js). It runs no calculation and changes nothing. Unlike runEngine() the objects are not frozen,
+  //   because app.js still memoises into R; the view layer only reads them, and tests/test-view-contract.js proves that.
+  //   Returns {result, settings (a frozen copy of CFG), settingDefs, mrp, feas, forecasts, forecastCredibility,
+  //   clientQuestions, confidence, x1Sum (the X1/D4 partial-total helper)}.
+  function current(){
+    if(typeof R==='undefined'||!R||!R.fg)throw fail('NO_RESULT','no analysis has been run');
+    return Object.freeze({result:R,settings:Object.freeze(Object.assign({},CFG)),settingDefs:SETDEF,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas(),x1Sum:x1Sum});
+  }
+
+  return Object.freeze({runEngine,current,isBusy:()=>busy,version:'v0.7-a1'});
 })();

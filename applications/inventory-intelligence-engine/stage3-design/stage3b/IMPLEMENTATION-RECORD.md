@@ -51,3 +51,19 @@ This record is added to phase by phase and never rewritten.
 **Limitations and deferred items:**
 - Forecast-chart labels are "+1 month … +12 months". Calendar labels need date arithmetic, which the view layer may not do. Phase 4 will take them from an engine-provided label list.
 - The Summary's prioritised recommendation list stays in the Summary tab until Phase 5. Phase 0 exposes the figures it is built from.
+
+### Phase 0 defect found by the full tier, and its correction (22 Nov 2026)
+
+**First full tier on `7090385`:** 59 tests passed (+ pre-flight) of 66, with **1 FAIL**.
+- The failure was `test-a1-static`: "`js/views/contract.js` does not touch CFG, R or WB".
+- The Universal Import rule (A1) allows only the engine files to touch the shared state. `CGVM.source()` read `R` and `CFG` directly, so the rule was correctly broken.
+
+**Correction (next commit):**
+- A new read-only accessor, `CGEngine.current()`, in `js/engine/engine-api.js`. It hands the view layer the results already calculated, with no new calculation and no recalculation.
+- `CGVM.source()` now reads engine state only through it. The A1 rule is unchanged.
+
+Two accepted counts rise as a consequence. Both are genuine growth and PENDING, and nothing was weakened:
+- `test-a1-static`, 30 → 32: one rule-2 check per new `js/` file, as its existing note prescribes.
+- `test-a1-sync-path`, 76 → 78: `current()` brings `SETDEF` and `x1Sum` onto the checked engine path, and both are verified synchronous.
+
+`CGEngine.version` stays `v0.7-a1`, which two tests require. The engine-API tests still pass at their counts: `test-a1-wrapper-quick` 117, `test-a1-state` 10, `test-a1-sync-path` 78.

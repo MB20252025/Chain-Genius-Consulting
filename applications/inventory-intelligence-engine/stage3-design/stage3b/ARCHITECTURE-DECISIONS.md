@@ -46,3 +46,7 @@ The owner approved these on 22 Nov 2026, 20:39, in "Chain Genius SCIE — Formal
   - This is the owner's Stage 3B test-architecture rule.
   - All Stage 3B tests test current behaviour only.
   - A missing historical comparison can never block them.
+
+- **AD-1 amendment (22 Nov 2026, after the first Phase 0 full tier): engine access goes through the engine API.**
+  - The view layer may not touch `CFG`, `R` or `WB` (`tests/test-a1-static.js`, rule 2).
+  - `CGVM.source()` therefore calls `CGEngine.current()` (new, read-only, no recalculation) instead of reading the globals.

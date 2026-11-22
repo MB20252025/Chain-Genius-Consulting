@@ -13,7 +13,7 @@ const UI_FILES = fs.existsSync(path.join(APP, 'js', 'ui')) ? fs.readdirSync(path
 const ORDER_VIEWS = ['contract.js', 'areas.js'].map(f => 'views/' + f).concat(VIEW_FILES.filter(f => !/\/(contract|areas)\.js$/.test(f)));
 
 function load() {
-  const src = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js'].concat(ORDER_VIEWS).map(js).join('\n'), A = {};
+  const src = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js', 'engine/engine-api.js'].concat(ORDER_VIEWS).map(js).join('\n'), A = {};
   new Function('XLSX', 'document', 'out', src + `;out.go=(wb)=>{WB=wb;CFG.pol=0;R=analyse();CFG.pol=1;try{R.alt=analyse()}finally{CFG.pol=0}const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}link();return R};
     out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;`)(XLSX, document, A);
   return A;

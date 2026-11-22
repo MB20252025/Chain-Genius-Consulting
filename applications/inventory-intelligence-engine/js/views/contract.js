@@ -32,16 +32,19 @@
   const UNITS = ['£', 'units', 'days', '%', 'items', 'orders', 'suppliers', 'issues', 'questions', 'score', 'units/month', 'text'];
   const isNum = v => typeof v === 'number' && isFinite(v);
 
-  /* Engine access point: the ONLY place the view layer reads engine state. Everything comes from functions the
-   * existing application already uses to draw its 17 tabs, so new screens and the Advanced view share one source. */
+  /* Engine access point: the ONLY place the view layer reads engine state. It goes through the engine's own API
+   * (CGEngine.current() in js/engine/engine-api.js), because only the engine files may touch CFG, R or WB
+   * (tests/test-a1-static.js). current() hands over exactly what the existing 17 tabs already use, without re-running
+   * the analysis, so the new screens and the Advanced view share one result and no calculation is duplicated. */
   function source() {
+    const c = CGEngine.current(), cred = c.forecastCredibility, fc = c.forecasts, fg = c.result.fg;
     return Object.freeze({
-      R: R, CFG: CFG, SETDEF: SETDEF,
-      mrp: mrp(), feas: feas(), fc: fcAll(), cred: R.hasF ? fcCredAll() : null,
-      qs: qs(), conf: confAreas(), x1Sum: x1Sum,
+      R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
+      mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
+      qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum,
       /* the same keyed results as rows (id first), so tables can list them; the objects themselves are not altered */
-      credRows: R.hasF ? R.fg.filter(x => fcCredAll()[x.id]).map(x => ({ id: x.id, c: fcCredAll()[x.id] })) : [],
-      fcRows: R.fg.filter(x => fcAll()[x.id]).map(x => ({ id: x.id, f: fcAll()[x.id] }))
+      credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id] })) : [],
+      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] }))
     });
   }
 
