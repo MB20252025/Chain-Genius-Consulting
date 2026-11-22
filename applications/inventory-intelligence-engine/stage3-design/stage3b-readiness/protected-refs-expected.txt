@@ -1,0 +1,13 @@
+# Protected references that must not change (full commit hashes), recorded 22 Nov 2026 at the Stage 3B readiness start.
+# Format: <full sha> <ref>. development/v0.7 is NOT listed: it is expected to advance; the script checks its ancestry instead.
+8117c72f9bdb846fceff11a63a03218f01df5082 refs/tags/v0.6
+eb3111f5d25f02678db02b35e9cf4e9ab0e23a73 refs/tags/v0.7-tests-approved-1
+0e461a629d0aa631c92ca6682958071cdf8388e6 refs/tags/v0.7-tests-approved-2
+9eb578b79f0434ede6bef5b766067669c42beb06 refs/tags/v0.7-tests-approved-3
+5f18335ff66cb151760abf495cf82920f7b290b3 refs/tags/v0.7-tests-approved-4
+f0e81bb30521a4e798005b0a51b4a531b807441e refs/tags/v0.7-tests-approved-5
+e65600cf7b74f7f25ec73ec24ef9fae1d648c619 refs/tags/v0.7-tests-approved-6
+8117c72f9bdb846fceff11a63a03218f01df5082 refs/heads/main
+8117c72f9bdb846fceff11a63a03218f01df5082 refs/heads/release/v0.6
+a4e05e8833c6a55987cef8cab5ab38119cb19719 refs/heads/x1/accepted-20261121
+0d71aabb77b788dc5dfcb8f7e2d7970b7e2e8600 refs/heads/recovery/stage3-unaccepted-20261116-19

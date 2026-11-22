@@ -1,0 +1,22 @@
+Checking commit 6b732549824d09c93aa6c9937b73fa0227df8785
+--- 1. Protected references on GitHub
+PASS: refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/tags/v0.7-tests-approved-1 = eb3111f5d25f02678db02b35e9cf4e9ab0e23a73
+PASS: refs/tags/v0.7-tests-approved-2 = 0e461a629d0aa631c92ca6682958071cdf8388e6
+PASS: refs/tags/v0.7-tests-approved-3 = 9eb578b79f0434ede6bef5b766067669c42beb06
+PASS: refs/tags/v0.7-tests-approved-4 = 5f18335ff66cb151760abf495cf82920f7b290b3
+PASS: refs/tags/v0.7-tests-approved-5 = f0e81bb30521a4e798005b0a51b4a531b807441e
+PASS: refs/tags/v0.7-tests-approved-6 = e65600cf7b74f7f25ec73ec24ef9fae1d648c619
+PASS: refs/heads/main = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/heads/x1/accepted-20261121 = a4e05e8833c6a55987cef8cab5ab38119cb19719
+PASS: refs/heads/recovery/stage3-unaccepted-20261116-19 = 0d71aabb77b788dc5dfcb8f7e2d7970b7e2e8600
+--- 2. Accepted history is preserved
+PASS: eddf09b is in the history of the checked commit
+PASS: a4e05e8 is in the history of the checked commit
+PASS: e65600c is in the history of the checked commit
+--- 3. Files protected at Tag-6 are unchanged
+PASS: all 450 files protected at Tag-6 have their Tag-6 SHA-256
+--- 4. Protected files added after Tag-6 (allowed growth, awaiting the next baseline tag)
+--- Summary: 15 passed, 0 failed
+RESULT: ALL PROTECTION CHECKS PASSED

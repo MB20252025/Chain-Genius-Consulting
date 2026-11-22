@@ -37,3 +37,13 @@ No time is to be spent recovering the unavailable material unless one of these h
 - `stage3-design/tag6/OUTSTANDING-ROADMAP.md` item HIST
 - this file
 - the runner's output, in every full tier
+
+## Amendment, 22 Nov 2026 (Claude, Stage 3B readiness authorisation, section 3)
+
+The sections above are unchanged. Final disposition, replacement checks and the search record are in `stage3-design/stage3b-readiness/HISTORICAL-TESTS-DISPOSITION.md`.
+
+In short:
+- Reconstruction failed.
+- The comparison parts are technically retired.
+- 307 original current-behaviour checks are restored for H1–H3, and 9 new checks are added.
+- The registry entries stay as they are until the owner decides at the next baseline tag.

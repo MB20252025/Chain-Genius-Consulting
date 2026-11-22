@@ -47,6 +47,19 @@ Verified facts are marked (V); things not tested are marked (NT).
     - H6 `test-uom`: REDUCED, 110 of 164 checks. Missing: the tag `v0.6-candidate-4-phase1-final`, needed for the comparison
       with Phase 1 final.
     They can be revisited if the material becomes available or the owner makes a separate decision.
+    *(Amendment, 22 Nov 2026, Claude, Stage 3B readiness authorisation; original text above unchanged.)*
+    - **Final disposition:** reconstruction failed. Searches covered the four recorded commits, all branches and tags, all of
+      git history, the session filesystem and the uploads folder; the only zip found is the v0.5 original, whose hash
+      matches none of the four. The historical-comparison parts of H1–H6 are technically retired from the active
+      process, with their original 9 Nov pass evidence kept.
+    - **Correction:** the statement above that "golden and confidence snapshots now cover the same ground" was incomplete.
+      Three current behaviours were in fact untested in v0.7: the finished-goods production-time caveat (H1), the MAD = 0
+      note (H2) and supplier-eligibility sections A–J (H3).
+    - **Restored and added:** 307 original checks restored and 9 new checks added, in `test-h1-fglt-note-current`,
+      `test-h2-forecast-conf-current`, `test-h2-level-shift-spec` and `test-h3-supplier-eligibility-current` (PENDING the
+      next baseline tag).
+    - **Registry:** the six entries stay unchanged until the owner decides at the next tag.
+    - **Details:** `stage3-design/stage3b-readiness/HISTORICAL-TESTS-DISPOSITION.md`.
 20. **Lead time, currency and display precision.** Raw-material lead time is Materials.Lead_Time_Days plus the
     default supplier's average lateness (received − promised, over lines received and ordered by the snapshot date,
     added only if positive). When no lead time is stated, the fallback order is: the supplier's standard lead time,
