@@ -1,0 +1,17 @@
+{"wb":"edge/scenario-combined.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-dupexact.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-dupkey.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-multiline.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-overrec.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-overshort.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-partial.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-posupconflict.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"edge/scenario-splitline.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"structure/scenario-willow.xlsx","items":36,"listedDead":22,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-allfuture.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-nohist.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-nopo.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-s0.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-three.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}
+{"wb":"suppliers/scenario-unknown.xlsx","items":150,"listedDead":32,"fullyAllocNoDem":[],"unkAlloc":[],"usableCol":0,"uaGtOh":[],"ohGtUa":0,"R2ASSUME":[],"negOh":[],"abcNotAssessed":0}

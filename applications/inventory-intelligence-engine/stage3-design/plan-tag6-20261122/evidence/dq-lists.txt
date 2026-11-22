@@ -1,0 +1,28 @@
+== Chain_Genius_Project_001_Northstar_Dataset_1.xlsx 5 warnings
+   Medium | Products | Selling price below standard cost (check pricing or cost data) | 
+   Low | BOM | 131 BOM lines use fractional quantities of materials measured in 'each' | 
+   Medium | Purchase Orders | Received date after inventory snapshot date but status Received | 
+   Low | Purchase Orders | 12 POs received short | 
+   High | Inventory vs POs | A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is | 
+== ns-x1-faults.xlsx 8 warnings
+   Medium | Inventory | Missing values in On_Hand_Qty | 
+   Medium | Inventory | Missing values in Unit_Cost_GBP | 
+   High | Inventory | Non-numeric or non-finite values in numeric columns (Allocated_Qty): the results that use them are unreliable. | 
+   Medium | Products | Selling price below standard cost (check pricing or cost data) | 
+   Low | BOM | 131 BOM lines use fractional quantities of materials measured in 'each' | 
+   Medium | Purchase Orders | Received date after inventory snapshot date but status Received | 
+   Low | Purchase Orders | 12 POs received short | 
+   High | Inventory vs POs | A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is | 
+== scenario-willow.xlsx 12 warnings
+   Medium | Inventory | Column Notes contains no values (every cell in the column is empty) | 
+   Medium | Purchase Orders | Missing values in Received_Qty | 
+   Medium | Purchase Orders | Missing values in Received_Date | 
+   Medium | BOM | Materials not used in any BOM | 
+   Medium | Products | Selling price below standard cost (check pricing or cost data) | 
+   Low | BOM | 18 BOM lines use fractional quantities of materials measured in 'each' | 
+   Medium | Materials | Material lead time differs from supplier standard | 
+   Low | Purchase Orders | 11 POs received short | 
+   Medium | Production Orders | Completed quantity exceeds planned quantity (over-production, or a keying error): please check | 
+   High | Inventory vs POs | A reconciliation difference was detected between two source records: inventory On_Order_Qty (raw materials) is | 
+   Medium | Demand History | SKUs with missing months | 
+   Medium | Inventory | Stock held with no demand | 
