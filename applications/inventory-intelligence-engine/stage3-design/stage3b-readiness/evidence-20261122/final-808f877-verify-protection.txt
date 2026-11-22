@@ -1,0 +1,27 @@
+Checking commit 808f877ae178a0dc62c8f8b098868a2e3e148f05
+--- 1. Protected references on GitHub
+PASS: refs/tags/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/tags/v0.7-tests-approved-1 = eb3111f5d25f02678db02b35e9cf4e9ab0e23a73
+PASS: refs/tags/v0.7-tests-approved-2 = 0e461a629d0aa631c92ca6682958071cdf8388e6
+PASS: refs/tags/v0.7-tests-approved-3 = 9eb578b79f0434ede6bef5b766067669c42beb06
+PASS: refs/tags/v0.7-tests-approved-4 = 5f18335ff66cb151760abf495cf82920f7b290b3
+PASS: refs/tags/v0.7-tests-approved-5 = f0e81bb30521a4e798005b0a51b4a531b807441e
+PASS: refs/tags/v0.7-tests-approved-6 = e65600cf7b74f7f25ec73ec24ef9fae1d648c619
+PASS: refs/heads/main = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/heads/release/v0.6 = 8117c72f9bdb846fceff11a63a03218f01df5082
+PASS: refs/heads/x1/accepted-20261121 = a4e05e8833c6a55987cef8cab5ab38119cb19719
+PASS: refs/heads/recovery/stage3-unaccepted-20261116-19 = 0d71aabb77b788dc5dfcb8f7e2d7970b7e2e8600
+--- 2. Accepted history is preserved
+PASS: eddf09b is in the history of the checked commit
+PASS: a4e05e8 is in the history of the checked commit
+PASS: e65600c is in the history of the checked commit
+--- 3. Files protected at Tag-6 are unchanged
+PASS: all 450 files protected at Tag-6 have their Tag-6 SHA-256
+--- 4. Protected files added after Tag-6 (allowed growth, awaiting the next baseline tag)
+  added: file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test-h3-supplier-eligibility-current.js
+  added: file 2c87c19cb92eed1ff04b0e67e94bd86ca403518e3488473ee9432638d1a5a0ac tests/test-h1-fglt-note-current.js
+  added: file 359c90f9e176aca61ecc67c1ff603a62cff4c51becc919f613804130e04111d3 tests/historical-subset.js
+  added: file ad8affac018b0cf83306516f8f047b6117e9d3c257953b8bf1a79477a4e4ee43 tests/test-h2-level-shift-spec.js
+  added: file b5efb7eae5711d7a8389f461c60fa9de067396cd77fa52435eb4b558aa562577 tests/test-h2-forecast-conf-current.js
+--- Summary: 15 passed, 0 failed
+RESULT: ALL PROTECTION CHECKS PASSED

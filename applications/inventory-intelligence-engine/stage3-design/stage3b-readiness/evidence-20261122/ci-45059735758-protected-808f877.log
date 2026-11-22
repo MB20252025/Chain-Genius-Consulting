@@ -1,0 +1,354 @@
+6Z Current runner version: '2.338.2'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261111.635
+Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+Build Date: 2026-11-11T01:49:01Z
+Worker ID: {f2f4ba76-5953-4613-8c47-b5e0e228bcfc}
+Region: us-west-2
+Cloud: AWS
+##[endgroup]
+##[group]Operating System
+Ubuntu
+24.04.5
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-24.04
+Version: 20261116.133.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.133/images/ubuntu/Ubuntu2404-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.133
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Contents: read
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: Guard first, then fast tier
+##[group]Run actions/checkout@v4
+with:
+  fetch-depth: 1
+  repository: MB20252025/Chain-Genius-Consulting
+  token: ***
+  ssh-strict: true
+  ssh-user: git
+  persist-credentials: true
+  clean: true
+  sparse-checkout-cone-mode: true
+  fetch-tags: false
+  show-progress: true
+  lfs: false
+  submodules: false
+  set-safe-directory: true
+  allow-unsafe-pr-checkout: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+##[endgroup]
+Syncing repository: MB20252025/Chain-Genius-Consulting
+##[group]Getting Git version info
+Working directory is '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+[command]/usr/bin/git version
+git version 2.56.1
+##[endgroup]
+Temporarily overriding HOME='/home/runner/work/_temp/0f1f851b-0aee-4303-a4d5-d89ade5b0334' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+Deleting the contents of '/home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting'
+##[group]Initializing the repository
+[command]/usr/bin/git init /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/.git/
+[command]/usr/bin/git remote add origin https://github.com/MB20252025/Chain-Genius-Consulting
+##[endgroup]
+##[group]Disabling automatic garbage collection
+[command]/usr/bin/git config --local gc.auto 0
+##[endgroup]
+##[group]Setting up auth
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+[command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+##[endgroup]
+##[group]Fetching the repository
+[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +808f877ae178a0dc62c8f8b098868a2e3e148f05:refs/remotes/origin/development/v0.7
+From https://github.com/MB20252025/Chain-Genius-Consulting
+ * [new ref]         808f877ae178a0dc62c8f8b098868a2e3e148f05 -> origin/development/v0.7
+##[endgroup]
+##[group]Determining the checkout info
+##[endgroup]
+[command]/usr/bin/git sparse-checkout disable
+[command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+##[group]Checking out the ref
+[command]/usr/bin/git checkout --progress --force -B development/v0.7 refs/remotes/origin/development/v0.7
+Switched to a new branch 'development/v0.7'
+branch 'development/v0.7' set up to track 'origin/development/v0.7'.
+##[endgroup]
+[command]/usr/bin/git log -1 --format=%H
+808f877ae178a0dc62c8f8b098868a2e3e148f05
+##[group]Run RUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"
+RUN_ID="ci-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-$(date -u +%Y%m%dT%H%M%SZ)"
+D="$GITHUB_WORKSPACE/$APP/tests/logs/ci/$RUN_ID"; mkdir -p "$D"
+echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"; echo "RUN_DIR=$D" >> "$GITHUB_ENV"
+{ echo "run id: $RUN_ID"; echo "commit: $GITHUB_SHA"; echo "workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"; echo "guard started: $(date -u +%FT%TZ)"; echo "node used for the guard (runner's preinstalled): $(node -v)"; } > "$D/meta.txt"
+set +e
+git fetch --no-tags --depth=1 origin "refs/tags/$TAG:refs/tags/$TAG" > "$D/guard.txt" 2>&1 \
+  && git show "$TAG:$APP/tests/check-control.js" > "$RUNNER_TEMP/approved-check-control.js" 2>> "$D/guard.txt" \
+  && node "$RUNNER_TEMP/approved-check-control.js" --dir "$APP/tests" --tag "$TAG" --remote origin >> "$D/guard.txt" 2>&1
+rc=$?
+set -e
+echo "guard exit: $rc" >> "$D/meta.txt"
+cat "$D/guard.txt"
+{
+  echo "## Step 1: guard (approved check-control.js from tag \`$TAG\`)"
+  if [ "$rc" -eq 0 ]; then echo "**GUARD PASSED.** $(tail -n 1 "$D/guard.txt")"
+  else echo "**GUARD FAILED (exit $rc). The job stopped here: NO tests were run.**"; fi
+  echo; echo '```'; grep -E '^(FAIL|PENDING|ERROR|NO APPROVED|fatal)' "$D/guard.txt" || true; tail -n 1 "$D/guard.txt"; echo '```'
+} >> "$GITHUB_STEP_SUMMARY"
+exit "$rc"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+##[endgroup]
+From https://github.com/MB20252025/Chain-Genius-Consulting
+ * [new tag]         v0.7-tests-approved-6 -> v0.7-tests-approved-6
+PASS: run-all.sh: identical to the approved baseline
+PASS: check-protection.js: identical to the approved baseline
+PASS: check-control.js: identical to the approved baseline
+PASS: test-a1-wrapper-quick.js: identical to the approved baseline
+PASS: package.json: identical to the approved baseline
+PASS: package-lock.json: identical to the approved baseline
+PASS: requirements.txt: identical to the approved baseline
+PASS: summarise-run.js: identical to the approved baseline
+PASS: :/.github/workflows/v07-tests.yml: identical to the approved baseline
+PASS: snapshots/v0.7-confidence-20261112T011814Z.json: identical to the approved baseline
+PENDING: check-protection: accepted count raised 453 -> 458
+PENDING: test-h1-fglt-note-current: new test, accepted 3
+PENDING: test-h2-forecast-conf-current: new test, accepted 5
+PENDING: test-h2-level-shift-spec: new test, accepted 9
+PENDING: test-h3-supplier-eligibility-current: new test, accepted 299
+PASS: accepted-results.json: no weakening against the approved baseline
+PENDING: checksums.txt new protected line: file 359c90f9e176aca61ecc67c1ff603a62cff4c51becc919f613804130e04111d3 tests/historical-subset.js
+PENDING: checksums.txt new protected line: file 2c87c19cb92eed1ff04b0e67e94bd86ca403518e3488473ee9432638d1a5a0ac tests/test-h1-fglt-note-current.js
+PENDING: checksums.txt new protected line: file b5efb7eae5711d7a8389f461c60fa9de067396cd77fa52435eb4b558aa562577 tests/test-h2-forecast-conf-current.js
+PENDING: checksums.txt new protected line: file ad8affac018b0cf83306516f8f047b6117e9d3c257953b8bf1a79477a4e4ee43 tests/test-h2-level-shift-spec.js
+PENDING: checksums.txt new protected line: file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test-h3-supplier-eligibility-current.js
+PASS: checksums.txt: every approved line present
+check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-6 = e65600c)
+##[group]Run actions/setup-node@v4
+with:
+  node-version: 22.23.4
+  always-auth: false
+  check-latest: false
+  token: ***
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  RUN_ID: ci-45059735758-1-20261122T191552Z
+  RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-45059735758-1-20261122T191552Z
+##[endgroup]
+Attempting to download 22.23.4...
+(node:2196) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Acquiring 22.23.4 - x64 from https://github.com/actions/node-versions/releases/download/22.23.4-39619033003/node-22.23.4-linux-x64.tar.gz
+Extracting ...
+[command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/8595574e-88d9-4567-a167-66b86ef23447 -f /home/runner/work/_temp/29192935-70b8-4269-970a-77e05e1f98e6
+Adding to the cache ...
+##[group]Environment details
+node: v22.23.4
+npm: 10.9.9
+yarn: 1.22.22
+##[endgroup]
+##[group]Run mkdir -p "$RUNNER_TEMP/testdeps"
+mkdir -p "$RUNNER_TEMP/testdeps"
+cp "$APP/tests/package.json" "$APP/tests/package-lock.json" "$RUNNER_TEMP/testdeps/"
+(cd "$RUNNER_TEMP/testdeps" && npm ci --no-audit --no-fund)
+echo "NODE_PATH=$RUNNER_TEMP/testdeps/node_modules" >> "$GITHUB_ENV"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  RUN_ID: ci-45059735758-1-20261122T191552Z
+  RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-45059735758-1-20261122T191552Z
+##[endgroup]
+added 86 packages in 2s
+##[group]Run echo "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"
+echo "runner started: $(date -u +%FT%TZ)" >> "$RUN_DIR/meta.txt"
+set +e
+bash "$APP/tests/run-all.sh" --fast --log "$RUN_DIR/run.log" > "$RUN_DIR/summary.txt" 2>&1
+rc=$?
+set -e
+echo "runner exit: $rc" >> "$RUN_DIR/meta.txt"
+cat "$RUN_DIR/summary.txt"
+S="$RUN_DIR/summary.txt"; H="$RUN_DIR/honest-summary.txt"
+# Fix 2: honest summary from tests/summarise-run.js (reads the runner output and accepted-results.json at run time).
+set +e
+node "$APP/tests/summarise-run.js" "$S" --accepted "$APP/tests/accepted-results.json" > "$H" 2>&1
+frc=$?
+set -e
+echo "summariser exit: $frc" >> "$RUN_DIR/meta.txt"
+cat "$H"
+{
+  echo "## Step 4: fast test tier"
+  if [ "$frc" -ne 0 ]; then echo "### SUMMARY UNAVAILABLE (treat as FAILED)"; echo; cat "$H"; echo; fi
+  if grep -q '^FAILED:' "$H"; then echo "### $(grep -m1 '^FAILED:' "$H")"; fi
+  if grep -q -E '^(FAST|FULL):' "$H"; then echo "### $(grep -m1 -E '^(FAST|FULL):' "$H")"; fi
+  grep -E '^(Full tier|Differs|Meaning):' "$H" | sed 's/$/  /' || true
+  echo
+  echo "$(grep -m1 '^Scope: ' "$S")"
+  echo
+  echo "Raw runner line (this fast run only): \`$(grep -m1 '^PASS: ' "$S")\`"
+  echo
+  echo "**$(grep -m1 '^EXIT ' "$S" || echo "runner exit $rc, no EXIT line: see the log")**"
+  echo
+  echo "Non-PASS rows and warnings:"; echo '```'
+  grep -E '^(FAIL|ERROR|BLOCKED|REDUCED) |WARNING:' "$S" | cut -c1-160 || true
+  echo '```'
+  echo "<details><summary>All rows (expected and actual counts)</summary>"; echo; echo '```'
+  sed -n '/^STATUS /,/^$/p' "$S" | cut -c1-120; echo '```'; echo "</details>"
+  echo; echo "Run id \`$RUN_ID\`; full logs are in the artifact \`t2-evidence-$RUN_ID\`."
+} >> "$GITHUB_STEP_SUMMARY"
+if [ "$rc" -ne 0 ]; then exit "$rc"; fi
+exit "$frc"
+shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  RUN_ID: ci-45059735758-1-20261122T191552Z
+  RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-45059735758-1-20261122T191552Z
+  NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+##[endgroup]
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 41 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Tests: 40 passed (+ pre-flight PASS), of 40 tests. The PASS figure above includes the pre-flight row, which is not a test.
+Scope: FAST (40 tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has 65 tests) + pre-flight
+Checks counted in this run (first zone of each test): 5143
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      12                12       
+         WARNING: PENDING: check-protection: accepted count raised 453 -> 458 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-h1-fglt-note-current: new test, accepted 3 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-h2-forecast-conf-current: new test, accepted 5 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-h2-level-shift-spec: new test, accepted 9 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-h3-supplier-eligibility-current: new test, accepted 299 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 359c90f9e176aca61ecc67c1ff603a62cff4c51becc919f613804130e04111d3 tests/historical-subset.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 2c87c19cb92eed1ff04b0e67e94bd86ca403518e3488473ee9432638d1a5a0ac tests/test-h1-fglt-note-current.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file b5efb7eae5711d7a8389f461c60fa9de067396cd77fa52435eb4b558aa562577 tests/test-h2-forecast-conf-current.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ad8affac018b0cf83306516f8f047b6117e9d3c257953b8bf1a79477a4e4ee43 tests/test-h2-level-shift-spec.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test-h3-supplier-eligibility-current.js (needs the owner's approval: move the approved tag)
+PASS     check-protection            1      458               458      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              1      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            1      23                23       
+PASS     empty-text                  1      46                46       
+PASS     shortage-delay              1      19                19       
+PASS     scrap-rules                 1      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              1      8                 8        
+PASS     stage3-quality              1      28                28       
+PASS     stage3-round2               1      35                35       
+PASS     characterisation-lead-time  1      28                28       
+PASS     test-a1-sync-path           1      76                76       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     x1-foundation               1      40                40       
+PASS     x1-containment              1      41                41       
+PASS     x1-wp5                      1      56                56       
+PASS     x1-completion               1      48                48       
+PASS     x1-material-integrity       1      42                42       
+PASS     x1-acceptance-wording       1      12                12       
+PASS     tag6-changes                1      30                30       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+FAST: PASS 41 | FAIL 0 | ERROR 0 · Full tier (recorded in accepted-results.json): BLOCKED 5 | REDUCED 2
+Meaning: no new failures in the fast tier. This is NOT the whole framework: the full tier has 5 BLOCKED and 2 REDUCED tests recorded.
+##[group]Run actions/upload-artifact@v4
+with:
+  name: t2-evidence-ci-45059735758-1-20261122T191552Z
+  path: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-45059735758-1-20261122T191552Z
+  retention-days: 90
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  APP: applications/inventory-intelligence-engine
+  TAG: v0.7-tests-approved-6
+  RUN_ID: ci-45059735758-1-20261122T191552Z
+  RUN_DIR: /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting/applications/inventory-intelligence-engine/tests/logs/ci/ci-45059735758-1-20261122T191552Z
+  NODE_PATH: /home/runner/work/_temp/testdeps/node_modules
+##[endgroup]
+(node:3220) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+With the provided path, there will be 5 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:3220) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 54034
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is 94321fc16d06f01c4a6f7595b7a5b5673817c5c4408dda17308f121a49de740a
+Finalizing artifact upload
+Artifact t2-evidence-ci-45059735758-1-20261122T191552Z.zip successfully finalized. Artifact ID 14769351673
+Artifact t2-evidence-ci-45059735758-1-20261122T191552Z has been successfully uploaded! Final size is 54034 bytes. Artifact ID is 14769351673
+Artifact download URL: https://github.com/MB20252025/Chain-Genius-Consulting/actions/runs/45059735758/artifacts/14769351673
+Post job cleanup.
+(node:3232) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Post job cleanup.
+[command]/usr/bin/git version
+git version 2.56.1
+Temporarily overriding HOME='/home/runner/work/_temp/f0de1757-ff7b-468e-8b8e-c5009aa7d2b6' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/Chain-Genius-Consulting/Chain-Genius-Consulting
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
