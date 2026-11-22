@@ -10,6 +10,8 @@
  *   B1   dead-stock view: Uncommitted column (blank when the allocation is unknown); export adds Usable and Uncommitted
  *   B2   ABC note "based on N of M items" only when an item is Not Assessed
  *   E-9  the recorded-ZERO-demand path of the dead-stock rule (the Round 2 tests remove demand rows, i.e. unknown demand)
+ *   r4 defect A  every export sheet writes an unknown as an EMPTY cell (never NaN, never 0); finite values unchanged
+ *   r4 defect B  the demand chart draws history by calendar month, an unknown month as a gap (never 0, never NaN), a recorded 0 at 0
  *   and "unchanged elsewhere": classes and warnings on clean Northstar, Willow and faulty Northstar are exactly those of the
  *   parent candidate 43b6b55 (values recorded from a run of 43b6b55, 22 Nov 2026).
  * Expected outcomes come from the approved rules, not from reading the code. Engine-level; workbooks are edited in memory.
@@ -28,7 +30,8 @@ const ctx = vm.createContext({ TextDecoder, Uint8Array, Buffer, console, documen
 vm.runInContext(read('assets/xlsx.mini.min.js'), ctx);
 vm.runInContext(['validation/x1-integrity', 'calculations', 'forecasting', 'app', 'excel-import', 'engine/engine-api'].map(n => read('js/' + n + '.js')).join('\n') +
   ';globalThis.__E=CGEngine;globalThis.__view=(r,v)=>{const k=R;R=r;try{return views[v]()}finally{R=k}};' +
-  'globalThis.__export=(r,wb)=>{const k=R,kw=WB,wf=XLSX.writeFile;let out=null;R=r;WB=wb;XLSX.writeFile=w=>{out=w};try{exportWorkbook()}finally{XLSX.writeFile=wf;R=k;WB=kw}return out};', ctx, { filename: 'engine' });
+  'globalThis.__export=(r,wb)=>{const k=R,kw=WB,wf=XLSX.writeFile;let out=null;R=r;WB=wb;XLSX.writeFile=w=>{out=w};try{exportWorkbook()}finally{XLSX.writeFile=wf;R=k;WB=kw}return out};' +
+  'globalThis.__chart=(x,F)=>chart(x,F);globalThis.__fview=(r,id)=>{const k=R;R=r;fsku=id;try{return views["Demand forecast"]()}finally{R=k}};', ctx, { filename: 'engine' });
 const X = ctx.XLSX, E = ctx.__E;
 const FX = path.join(__dirname, 'fixtures'), NSF = path.join(FX, 'northstar', 'Chain_Genius_Project_001_Northstar_Dataset_1.xlsx');
 const FAULTY = path.join(APP, 'stage3-design', 'audit-20261121', 'evidence', 'workbooks', 'ns-x1-faults.xlsx');
@@ -105,6 +108,29 @@ for (const [lab, al, why] of [['blank', undefined, /Allocated_Qty blank/], ['"ab
     () => 'E-9 FG050 recorded zero demand, nothing allocated: demand 0 (known, not unknown), "No recorded demand", uncommitted 10, warned and listed (got m ' + o.x.m + ', "' + o.x.cls + '")'); }
 { const o = zeroDem({ On_Hand_Qty: 10, Allocated_Qty: 4 }), c = cellsOf(rowOf(ctx.__view(o.R, DEAD), 'FG050') || '');
   ok(() => o.x.cls === 'No recorded demand' && o.x.uncomm === 6 && c[2] === '6', () => 'E-9 FG050 recorded zero demand, 4 of 10 allocated: listed with uncommitted 6 (got "' + o.x.cls + '", ' + o.x.uncomm + ', cell ' + c[2] + ')'); }
+
+// ---------- r4 defect A: no NaN/Infinity in any export sheet; unknown -> empty, never 0; legitimate values preserved
+{ const wb = load(FAULTY), R = E.runEngine({ workbook: wb }).result, out = ctx.__export(R, wb);
+  const bad = []; for (const n of out.SheetNames.filter(n => n.startsWith('ENG_'))) X.utils.sheet_to_json(out.Sheets[n], { header: 1 }).forEach((row, i) => row.forEach((v, j) => { if (v === 'NaN' || (typeof v === 'number' && !isFinite(v))) bad.push(n + ' r' + i + ' c' + j); }));
+  ok(() => bad.length === 0, () => 'r4-A faulty Northstar: no NaN or Infinity cell in any of the ' + out.SheetNames.filter(n => n.startsWith('ENG_')).length + ' ENG_ export sheets (got ' + bad.slice(0, 5).join(', ') + ')');
+  const pr = X.utils.sheet_to_json(out.Sheets.ENG_POReconciliation, { raw: true }), g = id => pr.find(r => r.Material === id) || {};
+  ok(() => ['RM005', 'RM017', 'RM042'].every(id => g(id).GapValueGBP === undefined || g(id).GapValueGBP === null) && ['RM005', 'RM017', 'RM042'].every(id => typeof g(id).Gap === 'number'),
+    () => 'r4-A GapValueGBP of the three materials with unknown cost is an EMPTY cell, not 0 or NaN; their Gap quantity is still exported (got ' + JSON.stringify(['RM005', 'RM017', 'RM042'].map(id => [g(id).GapValueGBP, g(id).Gap])) + ')');
+  const rv = Object.fromEntries(R.recon.map(r => [r.id, r.val])), mism = pr.filter(r => typeof rv[r.Material] === 'number' && isFinite(rv[r.Material]) && r.GapValueGBP !== rv[r.Material]);
+  ok(() => mism.length === 0 && pr.filter(r => typeof r.GapValueGBP === 'number').length === R.recon.filter(r => typeof r.val === 'number' && isFinite(r.val)).length,
+    () => 'r4-A every known GapValueGBP is exported exactly as the engine calculated it (' + mism.length + ' mismatches)'); }
+
+// ---------- r4 defect B: demand chart by calendar month; unknown = gap; recorded 0 = 0; no NaN
+{ const R = E.runEngine({ workbook: load(path.join(FX, 'structure', 'scenario-willow.xlsx')) }).result, h = ctx.__fview(R, 'WF-D656');
+  ok(() => !/NaN/.test(h) && /data-chart-gaps="1">1 month of demand history is unknown \(no usable demand record\): shown as a gap in the line, not as zero\./.test(h) && /option value="WF-D656" selected/.test(h),
+    () => 'r4-B Willow WF-D656 (first calendar month unknown): chart has no NaN and says the month is a gap, not zero');
+  const first = (h.match(/stroke="var\(--a\)" stroke-width="2"\s+points="([\d.]+),/) || [])[1];
+  ok(() => first === (34 + 1 * (640 - 68) / (10 + 12 - 1)).toFixed(1), () => 'r4-B WF-D656 history starts at calendar month 2 (x ' + (34 + (640 - 68) / 21).toFixed(1) + '), not shifted to month 1 (got x ' + first + ')'); }
+{ const F = { hi: Array(12).fill(12), lo: Array(12).fill(8), f: Array(12).fill(10) }, x = { id: 'T', h: [10, 0, 7, 9], hc: [10, 0, null, 7, 9], fc: [NaN, NaN, NaN, NaN, NaN] }, svg = ctx.__chart(x, F);
+  const segs = svg.match(/<polyline[^>]*stroke="var\(--a\)"[^>]*points="([^"]*)"/g) || [], Y0 = (230 - 34).toFixed(1);
+  ok(() => !/NaN/.test(svg) && segs.length === 2 && segs[0].includes(',' + Y0 + '"') && !/stroke="var\(--o\)"/.test(svg),
+    () => 'r4-B synthetic history 10, 0, unknown, 7, 9: two segments split at the unknown month, the recorded 0 plotted at the baseline y ' + Y0 + ', an all-unknown forecast series draws nothing, no NaN (got ' + segs.length + ' segments)'); }
+{ const h = ctx.__fview(E.runEngine({ workbook: load(NSF) }).result, 'FG001'); ok(() => !/NaN/.test(h) && !/data-chart-gaps/.test(h), 'r4-B clean Northstar FG001 chart: no NaN and no gap note (every month known)'); }
 
 // ---------- unchanged elsewhere: classes and warnings equal those of the parent candidate 43b6b55
 const sig = R => { const a = [...R.fg, ...R.rm]; return { h: crypto.createHash('sha256').update(a.map(x => x.id + ':' + x.cls).join('|')).digest('hex').slice(0, 16), dq: R.dq.map(d => d.sev + '|' + d.sheet + '|' + d.msg.slice(0, 60)) }; };
