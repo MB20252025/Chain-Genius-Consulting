@@ -484,3 +484,5 @@ file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test
 # X1 acceptance (21 Nov 2026; owner master authorisation "Complete X1 …"; X1-CHANGE-RECORD.md CR-34). Registered prospectively. New: tests/test-x1-acceptance-wording.js (created 21 Nov 2026, CR-33). No approved line changed.
 file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js
 # Tag-6 B1 (22 Nov 2026; owner approval of the Tag-6 change plan, decision B1). Re-hashed in place: tests/test-stage3-round2.js (previous 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980): the three R2-VIEW checks follow the new dead-stock view; originals kept as comments; count unchanged (35). No Tag-5 approved line changed.
+# Tag-6 (22 Nov 2026; owner approval of the Tag-6 change plan; stage3-design/tag6/OWNER-DECISIONS-TAG6.md). New: tests/test-tag6-changes.js. No Tag-5 approved line changed.
+file ea821412b54eee3c16a4a73d1e621695c8f746133981aa12b20808d006dc7e3b tests/test-tag6-changes.js
