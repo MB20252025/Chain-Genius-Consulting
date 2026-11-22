@@ -95,11 +95,21 @@ ok(() => { const a = stk('FG050', 10, 10, 4, 'nodemand').x, b = stk('FG050', 10,
 // ---------- R2-VIEW: four quantities shown separately, in this order, with the values of the item.
 { const s = stk('FG050', -2, 10, 3, 'nodemand'), h = ctx.__view(s.r);
   const heads = (h.match(/<th[^>]*>([^<]*)/g) || []).map(t => t.replace(/<th[^>]*>/, ''));
-  ok(() => ['Physical', 'Allocated', 'Usable', 'Unallocated usable'].every((k, i, a) => heads.indexOf(k) >= 0 && (i === 0 || heads.indexOf(k) === heads.indexOf(a[i - 1]) + 1)) && !heads.includes('Qty'),
-    () => 'R2-VIEW columns Physical, Allocated, Usable, Unallocated usable appear side by side (got: ' + heads.join(', ') + ')');
+// SUPERSEDED (Tag-6 B1, owner approval 22 Nov 2026, Option C): the view now has summary cards, one principal Uncommitted column and a
+// 'Stock detail' column (physical, allocated, usable); negative on-hand is a flag, not a negative £ value. Same item, same three checks.
+// Original checks kept as comments:
+// [original]   ok(() => ['Physical', 'Allocated', 'Usable', 'Unallocated usable'].every((k, i, a) => heads.indexOf(k) >= 0 && (i === 0 || heads.indexOf(k) === heads.indexOf(a[i - 1]) + 1)) && !heads.includes('Qty'),
+// [original]     () => 'R2-VIEW columns Physical, Allocated, Usable, Unallocated usable appear side by side (got: ' + heads.join(', ') + ')');
+// [original]   const row = h.slice(h.indexOf('<td>FG050</td>'), h.indexOf('</tr>', h.indexOf('<td>FG050</td>'))), cells = (row.match(/<td[^>]*>([^<]*)/g) || []).map(t => t.replace(/<td[^>]*>/, ''));
+// [original]   ok(() => cells[2] === '-2' && cells[3] === '3' && cells[4] === '10' && cells[5] === '7', () => 'R2-VIEW FG050 row shows physical -2, allocated 3, usable 10, unallocated usable 7 (got ' + cells.slice(2, 6).join(', ') + ')');
+// [original]   ok(() => /physical stock value/.test(h) && /never treated as excess or obsolete/.test(h), 'R2-VIEW the summary says "physical stock value" and the note explains that allocated stock is never excess or obsolete');
+  ok(() => heads.indexOf('Stock detail') === heads.indexOf('Uncommitted') + 1 && heads.indexOf('Uncommitted') > 0 && !heads.includes('Qty') && !heads.includes('Physical'),
+    () => 'R2-VIEW (Tag-6 B1) one principal Uncommitted column followed by Stock detail (got: ' + heads.join(', ') + ')');
   const row = h.slice(h.indexOf('<td>FG050</td>'), h.indexOf('</tr>', h.indexOf('<td>FG050</td>'))), cells = (row.match(/<td[^>]*>([^<]*)/g) || []).map(t => t.replace(/<td[^>]*>/, ''));
-  ok(() => cells[2] === '-2' && cells[3] === '3' && cells[4] === '10' && cells[5] === '7', () => 'R2-VIEW FG050 row shows physical -2, allocated 3, usable 10, unallocated usable 7 (got ' + cells.slice(2, 6).join(', ') + ')');
-  ok(() => /physical stock value/.test(h) && /never treated as excess or obsolete/.test(h), 'R2-VIEW the summary says "physical stock value" and the note explains that allocated stock is never excess or obsolete'); }
+  ok(() => cells[2] === '7' && cells[3] === 'Physical -2 (Negative on-hand recorded: check the stock record) · Allocated 3 · Usable 10' && row.includes('<span class="warn">Negative on-hand recorded: check the stock record</span>') && !/£-|-£/.test(row.split('<td>')[5] || ''),
+    () => 'R2-VIEW (Tag-6 B1) FG050 row: uncommitted 7 (max(-2, 10) - 3), detail physical -2 flagged, allocated 3, usable 10, and the value cell shows the negative on-hand flag, not a negative £ (got ' + cells.slice(2, 5).join(' | ') + ')');
+  ok(() => /Physical stock value/.test(h) && /Uncommitted stock value/.test(h) && /never treated as excess or obsolete/.test(h) && /negative on-hand left out/.test(h),
+    'R2-VIEW (Tag-6 B1) the cards show physical and uncommitted stock value (the negative-on-hand item left out and said so) and the note explains that allocated stock is never excess or obsolete'); }
 { const s = stk('FG050', 10, 10, 10, 'nodemand'), h = ctx.__view(s.r); ok(() => !h.includes('<td>FG050</td>'), 'R2-VIEW a fully allocated no-demand item is not listed in the dead-stock view'); }
 
 // ---------- F-A1..F-A4: detection only.

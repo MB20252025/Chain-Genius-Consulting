@@ -466,7 +466,7 @@ file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snap
 # Stage 3 completion (18 Nov 2026; STAGE3-CHANGE-REGISTER.md). Re-hashed approved lines above: tests/compare-snapshots.js (C-CMP printer fix), tests/test-allocated-usable.js (D5 wording). Added:
 file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js
 # Stage 3 Round 2 (18 Nov 2026; Baseline B attribution, STAGE3-CHANGE-REGISTER.md). Re-hashed: tests/test-stage3-quality.js (FG050 scenarios state Allocated_Qty 0 explicitly). Added:
-file 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980 tests/test-stage3-round2.js
+file b35f2322046a2a8151af0860a445d330fc1666f1b41ad8ee04dcbb6ea411ff07 tests/test-stage3-round2.js
 # X1 P1 browser integration (21 Nov 2026; owner approval of P1; stage3-design/x1-implementation/X1-CHANGE-RECORD.md CR-02). Re-hashed approved line above: tests/check-globals.js (EXPECT load list adds js/validation/x1-integrity.js; rules unchanged). Previous hash c4964c206034cb3f40b1a8ec2fe6053aa1301d67935daace01cff61e4411246f. No line added or removed.
 # X1 P3 (21 Nov 2026; owner authorisation of P3; X1-CHANGE-RECORD.md CR-09). Added the three initial X1 test files after the P3 inspection (two weak checks in test-x1-containment.js tightened first). js/ files get no line (behaviour-test protection, M1-DESIGN.md, 12 Nov 2026).
 file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js
@@ -483,3 +483,4 @@ file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test
 file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js
 # X1 acceptance (21 Nov 2026; owner master authorisation "Complete X1 …"; X1-CHANGE-RECORD.md CR-34). Registered prospectively. New: tests/test-x1-acceptance-wording.js (created 21 Nov 2026, CR-33). No approved line changed.
 file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js
+# Tag-6 B1 (22 Nov 2026; owner approval of the Tag-6 change plan, decision B1). Re-hashed in place: tests/test-stage3-round2.js (previous 643874226a483fb87cb2db66f8ed176a473bb90e7dc09ba755f6709f8a7cd980): the three R2-VIEW checks follow the new dead-stock view; originals kept as comments; count unchanged (35). No Tag-5 approved line changed.
