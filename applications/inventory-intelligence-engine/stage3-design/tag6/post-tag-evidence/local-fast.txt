@@ -1,0 +1,53 @@
+v0.7 tests (FAST) - green means no NEW failures, NOT full coverage
+PASS: 41 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0
+Tests: 40 passed (+ pre-flight PASS), of 40 tests. The PASS figure above includes the pre-flight row, which is not a test.
+Scope: FAST (40 tests, UTC only except the golden and confidence snapshots (5 zones), quick 100-call wrapper; the full tier has 61 tests) + pre-flight
+Checks counted in this run (first zone of each test): 5138
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1
+Known limitations (full tier): 122 checks not running in 2 REDUCED tests; 5 BLOCKED tests. Not run in this fast tier.
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+PASS     pre-flight                  -      -                 -        
+PASS     check-control               1      12                12       
+PASS     check-protection            1      453               453      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              1      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     import-adapter              1      346               346      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            1      23                23       
+PASS     empty-text                  1      46                46       
+PASS     shortage-delay              1      19                19       
+PASS     scrap-rules                 1      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              1      8                 8        
+PASS     stage3-quality              1      28                28       
+PASS     stage3-round2               1      35                35       
+PASS     characterisation-lead-time  1      28                28       
+PASS     test-a1-sync-path           1      76                76       
+PASS     test-a1-state               1      10                10       
+PASS     test-a1-escaping            1      46                46       
+PASS     x1-foundation               1      40                40       
+PASS     x1-containment              1      41                41       
+PASS     x1-wp5                      1      56                56       
+PASS     x1-completion               1      48                48       
+PASS     x1-material-integrity       1      42                42       
+PASS     x1-acceptance-wording       1      12                12       
+PASS     tag6-changes                1      30                30       
+PASS     test-a1-wrapper-quick       1      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       1      118               118      
+PASS     test-po-edge                1      35                35       
+PASS     test-fillcap                1      276               276      
+PASS     test-export-repeat          1      24                24       
+PASS     test-cache                  1      15                15       
+PASS     test-blank-qty              1      19                19       
+PASS     test-na-constraints         1      88                88       
+
+EXIT 0: no FAIL and no ERROR. All tests in this tier passed at their accepted counts. FAST tier only: the full-tier limitations listed above still apply.
+fast exit 0

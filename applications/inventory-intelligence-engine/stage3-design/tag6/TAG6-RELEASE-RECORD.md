@@ -66,23 +66,87 @@ All five clear only against Tag-6.
 - All 50 entries are formally accepted into the Tag-6 baseline. "ACCEPT" now means accepted for the Tag-6 baseline, not only proposed.
 - This is engineering acceptance of the test baseline only. It is not deployment or publishing approval.
 
-## 4. Tag and Release: NOT CREATED (blocked, 22 Nov 2026)
+## 4. Tag and Release
 
-- **Attempt:** GitHub REST `POST /repos/MB20252025/chain-genius-consulting/releases`:
-  - `tag_name` v0.7-tests-approved-6;
-  - `target_commitish` e65600cf7b74f7f25ec73ec24ef9fae1d648c619;
-  - pre-release, as for Tag-5.
-- **Result:** HTTP 403: "Creating, editing, or deleting releases is not permitted for this session type." This is a platform restriction on this session.
-- Tag pushes from this session were already known to be blocked by the proxy. No browser route was connected.
-- The restriction was not worked around. No other route (a git-refs API call, a tag push, another commit) was tried.
-- **Checked afterwards:** no `v0.7-tests-approved-6` tag, no Tag-6 release and no `release/v0.7*` branch exist. Nothing partial was created.
+### 4a. First attempt by Claude (22 Nov 2026): blocked
 
-**Still to do (the owner, GitHub web, Releases → Draft a new release):**
-- **Tag:** `v0.7-tests-approved-6`, as a new tag.
-- **Target:** the commit `e65600c`. Select branch `candidate/tag6-20261122-r4`, whose tip is that commit. Do **not** choose `development/v0.7`.
-- **Title:** "Supply Chain Intelligence Engine v0.7 — T6 Tests Approved".
-- **Options:** tick "Set as a pre-release" and leave "Set as the latest release" unticked, as for Tag-5.
+The Release API returned HTTP 403: "Creating, editing, or deleting releases is not permitted for this session type."
+- The block was not worked around.
+- Checked afterwards: nothing was created.
+- The owner was asked to create the release in GitHub's web interface.
 
-## 5. Post-tag verification: NOT RUN
+### 4b. Created by the owner (22 Nov 2026, 05:38 UTC): verified
 
-Requires the real tag. A local simulation exists (`verification/tag6-switch-20261122`) but is **not** a substitute and is not reported as post-tag evidence.
+| Item | Verified value |
+|---|---|
+| Tag | `v0.7-tests-approved-6`, a lightweight tag (`git cat-file -t` gives `commit`) |
+| Tag resolves to | `e65600cf7b74f7f25ec73ec24ef9fae1d648c619`, the approved commit |
+| Release | "Supply Chain Intelligence Engine v0.7 — T6 Tests Approved"; pre-release; not a draft; published 05:38:16Z; author MB20252025 |
+| Release URL | https://github.com/MB20252025/Chain-Genius-Consulting/releases/tag/v0.7-tests-approved-6 |
+| Release target | `candidate/tag6-20261122-r4`, whose tip is `e65600c` |
+| Latest release | still `v0.7-tests-approved-3`; unchanged, and Tag-6 is not marked latest |
+| `release/` branch | none created; only `release/v0.6` exists, unchanged |
+
+## 5. Post-tag verification (22 Nov 2026)
+
+**Real GitHub CI: run 44990351755.**
+- Workflow "candidate verification", branch `ci/candidate-verification-tag6-20261122`, commit `e71f074`. Conclusion: **success**.
+- The workflow's only change: TAG `-5` → `-6`, so step 1 runs the same guard step as `v07-tests.yml`, reading the real remote Tag-6.
+
+| Check | CI result | Local fresh clone |
+|---|---|---|
+| Tested commit | `e65600c…`, checked by the workflow | `e65600c…` |
+| Guard from Tag-6 | 12 passed, 0 failed, **0 PENDING**, baseline `v0.7-tests-approved-6 = e65600c` | same |
+| Fast tier | 40 tests passed (+ pre-flight) of 40; 0 FAIL, 0 ERROR; exit 0 | same |
+| Full tier | 55 tests passed (+ pre-flight) of 61; 0 FAIL, 0 ERROR; **4 BLOCKED, 2 REDUCED**; exit 0 | same |
+
+**Full tier, key rows:**
+- check-protection 453
+- same-results 416
+- import-adapter 346
+- tag6-changes 30, in 1 and 5 zones
+- the X1 suites at their accepted counts
+- golden v0.5 and v0.6.0: 10 each, in 5 zones
+- confidence snapshot v0.7: 51, in 5 zones
+- browser-chrome 53; browser-x1-chrome 334; test-paging-chrome 59, with no accepted count recorded (deferred item R2)
+
+**BLOCKED:** test-fglt-note, test-forecast-conf, test-supplier-eligibility and phase2-comparison.
+**REDUCED:** test-phase1 (57 of 125) and test-uom (110 of 164).
+- All six need historical v0.6 material that is not available. They are not passes.
+
+**Switch confirmed.** With the real tag, the guard reports its baseline as `v0.7-tests-approved-6 = e65600c`. All five FAILs that Tag-5 reported against this tree have cleared. CI no longer judges this release line against Tag-5.
+
+**Browser and export checks.**
+- The full tier's Chrome tests ran in CI and locally: browser-chrome, browser-x1-chrome and test-paging-chrome.
+- The separate manual export check (0 NaN cells) and the performance timing were not repeated. The application code is identical to `3822045`, where they were done (`verification/tag6-r4-20261122`).
+
+**Protection, checked after the tag:**
+- Tags v0.6 and Tag-1 to Tag-5 are unchanged. Tag-5 is still `f0e81bb`.
+- `development/v0.7` (`eddf09b`, Stage 2), `x1/accepted-20261121` (`a4e05e8`), `main` (`8117c72`), `release/v0.6` and `recovery/stage3-unaccepted-20261116-19` (`0d71aab`) are unchanged.
+- Between Tag-5 and Tag-6:
+  - no file was deleted;
+  - no existing snapshot, fixture, characterisation or log file was changed, apart from the documented re-hash of `tests/snapshots/README.md`;
+  - the snapshot change is additive: new files are protected and the old ones are kept.
+- These copies verify against their checksum files: the recovery copy (`RECOVERY.sha256`), the X1 r2 tree (730 files), the Tag-5 tree archive and the Stage 3 baseline manifest.
+- The guard is unchanged apart from its default tag name, and it reads its rules from the approved tag.
+- **Difference from the previous protection report:** only the new tag `v0.7-tests-approved-6`, plus the record branches `release-records/tag6-20261122` and `ci/candidate-verification-tag6-20261122`.
+
+**Artefacts.**
+- The local runs were made in a throwaway clone (`/tmp/pt6`). That run's screenshot folder stayed in the clone.
+- The working repository was not touched.
+- Evidence copies: `post-tag-evidence/`. The CI log there has GitHub's masked `***` token lines and no secrets.
+
+**Corrections after the tag:** none were needed.
+
+## 6. Final status
+
+| Status | Result |
+|---|---|
+| Registry block accepted (delegated) | Yes |
+| Tag created | Yes, on `e65600c` |
+| Release created | Yes, as a pre-release |
+| CI passed (real tag) | Yes: run 44990351755 |
+| Guard passed (real Tag-6, 0 pending) | Yes |
+| Release technically verified | Yes, with the limitations listed in §5 |
+| Deployment authorised | **No**: a separate owner decision |
+| `development/v0.7` moved | **No**: a separate owner decision |
