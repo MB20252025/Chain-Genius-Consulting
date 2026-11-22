@@ -1,0 +1,59 @@
+{
+ "url": "http://localhost:8769/applications/inventory-intelligence-engine/index.html",
+ "workbook": "/home/claude/w12/run/applications/inventory-intelligence-engine/tests/fixtures/structure/scenario-willow.xlsx",
+ "viewport": [
+  1280,
+  900
+ ],
+ "title": "Chain Genius – Inventory Intelligence Engine (v0.7 development build: X1 candidate, not a release)",
+ "loadMs": 168,
+ "tabMs": {
+  "Overview": 193,
+  "Health": 195,
+  "Finished goods": 193,
+  "Materials": 213,
+  "MRP": 182,
+  "Production feasibility": 168,
+  "Excess & dead stock": 196,
+  "Policy comparison": 197,
+  "Reorder policy": 200,
+  "Forecast accuracy": 173,
+  "Demand forecast": 200,
+  "Suppliers": 181,
+  "Data quality": 182,
+  "Client questions": 173,
+  "Data confidence": 180,
+  "Summary": 177,
+  "Settings": 168
+ },
+ "errors": [],
+ "export": {
+  "file": "Chain_Genius_Engine_Output.xlsx",
+  "sheets": [
+   "ENG_FG",
+   "ENG_RM",
+   "ENG_Forecast",
+   "ENG_Suppliers",
+   "ENG_DataQuality",
+   "ENG_Assumptions",
+   "ENG_Confidence",
+   "ENG_Attainment",
+   "ENG_POReconciliation"
+  ],
+  "fgHeader": [
+   "Item",
+   "Name",
+   "Group",
+   "OnHand",
+   "Allocated",
+   "Usable",
+   "Uncommitted",
+   "Available",
+   "OnOrder",
+   "Position"
+  ],
+  "rmRows": 22,
+  "fgRows": 14,
+  "nanCells": 0
+ }
+}

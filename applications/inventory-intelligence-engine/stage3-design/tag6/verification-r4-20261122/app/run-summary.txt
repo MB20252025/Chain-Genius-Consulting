@@ -1,0 +1,12 @@
+northstar 1280 load 367 maxTab 279 errors 0 [] | export sheets 10 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0
+northstar 412 load 272 maxTab 261 errors 0 [] | export sheets 10 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0
+faulty 1280 load 334 maxTab 292 errors 0 [] | export sheets 10 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0
+faulty 412 load 298 maxTab 227 errors 0 [] | export sheets 10 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0
+willow 1280 load 168 maxTab 213 errors 0 [] | export sheets 9 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0
+willow 412 load 159 maxTab 209 errors 0 [] | export sheets 9 NaN cells 0 cols ['OnHand', 'Allocated', 'Usable', 'Uncommitted', 'Available']
+exit 0

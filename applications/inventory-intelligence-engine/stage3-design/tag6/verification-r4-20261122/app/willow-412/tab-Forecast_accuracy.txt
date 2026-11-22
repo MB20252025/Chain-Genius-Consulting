@@ -1,0 +1,1 @@
+Supply source: PO-verified supply · Risk policy: workbook · Demand basis: 12-month average. Shortage, MRP and feasibility figures depend on these settings (Settings tab).No Forecast_Units data in this workbook, so historical forecast accuracy cannot be calculated. Nothing has been inferred.

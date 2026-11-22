@@ -1,0 +1,9 @@
+b1d2db9 evidence: /home/claude/w10/verify2/ev/app/ | 3822045 evidence: /home/claude/w12/ev/app/
+northstar-1280: whole live result (all items, all fields, totals, MRP rows, warnings) identical: True
+faulty-1280: whole live result (all items, all fields, totals, MRP rows, warnings) identical: True
+willow-1280: whole live result (all items, all fields, totals, MRP rows, warnings) identical: True
+check 1 FG001 ssR, ropR: 5.273686293598403 12.923001362091554
+check 2 RM001 ssR, ropR: 128.9903352816664 597.0949766515295
+check 3 fgV, rmV, tot: 922703.9400000002 1610892.46 2533596.4000000004
+check 4 RM004 net, qty, val, st, by: 2484.1348499999995 2500 28424.999999999996 Order soon 2026-11-02
+check 5 classes differing clean vs faulty: ['FG007', 'FG018', 'FG030', 'RM005', 'RM017', 'RM020', 'RM042', 'RM051']

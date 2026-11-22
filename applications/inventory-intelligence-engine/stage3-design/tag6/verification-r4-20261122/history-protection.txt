@@ -1,0 +1,18 @@
+$ git diff --name-status b1d2db9 3822045
+M	applications/inventory-intelligence-engine/CHANGELOG.md
+M	applications/inventory-intelligence-engine/js/app.js
+M	applications/inventory-intelligence-engine/js/excel-import.js
+A	applications/inventory-intelligence-engine/stage3-design/tag6/IMPLEMENTATION-RECORD-R4.md
+A	applications/inventory-intelligence-engine/stage3-design/tag6/OUTSTANDING-ROADMAP.md
+A	applications/inventory-intelligence-engine/stage3-design/tag6/OWNER-DECISIONS-TAG6-ROUND2.md
+A	applications/inventory-intelligence-engine/stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md
+M	applications/inventory-intelligence-engine/tests/accepted-results.json
+M	applications/inventory-intelligence-engine/tests/checksums.txt
+M	applications/inventory-intelligence-engine/tests/test-tag6-changes.js
+
+$ git diff --name-status --diff-filter=D v0.7-tests-approved-5 3822045 | wc -l
+0
+$ modified files under tests/snapshots, tests/fixtures, tests/logs since Tag-5
+M	applications/inventory-intelligence-engine/tests/snapshots/README.md
+$ modified historical records (accepted Stage 2 docs, X1 acceptance package) since b1d2db9
+0
