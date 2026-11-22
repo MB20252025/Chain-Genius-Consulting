@@ -36,6 +36,8 @@ Verified facts are marked (V); things not tested are marked (NT).
 19. **Six historical comparison tests cannot run in full.** Four are BLOCKED and two REDUCED because the v0.6
     zips and tags they compare against (`tests/PROTECTED-VERSIONS.txt`) are not available. They compare with v0.6-era
     code; golden and confidence snapshots now cover the same ground.
+    *(22 Nov 2026, after Tag-6:)* formally deferred by the owner. Each test, its reason and the conditions for revisiting it
+    are in `stage3-design/tag6/DEFERRED-HISTORICAL-TESTS.md` (H1–H6). They do not block Stage 3B.
 20. **Lead time, currency and display precision.** Raw-material lead time is Materials.Lead_Time_Days plus the
     default supplier's average lateness (received − promised, over lines received and ordered by the snapshot date,
     added only if positive). When no lead time is stated, the fallback order is: the supplier's standard lead time,

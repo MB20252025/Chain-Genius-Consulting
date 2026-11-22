@@ -150,3 +150,46 @@ The Release API returned HTTP 403: "Creating, editing, or deleting releases is n
 | Release technically verified | Yes, with the limitations listed in §5 |
 | Deployment authorised | **No**: a separate owner decision |
 | `development/v0.7` moved | **No**: a separate owner decision |
+
+## 7. Development alignment (22 Nov 2026, owner authorisation of 06:18)
+
+**Starting state:**
+- Tag-6 was `e65600c…`. The release was a pre-release named "… T6 Tests Approved", targeting `candidate/tag6-20261122-r4`.
+- `development/v0.7` was at `eddf09b`, Stage 2. Its last protected CI run was 43739044445 (15 Nov), which succeeded.
+- `main` was at `8117c72`.
+
+**Move:** `git push origin e65600cf7b74f7f25ec73ec24ef9fae1d648c619:refs/heads/development/v0.7`
+- Result: `eddf09b..e65600c`, a **fast-forward** of 23 commits. `eddf09b` is an ancestor of the new tip.
+- No force push and no merge commit. No commit was added, amended or cherry-picked.
+- The resulting `development/v0.7` is `e65600cf7b74f7f25ec73ec24ef9fae1d648c619`, the same as Tag-6.
+
+**Protected CI: run 44993162485.**
+- Workflow "v0.7 tests"; event: push; branch `development/v0.7`; commit `e65600c`. Conclusion: **success**.
+- The workflow's TAG is `v0.7-tests-approved-6`.
+- Step 1 guard: 12 passed, 0 failed, **0 PENDING**, reported as baseline `v0.7-tests-approved-6 = e65600c`.
+- Fast tier: 40 tests passed (+ pre-flight) of 40. 0 FAIL, 0 BLOCKED, 0 REDUCED, 0 ERROR.
+- Evidence: `post-tag-evidence/ci-44993162485-protected-v07-tests.log`.
+
+**Full tier.** The protected workflow runs only the guard and the fast tier. The full tier for this exact commit and the real Tag-6 is CI run 44990351755 (§5):
+- 55 tests passed (+ pre-flight) of 61;
+- 0 FAIL, 0 ERROR;
+- 4 BLOCKED and 2 REDUCED.
+
+It was not repeated, because the commit, tag and workflow inputs are identical.
+
+**Deferred historical tests:** formally recorded in `DEFERRED-HISTORICAL-TESTS.md` (H1–H6), `KNOWN-LIMITATIONS.md` 19 and roadmap HIST.
+
+**Protection after the move:**
+- Tags v0.6 and Tag-1 to Tag-6 are unchanged. Tag-6 is `e65600c` and Tag-5 is `f0e81bb`.
+- `x1/accepted-20261121` (`a4e05e8`), `main` (`8117c72`), `release/v0.6` and the recovery branch (`0d71aab`) are unchanged.
+- Since Tag-5, no snapshot, fixture, characterisation or log file has been deleted or changed, apart from the accepted re-hash of `snapshots/README.md`.
+- These copies verify against their checksum files:
+  - the recovery copy (`RECOVERY.sha256`);
+  - the X1 r2 identity;
+  - the Tag-5 archive;
+  - the Stage 3 baseline, 27 files, from its `restored-tree` folder, where its manifest paths are rooted.
+- The application tree on `development/v0.7` is exactly the Tag-6 tree. No other application or calculation change was made.
+
+**Deployment:** none.
+- GitHub Pages deploys from `main`. The last deployment was 10 Nov 2026, and `main` is unchanged.
+- No release or other tag was created.

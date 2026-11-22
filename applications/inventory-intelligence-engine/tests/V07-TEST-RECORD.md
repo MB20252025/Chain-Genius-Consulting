@@ -1414,3 +1414,15 @@ verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `veri
 - **Same check run locally:** a fresh clone at `e65600c`, against the real remote tag, gave the same results on the guard and both tiers.
 - **Not yet exercised:** the protected `v07-tests.yml`. It runs only on a push to `development/v0.7`, which still points at `eddf09b`. Moving it is the owner's decision. Its guard step is the same as step 1 of the run above.
 - **Corrections after the tag:** none.
+
+## Tag-6 development alignment — Part A3 (branch `release-records/tag6-20261122`; 22 Nov 2026)
+
+*Recorded by Claude under the owner's authorisation of 22 Nov 2026, 06:18. Earlier entries are unchanged.*
+
+- `development/v0.7` was fast-forwarded `eddf09b..e65600c` (23 commits; no force; no new commit). It now equals `v0.7-tests-approved-6`.
+- **Protected CI run 44993162485** ("v0.7 tests", push): success.
+  - Guard from Tag-6: 12 passed, 0 failed, 0 PENDING.
+  - Fast tier: 40 tests passed (+ pre-flight) of 40. 0 FAIL, 0 ERROR.
+- **Full tier for this commit:** run 44990351755 (Part A2). 55 tests passed (+ pre-flight) of 61; 4 BLOCKED, 2 REDUCED. These six are not passes.
+- **The six historical tests** are formally deferred: `stage3-design/tag6/DEFERRED-HISTORICAL-TESTS.md` (H1–H6). They are not passed, not deleted and not weakened. They do not block Stage 3B unless new evidence shows a material risk.
+- `main` is unchanged and nothing was deployed.
