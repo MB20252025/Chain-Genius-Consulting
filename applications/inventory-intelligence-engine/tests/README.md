@@ -2,7 +2,7 @@
 
 ## T2.1 — baseline tags, protected files and release procedure
 
-*Updated in T3 (12 Nov 2026): baseline tag `v0.7-tests-approved-3`; 12 protected files including the confidence snapshot; check-control recorded ACTIVE. Updated for Tag-4 (13 Nov 2026): baseline tag `v0.7-tests-approved-4` on Commit 10; Commit 10 itself changes no test, accepted count or protected file list; Tag-4 accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A. Updated for Tag-5 (15 Nov 2026): baseline tag `v0.7-tests-approved-5` on the T5 switching commit. Unlike Commit 10, that commit also changes test data and a test: it labels library Package 01 `Demand_Basis = shipments` and changes Proof B in `test-same-results.js` to read the supplied files. Tag-5 accepts the additions and changes recorded in `V07-TEST-RECORD.md` "Tag-5 baseline acceptance — Part A".*
+*Updated in T3 (12 Nov 2026): baseline tag `v0.7-tests-approved-3`; 12 protected files including the confidence snapshot; check-control recorded ACTIVE. Updated for Tag-4 (13 Nov 2026): baseline tag `v0.7-tests-approved-4` on Commit 10; Commit 10 itself changes no test, accepted count or protected file list; Tag-4 accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A. Updated for Tag-5 (15 Nov 2026): baseline tag `v0.7-tests-approved-5` on the T5 switching commit. Unlike Commit 10, that commit also changes test data and a test: it labels library Package 01 `Demand_Basis = shipments` and changes Proof B in `test-same-results.js` to read the supplied files. Tag-5 accepts the additions and changes recorded in `V07-TEST-RECORD.md` "Tag-5 baseline acceptance — Part A". Updated after Tag-6 (22 Nov 2026, owner instruction "Tag-6 Final Administration"): baseline tag `v0.7-tests-approved-6` on the Tag-6 switching commit `e65600c`, created by the owner. The tag procedure below now documents the switching commit and both routes actually used (Tags 4 and 5; Tag-6).*
 
 Recorded 12 Nov 2026. Repository `MB20252025/Chain-Genius-Consulting`, branch `development/v0.7`.
 
@@ -16,26 +16,85 @@ An approved baseline tag records the exact versions of the testing-control files
 | `v0.7-tests-approved-2` | `0e461a629d0aa631c92ca6682958071cdf8388e6` | T2.1 baseline (kept unchanged) |
 | `v0.7-tests-approved-3` | the T3 implementation commit (created by the owner) | T3 baseline (kept unchanged): adds the confidence snapshot; check-control ACTIVE |
 | `v0.7-tests-approved-4` | Commit 10 (full hash recorded in `V07-TEST-RECORD.md` Part A2) | Tag-4 baseline (kept unchanged): accepts the 216 additions recorded in `V07-TEST-RECORD.md` Part A, with the limitations stated there |
-| `v0.7-tests-approved-5` | the T5 switching commit (`f0e81bb`; full hash recorded in `V07-TEST-RECORD.md`, section "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI"; pre-tag results in "Tag-5 — pre-tag evidence and reference corrections"; created by the owner) | Tag-5 baseline (kept unchanged; current until Tag-6 is created): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
-| `v0.7-tests-approved-6` | the Tag-6 switching commit on `candidate/tag6-20261122-r4` (full hash recorded in `V07-TEST-RECORD.md`, "Tag-6 baseline acceptance — Part A"; to be created by the owner) | Tag-6 baseline (current once created): the registry block assessed in `stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md` (50 items), Stage 3 work accepted in `stage3-design/tag6/OWNER-DECISIONS-TAG6.md`, X1, and the Tag-6 changes |
+| `v0.7-tests-approved-5` | the T5 switching commit (`f0e81bb`; full hash recorded in `V07-TEST-RECORD.md`, section "Tag-5 — Commit C corrections, Tag-5 creation and post-tag CI"; pre-tag results in "Tag-5 — pre-tag evidence and reference corrections"; created by the owner) | Tag-5 baseline (kept unchanged; superseded by Tag-6 on 22 Nov 2026): accepts Universal Import Stage 1 and Stage 2 (K1–K7) test evidence, the Package 01 label and the Proof B change, as recorded in `V07-TEST-RECORD.md` Tag-5 Part A, with the limitations stated there |
+| `v0.7-tests-approved-6` | the Tag-6 switching commit `e65600cf7b74f7f25ec73ec24ef9fae1d648c619` on `candidate/tag6-20261122-r4` (created by the owner through GitHub Releases, 22 Nov 2026 05:38 UTC; lightweight tag; post-tag evidence in `V07-TEST-RECORD.md` Parts A2 and A3, and in `stage3-design/tag6/TAG6-RELEASE-RECORD.md`) | Tag-6 baseline (**current**; `development/v0.7` was fast-forwarded to it on 22 Nov 2026): the registry block assessed in `stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md` (50 items), Stage 3 work accepted in `stage3-design/tag6/OWNER-DECISIONS-TAG6.md`, X1, and the Tag-6 changes |
 
 **Creating a baseline tag (permanent procedure)**
 
-1. The change to the control files is reviewed, committed and pushed to `development/v0.7` on its own, as one commit. Claude does not create or push baseline tags.
-2. Before the tag is created:
-   - `git show --name-status <commit>` lists only the reviewed files;
-   - `git diff <commit>` (against the working tree) is empty;
-   - every `PENDING` line printed by the guard has been reviewed one by one. Additions (new `checksums.txt` lines, raised counts, new tests) pass the guard without failing it, so **a passing guard is never approval of an addition** (decision recorded at M1 CP1, 12 Nov 2026).
-3. The workflow run for that commit is expected to fail at the guard with `couldn't find remote ref refs/tags/<new tag>`. This is recorded as evidence and is not fixed with another commit.
-4. The owner creates the tag on GitHub, on the phone:
-   - Releases → Draft a new release → Choose a tag;
-   - type the new name and pick "Create new tag on publish";
-   - set the target to `development/v0.7`, check it shows the reviewed commit, then publish. The release entry may be deleted afterwards; the tag stays.
-5. Verification, using `git ls-remote origin` only (never local references):
-   - `git cat-file -t <tag>` and the commit it dereferences to;
-   - the control files are read from the tag;
-   - every protected reference is unchanged.
-6. The failed run is re-run **once**, through the API or "Re-run all jobs". It must show all guard checks passing before Node setup, and every later step succeeding. If it fails, stop and report; do not create another tag or commit.
+*Rewritten 22 Nov 2026 (owner instruction "Tag-6 Final Administration", task 3). The previous six-step text is kept unchanged in git history (for example at `e65600c`). The procedure below records what actually happened for Tags 4, 5 and 6. **MUST** marks a mandatory step; *Recommended* marks a check that was done but is not a rule.*
+
+**Why a switching commit is needed.** The guard always compares against one named tag. That name is written in three places:
+- `.github/workflows/v07-tests.yml` (`TAG:`);
+- `tests/accepted-results.json` (the `check-control` entry's `"tag"`);
+- `tests/check-control.js` (the default `--tag`).
+
+If the new tag is put on a commit that still names the old tag, nothing ever uses the new tag:
+- CI and the runner keep judging every later commit against the old baseline.
+- The changes the new tag was meant to approve keep failing, or showing as PENDING, for good.
+
+The switching commit changes those three references to the new tag name **before** the tag exists. The tag is then created **on that commit**, so the tagged baseline names itself.
+
+The precedent is three switching commits:
+- Commit 10 `5f18335` for Tag-4 (`-3` → `-4`);
+- `f0e81bb` for Tag-5 (`-4` → `-5`);
+- `e65600c` for Tag-6 (`-5` → `-6`).
+
+Each one changed all three references, added a row to the table above and added a "Part A" acceptance record to `V07-TEST-RECORD.md`.
+
+**When it is created.**
+- It is created last: after all the work the tag will approve is complete and verified, and after the owner has accepted the pending registry block.
+- It **MUST** be the commit the tag goes on. Nothing is committed after it before the tag.
+
+**Steps.**
+
+1. **MUST: prepare the switching commit.**
+   - Change exactly the three references above to the new tag name.
+   - Add the new row to the table in section 1, and mark the previous tag "superseded".
+   - Add a Part A record to `V07-TEST-RECORD.md`.
+   - Do not change the guard's rules.
+   - *Recommended:* the switching commit contains only these switching changes, as in Tag-4 and Tag-6. Tag-5's switching commit also carried a test-data label and a test change. That is allowed when approved, but it makes the commit harder to review.
+2. **MUST: review every PENDING item first.**
+   - Run the **current** tag's guard against the switching commit.
+   - Every `PENDING` line must be one of the items the owner accepted. Additions pass the guard without failing it, so **a passing guard is never approval of an addition** (decision recorded at M1 CP1, 12 Nov 2026).
+   - Every `FAIL` must be explained.
+   - `git show --name-status <commit>` must list only the reviewed files, and `git diff <commit>` against the working tree must be empty (both kept from the earlier procedure).
+   - Tag-6 example: 50 PENDING items were reconciled one by one with `stage3-design/tag6/REGISTRY-ASSESSMENT-TAG6.md`, and 5 FAILs were explained, including the switching files themselves.
+3. **MUST: test the switching commit before the tag exists.**
+   - Run both tiers on that exact commit.
+   - Expect exactly one non-pass, caused by the missing tag: the runner's `check-control` row reports ERROR, and CI's guard step fails with `couldn't find remote ref refs/tags/<new tag>`.
+   - Record this as evidence. Never "fix" it with another commit.
+   - Every other result must be as accepted, with BLOCKED and REDUCED unchanged.
+   - Two routes have been used:
+     - **Route A (Tags 4 and 5):** push the switching commit to `development/v0.7` and freeze the branch. The protected workflow's first run fails at the guard, as expected: run 43466012229 attempt 1 (Tag-4) and run 43680939374 attempt 1 (Tag-5).
+     - **Route B (Tag-6):** keep the switching commit on a candidate branch (`candidate/tag6-20261122-r4`). Test it with the separate `candidate-verification.yml` workflow on a `ci/` branch, which pins the exact commit; run 44987012577 showed the expected guard ERROR. `development/v0.7` does not move until after the tag.
+   - *Recommended:* before the tag is created, simulate it locally in a mirror, never on GitHub, to confirm the guard would then pass with 0 PENDING (Tag-6: `verification/tag6-switch-20261122`). A simulation is never post-tag evidence.
+4. **MUST: the owner creates the tag, on the exact switching commit.**
+   - Claude does not create or push a baseline tag unless the owner gives an explicit instruction for that tag (Tag-4: the D15 exception; Tag-6: delegated authority).
+   - Even with that instruction, Claude sessions have been refused every time. Tags 4 and 5: the proxy refused with HTTP 403. Tag-6: the Release API refused with HTTP 403. So in practice the owner creates the tag.
+   - On GitHub: Releases → Draft a new release → Choose a tag. Type the new name and pick "Create new tag on publish".
+   - Set the target to the branch whose tip is the switching commit, and check that it shows that commit. Route A targets `development/v0.7`; Route B targets the candidate branch.
+   - Tick "Set as a pre-release", as for Tags 4, 5 and 6, then publish.
+   - The result is a lightweight tag. GitHub may also create a `release/…` branch; Tag-6 created none.
+5. **MUST: verify the real tag.** Use `git ls-remote origin` and the API, never local references. The tag must resolve to the full switching-commit hash (`git cat-file -t` gives `commit`). The control files must be read from the tag. The earlier tags and every protected reference must be unchanged.
+6. **MUST: run the guard against the real tag.**
+   - The guard must report `12 passed, 0 failed (baseline <new tag> = <commit>)` with **0 PENDING**, and every FAIL from step 2 must have cleared.
+   - Then run the fast and full tiers. Report BLOCKED and REDUCED separately: they are not passes.
+   - **Route A:** re-run the failed protected run **once**, with "Re-run all jobs" or the API (Tag-4: run 43466012229 attempt 2; Tag-5: run 43680939374 attempt 2). If it fails, stop and report. Do not create another tag or commit.
+   - **Route B:** run the candidate-verification workflow with its `TAG` set to the new tag (Tag-6: run 44990351755). Then, only after the owner separately approves moving `development/v0.7`, fast-forward the branch to the tagged commit; the protected workflow runs on that push (Tag-6: run 44993162485).
+7. **MUST: record the post-tag evidence as an addition, never a rewrite.**
+   - Add "Part A2" (and any later parts) to `V07-TEST-RECORD.md`, and complete the release record.
+   - Record them on the development line, or on a records branch merged in later (Tag-6: `release-records/tag6-20261122`).
+
+**Never, in any route:**
+- weaken, skip or bypass the guard, `check-protection.js`, the rulesets or the registry to get a green run;
+- move, delete or replace an existing tag (S1 enforces this);
+- tag any commit other than the reviewed switching commit;
+- create a second tag to hide a mistake.
+
+**Separate approvals.** Creating a tag approves nothing else. Each of these needs its own owner approval:
+- moving `development/v0.7` to a tagged commit (for Tag-6 this was a separate instruction, after the tag; in Route A the branch already carries the commit);
+- merging records into the development line;
+- any change to `main`, any deployment, and any publishing of the website (section 5).
 
 Existing baseline tags are never moved or deleted; S1 enforces this.
 
@@ -69,7 +128,7 @@ Result: 12 checks (11 until T3). `check-protection.js` separately checks 3 refer
 
 The steps run in this order:
 0. Checkout.
-1. **Guard:** fetch tag `v0.7-tests-approved-6` (`-5` until Tag-6) from GitHub and run *its* copy of `check-control.js`.
+1. **Guard:** fetch tag `v0.7-tests-approved-6` (current since 22 Nov 2026) from GitHub and run *its* copy of `check-control.js`.
 2. Node.
 3. Pinned packages.
 4. `run-all.sh --fast` and `summarise-run.js`.
