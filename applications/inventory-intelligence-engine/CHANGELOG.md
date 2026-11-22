@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.7 Tag-6 candidate r4 (22 Nov 2026; owner-authorised completion; NOT a release, Tag-6 not created)
+- **Exports never contain "NaN".** Every ENG_ sheet writes an unknown value as an empty cell (it was only ENG_FG/ENG_RM);
+  ENG_POReconciliation.GapValueGBP was the case seen (defect A).
+- **Demand chart by calendar month.** Unknown months are gaps in the line, never zero and never NaN points; a recorded 0 is
+  still drawn at 0; a note says how many months are unknown. Fixes a browser console error on Willow (defect B).
+- **Records:** owner-completed human checks (all five passed, 22 Nov 2026); the A3 Tag-6 decision; registry assessment of
+  all 50 pending items; outstanding roadmap.
+No calculation changed; none of the owner-checked figures is affected.
+
 ## v0.7 Tag-6 candidate r3 (22 Nov 2026; owner-approved change plan; NOT a release, Tag-6 not created)
 - **Totals no longer blank out.** The dead-stock totals and the reconciliation gap value show a partial total with its
   coverage ("£X partial: N of M items") when some values are unknown, instead of "£–" (E-1).
