@@ -1,0 +1,1 @@
+wrote /tmp/northstar-x34.xlsx | items 5100 (FG 1700 + RM 3400) | | FG 1700 RM 3400 BOM 6800 Demand 20400 Inv 5100 Sup 150 PO 10200 ProdOrd 5100

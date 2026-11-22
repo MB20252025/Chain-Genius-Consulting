@@ -1,0 +1,60 @@
+{
+ "url": "http://localhost:8767/applications/inventory-intelligence-engine/index.html",
+ "workbook": "/home/claude/w10/verify2/run/applications/inventory-intelligence-engine/tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx",
+ "viewport": [
+  412,
+  915
+ ],
+ "title": "Chain Genius – Inventory Intelligence Engine (v0.7 development build: X1 candidate, not a release)",
+ "loadMs": 273,
+ "tabMs": {
+  "Overview": 191,
+  "Health": 198,
+  "Finished goods": 208,
+  "Materials": 221,
+  "MRP": 218,
+  "Production feasibility": 201,
+  "Excess & dead stock": 181,
+  "Policy comparison": 197,
+  "Reorder policy": 242,
+  "Forecast accuracy": 216,
+  "Demand forecast": 211,
+  "Suppliers": 179,
+  "Data quality": 166,
+  "Client questions": 181,
+  "Data confidence": 177,
+  "Summary": 219,
+  "Settings": 179
+ },
+ "errors": [],
+ "export": {
+  "file": "Chain_Genius_Engine_Output.xlsx",
+  "sheets": [
+   "ENG_FG",
+   "ENG_RM",
+   "ENG_Forecast",
+   "ENG_Suppliers",
+   "ENG_DataQuality",
+   "ENG_Assumptions",
+   "ENG_Confidence",
+   "ENG_Attainment",
+   "ENG_POReconciliation",
+   "ENG_ForecastCredibility"
+  ],
+  "fgHeader": [
+   "Item",
+   "Name",
+   "Group",
+   "OnHand",
+   "Allocated",
+   "Usable",
+   "Uncommitted",
+   "Available",
+   "OnOrder",
+   "Position"
+  ],
+  "rmRows": 100,
+  "fgRows": 50,
+  "nanCells": 0
+ }
+}

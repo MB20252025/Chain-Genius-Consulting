@@ -1,0 +1,61 @@
+{
+ "url": "http://localhost:8767/applications/inventory-intelligence-engine/index.html",
+ "workbook": "/home/claude/w10/verify2/run/applications/inventory-intelligence-engine/tests/fixtures/structure/scenario-willow.xlsx",
+ "viewport": [
+  1280,
+  900
+ ],
+ "title": "Chain Genius – Inventory Intelligence Engine (v0.7 development build: X1 candidate, not a release)",
+ "loadMs": 132,
+ "tabMs": {
+  "Overview": 189,
+  "Health": 194,
+  "Finished goods": 182,
+  "Materials": 210,
+  "MRP": 179,
+  "Production feasibility": 174,
+  "Excess & dead stock": 182,
+  "Policy comparison": 198,
+  "Reorder policy": 193,
+  "Forecast accuracy": 165,
+  "Demand forecast": 178,
+  "Suppliers": 170,
+  "Data quality": 178,
+  "Client questions": 179,
+  "Data confidence": 179,
+  "Summary": 180,
+  "Settings": 203
+ },
+ "errors": [
+  "console: Error: <polyline> attribute points: Expected number, \"34.0,NaN 61.2,NaN 88.…\"."
+ ],
+ "export": {
+  "file": "Chain_Genius_Engine_Output.xlsx",
+  "sheets": [
+   "ENG_FG",
+   "ENG_RM",
+   "ENG_Forecast",
+   "ENG_Suppliers",
+   "ENG_DataQuality",
+   "ENG_Assumptions",
+   "ENG_Confidence",
+   "ENG_Attainment",
+   "ENG_POReconciliation"
+  ],
+  "fgHeader": [
+   "Item",
+   "Name",
+   "Group",
+   "OnHand",
+   "Allocated",
+   "Usable",
+   "Uncommitted",
+   "Available",
+   "OnOrder",
+   "Position"
+  ],
+  "rmRows": 22,
+  "fgRows": 14,
+  "nanCells": 0
+ }
+}

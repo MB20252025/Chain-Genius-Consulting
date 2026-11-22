@@ -1,0 +1,3 @@
+r1: 730 files verified; tar 31ecc3de7f37
+r2: 730 files verified; tar 68f35611dfe0
+recovery copy verified

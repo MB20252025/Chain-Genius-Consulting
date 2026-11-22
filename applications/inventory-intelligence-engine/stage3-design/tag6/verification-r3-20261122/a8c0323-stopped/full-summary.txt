@@ -1,0 +1,126 @@
+$ cd /home/claude/w10/verify/run/applications/inventory-intelligence-engine/tests (throwaway copy of fresh clone at a8c0323); PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers NODE_PATH=/home/claude/.npm-global/lib/node_modules:/home/claude/testdeps/node_modules bash run-all.sh --full --log /home/claude/w10/verify/ev/full.log
+v0.7 tests (FULL) - green means no NEW failures, NOT full coverage
+PASS: 54 | FAIL: 2 | BLOCKED: 4 | REDUCED: 2 | ERROR: 0
+Tests: 53 passed (+ pre-flight PASS), of 61 tests. The PASS figure above includes the pre-flight row, which is not a test.
+Scope: FULL (61 tests, all time zones, full 1,000-call wrapper) + pre-flight
+Checks counted in this run (first zone of each test): 6093
+Environment: node v22.23.4, npm 10.9.9, xlsx 0.18.5, jsdom 31.0.0, acorn 8.19.0, puppeteer-core 25.17.0, @sparticuz/chromium 153.0.0, pdf-parse 1.1.1, python 3.13.18, py:pandas 3.0.5, py:openpyxl 3.1.5, py:numpy 2.5.3, py:python-dateutil 2.9.0.post0, py:et-xmlfile 2.0.0, py:six 1.17.0
+Not running: 122 checks in REDUCED tests; 4 BLOCKED tests
+
+STATUS   TEST                        ZONES  EXPECTED          ACTUAL   NOTE
+FAIL     check-control               1      12                9        3 check(s) failed: FAIL: run-all.sh: CHANGED since the approved baseline (needs approval) | FAIL: accepted-results.json: WEAKENED: confidence snapshot v0.7: snapshot changed | FAIL: checksums.txt: 9 approved line(s) REMOVED or CHANGED: tests/check-globals.js, tests/compare-snapshots.js, tests/snapshots/README.md
+         WARNING: PENDING: check-protection: accepted count raised 434 -> 453 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: check-globals: accepted count raised 116 -> 124 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-static: accepted count raised 29 -> 30 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: same-results: accepted count raised 356 -> 416 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: import-integrity: accepted count raised 386 -> 396 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: test-a1-sync-path: accepted count raised 74 -> 76 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: allocated-usable: new test, accepted 23 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: empty-text: new test, accepted 46 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: shortage-delay: new test, accepted 19 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: scrap-rules: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: tz-boundaries: new test, accepted 71 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: partial-totals: new test, accepted 8 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-quality: new test, accepted 28 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: stage3-round2: new test, accepted 35 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-foundation: new test, accepted 40 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-containment: new test, accepted 41 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: browser-x1-chrome: new test, accepted 334 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-wp5: new test, accepted 56 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-completion: new test, accepted 48 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-material-integrity: new test, accepted 42 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: x1-acceptance-wording: new test, accepted 12 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: tag6-changes: new test, accepted 23 (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 1a51855a9727c5fb12a6b3648b1c1b807386d04bb27d0e477cd050d279a3708c tests/check-globals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 923fc38da580e92cf0ff950a05b49aa288d2a9244c9c4a938810350a694019f1 tests/compare-snapshots.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ee3ce5fe1e3fb848b188fd94041d42a82a1b50ec60b53169eecf9e4d8dd9ac19 tests/snapshots/README.md (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 5a5229936a67ea717c7951d04ebc6c9369e3116f2b527f233f91e054f034c9e1 tests/test-import-stage1.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c764216615193f8c9337c89476051aab14f5baccfc9a844f5108a77c257ba5dc tests/test-import-mapping.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 2c06aaed52ff22ed263263adeb695190fe77ab9df9e700909bde124e201c41d2 tests/test-same-results.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 43ba6fd6235a4f46f21f6768feb46e1065b6302afa4cceec5aa03d2004136062 tests/tools/import-v1/reverse-eight-sheet.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 4b56ca43ed09f0ae95309079a8966694d6926bc05118b4a821a1023cce1ef34e tests/test-import-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 121a914bfb4f20a5e39536f45f97ec41c01a8355b58d1679515a34436adfb460 tests/test-allocated-usable.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 66410a63795f66b227282be9e51e3d52ac6a2a763fed6881402037e8dbfd9f24 tests/test-empty-text.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8b3fdf2a7842a8ad34637f67d9cccef6ce501fadd730dd7ac01d61aa71ea8548 tests/snapshots/v0.7-confidence-20261116T034921Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file a54a1204535402eba1cd2cb7f35948f46ed443e0e4f2a9c70f5a9d29fba383ac tests/test-shortage-delay.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8a87a7c9f514b7684395c331564cf842ff011ecc9f497d1f5a0d2cb6d5de7394 tests/test-scrap-rules.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file c5d6f2bdec7cfba04da80d9347239acd1eb9187bbc2c347fd8accc0cbec42bf1 tests/test-tz-boundaries.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 52ed11f4f680ada66fb0b5d4fbea375384d7b8679f4c49bec44b10344b07c639 tests/test-partial-totals.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ff1b71abad3532abc5414165fde1c13cffdafdd2dfb3b7bebde98302aecee82e tests/snapshots/permitted-differences.json (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 7491f2894730135c0af33cf284a357843908df0bfcf9e82124fd4af442363e34 tests/test-stage3-quality.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file b35f2322046a2a8151af0860a445d330fc1666f1b41ad8ee04dcbb6ea411ff07 tests/test-stage3-round2.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ac424fc5d61c181e92a9f16813279f24fc454b740c1a5271fb8a102d6536382b tests/test-x1-foundation.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file aa7f0124c38cbddae1c0c8319657bc2cfb457719d06a83ce3d7bf0ac930f685b tests/test-x1-containment.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 739e4f9c0801ff3c0e527d1bf0400e4c9187e71e211d78d362d7607b1db7fdca tests/browser-x1-chrome.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc tests/test-x1-wp5.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file cf27c4fd7a9cd97064f1e2a4bebd6282227bfe3317036e344d2043552d36e080 tests/snapshots/v0.7-confidence-20261121T075533Z.j (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 573d8c56528e34ef82545d96f1ddf66fd0419b9be3a8f7b513c7ba870d53b6f4 tests/test-x1-completion.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 888f0603fa8d0cdc18e1c96ccd771454f64b2faf64717a8dd404af6e5edd1df5 tests/test-x1-material-integrity.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file 8981043384340809f42c7eb5f05395ddf8e2bceacf25d050c413230d297e807d tests/test-x1-acceptance-wording.js (needs the owner's approval: move the approved tag)
+         WARNING: PENDING: checksums.txt new protected line: file ea821412b54eee3c16a4a73d1e621695c8f746133981aa12b20808d006dc7e3b tests/test-tag6-changes.js (needs the owner's approval: move the approved tag)
+FAIL     import-adapter              1      346               341      5 check(s) failed: FAIL: the supplied column raises no new data-quality warning | FAIL: the supplied column raises no new data-quality warning | FAIL: the supplied column raises no new data-quality warning
+BLOCKED  test-fglt-note              2      -                 -        D5 #1: needs the Phase 2 source tree (historical zip). [missing /mnt/user-data/outputs/inventory-intelligence-engine-c4-phase2/js/app.js]
+BLOCKED  test-forecast-conf          2      -                 -        D5 #2: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). Compensated later by T3. [missing /home/claude/p3tree.txt]
+BLOCKED  test-supplier-eligibility   2      -                 -        D5 #3: needs the Phase 3 tree named in /home/claude/p3tree.txt (historical zip). [missing /home/claude/p3tree.txt]
+BLOCKED  phase2-comparison           1      -                 -        D5 #4: needs git tag v0.6-candidate-4-phase2, not on GitHub. [git tag v0.6-candidate-4-phase2 not present]
+REDUCED  test-phase1                 2      57 (full 125)     57       runs 57 of 125 (68 missing). Item 1e (render comparison with candidate 3) needs C3_TREE, built from tag c4-base, which is not on GitHub. 68 checks not running.
+REDUCED  test-uom                    2      110 (full 164)    110      runs 110 of 164 (54 missing). Comparison with Phase 1 final needs P1_TREE, built from tag v0.6-candidate-4-phase1-final, which is not on GitHub. 54 checks not running.
+PASS     pre-flight                  -      -                 -        
+PASS     check-protection            1      453               453      
+PASS     check-globals               1      124               124      
+PASS     test-a1-static              2      30                30       
+PASS     import-stage1               1      616               616      
+PASS     import-mapping              1      976               976      
+PASS     import-engine-map           1      276               276      
+PASS     same-results                1      416               416      
+PASS     import-integrity            1      396               396      
+PASS     allocated-usable            2      23                23       
+PASS     empty-text                  2      46                46       
+PASS     shortage-delay              2      19                19       
+PASS     scrap-rules                 2      71                71       
+PASS     tz-boundaries               1      71                71       
+PASS     partial-totals              2      8                 8        
+PASS     stage3-quality              2      28                28       
+PASS     stage3-round2               2      35                35       
+PASS     characterisation-lead-time  5      28                28       
+PASS     test-a1-sync-path           2      76                76       
+PASS     test-a1-state               2      10                10       
+PASS     test-a1-escaping            2      46                46       
+PASS     x1-foundation               5      40                40       
+PASS     x1-containment              5      41                41       
+PASS     browser-x1-chrome           1      334               334      
+PASS     x1-wp5                      5      56                56       
+PASS     x1-completion               5      48                48       
+PASS     x1-material-integrity       5      42                42       
+PASS     x1-acceptance-wording       5      12                12       
+PASS     tag6-changes                5      23                23       
+PASS     test-a1-wrapper             2      117               117      
+PASS     golden v0.5                 5      10                10       
+PASS     golden v0.6.0               5      10                10       
+PASS     confidence snapshot v0.7    5      51                51       
+PASS     test7                       2      118               118      
+PASS     test8                       2      47                47       
+PASS     test9                       2      57                57       
+PASS     domtest                     2      30                30       
+PASS     domtest2                    2      18                18       
+PASS     test-failed-import          2      18                18       
+PASS     test-export-nohistory       2      19                19       
+PASS     test-timezones              2      15                15       
+PASS     test-po-edge                2      35                35       
+PASS     test-structure              2      34                34       
+PASS     test-paging                 2      23                23       
+PASS     test-fillcap                2      276               276      
+PASS     test-export-repeat          2      24                24       
+PASS     test-cache                  2      15                15       
+PASS     test-blank-qty              2      19                19       
+PASS     test-missing-values         2      63                63       
+PASS     test-na-constraints         2      88                88       
+PASS     test-paging-chrome          1      -                 59       
+         WARNING: documented blocker is no longer present: running the test; update accepted-results.json and the records
+PASS     python-verifier             1      17                17       
+PASS     scenarios                   1      16                16       
+PASS     browser-chrome              1      53                53       
+
+EXIT 1: 2 FAIL and 0 ERROR. Something new is wrong; see the FAIL/ERROR lines above.
+exit 1

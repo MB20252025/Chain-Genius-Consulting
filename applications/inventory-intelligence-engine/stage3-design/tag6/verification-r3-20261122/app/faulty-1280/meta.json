@@ -1,0 +1,60 @@
+{
+ "url": "http://localhost:8767/applications/inventory-intelligence-engine/index.html",
+ "workbook": "/home/claude/w10/verify2/run/applications/inventory-intelligence-engine/stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx",
+ "viewport": [
+  1280,
+  900
+ ],
+ "title": "Chain Genius – Inventory Intelligence Engine (v0.7 development build: X1 candidate, not a release)",
+ "loadMs": 283,
+ "tabMs": {
+  "Overview": 186,
+  "Health": 188,
+  "Finished goods": 213,
+  "Materials": 273,
+  "MRP": 222,
+  "Production feasibility": 177,
+  "Excess & dead stock": 198,
+  "Policy comparison": 204,
+  "Reorder policy": 237,
+  "Forecast accuracy": 220,
+  "Demand forecast": 208,
+  "Suppliers": 176,
+  "Data quality": 175,
+  "Client questions": 178,
+  "Data confidence": 182,
+  "Summary": 190,
+  "Settings": 174
+ },
+ "errors": [],
+ "export": {
+  "file": "Chain_Genius_Engine_Output.xlsx",
+  "sheets": [
+   "ENG_FG",
+   "ENG_RM",
+   "ENG_Forecast",
+   "ENG_Suppliers",
+   "ENG_DataQuality",
+   "ENG_Assumptions",
+   "ENG_Confidence",
+   "ENG_Attainment",
+   "ENG_POReconciliation",
+   "ENG_ForecastCredibility"
+  ],
+  "fgHeader": [
+   "Item",
+   "Name",
+   "Group",
+   "OnHand",
+   "Allocated",
+   "Usable",
+   "Uncommitted",
+   "Available",
+   "OnOrder",
+   "Position"
+  ],
+  "rmRows": 100,
+  "fgRows": 50,
+  "nanCells": 3
+ }
+}

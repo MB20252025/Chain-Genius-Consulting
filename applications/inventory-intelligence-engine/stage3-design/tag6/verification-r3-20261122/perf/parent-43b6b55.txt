@@ -1,0 +1,21 @@
+$ (cd /home/claude/w8/copy/applications/inventory-intelligence-engine/tests) NODE_PATH=/home/claude/testdeps/node_modules node perf-node.js /tmp/northstar-x34.xlsx
+XLSX.read (parse file): 1378 ms
+analyse() x5 (ms): 1405, 1265, 1236, 1292, 1240 | median 1265
+run() = analyse x3 (main + 2 comparison): 3925 ms; FG 1700 RM 3400
+view MRP                           225 ms
+view Forecast accuracy             192 ms
+view Materials                      95 ms
+view Production feasibility         75 ms
+view Finished goods                 74 ms
+view Reorder policy                 55 ms
+view Policy comparison              54 ms
+view Demand forecast                50 ms
+view Excess & dead stock            36 ms
+view Suppliers                      24 ms
+view Overview                       22 ms
+view Data confidence                 9 ms
+view Health                          9 ms
+view Summary                         6 ms
+view Data quality                    5 ms
+view Client questions                5 ms
+view Settings                        0 ms
