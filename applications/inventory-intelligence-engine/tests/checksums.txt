@@ -494,3 +494,5 @@ file 2c87c19cb92eed1ff04b0e67e94bd86ca403518e3488473ee9432638d1a5a0ac tests/test
 file b5efb7eae5711d7a8389f461c60fa9de067396cd77fa52435eb4b558aa562577 tests/test-h2-forecast-conf-current.js
 file ad8affac018b0cf83306516f8f047b6117e9d3c257953b8bf1a79477a4e4ee43 tests/test-h2-level-shift-spec.js
 file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test-h3-supplier-eligibility-current.js
+# Stage 3B Phase 0 (22 Nov 2026; owner Stage 3B authorisation): new tests/test-view-contract.js (view-model contract tests). Addition: PENDING until the Tag-7 cycle (owner decision D-2 covers the readiness additions; this one is listed for the same acceptance).
+file f2d0896a3c84970ebcfcf8d9b4e259c7237e3dc97ac08553c06f70a8be1b802c tests/test-view-contract.js

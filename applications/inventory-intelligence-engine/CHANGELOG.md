@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 0 – foundations (22 Nov 2026; owner Stage 3B authorisation; NOT a release, no tag)
+- **View-model layer** (`js/views/contract.js`, `js/views/areas.js`).
+  - One engine access point and a data contract with provenance, completeness, confidence and drill-down.
+  - View-models for all 17 existing tabs.
+  - The approved six-area navigation map (D-4), with Production shown only when there is production data.
+  - "Unknown" is never shown as zero or NaN.
+  - No arithmetic in the view layer apart from counting and sort order: totals use the existing X1 partial-total rule.
+- **Tests:** `test-view-contract`, 128 checks on Northstar, faulty Northstar and Willow, in the fast and full tiers.
+  - Every KPI, chart value and table cell is checked against its engine field by an independent resolver.
+  - It also checks that the 17 existing tabs and the engine results are unchanged.
+  - The new test and its checksum line are PENDING until the Tag-7 cycle.
+- **Records:** `stage3-design/stage3b/` (owner decisions D-1 to D-8, architecture decisions, implementation and acceptance record, blueprint amendments).
+No calculation, screen, CSS or workflow changed. The new files are not yet loaded by `index.html` (Phase 1).
+
 ## v0.7 Stage 3B readiness (22 Nov 2026; owner readiness authorisation; NOT a release, no tag)
 - **Tests.** Four new full-tier tests restore 307 original current-behaviour checks hidden behind the BLOCKED historical
   tests H1–H3, and add 9 new approval-spec checks. Each is hash-pinned to its protected original and was shown to fail when
