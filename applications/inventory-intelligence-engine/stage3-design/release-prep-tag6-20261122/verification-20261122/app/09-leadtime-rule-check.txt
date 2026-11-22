@@ -1,0 +1,2 @@
+RM001 SUP001 lines 20 | Materials.Lead_Time_Days 35 | mean lateness 1.85 | engine rule L = 36.85 | worksheet rule L (mean order->received) = 36.85 | promised-order gap values [35] | pop sd order->received 4.7251984085327035
+RM004 SUP004 lines 21 | Materials.Lead_Time_Days 28 | mean lateness 1.5238095238095237 | engine rule L = 29.523809523809526 | worksheet rule L (mean order->received) = 29.523809523809526 | promised-order gap values [28] | pop sd order->received 4.7771185538988385

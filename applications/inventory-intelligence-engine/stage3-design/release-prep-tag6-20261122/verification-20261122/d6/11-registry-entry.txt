@@ -1,0 +1,13 @@
+{
+"name": "confidence snapshot v0.7",
+"type": "confsnap",
+"snapshot": "snapshots/v0.7-confidence-20261121T075533Z.json",
+"zones": "five",
+"fast_zones": "five",
+"tiers": [
+"fast",
+"full"
+],
+"accepted": 51,
+"note": "T3: forecast confidence, confAreas and client questions for 17 fixtures x 3 sections = 51 checks per zone; fast tier UTC only, full tier 5 zones (85 fixture/zone combinations) | Stage 3 (16 Nov 2026, DR-4): the reference is now snapshots/v0.7-confidence-20261116T034921Z.json, emitted with run-all.sh --emit-confidence from the DR-4 code (17 fixtures x 5 zones identical). It differs from the historical 12 Nov file (kept unchanged, still checksum-protected) in exactly one value: structure/scenario-willow.xlsx clientQuestions[3].ev \"19 POs received short\" -> \"11 POs received short\". | Stage 3 (16 Nov 2026): also runs in all five zones in the fast tier (fast_zones), so the per-push CI run covers the five zones. | X1 Q3 (owner approval 21 Nov 2026; X1-CHANGE-RECORD.md CR-20): SUPERSEDES snapshot v0.7-confidence-20261116T034921Z.json (kept unchanged, as is the 12 Nov file). v0.7-confidence-20261121T075533Z.json was emitted with run-all.sh --emit-confidence from the final X1 code (17 fixtures x 5 zones identical) and differs from the 16 Nov file in exactly one value: structure/scenario-willow.xlsx clientQuestions[6].ev \"4 items\" -> \"3 items\" (calculated policy finds reorder points too low for 3 items, not 4: ing 017 left the list because its derived usage is now aligned by calendar month, D6/WP6, Appendix C issue 20). accepted 51 unchanged."
+}

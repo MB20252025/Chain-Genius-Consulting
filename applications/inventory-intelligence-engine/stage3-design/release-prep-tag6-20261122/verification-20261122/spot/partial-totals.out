@@ -1,0 +1,10 @@
+PASS: complete Package 01: all six totals are the engine's plain numbers; no partial total; gate complete
+PASS: one product (P0001) withheld: all six totals are partial and equal the engine total minus the left-out items' own values (P0001, and its components M0028, M0058, M0064); exF 515844.07 = 515844.07 − 0.00
+PASS: every partial total names exactly the items it leaves out, with the reason (P0001: its withheld demand; M0028, M0058, M0064: their material results depend on P0001)
+PASS: one product withheld: disclosures list the six partial totals with counts, a sentence says they are not complete totals, each is labelled PARTIAL_TOTAL, and the gate is restricted
+PASS: one product withheld: ABC classes and cumulative shares stay withheld for both groups (each has withheld items)
+PASS: a partial total throws on arithmetic, comparison, Math, string concatenation, template strings and Number() (it cannot enter a calculation or a display as a complete figure)
+PASS: a partial total serialises as exactly { value, partial: true, excludedItems } (no hidden fields in JSON)
+PASS: every product withheld (and so every material, all being components): no total has an eligible item, so all six are withheld (NO_ELIGIBLE_ITEMS) and listed; none is released as 0
+
+partial-totals: 8 passed, 0 failed

@@ -1,0 +1,38 @@
+1c1,12
+< # Northstar human calculation checks: five worksheets (pre-release requirement for Tag-6)
+---
+> # Northstar human calculation checks: five worksheets, VERSION 2 (pre-release requirement for Tag-6)
+> 
+> > **Version 2, 22 Nov 2026 (category (a) worksheet corrections).** The original, `human-checks/NORTHSTAR-HUMAN-CHECK-WORKSHEETS.md`
+> > at `3f86d9d`, is kept unchanged. Changes, all found by comparing the worksheet with the actual candidate run
+> > (`verification-20261122/`):
+> > 1. Checks 2 and 4: the lead-time rule was stated wrongly. The engine uses Materials.Lead_Time_Days plus the supplier's average
+> >    lateness (received − promised), not the supplier's average order-to-received time. On Northstar both give the same
+> >    numbers, because every promised date is exactly Lead_Time_Days after the order date. The rule is corrected; the
+> >    expected figures are unchanged.
+> > 2. Check 4: days of cover was printed as 32.47. The candidate value is 32.4650 (32.464996…), which rounds to **32.46**.
+> > 3. Check 2 source file: `check2-supplier-lead-times-v2.txt` adds the promised dates and lateness needed by the corrected rule.
+> > No engine result was changed to agree with anything.
+86,88c97,101
+< Lead time. Rule: all purchase-order lines of RM001's supplier **SUP001** (not only RM001's lines) that were received
+< on or before the snapshot date and ordered on or before it. Days = Received_Date − Order_Date. That gives 20 lines,
+< listed in `check2-supplier-lead-times.txt`.
+---
+> Lead time (corrected in v2). The engine rule is L = Materials.Lead_Time_Days for RM001 (**35**) + the average lateness of
+> RM001's supplier **SUP001**: the mean of (Received_Date − Promised_Date) over all SUP001 purchase-order lines (not only
+> RM001's) received and ordered on or before the snapshot date, counted only if positive. That gives 20 lines.
+> σL is the population s.d. of (Received_Date − Order_Date) over the same 20 lines. Both are listed in
+> `check2-supplier-lead-times-v2.txt`.
+98c111
+< | e. Lead time L, and its s.d. σL | mean, and population s.d., of the 20 day counts | |
+---
+> | e. Lead time L, and its s.d. σL | L = 35 + mean lateness of the 20 lines; σL = population s.d. of their order-to-received days | |
+144c157,158
+< Lead time L for supplier SUP004 = 29.5238 days (rule as in check 2; its 21 lines are in the same file).
+---
+> Lead time L = Materials.Lead_Time_Days for RM004 (**28**) + the average lateness of supplier SUP004 (rule as in check 2,
+> 21 lines in `check2-supplier-lead-times-v2.txt`) = 29.5238 days.
+163c177
+< **value £28,425.00** · cover 32.47 days · margin 2.94 days → **"Order soon"**, order by 2 Nov 2026.
+---
+> **value £28,425.00** · cover 32.46 days · margin 2.94 days → **"Order soon"**, order by 2 Nov 2026.

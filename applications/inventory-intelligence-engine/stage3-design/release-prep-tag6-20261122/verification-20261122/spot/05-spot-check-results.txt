@@ -1,0 +1,15 @@
+test                     file                             expected   actual failed  exit result
+check-protection         check-protection.js                   452      452      0     0 MATCH
+check-globals            check-globals.js                      124      124      0     0 MATCH
+test-a1-static           test-a1-static.js                      30       30      0     0 MATCH
+same-results             test-same-results.js                  416      416      0     0 MATCH
+import-integrity         test-import-integrity.js              396      396      0     0 MATCH
+test-a1-sync-path        test-a1-sync-path.js                   76       76      0     0 MATCH
+empty-text               test-empty-text.js                     46       46      0     0 MATCH
+scrap-rules              test-scrap-rules.js                    71       71      0     0 MATCH
+partial-totals           test-partial-totals.js                  8        8      0     0 MATCH
+stage3-round2            test-stage3-round2.js                  35       35      0     0 MATCH
+x1-foundation            test-x1-foundation.js                  40       40      0     0 MATCH
+x1-material-integrity    test-x1-material-integrity.js          42       42      0     0 MATCH
+x1-acceptance-wording    test-x1-acceptance-wording.js          12       12      0     0 MATCH
+browser-x1-chrome        browser-x1-chrome.js                  334      334      0     0 MATCH

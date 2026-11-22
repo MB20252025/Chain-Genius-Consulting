@@ -1,0 +1,73 @@
+PASS: import set-up: Package 01 as supplied is accepted and its row 2 scrap is 0
+PASS: direct, numeric 0.05: accepted (the analysis runs)
+PASS: import, numeric 0.05: accepted with scrap 0.05 (got 0.05)
+PASS: direct, numeric 0.05: every result equals the run with the number 0.05 in that cell (correct downstream calculation)
+PASS: direct, numeric 0.05: no conversion is disclosed (the cell was already a number)
+PASS: import, numeric 0.05: no percentage conversion is reported (plain decimals in a CSV are its normal form)
+PASS: direct, numeric 0 (boundary): accepted (the analysis runs)
+PASS: import, numeric 0 (boundary): accepted with scrap 0 (got 0)
+PASS: direct, numeric 0 (boundary): every result equals the run with the number 0 in that cell (correct downstream calculation)
+PASS: direct, numeric 0 (boundary): no conversion is disclosed (the cell was already a number)
+PASS: import, numeric 0 (boundary): no percentage conversion is reported (plain decimals in a CSV are its normal form)
+PASS: direct, numeric 1 = 100% (boundary): accepted (the analysis runs)
+PASS: import, numeric 1 = 100% (boundary): accepted with scrap 1 (got 1)
+PASS: direct, numeric 1 = 100% (boundary): every result equals the run with the number 1 in that cell (correct downstream calculation)
+PASS: direct, numeric 1 = 100% (boundary): no conversion is disclosed (the cell was already a number)
+PASS: import, numeric 1 = 100% (boundary): no percentage conversion is reported (plain decimals in a CSV are its normal form)
+PASS: direct, text "0.05": accepted (the analysis runs)
+PASS: import, text "0.05": accepted with scrap 0.05 (got 0.05)
+PASS: direct, text "0.05": every result equals the run with the number 0.05 in that cell (correct downstream calculation)
+PASS: direct, text "0.05": the conversion is disclosed with its row (Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) "0.05" → 0.05)
+PASS: import, text "0.05": no percentage conversion is reported (plain decimals in a CSV are its normal form)
+PASS: direct, text " .5 " (spaces trimmed): accepted (the analysis runs)
+PASS: import, text " .5 " (spaces trimmed): accepted with scrap 0.5 (got 0.5)
+PASS: direct, text " .5 " (spaces trimmed): every result equals the run with the number 0.5 in that cell (correct downstream calculation)
+PASS: direct, text " .5 " (spaces trimmed): the conversion is disclosed with its row (Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) ".5" → 0.5)
+PASS: import, text " .5 " (spaces trimmed): no percentage conversion is reported (plain decimals in a CSV are its normal form)
+PASS: direct, text "5%": accepted (the analysis runs)
+PASS: import, text "5%": accepted with scrap 0.05 (got 0.05)
+PASS: direct, text "5%": every result equals the run with the number 0.05 in that cell (correct downstream calculation)
+PASS: direct, text "5%": the conversion is disclosed with its row (Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) "5%" → 0.05)
+PASS: import, text "5%": the percentage conversion is disclosed with its row
+PASS: direct, text "2.5 %": accepted (the analysis runs)
+PASS: import, text "2.5 %": accepted with scrap 0.025 (got 0.025)
+PASS: direct, text "2.5 %": every result equals the run with the number 0.025 in that cell (correct downstream calculation)
+PASS: direct, text "2.5 %": the conversion is disclosed with its row (Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) "2.5 %" → 0.025)
+PASS: import, text "2.5 %": the percentage conversion is disclosed with its row
+PASS: direct, text "100%" (boundary): accepted (the analysis runs)
+PASS: import, text "100%" (boundary): accepted with scrap 1 (got 1)
+PASS: direct, text "100%" (boundary): every result equals the run with the number 1 in that cell (correct downstream calculation)
+PASS: direct, text "100%" (boundary): the conversion is disclosed with its row (Scrap stored as text was converted to a number on 1 BOM line(s): row 2 (FG001 / RM001) "100%" → 1)
+PASS: import, text "100%" (boundary): the percentage conversion is disclosed with its row
+PASS: direct, numeric -0.05 (negative): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, numeric -0.05 (negative): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "-5%" (negative): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "-5%" (negative): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, numeric 1.5 (above 100%): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, numeric 1.5 (above 100%): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "150%" (above 100%): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "150%" (above 100%): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "100.01%" (just above 100%): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "100.01%" (just above 100%): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "5" (plain number above 1: ambiguous): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "5" (plain number above 1: ambiguous): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "abc": the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "abc": the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "0,05" (decimal comma): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "0,05" (decimal comma): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "£0.05" (currency): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "£0.05" (currency): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "(0.05)" (brackets): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "(0.05)" (brackets): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "1e-2" (exponent): the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "1e-2" (exponent): the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, text "5 percent": the analysis is refused, naming row 2 (FG001 / RM001) and the reason (Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this line and upload the workbook again: row 2 ()
+PASS: import, text "5 percent": the import is not accepted; a Must-fix ROW_REJECTED issue names row 2 and the reason
+PASS: direct, blank scrap: not rejected; assumed 0% and disclosed (E-1)
+PASS: import, blank scrap: accepted as a missing value (null, never 0 in Stage 1; the adapter assumes and discloses 0%)
+PASS: direct, mixed rows: the whole analysis is refused, naming only row 3 (FG001 / RM014) (refused)
+PASS: import, mixed rows: the whole import is refused; ROW_REJECTED lists row 3 only
+PASS: direct, two invalid rows: both are named in the refusal
+PASS: downstream: RM001 monthly use rises by 0.5 × 1.94 × FG001 monthly units (84.6325 = 84.6325)
+
+scrap-rules: 71 passed, 0 failed

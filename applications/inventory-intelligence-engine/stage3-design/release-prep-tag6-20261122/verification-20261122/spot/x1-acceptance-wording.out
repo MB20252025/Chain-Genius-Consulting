@@ -1,0 +1,14 @@
+PASS: clean: no missing-input banner
+PASS: clean: the three count-based recommendations keep their original wording (22 reorder points look too low)
+PASS: clean: Reorder policy "Why" unchanged (aligned items say "Within ±20%")
+PASS: A banner, no item Not Assessed: names Reorder_Point_Qty, says every item is still assessed, does not say "Not Assessed"
+PASS: C Summary: "Reorder points not checked … no workbook reorder points were supplied (150 items)", never "Review reorder points (0 items look too low)"
+PASS: B Reorder policy: all 150 rows say "No workbook reorder point to compare", none "Within ±20%"
+PASS: B each row names the calculated ROP as indicative (or says it is not available)
+PASS: A banner with a Not Assessed item: the D4 sentence is unchanged
+PASS: B Reorder policy: the 100 Not Assessed materials show their reason ("usage incomplete"), not "No demand, so no calculation." (their demand is unknown, not zero)
+PASS: C Summary: no "(0 items look too low)"; the reorder-point line matches the actual count
+PASS: C Summary with no critical items: "No critical items", never "Secure supply for the 0 critical items ()"
+PASS: C Summary with no excess items: "No excess stock", never "Review excess stock (0 items)"
+
+x1-acceptance-wording: 12 passed, 0 failed

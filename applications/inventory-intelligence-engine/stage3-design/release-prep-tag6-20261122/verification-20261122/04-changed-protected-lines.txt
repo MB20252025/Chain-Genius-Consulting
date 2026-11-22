@@ -1,0 +1,11 @@
+# approved checksum lines (Tag-5) missing from the candidate's checksums.txt, i.e. REMOVED or CHANGED
+$ comm -23 <(git show v0.7-tests-approved-5:<app>/tests/checksums.txt | sort) <(sort checksums.txt)
+file 266dc0efcc9188902efdee159ef2ff287c571e3b253111328a65ccaf9edd2283 tests/test-uom.js
+file 305592ee32b2a8f5763b0d82c09f8273658cc8cdebef9beced847cd85bed97bd tests/test-import-integrity.js
+file 3d7636fd982a7b172aec23b15c2be10368880e5f2174ad90fd38f9163d38b218 tests/snapshots/README.md
+file 4685961bfc83a0ded57a95deeccb054151c75c97c5705798b91c1440de207ec7 tests/tools/import-v1/reverse-eight-sheet.js
+file 5fbf3e3f62e27e44626ef0bc6b4bfa9913506b53d6796fd93702dd1df28d0703 tests/test-import-mapping.js
+file 7fc521dd6fb14030f52efd0300686dcd4cb77d3d510688498ed9a229ec7068e4 tests/test-import-stage1.js
+file 9e9c0264356dff0606c48a48088ba4afcb7ff3cfaa133683694031353af07d59 tests/test-same-results.js
+file a6313df23dc585bfde7605bb315c7b8900ac84fc6ffb375d32a45ed3e278200a tests/compare-snapshots.js
+file c4964c206034cb3f40b1a8ec2fe6053aa1301d67935daace01cff61e4411246f tests/check-globals.js

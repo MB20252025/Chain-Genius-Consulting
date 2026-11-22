@@ -1,0 +1,343 @@
+Browser: HeadlessChrome/153.0.8010.0 | served at http://127.0.0.1:40139/chain-genius/applications/inventory-intelligence-engine/ | screenshots /tmp/x1-browser-ENevqe
+
+===== DESKTOP (1280x800) =====
+PASS desktop clean: the page loads js/validation/x1-integrity.js and exposes CGValidation (P1)
+PASS desktop clean: A: the upload completes ("Analysed."), no page error
+PASS desktop clean: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop clean: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS desktop clean: B: the record names exactly the affected fields
+PASS desktop clean: B: status inputs-valid; never "Verified"
+PASS desktop clean: C: 0 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS desktop clean: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop clean: C: "Not calculated" count card is absent
+PASS desktop clean: C: net-requirement count has no qualifier
+PASS desktop clean: C: integrity notice is absent on clean data
+PASS desktop clean: C: replenishment total is not labelled partial
+PASS desktop clean: C: order-now count has no qualifier
+PASS desktop clean: C: replenishment total is a £ figure
+PASS desktop clean: engine: exactly the expected items are Not Assessed (none)
+PASS desktop clean: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop clean: Finished goods: no assessed item is labelled Not Assessed
+PASS desktop clean: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop clean: Materials: no assessed item is labelled Not Assessed
+PASS desktop clean: Health: no Not Assessed card; average over all items
+PASS desktop clean: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS desktop clean: Overview: no Not Assessed card
+PASS desktop clean: Overview: inventory value is a complete figure
+PASS desktop clean: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS desktop clean: Summary: no Not Assessed card
+PASS desktop clean: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS desktop clean: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS desktop clean: C: every tab has no missing-input banner
+PASS desktop clean: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop clean: no page error while visiting every tab
+PASS desktop blank-one: A: the upload completes ("Analysed."), no page error
+PASS desktop blank-one: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop blank-one: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS desktop blank-one: B: the record names exactly the affected fields
+PASS desktop blank-one: B: status inputs-not-all-valid; never "Verified"
+PASS desktop blank-one: C: 1 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS desktop blank-one: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop blank-one: C: "Not calculated" count card shows 1
+PASS desktop blank-one: C: net-requirement count says how many were not calculated
+PASS desktop blank-one: C: integrity notice names Allocated_Qty
+PASS desktop blank-one: C: replenishment total is labelled partial and says what it excludes
+PASS desktop blank-one: C: order-now count says how many materials were calculated
+PASS desktop blank-one: C: replenishment total is a £ figure
+PASS desktop blank-one: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop blank-one: C: every unaffected material (99 shown) displays exactly what it displays on clean data
+PASS desktop blank-one: engine: exactly the expected items are Not Assessed (RM001)
+PASS desktop blank-one: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop blank-one: Finished goods: no assessed item is labelled Not Assessed
+PASS desktop blank-one: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS desktop blank-one: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop blank-one: Materials: no assessed item is labelled Not Assessed
+PASS desktop blank-one: Materials: every unaffected item shown (99) is identical to clean data
+PASS desktop blank-one: Health: a "Not Assessed" card counts 1 and the average covers only assessed items
+PASS desktop blank-one: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS desktop blank-one: Overview: Not Assessed card shows 1
+PASS desktop blank-one: Overview: inventory value is a complete figure
+PASS desktop blank-one: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS desktop blank-one: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS desktop blank-one: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS desktop blank-one: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS desktop blank-one: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS desktop blank-one: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop blank-one: no page error while visiting every tab
+PASS desktop blank-several: A: the upload completes ("Analysed."), no page error
+PASS desktop blank-several: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop blank-several: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS desktop blank-several: B: the record names exactly the affected fields
+PASS desktop blank-several: B: status inputs-not-all-valid; never "Verified"
+PASS desktop blank-several: C: 3 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS desktop blank-several: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop blank-several: C: "Not calculated" count card shows 3
+PASS desktop blank-several: C: net-requirement count says how many were not calculated
+PASS desktop blank-several: C: integrity notice names Allocated_Qty
+PASS desktop blank-several: C: replenishment total is labelled partial and says what it excludes
+PASS desktop blank-several: C: order-now count says how many materials were calculated
+PASS desktop blank-several: C: replenishment total is a £ figure
+PASS desktop blank-several: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop blank-several: C: every unaffected material (97 shown) displays exactly what it displays on clean data
+PASS desktop blank-several: engine: exactly the expected items are Not Assessed (RM001,RM005,RM010)
+PASS desktop blank-several: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop blank-several: Finished goods: no assessed item is labelled Not Assessed
+PASS desktop blank-several: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS desktop blank-several: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop blank-several: Materials: no assessed item is labelled Not Assessed
+PASS desktop blank-several: Materials: every unaffected item shown (97) is identical to clean data
+PASS desktop blank-several: Health: a "Not Assessed" card counts 3 and the average covers only assessed items
+PASS desktop blank-several: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS desktop blank-several: Overview: Not Assessed card shows 3
+PASS desktop blank-several: Overview: inventory value is a complete figure
+PASS desktop blank-several: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS desktop blank-several: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS desktop blank-several: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS desktop blank-several: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS desktop blank-several: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS desktop blank-several: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop blank-several: no page error while visiting every tab
+PASS desktop column-absent: A: the upload completes ("Analysed."), no page error
+PASS desktop column-absent: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop column-absent: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS desktop column-absent: B: the record names exactly the affected fields
+PASS desktop column-absent: B: status inputs-not-all-valid; never "Verified"
+PASS desktop column-absent: C: every withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS desktop column-absent: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop column-absent: C: "Not calculated" count card shows 100
+PASS desktop column-absent: C: net-requirement count says how many were not calculated
+PASS desktop column-absent: C: integrity notice names Allocated_Qty
+PASS desktop column-absent: C: replenishment total is labelled partial and says what it excludes
+PASS desktop column-absent: C: order-now count says how many materials were calculated
+PASS desktop column-absent: C: replenishment total shows "–", not £0, when no material was calculated
+PASS desktop column-absent: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop column-absent: C: every unaffected material (0 shown) displays exactly what it displays on clean data
+PASS desktop column-absent: engine: exactly the expected items are Not Assessed (all)
+PASS desktop column-absent: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop column-absent: Finished goods: no assessed item is labelled Not Assessed
+PASS desktop column-absent: Finished goods: every unaffected item shown (0) is identical to clean data
+PASS desktop column-absent: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop column-absent: Materials: no assessed item is labelled Not Assessed
+PASS desktop column-absent: Materials: every unaffected item shown (0) is identical to clean data
+PASS desktop column-absent: Health: a "Not Assessed" card counts 150 and the average covers only assessed items
+PASS desktop column-absent: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS desktop column-absent: Overview: Not Assessed card shows 150
+PASS desktop column-absent: Overview: inventory value is a complete figure
+PASS desktop column-absent: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS desktop column-absent: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS desktop column-absent: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS desktop column-absent: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS desktop column-absent: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS desktop column-absent: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop column-absent: no page error while visiting every tab
+PASS desktop invalid-mixed: A: the upload completes ("Analysed."), no page error
+PASS desktop invalid-mixed: B: window INTEG holds the integrity record (direct route), outside R
+PASS desktop invalid-mixed: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS desktop invalid-mixed: B: the record names exactly the affected fields
+PASS desktop invalid-mixed: B: status inputs-not-all-valid; never "Verified"
+PASS desktop invalid-mixed: C: 2 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS desktop invalid-mixed: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS desktop invalid-mixed: C: "Not calculated" count card shows 2
+PASS desktop invalid-mixed: C: net-requirement count says how many were not calculated
+PASS desktop invalid-mixed: C: integrity notice names On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP
+PASS desktop invalid-mixed: C: replenishment total is labelled partial and says what it excludes
+PASS desktop invalid-mixed: C: order-now count says how many materials were calculated
+PASS desktop invalid-mixed: C: replenishment total is a £ figure
+PASS desktop invalid-mixed: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS desktop invalid-mixed: C: every unaffected material (97 shown) displays exactly what it displays on clean data
+PASS desktop invalid-mixed: engine: exactly the expected items are Not Assessed (RM002,RM004)
+PASS desktop invalid-mixed: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop invalid-mixed: Finished goods: no assessed item is labelled Not Assessed
+PASS desktop invalid-mixed: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS desktop invalid-mixed: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS desktop invalid-mixed: Materials: no assessed item is labelled Not Assessed
+PASS desktop invalid-mixed: Materials: every unaffected item shown (97) is identical to clean data
+PASS desktop invalid-mixed: Health: a "Not Assessed" card counts 2 and the average covers only assessed items
+PASS desktop invalid-mixed: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS desktop invalid-mixed: Overview: Not Assessed card shows 2
+PASS desktop invalid-mixed: Overview: inventory value labelled partial with coverage
+PASS desktop invalid-mixed: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS desktop invalid-mixed: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS desktop invalid-mixed: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS desktop invalid-mixed: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS desktop invalid-mixed: C: every tab shows the missing-input banner naming On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP and the final D4 wording (affected items stay listed as Not Assessed)
+PASS desktop invalid-mixed: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS desktop invalid-mixed: no page error while visiting every tab
+
+===== MOBILE (Pixel 5 EMULATION, not a physical device) =====
+PASS mobile clean: the page loads js/validation/x1-integrity.js and exposes CGValidation (P1)
+PASS mobile clean: A: the upload completes ("Analysed."), no page error
+PASS mobile clean: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile clean: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS mobile clean: B: the record names exactly the affected fields
+PASS mobile clean: B: status inputs-valid; never "Verified"
+PASS mobile clean: C: 0 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS mobile clean: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile clean: C: "Not calculated" count card is absent
+PASS mobile clean: C: net-requirement count has no qualifier
+PASS mobile clean: C: integrity notice is absent on clean data
+PASS mobile clean: C: replenishment total is not labelled partial
+PASS mobile clean: C: order-now count has no qualifier
+PASS mobile clean: C: replenishment total is a £ figure
+PASS mobile clean: engine: exactly the expected items are Not Assessed (none)
+PASS mobile clean: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile clean: Finished goods: no assessed item is labelled Not Assessed
+PASS mobile clean: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile clean: Materials: no assessed item is labelled Not Assessed
+PASS mobile clean: Health: no Not Assessed card; average over all items
+PASS mobile clean: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS mobile clean: Overview: no Not Assessed card
+PASS mobile clean: Overview: inventory value is a complete figure
+PASS mobile clean: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS mobile clean: Summary: no Not Assessed card
+PASS mobile clean: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS mobile clean: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS mobile clean: C: every tab has no missing-input banner
+PASS mobile clean: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile clean: no page error while visiting every tab
+PASS mobile blank-one: A: the upload completes ("Analysed."), no page error
+PASS mobile blank-one: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile blank-one: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS mobile blank-one: B: the record names exactly the affected fields
+PASS mobile blank-one: B: status inputs-not-all-valid; never "Verified"
+PASS mobile blank-one: C: 1 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS mobile blank-one: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile blank-one: C: "Not calculated" count card shows 1
+PASS mobile blank-one: C: net-requirement count says how many were not calculated
+PASS mobile blank-one: C: integrity notice names Allocated_Qty
+PASS mobile blank-one: C: replenishment total is labelled partial and says what it excludes
+PASS mobile blank-one: C: order-now count says how many materials were calculated
+PASS mobile blank-one: C: replenishment total is a £ figure
+PASS mobile blank-one: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile blank-one: C: every unaffected material (49 shown) displays exactly what it displays on clean data
+PASS mobile blank-one: engine: exactly the expected items are Not Assessed (RM001)
+PASS mobile blank-one: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile blank-one: Finished goods: no assessed item is labelled Not Assessed
+PASS mobile blank-one: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS mobile blank-one: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile blank-one: Materials: no assessed item is labelled Not Assessed
+PASS mobile blank-one: Materials: every unaffected item shown (49) is identical to clean data
+PASS mobile blank-one: Health: a "Not Assessed" card counts 1 and the average covers only assessed items
+PASS mobile blank-one: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS mobile blank-one: Overview: Not Assessed card shows 1
+PASS mobile blank-one: Overview: inventory value is a complete figure
+PASS mobile blank-one: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS mobile blank-one: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS mobile blank-one: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS mobile blank-one: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS mobile blank-one: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS mobile blank-one: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile blank-one: no page error while visiting every tab
+PASS mobile blank-several: A: the upload completes ("Analysed."), no page error
+PASS mobile blank-several: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile blank-several: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS mobile blank-several: B: the record names exactly the affected fields
+PASS mobile blank-several: B: status inputs-not-all-valid; never "Verified"
+PASS mobile blank-several: C: 3 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS mobile blank-several: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile blank-several: C: "Not calculated" count card shows 3
+PASS mobile blank-several: C: net-requirement count says how many were not calculated
+PASS mobile blank-several: C: integrity notice names Allocated_Qty
+PASS mobile blank-several: C: replenishment total is labelled partial and says what it excludes
+PASS mobile blank-several: C: order-now count says how many materials were calculated
+PASS mobile blank-several: C: replenishment total is a £ figure
+PASS mobile blank-several: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile blank-several: C: every unaffected material (47 shown) displays exactly what it displays on clean data
+PASS mobile blank-several: engine: exactly the expected items are Not Assessed (RM001,RM005,RM010)
+PASS mobile blank-several: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile blank-several: Finished goods: no assessed item is labelled Not Assessed
+PASS mobile blank-several: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS mobile blank-several: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile blank-several: Materials: no assessed item is labelled Not Assessed
+PASS mobile blank-several: Materials: every unaffected item shown (47) is identical to clean data
+PASS mobile blank-several: Health: a "Not Assessed" card counts 3 and the average covers only assessed items
+PASS mobile blank-several: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS mobile blank-several: Overview: Not Assessed card shows 3
+PASS mobile blank-several: Overview: inventory value is a complete figure
+PASS mobile blank-several: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS mobile blank-several: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS mobile blank-several: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS mobile blank-several: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS mobile blank-several: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS mobile blank-several: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile blank-several: no page error while visiting every tab
+PASS mobile column-absent: A: the upload completes ("Analysed."), no page error
+PASS mobile column-absent: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile column-absent: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS mobile column-absent: B: the record names exactly the affected fields
+PASS mobile column-absent: B: status inputs-not-all-valid; never "Verified"
+PASS mobile column-absent: C: every withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS mobile column-absent: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile column-absent: C: "Not calculated" count card shows 100
+PASS mobile column-absent: C: net-requirement count says how many were not calculated
+PASS mobile column-absent: C: integrity notice names Allocated_Qty
+PASS mobile column-absent: C: replenishment total is labelled partial and says what it excludes
+PASS mobile column-absent: C: order-now count says how many materials were calculated
+PASS mobile column-absent: C: replenishment total shows "–", not £0, when no material was calculated
+PASS mobile column-absent: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile column-absent: C: every unaffected material (0 shown) displays exactly what it displays on clean data
+PASS mobile column-absent: engine: exactly the expected items are Not Assessed (all)
+PASS mobile column-absent: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile column-absent: Finished goods: no assessed item is labelled Not Assessed
+PASS mobile column-absent: Finished goods: every unaffected item shown (0) is identical to clean data
+PASS mobile column-absent: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile column-absent: Materials: no assessed item is labelled Not Assessed
+PASS mobile column-absent: Materials: every unaffected item shown (0) is identical to clean data
+PASS mobile column-absent: Health: a "Not Assessed" card counts 150 and the average covers only assessed items
+PASS mobile column-absent: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS mobile column-absent: Overview: Not Assessed card shows 150
+PASS mobile column-absent: Overview: inventory value is a complete figure
+PASS mobile column-absent: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS mobile column-absent: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS mobile column-absent: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS mobile column-absent: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS mobile column-absent: C: every tab shows the missing-input banner naming Allocated_Qty and the final D4 wording (affected items stay listed as Not Assessed)
+PASS mobile column-absent: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile column-absent: no page error while visiting every tab
+PASS mobile invalid-mixed: A: the upload completes ("Analysed."), no page error
+PASS mobile invalid-mixed: B: window INTEG holds the integrity record (direct route), outside R
+PASS mobile invalid-mixed: B: INTEG (app.js) and CGEngine.runEngine().integrity are identical: one builder, no second implementation (owner §6.2)
+PASS mobile invalid-mixed: B: the record names exactly the affected fields
+PASS mobile invalid-mixed: B: status inputs-not-all-valid; never "Verified"
+PASS mobile invalid-mixed: C: 2 withheld MRP row(s) shown as "Not Assessed" with the reason from the shared record (field, state, sheet row)
+PASS mobile invalid-mixed: C: withheld rows show no figure (net, quantity, gross, dates "–"; money "£–", the app-wide "no value" form)
+PASS mobile invalid-mixed: C: "Not calculated" count card shows 2
+PASS mobile invalid-mixed: C: net-requirement count says how many were not calculated
+PASS mobile invalid-mixed: C: integrity notice names On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP
+PASS mobile invalid-mixed: C: replenishment total is labelled partial and says what it excludes
+PASS mobile invalid-mixed: C: order-now count says how many materials were calculated
+PASS mobile invalid-mixed: C: replenishment total is a £ figure
+PASS mobile invalid-mixed: C: the word "partial" sits inline in the card text (not styled as the headline number)
+PASS mobile invalid-mixed: C: every unaffected material (47 shown) displays exactly what it displays on clean data
+PASS mobile invalid-mixed: engine: exactly the expected items are Not Assessed (RM002,RM004)
+PASS mobile invalid-mixed: Finished goods: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile invalid-mixed: Finished goods: no assessed item is labelled Not Assessed
+PASS mobile invalid-mixed: Finished goods: every unaffected item shown (50) is identical to clean data
+PASS mobile invalid-mixed: Materials: every Not Assessed item shown on this page says "Not Assessed – reason" in the Risk column and is listed first
+PASS mobile invalid-mixed: Materials: no assessed item is labelled Not Assessed
+PASS mobile invalid-mixed: Materials: every unaffected item shown (47) is identical to clean data
+PASS mobile invalid-mixed: Health: a "Not Assessed" card counts 2 and the average covers only assessed items
+PASS mobile invalid-mixed: Health: Not Assessed items have no score ("–"), category "Not Assessed" and the reason (never a healthy score)
+PASS mobile invalid-mixed: Overview: Not Assessed card shows 2
+PASS mobile invalid-mixed: Overview: inventory value labelled partial with coverage
+PASS mobile invalid-mixed: Excess & dead stock: items listed here that are Not Assessed show "Not Assessed – reason"; none is shown as an assessed class
+PASS mobile invalid-mixed: Summary: a Not Assessed card names the items (not counted as low risk)
+PASS mobile invalid-mixed: export: every Not Assessed row has Assessment "Not Assessed", a reason, and EMPTY Available / Risk-dependent number cells (never NaN or a number)
+PASS mobile invalid-mixed: export: every assessed row has Assessment "Assessed", no reason and a numeric health score; no NaN anywhere in the two sheets
+PASS mobile invalid-mixed: C: every tab shows the missing-input banner naming On_Hand_Qty, Allocated_Qty, Unit_Cost_GBP and the final D4 wording (affected items stay listed as Not Assessed)
+PASS mobile invalid-mixed: C: no tab (17) shows NaN, Infinity, "Invalid Date" or "undefined"
+PASS mobile invalid-mixed: no page error while visiting every tab
+
+===== IMPORT ROUTE (harness inside the real page, desktop) =====
+PASS import clean: A: Stage 1, adapter and engine complete in the browser
+PASS import clean: B: out.integrity is an import-route record (inputs-valid)
+PASS import clean: A: withheld MRP rows none, no NaN or invalid date
+PASS import blank-one: A: Stage 1, adapter and engine complete in the browser
+PASS import blank-one: B: out.integrity is an import-route record (names Allocated_Qty)
+PASS import blank-one: A: withheld MRP rows RM001, no NaN or invalid date
+PASS import column-absent: A: Stage 1, adapter and engine complete in the browser
+PASS import column-absent: B: out.integrity is an import-route record (names Allocated_Qty)
+PASS import column-absent: A: withheld MRP rows all, no NaN or invalid date
+PASS import harness: no page error
+
+browser-x1-chrome: 334 passed, 0 failed | screenshots in /tmp/x1-browser-ENevqe

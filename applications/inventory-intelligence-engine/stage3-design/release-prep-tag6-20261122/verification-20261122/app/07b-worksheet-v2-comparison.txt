@@ -1,0 +1,48 @@
+ws | figure | worksheet | candidate | diff | result | candidate field
+1 | m | 87.25 | 87.25 | 0.0 | AGREE | R.fg[FG001].m
+1 | sigma | 10.7945 | 10.794481614849937 | -1.84e-05 | AGREE | R.fg[FG001].sg
+1 | d | 2.8685 | 2.8684931506849316 | -6.8e-06 | AGREE | R.fg[FG001].d
+1 | L | 2.6667 | 2.6666666666666665 | -3.33e-05 | AGREE | R.fg[FG001].lt
+1 | SS | 5.27 | 5.273686293598403 | 0.00369 | AGREE | R.fg[FG001].ssR
+1 | ROP | 12.92 | 12.923001362091554 | 0.003 | AGREE | R.fg[FG001].ropR
+2 | m | 386.3822 | 386.3821666666667 | -3.33e-05 | AGREE | R.rm[RM001].m
+2 | sigma | 45.5043 | 45.50425156003434 | -4.84e-05 | AGREE | R.rm[RM001].sg
+2 | d | 12.703 | 12.702975342465754 | -2.47e-05 | AGREE | R.rm[RM001].d
+2 | L | 36.85 | 36.85 | 0.0 | AGREE | R.rm[RM001].lt
+2 | sigmaL | 4.7252 | 4.7251984085327035 | -1.6e-06 | AGREE | R.rm[RM001].ltS
+2 | SS | 128.99 | 128.9903352816664 | 0.00034 | AGREE | R.rm[RM001].ssR
+2 | ROP | 597.09 | 597.0949766515295 | 0.00498 | AGREE | R.rm[RM001].ropR
+3 | FG value | 922703.94 | 922703.9400000002 | 0.0 | AGREE | R.fgV
+3 | RM value | 1610892.46 | 1610892.46 | 0.0 | AGREE | R.rmV
+3 | Total | 2533596.4 | 2533596.4000000004 | 0.0 | AGREE | R.tot
+3 | Overview shows "£2,533,596" | True | True |  | AGREE | Overview tab text
+4 | m | 1113.045 | 1113.0449499999997 | -5e-05 | AGREE | R.rm[RM004].m
+4 | gross | 3339.13 | 3339.1348499999995 | 0.00485 | AGREE | mrp()[RM004].gross
+4 | available | 1188 | 1188 | 0 | AGREE | R.rm[RM004].av
+4 | receipts | 0 | 0 | 0 | AGREE | mrp()[RM004].rq
+4 | net | 2484.13 | 2484.1348499999995 | 0.00485 | AGREE | mrp()[RM004].net
+4 | order qty | 2500 | 2500 | 0 | AGREE | mrp()[RM004].qty
+4 | value | 28425.0 | 28424.999999999996 | -0.0 | AGREE | mrp()[RM004].val
+4 | cover days | 32.46 | 32.4649961351516 | 0.005 | AGREE | (av+rq)/d, the mrpCalc "days" expression
+4 | margin days | 2.94 | 2.9411866113420757 | 0.00119 | AGREE | days - lt, the mrpCalc "ob" expression
+4 | status | Order soon | Order soon |  | AGREE | mrp()[RM004].st
+4 | order by | 2026-11-02 | 2026-11-02 |  | AGREE | mrp()[RM004].by
+4 | alt net (On_Order 457) | 2027.13 | 2027.1348499999995 | 0.00485 | AGREE | mrp()[RM004].netU
+4 | MRP tab shows RM004 with 2,500 and "Order soon" | True | True |  | AGREE | MRP tab text
+5 | number of items whose class differs | 8 | 8 |  | AGREE | R.*[].abc clean vs faulty
+5 | FG007 faulty class | Not Assessed | Not Assessed |  | AGREE | faulty R abc
+5 | RM005 faulty class | Not Assessed | Not Assessed |  | AGREE | faulty R abc
+5 | RM017 faulty class | Not Assessed | Not Assessed |  | AGREE | faulty R abc
+5 | RM042 faulty class | Not Assessed | Not Assessed |  | AGREE | faulty R abc
+5 | FG018 faulty class | C | C |  | AGREE | faulty R abc
+5 | FG018 clean class | B | B |  | AGREE | clean R abc
+5 | FG030 faulty class | B | B |  | AGREE | faulty R abc
+5 | FG030 clean class | A | A |  | AGREE | clean R abc
+5 | RM020 faulty class | B | B |  | AGREE | faulty R abc
+5 | RM020 clean class | A | A |  | AGREE | clean R abc
+5 | RM051 faulty class | B | B |  | AGREE | faulty R abc
+5 | RM051 clean class | C | C |  | AGREE | clean R abc
+5 | items that differ, exactly the 8 listed | ['FG007', 'FG018', 'FG030', 'RM005', 'RM017', 'RM020', 'RM042', 'RM051'] | ['FG007', 'FG018', 'FG030', 'RM005', 'RM017', 'RM020', 'RM042', 'RM051'] |  | AGREE | set comparison
+TOTAL (v2) 44 AGREE 44 DISAGREE 0
+v2 lead-time rule RM001 | candidate lt0 (base) 35 | expected base 35 | candidate lt 36.85 | lt - lt0 (lateness) 1.8500000000000014 | AGREE
+v2 lead-time rule RM004 | candidate lt0 (base) 28 | expected base 28 | candidate lt 29.523809523809526 | lt - lt0 (lateness) 1.5238095238095255 | AGREE

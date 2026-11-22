@@ -1,0 +1,18 @@
+sheets ['Read me', 'Purchase Orders', 'Inventory', 'Materials', 'Products', 'Suppliers', 'Production Orders', 'BOM', 'Demand History', 'Pivot (old)']
+BOM columns ['Scrap_Factor_Pct', 'Qty_Per_Finished_Unit', 'Material_ID', 'SKU']
+Demand columns ['Customer_Orders', 'Units_Sold', 'SKU', 'Month_Start']
+    Scrap_Factor_Pct  Qty_Per_Finished_Unit Material_ID      SKU
+2              0.047                  0.068     ing 017  WF-A207
+13             0.010                  0.249     ing 017  WF-D656
+16             0.053                  0.127     ing 017  WF-E110
+24             0.034                  0.101     ing 017  WF-G912
+37             0.016                  0.116     ing 017  WF-K343
+46             0.048                  0.402     ing 017  WF-N525
+WF-A207 months present (last 10): ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y']
+WF-D656 months present (last 10): ['-', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y']
+WF-E110 months present (last 10): ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', '-', 'Y', 'Y', 'Y']
+WF-G912 months present (last 10): ['Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y']
+WF-K343 months present (last 10): ['Y', 'Y', 'Y', 'Y', '-', 'Y', 'Y', 'Y', 'Y', 'Y']
+WF-N525 months present (last 10): ['Y', 'Y', 'Y', 'Y', 'Y', '-', 'Y', 'Y', 'Y', 'Y']
+months ['2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09']
+reference usage [None, np.float64(1913.001851), np.float64(2282.553755), np.float64(2243.393981), None, None, None, np.float64(2117.877288), np.float64(2101.135431), np.float64(2005.484197)]

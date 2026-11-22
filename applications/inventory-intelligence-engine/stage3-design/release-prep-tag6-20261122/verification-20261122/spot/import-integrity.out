@@ -1,0 +1,503 @@
+
+===== TZ=UTC (exit 0) =====
+time zone: UTC
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context)
+
+--- F1: items blocked for every analysis (Package 01, P0001 and M0028 in the wrong unit)
+PASS: I0: the gate accepts the adapter’s own specification for both runs (adapter and engine agree; the run with the unit mismatches is restricted, not refused)
+PASS: I1: with P0001 and M0028 in the Engine View the stock value £2,318,695.70 includes their £19,708.41 (P0001 198 x £46.10 = £9,127.80; M0028 961 x £11.01 = £10,580.61)
+PASS: I1: Stage 1 blocks P0001 and M0028 for every analysis (unit mismatch; Stage 1 rule unchanged)
+PASS: I2: P0001 and M0028 are in none of the six item, stock, demand, PO and production sheets, and the engine never analyses them
+PASS: I2: every BOM row is kept, including P0001’s 3 lines and the 2 lines that use M0028 (P0001, P0018)
+PASS: I3: total stock value £2,298,987.29 = £2,318,695.70 - £19,708.41; finished goods and materials values drop by exactly P0001 and M0028
+PASS: I4: available stock over released items = 54921 - 184 (P0001) - 961 (M0028) = 53776; no released item, MRP or forecast record belongs to them
+PASS: I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete
+PASS: I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£2591.48), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers
+PASS: I7: P0018 was "Feasible" only because M0028’s kg counted as each; the engine now says "Insufficient information" and the released order is withheld; no order using M0028 is released with a status
+PASS: I7: later orders that share materials with a withheld order are withheld too (P0021), because the shared pool they draw on is no longer known
+PASS: I8: M0058 and M0064 (components of P0001) have their material and purchasing results withheld, their stock still shown; their suppliers’ results are withheld, other suppliers released
+PASS: I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint
+PASS: I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete
+PASS: I12: every released product, and every material other than M0058 and M0064, equals the engine output exactly (materials ABC and cumulative share withheld, as I5)
+PASS: F1: no non-finite value is released; the gated result and disclosures are frozen
+
+--- F1: fault case F18 (P0001 box, M0001 EA) and the ABC reclassification
+PASS: F18: stock value £2,318,695.70 -> £2,307,019.10; the £11,676.60 difference is exactly P0001 (198 x £46.10 = £9,127.80) + M0001 (118 x £21.60 = £2,548.80)
+PASS: F18 materials value = materials excess value (£1,028,458.36) is legitimate: the case has no BOM, so no material has usage, and the engine counts all stock without usage as excess (exVal = val for every material)
+PASS: I12: P0015 C -> B and P0017 A -> B, released as recalculated without P0001
+PASS: I12: the released classes equal an independent ABC over the analysed products; the ranked total is lower by exactly P0001’s annual value (£87105.95), so blocked data no longer ranks other items
+PASS: I12: the disclosure says the classes are calculated over the analysed items only and names P0001 and its reason, so the change is traceable
+PASS: F18: supplier S01’s stock value drops by £2,548.80, exactly M0001 (its material)
+
+--- Partially blocked items: demand (F03), purchasing and production (Package 01 with rejected rows)
+PASS: I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £271006.53 = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated
+PASS: I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld
+PASS: I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)
+PASS: I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)
+PASS: I11 purchasing (M0005, M0006, M0007, M0008, M0009 blocked): their suppliers’ results, the PO summary, their reconciliation lines and scheduled receipts are withheld; other suppliers are released
+PASS: I11 purchasing: all 8 orders that use a material whose receipts are withheld are withheld; stock value is released
+PASS: I11 production (P0003, P0004, P0005 blocked): their orders and production history rows are withheld; other products’ results and the demand totals stay
+PASS: I11 production performance (result.pr): the entries of the production-blocked products (P0005) are withheld; every other entry equals the engine output
+
+--- Scheduled receipts (result.sched) are a purchasing result
+PASS: sched: with purchasing blocked for the whole dataset, scheduled receipts are withheld (ANALYSIS_PURCHASING_BLOCKED); with production blocked instead, they are released unchanged (and feasibility is withheld)
+PASS: sched: with no purchase-order file, scheduled receipts are labelled "purchasing analysis not available" (filed under purchasing, not production)
+
+--- I13: the gate refuses a specification that does not describe the engine output
+PASS: I13: an exclusion dropped from the specification is detected (the BOM still names P0001): refused, nothing released
+PASS: I13: an item declared excluded but present in the engine output is detected: refused
+PASS: I13: dependants that differ from the engine BOM are detected (M0064 missing): refused
+PASS: I13: an excluded item that also has item gate entries is detected: refused
+PASS: I13: item gate entries for an item the engine never saw are detected: refused
+PASS: I13: a scrap line declared assumed 0% that the Engine View holds as a supplied value is detected: refused
+PASS: I13: a malformed exclusion entry (no reason) is refused as an invalid specification
+PASS: I13: an engine output without its BOM (no dependency information) is refused
+PASS: I13: an RG1 specification (no exclusion or scrap information) is refused by the RG2 gate
+PASS: I13: the untampered specification is accepted (control)
+PASS: R7: a NaN placed in an otherwise clean engine output is withheld (NON_FINITE_VALUE) and the result is marked restricted, never complete
+PASS: R7: Infinity (fg[0].cover) and -Infinity (the stock-value total) are withheld (NON_FINITE_VALUE) and the result is restricted; the neighbouring values are released unchanged
+
+--- F2: BOM scrap (Package 01, 142 lines; true scrap 0, 2% or 5%)
+PASS: S1 column missing: all 142 lines assumed 0% (disclosed); no NaN anywhere in the engine; every order’s status and delay equal an explicit-0% run; the gate is not "complete"
+PASS: S2 all cells blank: assumed 0% line by line, recorded as blank cells; same results as S1
+PASS: S3 explicit 0: a supplied value, no assumption disclosed, gate complete
+PASS: S4 "5%" and 0.05 give identical engine results and are supplied values
+PASS: S5 boundary 1 (= 100%, a supplied value): M0058 (one parent line) uses exactly twice its 0% usage (3779 vs 1889.5); requirement = qty x Qty_Per x (1 + scrap)
+PASS: S6 invalid "abc" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: not a plain decimal or a percentage), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S6 invalid "1.5" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid
+PASS: S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists
+PASS: S8 production requirement (order WO00055): for each short material, the requirement with true scrap exceeds the 0%-scrap requirement by exactly q x Qty_Per x scrap
+PASS: S9 material requirement: M0072 (one BOM line, scrap 0.02) has annual usage with true scrap = its 0%-scrap usage x (1 + scrap)
+PASS: S10 shortage: with 0% assumed the order is still short of the same materials, each shortage still above zero and smaller only where the line has scrap, with the same availability dates
+PASS: S11 feasibility: with 0% assumed, every order has its true-scrap status (scrap here is at most 5%)
+PASS: S12 delay: with 0% assumed, every order has its true-scrap delay, including the genuine shortage
+PASS: S13 reliability: production and MRP sections and every component used by an assumed line are labelled caveated (SCRAP_ASSUMED_ZERO); the result is "restricted", never "complete"
+PASS: S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap
+PASS: S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built
+PASS: S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)
+PASS: S15 Northstar without the scrap column: all 50 orders keep their true-scrap status and delay (33 genuine shortages kept; order FG003/211 Feasible, not "~36d"); all 100 material severities unchanged; no NaN released
+PASS: S15: with scrap supplied the gate is complete; with it assumed the result is restricted (caveated)
+
+--- E-1: direct-upload scrap, and the direct and import routes compared (Northstar, 200 BOM lines)
+PASS: E-1 case 1 valid number (FG001/RM001 0.02): direct has no NaN or Infinity, no scrap warning, its 5 known warnings; direct and import give identical feasibility (status and delay), material usage and severity; import is complete
+PASS: E-1 case 2 explicit 0: a supplied value (no warning, no assumption, RM001 usage lower than at 2%); direct and import identical; import complete
+PASS: E-1 case 3 blank cell: direct warns "Scrap missing on 1 BOM line(s): 0% assumed" and equals an explicit 0; import assumes 0% for FG001/RM001 (disclosed, caveated SCRAP_ASSUMED_ZERO, restricted); identical calculated results; no NaN
+PASS: E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results
+PASS: E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this lin…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently
+PASS: E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case
+PASS: E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%
+PASS: E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results
+PASS: E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows 2, 3, 152) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears
+
+--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain
+PASS: E-1 marker retired: 3 invalid lines (first, middle, last; source rows 2, 72, 143) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE
+PASS: E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: bom: 1 row could not be imported. bom must be complete, so analysis is blocked until the file is corrected.…); the adapter refuses; nothing is released
+PASS: E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case
+PASS: E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%
+PASS: completeness: all 78 assertions before this one ran (78 ran)
+
+import-integrity: 79 passed, 0 failed
+
+===== TZ=Europe/London (exit 0) =====
+time zone: Europe/London
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context)
+
+--- F1: items blocked for every analysis (Package 01, P0001 and M0028 in the wrong unit)
+PASS: I0: the gate accepts the adapter’s own specification for both runs (adapter and engine agree; the run with the unit mismatches is restricted, not refused)
+PASS: I1: with P0001 and M0028 in the Engine View the stock value £2,318,695.70 includes their £19,708.41 (P0001 198 x £46.10 = £9,127.80; M0028 961 x £11.01 = £10,580.61)
+PASS: I1: Stage 1 blocks P0001 and M0028 for every analysis (unit mismatch; Stage 1 rule unchanged)
+PASS: I2: P0001 and M0028 are in none of the six item, stock, demand, PO and production sheets, and the engine never analyses them
+PASS: I2: every BOM row is kept, including P0001’s 3 lines and the 2 lines that use M0028 (P0001, P0018)
+PASS: I3: total stock value £2,298,987.29 = £2,318,695.70 - £19,708.41; finished goods and materials values drop by exactly P0001 and M0028
+PASS: I4: available stock over released items = 54921 - 184 (P0001) - 961 (M0028) = 53776; no released item, MRP or forecast record belongs to them
+PASS: I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete
+PASS: I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£2591.48), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers
+PASS: I7: P0018 was "Feasible" only because M0028’s kg counted as each; the engine now says "Insufficient information" and the released order is withheld; no order using M0028 is released with a status
+PASS: I7: later orders that share materials with a withheld order are withheld too (P0021), because the shared pool they draw on is no longer known
+PASS: I8: M0058 and M0064 (components of P0001) have their material and purchasing results withheld, their stock still shown; their suppliers’ results are withheld, other suppliers released
+PASS: I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint
+PASS: I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete
+PASS: I12: every released product, and every material other than M0058 and M0064, equals the engine output exactly (materials ABC and cumulative share withheld, as I5)
+PASS: F1: no non-finite value is released; the gated result and disclosures are frozen
+
+--- F1: fault case F18 (P0001 box, M0001 EA) and the ABC reclassification
+PASS: F18: stock value £2,318,695.70 -> £2,307,019.10; the £11,676.60 difference is exactly P0001 (198 x £46.10 = £9,127.80) + M0001 (118 x £21.60 = £2,548.80)
+PASS: F18 materials value = materials excess value (£1,028,458.36) is legitimate: the case has no BOM, so no material has usage, and the engine counts all stock without usage as excess (exVal = val for every material)
+PASS: I12: P0015 C -> B and P0017 A -> B, released as recalculated without P0001
+PASS: I12: the released classes equal an independent ABC over the analysed products; the ranked total is lower by exactly P0001’s annual value (£87105.95), so blocked data no longer ranks other items
+PASS: I12: the disclosure says the classes are calculated over the analysed items only and names P0001 and its reason, so the change is traceable
+PASS: F18: supplier S01’s stock value drops by £2,548.80, exactly M0001 (its material)
+
+--- Partially blocked items: demand (F03), purchasing and production (Package 01 with rejected rows)
+PASS: I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £271006.53 = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated
+PASS: I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld
+PASS: I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)
+PASS: I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)
+PASS: I11 purchasing (M0005, M0006, M0007, M0008, M0009 blocked): their suppliers’ results, the PO summary, their reconciliation lines and scheduled receipts are withheld; other suppliers are released
+PASS: I11 purchasing: all 8 orders that use a material whose receipts are withheld are withheld; stock value is released
+PASS: I11 production (P0003, P0004, P0005 blocked): their orders and production history rows are withheld; other products’ results and the demand totals stay
+PASS: I11 production performance (result.pr): the entries of the production-blocked products (P0005) are withheld; every other entry equals the engine output
+
+--- Scheduled receipts (result.sched) are a purchasing result
+PASS: sched: with purchasing blocked for the whole dataset, scheduled receipts are withheld (ANALYSIS_PURCHASING_BLOCKED); with production blocked instead, they are released unchanged (and feasibility is withheld)
+PASS: sched: with no purchase-order file, scheduled receipts are labelled "purchasing analysis not available" (filed under purchasing, not production)
+
+--- I13: the gate refuses a specification that does not describe the engine output
+PASS: I13: an exclusion dropped from the specification is detected (the BOM still names P0001): refused, nothing released
+PASS: I13: an item declared excluded but present in the engine output is detected: refused
+PASS: I13: dependants that differ from the engine BOM are detected (M0064 missing): refused
+PASS: I13: an excluded item that also has item gate entries is detected: refused
+PASS: I13: item gate entries for an item the engine never saw are detected: refused
+PASS: I13: a scrap line declared assumed 0% that the Engine View holds as a supplied value is detected: refused
+PASS: I13: a malformed exclusion entry (no reason) is refused as an invalid specification
+PASS: I13: an engine output without its BOM (no dependency information) is refused
+PASS: I13: an RG1 specification (no exclusion or scrap information) is refused by the RG2 gate
+PASS: I13: the untampered specification is accepted (control)
+PASS: R7: a NaN placed in an otherwise clean engine output is withheld (NON_FINITE_VALUE) and the result is marked restricted, never complete
+PASS: R7: Infinity (fg[0].cover) and -Infinity (the stock-value total) are withheld (NON_FINITE_VALUE) and the result is restricted; the neighbouring values are released unchanged
+
+--- F2: BOM scrap (Package 01, 142 lines; true scrap 0, 2% or 5%)
+PASS: S1 column missing: all 142 lines assumed 0% (disclosed); no NaN anywhere in the engine; every order’s status and delay equal an explicit-0% run; the gate is not "complete"
+PASS: S2 all cells blank: assumed 0% line by line, recorded as blank cells; same results as S1
+PASS: S3 explicit 0: a supplied value, no assumption disclosed, gate complete
+PASS: S4 "5%" and 0.05 give identical engine results and are supplied values
+PASS: S5 boundary 1 (= 100%, a supplied value): M0058 (one parent line) uses exactly twice its 0% usage (3779 vs 1889.5); requirement = qty x Qty_Per x (1 + scrap)
+PASS: S6 invalid "abc" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: not a plain decimal or a percentage), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S6 invalid "1.5" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid
+PASS: S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists
+PASS: S8 production requirement (order WO00055): for each short material, the requirement with true scrap exceeds the 0%-scrap requirement by exactly q x Qty_Per x scrap
+PASS: S9 material requirement: M0072 (one BOM line, scrap 0.02) has annual usage with true scrap = its 0%-scrap usage x (1 + scrap)
+PASS: S10 shortage: with 0% assumed the order is still short of the same materials, each shortage still above zero and smaller only where the line has scrap, with the same availability dates
+PASS: S11 feasibility: with 0% assumed, every order has its true-scrap status (scrap here is at most 5%)
+PASS: S12 delay: with 0% assumed, every order has its true-scrap delay, including the genuine shortage
+PASS: S13 reliability: production and MRP sections and every component used by an assumed line are labelled caveated (SCRAP_ASSUMED_ZERO); the result is "restricted", never "complete"
+PASS: S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap
+PASS: S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built
+PASS: S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)
+PASS: S15 Northstar without the scrap column: all 50 orders keep their true-scrap status and delay (33 genuine shortages kept; order FG003/211 Feasible, not "~36d"); all 100 material severities unchanged; no NaN released
+PASS: S15: with scrap supplied the gate is complete; with it assumed the result is restricted (caveated)
+
+--- E-1: direct-upload scrap, and the direct and import routes compared (Northstar, 200 BOM lines)
+PASS: E-1 case 1 valid number (FG001/RM001 0.02): direct has no NaN or Infinity, no scrap warning, its 5 known warnings; direct and import give identical feasibility (status and delay), material usage and severity; import is complete
+PASS: E-1 case 2 explicit 0: a supplied value (no warning, no assumption, RM001 usage lower than at 2%); direct and import identical; import complete
+PASS: E-1 case 3 blank cell: direct warns "Scrap missing on 1 BOM line(s): 0% assumed" and equals an explicit 0; import assumes 0% for FG001/RM001 (disclosed, caveated SCRAP_ASSUMED_ZERO, restricted); identical calculated results; no NaN
+PASS: E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results
+PASS: E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this lin…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently
+PASS: E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case
+PASS: E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%
+PASS: E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results
+PASS: E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows 2, 3, 152) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears
+
+--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain
+PASS: E-1 marker retired: 3 invalid lines (first, middle, last; source rows 2, 72, 143) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE
+PASS: E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: bom: 1 row could not be imported. bom must be complete, so analysis is blocked until the file is corrected.…); the adapter refuses; nothing is released
+PASS: E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case
+PASS: E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%
+PASS: completeness: all 78 assertions before this one ran (78 ran)
+
+import-integrity: 79 passed, 0 failed
+
+===== TZ=America/New_York (exit 0) =====
+time zone: America/New_York
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context)
+
+--- F1: items blocked for every analysis (Package 01, P0001 and M0028 in the wrong unit)
+PASS: I0: the gate accepts the adapter’s own specification for both runs (adapter and engine agree; the run with the unit mismatches is restricted, not refused)
+PASS: I1: with P0001 and M0028 in the Engine View the stock value £2,318,695.70 includes their £19,708.41 (P0001 198 x £46.10 = £9,127.80; M0028 961 x £11.01 = £10,580.61)
+PASS: I1: Stage 1 blocks P0001 and M0028 for every analysis (unit mismatch; Stage 1 rule unchanged)
+PASS: I2: P0001 and M0028 are in none of the six item, stock, demand, PO and production sheets, and the engine never analyses them
+PASS: I2: every BOM row is kept, including P0001’s 3 lines and the 2 lines that use M0028 (P0001, P0018)
+PASS: I3: total stock value £2,298,987.29 = £2,318,695.70 - £19,708.41; finished goods and materials values drop by exactly P0001 and M0028
+PASS: I4: available stock over released items = 54921 - 184 (P0001) - 961 (M0028) = 53776; no released item, MRP or forecast record belongs to them
+PASS: I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete
+PASS: I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£2591.48), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers
+PASS: I7: P0018 was "Feasible" only because M0028’s kg counted as each; the engine now says "Insufficient information" and the released order is withheld; no order using M0028 is released with a status
+PASS: I7: later orders that share materials with a withheld order are withheld too (P0021), because the shared pool they draw on is no longer known
+PASS: I8: M0058 and M0064 (components of P0001) have their material and purchasing results withheld, their stock still shown; their suppliers’ results are withheld, other suppliers released
+PASS: I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint
+PASS: I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete
+PASS: I12: every released product, and every material other than M0058 and M0064, equals the engine output exactly (materials ABC and cumulative share withheld, as I5)
+PASS: F1: no non-finite value is released; the gated result and disclosures are frozen
+
+--- F1: fault case F18 (P0001 box, M0001 EA) and the ABC reclassification
+PASS: F18: stock value £2,318,695.70 -> £2,307,019.10; the £11,676.60 difference is exactly P0001 (198 x £46.10 = £9,127.80) + M0001 (118 x £21.60 = £2,548.80)
+PASS: F18 materials value = materials excess value (£1,028,458.36) is legitimate: the case has no BOM, so no material has usage, and the engine counts all stock without usage as excess (exVal = val for every material)
+PASS: I12: P0015 C -> B and P0017 A -> B, released as recalculated without P0001
+PASS: I12: the released classes equal an independent ABC over the analysed products; the ranked total is lower by exactly P0001’s annual value (£87105.95), so blocked data no longer ranks other items
+PASS: I12: the disclosure says the classes are calculated over the analysed items only and names P0001 and its reason, so the change is traceable
+PASS: F18: supplier S01’s stock value drops by £2,548.80, exactly M0001 (its material)
+
+--- Partially blocked items: demand (F03), purchasing and production (Package 01 with rejected rows)
+PASS: I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £271006.53 = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated
+PASS: I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld
+PASS: I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)
+PASS: I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)
+PASS: I11 purchasing (M0005, M0006, M0007, M0008, M0009 blocked): their suppliers’ results, the PO summary, their reconciliation lines and scheduled receipts are withheld; other suppliers are released
+PASS: I11 purchasing: all 8 orders that use a material whose receipts are withheld are withheld; stock value is released
+PASS: I11 production (P0003, P0004, P0005 blocked): their orders and production history rows are withheld; other products’ results and the demand totals stay
+PASS: I11 production performance (result.pr): the entries of the production-blocked products (P0005) are withheld; every other entry equals the engine output
+
+--- Scheduled receipts (result.sched) are a purchasing result
+PASS: sched: with purchasing blocked for the whole dataset, scheduled receipts are withheld (ANALYSIS_PURCHASING_BLOCKED); with production blocked instead, they are released unchanged (and feasibility is withheld)
+PASS: sched: with no purchase-order file, scheduled receipts are labelled "purchasing analysis not available" (filed under purchasing, not production)
+
+--- I13: the gate refuses a specification that does not describe the engine output
+PASS: I13: an exclusion dropped from the specification is detected (the BOM still names P0001): refused, nothing released
+PASS: I13: an item declared excluded but present in the engine output is detected: refused
+PASS: I13: dependants that differ from the engine BOM are detected (M0064 missing): refused
+PASS: I13: an excluded item that also has item gate entries is detected: refused
+PASS: I13: item gate entries for an item the engine never saw are detected: refused
+PASS: I13: a scrap line declared assumed 0% that the Engine View holds as a supplied value is detected: refused
+PASS: I13: a malformed exclusion entry (no reason) is refused as an invalid specification
+PASS: I13: an engine output without its BOM (no dependency information) is refused
+PASS: I13: an RG1 specification (no exclusion or scrap information) is refused by the RG2 gate
+PASS: I13: the untampered specification is accepted (control)
+PASS: R7: a NaN placed in an otherwise clean engine output is withheld (NON_FINITE_VALUE) and the result is marked restricted, never complete
+PASS: R7: Infinity (fg[0].cover) and -Infinity (the stock-value total) are withheld (NON_FINITE_VALUE) and the result is restricted; the neighbouring values are released unchanged
+
+--- F2: BOM scrap (Package 01, 142 lines; true scrap 0, 2% or 5%)
+PASS: S1 column missing: all 142 lines assumed 0% (disclosed); no NaN anywhere in the engine; every order’s status and delay equal an explicit-0% run; the gate is not "complete"
+PASS: S2 all cells blank: assumed 0% line by line, recorded as blank cells; same results as S1
+PASS: S3 explicit 0: a supplied value, no assumption disclosed, gate complete
+PASS: S4 "5%" and 0.05 give identical engine results and are supplied values
+PASS: S5 boundary 1 (= 100%, a supplied value): M0058 (one parent line) uses exactly twice its 0% usage (3779 vs 1889.5); requirement = qty x Qty_Per x (1 + scrap)
+PASS: S6 invalid "abc" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: not a plain decimal or a percentage), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S6 invalid "1.5" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid
+PASS: S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists
+PASS: S8 production requirement (order WO00055): for each short material, the requirement with true scrap exceeds the 0%-scrap requirement by exactly q x Qty_Per x scrap
+PASS: S9 material requirement: M0072 (one BOM line, scrap 0.02) has annual usage with true scrap = its 0%-scrap usage x (1 + scrap)
+PASS: S10 shortage: with 0% assumed the order is still short of the same materials, each shortage still above zero and smaller only where the line has scrap, with the same availability dates
+PASS: S11 feasibility: with 0% assumed, every order has its true-scrap status (scrap here is at most 5%)
+PASS: S12 delay: with 0% assumed, every order has its true-scrap delay, including the genuine shortage
+PASS: S13 reliability: production and MRP sections and every component used by an assumed line are labelled caveated (SCRAP_ASSUMED_ZERO); the result is "restricted", never "complete"
+PASS: S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap
+PASS: S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built
+PASS: S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)
+PASS: S15 Northstar without the scrap column: all 50 orders keep their true-scrap status and delay (33 genuine shortages kept; order FG003/211 Feasible, not "~36d"); all 100 material severities unchanged; no NaN released
+PASS: S15: with scrap supplied the gate is complete; with it assumed the result is restricted (caveated)
+
+--- E-1: direct-upload scrap, and the direct and import routes compared (Northstar, 200 BOM lines)
+PASS: E-1 case 1 valid number (FG001/RM001 0.02): direct has no NaN or Infinity, no scrap warning, its 5 known warnings; direct and import give identical feasibility (status and delay), material usage and severity; import is complete
+PASS: E-1 case 2 explicit 0: a supplied value (no warning, no assumption, RM001 usage lower than at 2%); direct and import identical; import complete
+PASS: E-1 case 3 blank cell: direct warns "Scrap missing on 1 BOM line(s): 0% assumed" and equals an explicit 0; import assumes 0% for FG001/RM001 (disclosed, caveated SCRAP_ASSUMED_ZERO, restricted); identical calculated results; no NaN
+PASS: E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results
+PASS: E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this lin…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently
+PASS: E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case
+PASS: E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%
+PASS: E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results
+PASS: E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows 2, 3, 152) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears
+
+--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain
+PASS: E-1 marker retired: 3 invalid lines (first, middle, last; source rows 2, 72, 143) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE
+PASS: E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: bom: 1 row could not be imported. bom must be complete, so analysis is blocked until the file is corrected.…); the adapter refuses; nothing is released
+PASS: E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case
+PASS: E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%
+PASS: completeness: all 78 assertions before this one ran (78 ran)
+
+import-integrity: 79 passed, 0 failed
+
+===== TZ=Asia/Kolkata (exit 0) =====
+time zone: Asia/Kolkata
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context)
+
+--- F1: items blocked for every analysis (Package 01, P0001 and M0028 in the wrong unit)
+PASS: I0: the gate accepts the adapter’s own specification for both runs (adapter and engine agree; the run with the unit mismatches is restricted, not refused)
+PASS: I1: with P0001 and M0028 in the Engine View the stock value £2,318,695.70 includes their £19,708.41 (P0001 198 x £46.10 = £9,127.80; M0028 961 x £11.01 = £10,580.61)
+PASS: I1: Stage 1 blocks P0001 and M0028 for every analysis (unit mismatch; Stage 1 rule unchanged)
+PASS: I2: P0001 and M0028 are in none of the six item, stock, demand, PO and production sheets, and the engine never analyses them
+PASS: I2: every BOM row is kept, including P0001’s 3 lines and the 2 lines that use M0028 (P0001, P0018)
+PASS: I3: total stock value £2,298,987.29 = £2,318,695.70 - £19,708.41; finished goods and materials values drop by exactly P0001 and M0028
+PASS: I4: available stock over released items = 54921 - 184 (P0001) - 961 (M0028) = 53776; no released item, MRP or forecast record belongs to them
+PASS: I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete
+PASS: I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£2591.48), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers
+PASS: I7: P0018 was "Feasible" only because M0028’s kg counted as each; the engine now says "Insufficient information" and the released order is withheld; no order using M0028 is released with a status
+PASS: I7: later orders that share materials with a withheld order are withheld too (P0021), because the shared pool they draw on is no longer known
+PASS: I8: M0058 and M0064 (components of P0001) have their material and purchasing results withheld, their stock still shown; their suppliers’ results are withheld, other suppliers released
+PASS: I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint
+PASS: I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete
+PASS: I12: every released product, and every material other than M0058 and M0064, equals the engine output exactly (materials ABC and cumulative share withheld, as I5)
+PASS: F1: no non-finite value is released; the gated result and disclosures are frozen
+
+--- F1: fault case F18 (P0001 box, M0001 EA) and the ABC reclassification
+PASS: F18: stock value £2,318,695.70 -> £2,307,019.10; the £11,676.60 difference is exactly P0001 (198 x £46.10 = £9,127.80) + M0001 (118 x £21.60 = £2,548.80)
+PASS: F18 materials value = materials excess value (£1,028,458.36) is legitimate: the case has no BOM, so no material has usage, and the engine counts all stock without usage as excess (exVal = val for every material)
+PASS: I12: P0015 C -> B and P0017 A -> B, released as recalculated without P0001
+PASS: I12: the released classes equal an independent ABC over the analysed products; the ranked total is lower by exactly P0001’s annual value (£87105.95), so blocked data no longer ranks other items
+PASS: I12: the disclosure says the classes are calculated over the analysed items only and names P0001 and its reason, so the change is traceable
+PASS: F18: supplier S01’s stock value drops by £2,548.80, exactly M0001 (its material)
+
+--- Partially blocked items: demand (F03), purchasing and production (Package 01 with rejected rows)
+PASS: I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £271006.53 = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated
+PASS: I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld
+PASS: I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)
+PASS: I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)
+PASS: I11 purchasing (M0005, M0006, M0007, M0008, M0009 blocked): their suppliers’ results, the PO summary, their reconciliation lines and scheduled receipts are withheld; other suppliers are released
+PASS: I11 purchasing: all 8 orders that use a material whose receipts are withheld are withheld; stock value is released
+PASS: I11 production (P0003, P0004, P0005 blocked): their orders and production history rows are withheld; other products’ results and the demand totals stay
+PASS: I11 production performance (result.pr): the entries of the production-blocked products (P0005) are withheld; every other entry equals the engine output
+
+--- Scheduled receipts (result.sched) are a purchasing result
+PASS: sched: with purchasing blocked for the whole dataset, scheduled receipts are withheld (ANALYSIS_PURCHASING_BLOCKED); with production blocked instead, they are released unchanged (and feasibility is withheld)
+PASS: sched: with no purchase-order file, scheduled receipts are labelled "purchasing analysis not available" (filed under purchasing, not production)
+
+--- I13: the gate refuses a specification that does not describe the engine output
+PASS: I13: an exclusion dropped from the specification is detected (the BOM still names P0001): refused, nothing released
+PASS: I13: an item declared excluded but present in the engine output is detected: refused
+PASS: I13: dependants that differ from the engine BOM are detected (M0064 missing): refused
+PASS: I13: an excluded item that also has item gate entries is detected: refused
+PASS: I13: item gate entries for an item the engine never saw are detected: refused
+PASS: I13: a scrap line declared assumed 0% that the Engine View holds as a supplied value is detected: refused
+PASS: I13: a malformed exclusion entry (no reason) is refused as an invalid specification
+PASS: I13: an engine output without its BOM (no dependency information) is refused
+PASS: I13: an RG1 specification (no exclusion or scrap information) is refused by the RG2 gate
+PASS: I13: the untampered specification is accepted (control)
+PASS: R7: a NaN placed in an otherwise clean engine output is withheld (NON_FINITE_VALUE) and the result is marked restricted, never complete
+PASS: R7: Infinity (fg[0].cover) and -Infinity (the stock-value total) are withheld (NON_FINITE_VALUE) and the result is restricted; the neighbouring values are released unchanged
+
+--- F2: BOM scrap (Package 01, 142 lines; true scrap 0, 2% or 5%)
+PASS: S1 column missing: all 142 lines assumed 0% (disclosed); no NaN anywhere in the engine; every order’s status and delay equal an explicit-0% run; the gate is not "complete"
+PASS: S2 all cells blank: assumed 0% line by line, recorded as blank cells; same results as S1
+PASS: S3 explicit 0: a supplied value, no assumption disclosed, gate complete
+PASS: S4 "5%" and 0.05 give identical engine results and are supplied values
+PASS: S5 boundary 1 (= 100%, a supplied value): M0058 (one parent line) uses exactly twice its 0% usage (3779 vs 1889.5); requirement = qty x Qty_Per x (1 + scrap)
+PASS: S6 invalid "abc" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: not a plain decimal or a percentage), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S6 invalid "1.5" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid
+PASS: S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists
+PASS: S8 production requirement (order WO00055): for each short material, the requirement with true scrap exceeds the 0%-scrap requirement by exactly q x Qty_Per x scrap
+PASS: S9 material requirement: M0072 (one BOM line, scrap 0.02) has annual usage with true scrap = its 0%-scrap usage x (1 + scrap)
+PASS: S10 shortage: with 0% assumed the order is still short of the same materials, each shortage still above zero and smaller only where the line has scrap, with the same availability dates
+PASS: S11 feasibility: with 0% assumed, every order has its true-scrap status (scrap here is at most 5%)
+PASS: S12 delay: with 0% assumed, every order has its true-scrap delay, including the genuine shortage
+PASS: S13 reliability: production and MRP sections and every component used by an assumed line are labelled caveated (SCRAP_ASSUMED_ZERO); the result is "restricted", never "complete"
+PASS: S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap
+PASS: S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built
+PASS: S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)
+PASS: S15 Northstar without the scrap column: all 50 orders keep their true-scrap status and delay (33 genuine shortages kept; order FG003/211 Feasible, not "~36d"); all 100 material severities unchanged; no NaN released
+PASS: S15: with scrap supplied the gate is complete; with it assumed the result is restricted (caveated)
+
+--- E-1: direct-upload scrap, and the direct and import routes compared (Northstar, 200 BOM lines)
+PASS: E-1 case 1 valid number (FG001/RM001 0.02): direct has no NaN or Infinity, no scrap warning, its 5 known warnings; direct and import give identical feasibility (status and delay), material usage and severity; import is complete
+PASS: E-1 case 2 explicit 0: a supplied value (no warning, no assumption, RM001 usage lower than at 2%); direct and import identical; import complete
+PASS: E-1 case 3 blank cell: direct warns "Scrap missing on 1 BOM line(s): 0% assumed" and equals an explicit 0; import assumes 0% for FG001/RM001 (disclosed, caveated SCRAP_ASSUMED_ZERO, restricted); identical calculated results; no NaN
+PASS: E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results
+PASS: E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this lin…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently
+PASS: E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case
+PASS: E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%
+PASS: E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results
+PASS: E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows 2, 3, 152) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears
+
+--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain
+PASS: E-1 marker retired: 3 invalid lines (first, middle, last; source rows 2, 72, 143) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE
+PASS: E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: bom: 1 row could not be imported. bom must be complete, so analysis is blocked until the file is corrected.…); the adapter refuses; nothing is released
+PASS: E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case
+PASS: E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%
+PASS: completeness: all 78 assertions before this one ran (78 ran)
+
+import-integrity: 79 passed, 0 failed
+
+===== TZ=Pacific/Auckland (exit 0) =====
+time zone: Pacific/Auckland
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context)
+
+--- F1: items blocked for every analysis (Package 01, P0001 and M0028 in the wrong unit)
+PASS: I0: the gate accepts the adapter’s own specification for both runs (adapter and engine agree; the run with the unit mismatches is restricted, not refused)
+PASS: I1: with P0001 and M0028 in the Engine View the stock value £2,318,695.70 includes their £19,708.41 (P0001 198 x £46.10 = £9,127.80; M0028 961 x £11.01 = £10,580.61)
+PASS: I1: Stage 1 blocks P0001 and M0028 for every analysis (unit mismatch; Stage 1 rule unchanged)
+PASS: I2: P0001 and M0028 are in none of the six item, stock, demand, PO and production sheets, and the engine never analyses them
+PASS: I2: every BOM row is kept, including P0001’s 3 lines and the 2 lines that use M0028 (P0001, P0018)
+PASS: I3: total stock value £2,298,987.29 = £2,318,695.70 - £19,708.41; finished goods and materials values drop by exactly P0001 and M0028
+PASS: I4: available stock over released items = 54921 - 184 (P0001) - 961 (M0028) = 53776; no released item, MRP or forecast record belongs to them
+PASS: I5: released finished-goods ABC equals an independent recalculation over the 39 analysed products; materials ABC is withheld because two materials’ usage is incomplete
+PASS: I6 (Stage 3, D4): top-10 share 45.10% and the finished-goods excess total are released as calculated; the M0058 false excess (£6,232.80, its only parent P0001 is excluded) is withheld; the materials excess (£2591.48), overall excess, materials annual-value and shortage totals are released only as partial totals over the released items, naming M0058, M0064 and the excluded M0028, and cannot be used as numbers
+PASS: I7: P0018 was "Feasible" only because M0028’s kg counted as each; the engine now says "Insufficient information" and the released order is withheld; no order using M0028 is released with a status
+PASS: I7: later orders that share materials with a withheld order are withheld too (P0021), because the shared pool they draw on is no longer known
+PASS: I8: M0058 and M0064 (components of P0001) have their material and purchasing results withheld, their stock still shown; their suppliers’ results are withheld, other suppliers released
+PASS: I9: the disclosure names both items, the reason, "all analyses", the source stock in its own unit (128 + 70 box; 961 kg), value not calculated, the BOM dependants and the unit-conversion hint
+PASS: I9 (Stage 3, D4): the display sentences explain the exclusion, that totals cover analysed items only, the P0018 orders and the withheld component results; the withheld results are listed, and the four partial totals are listed, labelled and described as not complete
+PASS: I12: every released product, and every material other than M0058 and M0064, equals the engine output exactly (materials ABC and cumulative share withheld, as I5)
+PASS: F1: no non-finite value is released; the gated result and disclosures are frozen
+
+--- F1: fault case F18 (P0001 box, M0001 EA) and the ABC reclassification
+PASS: F18: stock value £2,318,695.70 -> £2,307,019.10; the £11,676.60 difference is exactly P0001 (198 x £46.10 = £9,127.80) + M0001 (118 x £21.60 = £2,548.80)
+PASS: F18 materials value = materials excess value (£1,028,458.36) is legitimate: the case has no BOM, so no material has usage, and the engine counts all stock without usage as excess (exVal = val for every material)
+PASS: I12: P0015 C -> B and P0017 A -> B, released as recalculated without P0001
+PASS: I12: the released classes equal an independent ABC over the analysed products; the ranked total is lower by exactly P0001’s annual value (£87105.95), so blocked data no longer ranks other items
+PASS: I12: the disclosure says the classes are calculated over the analysed items only and names P0001 and its reason, so the change is traceable
+PASS: F18: supplier S01’s stock value drops by £2,548.80, exactly M0001 (its material)
+
+--- Partially blocked items: demand (F03), purchasing and production (Package 01 with rejected rows)
+PASS: I10 (Stage 3, D4): 24 products blocked for demand would have put £244,837.55 into excess value: the excess, shortage and annual-value totals are released only as partial totals that leave out exactly those 24 (excess £271006.53 = engine total − £244,837.55) and cannot be used as numbers; stock value totals (on-hand x cost) are released as calculated
+PASS: I10: every product’s ABC and cumulative share are withheld (56.63% of the ranked value is blocked); unblocked products keep every other result; blocked products keep stock and value; only blocked forecasts are withheld
+PASS: I10: the engine’s second copies of forecasts and forecast credibility (result.fcm, result.fcc) are withheld for blocked products too (a K4 gap closed in K7)
+PASS: I10 (Stage 3, D4): the disclosure names the products and lists the partial totals (no longer withheld totals)
+PASS: I11 purchasing (M0005, M0006, M0007, M0008, M0009 blocked): their suppliers’ results, the PO summary, their reconciliation lines and scheduled receipts are withheld; other suppliers are released
+PASS: I11 purchasing: all 8 orders that use a material whose receipts are withheld are withheld; stock value is released
+PASS: I11 production (P0003, P0004, P0005 blocked): their orders and production history rows are withheld; other products’ results and the demand totals stay
+PASS: I11 production performance (result.pr): the entries of the production-blocked products (P0005) are withheld; every other entry equals the engine output
+
+--- Scheduled receipts (result.sched) are a purchasing result
+PASS: sched: with purchasing blocked for the whole dataset, scheduled receipts are withheld (ANALYSIS_PURCHASING_BLOCKED); with production blocked instead, they are released unchanged (and feasibility is withheld)
+PASS: sched: with no purchase-order file, scheduled receipts are labelled "purchasing analysis not available" (filed under purchasing, not production)
+
+--- I13: the gate refuses a specification that does not describe the engine output
+PASS: I13: an exclusion dropped from the specification is detected (the BOM still names P0001): refused, nothing released
+PASS: I13: an item declared excluded but present in the engine output is detected: refused
+PASS: I13: dependants that differ from the engine BOM are detected (M0064 missing): refused
+PASS: I13: an excluded item that also has item gate entries is detected: refused
+PASS: I13: item gate entries for an item the engine never saw are detected: refused
+PASS: I13: a scrap line declared assumed 0% that the Engine View holds as a supplied value is detected: refused
+PASS: I13: a malformed exclusion entry (no reason) is refused as an invalid specification
+PASS: I13: an engine output without its BOM (no dependency information) is refused
+PASS: I13: an RG1 specification (no exclusion or scrap information) is refused by the RG2 gate
+PASS: I13: the untampered specification is accepted (control)
+PASS: R7: a NaN placed in an otherwise clean engine output is withheld (NON_FINITE_VALUE) and the result is marked restricted, never complete
+PASS: R7: Infinity (fg[0].cover) and -Infinity (the stock-value total) are withheld (NON_FINITE_VALUE) and the result is restricted; the neighbouring values are released unchanged
+
+--- F2: BOM scrap (Package 01, 142 lines; true scrap 0, 2% or 5%)
+PASS: S1 column missing: all 142 lines assumed 0% (disclosed); no NaN anywhere in the engine; every order’s status and delay equal an explicit-0% run; the gate is not "complete"
+PASS: S2 all cells blank: assumed 0% line by line, recorded as blank cells; same results as S1
+PASS: S3 explicit 0: a supplied value, no assumption disclosed, gate complete
+PASS: S4 "5%" and 0.05 give identical engine results and are supplied values
+PASS: S5 boundary 1 (= 100%, a supplied value): M0058 (one parent line) uses exactly twice its 0% usage (3779 vs 1889.5); requirement = qty x Qty_Per x (1 + scrap)
+PASS: S6 invalid "abc" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: not a plain decimal or a percentage), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S6 invalid "1.5" (row 4, P0001/M0064): Stage 1 rejects the row (Must fix, ROW_REJECTED names row 4 and the reason: Scrap_Pct: a plain number above 1 is above 100% or ambiguous (write a fraction 0–1, or a percentage such as 5%)), the import is not accepted, the adapter refuses, no Engine View is built and the engine does not run, so the value never becomes 0
+PASS: S7a mixed lines with one invalid value: the whole import is refused, and only row 4 ("abc") is rejected; the blank and "0.02" rows are not reported as invalid
+PASS: S7b mixed valid lines: blank -> 0 (assumed and disclosed, row 2), 0.02 kept, every other line keeps its own supplied value; no invalid line exists
+PASS: S8 production requirement (order WO00055): for each short material, the requirement with true scrap exceeds the 0%-scrap requirement by exactly q x Qty_Per x scrap
+PASS: S9 material requirement: M0072 (one BOM line, scrap 0.02) has annual usage with true scrap = its 0%-scrap usage x (1 + scrap)
+PASS: S10 shortage: with 0% assumed the order is still short of the same materials, each shortage still above zero and smaller only where the line has scrap, with the same availability dates
+PASS: S11 feasibility: with 0% assumed, every order has its true-scrap status (scrap here is at most 5%)
+PASS: S12 delay: with 0% assumed, every order has its true-scrap delay, including the genuine shortage
+PASS: S13 reliability: production and MRP sections and every component used by an assumed line are labelled caveated (SCRAP_ASSUMED_ZERO); the result is "restricted", never "complete"
+PASS: S14 disclosure text: states the basis (blank cells), the 0% assumption and that the results are an estimate assuming no scrap
+PASS: S16 no Stage 1 issue list: a blank scrap cell cannot be shown to be blank, so it is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE, naming row 2) and no Engine View is built
+PASS: S17 BOM named from two files: Stage 1 refuses it (MULTI_SOURCE); if the adapter is still given such a mapping, a blank scrap cell is never assumed 0%: the adapter refuses (SCRAP_BLANK_UNVERIFIABLE)
+PASS: S15 Northstar without the scrap column: all 50 orders keep their true-scrap status and delay (33 genuine shortages kept; order FG003/211 Feasible, not "~36d"); all 100 material severities unchanged; no NaN released
+PASS: S15: with scrap supplied the gate is complete; with it assumed the result is restricted (caveated)
+
+--- E-1: direct-upload scrap, and the direct and import routes compared (Northstar, 200 BOM lines)
+PASS: E-1 case 1 valid number (FG001/RM001 0.02): direct has no NaN or Infinity, no scrap warning, its 5 known warnings; direct and import give identical feasibility (status and delay), material usage and severity; import is complete
+PASS: E-1 case 2 explicit 0: a supplied value (no warning, no assumption, RM001 usage lower than at 2%); direct and import identical; import complete
+PASS: E-1 case 3 blank cell: direct warns "Scrap missing on 1 BOM line(s): 0% assumed" and equals an explicit 0; import assumes 0% for FG001/RM001 (disclosed, caveated SCRAP_ASSUMED_ZERO, restricted); identical calculated results; no NaN
+PASS: E-1 case 4 column missing: direct warns "Scrap missing on 200 BOM line(s)" and equals an all-0% run (no false shortages or "no demand"); import assumes 0% on all 200 lines (column not supplied, restricted); identical calculated results
+PASS: E-1 case 5 text "abc" (Stage 3, D2): both routes refuse, naming the row: direct "Invalid scrap in the BOM sheet, so the analysis was not run (no line is skipped, converted or assumed). Correct this lin…"; import: Stage 1 rejects row 2 (Must fix) and the adapter refuses; never 0, never NaN, never left out silently
+PASS: E-1 case 6 "0.02" stored as text (Stage 3: the E-1 route difference is RESOLVED): direct converts it to 0.02 and discloses the conversion with its row; both routes equal the valid case
+PASS: E-1 case 7 1.5 (Stage 3: the E-1 route difference is RESOLVED): both routes reject it (above 100%), naming row 2; the direct route no longer uses 150%
+PASS: E-1 case 8 whitespace-only cell: treated as blank on both routes (0% assumed and disclosed; direct warns "Scrap missing on 1 BOM line(s)"); identical calculated results
+PASS: E-1 several invalid lines (Stage 3, D2): 3 "n/a" lines (rows 2, 3, 152) are all named in one direct-route refusal and in one Stage 1 ROW_REJECTED; the retired "Scrap not readable" warning never appears
+
+--- E-1 (retired by Stage 3, D2): invalid scrap stops at Stage 1; no SCRAP_UNREADABLE marker exists; defensive checks remain
+PASS: E-1 marker retired: 3 invalid lines (first, middle, last; source rows 2, 72, 143) are exactly the rows Stage 1 rejects; the import is refused, no Engine View is built, so no marker can be written; the adapter no longer defines SCRAP_UNREADABLE
+PASS: E-1 explanation for "abc" on row 4: Stage 1 gives a Must-fix ROW_REJECTED naming row 4 and "Scrap_Pct: not a plain decimal or a percentage" (message: bom: 1 row could not be imported. bom must be complete, so analysis is blocked until the file is corrected.…); the adapter refuses; nothing is released
+PASS: E-1 gate predicates (kept): a specification that declares an invalid scrap line is refused; an Engine View line holding a non-number scrap value is refused; nothing is released in either case
+PASS: E-1 adapter defence (Stage 3): a Stage 1 result that still reports a blanked scrap value is refused (SCRAP_INVALID_UPSTREAM, row 4), never marked or assumed 0%
+PASS: completeness: all 78 assertions before this one ran (78 ran)
+
+import-integrity: 79 passed, 0 failed
+
+PASS: results identical in all 5 time zones
+import-integrity all zones: 396 passed, 0 failed

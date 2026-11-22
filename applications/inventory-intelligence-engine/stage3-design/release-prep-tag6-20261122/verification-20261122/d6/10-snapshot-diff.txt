@@ -1,0 +1,9 @@
+$ diff of confidence snapshots (python, tests/snapshots)
+== 20261112 -> 20261116
+   /fixtures/structure/scenario-willow.xlsx/clientQuestions[3]/ev 
+     old: 19 POs received short 
+     new: 11 POs received short
+== 20261116 -> 20261121
+   /fixtures/structure/scenario-willow.xlsx/clientQuestions[6]/ev 
+     old: 4 items 
+     new: 3 items

@@ -1,0 +1,473 @@
+
+===== TZ=UTC (exit 0) =====
+time zone: UTC
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context: dates readable)
+PASS: the fixture set has 17 eight-sheet workbooks (found 17)
+
+--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-allfuture.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-allfuture.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-allfuture.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nohist.xlsx: imported and adapted (restricted); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nohist.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nohist.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nopo.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nopo.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nopo.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-s0.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-s0.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-s0.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-three.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-three.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-three.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-unknown.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-unknown.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-unknown.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-combined.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-combined.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-combined.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-dupexact.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupexact.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupexact.xlsx: both routes keep all 303 PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for PO0001, PO0002, PO0003
+PASS: edge/scenario-dupexact.xlsx: the duplicates matter: removing the 3 identical rows would change 14 sections (clientQuestions, confidence, feas, mrp, result.alt, result.altS, result.dq, result.po, result.recon, result.rm, result.sched, result.sup, result.supRisk, result.top), so keeping them is a real choice, made by the owner (D3), and disclosed
+PASS: edge/scenario-dupkey.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupkey.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupkey.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-multiline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-multiline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-multiline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overrec.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overrec.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overrec.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overshort.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overshort.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overshort.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-partial.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-partial.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-partial.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-posupconflict.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-posupconflict.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-posupconflict.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-splitline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-splitline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-splitline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: structure/scenario-willow.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: structure/scenario-willow.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: structure/scenario-willow.xlsx: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (result.alt, result.altS, result.dq)
+PASS: structure/scenario-willow.xlsx: both routes give 11 POs received short and no "Inconsistent PO dates" (direct 11, import 11); the empty-Notes warning stays direct-only (DR-5)
+PASS: structure/scenario-willow.xlsx: DR-4/DR-5 explained: with empty-text cells read as missing and the unmapped Notes column removed, only the order of data-quality warnings differs (DR-7); with warnings sorted, no difference remains (none)
+
+--- Proof B: Universal Import Package 01 against expected-results.json
+PASS: the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis
+PASS: from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete
+PASS: on-hand 55,276 = expected 55,276 (no negative stock in the package)
+PASS: on-hand by location matches (FGW, MAIN, SHEF)
+PASS: stock value £2318695.70 = expected £2318695.70
+PASS: stock-out risk items flagged by the engine (cover below lead time): M0012, P0007, P0019, P0031
+PASS: dead stock: P0038, P0039 as expected
+
+--- Proof C: approved snapshots (read only)
+PASS: regress.js reads the adapter-built Northstar workbook (written by the bundled SheetJS)
+PASS: snapshots/v0.5-golden-20261105T101953Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: snapshots/v0.6.0-baseline-20261109T152050Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: confidence v0.7, northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-allfuture.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nohist.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nopo.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-s0.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-three.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-unknown.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-combined.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupexact.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupkey.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-multiline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overrec.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overshort.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-partial.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-posupconflict.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-splitline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, structure/scenario-willow.xlsx: differs only in the registered sections (clientQuestions)
+
+same-results: 83 passed, 0 failed
+
+===== TZ=Europe/London (exit 0) =====
+time zone: Europe/London
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context: dates readable)
+PASS: the fixture set has 17 eight-sheet workbooks (found 17)
+
+--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-allfuture.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-allfuture.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-allfuture.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nohist.xlsx: imported and adapted (restricted); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nohist.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nohist.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nopo.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nopo.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nopo.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-s0.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-s0.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-s0.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-three.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-three.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-three.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-unknown.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-unknown.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-unknown.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-combined.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-combined.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-combined.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-dupexact.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupexact.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupexact.xlsx: both routes keep all 303 PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for PO0001, PO0002, PO0003
+PASS: edge/scenario-dupexact.xlsx: the duplicates matter: removing the 3 identical rows would change 14 sections (clientQuestions, confidence, feas, mrp, result.alt, result.altS, result.dq, result.po, result.recon, result.rm, result.sched, result.sup, result.supRisk, result.top), so keeping them is a real choice, made by the owner (D3), and disclosed
+PASS: edge/scenario-dupkey.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupkey.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupkey.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-multiline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-multiline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-multiline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overrec.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overrec.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overrec.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overshort.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overshort.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overshort.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-partial.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-partial.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-partial.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-posupconflict.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-posupconflict.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-posupconflict.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-splitline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-splitline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-splitline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: structure/scenario-willow.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: structure/scenario-willow.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: structure/scenario-willow.xlsx: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (result.alt, result.altS, result.dq)
+PASS: structure/scenario-willow.xlsx: both routes give 11 POs received short and no "Inconsistent PO dates" (direct 11, import 11); the empty-Notes warning stays direct-only (DR-5)
+PASS: structure/scenario-willow.xlsx: DR-4/DR-5 explained: with empty-text cells read as missing and the unmapped Notes column removed, only the order of data-quality warnings differs (DR-7); with warnings sorted, no difference remains (none)
+
+--- Proof B: Universal Import Package 01 against expected-results.json
+PASS: the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis
+PASS: from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete
+PASS: on-hand 55,276 = expected 55,276 (no negative stock in the package)
+PASS: on-hand by location matches (FGW, MAIN, SHEF)
+PASS: stock value £2318695.70 = expected £2318695.70
+PASS: stock-out risk items flagged by the engine (cover below lead time): M0012, P0007, P0019, P0031
+PASS: dead stock: P0038, P0039 as expected
+
+--- Proof C: approved snapshots (read only)
+PASS: regress.js reads the adapter-built Northstar workbook (written by the bundled SheetJS)
+PASS: snapshots/v0.5-golden-20261105T101953Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: snapshots/v0.6.0-baseline-20261109T152050Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: confidence v0.7, northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-allfuture.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nohist.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nopo.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-s0.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-three.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-unknown.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-combined.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupexact.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupkey.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-multiline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overrec.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overshort.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-partial.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-posupconflict.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-splitline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, structure/scenario-willow.xlsx: differs only in the registered sections (clientQuestions)
+
+same-results: 83 passed, 0 failed
+
+===== TZ=America/New_York (exit 0) =====
+time zone: America/New_York
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context: dates readable)
+PASS: the fixture set has 17 eight-sheet workbooks (found 17)
+
+--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-allfuture.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-allfuture.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-allfuture.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nohist.xlsx: imported and adapted (restricted); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nohist.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nohist.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nopo.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nopo.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nopo.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-s0.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-s0.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-s0.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-three.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-three.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-three.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-unknown.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-unknown.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-unknown.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-combined.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-combined.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-combined.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-dupexact.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupexact.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupexact.xlsx: both routes keep all 303 PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for PO0001, PO0002, PO0003
+PASS: edge/scenario-dupexact.xlsx: the duplicates matter: removing the 3 identical rows would change 14 sections (clientQuestions, confidence, feas, mrp, result.alt, result.altS, result.dq, result.po, result.recon, result.rm, result.sched, result.sup, result.supRisk, result.top), so keeping them is a real choice, made by the owner (D3), and disclosed
+PASS: edge/scenario-dupkey.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupkey.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupkey.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-multiline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-multiline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-multiline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overrec.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overrec.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overrec.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overshort.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overshort.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overshort.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-partial.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-partial.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-partial.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-posupconflict.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-posupconflict.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-posupconflict.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-splitline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-splitline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-splitline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: structure/scenario-willow.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: structure/scenario-willow.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: structure/scenario-willow.xlsx: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (result.alt, result.altS, result.dq)
+PASS: structure/scenario-willow.xlsx: both routes give 11 POs received short and no "Inconsistent PO dates" (direct 11, import 11); the empty-Notes warning stays direct-only (DR-5)
+PASS: structure/scenario-willow.xlsx: DR-4/DR-5 explained: with empty-text cells read as missing and the unmapped Notes column removed, only the order of data-quality warnings differs (DR-7); with warnings sorted, no difference remains (none)
+
+--- Proof B: Universal Import Package 01 against expected-results.json
+PASS: the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis
+PASS: from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete
+PASS: on-hand 55,276 = expected 55,276 (no negative stock in the package)
+PASS: on-hand by location matches (FGW, MAIN, SHEF)
+PASS: stock value £2318695.70 = expected £2318695.70
+PASS: stock-out risk items flagged by the engine (cover below lead time): M0012, P0007, P0019, P0031
+PASS: dead stock: P0038, P0039 as expected
+
+--- Proof C: approved snapshots (read only)
+PASS: regress.js reads the adapter-built Northstar workbook (written by the bundled SheetJS)
+PASS: snapshots/v0.5-golden-20261105T101953Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: snapshots/v0.6.0-baseline-20261109T152050Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: confidence v0.7, northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-allfuture.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nohist.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nopo.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-s0.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-three.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-unknown.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-combined.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupexact.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupkey.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-multiline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overrec.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overshort.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-partial.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-posupconflict.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-splitline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, structure/scenario-willow.xlsx: differs only in the registered sections (clientQuestions)
+
+same-results: 83 passed, 0 failed
+
+===== TZ=Asia/Kolkata (exit 0) =====
+time zone: Asia/Kolkata
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context: dates readable)
+PASS: the fixture set has 17 eight-sheet workbooks (found 17)
+
+--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-allfuture.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-allfuture.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-allfuture.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nohist.xlsx: imported and adapted (restricted); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nohist.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nohist.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nopo.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nopo.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nopo.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-s0.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-s0.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-s0.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-three.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-three.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-three.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-unknown.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-unknown.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-unknown.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-combined.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-combined.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-combined.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-dupexact.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupexact.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupexact.xlsx: both routes keep all 303 PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for PO0001, PO0002, PO0003
+PASS: edge/scenario-dupexact.xlsx: the duplicates matter: removing the 3 identical rows would change 14 sections (clientQuestions, confidence, feas, mrp, result.alt, result.altS, result.dq, result.po, result.recon, result.rm, result.sched, result.sup, result.supRisk, result.top), so keeping them is a real choice, made by the owner (D3), and disclosed
+PASS: edge/scenario-dupkey.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupkey.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupkey.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-multiline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-multiline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-multiline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overrec.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overrec.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overrec.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overshort.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overshort.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overshort.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-partial.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-partial.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-partial.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-posupconflict.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-posupconflict.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-posupconflict.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-splitline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-splitline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-splitline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: structure/scenario-willow.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: structure/scenario-willow.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: structure/scenario-willow.xlsx: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (result.alt, result.altS, result.dq)
+PASS: structure/scenario-willow.xlsx: both routes give 11 POs received short and no "Inconsistent PO dates" (direct 11, import 11); the empty-Notes warning stays direct-only (DR-5)
+PASS: structure/scenario-willow.xlsx: DR-4/DR-5 explained: with empty-text cells read as missing and the unmapped Notes column removed, only the order of data-quality warnings differs (DR-7); with warnings sorted, no difference remains (none)
+
+--- Proof B: Universal Import Package 01 against expected-results.json
+PASS: the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis
+PASS: from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete
+PASS: on-hand 55,276 = expected 55,276 (no negative stock in the package)
+PASS: on-hand by location matches (FGW, MAIN, SHEF)
+PASS: stock value £2318695.70 = expected £2318695.70
+PASS: stock-out risk items flagged by the engine (cover below lead time): M0012, P0007, P0019, P0031
+PASS: dead stock: P0038, P0039 as expected
+
+--- Proof C: approved snapshots (read only)
+PASS: regress.js reads the adapter-built Northstar workbook (written by the bundled SheetJS)
+PASS: snapshots/v0.5-golden-20261105T101953Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: snapshots/v0.6.0-baseline-20261109T152050Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: confidence v0.7, northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-allfuture.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nohist.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nopo.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-s0.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-three.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-unknown.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-combined.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupexact.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupkey.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-multiline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overrec.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overshort.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-partial.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-posupconflict.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-splitline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, structure/scenario-willow.xlsx: differs only in the registered sections (clientQuestions)
+
+same-results: 83 passed, 0 failed
+
+===== TZ=Pacific/Auckland (exit 0) =====
+time zone: Pacific/Auckland
+PASS: self-check: direct Northstar gives its known 5 data-quality warnings (one context: dates readable)
+PASS: the fixture set has 17 eight-sheet workbooks (found 17)
+
+--- Proof A: 17 workbooks, direct upload vs reversed CSV -> Stage 1 -> adapter -> engine
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-allfuture.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-allfuture.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-allfuture.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nohist.xlsx: imported and adapted (restricted); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nohist.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nohist.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-nopo.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-nopo.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-nopo.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-s0.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-s0.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-s0.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-three.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-three.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-three.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: suppliers/scenario-unknown.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: suppliers/scenario-unknown.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: suppliers/scenario-unknown.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-combined.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-combined.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-combined.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-dupexact.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupexact.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupexact.xlsx: both routes keep all 303 PO rows (no row is merged or removed) and give identical results; Stage 1 flags the 3 identical pairs (DUP_EXACT_KEPT, rows 2 & 302, 3 & 303, 4 & 304) and both engines warn "Duplicate records" (High) for PO0001, PO0002, PO0003
+PASS: edge/scenario-dupexact.xlsx: the duplicates matter: removing the 3 identical rows would change 14 sections (clientQuestions, confidence, feas, mrp, result.alt, result.altS, result.dq, result.po, result.recon, result.rm, result.sched, result.sup, result.supRisk, result.top), so keeping them is a real choice, made by the owner (D3), and disclosed
+PASS: edge/scenario-dupkey.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-dupkey.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-dupkey.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-multiline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-multiline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-multiline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overrec.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overrec.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overrec.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-overshort.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-overshort.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-overshort.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-partial.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-partial.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-partial.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-posupconflict.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-posupconflict.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-posupconflict.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: edge/scenario-splitline.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: edge/scenario-splitline.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: edge/scenario-splitline.xlsx: identical results in every section after the register's normalisation (no difference)
+PASS: structure/scenario-willow.xlsx: imported and adapted (complete); DR-6: every adapter-route item carries ua = on-hand (no negative locations), no direct item has ua
+PASS: structure/scenario-willow.xlsx: DR-1: the notes sheet text is not carried (not part of the canonical model)
+PASS: structure/scenario-willow.xlsx: the only remaining route differences are DR-5's and DR-7's, in result.alt, result.altS and result.dq; DR-4 no longer differs (result.alt, result.altS, result.dq)
+PASS: structure/scenario-willow.xlsx: both routes give 11 POs received short and no "Inconsistent PO dates" (direct 11, import 11); the empty-Notes warning stays direct-only (DR-5)
+PASS: structure/scenario-willow.xlsx: DR-4/DR-5 explained: with empty-text cells read as missing and the unmapped Notes column removed, only the order of data-quality warnings differs (DR-7); with warnings sorted, no difference remains (none)
+
+--- Proof B: Universal Import Package 01 against expected-results.json
+PASS: the supplied dataset.csv itself labels the demand as shipments, once (owner’s definition, 14 Nov 2026); Stage 1 accepts it and the adapter uses the shipments basis
+PASS: from the supplied files, with no in-memory change: adapter complete, 120 items, gate complete
+PASS: on-hand 55,276 = expected 55,276 (no negative stock in the package)
+PASS: on-hand by location matches (FGW, MAIN, SHEF)
+PASS: stock value £2318695.70 = expected £2318695.70
+PASS: stock-out risk items flagged by the engine (cover below lead time): M0012, P0007, P0019, P0031
+PASS: dead stock: P0038, P0039 as expected
+
+--- Proof C: approved snapshots (read only)
+PASS: regress.js reads the adapter-built Northstar workbook (written by the bundled SheetJS)
+PASS: snapshots/v0.5-golden-20261105T101953Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: snapshots/v0.6.0-baseline-20261109T152050Z.json: adapter-built Northstar is identical in all 10 sections (0 different)
+PASS: confidence v0.7, northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-allfuture.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nohist.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-nopo.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-s0.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-three.xlsx: identical in all 3 sections
+PASS: confidence v0.7, suppliers/scenario-unknown.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-combined.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupexact.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-dupkey.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-multiline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overrec.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-overshort.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-partial.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-posupconflict.xlsx: identical in all 3 sections
+PASS: confidence v0.7, edge/scenario-splitline.xlsx: identical in all 3 sections
+PASS: confidence v0.7, structure/scenario-willow.xlsx: differs only in the registered sections (clientQuestions)
+
+same-results: 83 passed, 0 failed
+
+PASS: results identical in all 5 time zones
+same-results all zones: 416 passed, 0 failed

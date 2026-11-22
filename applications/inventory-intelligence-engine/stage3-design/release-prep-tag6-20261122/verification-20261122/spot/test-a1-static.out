@@ -1,0 +1,2 @@
+rule 2: files outside the allowed list: js/import/adapter.js, js/import/canonical.js, js/import/clean.js, js/import/engine-map.js, js/import/engine-workbook.js, js/import/mapping.js, js/import/read.js, js/import/result-gate.js, js/import/validate.js, js/validation/x1-integrity.js
+test-a1-static: 30 passed, 0 failed

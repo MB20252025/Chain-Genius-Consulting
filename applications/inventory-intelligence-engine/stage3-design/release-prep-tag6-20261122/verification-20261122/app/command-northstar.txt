@@ -1,0 +1,2 @@
+$ cd /home/claude/w8/copy (fresh clone copy, HEAD 43b6b5587cef0e63aa9c4faaa955cc3ff1f228f6); python3 -m http.server 8766; PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers NODE_PATH=/home/claude/.npm-global/lib/node_modules node /home/claude/w8/ev/app/run-app.js http://localhost:8766/applications/inventory-intelligence-engine/index.html /home/claude/w8/copy/applications/inventory-intelligence-engine/tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx /home/claude/w8/ev/app/northstar
+exit 0

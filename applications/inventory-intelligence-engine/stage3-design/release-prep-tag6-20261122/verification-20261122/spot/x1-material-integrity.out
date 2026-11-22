@@ -1,0 +1,44 @@
+PASS: 1 clean BOM: all 100 materials assessed, usage = independent calculation, no partial figure (no mismatch)
+PASS: 1 clean BOM: feasibility as accepted (16 feasible, 33 shortage, 1 at risk); no BOM-identification warning
+PASS: 2 blank Material_ID: High warning names the sheet row and the parent product FG002 (row 202 (FG002 / blank))
+PASS: 5 every material (each has valid lines) is Not Assessed; its known part equals the independent valid-lines-only calculation
+PASS: 5 RM001: known part 386.4/mo kept, labelled "at least … incomplete", with the row and parent
+PASS: 5 the shared record gives the same reason ("usage incomplete", row, parent): engine and record agree
+PASS: 8 every product unchanged (product demand does not depend on the BOM)
+PASS: engine and shared record agree on every item
+PASS: 3 whitespace-only Material_ID: treated exactly as missing (every item identical to the blank case)
+PASS: 4 unknown code "RM999": no mapping is guessed (results identical to the blank case; RM999 appears only in the warning)
+PASS: 6 RM050 (no valid line) with an unidentifiable line: usage unknown, not 0, no partial figure; reason on both channels
+PASS: 6 the warning no longer calls RM050 "not used in any BOM" while BOM lines are unidentifiable
+PASS: 7 two unidentifiable lines (FG002 blank, FG010 "RM999"): both rows and parents named; every material incomplete
+PASS: 7 the record names both parents; both parents' orders are "Insufficient information"
+PASS: 8 bad line under FG050 (recorded zero sales every month): every material stays assessed, usage = independent calculation, identical to the same data without the line
+PASS: 8 the line is still reported (High); feasibility identical; engine and record agree
+PASS: 8 even then, a material with no valid BOM line stays unknown (a structural 0 needs a demonstrably complete BOM)
+PASS: 9 complete valid BOM, RM050 on no line: structural 0, assessed, "Materials not used in any BOM"
+PASS: 10 BOM sheet missing: analysis refused, no structural 0
+PASS: 11 BOM quantity column absent: every material unknown, none at 0
+PASS: 12 zero BOM quantity on every RM020 line: existing handling (Not Assessed, reason), no partial figure, every other item unchanged
+PASS: 12 negative BOM quantity on every RM020 line: existing handling (Not Assessed, reason), no partial figure, every other item unchanged
+PASS: 12 invalid "x" BOM quantity on every RM020 line: existing handling (Not Assessed, reason), no partial figure, every other item unchanged
+PASS: 13 import route, blank or unknown component: the line is rejected and the import refused, so no usage figure is produced at all
+PASS: 13 import route, clean: every material identical to the direct route and complete
+PASS: 14 RM001: daily usage, cover, recommended safety stock and reorder point, excess, shortage, annual value and exposed £ are all withheld (none is a number); XYZ "–"; dead-stock class Not Assessed
+PASS: 14 RM001: no excess or lead-time flag from the partial figure; no ABC class
+PASS: 14 [indep] workbook policy: the reorder-point and safety-stock checks and the shortage £ compare stock with the limits CONFIGURED in the sheet (no usage involved), so they stay: shortage £785.45
+PASS: 14 recommended policy (limits calculated from usage): the reorder and safety-stock checks and shortage £ are withheld for every material, never computed from the partial figure
+PASS: 14 MRP: RM001 row Not Assessed, no gross or net requirement (Not Assessed)
+PASS: 14 feasibility: after the first order with unknown material use, no later order is shown Feasible or At risk (each is shortage or Insufficient information)
+PASS: 14 feasibility: the reason names the earlier unknown use; orders before it are unchanged
+PASS: 14 totals: annual material value has 0 of 100 known (shown partial, never a total); demand coverage counts only the 50 products
+PASS: 14 no affected material shows a misleading 0 usage, annual usage or exposed £
+PASS: 15 export: RM001 row says Not Assessed, "usage incomplete", and the known part labelled "at least …/mo, incomplete" (Qty_Per_Finished_Unit usage incomplete (valid BOM lines give a known part only; the full u)
+PASS: 15/16 export: no cell reads "null", "undefined" or "NaN"
+PASS: 16 no reason, warning or feasibility text contains "null", "undefined" or "NaN"
+PASS: 16 every Not Assessed item has a reason (no unexplained blank)
+PASS: 17 the adapter tells the engine the excluded codes (M0028, P0001) through a hidden workbook property: no sheet or visible field added
+PASS: 17 with M0028 excluded: no material is marked incomplete, no unidentifiable-line warning, and every material not tied to P0001/M0028 keeps its usage, status, cover and excess exactly
+PASS: 17 P0018 orders: "Insufficient information", reason says M0028 is excluded from the analysis (not "unknown material")
+PASS: 17 control: the same sheets WITHOUT the adapter's list are read as unidentifiable codes (every material incomplete), so the list, not chance, makes the difference
+
+x1-material-integrity: 42 passed, 0 failed

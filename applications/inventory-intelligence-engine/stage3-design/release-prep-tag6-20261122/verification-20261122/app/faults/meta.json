@@ -1,0 +1,36 @@
+{
+ "title": "Chain Genius – Inventory Intelligence Engine (v0.7 development build: X1 candidate, not a release)",
+ "header": "v0.7 development build · X1 candidate · not a release",
+ "tabs": [
+  "Overview",
+  "Health",
+  "Finished goods",
+  "Materials",
+  "MRP",
+  "Production feasibility",
+  "Excess & dead stock",
+  "Policy comparison",
+  "Reorder policy",
+  "Forecast accuracy",
+  "Demand forecast",
+  "Suppliers",
+  "Data quality",
+  "Client questions",
+  "Data confidence",
+  "Summary",
+  "Settings"
+ ],
+ "CFG": {
+  "z": 1.65,
+  "hor": 3,
+  "sup": 0,
+  "pol": 0,
+  "excess": 90,
+  "abcA": 80,
+  "abcB": 95
+ },
+ "snap": "2026-10-31T00:00:00.000Z",
+ "errors": [],
+ "url": "http://localhost:8766/applications/inventory-intelligence-engine/index.html",
+ "workbook": "/home/claude/w8/copy/applications/inventory-intelligence-engine/stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx"
+}

@@ -1,0 +1,48 @@
+PASS: baseline: Northstar gives its 5 known warnings, and 12 POs received short (independent count 12)
+PASS: number: the missing property (no cell) case really reaches the reader as that representation (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: the empty string case really reaches the reader as that representation (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: the whitespace only (spaces, tab, non-breaking space) case really reaches the reader as that representation (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: the null case really reaches the reader as that representation (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: empty string gives a complete engine output identical to a missing cell (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: whitespace only (spaces, tab, non-breaking space) gives a complete engine output identical to a missing cell (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: null gives a complete engine output identical to a missing cell (both built in memory) (Purchase Orders Received_Qty (open PO, row 2))
+PASS: number: missing property (no cell): reported as "Missing values in Received_Qty" with row 2
+PASS: number: empty string: reported as "Missing values in Received_Qty" with row 2
+PASS: number: whitespace only (spaces, tab, non-breaking space): reported as "Missing values in Received_Qty" with row 2
+PASS: number: null: reported as "Missing values in Received_Qty" with row 2
+PASS: date: the missing property (no cell) case really reaches the reader as that representation (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: the empty string case really reaches the reader as that representation (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: the whitespace only (spaces, tab, non-breaking space) case really reaches the reader as that representation (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: the null case really reaches the reader as that representation (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: empty string gives a complete engine output identical to a missing cell (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: whitespace only (spaces, tab, non-breaking space) gives a complete engine output identical to a missing cell (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: null gives a complete engine output identical to a missing cell (both built in memory) (Purchase Orders Received_Date (open PO, row 2))
+PASS: date: missing property (no cell): reported as "Missing values in Received_Date" with row 2
+PASS: date: empty string: reported as "Missing values in Received_Date" with row 2
+PASS: date: whitespace only (spaces, tab, non-breaking space): reported as "Missing values in Received_Date" with row 2
+PASS: date: null: reported as "Missing values in Received_Date" with row 2
+PASS: text: the missing property (no cell) case really reaches the reader as that representation (Suppliers Country (row 2))
+PASS: text: the empty string case really reaches the reader as that representation (Suppliers Country (row 2))
+PASS: text: the whitespace only (spaces, tab, non-breaking space) case really reaches the reader as that representation (Suppliers Country (row 2))
+PASS: text: the null case really reaches the reader as that representation (Suppliers Country (row 2))
+PASS: text: empty string gives a complete engine output identical to a missing cell (Suppliers Country (row 2))
+PASS: text: whitespace only (spaces, tab, non-breaking space) gives a complete engine output identical to a missing cell (Suppliers Country (row 2))
+PASS: text: null gives a complete engine output identical to a missing cell (both built in memory) (Suppliers Country (row 2))
+PASS: text: missing property (no cell): reported as "Missing values in Country" with row 2
+PASS: text: empty string: reported as "Missing values in Country" with row 2
+PASS: text: whitespace only (spaces, tab, non-breaking space): reported as "Missing values in Country" with row 2
+PASS: text: null: reported as "Missing values in Country" with row 2
+PASS: number: an open PO (PO0001) with an empty-text Received_Qty is not counted received short (12 = independent 12)
+PASS: date: an open PO with an empty-text Received_Date raises no "Inconsistent PO dates"
+PASS: date: an open PO with a null Received_Date (in memory) raises no "Inconsistent PO dates"
+PASS: date: a whitespace-only Received_Date is reported as missing only, not also as an invalid date (deliberate DR-4 change)
+PASS: number: Received_Qty 0 is a real value: not missing, and the PO counts as received short (0 < ordered)
+PASS: date: a valid Received_Date is a real value: not missing
+PASS: text: "0" is a real value: kept as text and not reported missing
+PASS: text: "Germany" is a real value: kept as text and not reported missing
+PASS: Willow: 11 POs received short, equal to the independent count of POs with numeric Received_Qty < Ordered_Qty (11)
+PASS: Willow: no "Inconsistent PO dates" (the 8 POs have no received date)
+PASS: Willow: the empty Notes column is still reported as holding no values (the header remains; DR-5 is unchanged)
+PASS: Willow: the client question on short receipts now cites 11 POs
+
+empty-text: 46 passed, 0 failed

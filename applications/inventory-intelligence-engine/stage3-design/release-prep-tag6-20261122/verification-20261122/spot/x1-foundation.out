@@ -1,0 +1,42 @@
+PASS: the model has exactly the ten states of design §4
+PASS: all seven X1 fields are described
+PASS: a positive number is valid; a recorded 0 is "zero", not missing
+PASS: no cell, a canonical null, an empty string and whitespace are all "blank" (never 0)
+PASS: a value from an absent column is "column-absent", distinct from a blank cell
+PASS: text (including "120", pending the text-number policy) and booleans are "invalid"
+PASS: NaN, +Infinity and -Infinity are "non-finite"
+PASS: negatives are "negative-prohibited" where the import contract (CDv1) forbids them
+PASS: a negative On_Hand_Qty stays valid (CDv1 keeps it; B6 Option D)
+PASS: a zero keeps the value 0; a blank has no value (null), so nothing can read it as 0
+PASS: a field outside X1 is refused, not guessed
+PASS: a provenance record keeps field, record, route, source (sheet, row, column), state, transformations and reasons
+PASS: records are JSON-safe (NaN kept as the text "NaN") and frozen
+PASS: a calendar date maps to UTC midnight of that day in any time zone (the engine reader's calDate rule)
+PASS: absence and invalid dates are recorded explicitly, never as a number
+PASS: Northstar direct: every X1 column is present
+PASS: Northstar direct: 150 inventory records, all usable, each with its sheet row (first data row = 2)
+PASS: Northstar direct: no blank, invalid, non-finite, negative or absent value in any X1 field
+PASS: Northstar direct: the report has no data-quality line (no broad warning on clean data)
+PASS: registry: a calculation cannot be declared twice
+PASS: registry: an unknown input field is refused
+PASS: one blank allocation and one invalid cost are counted in their own fields
+PASS: RM001 (allocation blank): available stock, position, shortage, excess and MRP are identified as withheld
+PASS: RM001: physical quantity and valuation stay available (they do not use allocation)
+PASS: FG003 (cost invalid): valuation withheld; quantity and availability stay available
+PASS: unaffected items and supplier analysis are not withheld (no contamination)
+PASS: a withheld calculation names the field, its state and the source row
+PASS: the report line is specific to the affected field and names the dependent calculations; unaffected fields get no line
+PASS: On_Order_Qty column removed: recorded once as column-absent
+PASS: stock position depends on On_Order_Qty only when CFG.sup = 1 (default 0 uses purchase orders): design §8.2
+PASS: physical available stock never depends on on-order; the PO reconciliation always does
+PASS: withholding records use the gate's { withheld, reason } shape
+PASS: Northstar FG001: complete; 12 slots aligned to the 12 calendar months
+PASS: a missing middle month stays in place: slot 6 is "missing", slot 7 keeps its own month and value (no compression)
+PASS: a blank cell is a missing slot with cause "blank" (its meaning, unknown or zero, is D6 and not applied)
+PASS: no demand rows at all: "no-rows" (interim Q1), not "complete" and not zero history
+PASS: every month recorded as 0: "recorded-zero", distinct from no-usable-history
+PASS: every value invalid: no usable history, each slot keeps its cause
+PASS: with rows but no usable value the forecast dependency is withheld; availability is not affected
+PASS: with no demand rows at all the forecast dependency is withheld (D6 + Q1: unknown, not zero); availability unaffected
+
+x1-foundation: 40 passed, 0 failed
