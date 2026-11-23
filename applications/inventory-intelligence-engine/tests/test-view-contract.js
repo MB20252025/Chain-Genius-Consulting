@@ -15,13 +15,16 @@ const ORDER_VIEWS = ['contract.js', 'areas.js'].map(f => 'views/' + f).concat(VI
 function load() {
   const src = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js', 'engine/engine-api.js'].concat(ORDER_VIEWS).map(js).join('\n'), A = {};
   new Function('XLSX', 'document', 'out', src + `;out.go=(wb)=>{WB=wb;CFG.pol=0;R=analyse();CFG.pol=1;try{R.alt=analyse()}finally{CFG.pol=0}const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}link();return R};
-    out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;`)(XLSX, document, A);
+    out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;out.gbp=gbp;`)(XLSX, document, A);
   return A;
 }
 const WBS = [
   ['Northstar', 'tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx'],
   ['faulty Northstar', 'stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx'],
-  ['Willow', 'tests/fixtures/structure/scenario-willow.xlsx']
+  ['Willow', 'tests/fixtures/structure/scenario-willow.xlsx'],
+  /* S11 edge cases (Stage 3B Phase 2, synthetic): negative physical on-hand with usable stock; unknown allocation and invalid cost */
+  ['S11 edge E6', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx'],
+  ['S11 edge E5', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx']
 ];
 
 // ---- independent resolver -------------------------------------------------------------------------------------
@@ -92,7 +95,8 @@ for (const [label, rel] of WBS) {
       const t = vm.trace, r = indep(S, t);
       const want = t.partialSum ? (r.n ? r.v : null) : r;
       if (!sameNum(vm.value, want)) bad.push(`${vm.id}: ${vm.value} vs ${want}`);
-      if (t.partialSum && r.n) { if (!(vm.completeness.status === 'partial' && vm.completeness.included === r.n && vm.completeness.of === r.of && vm.completeness.excluded === r.of - r.n)) bad.push(`${vm.id}: partial counts`); }
+      /* x1 totals: complete only when every item has a value (x1Card); otherwise partial, with the counts left out */
+      if (t.partialSum && r.n) { const full = r.n === r.of, c = vm.completeness; if (!(c.status === (full ? 'complete' : 'partial') && c.included === r.n && c.of === r.of && (full || c.excluded === r.of - r.n))) bad.push(`${vm.id}: partial counts`); }
     }
     if (vm.kind === 'bar' && !vm.rowsTrace) for (const s of vm.series) s.trace.forEach((t, i) => { const w = indep(S, t); if (!sameNum(s.data[i], fin(w) ? w : null)) bad.push(`${vm.id}[${i}]: ${s.data[i]} vs ${w}`); });
     if (vm.kind === 'bar' && vm.rowsTrace) { const src = indep(S, vm.rowsTrace); if (vm.labels.length !== src.length) bad.push(`${vm.id}: bars vs rows`); for (const s of vm.series) s.data.forEach((v, i) => { const w = get(src[i], s.trace[i].field); if (!sameNum(v, fin(w) ? w : null)) bad.push(`${vm.id}/${s.name}[${i}]`); }); }
@@ -145,6 +149,18 @@ for (const [label, rel] of WBS) {
   ok(sameNum(by('rc-gap-value').value, g.reduce((q, x) => q + x.val, 0)) && by('rc-gap-n').value === g.length, `${label}: reconciliation gap value equals the sum over materials with a positive gap`);
   const PT = S.shared.prTotals(R.pr);
   ok(by('pa-orders').value === PT.T.n && sameNum(by('pa-weighted').value, PT.w) && sameNum(by('pa-avg').value, PT.avg), `${label}: attainment figures are the Suppliers section's own totals (CGShared.prTotals)`);
+  /* S11 (Stage 3B Phase 2): the Excess screen's cards are the original tab's own cards. Expected values are read from the
+     original tab's rendered HTML (label, £ figure, partial counts), not from the view-models or their traces. */
+  const exHtml = A.html('Excess & dead stock'), card = lbl => { const m = exHtml.match(new RegExp('<div><b>([^<]*)</b><span>' + lbl + '[^<]*(?:<strong data-x1="partial">partial</strong>: (\\d+) of (\\d+) items)?')); return m && { txt: m[1], n: m[2] ? +m[2] : null, of: m[3] ? +m[3] : null }; };
+  for (const [id, lbl] of [['ex-uncommitted', 'Uncommitted stock value'], ['ex-physical', 'Physical stock value'], ['ex-listed-value', 'Potential excess value']]) {
+    const o = card(lbl), vm = by(id), c = vm.completeness;
+    const shown = vm.value === null ? null : A.gbp(vm.value);
+    ok(o && shown === o.txt && (o.n === null ? c.status === 'complete' : (c.status === 'partial' && c.included === o.n && c.of === o.of)), `${label}: ${id} shows the original Excess tab's "${lbl}" card (${o ? o.txt + (o.n === null ? ', complete' : `, partial ${o.n} of ${o.of}`) : 'card not found'})`);
+  }
+  const exM = S.shared.excessModel(), cnt = exHtml.match(/^<div class="card"><div class="k"><div><b>(\d+)<\/b>/);
+  ok(cnt && by('ex-listed').value === +cnt[1] && by('ex-items').rows.length === +cnt[1], `${label}: items listed and table rows equal the original tab's count (${cnt && cnt[1]})`);
+  ok(JSON.stringify(by('ex-items').rows.map(r => r.ref.id)) === JSON.stringify(exM.a.map(x => x.id)), `${label}: Excess table lists the original tab's items in the original order`);
+  ok(by('ex-items').rows.every((r, i) => sameNum(r.cells[3], exM.uc(exM.a[i])) && (exM.neg(exM.a[i]) ? r.cells[7] === null : sameNum(r.cells[7], exM.a[i].val))), `${label}: Excess table uncommitted quantity and value cells are the tab's own (unknown allocation and negative on-hand shown as unavailable)`);
   ok(all.every(vm => !vm.drill || V.NAV.primary.concat(V.NAV.utility).some(a => a.area === vm.drill.area)), `${label}: every drill-down targets an approved area`);
   ok(fin(S.shared.healthMean([...R.fg, ...R.rm].filter(x => x.score != null))) && S.shared.summaryModel().rec.length >= 1, `${label}: the view layer reaches the shared derived figures through CGEngine.current().shared`);
 }

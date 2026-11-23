@@ -10,6 +10,7 @@
   const head = (title, intro, orig) => `<div class="scie-head"><div><h2>${esc(title)}</h2>${intro ? `<p>${esc(intro)}</p>` : ''}</div>${orig && orig.length ? `<div class="scie-orig">${orig.map(t => `<button type="button" class="scie-btn scie-ghost" data-orig="${esc(t)}">See original tab: ${esc(t)}</button>`).join(' ')}</div>` : ''}</div>`;
   const grid = (...parts) => `<div class="scie-grid">${parts.join('')}</div>`;
   const kpis = list => `<div class="scie-kpis">${list.join('')}</div>`;
+  const FMT_EX = { unc: 'n0', oh: 'n0', alShown: 'n0', usable: 'n0', valShown: '£', msl: 'n0', cover: 'n1', exVal: '£', name: 'text', cls: 'text', act: 'text', id: 'text' };
   const FMT_ITEM = { av: 'n0', pos: 'n0', cover: 'n1', lt: 'n1', ss: 'n0', rop: 'n0', ssR: 'n0', ropR: 'n0', m: 'n1', exposed: '£', val: '£', exVal: '£', oh: 'n0', al: 'n0', uncomm: 'n0', score: 'n0', n: 'n0', p: 'n1', c: 'n1', pv: 'n1', inv: 'n0', po: 'n0', gap: 'n0', net: 'n0', qty: 'n0', d: 'n2', planned: 'n0', actual: 'n0', att: 'n1', wAtt: 'n1', exQ: 'n0', lateN: 'n0', late: 'n1', slip: 'n1', nQ: 'n0', otd: 'n1', fill: 'n1', risk: 'n0', mats: 'n0' };
   const TONES = ['navy', 'green', 'blue', 'orange', 'purple', 'teal'];
 
@@ -109,12 +110,12 @@
   function excess(ctx) {
     const S = ctx.S, vms = V.forSub(S, 'inventory', 'excess'), v = id => pick(vms, id);
     return `${head('Excess & dead stock', 'Capital tied up in stock the business does not need. Potential excess is an upper bound, not a saving.', ['Excess & dead stock'])}
-      ${kpis([U.kpi(v('ex-value'), 'purple', 'box')])}
-      <p class="scie-note">Uncommitted stock value and physical stock value: <button type="button" class="scie-link" data-orig="Excess &amp; dead stock">see original tab</button> (these two figures move to the new screen once their shared calculation is proven; until then they are not recalculated here).</p>
-      ${grid(U.panel({ id: 'ex-classes', title: 'Items by stock class', q: v('ex-classes').question, icon: 'chart', body: U.chart(v('ex-classes')) }))}
-      ${grid(U.panel({ id: 'ex-items', title: 'Products listed', icon: 'table', span: 'scie-span-6', body: U.table(v('ex-items'), { fmt: FMT_ITEM, items: true, empty: 'No products are listed as excess or dead stock.' }) }),
-        U.panel({ id: 'ex-items-rm', title: 'Materials listed', icon: 'table', span: 'scie-span-6', body: U.table(v('ex-items-rm'), { fmt: FMT_ITEM, items: true, empty: 'No materials are listed as excess or dead stock.' }) }))}`;
+      ${kpis([U.kpi(v('ex-listed-value'), 'purple', 'box'), U.kpi(v('ex-uncommitted'), 'navy', 'value'), U.kpi(v('ex-physical'), 'teal', 'db'), U.kpi(v('ex-listed'), 'blue', 'table'), U.kpi(v('ex-negative'), 'orange', 'alert')])}
+      <p class="scie-note">Only stock not committed to orders can be dead stock. Uncommitted = the larger of physical and usable on-hand, minus allocated; it is shown only when the allocation is known. Negative on-hand is a flag to check the stock record, never a negative £ value.</p>
+      ${grid(U.panel({ id: 'ex-classes', title: 'Listed items by stock class', q: v('ex-classes').question, icon: 'chart', span: 'scie-span-4', body: U.chart(v('ex-classes')) }),
+        U.panel({ id: 'ex-items', title: 'Items listed', q: 'Not Assessed first, then highest stock value, as on the original tab.', icon: 'table', span: 'scie-span-8', body: U.table(v('ex-items'), { fmt: FMT_EX, items: true, empty: 'No item is listed as excess or dead stock.' }) }))}`;
   }
+
 
   /* ---- utility areas ------------------------------------------------------------------------------------------------------- */
   function reportScreen(ctx) {

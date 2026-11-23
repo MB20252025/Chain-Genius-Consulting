@@ -37,7 +37,7 @@
    * (tests/test-a1-static.js). current() hands over exactly what the existing 17 tabs already use, without re-running
    * the analysis, so the new screens and the Advanced view share one result and no calculation is duplicated. */
   function source() {
-    const c = CGEngine.current(), cred = c.forecastCredibility, fc = c.forecasts, fg = c.result.fg;
+    const c = CGEngine.current(), cred = c.forecastCredibility, fc = c.forecasts, fg = c.result.fg, ex = c.shared.excessModel();
     return Object.freeze({
       R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
@@ -46,7 +46,15 @@
       credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id] })) : [],
       fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] })),
       /* the Health tab's ABC figures, from the same shared function the tab calls (abcRows(R.fg,'FG'), abcRows(R.rm,'RM')) */
-      abcFG: c.shared.abcStats(c.result.fg), abcRM: c.shared.abcStats(c.result.rm)
+      abcFG: c.shared.abcStats(c.result.fg), abcRM: c.shared.abcStats(c.result.rm),
+      /* S11: the Excess & dead stock tab's own listing and per-item values (CGShared.excessModel, the function the tab
+         calls), and one row per listed item carrying the tab's displayed quantities. Selection only: each extra field is
+         one of the tab's own helper results (uc, alK, neg) or a choice between existing fields, never a new figure. */
+      excess: ex,
+      exRows: ex.a.map(x => Object.assign({}, x, {
+        unc: ex.uc(x), alShown: ex.alK(x) ? x.al : null, usable: isNum(x.ua) ? x.ua : x.oh,
+        negOH: ex.neg(x), valShown: ex.neg(x) ? null : x.val
+      }))
     });
   }
 
@@ -124,6 +132,15 @@
       trace: tr, value: t.v,
       completeness: { status: 'partial', included: t.n, of: t.of, excluded: countWhere(items(S, o.items), [[o.key, 'nonnum']]), reasons: ['Not Assessed items are excluded from this total (X1 decision D4)'] }
     });
+  }
+  /* A money card exactly as the original tab's x1 card: the x1Sum total of the given items, complete when every item
+   * has a value, otherwise partial with the count left out (never shown as a zero or as complete). */
+  function x1Card(S, o) {
+    const t = S.x1Sum(items(S, o.items), o.key), tr = { partialSum: o.items, key: o.key };
+    const base = Object.assign({ kind: 'kpi', thresholds: [], status: null, drill: null, confidence: null }, o, { trace: tr });
+    if (!t.n) return Object.assign(base, { value: null, completeness: { status: 'unavailable', included: 0, of: t.of, excluded: t.of, reasons: [o.why || 'no item can be valued'] } });
+    if (t.n === t.of) return Object.assign(base, { value: t.v, completeness: { status: 'complete', included: t.n, of: t.of, reasons: [] } });
+    return Object.assign(base, { value: t.v, completeness: { status: 'partial', included: t.n, of: t.of, excluded: countWhere(items(S, o.items), [[o.key, 'nonnum']]), reasons: [o.why || 'items without a value are left out'] } });
   }
   function table(S, o) {
     /* An unknown number (NaN or infinite) is carried as null, so no screen or chart can show "NaN" (as for exports). */
@@ -214,6 +231,6 @@
 
   G.CGVM = Object.assign(G.CGVM || {}, {
     version: '3B-0', KINDS, SOURCES, STATUSES, UNITS,
-    source, at, items, field, meets, orderBy, resolve, kpi, total, table, bars, line, entryBars, rowBars, recommendations, confFor, validate
+    source, at, items, field, meets, orderBy, resolve, kpi, total, x1Card, table, bars, line, entryBars, rowBars, recommendations, confFor, validate
   });
 })(typeof window !== 'undefined' ? window : globalThis);

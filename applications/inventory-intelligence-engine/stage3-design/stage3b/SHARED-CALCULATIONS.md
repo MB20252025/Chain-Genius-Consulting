@@ -70,3 +70,40 @@ Each change replaces an inline expression with a call to the moved function. The
 Neither changed any value or any HTML.
 
 **Fallbacks:** none needed. All ten sites are proven. No new screen needs a "See original tab" substitute for a figure.
+
+## 5. S11: Excess & dead stock values (Stage 3B Phase 2, 23 Nov 2026)
+
+**Found:** while building the Excess screen in Phase 1. The original Excess tab declared its own listing and per-item
+values inline: the listed items (not Active; Not Assessed only with uncommitted stock), the uncommitted quantity
+(`uc`, unknown when the allocation is unknown), the uncommitted value (`uc × cost`, unknown when either is unknown or
+the cost is negative), the negative on-hand flag, and the physical-value list (negative on-hand left out). Until it was
+proven, the new screen showed a "See original tab" link instead of the two value cards (spec v1 §10.3).
+
+**Move:** the declaration block was moved verbatim into `CGShared.excessModel()`, in the same way as S6 (the Summary
+block), and the tab now destructures the same eight names (`a, n, alK, uc, neg, NEG, pv, uv`). The cards keep their
+formatting in the tab and still total with the shared X1 helper `x1Sum`. No figure, rule or label changed.
+
+**Proof** (`refactor-evidence/verify-s11-refactor.js`, against the `app.js` of dcf6308; same three guarantees and the
+same tolerance as S1–S10: strict deep equality at full precision, functions compared by source text):
+
+| Guarantee | Result |
+|---|---|
+| G1 verbatim move | 3/3: the block was found and split into the listing and the helper declarations; each is in the baseline tab code, in `CGShared`, and no longer in the tab code |
+| G2 calculation equivalence | 224 recorded values, each the whole listing with every item's `uc`, `neg`, `alK` and value plus every card total (453,313 leaf values), identical over 28 workbook runs |
+| G3 byte-identical HTML | 952 tab renders identical |
+
+**Edge cases.** The fixtures had no listed item with a negative on-hand, so six synthetic workbooks were made from the
+Northstar demonstration data (`make-s11-edge-workbooks.js`, `s11-edge-workbooks/`): negative on-hand; unknown, text,
+negative and blank allocation; blank, negative, text and zero unit cost; very large stock; a mix; and negative physical
+on-hand with positive usable stock (E6, the only way a negative on-hand item reaches the list, because a negative
+on-hand otherwise makes an item Active). Over all runs the proof met 2,094 listed items, including 316 with unknown
+allocation, 42 with negative on-hand, 378 without a value and 62 with a missing or negative cost.
+
+**Re-run of S1–S10** on the same code (`output-s1-s10-rerun-20261123.txt`): 3,038 values and 748 tab renders identical
+to `e0b261f`, unchanged.
+
+**Displayed results.** `test-view-contract` reads the three Excess cards (figure and partial counts) from the original
+tab's rendered HTML and checks that the new screen shows the same text, and that the table lists the same items in the
+same order with the tab's own uncommitted and value cells, on five workbooks including E5 and E6. The new screen's
+"Potential excess value" card is now the tab's own card (listed items); the Overview keeps the engine total `R.exV`, as
+the Summary does.
