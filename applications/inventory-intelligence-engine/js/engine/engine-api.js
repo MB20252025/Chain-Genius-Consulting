@@ -71,8 +71,12 @@ const CGEngine=(()=>{
   //   that the existing tabs also use; Stage 3B N-4, 23 Nov 2026)}.
   function current(){
     if(typeof R==='undefined'||!R||!R.fg)throw fail('NO_RESULT','no analysis has been run');
-    return Object.freeze({result:R,settings:Object.freeze(Object.assign({},CFG)),settingDefs:SETDEF,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas(),x1Sum:x1Sum,shared:CGShared});
+    return Object.freeze({result:R,settings:Object.freeze(Object.assign({},CFG)),settingDefs:SETDEF,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas(),x1Sum:x1Sum,shared:CGShared,coverBands:bucket});
   }
 
-  return Object.freeze({runEngine,current,isBusy:()=>busy,version:'v0.7-a1'});
+  // currentResult() (Stage 3B, 23 Nov 2026): the result object now on screen, or null; lets the new interface notice a new
+  //   analysis cheaply (no MRP/forecast collection). Read-only by convention, like current().
+  function currentResult(){return typeof R==='undefined'||!R||!R.fg?null:R}
+
+  return Object.freeze({runEngine,current,currentResult,isBusy:()=>busy,version:'v0.7-a1'});
 })();

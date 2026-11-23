@@ -42,7 +42,24 @@ function indep(S, t) {
   if (t.field !== undefined) return get(S, t.field);
   if (t.count) return list(S, t.count).filter(x => (t.where || []).every(w => test1(x, w))).length;
   if (t.partialSum) { const q = list(S, t.partialSum).filter(x => fin(x[t.key])); return { v: q.reduce((s, x) => s + x[t.key], 0), n: q.length, of: list(S, t.partialSum).length }; }
-  if (t.rows) return list(S, [t.rows]).filter(x => (t.where || []).every(w => test1(x, w)));
+  if (t.shared) { const r = S.shared[t.shared](list(S, t.items).filter(x => (t.where || []).every(w => test1(x, w)))); return t.key ? get(r, t.key) : r; }
+  if (t.bands) return S.coverBands(list(S, [t.bands]))[t.key];
+  if (t.entry) { const o = get(S, t.entry); return o ? o[t.key] : undefined; }
+  if (t.rows) {
+    let a = list(S, [t.rows]).filter(x => (t.where || []).every(w => test1(x, w)));
+    if (t.order) a = a.map((x, i) => [x, i]).sort((A, B) => { // independent ordering: listed keys, nulls placed as requested, NaN equal, then original order
+      for (const [k, dir, lst, nulls] of t.order) {
+        const p = get(A[0], k), q = get(B[0], k);
+        if (Number.isNaN(p) || Number.isNaN(q)) continue;
+        const pn = p === null || p === undefined, qn = q === null || q === undefined;
+        if (pn && qn) continue; if (pn) return nulls === 'first' ? -1 : 1; if (qn) return nulls === 'first' ? 1 : -1;
+        const d = lst ? lst.indexOf(p) - lst.indexOf(q) : (p < q ? -1 : p > q ? 1 : 0);
+        if (d) return dir === 'desc' && !lst ? -d : d;
+      }
+      return A[1] - B[1];
+    }).map(e => e[0]);
+    return t.take ? a.slice(0, t.take) : a;
+  }
   throw new Error('unknown trace');
 }
 const sameNum = (a, b) => (a === null && (b === null || b === undefined || !fin(b))) || (fin(a) && fin(b) && a === b);
@@ -61,6 +78,7 @@ for (const [label, rel] of WBS) {
     for (const vm of vms) { vm._tab = tab; all.push(vm); }
   }
   ok(all.length >= 17, `${label}: view-models for every one of the 17 tabs (${all.length} in total)`);
+  for (const [sec, b] of Object.entries(V.SECTIONS)) { let vms = []; try { vms = b(S); } catch (e) { ok(false, `${label} / section ${sec}: builder threw ${e.message}`); } ok(vms.length > 0, `${label} / section ${sec}: view-models built`); for (const vm of vms) { vm._section = sec; all.push(vm); } }
   const ids = all.map(v => v.id);
   ok(new Set(ids).size === ids.length, `${label}: view-model ids are unique`);
   let probs = [];
@@ -76,7 +94,9 @@ for (const [label, rel] of WBS) {
       if (!sameNum(vm.value, want)) bad.push(`${vm.id}: ${vm.value} vs ${want}`);
       if (t.partialSum && r.n) { if (!(vm.completeness.status === 'partial' && vm.completeness.included === r.n && vm.completeness.of === r.of && vm.completeness.excluded === r.of - r.n)) bad.push(`${vm.id}: partial counts`); }
     }
-    if (vm.kind === 'bar') for (const s of vm.series) s.trace.forEach((t, i) => { const w = indep(S, t); if (!sameNum(s.data[i], fin(w) ? w : null)) bad.push(`${vm.id}[${i}]: ${s.data[i]} vs ${w}`); });
+    if (vm.kind === 'bar' && !vm.rowsTrace) for (const s of vm.series) s.trace.forEach((t, i) => { const w = indep(S, t); if (!sameNum(s.data[i], fin(w) ? w : null)) bad.push(`${vm.id}[${i}]: ${s.data[i]} vs ${w}`); });
+    if (vm.kind === 'bar' && vm.rowsTrace) { const src = indep(S, vm.rowsTrace); if (vm.labels.length !== src.length) bad.push(`${vm.id}: bars vs rows`); for (const s of vm.series) s.data.forEach((v, i) => { const w = get(src[i], s.trace[i].field); if (!sameNum(v, fin(w) ? w : null)) bad.push(`${vm.id}/${s.name}[${i}]`); }); }
+    if (vm.kind === 'recommendation') { const rec = S.shared.summaryModel().rec, n = vm.trace.summaryRec === 'all' ? rec.length : vm.trace.summaryRec; if (vm.items.length !== Math.min(n, rec.length) || vm.items.some((r, i) => r.title !== rec[i][0] || r.reason !== rec[i][1] || r.action !== rec[i][2] || r.confidence !== rec[i][3])) bad.push(`${vm.id}: recommendations differ from the Summary's own list`); }
     if (vm.kind === 'line') for (const s of vm.series) { const w = get(S, s.trace[0].field) || []; if (s.data.length !== w.length || s.data.some((v, i) => !sameNum(v, fin(w[i]) ? w[i] : null))) bad.push(`${vm.id}/${s.name}`); }
     if (vm.kind === 'table') {
       const src = indep(S, vm.trace), refs = new Set(src);
@@ -99,12 +119,17 @@ for (const [label, rel] of WBS) {
   ok(by('ov-high-risk').value === items.filter(x => x.sev >= 2).length, `${label}: high-risk count`);
   ok(by('ov-high-risk').completeness.status === (items.some(x => x.sev == null) ? 'partial' : 'complete'), `${label}: high-risk count says partial exactly when items are Not Assessed`);
   ok(by('mrp-order-now').value === S.mrp.filter(r => r.st === 'ORDER NOW').length, `${label}: materials to order now`);
+  const origTop = (x, n) => [...x].sort((p, q) => (q.sev ?? 4) - (p.sev ?? 4) || (p.cover ?? 1e9) - (q.cover ?? 1e9)).slice(0, n).map(i => i.id).join();
+  ok(by('ov-top-fg').rows.map(r => r.ref.id).join() === origTop(R.fg, 6) && by('ov-top-rm').rows.map(r => r.ref.id).join() === origTop(R.rm, 8), `${label}: Overview top-risk lists match the original tab's ranking exactly`);
+  ok(by('ov-health').value === S.shared.healthMean(items.filter(x => x.score != null)), `${label}: overall health comes from the shared function the Health tab uses`);
+  ok(by('ov-recs').items.length > 0 && by('ov-recs').items[0].title === S.shared.summaryModel().rec[0][0], `${label}: recommended actions are the Summary's own list`);
   ok(by('su-high').value === R.sup.filter(s => s.cat === 'High risk').length, `${label}: high-risk suppliers`);
   ok(by('dq-sev').series[0].data[0] === R.dq.filter(d => d.sev === 'High').length, `${label}: High data issues`);
   ok(by('fg-items').rows.length === R.fg.length && by('rm-items').rows.length === R.rm.length, `${label}: item tables list every product and material`);
   if (R.hasF) ok(by('fa-items').rows.length > 0 && !by('fa-unavailable'), `${label}: forecast accuracy available`);
   else ok(by('fa-unavailable') && by('fa-unavailable').completeness.status === 'unavailable' && by('fa-unavailable').value === null, `${label}: forecast accuracy shown as unavailable, not zero (no Forecast_Units)`);
   ok(all.every(v => v.kind !== 'kpi' || v.value === null || fin(v.value)), `${label}: no KPI is NaN or infinite`);
+  if (label === 'Northstar') { const miss = []; for (const vm of all.filter(v => v.kind === 'table' && v.rows.length)) for (const c of vm.columns) if (!vm.rows.some(r => get(r.ref, c.field) !== undefined)) miss.push(`${vm.id}.${c.field}`); ok(miss.length === 0, `${label}: every table column names a field that exists in the engine rows${miss.length ? ' — ' + miss.join(', ') : ''}`); }
   ok(all.every(v => v.kind !== 'table' || v.rows.every(r => r.cells.every(c => typeof c !== 'number' || fin(c)))), `${label}: no table cell is NaN or infinite`);
   ok(all.filter(v => v.kind === 'kpi' && v.value === null).every(v => v.completeness.status === 'unavailable' && v.completeness.reasons.length), `${label}: every missing KPI is marked unavailable with a reason`);
 
@@ -113,7 +138,13 @@ for (const [label, rel] of WBS) {
   ok(A.ORDER.every((k, i) => A.html(k) === htmlBefore[i]), `${label}: all 17 existing tabs render identically after the view-models are built`);
   ok(V.primary(S).some(a => a.area === 'Production') === true, `${label}: Production is shown (this workbook has production data)`);
   const homeOf = t => V.NAV.primary.concat(V.NAV.utility).find(a => a.subs.some(s => s.tabs.includes(t))).area;
-  ok(all.every(vm => vm.area === homeOf(vm._tab)), `${label}: every view-model is labelled with the area its tab lives in`);
+  const homeOfSection = sec => V.NAV.primary.concat(V.NAV.utility).find(a => a.subs.some(s => s.section === sec)).area;
+  ok(all.every(vm => vm.area === (vm._section ? homeOfSection(vm._section) : homeOf(vm._tab))), `${label}: every view-model is labelled with the area its tab or moved section lives in`);
+  ok(V.forSub(S, 'procurement', 'reconciliation').some(v => v.id === 'rc-rows') && V.forSub(S, 'production', 'attainment').some(v => v.id === 'pa-rows'), `${label}: the moved sections' view-models are delivered by their new subsections`);
+  const g = R.recon.filter(x => x.gap > 0);
+  ok(sameNum(by('rc-gap-value').value, g.reduce((q, x) => q + x.val, 0)) && by('rc-gap-n').value === g.length, `${label}: reconciliation gap value equals the sum over materials with a positive gap`);
+  const PT = S.shared.prTotals(R.pr);
+  ok(by('pa-orders').value === PT.T.n && sameNum(by('pa-weighted').value, PT.w) && sameNum(by('pa-avg').value, PT.avg), `${label}: attainment figures are the Suppliers section's own totals (CGShared.prTotals)`);
   ok(all.every(vm => !vm.drill || V.NAV.primary.concat(V.NAV.utility).some(a => a.area === vm.drill.area)), `${label}: every drill-down targets an approved area`);
   ok(fin(S.shared.healthMean([...R.fg, ...R.rm].filter(x => x.score != null))) && S.shared.summaryModel().rec.length >= 1, `${label}: the view layer reaches the shared derived figures through CGEngine.current().shared`);
 }
@@ -174,7 +205,19 @@ function codeOnly(src) {
     if (c === '/' && d === '/') { while (i < src.length && src[i] !== '\n') i++; continue; }
     if (c === '/' && d === '*') { i = src.indexOf('*/', i + 2) + 2; if (i < 2) break; continue; }
     if (c === '"' || c === "'") { i++; while (i < src.length && src[i] !== c) { if (src[i] === '\\') i++; i++; } i++; o += '""'; continue; }
-    if (c === '`') { i++; o += '""'; let depth = 0; while (i < src.length) { if (src[i] === '\\') { i += 2; continue; } if (src[i] === '`' && depth === 0) { i++; break; } if (src[i] === '$' && src[i + 1] === '{') { depth++; i += 2; o += '('; continue; } if (src[i] === '}' && depth) { depth--; i++; o += ')'; continue; } if (depth) o += src[i]; i++; } continue; }
+    if (c === '`') { // template literal: drop its text, keep each ${...} expression and strip that expression recursively
+      i++; o += '""';
+      while (i < src.length && src[i] !== '`') {
+        if (src[i] === '\\') { i += 2; continue; }
+        if (src[i] === '$' && src[i + 1] === '{') {
+          i += 2; let depth = 1, j = i, q = null;
+          while (j < src.length && depth) { const ch = src[j]; if (q) { if (ch === '\\') j++; else if (ch === q) q = null; } else if (ch === "'" || ch === '"' || ch === '`') q = ch; else if (ch === '{') depth++; else if (ch === '}') depth--; j++; }
+          o += '(' + codeOnly(src.slice(i, j - 1)) + ')'; i = j; continue;
+        }
+        i++;
+      }
+      i++; continue;
+    }
     if (c === '/' && regexOk()) { i++; let cls = false; while (i < src.length && (src[i] !== '/' || cls)) { if (src[i] === '\\') i++; else if (src[i] === '[') cls = true; else if (src[i] === ']') cls = false; i++; } i++; while (/[a-z]/i.test(src[i] || '')) i++; o += 'RE'; continue; }
     o += c; i++;
   }
@@ -198,6 +241,26 @@ for (const f of VIEW_FILES.concat(UI_FILES)) {
   }
   const h = arithmetic(src);
   ok(h.length === 0, `${f}: no arithmetic outside the allowed block${h.length ? ' — ' + h.slice(0, 3).join(' | ') : ''}`);
+}
+
+// ---- 8. the Stage 3B loader and its files (the checks check-globals gives index.html scripts) ------------------------------
+{
+  const app = js('app.js'), m = app.match(/const SCIE_UI=\[([^\]]*)\]/);
+  ok(!!m, 'app.js declares the Stage 3B file list (SCIE_UI)');
+  const files = m ? [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]) : [];
+  ok(JSON.stringify(files) === JSON.stringify(['assets/vendor/chartjs-4.6.1/chart.umd.min.js', 'js/views/contract.js', 'js/views/areas.js', 'js/ui/format.js', 'js/ui/components.js', 'js/ui/screens.js', 'js/ui/shell.js']), 'loader order: Chart.js, contract, areas, format, components, screens, shell');
+  ok(files.every(f => fs.existsSync(path.join(APP, f))), 'every loaded file exists');
+  ok(fs.existsSync(path.join(APP, 'css/scie.css')) && /scie\.css/.test(app), 'the stylesheet exists and is loaded');
+  ok(/if\(!D\|\|typeof D\.createElement!=='function'\|\|!D\.head\)return;/.test(app), 'the loader does nothing where there is no DOM (test harnesses)');
+  ok(!/<script[^>]*(chart|views\/|ui\/)/.test(fs.readFileSync(path.join(APP, 'index.html'), 'utf8')), 'index.html script list unchanged (no Stage 3B tags)');
+  const core = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js', 'validation/x1-integrity.js', 'engine/engine-api.js'].map(js).join('\n');
+  const ns = { 'views/contract.js': 'CGVM', 'views/areas.js': 'CGVM', 'ui/format.js': 'CGFmt', 'ui/components.js': 'CGUI', 'ui/screens.js': 'CGScreens', 'ui/shell.js': 'CGShell' };
+  for (const [f, name] of Object.entries(ns)) {
+    const src = js(f), code = codeOnly(src).trim();
+    ok(/^\(function \(G\) \{/.test(code) && /\}\)\(typeof window !== "" \? window : globalThis\);$/.test(code), `${f}: one self-contained function (no top-level names of its own)`);
+    ok(new RegExp(`G\\.${name}\\b`).test(src) && !new RegExp(`(const|let|var|function)\\s+${name}\\b`).test(core), `${f}: exposes ${name}, which no original file declares`);
+  }
+  ok(/\bChart\b/.test(js('ui/components.js')) && !/\bChart\s*=/.test(core), 'Chart.js is used only by the components, and no original file declares Chart');
 }
 
 console.log(`test-view-contract: ${pass} passed, ${fail} failed`);

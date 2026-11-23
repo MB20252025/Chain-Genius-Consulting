@@ -41,10 +41,12 @@
     return Object.freeze({
       R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
-      qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum, shared: c.shared,
+      qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum, shared: c.shared, coverBands: c.coverBands,
       /* the same keyed results as rows (id first), so tables can list them; the objects themselves are not altered */
       credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id] })) : [],
-      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] }))
+      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] })),
+      /* the Health tab's ABC figures, from the same shared function the tab calls (abcRows(R.fg,'FG'), abcRows(R.rm,'RM')) */
+      abcFG: c.shared.abcStats(c.result.fg), abcRM: c.shared.abcStats(c.result.rm)
     });
   }
 
@@ -75,9 +77,11 @@
   function countWhere(arr, where) { let n = 0; for (const x of arr) if (meets(x, where)) n++; return n; }
   function orderBy(order) {
     return (a, b) => {
-      for (const [k, dir, list] of order) {
-        const p = field(a, k), q = field(b, k);
-        const r = list ? list.indexOf(p) - list.indexOf(q) : (p === q ? 0 : (p == null ? 1 : q == null ? -1 : (p < q ? -1 : 1)));
+      for (const [k, dir, list, nulls] of order) {
+        const p = field(a, k), q = field(b, k), pn = p == null, qn = q == null;
+        if (p !== p || q !== q) continue; // NaN compares as equal (as the original tab comparators do: NaN - x is NaN, treated as 0)
+        if (pn || qn) { if (pn && qn) continue; const first = nulls === 'first' ? -1 : 1; return pn ? first : -first; }
+        const r = list ? list.indexOf(p) - list.indexOf(q) : (p === q ? 0 : (p < q ? -1 : 1));
         if (r) return dir === 'desc' && !list ? -r : r;
       }
       return 0;
@@ -89,6 +93,9 @@
     if (trace.field) return at(S, trace.field);
     if (trace.count) return countWhere(items(S, trace.count), trace.where);
     if (trace.partialSum) return S.x1Sum(items(S, trace.partialSum), trace.key);
+    if (trace.shared) { const r = S.shared[trace.shared](items(S, trace.items).filter(x => meets(x, trace.where))); return trace.key ? field(r, trace.key) : r; }
+    if (trace.bands) return S.coverBands(items(S, [trace.bands]))[trace.key];
+    if (trace.entry) { const o = at(S, trace.entry); return o ? o[trace.key] : undefined; }
     if (trace.rows) {
       let a = items(S, [trace.rows]).filter(x => meets(x, trace.where));
       if (trace.order) a = a.slice().sort(orderBy(trace.order));
@@ -132,6 +139,28 @@
     const series = o.series.map(s => { const d = at(S, s.field); return { name: s.name, trace: [{ field: s.field }], data: Array.isArray(d) ? d.map(v => (isNum(v) ? v : null)) : [] }; });
     return Object.assign({ kind: 'line', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, { series });
   }
+  /* Bars over the keys of an engine object (e.g. R.fam: value by product family), largest first. */
+  function entryBars(S, o) {
+    const obj = at(S, o.entry) || {};
+    const keys = Object.keys(obj).map(k => ({ k, v: obj[k] })).sort(orderBy([['v', 'desc', null, 'last']])).map(e => e.k);
+    const take = o.take ? keys.slice(0, o.take) : keys;
+    return bars(S, Object.assign({}, o, { labels: take, series: [{ name: o.seriesName || 'Value', trace: take.map(k => ({ entry: o.entry, key: k })) }] }));
+  }
+  /* Bars over engine rows (one bar per item), each series an existing field of the row. */
+  function rowBars(S, o) {
+    const rows = resolve(S, o.trace);
+    const labels = rows.map(x => field(x, o.label));
+    const series = o.series.map(s => ({ name: s.name, trace: rows.map(x => ({ row: field(x, o.label), field: s.field })), data: rows.map(x => { const v = field(x, s.field); return isNum(v) ? v : null; }) }));
+    return Object.assign({ kind: 'bar', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, { labels, series, rowsTrace: o.trace });
+  }
+  /* Prioritised recommendations: exactly the Summary's own list (CGShared.summaryModel().rec), not a second implementation. */
+  function recommendations(S, o) {
+    const rec = S.shared.summaryModel().rec;
+    const take = o.take ? rec.slice(0, o.take) : rec;
+    return Object.assign({ kind: 'recommendation', unit: 'text', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] }, trace: { summaryRec: o.take || 'all' } }, o, {
+      items: take.map(r => ({ title: r[0], reason: r[1], action: r[2], confidence: r[3] }))
+    });
+  }
   function confFor(S, name) {
     for (const c of S.conf) if (c.area === name) return { rating: c.rating, why: c.why };
     return null;
@@ -168,6 +197,10 @@
         need(Array.isArray(s.trace) && s.trace.length, `series ${s.name}: missing trace`);
       }
     }
+    if (vm.kind === 'recommendation') {
+      need(Array.isArray(vm.items), 'recommendations need items');
+      for (const r of vm.items || []) need(typeof r.title === 'string' && typeof r.reason === 'string' && typeof r.action === 'string', 'each recommendation needs title, reason and action');
+    }
     if (vm.kind === 'table') {
       need(Array.isArray(vm.columns) && vm.columns.length, 'table needs columns');
       for (const c of vm.columns || []) need(typeof c.field === 'string' && typeof c.label === 'string', 'column needs field and label');
@@ -181,6 +214,6 @@
 
   G.CGVM = Object.assign(G.CGVM || {}, {
     version: '3B-0', KINDS, SOURCES, STATUSES, UNITS,
-    source, at, items, field, meets, resolve, kpi, total, table, bars, line, confFor, validate
+    source, at, items, field, meets, orderBy, resolve, kpi, total, table, bars, line, entryBars, rowBars, recommendations, confFor, validate
   });
 })(typeof window !== 'undefined' ? window : globalThis);

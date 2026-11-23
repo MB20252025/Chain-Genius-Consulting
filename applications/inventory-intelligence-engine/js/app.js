@@ -253,3 +253,12 @@ views['Data confidence']=()=>{const a=confAreas(),cl={High:'s0',Medium:'s1',Low:
  return `<div class="card"><h2>How much can you rely on these results?</h2><p class="note">Confidence is about the evidence behind a figure, not about whether the result is good. A High rating does not mean the business is performing well; a Low rating on a worrying result means check the data first.</p>
  ${tbl([['Rating',x=>H(`<span class="${x[1]}">${x[0]}</span>`),1],['Meaning',x=>x[2],1]],[['High','s0','Built on recorded data with adequate history and no material limitation found.'],['Medium','s1','Usable, with one limitation. Read the reason before relying on it.'],['Low','s2','Two or more limitations. Treat as a pointer to investigate, not a conclusion.'],['Cannot assess','s3','The data needed to judge is missing, for example no demand, too few periods or no purchase orders.']])}</div>
  <div class="card"><h2>Confidence by area</h2>${tbl([['Area',x=>x.area,1],['Rating',x=>H(`<span class="${cl[x.rating]}">${esc(x.rating)}</span>`),1],['Why',x=>x.why,1],['What would raise it',x=>x.improve,1]],a)}<p class="note">Item-level reasons appear in the Confidence basis column of the Finished goods and Materials tabs, and the forecast reasons on the Forecast accuracy tab. Area ratings are rules over those item ratings: High when at least 70% of items are High, Low when at least half are Low or cannot be assessed, otherwise Medium.</p></div>`};
+
+/* Stage 3B loader (23 Nov 2026): the new interface (SCIE-NAVIGATION-AND-SCREEN-SPEC-v1). index.html's script list is pinned by
+ * the protected check-globals test until the next baseline tag, so the new files are added here, in order, in the browser
+ * only (test harnesses without a DOM skip this). tests/test-view-contract.js gives these files the equivalent checks:
+ * every file exists, the order, one namespace each, and no clash with the names declared in the original files. */
+const SCIE_UI=['assets/vendor/chartjs-4.6.1/chart.umd.min.js','js/views/contract.js','js/views/areas.js','js/ui/format.js','js/ui/components.js','js/ui/screens.js','js/ui/shell.js'];
+(function(){const D=typeof document!=='undefined'?document:null;if(!D||typeof D.createElement!=='function'||!D.head)return;
+ const l=D.createElement('link');l.rel='stylesheet';l.href='css/scie.css?v=3b-1';D.head.appendChild(l);
+ SCIE_UI.forEach(src=>{const e=D.createElement('script');e.src=src+'?v=3b-1';e.async=false;D.head.appendChild(e)})})();
