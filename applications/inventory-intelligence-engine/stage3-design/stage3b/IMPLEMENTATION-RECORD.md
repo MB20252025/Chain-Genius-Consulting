@@ -200,3 +200,7 @@ difference during building: the Forecast accuracy tab puts products without an a
 
 **Performance (5,000 items, `ui-evidence/perf-5000-phase2-20261123.txt`):** `analyse()` median 587 ms; every screen
 switch 156 ms or less cold, 168 ms or less warm (21 subsections); import to "Analysed." median 3.8 s (engine-bound).
+
+**Full tier on 9a2215c** (fresh clone, 23 Nov 2026): 60 tests passed (+ pre-flight) of 66; 0 FAIL, 0 ERROR; the six
+accepted historical limitations unchanged (4 BLOCKED, 2 REDUCED). The protected browser tests are part of this tier.
+Fast tier: 41 of 41. Smoke check: 63 screen visits at 1280, 768 and 412 px, no console errors, no page overflow.
