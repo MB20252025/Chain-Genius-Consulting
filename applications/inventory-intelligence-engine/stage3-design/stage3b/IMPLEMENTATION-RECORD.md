@@ -154,3 +154,6 @@ any test; both then passed at their accepted counts (53 and 59), and `browser-x1
 
 **Smoke check** (`ui-evidence/smoke.js`): 63 screen visits at 1280, 768 and 412 px, no console errors, no page-level
 overflow, no "NaN" or "undefined" text.
+
+**Full tier on dfc9343** (fresh clone, 23 Nov 2026): 60 tests passed (+ pre-flight) of 66; 0 FAIL, 0 ERROR. The other six are
+the accepted historical limitations (4 BLOCKED, 2 REDUCED; KNOWN-LIMITATIONS 19), unchanged. Fast tier on b0432c7: 41 of 41.
