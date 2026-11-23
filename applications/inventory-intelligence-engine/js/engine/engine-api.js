@@ -67,10 +67,11 @@ const CGEngine=(()=>{
   //   (js/views/contract.js). It runs no calculation and changes nothing. Unlike runEngine() the objects are not frozen,
   //   because app.js still memoises into R; the view layer only reads them, and tests/test-view-contract.js proves that.
   //   Returns {result, settings (a frozen copy of CFG), settingDefs, mrp, feas, forecasts, forecastCredibility,
-  //   clientQuestions, confidence, x1Sum (the X1/D4 partial-total helper)}.
+  //   clientQuestions, confidence, x1Sum (the X1/D4 partial-total helper), shared (CGShared: the shared derived figures
+  //   that the existing tabs also use; Stage 3B N-4, 23 Nov 2026)}.
   function current(){
     if(typeof R==='undefined'||!R||!R.fg)throw fail('NO_RESULT','no analysis has been run');
-    return Object.freeze({result:R,settings:Object.freeze(Object.assign({},CFG)),settingDefs:SETDEF,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas(),x1Sum:x1Sum});
+    return Object.freeze({result:R,settings:Object.freeze(Object.assign({},CFG)),settingDefs:SETDEF,mrp:mrp(),feas:feas(),forecasts:fcAll(),forecastCredibility:R.hasF?fcCredAll():null,clientQuestions:qs(),confidence:confAreas(),x1Sum:x1Sum,shared:CGShared});
   }
 
   return Object.freeze({runEngine,current,isBusy:()=>busy,version:'v0.7-a1'});

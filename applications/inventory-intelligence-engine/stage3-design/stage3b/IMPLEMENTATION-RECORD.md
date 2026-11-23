@@ -67,3 +67,56 @@ Two accepted counts rise as a consequence. Both are genuine growth and PENDING, 
 - `test-a1-sync-path`, 76 → 78: `current()` brings `SETDEF` and `x1Sum` onto the checked engine path, and both are verified synchronous.
 
 `CGEngine.version` stays `v0.7-a1`, which two tests require. The engine-API tests still pass at their counts: `test-a1-wrapper-quick` 117, `test-a1-state` 10, `test-a1-sync-path` 78.
+
+## Phase 1 – step 1: specification freeze, shared calculations, navigation map v1 (23 Nov 2026)
+
+**Authority:** owner instruction "Stage 3B — Approved Navigation, Visual Design and Implementation Instructions" (01:14, resent with the images at 01:19).
+
+**Step 1a – shared calculation sites (N-4), commit `8b3eb90`.**
+- Ten sites were moved verbatim into `CGShared`.
+- Three separate guarantees are proven: verbatim move 16/16; 3,038 values identical at full precision; 748 tab renders byte-identical.
+- No fallbacks were needed. See `SHARED-CALCULATIONS.md`.
+- Sequencing note: this commit came *before* the specification freeze. The owner's sequence listed the freeze first. Nothing depended on the order, and the frozen v1 records the corrected site inventory.
+
+**Step 1b – specification frozen, commit `fbf7359`.**
+- `SCIE-NAVIGATION-AND-SCREEN-SPEC-v1.md` is the approved version; the proposal is preserved.
+- N-1 to N-6 and the clarifications are in `ARCHITECTURE-DECISIONS.md`.
+- The owner's two visual references are in `visual-reference/`, marked illustrative.
+
+**Step 1c – navigation map v1 and tests (next commit).** The Phase 0 map is superseded:
+
+| | Phase 0 map (D-4 version, `e0b261f`) | Approved map v1 (spec v1) |
+|---|---|---|
+| Object | `CGVM.AREAS`: 7 flat areas, each a list of tabs | `CGVM.NAV`: `primary` (6 areas → subsections → tabs), `utility` (3 areas), `advanced`, `filterScope` |
+| Overview | tabs `[Overview]` | `direct: true`; one subsection, "Executive dashboard" |
+| Inventory | FG, Materials, Health, Excess | Stock position (FG + Materials) · Stock health & ABC (Health) · Excess & dead stock |
+| Demand & Planning | Demand forecast, Forecast accuracy, Reorder policy, **Policy comparison** | Demand forecast · Forecast accuracy · Safety stock & reorder points (Reorder policy) |
+| Procurement & Suppliers | MRP, Suppliers | What to buy (MRP) · Supplier performance (Suppliers) · **On-order reconciliation** (section, original tab Data quality) |
+| Production | Production feasibility (conditional) | Production feasibility · **Schedule attainment** (section, original tab Suppliers); conditional |
+| Scenarios & Recommendations | Summary | Recommendations & management summary (Summary) · **Policy & supply-source comparison** (Policy comparison) |
+| Outside the six | one secondary area, "Settings & Data" (Settings, Data quality, Client questions, Data confidence) | **three utility areas:** Reports (Management report – source Summary; Engine output workbook) · Data Management (Load workbook; Data quality; Client questions; Data confidence) · Settings (Thresholds & assumptions) |
+| Advanced view | implied by D-6 | explicit `NAV.advanced`: all 17 original tabs |
+| Original-tab links | none | every subsection has `original` (the real source tab) |
+| Filters | none | `filterScope: 'area'`: kept within an area, reset between areas, never global |
+| Functions | `areas(S)`, `forArea(S, area)` | `primary(S)` (Production filtered by eligibility), `find(area, sub)`, `forSub(S, area, sub)` |
+
+**View-model area labels changed accordingly:**
+- the data-quality, client-questions and data-confidence view-models → Data Management;
+- settings → Settings;
+- policy comparison → Scenarios & Recommendations.
+
+The Phase 0 map remains readable in git history at `e0b261f` (`js/views/areas.js`).
+
+**Tests:**
+- `test-view-contract` goes from 128 to 154 checks. It checks the v1 structure exactly, that each tab has one home, original-tab links, the Reports source, filter scope, Production eligibility on each of its three rules, view-model area labels, and access to `CGShared`.
+- `test-a1-sync-path` goes from 78 to 81 (`CGShared`, `gbp`, `minC` on the engine path).
+- `check-globals` goes from 124 to 125 (`CGShared`).
+- All three rises are PENDING growth.
+
+**Coverage check (owner §15).** The registry holds, unchanged:
+- `test-h1-fglt-note-current` 3;
+- `test-h2-forecast-conf-current` 5;
+- `test-h3-supplier-eligibility-current` 299;
+- `test-h2-level-shift-spec` 9.
+
+That is **307 restored + 9 additional = 316**, matching the readiness record. There is no discrepancy.

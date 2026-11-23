@@ -111,22 +111,46 @@ for (const [label, rel] of WBS) {
   // the view layer reads, never writes
   ok(JSON.stringify({ fg: R.fg, rm: R.rm, sup: R.sup, dq: R.dq, tot: R.tot, exV: R.exV }) === snap, `${label}: building view-models does not change the engine results`);
   ok(A.ORDER.every((k, i) => A.html(k) === htmlBefore[i]), `${label}: all 17 existing tabs render identically after the view-models are built`);
-  ok(V.areas(S).some(a => a.area === 'Production') === true, `${label}: Production is shown (this workbook has production data)`);
+  ok(V.primary(S).some(a => a.area === 'Production') === true, `${label}: Production is shown (this workbook has production data)`);
+  const homeOf = t => V.NAV.primary.concat(V.NAV.utility).find(a => a.subs.some(s => s.tabs.includes(t))).area;
+  ok(all.every(vm => vm.area === homeOf(vm._tab)), `${label}: every view-model is labelled with the area its tab lives in`);
+  ok(all.every(vm => !vm.drill || V.NAV.primary.concat(V.NAV.utility).some(a => a.area === vm.drill.area)), `${label}: every drill-down targets an approved area`);
+  ok(fin(S.shared.healthMean([...R.fg, ...R.rm].filter(x => x.score != null))) && S.shared.summaryModel().rec.length >= 1, `${label}: the view layer reaches the shared derived figures through CGEngine.current().shared`);
 }
 
-// ---- 5. approved navigation (D-4, D-6) ----------------------------------------------------------------------------
+// ---- 5. approved navigation: SCIE-NAVIGATION-AND-SCREEN-SPEC-v1 (D-4, D-6, N-1 to N-6) ---------------------------------
 {
-  const A = load(), V = A.V;
-  const names = V.AREAS.map(a => a.area);
-  ok(JSON.stringify(names) === JSON.stringify(['Overview', 'Inventory', 'Demand & Planning', 'Procurement & Suppliers', 'Production', 'Scenarios & Recommendations', 'Settings & Data']), 'navigation is the approved six areas plus Settings & Data, in order');
-  ok(V.AREAS.filter(a => !a.secondary).length === 6 && V.AREAS.find(a => a.area === 'Settings & Data').secondary === true, 'six primary areas; Settings & Data is secondary');
-  const homes = [].concat(...V.AREAS.map(a => a.tabs));
-  ok(homes.length === 17 && new Set(homes).size === 17 && A.ORDER.every(t => homes.includes(t)), 'each of the 17 existing tabs has exactly one home');
+  const A = load(), V = A.V, N = V.NAV;
+  ok(JSON.stringify(N.primary.map(a => a.area)) === JSON.stringify(['Overview', 'Inventory', 'Demand & Planning', 'Procurement & Suppliers', 'Production', 'Scenarios & Recommendations']), 'six primary areas, in the approved order');
+  ok(JSON.stringify(N.utility.map(a => a.area)) === JSON.stringify(['Reports', 'Data Management', 'Settings']), 'three separate utility areas outside the six: Reports, Data Management, Settings');
+  ok(N.advanced && N.advanced.area === 'Advanced view', 'an Advanced view exists');
+  const ov = N.primary[0];
+  ok(ov.direct === true && ov.subs.length === 1 && ov.subs[0].tabs.join() === 'Overview', 'Overview is a direct destination (one subsection, no dropdown): the executive dashboard');
+  ok(N.primary.slice(1).every(a => !a.direct && a.subs.length >= 2), 'the other five primary areas have subsections');
+  const want = {
+    'Inventory': [['stock', 'Finished goods,Materials'], ['health', 'Health'], ['excess', 'Excess & dead stock']],
+    'Demand & Planning': [['forecast', 'Demand forecast'], ['accuracy', 'Forecast accuracy'], ['policy', 'Reorder policy']],
+    'Procurement & Suppliers': [['buy', 'MRP'], ['suppliers', 'Suppliers'], ['reconciliation', '']],
+    'Production': [['feasibility', 'Production feasibility'], ['attainment', '']],
+    'Scenarios & Recommendations': [['recommendations', 'Summary'], ['comparison', 'Policy comparison']],
+    'Reports': [['report', ''], ['workbook', '']],
+    'Data Management': [['load', ''], ['quality', 'Data quality'], ['questions', 'Client questions'], ['confidence', 'Data confidence']],
+    'Settings': [['thresholds', 'Settings']]
+  };
+  for (const a of N.primary.concat(N.utility)) if (want[a.area]) ok(JSON.stringify(a.subs.map(s => [s.id, s.tabs.join()])) === JSON.stringify(want[a.area]), `${a.area}: approved subsections and tab mapping`);
+  const homes = [].concat(...N.primary.concat(N.utility).map(a => [].concat(...a.subs.map(s => s.tabs))));
+  ok(homes.length === 17 && new Set(homes).size === 17 && A.ORDER.every(t => homes.includes(t)), 'each of the 17 original tabs has exactly one home');
+  ok(N.primary.find(a => a.area === 'Scenarios & Recommendations').subs.some(s => s.tabs.includes('Policy comparison')), 'N-2: Policy comparison is under Scenarios & Recommendations');
+  const rec = N.primary.find(a => a.area === 'Procurement & Suppliers').subs.find(s => s.id === 'reconciliation'), att = N.primary.find(a => a.area === 'Production').subs.find(s => s.id === 'attainment');
+  ok(rec.original.join() === 'Data quality' && att.original.join() === 'Suppliers', 'N-3: moved sections link to their real source tabs (reconciliation → Data quality, attainment → Suppliers)');
+  ok(N.primary.concat(N.utility).every(a => a.subs.every(s => Array.isArray(s.original) && s.original.every(t => A.ORDER.includes(t)))), 'every "See original tab" target is one of the 17 original tabs');
+  ok(N.utility.find(a => a.area === 'Reports').subs.find(s => s.id === 'report').source === 'Summary', 'Reports › Management report uses the Summary source (one source of truth)');
+  ok(N.filterScope === 'area', 'filters are scoped to one primary area (kept between its subsections, reset between areas)');
   const noProd = { R: { pr: [], bom: {} }, feas: { rows: [] } };
-  ok(V.hasProduction(noProd) === false && !V.areas(noProd).some(a => a.area === 'Production') && V.areas(noProd).length === 6, 'Production is hidden when there is no BOM, no production history and no production orders (synthetic source)');
-  ok(V.hasProduction({ R: { pr: [{}], bom: {} }, feas: { rows: [] } }) === true, 'Production is shown when production history exists');
+  ok(V.hasProduction(noProd) === false && !V.primary(noProd).some(a => a.area === 'Production') && V.primary(noProd).length === 5, 'Production (with Schedule attainment) is hidden when there is no BOM, no production history and no production orders (synthetic source)');
+  ok(V.hasProduction({ R: { pr: [{}], bom: {} }, feas: { rows: [] } }) === true && V.hasProduction({ R: { pr: [], bom: { FG1: [] } }, feas: { rows: [] } }) === true && V.hasProduction({ R: { pr: [], bom: {} }, feas: { rows: [{}] } }) === true, 'Production is shown when production history, a BOM or production orders exist (each on its own)');
+  ok(Object.isFrozen(N), 'the navigation map is frozen (cannot be changed at run time)');
 }
-
 // ---- 6. contract validator rejects bad view-models ------------------------------------------------------------------
 {
   const V = load().V;

@@ -41,7 +41,7 @@
     return Object.freeze({
       R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
-      qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum,
+      qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum, shared: c.shared,
       /* the same keyed results as rows (id first), so tables can list them; the objects themselves are not altered */
       credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id] })) : [],
       fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] }))

@@ -34,7 +34,7 @@
         classCount(S, { id: 'ov-high-risk', area: 'Overview', title: 'High or critical risk items', question: 'How many items need attention now?', items: ALL, where: [['sev', '>=', 2]], provenance: calc('risk class from cover vs ROP/SS and lead time', ['R.fg[].sev', 'R.rm[].sev']), confidence: c, drill: { area: 'Inventory', view: 'items', filter: { sevMin: 2 } } }),
         V.total(S, { id: 'ov-excess', area: 'Overview', title: 'Potential excess value', question: 'How much capital may be tied up in stock we do not need?', unit: '£', field: 'R.exV', items: ALL, key: 'exVal', provenance: calc('stock above the excess threshold (days of cover), valued at cost', ['R.exV', 'R.fg[].exVal', 'R.rm[].exVal']), drill: { area: 'Inventory', view: 'excess' } }),
         V.total(S, { id: 'ov-shortage', area: 'Overview', title: 'Shortage value', question: 'How much stock is missing against the reorder policy?', unit: '£', field: 'R.shV', items: ALL, key: 'short', provenance: calc('engine shortage value', ['R.shV']), drill: { area: 'Inventory', view: 'items', filter: { sevMin: 2 } } }),
-        countKpi(S, { id: 'ov-dq-high', area: 'Overview', title: 'High-severity data issues', question: 'Is anything in the data serious enough to distrust results?', unit: 'issues', items: ['R.dq'], where: [['sev', '==', 'High']], provenance: calc('data-quality checks', ['R.dq[].sev']), drill: { area: 'Settings & Data', view: 'data-quality' } }),
+        countKpi(S, { id: 'ov-dq-high', area: 'Overview', title: 'High-severity data issues', question: 'Is anything in the data serious enough to distrust results?', unit: 'issues', items: ['R.dq'], where: [['sev', '==', 'High']], provenance: calc('data-quality checks', ['R.dq[].sev']), drill: { area: 'Data Management', view: 'quality' } }),
         V.bars(S, { id: 'ov-value-split', area: 'Overview', title: 'Inventory value by type', question: 'Where is the stock value held?', unit: '£', labels: ['Finished goods', 'Raw materials'], series: [{ name: 'Value', trace: [{ field: 'R.fgV' }, { field: 'R.rmV' }] }], provenance: calc('on-hand × unit cost by item type', ['R.fgV', 'R.rmV']), drill: { area: 'Inventory', view: 'items' } }),
         V.table(S, { id: 'ov-top-risk', area: 'Overview', title: 'Top risk items', question: 'Which items are most urgent?', unit: 'text', trace: { rows: 'R.top', where: [] }, columns: [{ field: 'id', label: 'Item' }, { field: 'name', label: 'Name' }, { field: 'sev', label: 'Risk' }, { field: 'cover', label: 'Cover (days)' }, { field: 'why', label: 'Reason' }], provenance: calc('engine top-risk list', ['R.top']), drill: { area: 'Inventory', view: 'items' } })
       ];
@@ -92,8 +92,8 @@
     },
     'Policy comparison'(S) {
       return [
-        V.table(S, { id: 'pc-alt', area: 'Demand & Planning', title: 'Risk under the other policy', question: 'Does the policy choice change the risk picture?', unit: 'text', trace: { rows: 'R.alt.fg', where: [] }, columns: [{ field: 'id', label: 'Item' }, { field: 'sev', label: `Risk (${V.at(S, 'CFG.pol') ? 'workbook' : 'recommended'} policy)` }], provenance: calc('the same analysis re-run with the other safety-stock policy', ['R.alt']) }),
-        V.table(S, { id: 'pc-alt-rm', area: 'Demand & Planning', title: 'Risk under the other policy: materials', question: 'Does the policy choice change the risk picture?', unit: 'text', trace: { rows: 'R.alt.rm', where: [] }, columns: [{ field: 'id', label: 'Item' }, { field: 'sev', label: `Risk (${V.at(S, 'CFG.pol') ? 'workbook' : 'recommended'} policy)` }], provenance: calc('the same analysis re-run with the other safety-stock policy', ['R.alt']) })
+        V.table(S, { id: 'pc-alt', area: 'Scenarios & Recommendations', title: 'Risk under the other policy', question: 'Does the policy choice change the risk picture?', unit: 'text', trace: { rows: 'R.alt.fg', where: [] }, columns: [{ field: 'id', label: 'Item' }, { field: 'sev', label: `Risk (${V.at(S, 'CFG.pol') ? 'workbook' : 'recommended'} policy)` }], provenance: calc('the same analysis re-run with the other safety-stock policy', ['R.alt']) }),
+        V.table(S, { id: 'pc-alt-rm', area: 'Scenarios & Recommendations', title: 'Risk under the other policy: materials', question: 'Does the policy choice change the risk picture?', unit: 'text', trace: { rows: 'R.alt.rm', where: [] }, columns: [{ field: 'id', label: 'Item' }, { field: 'sev', label: `Risk (${V.at(S, 'CFG.pol') ? 'workbook' : 'recommended'} policy)` }], provenance: calc('the same analysis re-run with the other safety-stock policy', ['R.alt']) })
       ];
     },
     'Reorder policy'(S) {
@@ -133,19 +133,19 @@
     'Data quality'(S) {
       const sev = ['High', 'Medium', 'Low'];
       return [
-        V.bars(S, { id: 'dq-sev', area: 'Settings & Data', title: 'Data issues by severity', question: 'Can the data be relied on?', unit: 'issues', labels: sev, series: [{ name: 'Issues', trace: sev.map(s => ({ count: ['R.dq'], where: [['sev', '==', s]] })) }], provenance: calc('data-quality checks on every sheet', ['R.dq[].sev']) }),
-        V.table(S, { id: 'dq-rows', area: 'Settings & Data', title: 'Data issues', question: 'What must be fixed in the source data?', unit: 'text', trace: { rows: 'R.dq', where: [], order: [['sev', 'asc', sev]] }, columns: [{ field: 'sev', label: 'Severity' }, { field: 'kind', label: 'Type' }, { field: 'sheet', label: 'Sheet' }, { field: 'msg', label: 'Issue' }], provenance: calc('data-quality checks', ['R.dq']) })
+        V.bars(S, { id: 'dq-sev', area: 'Data Management', title: 'Data issues by severity', question: 'Can the data be relied on?', unit: 'issues', labels: sev, series: [{ name: 'Issues', trace: sev.map(s => ({ count: ['R.dq'], where: [['sev', '==', s]] })) }], provenance: calc('data-quality checks on every sheet', ['R.dq[].sev']) }),
+        V.table(S, { id: 'dq-rows', area: 'Data Management', title: 'Data issues', question: 'What must be fixed in the source data?', unit: 'text', trace: { rows: 'R.dq', where: [], order: [['sev', 'asc', sev]] }, columns: [{ field: 'sev', label: 'Severity' }, { field: 'kind', label: 'Type' }, { field: 'sheet', label: 'Sheet' }, { field: 'msg', label: 'Issue' }], provenance: calc('data-quality checks', ['R.dq']) })
       ];
     },
     'Client questions'(S) {
       return [
-        countKpi(S, { id: 'cq-count', area: 'Settings & Data', title: 'Questions for the business', question: 'What must we ask the client?', unit: 'questions', items: ['qs'], provenance: calc('generated from discrepancies, each with its evidence', ['qs']) }),
-        V.table(S, { id: 'cq-rows', area: 'Settings & Data', title: 'Client questions', question: 'What must we ask the client?', unit: 'text', trace: { rows: 'qs', where: [] }, columns: [{ field: 'pri', label: 'Priority' }, { field: 'q', label: 'Question' }, { field: 'why', label: 'Why it matters' }, { field: 'ev', label: 'Evidence' }], provenance: calc('client questions', ['qs']) })
+        countKpi(S, { id: 'cq-count', area: 'Data Management', title: 'Questions for the business', question: 'What must we ask the client?', unit: 'questions', items: ['qs'], provenance: calc('generated from discrepancies, each with its evidence', ['qs']) }),
+        V.table(S, { id: 'cq-rows', area: 'Data Management', title: 'Client questions', question: 'What must we ask the client?', unit: 'text', trace: { rows: 'qs', where: [] }, columns: [{ field: 'pri', label: 'Priority' }, { field: 'q', label: 'Question' }, { field: 'why', label: 'Why it matters' }, { field: 'ev', label: 'Evidence' }], provenance: calc('client questions', ['qs']) })
       ];
     },
     'Data confidence'(S) {
       return [
-        V.table(S, { id: 'dc-areas', area: 'Settings & Data', title: 'How much can you rely on these results?', question: 'How much weight can each result bear?', unit: 'text', trace: { rows: 'conf', where: [] }, columns: [{ field: 'area', label: 'Area' }, { field: 'rating', label: 'Confidence' }, { field: 'why', label: 'Why' }], provenance: calc('evidence behind each area of the analysis', ['conf']) })
+        V.table(S, { id: 'dc-areas', area: 'Data Management', title: 'How much can you rely on these results?', question: 'How much weight can each result bear?', unit: 'text', trace: { rows: 'conf', where: [] }, columns: [{ field: 'area', label: 'Area' }, { field: 'rating', label: 'Confidence' }, { field: 'why', label: 'Why' }], provenance: calc('evidence behind each area of the analysis', ['conf']) })
       ];
     },
     Summary(S) {
@@ -161,29 +161,62 @@
     },
     Settings(S) {
       return [
-        V.table(S, { id: 'st-thresholds', area: 'Settings & Data', title: 'Thresholds and assumptions', question: 'How was this calculated?', unit: 'text', trace: { rows: 'SETDEF', where: [] }, columns: [{ field: '0', label: 'Setting' }, { field: '1', label: 'Description' }, { field: '5', label: 'Section' }, { field: '6', label: 'What it does' }], provenance: { source: 'workbook', basis: 'engine settings (CFG) and their documented defaults', fields: ['SETDEF', 'CFG'] } })
+        V.table(S, { id: 'st-thresholds', area: 'Settings', title: 'Thresholds and assumptions', question: 'How was this calculated?', unit: 'text', trace: { rows: 'SETDEF', where: [] }, columns: [{ field: '0', label: 'Setting' }, { field: '1', label: 'Description' }, { field: '5', label: 'Section' }, { field: '6', label: 'What it does' }], provenance: { source: 'workbook', basis: 'engine settings (CFG) and their documented defaults', fields: ['SETDEF', 'CFG'] } })
       ];
     }
   };
 
-  /* Approved navigation (owner decision D-4): six primary areas plus Settings & Data. Each of the 17 tabs has exactly
-   * one home; Health also feeds the Overview. The 17 tabs remain available unchanged as the Advanced view (D-6). */
-  const AREAS = [
-    { area: 'Overview', tabs: ['Overview'] },
-    { area: 'Inventory', tabs: ['Finished goods', 'Materials', 'Health', 'Excess & dead stock'] },
-    { area: 'Demand & Planning', tabs: ['Demand forecast', 'Forecast accuracy', 'Reorder policy', 'Policy comparison'] },
-    { area: 'Procurement & Suppliers', tabs: ['MRP', 'Suppliers'] },
-    { area: 'Production', tabs: ['Production feasibility'], conditional: true },
-    { area: 'Scenarios & Recommendations', tabs: ['Summary'] },
-    { area: 'Settings & Data', tabs: ['Settings', 'Data quality', 'Client questions', 'Data confidence'], secondary: true }
-  ];
+  /* Approved navigation: SCIE-NAVIGATION-AND-SCREEN-SPEC-v1 (owner decisions D-4, D-6, N-1 to N-6; 23 Nov 2026).
+   * Six primary areas (Overview is a direct destination), three separate utility areas, and the Advanced view with all
+   * 17 original tabs unchanged. Each of the 17 tabs has exactly one home. `original` names the tab whose content a
+   * subsection shows; for the two moved sections it is the tab they came from (N-3), so "See original tab" always opens
+   * the real source. Filters are scoped to one primary area (spec v1 §10.7): kept between its subsections, reset when the
+   * area changes, never global. Superseded Phase 0 map (D-4 version): see IMPLEMENTATION-RECORD.md, "Navigation map v1". */
+  const NAV = Object.freeze({
+    primary: [
+      { id: 'overview', area: 'Overview', direct: true, subs: [{ id: 'dashboard', label: 'Executive dashboard', tabs: ['Overview'], original: ['Overview'] }] },
+      { id: 'inventory', area: 'Inventory', subs: [
+        { id: 'stock', label: 'Stock position', tabs: ['Finished goods', 'Materials'], original: ['Finished goods', 'Materials'] },
+        { id: 'health', label: 'Stock health & ABC', tabs: ['Health'], original: ['Health'] },
+        { id: 'excess', label: 'Excess & dead stock', tabs: ['Excess & dead stock'], original: ['Excess & dead stock'] }] },
+      { id: 'planning', area: 'Demand & Planning', subs: [
+        { id: 'forecast', label: 'Demand forecast', tabs: ['Demand forecast'], original: ['Demand forecast'] },
+        { id: 'accuracy', label: 'Forecast accuracy', tabs: ['Forecast accuracy'], original: ['Forecast accuracy'] },
+        { id: 'policy', label: 'Safety stock & reorder points', tabs: ['Reorder policy'], original: ['Reorder policy'] }] },
+      { id: 'procurement', area: 'Procurement & Suppliers', subs: [
+        { id: 'buy', label: 'What to buy', tabs: ['MRP'], original: ['MRP'] },
+        { id: 'suppliers', label: 'Supplier performance', tabs: ['Suppliers'], original: ['Suppliers'] },
+        { id: 'reconciliation', label: 'On-order reconciliation', tabs: [], section: 'On-order reconciliation', original: ['Data quality'] }] },
+      { id: 'production', area: 'Production', conditional: 'production', subs: [
+        { id: 'feasibility', label: 'Production feasibility', tabs: ['Production feasibility'], original: ['Production feasibility'] },
+        { id: 'attainment', label: 'Schedule attainment', tabs: [], section: 'Production schedule adherence and attainment (by SKU)', original: ['Suppliers'] }] },
+      { id: 'scenarios', area: 'Scenarios & Recommendations', subs: [
+        { id: 'recommendations', label: 'Recommendations & management summary', tabs: ['Summary'], original: ['Summary'] },
+        { id: 'comparison', label: 'Policy & supply-source comparison', tabs: ['Policy comparison'], original: ['Policy comparison'] }] }
+    ],
+    utility: [
+      { id: 'reports', area: 'Reports', subs: [
+        { id: 'report', label: 'Management report', tabs: [], source: 'Summary', original: ['Summary'] },
+        { id: 'workbook', label: 'Engine output workbook', tabs: [], original: ['Settings'] }] },
+      { id: 'data', area: 'Data Management', subs: [
+        { id: 'load', label: 'Load workbook', tabs: [], original: [] },
+        { id: 'quality', label: 'Data quality', tabs: ['Data quality'], original: ['Data quality'] },
+        { id: 'questions', label: 'Client questions', tabs: ['Client questions'], original: ['Client questions'] },
+        { id: 'confidence', label: 'Data confidence', tabs: ['Data confidence'], original: ['Data confidence'] }] },
+      { id: 'settings', area: 'Settings', subs: [{ id: 'thresholds', label: 'Thresholds & assumptions', tabs: ['Settings'], original: ['Settings'] }] }
+    ],
+    advanced: { id: 'advanced', area: 'Advanced view' },
+    filterScope: 'area'
+  });
   /* Production is shown only when the business has production: a BOM, production history or production orders. */
   function hasProduction(S) {
     return V.resolve(S, { count: ['R.pr'], where: [] }) > 0 || V.resolve(S, { count: ['feas.rows'], where: [] }) > 0 || Object.keys(V.at(S, 'R.bom') || {}).length > 0;
   }
-  function areas(S) { return AREAS.filter(a => !a.conditional || hasProduction(S)); }
+  /* Primary areas visible for this business (Production hidden without production data; spec v1 §10.8). */
+  function primary(S) { return NAV.primary.filter(a => !a.conditional || hasProduction(S)); }
+  function find(areaId, subId) { const a = NAV.primary.concat(NAV.utility).find(x => x.id === areaId); const sub = a && (a.subs.find(x => x.id === subId) || a.subs[0]); return a ? { a, sub } : null; }
   function forTab(S, tab) { const b = B[tab]; if (!b) throw new Error(`no view-model for tab ${tab}`); return b(S); }
-  function forArea(S, area) { const a = AREAS.find(x => x.area === area); return a ? [].concat(...a.tabs.map(t => forTab(S, t))) : []; }
-
-  Object.assign(V, { BUILDERS: B, AREAS, hasProduction, areas, forTab, forArea });
+  /* View-models for one subsection: those of its tabs; moved sections have their own builders (added with their screens). */
+  function forSub(S, areaId, subId) { const f = find(areaId, subId); if (!f) return []; const out = []; for (const t of f.sub.tabs) for (const vm of forTab(S, t)) out.push(vm); return out; }
+  Object.assign(V, { BUILDERS: B, NAV, hasProduction, primary, find, forTab, forSub });
 })(typeof window !== 'undefined' ? window : globalThis);
