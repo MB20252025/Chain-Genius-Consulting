@@ -50,3 +50,25 @@ The owner approved these on 22 Nov 2026, 20:39, in "Chain Genius SCIE — Formal
 - **AD-1 amendment (22 Nov 2026, after the first Phase 0 full tier): engine access goes through the engine API.**
   - The view layer may not touch `CFG`, `R` or `WB` (`tests/test-a1-static.js`, rule 2).
   - `CGVM.source()` therefore calls `CGEngine.current()` (new, read-only, no recalculation) instead of reading the globals.
+
+## Navigation decisions (owner, 23 Nov 2026)
+
+Source: "Stage 3B — Approved Navigation, Visual Design and Implementation Instructions" (01:14, resent with the images at 01:19). Recorded by Claude.
+
+| ID | Decision | Ruling |
+|---|---|---|
+| N-1 | Navigation structure: six primary areas and the subsection mapping in `SCIE-NAVIGATION-AND-SCREEN-SPEC-v1.md` | APPROVED |
+| N-2 | Policy & supply-source comparison under Scenarios & Recommendations | APPROVED |
+| N-3 | Schedule attainment → Production; on-order reconciliation → Procurement & Suppliers | APPROVED |
+| N-4 | Shared calculation refactor | APPROVED WITH CONDITIONS (spec v1 §10.3) |
+| N-5 | Demand forecast and Forecast accuracy stay separate | APPROVED |
+| N-6 | Per-PO detail: no new engine output in Stage 3B | APPROVED FOR DEFERRAL |
+
+The additional binding clarifications are in spec v1 §10: Overview direct; three utility areas; original-tab links; Reports and Summary as one source; the presentation-only item panel; filter persistence within an area and reset between areas; Production visibility; visual direction; preview.
+
+**The approved specification is version v1.** The commit containing it is recorded in `IMPLEMENTATION-RECORD.md`; a document cannot contain its own commit hash.
+
+- **AD-8 (23 Nov 2026): shared derived figures.**
+  - The ten inline calculation sites of the existing tabs were moved verbatim into `CGShared` (`js/app.js`).
+  - Full rationale and evidence: `SHARED-CALCULATIONS.md`.
+  - AD-1 now also hands `CGShared` to the view layer, as `CGEngine.current().shared`.
