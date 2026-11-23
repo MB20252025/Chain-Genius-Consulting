@@ -497,4 +497,5 @@ file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test
 # Stage 3B Phase 0 (22 Nov 2026; owner Stage 3B authorisation): new tests/test-view-contract.js (view-model contract tests). Addition: PENDING until the Tag-7 cycle (owner decision D-2 covers the readiness additions; this one is listed for the same acceptance).
 # Stage 3B Phase 1 UI (23 Nov 2026): tests/test-view-contract.js re-hashed in place (154 -> 202 checks; see accepted-results.json). Previous hash b4f22bf077f36451.
 # test-view-contract.js re-hashed in place (202 -> 326 checks; see accepted-results.json). Previous hash 4e05bdbcee1604ee.
-file 61a635612916a9a7194c4372380f9290d36d2fcfb13d9dfbd448248f759bcf91 tests/test-view-contract.js
+# test-view-contract.js re-hashed in place (326 -> 402 checks; see accepted-results.json). Previous hash 61a635612916a9a7.
+file ad20c7770fef3f5fd0d209518f1816ac3b239d19e54377d911b9105e86292ce1 tests/test-view-contract.js

@@ -132,7 +132,89 @@
     return `${head('Load workbook', 'Choose a workbook to analyse. It is read in your browser and never uploaded.', [])}<p class="scie-note">The file picker is shown above this text.</p>`;
   }
 
-  const BESPOKE = { 'overview/dashboard': overview, 'inventory/stock': stock, 'inventory/health': health, 'inventory/excess': excess, 'reports/report': reportScreen, 'reports/workbook': workbookScreen, 'data/load': loadScreen };
+  /* ---- Demand & Planning (Phase 2) -------------------------------------------------------------------------------- */
+  const FMT_FC = { 'f.act12': 'n0', 'f.s3': 'n0', 'f.s6': 'n0', next: 'n0', 'f.wb': 'pct', 'f.wbBest': 'pct', id: 'text', method: 'text', 'f.trend': 'text', 'f.unc': 'text', 'f.conf': 'text', 'f.rec': 'text', 'f.confWhy': 'text' };
+  const sel = (key, label, cur, opts) => `<label>${esc(label)} <select data-filter="${key}">${opts.map(([v, l]) => `<option value="${esc(v)}"${cur === v ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select></label>`;
+  const unavailableScreen = (title, intro, orig, vm) => `${head(title, intro, orig)}${grid(U.panel({ id: vm.id, title: vm.title, icon: 'alert', body: `<p class="scie-unavail">${esc(vm.completeness.reasons[0])}</p>` }))}`;
+  function forecast(ctx) {
+    const S = ctx.S, f = ctx.filters, vms = V.forSub(S, 'planning', 'forecast'), v = id => pick(vms, id);
+    if (v('df-unavailable')) return unavailableScreen('Demand forecast', '', ['Demand forecast'], v('df-unavailable'));
+    const rows = v('df-rows'), ids = rows.rows.map(r => r.ref.id), cur = ids.includes(f.sku) ? f.sku : ids[0];
+    const one = V.forecastFor(S, cur), o = id => pick(one, id), F1 = rows.rows.find(r => r.ref.id === cur).ref;
+    const conf = f.conf || '', list = conf ? rows.rows.filter(r => r.ref.f.conf === conf) : rows.rows;
+    const chooser = `<div class="scie-filters" role="group" aria-label="Product">${sel('sku', 'Product', cur, ids.map(i => [i, `${i} ${(rows.rows.find(r => r.ref.id === i).ref.x.name || '')}`]))}</div>`;
+    return `${head('Demand forecast', 'What demand to plan for, product by product, and how sure that is. Estimates from statistical methods; accuracy is measured only by back-testing on past months, never assumed.', ['Demand forecast'])}
+      ${kpis([U.kpi(v('df-act12'), 'navy', 'chart'), U.kpi(v('df-s3'), 'green', 'chart'), U.kpi(v('df-s6'), 'teal', 'chart'), U.kpi(v('df-s12tot'), 'blue', 'chart'), U.kpi(v('df-rising'), 'purple', 'chart'), U.kpi(v('df-falling'), 'orange', 'alert')])}
+      <p class="scie-note">${esc(F.show(v('df-skus').value))} products forecast · ${esc(F.show(v('df-short').value))} with under 6 months of history, not forecast. These are estimates, not guaranteed demand; the 80% range assumes roughly normal, independent errors.</p>
+      ${grid(U.panel({ id: 'df-chart', title: o('df-chart').title, q: `Trend: ${F1.f.trend} · Seasonality: ${F1.f.seas ? (F1.f.seas.det ? 'detected' : 'not detected') : 'not testable'} · Confidence: ${F1.f.conf}`, icon: 'chart', body: `${chooser}${U.chart(o('df-chart'), { tall: true })}`, badges: U.badges(o('df-chart')) }))}
+      ${grid(U.panel({ id: 'df-methods', title: 'Which method fits best', q: o('df-methods').question, icon: 'chart', span: 'scie-span-7', body: `${U.chart(o('df-methods'), { horizontal: true })}<p class="scie-note">${esc(F1.f.rec)}</p>`, badges: U.badges(o('df-methods')) }),
+        U.panel({ id: 'df-confidence', title: v('df-confidence').title, q: v('df-confidence').question, icon: 'chart', span: 'scie-span-5', body: U.chart(v('df-confidence')) }))}
+      ${grid(U.panel({ id: 'df-attention', title: v('df-attention').title, q: 'Low confidence, highest relative error first. Select a row for the product’s full detail.', icon: 'alert', body: U.table(v('df-attention'), { fmt: FMT_FC, items: true, empty: 'No forecast has Low confidence.' }) }))}
+      ${grid(U.panel({ id: 'df-rows', title: 'All forecast products', q: `Showing ${F.show(list.length)} of ${F.show(rows.rows.length)}. The 3-month range column of the original tab is not shown here (an inline calculation not yet proven; see the original tab).`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('conf', 'Confidence', conf, [['', 'All'], ['High', 'High'], ['Medium', 'Medium'], ['Low', 'Low']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(rows, { rows: list, fmt: FMT_FC, items: true })}`, badges: U.badges(rows) }))}`;
+  }
+  const FMT_FA = { 'c.acc': 'n1', 'x.wape': 'pct', 'c.bias': 'n1', 'x.fcu': 'n0', 'c.wb': 'pct', 'c.wbBest': 'pct', 'c.nV': 'n0', 'c.expected': 'n0', 'c.missing': 'n0', 'c.zeros': 'n0', 'c.out': 'n0', 'c.fcMiss': 'n0' };
+  function accuracy(ctx) {
+    const S = ctx.S, f = ctx.filters, vms = V.forSub(S, 'planning', 'accuracy'), v = id => pick(vms, id);
+    if (v('fa-unavailable')) return unavailableScreen('Forecast accuracy', 'Whether the business’s existing forecasts can be trusted.', ['Forecast accuracy'], v('fa-unavailable'));
+    const t = v('fa-items'), dir = f.dir || '', dq = f.dq || '', list = t.rows.filter(r => (!dir || r.ref.c.dir === dir) && (!dq || r.ref.c.dq === dq));
+    const chart = (id, span) => (v(id) ? U.panel({ id, title: v(id).title, q: v(id).question, icon: 'chart', span, body: U.chart(v(id), { horizontal: true, tall: true }), badges: U.badges(v(id)) }) : '');
+    return `${head('Forecast accuracy', 'How close the workbook’s recorded forecasts came to actual sales. Forecast performance, data quality and confidence in the information are kept apart: strong accuracy on thin or unusually consistent data is not reported as excellent forecasting.', ['Forecast accuracy'])}
+      ${kpis([U.kpi(v('fa-avg'), 'green', 'chart'), U.kpi(v('fa-assessable'), 'navy', 'table'), U.kpi(v('fa-over'), 'orange', 'alert'), U.kpi(v('fa-under'), 'red', 'alert'), U.kpi(v('fa-balanced'), 'teal', 'chart'), U.kpi(v('fa-high-acc'), 'purple', 'chart')])}
+      <p class="scie-note">${esc(F.show(v('fa-beats').value))} existing forecasts were more than twice as accurate as the best simple statistical method on the same months: verify how they were recorded before relying on them. Workbook notes are read, not used in any calculation.</p>
+      ${grid(chart('fa-acc-chart', 'scie-span-6'), chart('fa-bias-chart', 'scie-span-6'))}
+      ${grid(U.panel({ id: 'fa-dq', title: v('fa-dq').title, q: v('fa-dq').question, icon: 'chart', span: 'scie-span-6', body: U.chart(v('fa-dq')) }), U.panel({ id: 'fa-conf', title: v('fa-conf').title, q: v('fa-conf').question, icon: 'chart', span: 'scie-span-6', body: U.chart(v('fa-conf')) }))}
+      ${grid(U.panel({ id: 'fa-items', title: t.title, q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}. Bias £ at cost is on the original tab only (an inline calculation not yet proven).`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('dir', 'Bias', dir, [['', 'All'], ['Over-forecast', 'Over-forecast'], ['Under-forecast', 'Under-forecast'], ['Balanced', 'Balanced']])}${sel('dq', 'Data quality', dq, [['', 'All'], ['Adequate', 'Adequate'], ['Limited', 'Limited'], ['Insufficient', 'Insufficient']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_FA, items: true })}`, badges: U.badges(t) }))}`;
+  }
+  const FMT_RP = { d: 'n1', sg: 'n1', lt: 'n1', ltS: 'n1', ss: 'n0', ssR: 'n0', rop: 'n0', ropR: 'n0', ropGap: 'pct' };
+  function policy(ctx) {
+    const S = ctx.S, f = ctx.filters, type = f.type === 'RM' ? 'RM' : 'FG', vms = V.forSub(S, 'planning', 'policy'), v = id => pick(vms, id);
+    const t = v(type === 'FG' ? 'rp-items' : 'rp-items-rm'), vd = f.verdict || '', list = vd ? t.rows.filter(r => r.ref.verdict === vd) : t.rows;
+    const seg = `<span class="scie-seg" role="group" aria-label="Item type"><button type="button" data-set="type=FG" aria-pressed="${type === 'FG'}">Products</button><button type="button" data-set="type=RM" aria-pressed="${type === 'RM'}">Materials</button></span>`;
+    const low = v(type === 'FG' ? 'rp-low-chart' : 'rp-low-chart-rm');
+    return `${head('Safety stock & reorder points', `Whether each item’s reorder point and safety stock are right. ${v('rp-verdicts').provenance.basis}. Indicative, not a recommendation; the service level is set in Settings.`, ['Reorder policy'])}
+      ${kpis([U.kpi(v('rp-insufficient'), 'red', 'alert'), U.kpi(v('rp-excessive'), 'orange', 'box'), U.kpi(v('rp-aligned'), 'green', 'chart'), U.kpi(v('rp-no-rop'), 'navy', 'table'), U.kpi(v('rp-not-assessed'), 'teal', 'db')])}
+      ${grid(U.panel({ id: 'rp-verdicts', title: v('rp-verdicts').title, q: v('rp-verdicts').question, icon: 'chart', span: low ? 'scie-span-5' : 'scie-span-12', body: U.chart(v('rp-verdicts')), badges: U.badges(v('rp-verdicts')) }),
+        low ? U.panel({ id: low.id, title: low.title, q: low.question, icon: 'chart', span: 'scie-span-7', body: U.chart(low, { horizontal: true }), badges: U.badges(low) }) : '')}
+      ${grid(U.panel({ id: t.id, title: t.title, q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}. The original tab’s “Why” explanations are not shown here (their figures are an inline calculation not yet proven); see the original tab.`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${seg}${sel('verdict', 'Verdict', vd, [['', 'All'], ['Existing ROP insufficient', 'Insufficient'], ['Existing ROP possibly excessive', 'Possibly excessive'], ['Broadly aligned', 'Aligned'], ['No reorder point configured', 'No reorder point']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_RP, items: true })}`, badges: U.badges(t) }))}`;
+  }
+
+  /* ---- Procurement & Suppliers (Phase 2) ---------------------------------------------------------------------------- */
+  const FMT_MRP = { 'x.av': 'n0', rq: 'n0', gross: 'n0', 'x.ssU': 'n0', net: 'n0', 'x.moq': 'n0', qty: 'n0', val: '£', netU: 'n0' };
+  function buy(ctx) {
+    const S = ctx.S, f = ctx.filters, vms = V.forSub(S, 'procurement', 'buy'), v = id => pick(vms, id);
+    const t = v('mrp-rows'), stF = f.st || '', sup = f.sup || '', list = t.rows.filter(r => (!stF || r.ref.st === stF) && (!sup || r.ref.x.sup === sup));
+    const sups = [...new Set(t.rows.map(r => r.ref.x.sup).filter(Boolean))].sort();
+    const avail = pick(V.forTab(S, 'Materials'), 'rm-cover-lt');
+    return `${head('What to buy', `What must be ordered, how much and by when. ${v('mrp-order-now').provenance.basis}. Confirm supplier terms before ordering.`, ['MRP'])}
+      ${kpis([U.kpi(v('mrp-order-now'), 'red', 'cart'), U.kpi(v('mrp-soon'), 'orange', 'cart'), U.kpi(v('mrp-net'), 'blue', 'table'), U.kpi(v('mrp-value'), 'navy', 'value'), U.kpi(v('mrp-na'), 'teal', 'db')])}
+      ${grid(U.panel({ id: 'mrp-urgent', title: 'Order now', q: v('mrp-urgent').question, icon: 'cart', body: U.table(v('mrp-urgent'), { fmt: FMT_MRP, items: true, empty: 'Nothing has to be ordered now.' }), badges: U.badges(v('mrp-urgent')) }))}
+      ${grid(U.panel({ id: 'mrp-status', title: v('mrp-status').title, q: v('mrp-status').question, icon: 'chart', span: 'scie-span-6', body: U.chart(v('mrp-status')) }),
+        U.panel({ id: 'mrp-by-supplier', title: v('mrp-by-supplier').title, q: v('mrp-by-supplier').question, icon: 'chart', span: 'scie-span-6', body: U.chart(v('mrp-by-supplier')) }))}
+      ${avail ? grid(U.panel({ id: avail.id, title: 'Material availability: cover against lead time', q: 'The 20 materials with the least cover: days of stock against the days a replenishment takes.', icon: 'chart', body: U.chart(avail, { tall: true }), badges: U.badges(avail) })) : ''}
+      ${grid(U.panel({ id: 'mrp-rows', title: 'All materials', q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}, by status then value.`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('st', 'Status', stF, [['', 'All'], ['ORDER NOW', 'Order now'], ['Order soon', 'Order soon'], ['Plan', 'Plan'], ['Covered', 'Covered'], ['Not Assessed', 'Not Assessed']])}${sel('sup', 'Supplier', sup, [['', 'All']].concat(sups.map(x => [x, x])))}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_MRP, items: true })}`, badges: U.badges(t) }))}`;
+  }
+  const FMT_SU = { score: 'n1', n: 'n0', otd: 'n1', delayed: 'n0', shortN: 'n0', excl: 'n0', late: 'n1', stated: 'n0', ltA: 'n1', ltS: 'n1', fill: 'n1', over: 'n0', overN: 'n0', mats: 'n0', risk: 'n0' };
+  function suppliers(ctx) {
+    const S = ctx.S, f = ctx.filters, vms = V.forSub(S, 'procurement', 'suppliers'), v = id => pick(vms, id);
+    const t = v('su-rows'), cat = f.cat || '', list = cat ? t.rows.filter(r => r.ref.cat === cat || (cat === 'na' && /^Not Assessed/.test(r.ref.cat))) : t.rows;
+    const ch = (id, span, o) => (v(id) ? U.panel({ id, title: v(id).title, q: v(id).question, icon: 'chart', span, body: U.chart(v(id), o || {}), badges: U.badges(v(id)) }) : '');
+    return `${head('Supplier performance', `Which suppliers put supply at risk, and on what evidence. ${v('su-high').provenance.basis}. A supplier without enough valid lines is Not Assessed — Insufficient Evidence, not scored.`, ['Suppliers'])}
+      ${kpis([U.kpi(v('su-high'), 'red', 'handshake'), U.kpi(v('su-medium'), 'orange', 'handshake'), U.kpi(v('su-at-risk'), 'purple', 'alert'), U.kpi(v('su-limited'), 'navy', 'table'), U.kpi(v('su-na'), 'teal', 'db')])}
+      ${grid(ch('su-score', 'scie-span-6', { horizontal: true, tall: true }), ch('su-otd-fill', 'scie-span-6', { horizontal: true, tall: true }))}
+      ${grid(ch('su-lt', 'scie-span-7', { horizontal: true, tall: true }), U.panel({ id: 'su-recs', title: v('su-recs').title, q: v('su-recs').question, icon: 'bulb', span: 'scie-span-5', body: U.recs(v('su-recs')) }))}
+      ${grid(U.panel({ id: 'su-rows', title: t.title, q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}, ordered by at-risk materials then score.`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('cat', 'Risk class', cat, [['', 'All'], ['High risk', 'High'], ['Medium risk', 'Medium'], ['Low risk', 'Low'], ['na', 'Not Assessed']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_SU })}`, badges: U.badges(t) }))}`;
+  }
+  const FMT_RC = { inv: 'n0', po: 'n0', gap: 'n0', val: '£', n: 'n0' };
+  function reconciliation(ctx) {
+    const S = ctx.S, f = ctx.filters, vms = V.forSub(S, 'procurement', 'reconciliation'), v = id => pick(vms, id);
+    const t = v('rc-rows'), sign = f.gap || '', list = t.rows.filter(r => !sign || (sign === 'over' ? r.ref.gap > 0 : r.ref.gap < 0));
+    return `${head('On-order reconciliation', 'Whether the “on order” quantities in the inventory record are backed by real purchase orders at the snapshot date. A difference is a data-reconciliation finding, not by itself lost stock or a purchasing error.', ['Data quality'])}
+      ${kpis([U.kpi(v('rc-gap-n'), 'orange', 'alert'), U.kpi(v('rc-gap-value'), 'navy', 'value'), U.kpi(v('rc-top10'), 'purple', 'chart')])}
+      ${v('rc-largest') ? grid(U.panel({ id: 'rc-largest', title: v('rc-largest').title, q: v('rc-largest').question, icon: 'chart', body: U.chart(v('rc-largest'), { horizontal: true, tall: true }), badges: U.badges(v('rc-largest')) })) : ''}
+      ${grid(U.panel({ id: 'rc-rows', title: t.title, q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}.`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('gap', 'Gap', sign, [['', 'All'], ['over', 'More on order than POs'], ['under', 'Fewer on order than POs']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_RC, items: true })}`, badges: U.badges(t) }))}`;
+  }
+
+  const BESPOKE = { 'planning/forecast': forecast, 'planning/accuracy': accuracy, 'planning/policy': policy, 'procurement/buy': buy, 'procurement/suppliers': suppliers, 'procurement/reconciliation': reconciliation, 'overview/dashboard': overview, 'inventory/stock': stock, 'inventory/health': health, 'inventory/excess': excess, 'reports/report': reportScreen, 'reports/workbook': workbookScreen, 'data/load': loadScreen };
   function render(ctx) {
     U.begin();
     const key = `${ctx.area.id}/${ctx.sub.id}`;

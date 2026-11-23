@@ -157,3 +157,46 @@ overflow, no "NaN" or "undefined" text.
 
 **Full tier on dfc9343** (fresh clone, 23 Nov 2026): 60 tests passed (+ pre-flight) of 66; 0 FAIL, 0 ERROR. The other six are
 the accepted historical limitations (4 BLOCKED, 2 REDUCED; KNOWN-LIMITATIONS 19), unchanged. Fast tier on b0432c7: 41 of 41.
+
+## Phase 2: S11, Demand & Planning, Procurement (23 Nov 2026; owner's Phase 2 authorisation, 12:11)
+
+**Start:** HEAD and `origin/development/v0.7` both at dcf6308. Work was done on a local branch that was not pushed;
+only `development/v0.7` is pushed (the owner has not yet confirmed that all three preview addresses require sign-in).
+
+**S11** (SHARED-CALCULATIONS §5): moved into `CGShared.excessModel`, proven G1 3/3, G2 224 records (453,313 leaf
+values), G3 952 renders, with six synthetic edge workbooks. The Excess screen now shows the uncommitted, physical and
+potential excess value cards, items listed, negative on-hand count and the full listing.
+
+**Demand & Planning** (bespoke screens):
+- *Demand forecast*: totals (S7), trend counts, forecast / not-forecast counts; product selector; demand timeline
+  (calendar-month history, recorded workbook forecast placed on its own month, statistical forecast and 80% band);
+  back-test WAPE by method; forecast confidence; forecasts needing attention; all products with S8. The S12 range
+  column is left out.
+- *Forecast accuracy*: average accuracy (S9), assessable, high-accuracy count (S9), over/under/balanced, "existing
+  beats statistical", accuracy and bias charts, data quality and confidence, the full assessment table in the tab's
+  order, with bias and data-quality filters. S13 and S14 are left out. Willow (no Forecast_Units) shows "unavailable".
+- *Safety stock & reorder points*: verdict counts, verdict mix, largest "too low" gaps (workbook vs calculated ROP),
+  products/materials tables with a verdict filter. S15 is left out.
+
+**Procurement & Suppliers** (bespoke screens):
+- *What to buy*: order now / soon / net requirement / total replenishment (S5, partial exactly when the tab says so) /
+  Not Assessed; the Order now list; status mix; order now/soon by supplier (counts); material availability (cover vs
+  lead time, the Stock position chart); all MRP lines with status and supplier filters.
+- *Supplier performance*: high/medium risk, at-risk materials, limited evidence, Not Assessed; score; on-time vs fill;
+  stated vs observed lead time; procurement actions (the Summary's own recommendations about purchasing, in its order);
+  the scorecard in the tab's order with a risk filter. Per-PO lists stay deferred (M-1, N-6).
+- *On-order reconciliation*: the Phase 1 section view-models in a bespoke layout with a gap-direction filter.
+
+**Engine API:** `CGEngine.current()` also returns `methodNames` (the existing `FNAME` labels). No engine calculation
+changed; `calculations.js` and `forecasting.js` unchanged.
+
+**Finding, original chart (unverified as a defect):** the original Demand forecast chart draws the recorded workbook
+forecast (`x.fc`, one value per valid history row) at row positions on a calendar-month axis (`x.hc`). When a product's
+history has a missing month, the recorded forecast would be drawn one or more months early. The new timeline places
+each recorded value on its own month (`x.hd`). The original chart is unchanged.
+
+**Tests:** `test-view-contract` 326 → 402; `test-a1-sync-path` 82 → 83 (FNAME). PENDING. Order anchor caught a real
+difference during building: the Forecast accuracy tab puts products without an accuracy first, not last; corrected.
+
+**Performance (5,000 items, `ui-evidence/perf-5000-phase2-20261123.txt`):** `analyse()` median 587 ms; every screen
+switch 156 ms or less cold, 168 ms or less warm (21 subsections); import to "Analysed." median 3.8 s (engine-bound).

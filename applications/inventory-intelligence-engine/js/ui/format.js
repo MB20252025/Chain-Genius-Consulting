@@ -6,13 +6,18 @@
   const N = {
     gbp: nf({ style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }),
     gbpC: nf({ style: 'currency', currency: 'GBP', notation: 'compact', maximumFractionDigits: 1 }),
-    n0: nf({ maximumFractionDigits: 0 }), n1: nf({ maximumFractionDigits: 1 }), n2: nf({ maximumFractionDigits: 2 })
+    n0: nf({ maximumFractionDigits: 0 }), n1: nf({ maximumFractionDigits: 1 }), n2: nf({ maximumFractionDigits: 2 }),
+    /* a fraction shown as a percentage (0.124 → 12.4%): Intl's percent style, no arithmetic here */
+    pct: nf({ style: 'percent', maximumFractionDigits: 1 })
   };
+  /* a calendar month from an engine timestamp, in the browser's local time (as the workbook dates were read) */
+  const MONTH = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
+  const month = t => (isFinite(t) ? MONTH.format(new Date(t)) : 'Unknown month');
   const MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
   const esc = s => String(s).replace(/[&<>"']/g, c => MAP[c]);
   const isNum = v => typeof v === 'number' && isFinite(v);
   const UNAV = '<span class="scie-unavail">Unavailable</span>';
-  /* fmt: '£' | '£c' (compact) | 'n0' | 'n1' | 'n2' | 'text' */
+  /* fmt: '£' | '£c' (compact) | 'n0' | 'n1' | 'n2' | 'pct' (fraction as %) | 'text' */
   function show(v, fmt) {
     if (v === null || v === undefined) return UNAV;
     if (typeof v === 'number') {
@@ -21,6 +26,7 @@
       if (fmt === '£c') return N.gbpC.format(v);
       if (fmt === 'n1') return N.n1.format(v);
       if (fmt === 'n2') return N.n2.format(v);
+      if (fmt === 'pct') return N.pct.format(v);
       return N.n0.format(v);
     }
     if (typeof v === 'boolean') return v ? 'Yes' : 'No';
@@ -33,5 +39,5 @@
     if (sev === null || sev === undefined || !SEV[sev]) return '<span class="scie-risk" data-sev="na">Not Assessed</span>';
     return `<span class="scie-risk" data-sev="${sev}">${SEV[sev]}</span>`;
   }
-  G.CGFmt = Object.freeze({ esc, show, risk, isNum, SEV });
+  G.CGFmt = Object.freeze({ esc, show, risk, isNum, SEV, month });
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -107,3 +107,26 @@ tab's rendered HTML and checks that the new screen shows the same text, and that
 same order with the tab's own uncommitted and value cells, on five workbooks including E5 and E6. The new screen's
 "Potential excess value" card is now the tab's own card (listed items); the Overview keeps the engine total `R.exV`, as
 the Summary does.
+
+## 6. Further inline calculation sites found in Phase 2 (recorded, not exposed)
+
+Found while building Demand & Planning and Procurement (23 Nov 2026), by reading the five source tabs and scanning
+them for arithmetic. Under the owner's Phase 2 instruction they are recorded and investigated but **not refactored and
+not shown** on the new screens, which say so and link to the original tab. The original tabs are unchanged.
+
+| Site | Tab | Figure | Inline expression | New screen |
+|---|---|---|---|---|
+| S12 | Demand forecast | "3m range (80%)" column | `max(0, s3 − 1.28·rm·√3)` to `s3 + 1.28·rm·√3` | column left out; note on the table |
+| S13 | Forecast accuracy | "Bias £ at cost" column | `fcu × cost` | column left out; note on the table |
+| S14 | Forecast accuracy | "Unusually consistent accuracy" warning and its % | `hi / ass.length × 100`, compared with `CFG.fcHighShare / 100` | the count `hi` (S9, proven) is shown; the share and the warning are not |
+| S15 | Reorder policy | "Why" explanations | `rop / d`, `d × lt`, `rop − d·lt`, `rop / (d·lt)` | column left out; note on the table |
+
+**Not sites** (no new figure): scaling an engine fraction to a percentage for display (`wape × 100`, `bias × 100`,
+`wb × 100`, `ropGap × 100`, `explained × 100`), which the new screens do with Intl's percent format; counts written as
+differences (`R.fg.length − ok.length`, `a.length − nc.length`), which the new screens count directly; sort
+comparators; and `CFG.supLow − 1` in a label. The On-order reconciliation card's "% supported by purchase orders"
+(`explained × 100`) is display scaling of an engine figure; the new screen does not show it.
+
+**Investigation notes.** S12 assumes independent monthly errors (√3); S14's warning depends on a threshold setting; S15
+reproduces the engine's ROP terms in words. None of them changes a calculated result or a recommendation; each is a
+displayed figure. Each would need the same three-part proof (G1–G3) before a new screen may show it.

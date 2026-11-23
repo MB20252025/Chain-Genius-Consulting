@@ -1,0 +1,51 @@
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4202 ms; SCIE screen shown: 4221 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2411 ms
+--- cold: 21 screens; max 156 ms; over 300 ms: 0
+  procurement/buy                156 ms
+  planning/forecast               78 ms
+  planning/accuracy               65 ms
+  procurement/suppliers           58 ms
+  overview/dashboard              53 ms
+  inventory/stock                 52 ms
+  settings/thresholds             44 ms
+  inventory/excess                39 ms
+  planning/policy                 39 ms
+  procurement/reconciliation      38 ms
+  production/attainment           35 ms
+  production/feasibility          34 ms
+  inventory/health                34 ms
+  data/quality                    32 ms
+  reports/workbook                32 ms
+  data/confidence                 32 ms
+  data/load                       32 ms
+  reports/report                  32 ms
+  data/questions                  32 ms
+  scenarios/comparison            30 ms
+  scenarios/recommendations       28 ms
+--- warm: 21 screens; max 168 ms; over 300 ms: 0
+  procurement/reconciliation     168 ms
+  procurement/buy                154 ms
+  planning/forecast               81 ms
+  overview/dashboard              72 ms
+  planning/accuracy               64 ms
+  inventory/stock                 62 ms
+  procurement/suppliers           58 ms
+  production/feasibility          49 ms
+  inventory/health                48 ms
+  planning/policy                 41 ms
+  production/attainment           39 ms
+  inventory/excess                38 ms
+  scenarios/recommendations       35 ms
+  scenarios/comparison            33 ms
+  settings/thresholds             33 ms
+  data/confidence                 32 ms
+  data/questions                  32 ms
+  data/quality                    32 ms
+  reports/workbook                28 ms
+  data/load                       27 ms
+  reports/report                  26 ms
+page errors: 0 
+
+## perf-cmp.js on the Phase 2 tree, 3 runs
+port 8765: import-to-Analysed 3649 / 4002 / 3791 ms (median 3791); analyse() 587 / 740 / 587 ms (median 587)

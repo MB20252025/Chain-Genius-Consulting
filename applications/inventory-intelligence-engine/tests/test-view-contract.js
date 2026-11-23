@@ -15,7 +15,7 @@ const ORDER_VIEWS = ['contract.js', 'areas.js'].map(f => 'views/' + f).concat(VI
 function load() {
   const src = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js', 'engine/engine-api.js'].concat(ORDER_VIEWS).map(js).join('\n'), A = {};
   new Function('XLSX', 'document', 'out', src + `;out.go=(wb)=>{WB=wb;CFG.pol=0;R=analyse();CFG.pol=1;try{R.alt=analyse()}finally{CFG.pol=0}const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}link();return R};
-    out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;out.gbp=gbp;`)(XLSX, document, A);
+    out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;out.gbp=gbp;out.f=f;`)(XLSX, document, A);
   return A;
 }
 const WBS = [
@@ -46,6 +46,7 @@ function indep(S, t) {
   if (t.count) return list(S, t.count).filter(x => (t.where || []).every(w => test1(x, w))).length;
   if (t.partialSum) { const q = list(S, t.partialSum).filter(x => fin(x[t.key])); return { v: q.reduce((s, x) => s + x[t.key], 0), n: q.length, of: list(S, t.partialSum).length }; }
   if (t.shared) { const r = S.shared[t.shared](list(S, t.items).filter(x => (t.where || []).every(w => test1(x, w)))); return t.key ? get(r, t.key) : r; }
+  if (t.fcSum) return S.R.fg.filter(x => S.fc[x.id] && S.fc[x.id].ok).reduce((q, x) => q + S.fc[x.id][t.fcSum], 0); // S7, summed here independently
   if (t.bands) return S.coverBands(list(S, [t.bands]))[t.key];
   if (t.entry) { const o = get(S, t.entry); return o ? o[t.key] : undefined; }
   if (t.rows) {
@@ -100,8 +101,15 @@ for (const [label, rel] of WBS) {
     }
     if (vm.kind === 'bar' && !vm.rowsTrace) for (const s of vm.series) s.trace.forEach((t, i) => { const w = indep(S, t); if (!sameNum(s.data[i], fin(w) ? w : null)) bad.push(`${vm.id}[${i}]: ${s.data[i]} vs ${w}`); });
     if (vm.kind === 'bar' && vm.rowsTrace) { const src = indep(S, vm.rowsTrace); if (vm.labels.length !== src.length) bad.push(`${vm.id}: bars vs rows`); for (const s of vm.series) s.data.forEach((v, i) => { const w = get(src[i], s.trace[i].field); if (!sameNum(v, fin(w) ? w : null)) bad.push(`${vm.id}/${s.name}[${i}]`); }); }
-    if (vm.kind === 'recommendation') { const rec = S.shared.summaryModel().rec, n = vm.trace.summaryRec === 'all' ? rec.length : vm.trace.summaryRec; if (vm.items.length !== Math.min(n, rec.length) || vm.items.some((r, i) => r.title !== rec[i][0] || r.reason !== rec[i][1] || r.action !== rec[i][2] || r.confidence !== rec[i][3])) bad.push(`${vm.id}: recommendations differ from the Summary's own list`); }
-    if (vm.kind === 'line') for (const s of vm.series) { const w = get(S, s.trace[0].field) || []; if (s.data.length !== w.length || s.data.some((v, i) => !sameNum(v, fin(w[i]) ? w[i] : null))) bad.push(`${vm.id}/${s.name}`); }
+    if (vm.kind === 'recommendation') { const rec = S.shared.summaryModel().rec.filter(r => !vm.trace.titleMatch || new RegExp(vm.trace.titleMatch).test(r[0])), n = vm.trace.summaryRec === 'all' ? rec.length : vm.trace.summaryRec; if (vm.items.length !== Math.min(n, rec.length) || vm.items.some((r, i) => r.title !== rec[i][0] || r.reason !== rec[i][1] || r.action !== rec[i][2] || r.confidence !== rec[i][3])) bad.push(`${vm.id}: recommendations differ from the Summary's own list`); }
+    if (vm.kind === 'line' && vm.timeline) { // Phase 2 demand timeline: rebuilt here from the engine row and forecast, independently
+      const tr0 = vm.series[0].trace[0], x = R.fg.find(y => y.id === tr0.row), F = S.fc[tr0.row], cal = Array.isArray(x.hc) && x.hc.length >= x.h.length;
+      const months = cal ? R.months : x.hd, hist = cal ? x.hc : x.h, nul = v => (fin(v) ? v : null);
+      const want = { 'Actual demand': [...hist.map(nul), ...F.f.map(() => null)], 'Existing workbook forecast (recorded)': [...months.map(t => { const i = x.hd.indexOf(t); return i < 0 || !x.fc ? null : nul(x.fc[i]); }), ...F.f.map(() => null)],
+        'Statistical forecast': [...months.map(() => null), ...F.f.map(nul)], 'High (80%)': [...months.map(() => null), ...F.hi.map(nul)], 'Low (80%)': [...months.map(() => null), ...F.lo.map(nul)] };
+      for (const s of vm.series) if (!want[s.name] || s.data.length !== want[s.name].length || s.data.some((v, i) => !sameNum(v, want[s.name][i]))) bad.push(`${vm.id}/${s.name}`);
+      if (vm.labels.length !== months.length + F.f.length || vm.labels.slice(0, months.length).some((l, i) => l.month !== months[i])) bad.push(`${vm.id}: month labels`);
+    } else     if (vm.kind === 'line') for (const s of vm.series) { const w = get(S, s.trace[0].field) || []; if (s.data.length !== w.length || s.data.some((v, i) => !sameNum(v, fin(w[i]) ? w[i] : null))) bad.push(`${vm.id}/${s.name}`); }
     if (vm.kind === 'table') {
       const src = indep(S, vm.trace), refs = new Set(src);
       if (vm.rows.length !== (vm.trace.take ? Math.min(vm.trace.take, src.length) : src.length)) bad.push(`${vm.id}: ${vm.rows.length} rows vs ${src.length}`);
@@ -149,6 +157,41 @@ for (const [label, rel] of WBS) {
   ok(sameNum(by('rc-gap-value').value, g.reduce((q, x) => q + x.val, 0)) && by('rc-gap-n').value === g.length, `${label}: reconciliation gap value equals the sum over materials with a positive gap`);
   const PT = S.shared.prTotals(R.pr);
   ok(by('pa-orders').value === PT.T.n && sameNum(by('pa-weighted').value, PT.w) && sameNum(by('pa-avg').value, PT.avg), `${label}: attainment figures are the Suppliers section's own totals (CGShared.prTotals)`);
+  /* Phase 2 (Demand & Planning, Procurement): the new screens' headline figures are the original tabs' own figures, read from
+     the original tabs' rendered HTML (figure text next to its label), not from the view-models or their traces. */
+  const cardTxt = (html, lbl) => { const m = html.match(new RegExp('<b[^>]*>([^<]*)</b><span>' + lbl)); return m ? m[1] : null; };
+  const vtxt = (id, d) => { const v = by(id); return v && v.value !== null ? A.f(v.value, d) : null; };
+  const dfH = A.html('Demand forecast');
+  if (by('df-unavailable')) ok(/no statistical forecast/.test(dfH), `${label}: Demand forecast unavailable on both screens`);
+  else {
+    ok(['Units sold, last 12 months', 'Forecast, next 3 months', 'Next 6 months', 'Next 12 months'].every((l, i) => cardTxt(dfH, l) === vtxt(['df-act12', 'df-s3', 'df-s6', 'df-s12tot'][i])), `${label}: Demand forecast totals are the tab's cards (${cardTxt(dfH, 'Units sold, last 12 months')} sold)`);
+    ok(cardTxt(dfH, 'Rising / falling trends') === `${by('df-rising').value}/${by('df-falling').value}`, `${label}: rising / falling trend counts are the tab's`);
+    const okF = R.fg.filter(x => S.fc[x.id].ok), H = S.CFG.fcH, h = Math.min(12, Math.max(3, H || 12));
+    ok(by('df-skus').value === okF.length && by('df-short').value === R.fg.length - okF.length, `${label}: forecast / not forecast product counts`);
+    ok(by('df-rows').rows.length === okF.length && by('df-rows').rows.every(r => r.ref.next === S.fc[r.ref.id].f.slice(0, h).reduce((q, v) => q + v, 0)), `${label}: next-${h}-month column equals the forecast summed over the display horizon (S8), recomputed here`);
+    let fbad = 0; for (const x of okF) { for (const vm of V.forecastFor(S, x.id)) { if (V.validate(vm).length) fbad++; if (vm.kind === 'bar') vm.series[0].data.forEach((v, i) => { const t = vm.series[0].trace[i], w = t.field ? get(S, t.field) : get(S, t.entry)[t.key]; if (!sameNum(v, fin(w) ? w : null)) fbad++; }); } }
+    ok(fbad === 0, `${label}: every forecast product's chart and method comparison meet the contract and equal the engine's back-test (${okF.length} products)`);
+  }
+  if (R.hasF) {
+    const faH = A.html('Forecast accuracy');
+    ok(cardTxt(faH, 'Average accuracy') === `${vtxt('fa-avg', 1)}%`, `${label}: average accuracy is the tab's card (${cardTxt(faH, 'Average accuracy')})`);
+    ok(cardTxt(faH, 'Over / under / balanced') === `${by('fa-over').value}/${by('fa-under').value}/${by('fa-balanced').value}`, `${label}: over / under / balanced counts are the tab's`);
+    const dqT = by('fa-dq').series[0].data.join('/'), cfT = by('fa-conf').series[0].data.join('/');
+    ok(cardTxt(faH, 'Data quality adequate') === dqT && cardTxt(faH, 'Confidence high') === cfT, `${label}: data-quality and confidence counts are the tab's (${dqT}; ${cfT})`);
+    const C = S.cred, ord = R.fg.map(x => ({ x, c: C[x.id] })).sort((p, q) => (q.c.acc == null) - (p.c.acc == null) || (q.c.acc ?? 0) - (p.c.acc ?? 0)).map(r => r.x.id);
+    ok(JSON.stringify(by('fa-items').rows.map(r => r.ref.id)) === JSON.stringify(ord), `${label}: accuracy table in the tab's order (the tab's own comparator, run here)`);
+  }
+  const vds = ['Existing ROP insufficient', 'Existing ROP possibly excessive', 'Broadly aligned'];
+  ok(['rp-insufficient', 'rp-excessive', 'rp-aligned'].every((id, i) => by(id).value === items.filter(x => x.verdict === vds[i]).length) && by('rp-items').rows.length === R.fg.length && by('rp-items-rm').rows.length === R.rm.length, `${label}: reorder-policy verdict counts and tables cover every item`);
+  const mrpH = A.html('MRP');
+  ok(cardTxt(mrpH, 'Order now') === String(by('mrp-order-now').value) && cardTxt(mrpH, 'Materials with net requirement') === String(by('mrp-net').value), `${label}: MRP order-now and net-requirement counts are the tab's (${cardTxt(mrpH, 'Order now')}, ${cardTxt(mrpH, 'Materials with net requirement')})`);
+  const repT = cardTxt(mrpH, 'Total replenishment'), rv = by('mrp-value');
+  ok(rv.value === null ? repT === '–' : repT === A.gbp(rv.value), `${label}: total replenishment is the tab's card (${repT})`);
+  ok((rv.completeness.status === 'partial') === /Total replenishment[^<]*<strong data-x1="partial">/.test(mrpH) || rv.value === null, `${label}: total replenishment is partial exactly when the tab says so`);
+  ok(by('mrp-rows').rows.length === S.mrp.length && by('mrp-urgent').rows.length === S.mrp.filter(r => r.st === 'ORDER NOW').length, `${label}: What to buy lists every MRP line; Order now lists the ORDER NOW lines`);
+  ok(JSON.stringify(by('su-rows').rows.map(r => r.ref.id)) === JSON.stringify(R.supRisk.map(x => x.id)), `${label}: supplier scorecard in the Suppliers tab's order (R.supRisk)`);
+  const recT = S.shared.summaryModel().rec.map(r => r[0]);
+  ok(by('su-recs').items.every(r => recT.includes(r.title)) && by('su-recs').items.map(r => recT.indexOf(r.title)).every((v, i, a) => !i || v > a[i - 1]), `${label}: procurement actions are Summary recommendations, in the Summary's order (${by('su-recs').items.length})`);
   /* S11 (Stage 3B Phase 2): the Excess screen's cards are the original tab's own cards. Expected values are read from the
      original tab's rendered HTML (label, £ figure, partial counts), not from the view-models or their traces. */
   const exHtml = A.html('Excess & dead stock'), card = lbl => { const m = exHtml.match(new RegExp('<div><b>([^<]*)</b><span>' + lbl + '[^<]*(?:<strong data-x1="partial">partial</strong>: (\\d+) of (\\d+) items)?')); return m && { txt: m[1], n: m[2] ? +m[2] : null, of: m[3] ? +m[3] : null }; };

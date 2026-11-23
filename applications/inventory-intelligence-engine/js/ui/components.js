@@ -44,7 +44,7 @@
   /* KPI card */
   function kpi(vm, tone, ic, fmt) {
     if (!vm) return '';
-    const v = vm.value === null ? '–' : F.show(vm.value, fmt || (vm.unit === '£' ? '£c' : vm.unit === 'score' ? 'n1' : 'n0'));
+    const v = vm.value === null ? '–' : (vm.unit === '%' && !fmt ? `${F.show(vm.value, 'n1')}%` : F.show(vm.value, fmt || (vm.unit === '£' ? '£c' : vm.unit === 'score' ? 'n1' : 'n0')));
     const meta = vm.completeness && vm.completeness.status === 'unavailable' ? esc((vm.completeness.reasons || [''])[0]) : esc((vm.provenance && vm.provenance.basis) || '');
     return `<button type="button" class="scie-kpi" data-tone="${tone || 'navy'}" data-vm="${esc(vm.id)}"${drillAttr(vm)} title="${meta}">${icon(ic || 'chart', 'scie-kpi-ico')}
       <span class="scie-v">${v}</span><span class="scie-l">${esc(vm.title)}</span>${badges(vm)}</button>`;
@@ -105,6 +105,10 @@
     const unavailable = vm.series && vm.series.every(s => s.data.every(v => v === null));
     return unavailable ? '<p class="scie-unavail">Unavailable: the engine has no values for this chart.</p>' : `<div class="scie-chart${opt.tall ? ' scie-tall' : ''}"><canvas data-chart="${esc(key)}" role="img" aria-label="${esc(vm.title)}"></canvas></div>`;
   }
+  /* chart labels: plain text, or {month: timestamp} from the demand timeline */
+  const lab = l => (l && typeof l === 'object' && 'month' in l ? F.month(l.month) : l);
+  /* demand timeline styles: actual solid, recorded workbook forecast dashed, statistical forecast dotted, 80% range as a band */
+  const TL = [{ c: '--cg-c1' }, { c: '--cg-c3', dash: [6, 4] }, { c: '--cg-c2', dash: [2, 3] }, { c: '--cg-c2', band: 1 }, { c: '--cg-c2', band: 2 }];
   function mount(root) {
     while (charts.length) charts.pop().destroy();
     const todo = pending; pending = [];
@@ -115,7 +119,7 @@
       for (const p of todo) {
         const cv = root.querySelector(`canvas[data-chart="${p.key}"]`);
         if (!cv) continue;
-        const items = p.vm.series.map(s => s.data.map((v, i) => `<li>${esc(p.vm.labels[i])}${p.vm.series.length > 1 ? ` (${esc(s.name)})` : ''}: ${F.show(v, p.vm.unit === '£' ? '£c' : 'n1')}</li>`).join('')).join('');
+        const items = p.vm.series.map(s => s.data.map((v, i) => `<li>${esc(lab(p.vm.labels[i]))}${p.vm.series.length > 1 ? ` (${esc(s.name)})` : ''}: ${F.show(v, p.vm.scale === 'fraction' ? 'pct' : (p.vm.unit === '£' ? '£c' : 'n1'))}</li>`).join('')).join('');
         cv.parentNode.outerHTML = `<ul class="scie-chartlist" aria-label="${esc(p.vm.title)}">${items}</ul>`;
       }
       return;
@@ -130,19 +134,20 @@
         const c = cssVar(PALETTE[i] || '--cg-c1');
         const d = { label: s.name, data: s.data, backgroundColor: colours || c, borderColor: type === 'doughnut' ? cssVar('--cg-card') : c, borderWidth: type === 'line' ? 2 : 1, spanGaps: false, pointRadius: type === 'line' ? 2 : 0 };
         if (o.band && i) { d.fill = o.band === i ? '-1' : false; d.backgroundColor = 'rgba(31,95,191,.15)'; d.borderColor = 'rgba(31,95,191,.35)'; d.borderDash = [4, 4]; d.pointRadius = 0; }
+        if (vm.timeline) { const t = TL[i] || TL[0], col = cssVar(t.c); d.borderColor = col; d.backgroundColor = col; if (t.dash) d.borderDash = t.dash; if (t.band) { d.borderColor = 'rgba(67,108,71,.35)'; d.backgroundColor = 'rgba(67,108,71,.14)'; d.pointRadius = 0; d.borderWidth = 1; d.fill = t.band === 2 ? '-1' : false; } }
         return d;
       });
       const money = vm.unit === '£';
-      const tick = v => (money ? F.show(v, '£c').replace(/<[^>]+>/g, '') : F.show(v, 'n1').replace(/<[^>]+>/g, ''));
+      const tick = v => F.show(v, vm.scale === 'fraction' ? 'pct' : (money ? '£c' : 'n1')).replace(/<[^>]+>/g, '');
       charts.push(new G.Chart(cv, {
-        type, data: { labels: vm.labels, datasets: ds },
+        type, data: { labels: vm.labels.map(lab), datasets: ds },
         options: {
           responsive: true, maintainAspectRatio: false, animation: false, indexAxis: o.horizontal ? 'y' : 'x',
           plugins: { legend: { display: type === 'doughnut' || ds.length > 1, position: 'bottom', labels: { color: text, boxWidth: 12 } },
             tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.raw === null ? 'Unavailable' : tick(c.raw)}` } } },
           scales: type === 'doughnut' ? {} : {
             /* only the value axis gets a formatter; the category axis keeps Chart.js's own labels (the engine's names) */
-            x: { ticks: Object.assign({ color: text, autoSkip: true, maxRotation: 0 }, o.horizontal ? { callback: v => tick(v) } : {}), grid: { color: grid } },
+            x: { ticks: Object.assign({ color: text, autoSkip: vm.labels.length > 8, maxRotation: vm.labels.length > 8 ? 0 : 40 }, o.horizontal ? { callback: v => tick(v) } : {}), grid: { color: grid } },
             y: { ticks: Object.assign({ color: text }, o.horizontal ? {} : { callback: v => tick(v) }), grid: { color: grid }, beginAtZero: true }
           }
         }

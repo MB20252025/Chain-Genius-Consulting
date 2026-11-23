@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 2 – S11, Demand & Planning, Procurement (23 Nov 2026; owner Phase 2 authorisation; NOT a release, no tag)
+- **S11** (Excess & dead stock values) moved verbatim into `CGShared.excessModel` and proven (G1 3/3; G2 453,313 values;
+  G3 952 renders; six synthetic edge workbooks). The Excess screen now shows the value cards.
+- **New screens:** Demand forecast, Forecast accuracy, Safety stock & reorder points, What to buy, Supplier performance,
+  On-order reconciliation. Every headline figure is checked against the original tab's rendered output.
+- **Recorded, not shown:** four further inline calculation sites (S12–S15); the screens say where the figure is.
+- **Tests:** `test-view-contract` 202 → 402; `test-a1-sync-path` 82 → 83. PENDING.
+- **Performance (5,000 items):** `analyse()` about 0.6 s; every screen switch under 170 ms.
+
 ## v0.7 Stage 3B Phase 1 – navigation, design and first screens (23 Nov 2026; owner Stage 3B navigation approval; NOT a release, no tag)
 - **Spec v1 frozen** (`stage3-design/stage3b/SCIE-NAVIGATION-AND-SCREEN-SPEC-v1.md`); N-1 to N-6 recorded.
 - **Shared calculations (N-4).** The ten inline calculation sites of the original tabs moved verbatim into `CGShared`

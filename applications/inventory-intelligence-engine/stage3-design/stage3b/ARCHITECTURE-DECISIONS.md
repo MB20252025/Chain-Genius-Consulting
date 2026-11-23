@@ -91,3 +91,9 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
 - **AD-11 (23 Nov 2026): long tables show 100 rows first.** On a 5,000-item workbook the Stock position table took up
   to 798 ms to draw. Tables now show the first 100 rows and a "Show all N rows" button; nothing is summarised, re-sorted
   or dropped. The choice resets when the area changes, like the filters.
+- **AD-12 (23 Nov 2026): a figure from an unproven inline calculation is left off the new screens.** S12–S15 stay on
+  their original tabs; the new screen names the omission and links to the tab (spec v1 §10.3 fallback, applied to
+  columns and warnings as well as cards).
+- **AD-13 (23 Nov 2026): product-specific views are built on demand.** `CGVM.forecastFor(S, id)` builds one product's
+  timeline and method comparison for the product chosen on the screen; the tab builder includes the first product so the
+  contract tests cover the shape, and the tests check every forecast product.

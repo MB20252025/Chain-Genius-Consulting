@@ -88,7 +88,7 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 
 /* grid and panels */
 .scie-grid { display: grid; gap: var(--cg-s4); grid-template-columns: repeat(12, minmax(0, 1fr)); margin-bottom: var(--cg-s4); }
-.scie-span-12 { grid-column: span 12; } .scie-span-8 { grid-column: span 8; } .scie-span-6 { grid-column: span 6; } .scie-span-4 { grid-column: span 4; } .scie-span-3 { grid-column: span 3; }
+.scie-span-12 { grid-column: span 12; } .scie-span-8 { grid-column: span 8; } .scie-span-6 { grid-column: span 6; } .scie-span-4 { grid-column: span 4; } .scie-span-3 { grid-column: span 3; } .scie-span-5 { grid-column: span 5; } .scie-span-7 { grid-column: span 7; }
 .scie-panel { background: var(--cg-card); border: 1px solid var(--cg-line); border-radius: var(--cg-radius); box-shadow: var(--cg-shadow); padding: var(--cg-s4); min-width: 0; }
 .scie-panel > h3 { display: flex; align-items: center; gap: var(--cg-s2); margin: 0 0 var(--cg-s1); font-size: 1.05rem; color: var(--cg-text); }
 .scie-panel > h3 svg { width: 20px; height: 20px; stroke: var(--cg-green-600); fill: none; stroke-width: 2; }
@@ -110,6 +110,9 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 
 /* long tables: first rows, then 'Show all' */
 .scie-more { margin: var(--cg-s2) 0 0; font-size: var(--cg-fs-s); color: var(--cg-muted); }
+
+/* selectors in screen filters keep a readable width */
+.scie-filters select { min-width: 9em; max-width: 100%; }
 
 /* confidence list */
 .scie-conf { list-style: none; margin: 0 0 var(--cg-s3); padding: 0; }
@@ -176,7 +179,7 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 .scie-wip { border: 2px dashed var(--cg-line); border-radius: var(--cg-radius); padding: var(--cg-s5); background: var(--cg-card); color: var(--cg-muted); }
 
 /* ---- responsive ------------------------------------------------------------------------------------------------- */
-@media (max-width: 1100px) { .scie-span-4, .scie-span-3 { grid-column: span 6; } .scie-span-8 { grid-column: span 12; } }
+@media (max-width: 1100px) { .scie-span-4, .scie-span-3 { grid-column: span 6; } .scie-span-8, .scie-span-7, .scie-span-5 { grid-column: span 12; } }
 @media (max-width: 820px) {
   body.scie-on main { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "side" "up" "view" "app"; }
   #scie-side { min-height: 0; max-height: none; position: static; flex-direction: row; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
@@ -187,7 +190,7 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
   #scie-side button.scie-area .scie-chev { display: none; }
   #scie-top { padding: var(--cg-s3) var(--cg-s4); } #scie-top .scie-pill { margin-left: 0; }
   body.scie-on #scie-view { padding: var(--cg-s3); } body.scie-on #app { margin: 0 var(--cg-s3) var(--cg-s3); } body.scie-on #up { margin: var(--cg-s3) var(--cg-s3) 0; }
-  .scie-span-12, .scie-span-8, .scie-span-6, .scie-span-4, .scie-span-3 { grid-column: span 12; }
+  .scie-span-12, .scie-span-8, .scie-span-7, .scie-span-6, .scie-span-5, .scie-span-4, .scie-span-3 { grid-column: span 12; }
   .scie-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .scie-kpi .scie-v { font-size: 1.4rem; }
   .scie-head h2 { font-size: var(--cg-fs-l); }

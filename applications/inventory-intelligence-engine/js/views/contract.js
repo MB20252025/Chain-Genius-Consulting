@@ -43,8 +43,11 @@
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
       qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum, shared: c.shared, coverBands: c.coverBands,
       /* the same keyed results as rows (id first), so tables can list them; the objects themselves are not altered */
-      credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id] })) : [],
-      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id] })),
+      credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id], x })) : [],
+      /* Phase 2: each product row also carries its engine row (x), the forecast method's name, and S8 (the forecast over the
+         display horizon, CGShared.fcNextSum, the function the Demand forecast tab calls) for products that are forecast */
+      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id], x, method: c.methodNames[fc[x.id].best] || null, next: fc[x.id].ok ? c.shared.fcNextSum(fc[x.id]) : null })),
+      methodNames: c.methodNames,
       /* the Health tab's ABC figures, from the same shared function the tab calls (abcRows(R.fg,'FG'), abcRows(R.rm,'RM')) */
       abcFG: c.shared.abcStats(c.result.fg), abcRM: c.shared.abcStats(c.result.rm),
       /* S11: the Excess & dead stock tab's own listing and per-item values (CGShared.excessModel, the function the tab
@@ -102,6 +105,8 @@
     if (trace.count) return countWhere(items(S, trace.count), trace.where);
     if (trace.partialSum) return S.x1Sum(items(S, trace.partialSum), trace.key);
     if (trace.shared) { const r = S.shared[trace.shared](items(S, trace.items).filter(x => meets(x, trace.where))); return trace.key ? field(r, trace.key) : r; }
+    /* S7: the Demand forecast tab's totals, CGShared.fcSum over the products it forecasts (R.fg with fc ok), as the tab calls it */
+    if (trace.fcSum) return S.shared.fcSum(S.R.fg.filter(x => S.fc[x.id] && S.fc[x.id].ok), S.fc, trace.fcSum);
     if (trace.bands) return S.coverBands(items(S, [trace.bands]))[trace.key];
     if (trace.entry) { const o = at(S, trace.entry); return o ? o[trace.key] : undefined; }
     if (trace.rows) {
@@ -133,6 +138,29 @@
       completeness: { status: 'partial', included: t.n, of: t.of, excluded: countWhere(items(S, o.items), [[o.key, 'nonnum']]), reasons: ['Not Assessed items are excluded from this total (X1 decision D4)'] }
     });
   }
+  /* Product demand timeline (Demand forecast): history by calendar month, then the forecast horizon. Selection only:
+   * every value is an engine field; the series are padded with nulls so history and forecast sit side by side.
+   * History uses the calendar-aligned series (x.hc, the engine's D6 alignment, gaps as unknown) when it exists, as the
+   * original chart does; the recorded workbook forecast (x.fc, one value per valid history row x.hd) is placed on its
+   * own month by matching x.hd to the calendar month. */
+  function timeline(S, o) {
+    const x = o.row, F = o.fc, cal = Array.isArray(x.hc) && x.hc.length >= x.h.length;
+    const keys = cal ? (V_at(S, 'R.months') || []) : x.hd, hist = cal ? x.hc : x.h;
+    const num = v => (isNum(v) ? v : null), none = F.f.map(() => null), gap = keys.map(() => null);
+    const wbAt = t => { const i = (x.hd || []).indexOf(t); return i >= 0 && Array.isArray(x.fc) ? num(x.fc[i]) : null; };
+    const tr = (field, place) => ({ row: x.id, field, place, cal });
+    const series = [
+      { name: 'Actual demand', trace: [tr(cal ? 'hc' : 'h', 'history')], data: hist.map(num).concat(none) },
+      { name: 'Existing workbook forecast (recorded)', trace: [tr('fc', 'history-by-month')], data: keys.map(wbAt).concat(none) },
+      { name: 'Statistical forecast', trace: [tr('f', 'forecast')], data: gap.concat(F.f.map(num)) },
+      { name: 'High (80%)', trace: [tr('hi', 'forecast')], data: gap.concat(F.hi.map(num)) },
+      { name: 'Low (80%)', trace: [tr('lo', 'forecast')], data: gap.concat(F.lo.map(num)) }
+    ];
+    return Object.assign({ kind: 'line', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, {
+      row: undefined, fc: undefined, labels: keys.map(t => ({ month: t })).concat(o.horizon.slice(0, F.f.length)), labelKind: 'month', series, timeline: true
+    });
+  }
+  const V_at = (S, p) => at(S, p);
   /* A money card exactly as the original tab's x1 card: the x1Sum total of the given items, complete when every item
    * has a value, otherwise partial with the count left out (never shown as a zero or as complete). */
   function x1Card(S, o) {
@@ -172,9 +200,10 @@
   }
   /* Prioritised recommendations: exactly the Summary's own list (CGShared.summaryModel().rec), not a second implementation. */
   function recommendations(S, o) {
-    const rec = S.shared.summaryModel().rec;
+    /* o.titleMatch (Phase 2): only the Summary's recommendations whose title matches, in the Summary's order (selection) */
+    const rec = S.shared.summaryModel().rec.filter(r => !o.titleMatch || new RegExp(o.titleMatch).test(r[0]));
     const take = o.take ? rec.slice(0, o.take) : rec;
-    return Object.assign({ kind: 'recommendation', unit: 'text', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] }, trace: { summaryRec: o.take || 'all' } }, o, {
+    return Object.assign({ kind: 'recommendation', unit: 'text', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] }, trace: { summaryRec: o.take || 'all', titleMatch: o.titleMatch || null } }, o, {
       items: take.map(r => ({ title: r[0], reason: r[1], action: r[2], confidence: r[3] }))
     });
   }
@@ -231,6 +260,6 @@
 
   G.CGVM = Object.assign(G.CGVM || {}, {
     version: '3B-0', KINDS, SOURCES, STATUSES, UNITS,
-    source, at, items, field, meets, orderBy, resolve, kpi, total, x1Card, table, bars, line, entryBars, rowBars, recommendations, confFor, validate
+    source, at, items, field, meets, orderBy, resolve, kpi, total, x1Card, timeline, table, bars, line, entryBars, rowBars, recommendations, confFor, validate
   });
 })(typeof window !== 'undefined' ? window : globalThis);
