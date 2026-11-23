@@ -38,6 +38,9 @@
     main.appendChild(top); main.appendChild(view); main.appendChild(nav); main.appendChild(panel);
     side = nav;
     d.addEventListener('click', onClick);
+    /* Capture phase: the original click handler re-renders #nav, which detaches the clicked button before a bubbling
+       listener sees it. Choosing one of the original 17 tabs always opens the Advanced view (the original screen). */
+    d.addEventListener('click', e => { if (e.target.closest && e.target.closest('#nav [data-t]')) enterAdv(); }, true);
     d.addEventListener('input', onInput);
     d.addEventListener('change', onInput);
     d.addEventListener('keydown', e => { if (e.key === 'Escape') closeItem(); if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('tr[data-item]')) { e.preventDefault(); openItem(e.target.closest('tr[data-item]').dataset.item); } });
@@ -118,7 +121,7 @@
   function onClick(e) {
     const t = e.target.closest ? e.target : null; if (!t) return;
     const navT = t.closest('#nav [data-t]');
-    if (navT) { st.mode = 'adv'; d.body.classList.add('scie-adv'); closeItem(); drawSide(source() || { R: {} }); return; }
+    if (navT) { enterAdv(); return; }
     const goEl = t.closest('[data-go]'); if (goEl) { const [a, s] = goEl.dataset.go.split('/'); go(a, s); return; }
     if (t.closest('[data-adv]')) { openOriginal((d.querySelector('#nav .on') || {}).dataset ? d.querySelector('#nav .on').dataset.t : 'Overview'); return; }
     const orig = t.closest('[data-orig]'); if (orig) { openOriginal(orig.dataset.orig); return; }
@@ -142,6 +145,7 @@
   }
 
   /* Start when an analysis exists; redraw when a new analysis replaces it (recalculation or a new workbook). */
+  function enterAdv() { st.mode = 'adv'; d.body.classList.add('scie-adv'); closeItem(); if (side) drawSide(source() || { R: {} }); }
   function sync() {
     /* CGEngine is a top-level const (engine-api.js), so it is a global name but not a window property */
     const r = typeof CGEngine !== 'undefined' && CGEngine.currentResult ? CGEngine.currentResult() : null;
