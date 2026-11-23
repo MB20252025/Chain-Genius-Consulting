@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 1 – navigation, design and first screens (23 Nov 2026; owner Stage 3B navigation approval; NOT a release, no tag)
+- **Spec v1 frozen** (`stage3-design/stage3b/SCIE-NAVIGATION-AND-SCREEN-SPEC-v1.md`); N-1 to N-6 recorded.
+- **Shared calculations (N-4).** The ten inline calculation sites of the original tabs moved verbatim into `CGShared`
+  (`js/app.js`), so the original tabs and the new screens use one implementation. Proved by three separate checks:
+  verbatim move, 3,038 values identical over 22 workbook runs, 748 tab renders byte-identical. `calculations.js` and
+  `forecasting.js` unchanged.
+- **Navigation map v1** in `js/views/areas.js`: six areas, three utility areas, Advanced view with all 17 tabs,
+  original-tab links, area-scoped filters, conditional Production.
+- **New screens** (`css/scie.css`, `js/ui/`, Chart.js 4.6.1 vendored under MIT): navy and forest-green shell, KPI
+  cards, item panel (presentation only), "See original tab" links. Bespoke Overview, Inventory, Reports and Data
+  screens; the other subsections use the generic view-model layout. Loaded by `js/app.js` (`index.html` unchanged).
+- **Tests:** `test-view-contract` 128 → 202; `check-globals` 124 → 126; `test-a1-static` 32 → 36;
+  `test-a1-sync-path` 78 → 82. All PENDING growth until the Tag-7 cycle.
+- **Performance (5,000 items):** every screen switch under 100 ms; `analyse()` about 0.9 s, as at Tag-6.
+
 ## v0.7 Stage 3B Phase 0 – foundations (22 Nov 2026; owner Stage 3B authorisation; NOT a release, no tag)
 - **View-model layer** (`js/views/contract.js`, `js/views/areas.js`).
   - One engine access point and a data contract with provenance, completeness, confidence and drill-down.

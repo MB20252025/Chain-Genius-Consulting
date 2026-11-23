@@ -69,3 +69,8 @@ Verified facts are marked (V); things not tested are marked (NT).
     equals order date + Materials lead time; a dedicated test file is planned (E-7). All money is read and shown as
     GBP: there is no currency column or conversion. Screens round money to £1 and quantities to 0–1 decimal places;
     calculations and the Excel export use full precision.
+21. **No genuine non-production workbook has been tested in the new screens.** Stage 3B shows the Production area only
+    when the workbook has production data (spec v1 §10). The rule is tested with synthetic workbooks in
+    `test-view-contract`, but no real workbook from a business without production (a distributor or retailer) has
+    been run through the new screens. **Outstanding validation:** obtain such a workbook (anonymised) and check that
+    Production is hidden, that no screen refers to production, and that every other area still works.

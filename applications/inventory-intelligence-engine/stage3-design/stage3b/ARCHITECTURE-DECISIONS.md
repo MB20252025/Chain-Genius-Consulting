@@ -72,3 +72,22 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
   - The ten inline calculation sites of the existing tabs were moved verbatim into `CGShared` (`js/app.js`).
   - Full rationale and evidence: `SHARED-CALCULATIONS.md`.
   - AD-1 now also hands `CGShared` to the view layer, as `CGEngine.current().shared`.
+
+- **AD-9 (23 Nov 2026): the new presentation files are loaded by `js/app.js`, not by `index.html`.**
+  - `check-globals` pins the `index.html` script list exactly, and that test is protected. Rather than change it, a short
+    loader at the end of `js/app.js` adds `css/scie.css`, Chart.js and the seven view and UI files, in a fixed order
+    (`SCIE_UI`), with `async = false`. It does nothing where there is no DOM (Node tests).
+  - `test-view-contract` section 8 stands in for the pinned list: it checks the file order, that every file exists, the
+    no-DOM guard, that `index.html` is unchanged, and that each UI file is a self-contained function that declares no
+    name the core files declare.
+- **AD-10 (23 Nov 2026): the new screens sit after the original page, and the original page is the Advanced view.**
+  - The shell adds its sidebar, top bar, screen area and item panel after `#app`. `#nav` and `#v` are never moved,
+    renamed or rewritten, so the protected browser tests still find and click the 17 original tabs.
+  - The body classes `scie-on` and `scie-adv` decide which is visible. Choosing an original tab, a "See original tab"
+    link or "Advanced view" shows `#v`; choosing any area shows the new screens. Print always prints `#v` (the
+    original Summary), so the report and the Summary are one source.
+  - Choosing an original tab is detected in the capture phase, because the original click handler re-renders `#nav`
+    and detaches the button before a bubbling listener sees it (found by the protected browser tests; fixed in 89098e4).
+- **AD-11 (23 Nov 2026): long tables show 100 rows first.** On a 5,000-item workbook the Stock position table took up
+  to 798 ms to draw. Tables now show the first 100 rows and a "Show all N rows" button; nothing is summarised, re-sorted
+  or dropped. The choice resets when the area changes, like the filters.

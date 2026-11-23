@@ -120,3 +120,37 @@ The Phase 0 map remains readable in git history at `e0b261f` (`js/views/areas.js
 - `test-h2-level-shift-spec` 9.
 
 That is **307 restored + 9 additional = 316**, matching the readiness record. There is no discrepancy.
+
+## Phase 1 step 2: presentation layer (23 Nov 2026; commits 724e1b3, 89098e4, dfc9343)
+
+**What was built.** Design tokens and layout (`css/scie.css`), Chart.js 4.6.1 (`assets/vendor/chartjs-4.6.1/`, MIT,
+npm integrity recorded in `SOURCE.md`), and four presentation files: `js/ui/format.js` (display formatting; unknown values
+shown as "Unavailable"), `components.js` (cards, panels, tables, charts, recommendations), `screens.js` and `shell.js`.
+Loader and screen placement: AD-9 to AD-11.
+
+**Screens.** Bespoke: Overview; Inventory (Stock position with products/materials switch and filters, Stock health & ABC,
+Excess & dead stock); Reports (Management report, Engine output workbook); Data Management (Load workbook). Every other
+subsection uses the generic layout built from its view-models. Settings opens the original Settings tab.
+
+**Open item: Excess value cards.** The uncommitted and physical value cards on Excess & dead stock come from an eleventh
+inline calculation (S11, `uc × cost` in the original Excess tab), found while building the screen. Until it gets the
+same three-part proof as S1–S10, the cards show a "See original tab" link and no figure (spec v1 §10.3 fallback).
+
+**Tests.** `test-view-contract` 154 → 202: the independent resolver now covers shared, band, entry and ordered-row
+traces; the two section view-models; anchors against the original tab code; real engine field names for every table
+column; and the loader (section 8). Rule-prescribed rises: `check-globals` 125 → 126 (`SCIE_UI`); `test-a1-static`
+32 → 36 (four `js/ui` files); `test-a1-sync-path` 81 → 82 (`bucket`, now handed over as `coverBands`). All PENDING.
+
+**Full tier.** The first run on 724e1b3 (fresh clone) found two ERRORs in protected browser tests, `browser-chrome` and
+`test-paging-chrome`: choosing an original tab did not show the original page (AD-10). Fixed in 89098e4 without changing
+any test; both then passed at their accepted counts (53 and 59), and `browser-x1-chrome` passed 334.
+
+**Performance (5,000 items, `ui-evidence/perf-5000-20261123.txt`).**
+- `analyse()`: median 906 ms (Tag-6 tree on the same machine: 871 ms). Under the 2 s target.
+- Import to "Analysed.": about 5.0–5.2 s (Tag-6 tree: 4.8 s). This is mostly the full engine run (three analyses,
+  `V07-PERF-BASELINE.md`); the new screens add about 0.2–0.3 s for the first draw.
+- Screen switching: all 21 subsections 53–97 ms after AD-11 (before: up to 798 ms). Under the 300 ms target.
+- "Show all 1,667 rows" on Stock position: about 0.6 s (a user's request, not a screen switch).
+
+**Smoke check** (`ui-evidence/smoke.js`): 63 screen visits at 1280, 768 and 412 px, no console errors, no page-level
+overflow, no "NaN" or "undefined" text.
