@@ -55,18 +55,25 @@
     return `<section class="scie-panel ${o.span || 'scie-span-12'}"${o.id ? ` data-vm="${esc(o.id)}"` : ''}><h3>${icon(o.icon || 'chart')}${esc(o.title)}</h3>${o.q ? `<p class="scie-q">${esc(o.q)}</p>` : ''}${o.body}${o.badges || ''}${orig}</section>`;
   }
   /* Table: cells are the view-model's own cells, formatted per column */
+  const PAGE = 100, full = new Set();
+  const showAllRows = key => { full.add(String(key)); };
+  const resetRows = () => { full.clear(); };
   function table(vm, opt) {
     opt = opt || {};
     if (!vm) return '';
     const cols = vm.columns, fmts = opt.fmt || {}, numeric = k => fmts[k] && fmts[k] !== 'text';
     const head = cols.map(c => `<th${numeric(c.field) ? ' class="scie-num"' : ''} scope="col">${esc(c.label)}</th>`).join('');
-    const rows = (opt.rows || vm.rows).map(r => {
+    /* Long tables show their first PAGE rows until the user asks for all of them (presentation only: rows are not
+       changed, reordered or summarised). The shell resets this when the area changes, like the filters. */
+    const all = opt.rows || vm.rows, key = opt.pageKey || vm.id, cut = all.length > PAGE && !full.has(key);
+    const rows = (cut ? all.slice(0, PAGE) : all).map(r => {
       const tds = r.cells.map((v, i) => { const k = cols[i].field; if (k === 'sev') return `<td>${F.risk(v)}</td>`; return `<td${numeric(k) ? ' class="scie-num"' : ''}>${F.show(v, fmts[k])}</td>`; }).join('');
       const id = r.ref && (r.ref.id || (r.ref.x && r.ref.x.id));
       return `<tr${opt.items && id ? ` data-item="${esc(id)}" tabindex="0"` : ''}>${tds}</tr>`;
     }).join('');
-    const empty = (opt.rows || vm.rows).length ? '' : `<p class="scie-note">${esc(opt.empty || 'No rows.')}</p>`;
-    return `<div class="w"><table class="scie-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>${empty}`;
+    const empty = all.length ? '' : `<p class="scie-note">${esc(opt.empty || 'No rows.')}</p>`;
+    const more = cut ? `<p class="scie-more">Showing the first ${F.show(PAGE, 'n0')} of ${F.show(all.length, 'n0')} rows. <button type="button" class="scie-link" data-rows-all="${esc(key)}">Show all ${F.show(all.length, 'n0')} rows</button></p>` : '';
+    return `<div class="w"><table class="scie-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>${more}${empty}`;
   }
   /* Recommendations: the Summary's own list; numbered by a CSS counter */
   function recs(vm) {
@@ -144,5 +151,5 @@
   }
   /* reset the pending list before a screen is drawn (charts of an abandoned render are not mounted) */
   const begin = () => { pending = []; };
-  G.CGUI = Object.freeze({ icon, badges, kpi, panel, table, recs, ring, confList, chart, mount, begin });
+  G.CGUI = Object.freeze({ icon, badges, kpi, panel, table, showAllRows, resetRows, recs, ring, confList, chart, mount, begin });
 })(typeof window !== 'undefined' ? window : globalThis);

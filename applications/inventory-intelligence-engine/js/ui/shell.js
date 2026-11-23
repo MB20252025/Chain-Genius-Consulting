@@ -80,7 +80,7 @@
 
   function go(areaId, subId) {
     if (areaId === 'settings') { st.area = 'settings'; st.sub = 'thresholds'; openOriginal('Settings', true); return; }
-    if (areaId !== st.area) st.filters = {}; // filters reset between areas (never global)
+    if (areaId !== st.area) { st.filters = {}; U.resetRows(); } // filters and 'show all rows' reset between areas (never global)
     st.area = areaId; st.sub = subId; st.mode = 'new';
     d.body.classList.remove('scie-adv');
     closeItem(); draw();
@@ -127,6 +127,8 @@
     const orig = t.closest('[data-orig]'); if (orig) { openOriginal(orig.dataset.orig); return; }
     const kp = t.closest('[data-drill]'); if (kp) { try { const dr = JSON.parse(kp.dataset.drill), a = (allAreas(source()).find(x => x.area === dr.area) || {}); if (a.id) { go(a.id, dr.view || a.subs[0].id); if (dr.filter) { const f = st.filters[a.id] || (st.filters[a.id] = {}); if (dr.filter.type) f.type = dr.filter.type; draw(); } } } catch (err) { /* ignore malformed drill */ } return; }
     const set = t.closest('[data-set]'); if (set) { const [k, v] = set.dataset.set.split('='); (st.filters[st.area] || (st.filters[st.area] = {}))[k] = v; draw(); return; }
+    const ra = t.closest('[data-rows-all]');
+    if (ra) { U.showAllRows(ra.dataset.rowsAll); draw(); return; }
     if (t.closest('[data-filter-clear]')) { const f = st.filters[st.area] || {}; const keep = f.type; st.filters[st.area] = keep ? { type: keep } : {}; draw(); return; }
     if (t.closest('[data-close-item]')) { closeItem(); return; }
     const tr = t.closest('#scie-view tr[data-item]'); if (tr) { openItem(tr.dataset.item); return; }

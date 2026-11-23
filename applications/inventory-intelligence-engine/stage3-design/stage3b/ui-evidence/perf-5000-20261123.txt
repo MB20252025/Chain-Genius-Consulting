@@ -1,0 +1,107 @@
+# 23 Nov 2026, commit after 89098e4 (table paging). Sandbox: headless Chromium, 2 CPUs. Workbook: node tests/gen-large-workbook.js /tmp/perf5k.xlsx --items=5000
+## perf-scie.js (second run, after table paging)
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 5228 ms; SCIE screen shown: 5245 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 3275 ms
+--- cold: 21 screens; max 75 ms; over 300 ms: 0
+  inventory/stock                 75 ms
+  overview/dashboard              68 ms
+  inventory/excess                66 ms
+  planning/forecast               62 ms
+  procurement/reconciliation      53 ms
+  planning/policy                 50 ms
+  production/feasibility          48 ms
+  production/attainment           42 ms
+  inventory/health                39 ms
+  procurement/buy                 37 ms
+  procurement/suppliers           36 ms
+  planning/accuracy               36 ms
+  settings/thresholds             34 ms
+  scenarios/recommendations       33 ms
+  data/confidence                 32 ms
+  reports/workbook                32 ms
+  data/questions                  32 ms
+  data/load                       32 ms
+  data/quality                    32 ms
+  scenarios/comparison            31 ms
+  reports/report                  30 ms
+--- warm: 21 screens; max 97 ms; over 300 ms: 0
+  inventory/stock                 97 ms
+  overview/dashboard              93 ms
+  procurement/reconciliation      59 ms
+  inventory/excess                58 ms
+  procurement/buy                 56 ms
+  inventory/health                55 ms
+  planning/forecast               53 ms
+  production/feasibility          51 ms
+  planning/policy                 50 ms
+  production/attainment           46 ms
+  procurement/suppliers           43 ms
+  settings/thresholds             37 ms
+  planning/accuracy               32 ms
+  data/quality                    32 ms
+  data/questions                  32 ms
+  data/load                       31 ms
+  scenarios/comparison            30 ms
+  reports/report                  29 ms
+  data/confidence                 28 ms
+  scenarios/recommendations       25 ms
+  reports/workbook                24 ms
+page errors: 0 
+
+## perf-scie.js (first run, before table paging; superseded)
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 5304 ms; SCIE screen shown: 5325 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 3531 ms
+--- cold: 21 screens; max 798 ms; over 300 ms: 4
+  inventory/stock                798 ms
+  scenarios/comparison           401 ms
+  production/attainment          353 ms
+  procurement/buy                310 ms
+  procurement/reconciliation     296 ms
+  production/feasibility         234 ms
+  planning/policy                192 ms
+  inventory/excess               191 ms
+  planning/accuracy               96 ms
+  overview/dashboard              84 ms
+  reports/report                  57 ms
+  settings/thresholds             48 ms
+  reports/workbook                48 ms
+  planning/forecast               48 ms
+  procurement/suppliers           46 ms
+  inventory/health                43 ms
+  data/load                       33 ms
+  scenarios/recommendations       32 ms
+  data/confidence                 32 ms
+  data/quality                    31 ms
+  data/questions                  22 ms
+--- warm: 21 screens; max 385 ms; over 300 ms: 2
+  inventory/stock                385 ms
+  procurement/reconciliation     353 ms
+  production/attainment          251 ms
+  procurement/buy                251 ms
+  production/feasibility         246 ms
+  planning/policy                185 ms
+  scenarios/comparison           179 ms
+  inventory/excess               138 ms
+  planning/accuracy               87 ms
+  overview/dashboard              63 ms
+  procurement/suppliers           60 ms
+  inventory/health                53 ms
+  planning/forecast               45 ms
+  reports/report                  34 ms
+  settings/thresholds             31 ms
+  data/quality                    31 ms
+  data/confidence                 27 ms
+  data/load                       26 ms
+  data/questions                  24 ms
+  scenarios/recommendations       23 ms
+  reports/workbook                23 ms
+page errors: 0 
+
+## perf-cmp.js, 3 runs each: Tag-6 tree (port 8766) vs Stage 3B tree (port 8765, before paging)
+port 8766: import-to-Analysed 4503 / 4763 / 4786 ms (median 4763); analyse() 935 / 871 / 768 ms (median 871)
+port 8765: import-to-Analysed 5026 / 5495 / 4835 ms (median 5026); analyse() 972 / 805 / 906 ms (median 906)
+
+## perf-showall.js
+Show all on Stock position: 621 ms to paint 1667 rows; after leaving and returning to the area: 100 rows (reset)

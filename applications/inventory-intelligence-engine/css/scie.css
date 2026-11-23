@@ -108,6 +108,9 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 .scie-kpi svg { position: absolute; right: 14px; top: 14px; width: 26px; height: 26px; stroke: rgba(255,255,255,.85); fill: none; stroke-width: 1.8; }
 .scie-kpi:focus-visible, .scie-panel button:focus-visible, #scie-side button:focus-visible, .scie-tabs button:focus-visible { outline: 3px solid #ffbf47; outline-offset: 2px; }
 
+/* long tables: first rows, then 'Show all' */
+.scie-more { margin: var(--cg-s2) 0 0; font-size: var(--cg-fs-s); color: var(--cg-muted); }
+
 /* confidence list */
 .scie-conf { list-style: none; margin: 0 0 var(--cg-s3); padding: 0; }
 .scie-conf li { display: flex; justify-content: space-between; align-items: center; gap: var(--cg-s2); padding: 6px 0; border-bottom: 1px solid var(--cg-line); font-size: var(--cg-fs-s); color: var(--cg-text); }
