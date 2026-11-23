@@ -102,8 +102,8 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 .scie-kpi[data-tone="green"] { background: var(--cg-kpi-green); } .scie-kpi[data-tone="blue"] { background: var(--cg-kpi-blue); }
 .scie-kpi[data-tone="orange"] { background: var(--cg-kpi-orange); } .scie-kpi[data-tone="purple"] { background: var(--cg-kpi-purple); }
 .scie-kpi[data-tone="teal"] { background: var(--cg-kpi-teal); } .scie-kpi[data-tone="red"] { background: var(--cg-kpi-red); }
-.scie-kpi .scie-v { font-size: 1.75rem; font-weight: 700; line-height: 1.1; }
-.scie-kpi .scie-l { font-size: var(--cg-fs-s); font-weight: 600; opacity: .95; }
+.scie-kpi .scie-v { font-size: 1.75rem; font-weight: 700; line-height: 1.1; padding-right: 30px; }
+.scie-kpi .scie-l { font-size: var(--cg-fs-s); font-weight: 600; opacity: .95; padding-right: 30px; }
 .scie-kpi .scie-m { font-size: var(--cg-fs-xs); opacity: .9; margin-top: auto; }
 .scie-kpi svg { position: absolute; right: 14px; top: 14px; width: 26px; height: 26px; stroke: rgba(255,255,255,.85); fill: none; stroke-width: 1.8; }
 .scie-kpi:focus-visible, .scie-panel button:focus-visible, #scie-side button:focus-visible, .scie-tabs button:focus-visible { outline: 3px solid #ffbf47; outline-offset: 2px; }
