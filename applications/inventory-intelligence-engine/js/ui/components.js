@@ -103,7 +103,19 @@
     const key = `${vm.id}-${pending.length}`;
     pending.push({ key, vm, opt });
     const unavailable = vm.series && vm.series.every(s => s.data.every(v => v === null));
-    return unavailable ? '<p class="scie-unavail">Unavailable: the engine has no values for this chart.</p>' : `<div class="scie-chart${opt.tall ? ' scie-tall' : ''}"><canvas data-chart="${esc(key)}" role="img" aria-label="${esc(vm.title)}"></canvas></div>`;
+    return unavailable ? '<p class="scie-unavail">Unavailable: the engine has no values for this chart.</p>' : `<div class="scie-chart${opt.xtall ? ' scie-xtall' : opt.tall ? ' scie-tall' : ''}"><canvas data-chart="${esc(key)}" role="img" aria-label="${esc(vm.title)}"></canvas></div>`;
+  }
+  /* Category labels on phone-width charts (fixed 24 Nov 2026). Chart.js gives a horizontal bar chart's label axis at most
+     half the chart's width, so on a phone a long label (a forecast method's name) was cut off at the canvas edge. Below a
+     460 px chart width a long label is wrapped onto several lines between words, so it stays complete and readable, and
+     no label is skipped. Wider charts (tablet, desktop) keep exactly their previous single-line labels. */
+  const WRAP = [[460, 18]];
+  const wrapAt = w => { const hit = WRAP.find(([lim]) => w < lim); return hit ? hit[1] : null; };
+  function wrap(label, max) {
+    const lines = []; let line = '';
+    for (const word of String(label).split(' ')) { const t = line ? `${line} ${word}` : word; if (t.length > max && line) { lines.push(line); line = word; } else line = t; }
+    if (line) lines.push(line);
+    return lines.length > 1 ? lines : label;
   }
   /* chart labels: plain text, or {month: timestamp} from the demand timeline */
   const lab = l => (l && typeof l === 'object' && 'month' in l ? F.month(l.month) : l);
@@ -137,10 +149,12 @@
         if (vm.timeline) { const t = TL[i] || TL[0], col = cssVar(t.c); d.borderColor = col; d.backgroundColor = col; if (t.dash) d.borderDash = t.dash; if (t.band) { d.borderColor = 'rgba(67,108,71,.35)'; d.backgroundColor = 'rgba(67,108,71,.14)'; d.pointRadius = 0; d.borderWidth = 1; d.fill = t.band === 2 ? '-1' : false; } }
         return d;
       });
+      const max = o.horizontal ? wrapAt(cv.parentNode.clientWidth || 0) : null, labels = vm.labels.map(lab).map(l => (max && typeof l === 'string' ? wrap(l, max) : l));
+      if (labels.some(Array.isArray)) cv.parentNode.classList.add('scie-wrapped');
       const money = vm.unit === '£';
       const tick = v => F.show(v, vm.scale === 'fraction' ? 'pct' : (money ? '£c' : 'n1')).replace(/<[^>]+>/g, '');
       charts.push(new G.Chart(cv, {
-        type, data: { labels: vm.labels.map(lab), datasets: ds },
+        type, data: { labels, datasets: ds },
         options: {
           responsive: true, maintainAspectRatio: false, animation: false, indexAxis: o.horizontal ? 'y' : 'x',
           plugins: { legend: { display: type === 'doughnut' || ds.length > 1, position: 'bottom', labels: { color: text, boxWidth: 12 } },
@@ -148,7 +162,7 @@
           scales: type === 'doughnut' ? {} : {
             /* only the value axis gets a formatter; the category axis keeps Chart.js's own labels (the engine's names) */
             x: { ticks: Object.assign({ color: text, autoSkip: vm.labels.length > 8, maxRotation: vm.labels.length > 8 ? 0 : 40 }, o.horizontal ? { callback: v => tick(v) } : {}), grid: { color: grid } },
-            y: { ticks: Object.assign({ color: text }, o.horizontal ? {} : { callback: v => tick(v) }), grid: { color: grid }, beginAtZero: true }
+            y: { ticks: Object.assign({ color: text }, o.horizontal ? { autoSkip: false } : { callback: v => tick(v) }), grid: { color: grid }, beginAtZero: true }
           }
         }
       }));
@@ -156,5 +170,5 @@
   }
   /* reset the pending list before a screen is drawn (charts of an abandoned render are not mounted) */
   const begin = () => { pending = []; };
-  G.CGUI = Object.freeze({ icon, badges, kpi, panel, table, showAllRows, resetRows, recs, ring, confList, chart, mount, begin });
+  G.CGUI = Object.freeze({ icon, badges, kpi, panel, table, showAllRows, resetRows, recs, ring, confList, chart, mount, begin, wrapAt });
 })(typeof window !== 'undefined' ? window : globalThis);

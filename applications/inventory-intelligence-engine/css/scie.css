@@ -95,6 +95,10 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 .scie-panel > .scie-q { margin: 0 0 var(--cg-s3); color: var(--cg-muted); font-size: var(--cg-fs-s); }
 .scie-chart { position: relative; height: 240px; }
 .scie-chart.scie-tall { height: 320px; }
+/* 20-item ranking charts drawn horizontally: room for every label */
+.scie-chart.scie-xtall { height: 480px; }
+/* wrapped category labels need more height per bar */
+.scie-chart.scie-wrapped { height: 380px; } .scie-chart.scie-tall.scie-wrapped { height: 460px; }
 
 /* KPI cards */
 .scie-kpis { display: grid; gap: var(--cg-s3); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: var(--cg-s4); }

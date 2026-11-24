@@ -1,0 +1,39 @@
+# Chart label checks, 24 Nov 2026 (headless Chromium). NS = Northstar demonstration workbook; 5k = tests/gen-large-workbook.js --items=5000
+## labels-check.js NS: forecast-method chart at 13 widths
+  320 px | canvas 262 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  360 px | canvas 302 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  390 px | canvas 332 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  412 px | canvas 354 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  430 px | canvas 372 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  480 px | canvas 422 | axis 120 | widest line 106 | fits true | wrapped true | ticks 6/6 | lines 2 in 56px no overlap true | errors 0
+  600 px | canvas 542 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+  768 px | canvas 710 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+  820 px | canvas 762 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+ 1024 px | canvas 694 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+ 1280 px | canvas 533 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+ 1440 px | canvas 627 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+ 1920 px | canvas 907 | axis 211 | widest line 197 | fits true | wrapped false | ticks 6/6 | lines 1 in 34px no overlap true | errors 0
+labels (joined): ["Average of all months (selected)","3-month moving average","6-month moving average","Weighted 3-month average (3-2-1)","Linear trend","Existing workbook forecast"]
+## all-hcharts.js NS: every horizontal chart at 8 widths, plus rotation
+320 px: 21 screens; horizontal charts checked so far 14; issues: none
+360 px: 21 screens; horizontal charts checked so far 28; issues: none
+412 px: 21 screens; horizontal charts checked so far 42; issues: none
+600 px: 21 screens; horizontal charts checked so far 56; issues: none
+768 px: 21 screens; horizontal charts checked so far 70; issues: none
+1024 px: 21 screens; horizontal charts checked so far 84; issues: none
+1280 px: 21 screens; horizontal charts checked so far 98; issues: none
+1920 px: 21 screens; horizontal charts checked so far 112; issues: none
+rotation 412 -> 915 -> 412: wrapped true -> false -> true; all fit and shown: true
+TOTAL horizontal charts 112; problems 0
+## all-hcharts.js 5k
+412 px: 21 screens; horizontal charts checked so far 14; issues: none
+1280 px: 21 screens; horizontal charts checked so far 28; issues: none
+rotation 412 -> 915 -> 412: wrapped true -> false -> true; all fit and shown: true
+TOTAL horizontal charts 28; problems 0
+## vcharts.js NS and 5k: vertical bar charts, skipped labels
+360px vertical bar charts with skipped labels: none
+412px vertical bar charts with skipped labels: none
+768px vertical bar charts with skipped labels: none
+1280px vertical bar charts with skipped labels: none
+412px vertical bar charts with skipped labels: none
+1280px vertical bar charts with skipped labels: none

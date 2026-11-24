@@ -38,6 +38,10 @@
     main.appendChild(top); main.appendChild(view); main.appendChild(nav); main.appendChild(panel);
     side = nav;
     d.addEventListener('click', onClick);
+    /* redraw when the screen area crosses a chart-label width threshold (rotation, resized window), so long labels are
+       re-wrapped for the new width; ordinary resizes are left to Chart.js */
+    let rt = null;
+    G.addEventListener && G.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { const v = d.getElementById('scie-view'); if (!v || !d.body.classList.contains('scie-on') || d.body.classList.contains('scie-adv')) return; if (String(U.wrapAt(v.clientWidth)) !== st.wrapKey) draw(); }, 200); });
     /* Capture phase: the original click handler re-renders #nav, which detaches the clicked button before a bubbling
        listener sees it. Choosing one of the original 17 tabs always opens the Advanced view (the original screen). */
     d.addEventListener('click', e => { if (e.target.closest && e.target.closest('#nav [data-t]')) enterAdv(); }, true);
@@ -76,6 +80,7 @@
     catch (e) { html = `<div class="scie-wip"><b>This screen could not be drawn.</b><p>${esc(e.message)}</p><p>The original analyses are available in the Advanced view.</p></div>`; if (G.console) G.console.error(e); }
     view.innerHTML = `${tabs}${html}`;
     U.mount(view);
+    st.wrapKey = String(U.wrapAt(view.clientWidth));
   }
 
   function go(areaId, subId) {

@@ -206,6 +206,11 @@ for (const [label, rel] of WBS) {
   ok((rv.completeness.status === 'partial') === /Total replenishment[^<]*<strong data-x1="partial">/.test(mrpH) || rv.value === null, `${label}: total replenishment is partial exactly when the tab says so`);
   ok(by('mrp-rows').rows.length === S.mrp.length && by('mrp-urgent').rows.length === S.mrp.filter(r => r.st === 'ORDER NOW').length, `${label}: What to buy lists every MRP line; Order now lists the ORDER NOW lines`);
   ok(JSON.stringify(by('su-rows').rows.map(r => r.ref.id)) === JSON.stringify(R.supRisk.map(x => x.id)), `${label}: supplier scorecard in the Suppliers tab's order (R.supRisk)`);
+  { // orders by supplier: at most 15 suppliers, most urgent materials first (recounted here from the MRP lines), ties by id
+    const vm = by('mrp-by-supplier'), urgent = ['ORDER NOW', 'Order soon'], cnt = id => S.mrp.filter(r => r.x.sup === id && urgent.includes(r.st)).length;
+    const all = [...new Set(S.mrp.filter(r => urgent.includes(r.st) && r.x.sup).map(r => r.x.sup))].sort((a, b) => cnt(b) - cnt(a) || (a < b ? -1 : 1)).slice(0, 15);
+    ok(vm.labels.length <= 15 && (all.length ? JSON.stringify(vm.labels) === JSON.stringify(all) : vm.labels[0] === 'None'), `${label}: orders-by-supplier chart shows the ${vm.labels.length} suppliers with the most materials to order now or soon, most first`);
+  }
   const recT = S.shared.summaryModel().rec.map(r => r[0]);
   ok(by('su-recs').items.every(r => recT.includes(r.title)) && by('su-recs').items.map(r => recT.indexOf(r.title)).every((v, i, a) => !i || v > a[i - 1]), `${label}: procurement actions are Summary recommendations, in the Summary's order (${by('su-recs').items.length})`);
   /* S12–S15 (proven 24 Nov 2026): each value on the new screens is recomputed here from its documented formula and the
