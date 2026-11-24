@@ -500,3 +500,6 @@ file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test
 # test-view-contract.js re-hashed in place (326 -> 402 checks; see accepted-results.json). Previous hash 61a635612916a9a7.
 # test-view-contract.js re-hashed in place (402 -> 495 checks; see accepted-results.json). Previous hash ad20c7770fef3f5f.
 file 3eeeb1007839fafa500674da555fd25d497d7c3b0040bdf7768eb504a581fbdf tests/test-view-contract.js
+# Stage 3B Phase 2 completion (24 Nov 2026, owner authorisation 'Outstanding Work Completion' §1): permanent fixture for missing months in demand history, and its generator.
+file 4685da62747fb056c7545cf92195c7cae07c4e7b09c6e3f17e45f32dfb028dd7 tests/fixtures/forecast-gaps/forecast-gaps.xlsx
+file 2a335f754027f3a265794a246c531f340e8bf1408a1f0642052b29e164bab02c tests/fixtures/forecast-gaps/make-forecast-gaps.js
