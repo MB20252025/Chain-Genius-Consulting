@@ -15,7 +15,7 @@ const ORDER_VIEWS = ['contract.js', 'areas.js'].map(f => 'views/' + f).concat(VI
 function load() {
   const src = ['calculations.js', 'forecasting.js', 'app.js', 'excel-import.js', 'engine/engine-api.js'].concat(ORDER_VIEWS).map(js).join('\n'), A = {};
   new Function('XLSX', 'document', 'out', src + `;out.go=(wb)=>{WB=wb;CFG.pol=0;R=analyse();CFG.pol=1;try{R.alt=analyse()}finally{CFG.pol=0}const s0=CFG.sup;CFG.sup=s0===1?0:1;try{R.altS=analyse()}finally{CFG.sup=s0}link();return R};
-    out.html=k=>{tab=k;return views[k]()};out.ORDER=ORDER;out.V=CGVM;out.gbp=gbp;out.f=f;`)(XLSX, document, A);
+    out.html=k=>{tab=k;return views[k]()};out.fview=sku=>{tab='Demand forecast';fsku=sku;try{return views['Demand forecast']()}finally{fsku=null}};out.ORDER=ORDER;out.V=CGVM;out.gbp=gbp;out.f=f;`)(XLSX, document, A);
   return A;
 }
 const WBS = [
@@ -24,7 +24,9 @@ const WBS = [
   ['Willow', 'tests/fixtures/structure/scenario-willow.xlsx'],
   /* S11 edge cases (Stage 3B Phase 2, synthetic): negative physical on-hand with usable stock; unknown allocation and invalid cost */
   ['S11 edge E6', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx'],
-  ['S11 edge E5', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx']
+  ['S11 edge E5', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx'],
+  /* missing months in demand history (Stage 3B Phase 2 completion, synthetic): tests/fixtures/forecast-gaps/ */
+  ['forecast gaps', 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx']
 ];
 
 // ---- independent resolver -------------------------------------------------------------------------------------
@@ -102,13 +104,18 @@ for (const [label, rel] of WBS) {
     if (vm.kind === 'bar' && !vm.rowsTrace) for (const s of vm.series) s.trace.forEach((t, i) => { const w = indep(S, t); if (!sameNum(s.data[i], fin(w) ? w : null)) bad.push(`${vm.id}[${i}]: ${s.data[i]} vs ${w}`); });
     if (vm.kind === 'bar' && vm.rowsTrace) { const src = indep(S, vm.rowsTrace); if (vm.labels.length !== src.length) bad.push(`${vm.id}: bars vs rows`); for (const s of vm.series) s.data.forEach((v, i) => { const w = get(src[i], s.trace[i].field); if (!sameNum(v, fin(w) ? w : null)) bad.push(`${vm.id}/${s.name}[${i}]`); }); }
     if (vm.kind === 'recommendation') { const rec = S.shared.summaryModel().rec.filter(r => !vm.trace.titleMatch || new RegExp(vm.trace.titleMatch).test(r[0])), n = vm.trace.summaryRec === 'all' ? rec.length : vm.trace.summaryRec; if (vm.items.length !== Math.min(n, rec.length) || vm.items.some((r, i) => r.title !== rec[i][0] || r.reason !== rec[i][1] || r.action !== rec[i][2] || r.confidence !== rec[i][3])) bad.push(`${vm.id}: recommendations differ from the Summary's own list`); }
-    if (vm.kind === 'line' && vm.timeline) { // Phase 2 demand timeline: rebuilt here from the engine row and forecast, independently
+    if (vm.kind === 'line' && vm.timeline) { // demand timeline, rebuilt here from the engine row, forecast and dated rows, independently
       const tr0 = vm.series[0].trace[0], x = R.fg.find(y => y.id === tr0.row), F = S.fc[tr0.row], cal = Array.isArray(x.hc) && x.hc.length >= x.h.length;
       const months = cal ? R.months : x.hd, hist = cal ? x.hc : x.h, nul = v => (fin(v) ? v : null);
-      const want = { 'Actual demand': [...hist.map(nul), ...F.f.map(() => null)], 'Existing workbook forecast (recorded)': [...months.map(t => { const i = x.hd.indexOf(t); return i < 0 || !x.fc ? null : nul(x.fc[i]); }), ...F.f.map(() => null)],
-        'Statistical forecast': [...months.map(() => null), ...F.f.map(nul)], 'High (80%)': [...months.map(() => null), ...F.hi.map(nul)], 'Low (80%)': [...months.map(() => null), ...F.lo.map(nul)] };
-      for (const s of vm.series) if (!want[s.name] || s.data.length !== want[s.name].length || s.data.some((v, i) => !sameNum(v, want[s.name][i]))) bad.push(`${vm.id}/${s.name}`);
-      if (vm.labels.length !== months.length + F.f.length || vm.labels.slice(0, months.length).some((l, i) => l.month !== months[i])) bad.push(`${vm.id}: month labels`);
+      // forecast start: after the last observed calendar month when the history ends with missing months (engine: F.trail)
+      let start = months.length; if (cal && F.trail > 0) { start = -1; hist.forEach((v, i) => { if (fin(v)) start = i + 1; }); }
+      const total = Math.max(months.length, start + F.f.length), at = (arr, i) => (i >= start && i - start < arr.length ? nul(arr[i - start]) : null);
+      const rec = i => { if (i >= months.length || !Array.isArray(x.fc)) return null; if (!cal) return nul(x.fc[i]); const rows = x.hd.map((t, k) => (t === months[i] ? k : -1)).filter(k => k >= 0); return rows.length === 1 ? nul(x.fc[rows[0]]) : null; };
+      const idx = [...Array(total).keys()];
+      const want = { 'Actual demand': idx.map(i => (i < months.length ? nul(hist[i]) : null)), 'Existing workbook forecast (recorded)': idx.map(rec),
+        'Statistical forecast': idx.map(i => at(F.f, i)), 'High (80%)': idx.map(i => at(F.hi, i)), 'Low (80%)': idx.map(i => at(F.lo, i)) };
+      for (const s of vm.series) if (!want[s.name] || s.data.length !== total || s.data.some((v, i) => !sameNum(v, want[s.name][i]))) bad.push(`${vm.id}/${s.name}`);
+      if (vm.labels.length !== total || vm.labels.slice(0, months.length).some((l, i) => l.month !== months[i])) bad.push(`${vm.id}: month labels`);
     } else     if (vm.kind === 'line') for (const s of vm.series) { const w = get(S, s.trace[0].field) || []; if (s.data.length !== w.length || s.data.some((v, i) => !sameNum(v, fin(w[i]) ? w[i] : null))) bad.push(`${vm.id}/${s.name}`); }
     if (vm.kind === 'table') {
       const src = indep(S, vm.trace), refs = new Set(src);
@@ -320,6 +327,52 @@ for (const f of VIEW_FILES.concat(UI_FILES)) {
     ok(new RegExp(`G\\.${name}\\b`).test(src) && !new RegExp(`(const|let|var|function)\\s+${name}\\b`).test(core), `${f}: exposes ${name}, which no original file declares`);
   }
   ok(/\bChart\b/.test(js('ui/components.js')) && !/\bChart\s*=/.test(core), 'Chart.js is used only by the components, and no original file declares Chart');
+}
+
+// ---- 9. missing months in demand history: both demand charts put every value on its own month ----------------------------
+// Truth comes from the fixture's dated Demand History rows, read here with SheetJS (not from the engine): for each calendar
+// month, the product's rows; a month with exactly one usable row (Units_Sold a number >= 0) carries that row's recorded
+// forecast; the statistical forecast starts the month after the last month with a usable row (the engine's documented
+// rule for missing months at the end, forecasting.js gapSeg). The original chart's SVG points are converted back to slots.
+{
+  const FX = path.join(APP, 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx'), A = load(), wb = XLSX.readFile(FX, { cellDates: true });
+  const R = A.go(wb), S = A.V.source(), V = A.V;
+  /* the sheet's dates are read here in local time; the engine keys months at UTC midnight: compare by calendar month */
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets['Demand History'], { defval: null }), ymL = d => `${d.getFullYear()}-${d.getMonth()}`, ymU = ms => { const d = new Date(ms); return `${d.getUTCFullYear()}-${d.getUTCMonth()}`; };
+  const cal = [...new Set(rows.map(r => ymL(r.Month_Start)))].sort((a, b) => { const [ya, ma] = a.split('-').map(Number), [yb, mb] = b.split('-').map(Number); return ya - yb || ma - mb; });
+  const usable = r => typeof r.Units_Sold === 'number' && isFinite(r.Units_Sold) && r.Units_Sold >= 0;
+  const truth = id => cal.map(t => rows.filter(r => r.SKU === id && ymL(r.Month_Start) === t));
+  const slotsOf = (svg, colour, n) => { const N = n + 12, slot = X => Math.round((X - 34) * (N - 1) / (640 - 68)), o = []; const re = new RegExp(`(?:<polyline[^>]*stroke="var\\(--${colour}\\)"[^>]*points="([^"]*)"|<circle cx="([\\d.]+)"[^>]*fill="var\\(--${colour}\\)")`, 'g'); let m; while ((m = re.exec(svg))) { if (m[1]) m[1].split(' ').forEach(q => o.push([slot(+q.split(',')[0]), q])); else o.push([slot(+m[2]), m[2]]); } return o; };
+  const yOf = (svg, v, mx) => (230 - 34 - v / mx * (230 - 68)).toFixed(1);
+  for (const id of ['FG001', 'FG002', 'FG003', 'FG004', 'FG007']) {
+    const t = truth(id), recWant = t.map(rs => (rs.length === 1 && usable(rs[0]) && typeof rs[0].Forecast_Units === 'number' ? rs[0].Forecast_Units : null));
+    const lastUse = t.map((rs, i) => (rs.some(usable) ? i : -1)).filter(i => i >= 0).pop(), statStart = lastUse + 1;
+    const vm = V.forecastFor(S, id).find(v => v.id === 'df-chart'), ser = n => vm.series.find(s => s.name === n).data;
+    ok(cal.every((m, i) => ymU(vm.labels[i].month) === m) && recWant.every((v, i) => ser('Existing workbook forecast (recorded)')[i] === v),
+      `forecast gaps ${id}: new chart puts each recorded forecast on its own dated month (${recWant.filter(v => v !== null).length} of ${cal.length} months carry one)`);
+    const F = S.fc[id], fs = ser('Statistical forecast');
+    ok(fs.slice(0, statStart).every(v => v === null) && F.f.every((v, j) => fs[statStart + j] === v), `forecast gaps ${id}: new chart starts the statistical forecast at month ${statStart + 1} of the calendar (the month after the last usable month)`);
+    const svg = A.fview(id), n = cal.length, rec = slotsOf(svg, 'o', n), st = slotsOf(svg, 'g', n);
+    const recSlots = recWant.map((v, i) => (v === null ? -1 : i)).filter(i => i >= 0);
+    ok(JSON.stringify(rec.map(r => r[0])) === JSON.stringify(recSlots), `forecast gaps ${id}: original chart draws the recorded forecast at slots ${JSON.stringify(recSlots)} (got ${JSON.stringify(rec.map(r => r[0]))})`);
+    ok(st.length && Math.min(...st.map(q => q[0])) === lastUse && st.map(q => q[0]).sort((a, b) => a - b)[1] === statStart, `forecast gaps ${id}: original chart joins the forecast to the last usable month (slot ${lastUse}) and starts it at slot ${statStart}`);
+  }
+  { // FG005: one month recorded on two rows. The engine treats each row as a period (no gap, so the full row series is used);
+    // both charts therefore use a row axis, and each row keeps its own recorded forecast.
+    const id = 'FG005', t = truth(id), dupe = t.findIndex(rs => rs.length > 1), x = R.fg.find(y => y.id === id);
+    const vm = V.forecastFor(S, id).find(v => v.id === 'df-chart'), recS = vm.series.find(s => s.name === 'Existing workbook forecast (recorded)').data;
+    const byRow = rows.filter(r => r.SKU === id && usable(r)).map(r => r.Forecast_Units);
+    ok(dupe >= 0 && x.h.length === cal.length + 1 && byRow.every((v, i) => recS[i] === v) && vm.notes.some(n => /more than one row/.test(n)), `forecast gaps FG005: duplicate month: new chart shows each row's own recorded forecast (${byRow.slice(dupe, dupe + 2).join(' and ')}) on a row axis and says why`);
+    const svg = A.fview(id), rec = slotsOf(svg, 'o', x.h.length);
+    ok(rec.length === byRow.length && rec.every((r, i) => r[0] === i), 'forecast gaps FG005: original chart draws the recorded forecast row by row, unchanged');
+  }
+  { // month labels: the engine keys months at UTC midnight; the label must name the same month in any browser time zone
+    const got = ['America/New_York', 'Pacific/Auckland', 'UTC'].map(tz => require('child_process').execFileSync(process.execPath, ['-e', `globalThis.window=globalThis;${fs.readFileSync(path.join(APP, 'js/ui/format.js'), 'utf8')};process.stdout.write(window.CGFmt.month(${R.months[0]}))`], { env: Object.assign({}, process.env, { TZ: tz }) }).toString());
+    ok(got.every(g => g === 'Nov 2025'), `chart month labels name the engine's month in any time zone (New York, Auckland, UTC: ${got.join(', ')})`);
+  }
+  { // FG006: two gaps leave only a 2-month final run: no statistical forecast, so no chart for it on either screen
+    ok(!S.fc.FG006.ok && V.forecastFor(S, 'FG006').length === 0, 'forecast gaps FG006: under 6 consecutive months after the last gap: not forecast, no chart');
+  }
 }
 
 console.log(`test-view-contract: ${pass} passed, ${fail} failed`);

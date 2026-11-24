@@ -10,8 +10,9 @@
     /* a fraction shown as a percentage (0.124 → 12.4%): Intl's percent style, no arithmetic here */
     pct: nf({ style: 'percent', maximumFractionDigits: 1 })
   };
-  /* a calendar month from an engine timestamp, in the browser's local time (as the workbook dates were read) */
-  const MONTH = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
+  /* a calendar month from an engine timestamp. The engine keys months at UTC midnight (calculations.js), so the month is
+     read in UTC: in local time a browser west of UTC would show the previous month (fixed 24 Nov 2026). */
+  const MONTH = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' });
   const month = t => (isFinite(t) ? MONTH.format(new Date(t)) : 'Unknown month');
   const MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
   const esc = s => String(s).replace(/[&<>"']/g, c => MAP[c]);

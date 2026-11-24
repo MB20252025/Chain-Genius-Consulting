@@ -146,18 +146,27 @@
   function timeline(S, o) {
     const x = o.row, F = o.fc, cal = Array.isArray(x.hc) && x.hc.length >= x.h.length;
     const keys = cal ? (V_at(S, 'R.months') || []) : x.hd, hist = cal ? x.hc : x.h;
-    const num = v => (isNum(v) ? v : null), none = F.f.map(() => null), gap = keys.map(() => null);
-    const wbAt = t => { const i = (x.hd || []).indexOf(t); return i >= 0 && Array.isArray(x.fc) ? num(x.fc[i]) : null; };
-    const tr = (field, place) => ({ row: x.id, field, place, cal });
+    const num = v => (isNum(v) ? v : null);
+    /* Recorded workbook forecast (x.fc, one value per usable history row, dated by x.hd). Calendar axis: each value on its
+       own month; a month recorded on more than one row has no single recorded value (gap). Row axis (a month recorded twice
+       makes the engine treat each row as a period): row by row, as the engine and the original chart do. */
+    const wb = Array.isArray(x.fc) ? (cal ? keys.map(t => { const k = (x.hd || []).indexOf(t); return k >= 0 && x.hd.lastIndexOf(t) === k ? num(x.fc[k]) : null; }) : x.fc.map(num)) : keys.map(() => null);
+    /* Statistical forecast placement (engine rule, forecasting.js gapSeg/fcast): with missing month(s) at the end (F.trail),
+       the forecast starts the month after the last observed month, so its first values fall on those missing months. */
+    const trail = cal && F.trail > 0, lastObs = trail ? hist.map((v, i) => (isNum(v) ? i : null)).filter(i => i !== null).pop() : null;
+    const place = arr => { const q = arr.slice(); const inCal = keys.map((t, i) => (trail && lastObs !== null && i > lastObs ? num(q.shift()) : null)); return inCal.concat(q.map(num)); };
+    const fS = place(F.f), fH = place(F.hi), fL = place(F.lo), extra = fS.slice(keys.length).map(() => null);
+    const tr = (field, placeAs) => ({ row: x.id, field, place: placeAs, cal, trail: trail ? F.trail : 0 });
     const series = [
-      { name: 'Actual demand', trace: [tr(cal ? 'hc' : 'h', 'history')], data: hist.map(num).concat(none) },
-      { name: 'Existing workbook forecast (recorded)', trace: [tr('fc', 'history-by-month')], data: keys.map(wbAt).concat(none) },
-      { name: 'Statistical forecast', trace: [tr('f', 'forecast')], data: gap.concat(F.f.map(num)) },
-      { name: 'High (80%)', trace: [tr('hi', 'forecast')], data: gap.concat(F.hi.map(num)) },
-      { name: 'Low (80%)', trace: [tr('lo', 'forecast')], data: gap.concat(F.lo.map(num)) }
+      { name: 'Actual demand', trace: [tr(cal ? 'hc' : 'h', 'history')], data: hist.map(num).concat(extra) },
+      { name: 'Existing workbook forecast (recorded)', trace: [tr('fc', cal ? 'history-by-month' : 'history-by-row')], data: wb.concat(extra) },
+      { name: 'Statistical forecast', trace: [tr('f', 'forecast')], data: fS },
+      { name: 'High (80%)', trace: [tr('hi', 'forecast')], data: fH },
+      { name: 'Low (80%)', trace: [tr('lo', 'forecast')], data: fL }
     ];
+    const notes = [cal ? '' : 'A month is recorded on more than one row: the engine treats each row as a period, so the chart does too.', trail ? `The last ${F.trail} month(s) have no usable demand record: the forecast starts the month after the last observed month, as the engine computes it.` : ''].filter(Boolean);
     return Object.assign({ kind: 'line', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, {
-      row: undefined, fc: undefined, labels: keys.map(t => ({ month: t })).concat(o.horizon.slice(0, F.f.length)), labelKind: 'month', series, timeline: true
+      row: undefined, fc: undefined, labels: keys.map(t => ({ month: t })).concat(o.horizon.slice(0, extra.length)), labelKind: 'month', series, timeline: true, notes
     });
   }
   const V_at = (S, p) => at(S, p);

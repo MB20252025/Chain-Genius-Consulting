@@ -1,0 +1,22 @@
+{
+ "books": 32,
+ "renders": 986,
+ "identical": 984,
+ "chartOnlyDifferences": [
+  "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [policy 0]",
+  "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [policy 1]"
+ ],
+ "otherDifferences": [],
+ "workbookRunsNotAnalysedByEither": 6,
+ "perProduct": {
+  "charts": 1407,
+  "identical": 1403,
+  "changedWithGap": [
+   "tests/fixtures/forecast-gaps/forecast-gaps.xlsx FG001",
+   "tests/fixtures/forecast-gaps/forecast-gaps.xlsx FG002",
+   "tests/fixtures/forecast-gaps/forecast-gaps.xlsx FG003",
+   "tests/fixtures/forecast-gaps/forecast-gaps.xlsx FG004 (trailing gap)"
+  ],
+  "unexpected": []
+ }
+}
