@@ -28,3 +28,12 @@ Documentation only. Not loaded by the application or by any test.
 - **Cloudflare production** remains on `main`.
 - **Cloudflare preview** for `development/v0.7` is a temporary, Access-protected development preview, separate from both. It holds only fictional demonstration data and no keys or credentials.
 - `main`, `release/v0.6` and tag `v0.6` remain at `8117c72` (checked on GitHub, 11 Nov 2026).
+
+## Stage 3B preview access (owner confirmation, 24 Nov 2026)
+
+| Item | Result |
+|---|---|
+| Addresses | `development-v0-7.chain-genius-consulting.pages.dev`, the per-commit preview addresses, and `stage3b-phase1-20261123.chain-genius-consulting.pages.dev` (created by a working-branch push on 23 Nov) |
+| Sign-in requirement | **Owner-confirmed, not independently verified.** The owner checked all three preview addresses in Android Chrome Incognito and confirmed that each requires sign-in (owner's authorisation of 24 Nov 2026, §4.6). Claude cannot reach the previews from its sandbox. |
+| Scope | Confirms access protection only. It is not authorisation for a production deployment or for any change to Cloudflare security settings. |
+| Working branches | Since 23 Nov 2026 only `development/v0.7` is pushed; working branches stay local. |

@@ -1468,3 +1468,27 @@ verified in full (`stage3-design/tag6/verification-r4-20261122/` on branch `veri
 - **H1–H6:** registry entries unchanged (4 BLOCKED, 2 REDUCED). Their disposition is in `stage3-design/stage3b-readiness/HISTORICAL-TESTS-DISPOSITION.md`.
 - **Full tier at the pinned start `6b73254`:** 55 tests passed (+ pre-flight) of 61; 0 FAIL, 0 ERROR, 4 BLOCKED, 2 REDUCED.
 - The final-commit result is recorded on `verification/stage3b-readiness-20261122` and in the readiness report.
+
+## Stage 3B Phases 1–2 and Phase 2 completion — test additions (23–24 Nov 2026; branch `development/v0.7`)
+
+*Recorded by Claude under the owner's Stage 3B authorisations (navigation and design, 23 Nov; Phase 2, 23 Nov; Phase 2
+outstanding work completion, 24 Nov). Earlier entries are unchanged. Every change below is an addition recorded as
+PENDING growth in `accepted-results.json` until the owner accepts it; no count was lowered and no existing checksum line
+was changed or removed.*
+
+| Test | Tag-6 (e65600c) | End of Phase 0 (5a059ec) | Phase 1 (dcf6308) | Phase 2 (6ae3f63) | Completion (24 Nov) | What the growth is |
+|---|---|---|---|---|---|---|
+| `test-view-contract` | — | 154 | 202 | 402 | 745 | view-model contract, independent resolver, anchors against the original tabs, S11–S15 comparators, missing-month chart checks (section 9), edge workbooks |
+| `check-globals` | 124 | 125 | 126 | 126 | 126 | `CGShared`, `SCIE_UI` |
+| `test-a1-static` | 30 | 32 | 36 | 36 | 36 | view files, then four `js/ui` files, under rule 2 |
+| `test-a1-sync-path` | 76 | 81 | 82 | 83 | 85 | `CGShared`, `gbp`, `minC`, `bucket`, `FNAME`, `x1Why`, `INTEG` now on the engine path |
+| `check-protection` | 453 | 459 | 459 | 459 | 461 | readiness and Phase 0 protected files; the protected `test-view-contract.js` re-hashed in place on each change (noted in `checksums.txt`); +2 for the forecast-gaps fixture and its generator |
+
+*Counts read from `accepted-results.json` at each commit (24 Nov 2026).*
+
+- **Calculation proofs** (historical comparisons, kept as evidence scripts, not registered tests, per the owner's
+  test-architecture rule): `stage3-design/stage3b/refactor-evidence/` — S1–S10, S11, S12–S15. All re-run on 24 Nov 2026
+  with 0 failures (see `stage3-design/stage3b/SHARED-CALCULATIONS.md` §7).
+- **New permanent fixture:** `tests/fixtures/forecast-gaps/forecast-gaps.xlsx` (synthetic; missing months in demand
+  history), protected by checksum.
+- **Full tier on the completion commit:** recorded in `stage3-design/stage3b/IMPLEMENTATION-RECORD.md`.

@@ -204,3 +204,44 @@ switch 156 ms or less cold, 168 ms or less warm (21 subsections); import to "Ana
 **Full tier on 9a2215c** (fresh clone, 23 Nov 2026): 60 tests passed (+ pre-flight) of 66; 0 FAIL, 0 ERROR; the six
 accepted historical limitations unchanged (4 BLOCKED, 2 REDUCED). The protected browser tests are part of this tier.
 Fast tier: 41 of 41. Smoke check: 63 screen visits at 1280, 768 and 412 px, no console errors, no page overflow.
+
+## Phase 2 completion: chart months, S12–S15, phone labels, performance (24 Nov 2026; owner authorisation of 24 Nov)
+
+**Start:** local `HEAD` and `origin/development/v0.7` both at 6ae3f63 (checked before any change); work done on
+`development/v0.7` only; only `development/v0.7` pushed.
+
+**1. Missing-month chart** (`chart-investigation/README.md`): suspected "recorded forecast drawn early" not
+reproduced; four display defects found and corrected (A: original chart hid the recorded forecast when a month was
+missing; B: both charts started the forecast a month late after a missing last month; C: new chart repeated a duplicate
+month's first recorded value; D: new chart month labels a month early west of UTC). Fixture
+`tests/fixtures/forecast-gaps/` (protected). Render comparison against 6ae3f63: of 986 tab renders only the fixture's
+Demand forecast chart differs (2); of 1,407 product charts only the fixture's four products with missing months.
+Engine-level observations recorded for the owner (duplicate month rows treated as separate periods; a product with a
+missing last month is forecast from that month, so its "next 3 months" start a month earlier).
+
+**2. S12–S15** (`SHARED-CALCULATIONS.md` §7): moved verbatim into `CGShared` and proven (G1 7/7; G2a 16,652 values;
+G2b every item: S12 3,314, S13 3,328, S15 9,972, S14 9,044 sweep cases; G3 1,156 renders; 0 failures) with five
+synthetic edge workbooks; independent comparators on the new screens. Now shown: 3-month range (Demand forecast table),
+bias £ at cost (Forecast accuracy table), the consistency warning (Forecast accuracy), the Why column (Safety stock &
+reorder points).
+
+**3. Phone chart labels** (AD-16; `ui-evidence/chart-labels-20261124.txt`): method names were cut off below about
+460 px of chart width (Chart.js gives the label axis at most half the chart). They now wrap between words there; wider
+charts are unchanged. The sweep also found charts that silently skipped labels at every width (supplier charts, cover
+against lead time, orders by supplier) and charts with up to 233 bars at 5,000 items; all now draw every label, and
+long rankings show a named top or bottom 10–15 with the full list in the table. Checked: 13 widths from 320 to 1,920 px,
+rotation 412 → 915 → 412, and the 5,000-item workbook; 0 problems.
+
+**4. Proof re-runs after each shared-code change:** S11 (baseline dcf6308 with the identical chart correction applied by
+`chart-investigation/apply-chart-correction.js`): 0 failures, 467,315 leaf values, 986 renders. S1–S10 (baseline
+e0b261f, same): 0 failures, 3,178 values, 782 renders. Raw runs against the uncorrected baselines differ only on the
+fixture's Demand forecast chart (2 G3 lines), as expected; both are kept.
+
+**5. Performance** (`ui-evidence/perf-5000-phase2-completion-20261124.txt`; same machine, alternating, Phase 2 code
+vs current code): three regressions introduced during this work were found and fixed before commit (AD-15). Final:
+`analyse()` median 725 ms (Phase 2 code 727 ms today; 587 ms in the Phase 2 report, a less loaded session); slowest
+screen 105 ms cold / 193 ms warm (Phase 2 code 211 / 211 ms today; 168 ms in the Phase 2 report); no run over 300 ms.
+Safety stock & reorder points is about 20–30 ms slower than in Phase 2 because it now builds the S15 explanations for
+the rows it shows, as the original tab does.
+
+**Tests:** `test-view-contract` 402 → 745, `test-a1-sync-path` 83 → 85, `check-protection` 459 → 461 (PENDING).

@@ -97,3 +97,12 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
 - **AD-13 (23 Nov 2026): product-specific views are built on demand.** `CGVM.forecastFor(S, id)` builds one product's
   timeline and method comparison for the product chosen on the screen; the tab builder includes the first product so the
   contract tests cover the shape, and the tests check every forecast product.
+- **AD-14 (24 Nov 2026): the demand chart puts every value on its own month.** Both the original chart and the new
+  timeline place the recorded workbook forecast by date and start the statistical forecast where the engine computes it
+  (after the last observed month). Display only; evidence in `stage3-design/stage3b/chart-investigation/`.
+- **AD-15 (24 Nov 2026): view-model rows are never built by inheriting from engine rows, and table cells are built on
+  first read.** An object used as a prototype is switched by V8 to a slower internal form, which slowed every later read
+  of the engine rows; derived rows are plain copies. Cells and the S15 text are built only for the rows a screen draws.
+- **AD-16 (24 Nov 2026): chart labels are never skipped.** A horizontal chart draws every category label; on a chart
+  narrower than 460 px a long label wraps between words. Ranking charts show a named subset (top or bottom 10–15); the
+  full list is always in the table beneath.

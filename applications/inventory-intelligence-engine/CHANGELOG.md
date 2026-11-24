@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 2 completion – chart months, S12–S15, phone labels (24 Nov 2026; owner authorisation; NOT a release, no tag)
+- **Demand chart and missing months:** "recorded forecast drawn early" was not reproduced. Four display defects found and
+  corrected (no forecast calculation changed): the original chart hid the recorded forecast whenever a month was missing;
+  both charts drew the forecast a month late after a missing last month; the new chart repeated a duplicate month's first
+  recorded value; the new chart's month labels were a month early in browsers west of UTC. New protected fixture
+  `tests/fixtures/forecast-gaps/`.
+- **S12–S15 proven** (3-month range, bias £ at cost, the consistency warning, the reorder-policy explanations) and now
+  shown on the new screens. S1–S11 proofs re-run: 0 failures.
+- **Phone charts:** long labels wrap instead of being cut off; no chart label is ever skipped; long ranking charts show a
+  named top or bottom 10–15.
+- **Performance:** three regressions found at 5,000 items and fixed; analyse() unchanged against the Phase 2 code on the
+  same machine; every screen switch under 300 ms.
+- **Tests:** `test-view-contract` 402 → 745; `test-a1-sync-path` 83 → 85; `check-protection` 459 → 461. PENDING.
+
 ## v0.7 Stage 3B Phase 2 – S11, Demand & Planning, Procurement (23 Nov 2026; owner Phase 2 authorisation; NOT a release, no tag)
 - **S11** (Excess & dead stock values) moved verbatim into `CGShared.excessModel` and proven (G1 3/3; G2 453,313 values;
   G3 952 renders; six synthetic edge workbooks). The Excess screen now shows the value cards.
