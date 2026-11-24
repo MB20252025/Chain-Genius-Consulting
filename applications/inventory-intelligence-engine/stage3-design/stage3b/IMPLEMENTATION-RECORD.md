@@ -245,3 +245,9 @@ Safety stock & reorder points is about 20–30 ms slower than in Phase 2 because
 the rows it shows, as the original tab does.
 
 **Tests:** `test-view-contract` 402 → 745, `test-a1-sync-path` 83 → 85, `check-protection` 459 → 461 (PENDING).
+
+**Final verification on 0e269b7** (fresh clone, 24 Nov 2026): full tier 60 tests passed (+ pre-flight) of 66; 0 FAIL,
+0 ERROR; 4 BLOCKED and 2 REDUCED, the accepted historical limitations, unchanged. Protected browser tests:
+`browser-chrome` 53, `browser-x1-chrome` 334, `test-paging-chrome` 59. Proofs on the committed code: S1–S10, S11 and
+S12–S15 all 0 failures. Smoke check: 63 screen visits at 1280, 768 and 412 px, 0 console errors (Settings opens the
+original tab by design). Chart labels: 0 problems after the performance fixes, rotation included.
