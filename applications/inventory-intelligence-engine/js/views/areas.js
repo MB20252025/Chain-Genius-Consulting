@@ -141,8 +141,9 @@
       const repC = all && nc === all ? { value: null, completeness: { status: 'unavailable', reasons: ['every material is Not Assessed'] } }
         : (nc || nv ? { completeness: { status: 'partial', reasons: [[nc ? `${nc} material(s) Not Assessed` : '', nv ? `${nv} material(s) without a unit cost` : ''].filter(Boolean).join(' and ').replace(/^/, 'excludes ')] } } : {});
       /* suppliers with the most materials to order now or soon (15 at most, so every label can be read; ties by supplier id) */
-      const urg = V.items(S, ['mrp']).filter(r => urgent.includes(r.st) && r.x.sup);
-      const sups = [...new Set(urg.map(r => r.x.sup))].map(id => ({ id, n: V.resolve(S, { count: ['mrp'], where: [['x.sup', '==', id], ['st', 'in', urgent]] }) }))
+      const grp = new Map();
+      for (const r of V.items(S, ['mrp'])) if (urgent.includes(r.st) && r.x.sup) { if (!grp.has(r.x.sup)) grp.set(r.x.sup, []); grp.get(r.x.sup).push(r); }
+      const sups = [...grp].map(([id, rs]) => ({ id, n: rs.length }))
         .sort(V.orderBy([['n', 'desc'], ['id', 'asc']])).slice(0, 15).map(x => x.id);
       return [
         countKpi(S, { id: 'mrp-order-now', area: 'Procurement & Suppliers', title: 'Materials to order now', question: 'What must be bought immediately?', items: ['mrp'], where: [['st', '==', 'ORDER NOW']], provenance: calc(basis, ['mrp[].st']), confidence: V.confFor(S, 'Material requirements planning') }),

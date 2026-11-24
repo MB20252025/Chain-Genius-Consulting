@@ -78,9 +78,10 @@
     let html;
     try { html = G.CGScreens.render({ S, area: a, sub: s, filters: f }); }
     catch (e) { html = `<div class="scie-wip"><b>This screen could not be drawn.</b><p>${esc(e.message)}</p><p>The original analyses are available in the Advanced view.</p></div>`; if (G.console) G.console.error(e); }
+    /* read the width before the new content is written: reading it afterwards would force an extra page layout per draw */
+    st.wrapKey = String(U.wrapAt(view.clientWidth));
     view.innerHTML = `${tabs}${html}`;
     U.mount(view);
-    st.wrapKey = String(U.wrapAt(view.clientWidth));
   }
 
   function go(areaId, subId) {

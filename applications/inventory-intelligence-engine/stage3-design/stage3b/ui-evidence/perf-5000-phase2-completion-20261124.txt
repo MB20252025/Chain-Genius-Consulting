@@ -1,0 +1,323 @@
+# 5,000-item performance, Stage 3B Phase 2 completion (24 Nov 2026). Same machine, same session, alternating:
+# port 8767 = Phase 2 code (6ae3f63, tree extracted with git archive); port 8765 = current code. Workbook: tests/gen-large-workbook.js --items=5000
+
+## Screen switching, 3 alternating runs each (perf-scie.js with a port setting), summary
+Phase 2 code (6ae3f63): import-to-Analysed [4398, 4544, 4232] ms; full engine run [2686, 2823, 2972] ms
+  cold: slowest screen (median of 3) ('procurement/buy', 211); single-run max 215 ms; median screen 40 ms; over 300 ms in any run: 0
+  warm: slowest screen (median of 3) ('procurement/buy', 211); single-run max 221 ms; median screen 38 ms; over 300 ms in any run: 0
+current code: import-to-Analysed [4295, 4481, 4502] ms; full engine run [2787, 2857, 2903] ms
+  cold: slowest screen (median of 3) ('procurement/buy', 105); single-run max 125 ms; median screen 36 ms; over 300 ms in any run: 0
+  warm: slowest screen (median of 3) ('procurement/suppliers', 193); single-run max 242 ms; median screen 35 ms; over 300 ms in any run: 0
+cold screens materially slower now (>20% and >20 ms): [('planning/policy', 46, 80)]
+warm screens materially slower now (>20% and >20 ms): [('procurement/suppliers', 70, 193), ('planning/policy', 49, 70)]
+
+## analyse() and import to 'Analysed.' (perf-cmp.js, 3 runs each)
+port 8767: import-to-Analysed 4726 / 4496 / 4384 ms (median 4496); analyse() 762 / 717 / 727 ms (median 727)
+port 8765: import-to-Analysed 4625 / 4455 / 4457 ms (median 4457); analyse() 725 / 715 / 770 ms (median 725)
+
+## Per-screen split (script + frames), Supplier performance and Safety stock & reorder points, 2 loads per version (prof5.js)
+8767 1 cold policy: script 50 (view-models 13) + frames 19 | cold suppliers: script 150 (view-models 3) + frames 51 | warm policy: script 45 (view-models 13) + frames 22 | warm suppliers: script 70 (view-models 1) + frames 30
+8767 2 cold policy: script 44 (view-models 11) + frames 19 | cold suppliers: script 58 (view-models 2) + frames 25 | warm policy: script 41 (view-models 9) + frames 13 | warm suppliers: script 65 (view-models 2) + frames 36
+8765 1 cold policy: script 76 (view-models 20) + frames 20 | cold suppliers: script 124 (view-models 2) + frames 37 | warm policy: script 71 (view-models 25) + frames 25 | warm suppliers: script 49 (view-models 1) + frames 18
+8765 2 cold policy: script 75 (view-models 27) + frames 25 | cold suppliers: script 152 (view-models 5) + frames 39 | warm policy: script 72 (view-models 24) + frames 14 | warm suppliers: script 59 (view-models 1) + frames 22
+
+## Raw runs
+### run 1 port 8767
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4398 ms; SCIE screen shown: 4400 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2686 ms
+--- cold: 21 screens; max 203 ms; over 300 ms: 0
+  procurement/buy                203 ms
+  planning/forecast               96 ms
+  planning/accuracy               72 ms
+  procurement/suppliers           68 ms
+  overview/dashboard              61 ms
+  inventory/stock                 59 ms
+  planning/policy                 45 ms
+  procurement/reconciliation      44 ms
+  inventory/excess                43 ms
+  inventory/health                40 ms
+  production/attainment           36 ms
+  production/feasibility          35 ms
+  settings/thresholds             34 ms
+  scenarios/comparison            33 ms
+  reports/workbook                32 ms
+  data/quality                    32 ms
+  data/questions                  32 ms
+  data/load                       32 ms
+  data/confidence                 32 ms
+  reports/report                  31 ms
+  scenarios/recommendations       21 ms
+--- warm: 21 screens; max 216 ms; over 300 ms: 0
+  procurement/suppliers          216 ms
+  procurement/buy                211 ms
+  planning/forecast              106 ms
+  planning/accuracy               80 ms
+  inventory/stock                 71 ms
+  overview/dashboard              61 ms
+  procurement/reconciliation      59 ms
+  planning/policy                 53 ms
+  inventory/excess                44 ms
+  production/attainment           41 ms
+  production/feasibility          39 ms
+  inventory/health                38 ms
+  settings/thresholds             33 ms
+  data/quality                    32 ms
+  data/questions                  32 ms
+  reports/report                  31 ms
+  scenarios/comparison            29 ms
+  data/confidence                 29 ms
+  data/load                       26 ms
+  reports/workbook                24 ms
+  scenarios/recommendations       20 ms
+page errors: 0 
+### run 1 port 8765
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4295 ms; SCIE screen shown: 4310 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2787 ms
+--- cold: 21 screens; max 99 ms; over 300 ms: 0
+  procurement/buy                 99 ms
+  planning/forecast               97 ms
+  planning/accuracy               70 ms
+  planning/policy                 67 ms
+  overview/dashboard              66 ms
+  inventory/stock                 63 ms
+  procurement/suppliers           59 ms
+  inventory/excess                40 ms
+  procurement/reconciliation      40 ms
+  inventory/health                38 ms
+  production/attainment           36 ms
+  production/feasibility          36 ms
+  settings/thresholds             34 ms
+  reports/workbook                33 ms
+  data/confidence                 32 ms
+  data/load                       32 ms
+  data/questions                  32 ms
+  data/quality                    32 ms
+  scenarios/recommendations       29 ms
+  scenarios/comparison            27 ms
+  reports/report                  24 ms
+--- warm: 21 screens; max 193 ms; over 300 ms: 0
+  procurement/suppliers          193 ms
+  planning/forecast              100 ms
+  procurement/buy                 99 ms
+  procurement/reconciliation      73 ms
+  planning/accuracy               71 ms
+  planning/policy                 67 ms
+  overview/dashboard              63 ms
+  inventory/stock                 62 ms
+  production/feasibility          47 ms
+  inventory/health                40 ms
+  inventory/excess                40 ms
+  settings/thresholds             35 ms
+  production/attainment           35 ms
+  data/questions                  32 ms
+  data/quality                    32 ms
+  data/confidence                 30 ms
+  scenarios/comparison            27 ms
+  data/load                       26 ms
+  reports/workbook                25 ms
+  scenarios/recommendations       23 ms
+  reports/report                  22 ms
+page errors: 0 
+### run 2 port 8767
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4544 ms; SCIE screen shown: 4562 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2823 ms
+--- cold: 21 screens; max 211 ms; over 300 ms: 0
+  procurement/buy                211 ms
+  planning/accuracy              115 ms
+  planning/forecast               95 ms
+  procurement/suppliers           90 ms
+  overview/dashboard              85 ms
+  inventory/stock                 72 ms
+  settings/thresholds             67 ms
+  inventory/health                57 ms
+  planning/policy                 47 ms
+  inventory/excess                46 ms
+  scenarios/comparison            44 ms
+  procurement/reconciliation      42 ms
+  production/attainment           36 ms
+  reports/report                  33 ms
+  data/questions                  32 ms
+  data/quality                    31 ms
+  production/feasibility          31 ms
+  data/confidence                 31 ms
+  data/load                       29 ms
+  reports/workbook                28 ms
+  scenarios/recommendations       24 ms
+--- warm: 21 screens; max 221 ms; over 300 ms: 0
+  procurement/buy                221 ms
+  planning/forecast               98 ms
+  inventory/stock                 92 ms
+  planning/accuracy               87 ms
+  overview/dashboard              80 ms
+  procurement/suppliers           70 ms
+  procurement/reconciliation      54 ms
+  inventory/excess                52 ms
+  planning/policy                 47 ms
+  production/attainment           40 ms
+  inventory/health                38 ms
+  production/feasibility          38 ms
+  settings/thresholds             37 ms
+  scenarios/recommendations       34 ms
+  reports/workbook                32 ms
+  data/confidence                 32 ms
+  data/questions                  32 ms
+  data/quality                    32 ms
+  data/load                       31 ms
+  reports/report                  31 ms
+  scenarios/comparison            31 ms
+page errors: 0 
+### run 2 port 8765
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4481 ms; SCIE screen shown: 4496 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2857 ms
+--- cold: 21 screens; max 105 ms; over 300 ms: 0
+  procurement/buy                105 ms
+  planning/forecast              100 ms
+  inventory/stock                 94 ms
+  planning/policy                 80 ms
+  planning/accuracy               79 ms
+  overview/dashboard              65 ms
+  procurement/suppliers           60 ms
+  inventory/excess                50 ms
+  procurement/reconciliation      47 ms
+  inventory/health                38 ms
+  production/attainment           35 ms
+  settings/thresholds             33 ms
+  data/load                       33 ms
+  reports/workbook                32 ms
+  data/confidence                 32 ms
+  data/questions                  32 ms
+  data/quality                    32 ms
+  production/feasibility          30 ms
+  scenarios/comparison            30 ms
+  reports/report                  29 ms
+  scenarios/recommendations       22 ms
+--- warm: 21 screens; max 242 ms; over 300 ms: 0
+  procurement/buy                242 ms
+  planning/forecast              103 ms
+  planning/accuracy               74 ms
+  planning/policy                 70 ms
+  procurement/suppliers           68 ms
+  overview/dashboard              63 ms
+  inventory/stock                 56 ms
+  procurement/reconciliation      45 ms
+  inventory/excess                43 ms
+  inventory/health                38 ms
+  settings/thresholds             35 ms
+  production/attainment           34 ms
+  data/questions                  33 ms
+  data/quality                    32 ms
+  production/feasibility          31 ms
+  data/confidence                 30 ms
+  reports/report                  28 ms
+  data/load                       28 ms
+  scenarios/comparison            27 ms
+  reports/workbook                24 ms
+  scenarios/recommendations       22 ms
+page errors: 0 
+### run 3 port 8767
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4232 ms; SCIE screen shown: 4249 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2972 ms
+--- cold: 21 screens; max 215 ms; over 300 ms: 0
+  procurement/buy                215 ms
+  planning/forecast               99 ms
+  planning/accuracy               75 ms
+  procurement/suppliers           72 ms
+  inventory/stock                 66 ms
+  overview/dashboard              64 ms
+  settings/thresholds             53 ms
+  procurement/reconciliation      49 ms
+  planning/policy                 46 ms
+  inventory/excess                45 ms
+  inventory/health                39 ms
+  production/attainment           38 ms
+  data/quality                    33 ms
+  data/confidence                 32 ms
+  production/feasibility          32 ms
+  reports/workbook                29 ms
+  data/questions                  29 ms
+  data/load                       29 ms
+  reports/report                  29 ms
+  scenarios/comparison            27 ms
+  scenarios/recommendations       23 ms
+--- warm: 21 screens; max 206 ms; over 300 ms: 0
+  procurement/buy                206 ms
+  planning/forecast              100 ms
+  planning/accuracy               78 ms
+  procurement/suppliers           69 ms
+  inventory/stock                 67 ms
+  overview/dashboard              61 ms
+  planning/policy                 49 ms
+  inventory/health                47 ms
+  procurement/reconciliation      46 ms
+  inventory/excess                46 ms
+  production/attainment           39 ms
+  scenarios/comparison            37 ms
+  production/feasibility          36 ms
+  settings/thresholds             35 ms
+  reports/workbook                32 ms
+  data/load                       32 ms
+  data/questions                  32 ms
+  reports/report                  32 ms
+  data/quality                    32 ms
+  data/confidence                 29 ms
+  scenarios/recommendations       24 ms
+page errors: 0 
+### run 3 port 8765
+items analysed: 5000 | status: Analysed.
+import-to-"Analysed." (file read + parse + analysis + first render): 4502 ms; SCIE screen shown: 4509 ms
+engine analysis alone (CGEngine.runEngine on the loaded workbook): 2903 ms
+--- cold: 21 screens; max 125 ms; over 300 ms: 0
+  procurement/buy                125 ms
+  planning/policy                105 ms
+  planning/forecast              101 ms
+  planning/accuracy               72 ms
+  overview/dashboard              69 ms
+  procurement/suppliers           68 ms
+  inventory/stock                 60 ms
+  procurement/reconciliation      46 ms
+  production/attainment           42 ms
+  inventory/health                41 ms
+  inventory/excess                39 ms
+  settings/thresholds             37 ms
+  scenarios/comparison            36 ms
+  production/feasibility          34 ms
+  data/confidence                 32 ms
+  data/quality                    32 ms
+  data/load                       32 ms
+  data/questions                  32 ms
+  reports/workbook                26 ms
+  scenarios/recommendations       25 ms
+  reports/report                  23 ms
+--- warm: 21 screens; max 211 ms; over 300 ms: 0
+  procurement/suppliers          211 ms
+  procurement/buy                140 ms
+  planning/forecast              101 ms
+  planning/policy                 89 ms
+  overview/dashboard              76 ms
+  planning/accuracy               73 ms
+  procurement/reconciliation      67 ms
+  inventory/stock                 65 ms
+  settings/thresholds             64 ms
+  inventory/excess                43 ms
+  inventory/health                41 ms
+  production/attainment           37 ms
+  data/questions                  34 ms
+  production/feasibility          33 ms
+  scenarios/recommendations       32 ms
+  data/confidence                 32 ms
+  scenarios/comparison            32 ms
+  reports/workbook                27 ms
+  data/load                       25 ms
+  data/quality                    25 ms
+  reports/report                  24 ms
+page errors: 0 
+
+## Regressions found and fixed during this work (before the fixes, same machine)
+- Safety stock & reorder points 340-401 ms: the S15 'Why' text was built for all 5,000 items on every draw. Fixed: table cells and the text are built only for the rows a screen draws.
+- every screen ~25 ms slower: policy rows were built with Object.create(engine row); V8 then slowed every later read of the engine rows (source() 13.6 -> 36.2 ms). Fixed: plain copies.
+- the chart-label width was read after the page was rewritten (forced layout each draw). Fixed: read before.

@@ -39,6 +39,10 @@
   function source() {
     const c = CGEngine.current(), cred = c.forecastCredibility, fc = c.forecasts, fg = c.result.fg, ex = c.shared.excessModel();
     const memo = {}, lazy = (k, f) => (k in memo ? memo[k] : (memo[k] = f()));
+    /* each reorder-policy row is a copy of its engine row whose 'Why' text is built the first time it is read. A copy, not
+       an object inheriting from the engine row: an object used as a prototype is switched by V8 to a slower internal form,
+       which made every later read of the engine rows slower (found 24 Nov 2026: source() 13.6 -> 36.2 ms at 5,000 items). */
+    const withWhy = x => { let w; return Object.defineProperty(Object.assign({}, x), 'why', { enumerable: true, get() { return w === undefined ? (w = c.shared.ropWhy(x)) : w; } }); };
     return Object.freeze({
       R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
@@ -57,8 +61,8 @@
          calls), and one row per listed item carrying the tab's displayed quantities. Selection only: each extra field is
          one of the tab's own helper results (uc, alK, neg) or a choice between existing fields, never a new figure. */
       /* S15 (proven 24 Nov 2026): reorder-policy rows carrying the tab's own 'Why' text (CGShared.ropWhy); built on first use */
-      get rpFG() { return lazy('rpFG', () => c.result.fg.map(x => Object.assign({}, x, { why: c.shared.ropWhy(x) }))); },
-      get rpRM() { return lazy('rpRM', () => c.result.rm.map(x => Object.assign({}, x, { why: c.shared.ropWhy(x) }))); },
+      get rpFG() { return lazy('rpFG', () => c.result.fg.map(withWhy)); },
+      get rpRM() { return lazy('rpRM', () => c.result.rm.map(withWhy)); },
       excess: ex,
       exRows: ex.a.map(x => Object.assign({}, x, {
         unc: ex.uc(x), alShown: ex.alK(x) ? x.al : null, usable: isNum(x.ua) ? x.ua : x.oh,
@@ -190,7 +194,9 @@
   function table(S, o) {
     /* An unknown number (NaN or infinite) is carried as null, so no screen or chart can show "NaN" (as for exports). */
     const cell = v => (typeof v === 'number' && !isNum(v) ? null : v);
-    const rows = resolve(S, o.trace).map(x => ({ ref: x, cells: o.columns.map(c => cell(field(x, c.field))) }));
+    /* cells are built when a row is first read, so a long table costs only the rows a screen draws (the screens show the
+       first 100 until 'Show all'); the values are the same whenever they are read (24 Nov 2026, performance) */
+    const rows = resolve(S, o.trace).map(x => { let cs = null; return { ref: x, get cells() { return cs || (cs = o.columns.map(c => cell(field(x, c.field)))); } }; });
     return Object.assign({ kind: 'table', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, { rows });
   }
   function bars(S, o) {
