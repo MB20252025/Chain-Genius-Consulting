@@ -26,7 +26,12 @@ const WBS = [
   ['S11 edge E6', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx'],
   ['S11 edge E5', 'stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx'],
   /* missing months in demand history (Stage 3B Phase 2 completion, synthetic): tests/fixtures/forecast-gaps/ */
-  ['forecast gaps', 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx']
+  ['forecast gaps', 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx'],
+  /* S12–S15 edge cases (Stage 3B Phase 2 completion, synthetic): invalid product costs; zero/blank/text lead times and
+     reorder points; recorded forecasts far from actual (the consistency warning must not show) */
+  ['S12–S15 edge Q1', 'stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx'],
+  ['S12–S15 edge Q3', 'stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx'],
+  ['S12–S15 edge Q4', 'stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx']
 ];
 
 // ---- independent resolver -------------------------------------------------------------------------------------
@@ -48,6 +53,10 @@ function indep(S, t) {
   if (t.count) return list(S, t.count).filter(x => (t.where || []).every(w => test1(x, w))).length;
   if (t.partialSum) { const q = list(S, t.partialSum).filter(x => fin(x[t.key])); return { v: q.reduce((s, x) => s + x[t.key], 0), n: q.length, of: list(S, t.partialSum).length }; }
   if (t.shared) { const r = S.shared[t.shared](list(S, t.items).filter(x => (t.where || []).every(w => test1(x, w)))); return t.key ? get(r, t.key) : r; }
+  if (t.faConsistency) { // S14, recomputed here from the credibility rows and the settings (not via faStats or the hiAcc flag)
+    const ass = S.credRows.filter(r => r.c.dq !== 'Insufficient'), hi = ass.filter(r => r.c.acc !== null && r.c.acc !== undefined && r.c.acc >= S.CFG.fcHighAcc).length;
+    return t.faConsistency === 'share' ? hi / ass.length * 100 : ass.length > 0 && hi / ass.length >= S.CFG.fcHighShare / 100;
+  }
   if (t.fcSum) return S.R.fg.filter(x => S.fc[x.id] && S.fc[x.id].ok).reduce((q, x) => q + S.fc[x.id][t.fcSum], 0); // S7, summed here independently
   if (t.bands) return S.coverBands(list(S, [t.bands]))[t.key];
   if (t.entry) { const o = get(S, t.entry); return o ? o[t.key] : undefined; }
@@ -199,6 +208,30 @@ for (const [label, rel] of WBS) {
   ok(JSON.stringify(by('su-rows').rows.map(r => r.ref.id)) === JSON.stringify(R.supRisk.map(x => x.id)), `${label}: supplier scorecard in the Suppliers tab's order (R.supRisk)`);
   const recT = S.shared.summaryModel().rec.map(r => r[0]);
   ok(by('su-recs').items.every(r => recT.includes(r.title)) && by('su-recs').items.map(r => recT.indexOf(r.title)).every((v, i, a) => !i || v > a[i - 1]), `${label}: procurement actions are Summary recommendations, in the Summary's order (${by('su-recs').items.length})`);
+  /* S12–S15 (proven 24 Nov 2026): each value on the new screens is recomputed here from its documented formula and the
+     engine's inputs (not through CGShared), and compared with the original tab's own rendered text where the tab shows it. */
+  const rowOf = (html, id) => { const i = html.indexOf(`<tr><td>${id}</td>`); return i < 0 ? null : html.slice(i, html.indexOf('</tr>', i)); };
+  if (!by('df-unavailable')) {
+    const dfH2 = A.html('Demand forecast'); let n12 = 0, seen12 = 0;
+    const cl = by('df-rows').columns.findIndex(c => c.field === 'range.lo'), ch = by('df-rows').columns.findIndex(c => c.field === 'range.hi');
+    for (const r of by('df-rows').rows) { const F = r.ref.f, lo = Math.max(0, F.s3 - 1.28 * F.rm * Math.sqrt(3)), hi = F.s3 + 1.28 * F.rm * Math.sqrt(3);
+      if (!sameNum(r.cells[cl], lo) || !sameNum(r.cells[ch], hi)) n12++; const row = rowOf(dfH2, r.ref.id); if (row) { seen12++; if (!row.includes(`${A.f(lo)}–${A.f(hi)}`)) n12++; } }
+    ok(n12 === 0 && seen12 > 0, `${label}: S12 3-month range = max(0, s3 − 1.28·RMSE·√3) to s3 + 1.28·RMSE·√3, recomputed here for ${by('df-rows').rows.length} products; the ${seen12} on the tab's first page show the same text`);
+  }
+  if (R.hasF) {
+    const faH2 = A.html('Forecast accuracy'); let n13 = 0, seen13 = 0;
+    const c13 = by('fa-items').columns.findIndex(c => c.field === 'biasGBP'); let unk13 = 0;
+    for (const r of by('fa-items').rows) { const v = r.ref.x.fcu * r.ref.x.cost; if (!fin(v)) unk13++; if (!sameNum(r.cells[c13], v)) n13++; const row = rowOf(faH2, r.ref.id); if (row) { seen13++; if (!row.includes(`<td>${A.gbp(v)}</td>`)) n13++; } }
+    ok(n13 === 0 && seen13 > 0, `${label}: S13 bias £ at cost = bias units × unit cost, recomputed here for ${by('fa-items').rows.length} products (${unk13} without a cost or bias, shown as unavailable); the ${seen13} on the tab's first page show the same £ text`);
+    const cs = by('fa-consistency'), warn = /Unusually consistent accuracy/.test(faH2), m = faH2.match(/products \(([^)]*)%\) show accuracy of/);
+    ok((cs.status === 'warning') === warn && (!warn || (m && m[1] === A.f(cs.value))), `${label}: S14 consistency warning ${warn ? `shown, ${m && m[1]}% as on the tab` : 'not shown, as on the tab'}`);
+  }
+  { const V15 = { ins: 'Existing ROP insufficient', exc: 'Existing ROP possibly excessive' }; let n15 = 0, k15 = 0;
+    for (const id of ['rp-items', 'rp-items-rm']) for (const r of by(id).rows) { const x = r.ref; if (/^Not Assessed/.test(x.verdict) || x.verdict === 'No reorder point configured' || !(x.d > 0)) continue; k15++;
+      const dl = x.d * x.lt, want = x.verdict === V15.ins ? `Workbook ROP covers ${A.f(x.rop / x.d, 1)} days of demand but lead time is ${A.f(x.lt, 1)} d: demand during lead time is ${A.f(dl)} units, leaving ${A.f(x.rop - dl)} before any safety stock.`
+        : x.verdict === V15.exc ? `Workbook ROP covers ${A.f(x.rop / x.d, 1)} days of demand against a ${A.f(x.lt, 1)} d lead time (${A.f(x.rop / (dl || 1), 1)}× lead-time demand); calculated ROP is ${A.f(x.ropR)}.` : 'Within ±20% of the calculated value.';
+      if (r.cells[r.cells.length - 1] !== want) n15++; }
+    ok(n15 === 0 && k15 > 0, `${label}: S15 'Why' rebuilt here from demand, lead time and reorder points (days of cover = ROP ÷ demand/day; lead-time demand = demand/day × lead time; gap = ROP − lead-time demand) for ${k15} items`); }
   /* S11 (Stage 3B Phase 2): the Excess screen's cards are the original tab's own cards. Expected values are read from the
      original tab's rendered HTML (label, £ figure, partial counts), not from the view-models or their traces. */
   const exHtml = A.html('Excess & dead stock'), card = lbl => { const m = exHtml.match(new RegExp('<div><b>([^<]*)</b><span>' + lbl + '[^<]*(?:<strong data-x1="partial">partial</strong>: (\\d+) of (\\d+) items)?')); return m && { txt: m[1], n: m[2] ? +m[2] : null, of: m[3] ? +m[3] : null }; };

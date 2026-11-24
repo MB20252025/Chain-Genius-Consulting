@@ -108,7 +108,7 @@ same order with the tab's own uncommitted and value cells, on five workbooks inc
 "Potential excess value" card is now the tab's own card (listed items); the Overview keeps the engine total `R.exV`, as
 the Summary does.
 
-## 6. Further inline calculation sites found in Phase 2 (recorded, not exposed)
+## 6. Further inline calculation sites found in Phase 2 (recorded, not exposed; superseded by §7 on 24 Nov 2026)
 
 Found while building Demand & Planning and Procurement (23 Nov 2026), by reading the five source tabs and scanning
 them for arithmetic. Under the owner's Phase 2 instruction they are recorded and investigated but **not refactored and
@@ -130,3 +130,46 @@ comparators; and `CFG.supLow − 1` in a label. The On-order reconciliation card
 **Investigation notes.** S12 assumes independent monthly errors (√3); S14's warning depends on a threshold setting; S15
 reproduces the engine's ROP terms in words. None of them changes a calculated result or a recommendation; each is a
 displayed figure. Each would need the same three-part proof (G1–G3) before a new screen may show it.
+
+## 7. S12–S15 proven (Stage 3B Phase 2 completion, 24 Nov 2026)
+
+Under the owner's authorisation of 24 Nov 2026 the four sites recorded in §6 were moved into `CGShared` and proven to
+the same standard and tolerance as S1–S11. §6 stays as the record of how they were found.
+
+| Site | Shared function | Original inputs | Moved expression |
+|---|---|---|---|
+| S12 | `fcRange3(F)` | `F.s3` (next-3-month forecast), `F.rm` (back-test RMSE of the chosen method, else the history's standard deviation) | `Math.max(0,F.s3-1.28*F.rm*Math.sqrt(3))` to `F.s3+1.28*F.rm*Math.sqrt(3)` (the tab's `A[x.id]` renamed `F`) |
+| S13 | `biasValue(x)` | `x.fcu` (bias units: recorded forecast − actual over the compared periods), `x.cost` (unit cost) | `x.fcu*x.cost` (the tab's `x.x` renamed `x`) |
+| S14 | `faConsistency(ass, hi)` | `ass`, `hi` from `faStats` (S9); `CFG.fcHighShare` (Settings) | `many: ass.length&&hi/ass.length>=CFG.fcHighShare/100`, `share: hi/ass.length*100` |
+| S15 | `ropWhy(x)` | `x.verdict`, `x.d` (demand/day), `x.lt` (lead time, days), `x.rop`, `x.ropR` | the tab's whole `why()` function, verbatim, with the verdict names it compares against |
+
+**Proof** (`refactor-evidence/verify-s12-s15-refactor.js`; baseline: `app.js` of d6c1564, which already has the chart
+correction, so the comparison is like with like; output `output-s12-s15-20261124.txt`, report `report-s12-s15-20261124.json`):
+
+| Guarantee | Result |
+|---|---|
+| G1 verbatim move | 7 of 7: each expression is in the baseline tab code, in `CGShared` (operand renamed as listed), and no longer in the tab code (the verdict names also stay in the tab, whose filter uses them) |
+| G2a values while rendering | 16,652 values identical at full precision over 68 workbook runs (34 workbooks × 2 safety-stock policies) |
+| G2b full population | the baseline's own expressions (copied from its source) vs the shared functions, on every item: S12 3,314 products, S13 3,328 products, S15 9,972 items, all identical; S14 over 9,044 cases (counts 0–50 × thresholds 0–101%) identical |
+| G3 byte-identical HTML | 1,156 tab renders identical |
+
+**Edge cases.** Five synthetic workbooks (`make-s12-s15-edge-workbooks.js`, `s12-s15-edge-workbooks/`): invalid product
+costs (blank, negative, text, zero); recorded forecasts missing; lead times 0, blank, text or negative, and reorder points
+blank, 0, negative or text; low accuracy (the warning must not show); perfect accuracy (it must show). Met in the proof:
+S12 ranges with the low end floored at 0 (10); S13 values that are unknown (92) or negative (1,916); S14 the warning
+shown (64 runs) and not shown (2 runs), and no assessable product (in the sweep); S15 every explanation branch the
+engine produces in these workbooks (insufficient, possibly excessive, aligned, no demand, no reorder point, and the
+Not Assessed reasons for invalid or negative reorder points).
+
+**Independent comparators on the new screens** (`tests/test-view-contract.js`, every workbook in its list, including
+Q1, Q3 and Q4): S12 and S13 recomputed from the documented formula and the engine's inputs, not through `CGShared`,
+and compared with the tab's own text on its first page; S14 recomputed from the credibility rows and the settings (not
+via `faStats` or the `hiAcc` flag), and the warning compared with the tab's; S15 every numeric explanation rebuilt from
+demand, lead time and reorder points.
+
+**Interpretation, unchanged:** S12 is indicative (80%, assumes roughly normal, independent monthly errors, √3 for three
+months); S13 is positive when forecasts ran above actual sales; S14's warning is a prompt to check how forecasts were
+recorded, not evidence of poor or good forecasting.
+
+**Re-runs after this change:** S11 (against dcf6308 with the chart correction) 0 failures, 467,315 leaf values, 986
+renders; S1–S10 (against e0b261f with the chart correction) 0 failures, 3,178 values, 782 renders.

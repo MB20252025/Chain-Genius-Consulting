@@ -38,21 +38,27 @@
    * the analysis, so the new screens and the Advanced view share one result and no calculation is duplicated. */
   function source() {
     const c = CGEngine.current(), cred = c.forecastCredibility, fc = c.forecasts, fg = c.result.fg, ex = c.shared.excessModel();
+    const memo = {}, lazy = (k, f) => (k in memo ? memo[k] : (memo[k] = f()));
     return Object.freeze({
       R: c.result, CFG: c.settings, SETDEF: c.settingDefs,
       mrp: c.mrp, feas: c.feas, fc: fc, cred: cred,
       qs: c.clientQuestions, conf: c.confidence, x1Sum: c.x1Sum, shared: c.shared, coverBands: c.coverBands,
       /* the same keyed results as rows (id first), so tables can list them; the objects themselves are not altered */
-      credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id], x })) : [],
+      /* S13 (proven 24 Nov 2026): bias £ at cost per product, CGShared.biasValue, the function the Forecast accuracy tab calls */
+      credRows: cred ? fg.filter(x => cred[x.id]).map(x => ({ id: x.id, c: cred[x.id], x, biasGBP: c.shared.biasValue(x) })) : [],
       /* Phase 2: each product row also carries its engine row (x), the forecast method's name, and S8 (the forecast over the
-         display horizon, CGShared.fcNextSum, the function the Demand forecast tab calls) for products that are forecast */
-      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id], x, method: c.methodNames[fc[x.id].best] || null, next: fc[x.id].ok ? c.shared.fcNextSum(fc[x.id]) : null })),
+         display horizon, CGShared.fcNextSum, the function the Demand forecast tab calls) for products that are forecast;
+         S12 (proven 24 Nov 2026): the indicative 80% range for the next 3 months, CGShared.fcRange3 */
+      fcRows: fg.filter(x => fc[x.id]).map(x => ({ id: x.id, f: fc[x.id], x, method: c.methodNames[fc[x.id].best] || null, next: fc[x.id].ok ? c.shared.fcNextSum(fc[x.id]) : null, range: fc[x.id].ok ? c.shared.fcRange3(fc[x.id]) : null })),
       methodNames: c.methodNames,
       /* the Health tab's ABC figures, from the same shared function the tab calls (abcRows(R.fg,'FG'), abcRows(R.rm,'RM')) */
       abcFG: c.shared.abcStats(c.result.fg), abcRM: c.shared.abcStats(c.result.rm),
       /* S11: the Excess & dead stock tab's own listing and per-item values (CGShared.excessModel, the function the tab
          calls), and one row per listed item carrying the tab's displayed quantities. Selection only: each extra field is
          one of the tab's own helper results (uc, alK, neg) or a choice between existing fields, never a new figure. */
+      /* S15 (proven 24 Nov 2026): reorder-policy rows carrying the tab's own 'Why' text (CGShared.ropWhy); built on first use */
+      get rpFG() { return lazy('rpFG', () => c.result.fg.map(x => Object.assign({}, x, { why: c.shared.ropWhy(x) }))); },
+      get rpRM() { return lazy('rpRM', () => c.result.rm.map(x => Object.assign({}, x, { why: c.shared.ropWhy(x) }))); },
       excess: ex,
       exRows: ex.a.map(x => Object.assign({}, x, {
         unc: ex.uc(x), alShown: ex.alK(x) ? x.al : null, usable: isNum(x.ua) ? x.ua : x.oh,
@@ -105,6 +111,8 @@
     if (trace.count) return countWhere(items(S, trace.count), trace.where);
     if (trace.partialSum) return S.x1Sum(items(S, trace.partialSum), trace.key);
     if (trace.shared) { const r = S.shared[trace.shared](items(S, trace.items).filter(x => meets(x, trace.where))); return trace.key ? field(r, trace.key) : r; }
+    /* S14: the Forecast accuracy tab's consistency check, CGShared.faConsistency over faStats(credRows), as the tab calls it */
+    if (trace.faConsistency) { const st = S.shared.faStats(S.credRows); return S.shared.faConsistency(st.ass, st.hi)[trace.faConsistency]; }
     /* S7: the Demand forecast tab's totals, CGShared.fcSum over the products it forecasts (R.fg with fc ok), as the tab calls it */
     if (trace.fcSum) return S.shared.fcSum(S.R.fg.filter(x => S.fc[x.id] && S.fc[x.id].ok), S.fc, trace.fcSum);
     if (trace.bands) return S.coverBands(items(S, [trace.bands]))[trace.key];

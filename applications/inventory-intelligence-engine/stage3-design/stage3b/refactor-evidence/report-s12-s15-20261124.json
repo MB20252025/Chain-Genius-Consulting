@@ -1,0 +1,675 @@
+{
+ "books": [
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 2
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 2
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-combined.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-combined.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-partial.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-partial.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]",
+   "values": 250,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]",
+   "values": 250,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx [workbook policy]",
+   "skipped": "unreadable workbook (Unsupported ZIP encryption)"
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx [calculated policy]",
+   "skipped": "unreadable workbook (Unsupported ZIP encryption)"
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [workbook policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [calculated policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [workbook policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [calculated policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/structure/scenario-willow.xlsx [workbook policy]",
+   "values": 44,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/structure/scenario-willow.xlsx [calculated policy]",
+   "values": 44,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]",
+   "values": 251,
+   "calcIdentical": true,
+   "populationIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  }
+ ],
+ "sites": {
+  "S15": 9972,
+  "S14": 66,
+  "S13": 3300,
+  "S12": 3314
+ },
+ "population": {
+  "S12": 3314,
+  "S13": 3328,
+  "S14": 9044,
+  "S15": 9972
+ },
+ "cov": {
+  "S12rmUnknown": 0,
+  "S12lowClampedAt0": 10,
+  "S13notNumber": 92,
+  "S13negative": 1916,
+  "S14warn": 64,
+  "S14noWarn": 2,
+  "S14noneAssessable": 0,
+  "S15": {
+   "Workbook ROP covers # days of demand aga": 6296,
+   "No demand# so no calculation#": 20,
+   "Workbook ROP covers # days of demand but": 1468,
+   "Within ±# of the calculated value#": 2058,
+   "No workbook reorder point to compare# Th": 44,
+   "Reorder_Point_Qty negative (not allowed)": 44,
+   "Reorder_Point_Qty invalid (engine check;": 21,
+   "Reorder_Point_Qty invalid": 21
+  }
+ }
+}

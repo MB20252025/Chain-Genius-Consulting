@@ -1,0 +1,219 @@
+PASS: G1 S12: "Math.max(0,A[x.id].s3-1.28*A[x.id].rm*Math.sqrt(3))" is in the baseline tab code, in CGShared (as A[x.id]→F), and no longer in the tab code
+PASS: G1 S12: "A[x.id].s3+1.28*A[x.id].rm*Math.sqrt(3)" is in the baseline tab code, in CGShared (as A[x.id]→F), and no longer in the tab code
+PASS: G1 S13: "x.x.fcu*x.x.cost" is in the baseline tab code, in CGShared (as x.x.→x.), and no longer in the tab code
+PASS: G1 S14: "ass.length&&hi/ass.length>=CFG.fcHighShare/100" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S14: "hi/ass.length*100" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S15: "x=>{if(/^Not Assessed/.test(x.verdict))return x1Why(x)||x…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S15: "V={ins:'Existing ROP insufficient',exc:'Existing ROP poss…" is in the baseline tab code, in CGShared
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q1-cost-invalid.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q2-forecast-units-missing.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q3-leadtime-rop-edge.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q4-low-accuracy.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 stage3-design/stage3b/refactor-evidence/s12-s15-edge-workbooks/Q5-perfect-accuracy.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-combined.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-combined.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-combined.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-combined.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-combined.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-combined.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-partial.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-partial.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-partial.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-partial.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-partial.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-partial.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]: 250 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]: full population identical (S12 49 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]: 250 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]: full population identical (S12 49 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [workbook policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers)
+PASS: tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [calculated policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers)
+PASS: tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [workbook policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur)
+PASS: tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [calculated policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur)
+PASS: G2a tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/structure/scenario-willow.xlsx [workbook policy]: 44 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/structure/scenario-willow.xlsx [workbook policy]: full population identical (S12 8 products, S13 14 products, S14 133 sweep cases, S15 36 items)
+PASS: G3 tests/fixtures/structure/scenario-willow.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/structure/scenario-willow.xlsx [calculated policy]: 44 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/structure/scenario-willow.xlsx [calculated policy]: full population identical (S12 8 products, S13 14 products, S14 133 sweep cases, S15 36 items)
+PASS: G3 tests/fixtures/structure/scenario-willow.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2a tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]: 251 values recorded while the tabs render, identical at full precision
+PASS: G2b tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]: full population identical (S12 50 products, S13 50 products, S14 133 sweep cases, S15 150 items)
+PASS: G3 tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]: all 17 tabs byte-identical
+Coverage: {"S12rmUnknown":0,"S12lowClampedAt0":10,"S13notNumber":92,"S13negative":1916,"S14warn":64,"S14noWarn":2,"S14noneAssessable":0,"S15":{"Workbook ROP covers # days of demand aga":6296,"No demand# so no calculation#":20,"Workbook ROP covers # days of demand but":1468,"Within ±# of the calculated value#":2058,"No workbook reorder point to compare# Th":44,"Reorder_Point_Qty negative (not allowed)":44,"Reorder_Point_Qty invalid (engine check;":21,"Reorder_Point_Qty invalid":21}}
+PASS: every site was exercised while rendering (S12 3314, S13 3300, S14 66, S15 9972)
+PASS: S14: both sides of the warning were met in real workbooks
+SUMMARY: 16652 values recorded while rendering; full population S12 3314, S13 3328, S14 9044 sweep cases, S15 9972; 1156 tab renders compared; 6 workbook runs could not be analysed (same outcome old and new); 0 failure(s)

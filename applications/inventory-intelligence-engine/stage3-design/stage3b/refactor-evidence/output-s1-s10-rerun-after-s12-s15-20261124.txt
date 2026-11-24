@@ -1,0 +1,113 @@
+PASS: G1 S1: "mean(sc.map(x=>x.score))" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S2: "r.cogsF/r.fgV" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S2: "r.cogsR/r.rmV" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S3: "tv=a.reduce((q,x)=>q+(fv(x.val)?x.val:0),0)||1,ta=a.reduc…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S3: "p=g.reduce((q,x)=>q+x.ann,0)/ta*100;c+=p;" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S3: "g.reduce((q,x)=>q+(fv(x.val)?x.val:0),0)/tv*100" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S3: "na=a.filter(x=>x.abc==='Not Assessed')" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S4: "g.reduce((q,x)=>q+x.val,0)" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S4: "[...a].sort((p,q)=>q.gap-p.gap).slice(0,10).reduce((q,x)=…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S5: "n.reduce((q,r)=>q+(r.val==null?0:r.val),0)" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S6: "const a=[...R.fg,...R.rm],nA=a.filter(x=>x.sev==null),cr=…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S7: "ok.reduce((q,y)=>q+A[y.id][k],0)" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S8: ".f.slice(0,Math.min(12,Math.max(3,CFG.fcH||12))).reduce((…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S9: "ass=rows.filter(r=>r.c.dq!=='Insufficient'),hi=ass.filter…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G1 S10: "T=a.reduce((o,p)=>(o.n+=p.n,o.nQ+=p.nQ,o.pl+=p.planned,o.…" is in the baseline tab code, in CGShared, and no longer in the tab code
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-combined.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-combined.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-combined.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-combined.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-partial.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-partial.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-partial.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-partial.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]: 70 recorded values identical at full precision
+PASS: G3 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]: 70 recorded values identical at full precision
+PASS: G3 tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [workbook policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers)
+PASS: tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [calculated policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers)
+PASS: tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [workbook policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur)
+PASS: tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [calculated policy]: analysis outcome identical (analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur)
+PASS: G2 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/structure/scenario-willow.xlsx [workbook policy]: 28 recorded values identical at full precision
+PASS: G3 tests/fixtures/structure/scenario-willow.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/structure/scenario-willow.xlsx [calculated policy]: 28 recorded values identical at full precision
+PASS: G3 tests/fixtures/structure/scenario-willow.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]: all 17 tabs byte-identical
+PASS: G2 tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]: 71 recorded values identical at full precision
+PASS: G3 tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]: all 17 tabs byte-identical
+PASS: every one of the ten sites was exercised (S1, S10, S2, S3, S4, S5, S6, S7, S8, S9)
+SUMMARY: 3178 recorded values compared; 782 tab renders compared; 6 workbook runs could not be analysed (same outcome old and new); 0 failure(s)
