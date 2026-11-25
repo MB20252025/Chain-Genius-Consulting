@@ -106,3 +106,15 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
 - **AD-16 (24 Nov 2026): chart labels are never skipped.** A horizontal chart draws every category label; on a chart
   narrower than 460 px a long label wraps between words. Ranking charts show a named subset (top or bottom 10–15); the
   full list is always in the table beneath.
+- **AD-17 (25 Nov 2026): demand history is prepared once, by `prepDemand`, and every calculation reads that.** Owner
+  rules A–D. A continuous calendar from the first to the last month in the workbook; duplicate product-months kept as
+  groups, with the first row in import order as the temporary default and the customer's decision when valid. Decisions
+  are stored in browser storage per dataset fingerprint and are valid only while the group's record fingerprints are
+  unchanged; never by row position. The engine wrapper records decisions; the screen re-runs the analysis (keeps the
+  screen code off the engine's synchronous path). Details: `stage3-design/stage3b/phase3/README.md`.
+- **AD-18 (25 Nov 2026): forecasts work on calendar positions and start after the global boundary.** Owner rules E–F.
+  Supersedes the D6 "last unbroken run" rule (X1 WP6) and the forecast placement in AD-14. With no gap in the months
+  used, the original arithmetic runs unchanged (proven identical on every gap-free workbook); with gaps, moving averages
+  need their exact calendar window, trend and seasonal use positions, the back-test scores every method on the same
+  months, and missing months at the end widen the band and lower confidence. The existing 6-usable-month gate is kept.
+

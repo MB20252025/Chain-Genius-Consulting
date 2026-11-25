@@ -1492,3 +1492,49 @@ was changed or removed.*
 - **New permanent fixture:** `tests/fixtures/forecast-gaps/forecast-gaps.xlsx` (synthetic; missing months in demand
   history), protected by checksum.
 - **Full tier on the completion commit:** recorded in `stage3-design/stage3b/IMPLEMENTATION-RECORD.md`.
+
+## Stage 3B Phase 3 — duplicate months, missing months, global boundary (25 Nov 2026; branch `development/v0.7`; from `bd61ae7`)
+
+**New tests (all PENDING until the next approved tag):**
+
+| Test | Tier | Accepted | What it proves |
+| --- | --- | --- | --- |
+| `phase3-demand-calendar` | fast, full | 89 | Calendar cases with hand-written expected months; a decision equals a workbook keeping only that row; forecasts with gaps against recomputed mean, trend, band and start; identical to bd61ae7 on every gap-free workbook; the 18-step decision workflow. |
+| `browser-phase3-chrome` | full | 34 | The Duplicates & gaps screen end to end, desktop and Pixel 5 **emulation** (not a physical device). |
+
+**Raised counts (all PENDING):**
+
+| Test | Change | Reason |
+| --- | --- | --- |
+| `test-view-contract` | 745 → 762 | §9 rewritten for rules A/D/E; new subsection. |
+| `check-globals` | 126 → 132 | +6 engine top-level names. |
+| `test-a1-sync-path` | 85 → 91 | The same names on the engine path. |
+| `check-protection` | 461 → 467 | +6 protected files. |
+
+**New protected fixtures** (`tests/checksums.txt`, synthetic):
+- `tests/fixtures/phase3/phase3-duplicates.xlsx` and its generator `make-phase3.js`;
+- baseline copies `stage3-design/stage3b/phase3/baseline-bd61ae7/{calculations,forecasting}.js`, byte-identical to
+  bd61ae7 and used only by the equivalence proof.
+
+No existing fixture was modified.
+
+**Full tier.** Run in a throwaway copy of the app folder (25 Nov 2026): **60 tests passed (+ pre-flight)**, 2 FAIL,
+0 ERROR, 4 BLOCKED, 2 REDUCED. The BLOCKED and REDUCED results are pre-existing and unchanged.
+
+- `x1-wp5` FAIL, 54 of 56: lines 86 and 90 assert the superseded D6 rule (forecast from the last 7 consecutive
+  months; refusal with 3 consecutive months). Under the owner's rules D/F the engine fits all 11 usable months and
+  forecasts. The test is **not modified**; it awaits the owner's decision (see the implementation record).
+- `check-control` FAIL in the copy only: the copy did not include the repository-root
+  `.github/workflows/v07-tests.yml`. Re-run in the real working tree: 12 of 12 passed.
+
+**Protected browser tests:** `browser-chrome` 53/53 and `browser-x1-chrome` 334/334 passed.
+
+**Other verification (evidence in `stage3-design/stage3b/phase3/`):**
+- **S1–S15 proofs:** 0 failures (S1–S10 3,334 values; S11 240; S12–S15 17,168).
+- **Widths:** 207 screen renders at 320/360/393/412/430/768/1024/1280/1920 px, with no overflow. The only NaN-word
+  match is the explanatory sentence on Reports › Engine output workbook, also present at bd61ae7.
+- **Performance, 5,000 items, same machine:**
+  - `analyse()` median 775–827 ms, against 809–823 ms at bd61ae7;
+  - screen switches max 131 ms warm, 108 ms cold (target under 300 ms);
+  - import to "Analysed" about 5.4 s in both versions.
+

@@ -215,7 +215,43 @@
       ${grid(U.panel({ id: 'rc-rows', title: t.title, q: `Showing ${F.show(list.length)} of ${F.show(t.rows.length)}.`, icon: 'table', body: `<div class="scie-filters" role="group" aria-label="Filters">${sel('gap', 'Gap', sign, [['', 'All'], ['over', 'More on order than POs'], ['under', 'Fewer on order than POs']])}<button type="button" class="scie-link" data-filter-clear="1">Clear filters</button></div>${U.table(t, { rows: list, fmt: FMT_RC, items: true })}`, badges: U.badges(t) }))}`;
   }
 
-  const BESPOKE = { 'planning/forecast': forecast, 'planning/accuracy': accuracy, 'planning/policy': policy, 'procurement/buy': buy, 'procurement/suppliers': suppliers, 'procurement/reconciliation': reconciliation, 'overview/dashboard': overview, 'inventory/stock': stock, 'inventory/health': health, 'inventory/excess': excess, 'reports/report': reportScreen, 'reports/workbook': workbookScreen, 'data/load': loadScreen };
+  /* ---- Data Management › Duplicates & gaps (Stage 3B Phase 3, owner rules A–F, 25 Nov 2026) ----------------------------
+   * One card per product-month recorded on more than one row: every competing record side by side, the one in use marked,
+   * and the three choices (owner rule B). The decision is saved by CGEngine.duplicates (shell click handler) and the analysis
+   * re-runs, so every screen uses it. Nothing here calculates: status, the record in use and row numbers come from the engine. */
+  const DUP_STATUS = { unreviewed: 'Needs review: the first row is used for now', invalidated: 'Decision no longer applies: needs review again', accepted: 'Resolved: first row confirmed', chosen: 'Resolved: another row chosen', excluded: 'Resolved: month excluded' };
+  const DUP_SHOW = 30;
+  function cellOf(v) { return v instanceof Date ? (isFinite(v) ? v.toISOString().slice(0, 10) : 'Invalid date') : v === null || v === undefined || v === '' ? '–' : typeof v === 'number' ? F.show(v) : String(v); }
+  function dupCard(g) {
+    /* columns whose values differ between the rows first (what the customer is choosing between), then the rest; the product
+       and an identical month are already in the card's heading. Comparison of displayed text only, no calculation. */
+    const all = [...new Set(g.rows.flatMap(r => Object.keys(r.rec)))], differs = c => new Set(g.rows.map(r => cellOf(r.rec[c]))).size > 1;
+    const dc = all.filter(differs), rest = all.filter(c => !differs(c) && c !== 'SKU' && c !== 'Month_Start'), td = (r, c) => `<td${differs(c) ? ' class="scie-dup-diff"' : ''}>${esc(cellOf(r.rec[c]))}</td>`, th = c => `<th${differs(c) ? ' class="scie-dup-diff"' : ''}>${esc(c)}${differs(c) ? ' (differs)' : ''}</th>`;
+    const open = g.status === 'unreviewed' || g.status === 'invalidated';
+    const btn = (choice, label, fp, ghost) => `<button type="button" class="scie-btn${ghost ? ' scie-ghost' : ''}" data-dup="${esc(g.key)}" data-choice="${choice}"${fp ? ` data-fp="${esc(fp)}"` : ''}>${esc(label)}</button>`;
+    const rows = g.rows.map((r, j) => `<tr${j === g.used ? ' class="scie-dup-used"' : ''}><td>${esc(String(r.row))}${j === g.used ? '<br><b>in use</b>' : ''}${j === 0 ? '<br><span class="scie-note">first row</span>' : ''}<br>${j === 0 ? btn('accept', 'Use first row', null, g.status === 'accepted') : btn('row', 'Use this row', r.fp, g.status === 'chosen' && j === g.used)}</td>${dc.map(c => td(r, c)).join('')}${rest.map(c => td(r, c)).join('')}</tr>`).join('');
+    return `<div class="scie-dup" data-dup-card="${esc(g.key)}"><h4>${esc(String(g.sku))} · ${esc(F.month(g.month))} <span class="scie-dup-st scie-dup-${esc(g.status)}">${esc(DUP_STATUS[g.status] || g.status)}</span></h4>
+      ${g.why ? `<p class="scie-note">Returned for review because ${esc(g.why)}.</p>` : ''}
+      <div class="w"><table class="scie-table"><thead><tr><th>Sheet row and choice</th>${dc.map(th).join('')}${rest.map(th).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+      <p>${btn('exclude', 'Exclude this month', null, g.status !== 'excluded')}${open ? '' : ` ${btn('forget', 'Clear my decision', null, true)}`}</p></div>`;
+  }
+  function duplicates(ctx) {
+    const S = ctx.S, vms = V.forSub(S, 'data', 'duplicates'), v = id => pick(vms, id), f = ctx.filters, gt = v('dg-groups'), gp = v('dg-gap-rows');
+    const which = f.dg || 'open', all = gt.rows.map(r => r.ref), list = which === 'all' ? all : all.filter(g => (which === 'open') === (g.status === 'unreviewed' || g.status === 'invalidated'));
+    const shown = f.dgAll === '1' ? list : list.slice(0, DUP_SHOW), store = typeof CGEngine !== 'undefined' && CGEngine.duplicates ? CGEngine.duplicates.storageOK() : false;
+    return `${head('Duplicates & gaps', 'Months your workbook records more than once, and months it does not record at all. Nothing is deleted, added together or filled in: you decide which value counts.', ['Data quality'])}
+      ${kpis([U.kpi(v('dg-open'), 'orange', 'alert'), U.kpi(v('dg-invalid'), 'red', 'alert'), U.kpi(v('dg-done'), 'green', 'table'), U.kpi(v('dg-gaps'), 'blue', 'db'), U.kpi(v('dg-trail'), 'purple', 'db')])}
+      ${grid(U.panel({ id: 'dg-groups', title: gt.title, q: 'Every row is kept and nothing is added together. Until you decide, the first row in the file is used for the month: a temporary default, not a confirmed value. Choose "Use first row" to confirm it, "Use this row" to use another row, or "Exclude this month" to treat the month as missing. Your decision applies only while the rows stay exactly the same; if their values or number change, the month comes back here for review.', icon: 'table',
+        body: `<div class="scie-filters" role="group" aria-label="Filters">${['open', 'done', 'all'].map(k => `<button type="button" class="scie-btn${which === k ? '' : ' scie-ghost'}" data-set="dg=${k}">${{ open: 'Needs review', done: 'Resolved', all: 'All' }[k]}</button>`).join(' ')}</div>
+          ${all.length ? '' : '<p>No product-month is recorded on more than one row.</p>'}
+          ${all.length && !list.length ? '<p>Nothing in this list.</p>' : ''}
+          ${shown.map(dupCard).join('')}
+          ${shown.length < list.length ? `<p>Showing ${F.show(shown.length)} of ${F.show(list.length)}. <button type="button" class="scie-link" data-set="dgAll=1">Show all</button></p>` : ''}
+          <p class="scie-note">${store ? 'Decisions are saved in this browser for this dataset only. They are not shared with other browsers or devices, and clearing this browser\'s site data removes them.' : 'This browser cannot save decisions: they last only until this page is closed.'}</p>` }))}
+      ${grid(U.panel({ id: 'dg-gap-rows', title: gp.title, q: 'A missing month is unknown, never zero, and is never filled in. Charts show it as a gap. Every forecast starts the month after the last month in the workbook; a product whose latest months are missing is still forecast, with a warning that it is less reliable.', icon: 'table', body: U.table(gp, { fmt: { 'gap.interior': 'n0', 'gap.trailing': 'n0', 'gap.observed': 'n0', 'gap.excluded': 'n0' }, items: true, empty: 'No product has a missing month.' }) }))}`;
+  }
+
+  const BESPOKE = { 'data/duplicates': duplicates, 'planning/forecast': forecast, 'planning/accuracy': accuracy, 'planning/policy': policy, 'procurement/buy': buy, 'procurement/suppliers': suppliers, 'procurement/reconciliation': reconciliation, 'overview/dashboard': overview, 'inventory/stock': stock, 'inventory/health': health, 'inventory/excess': excess, 'reports/report': reportScreen, 'reports/workbook': workbookScreen, 'data/load': loadScreen };
   function render(ctx) {
     U.begin();
     const key = `${ctx.area.id}/${ctx.sub.id}`;

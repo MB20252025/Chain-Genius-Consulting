@@ -132,6 +132,8 @@
     if (t.closest('[data-adv]')) { openOriginal((d.querySelector('#nav .on') || {}).dataset ? d.querySelector('#nav .on').dataset.t : 'Overview'); return; }
     const orig = t.closest('[data-orig]'); if (orig) { openOriginal(orig.dataset.orig); return; }
     const kp = t.closest('[data-drill]'); if (kp) { try { const dr = JSON.parse(kp.dataset.drill), a = (allAreas(source()).find(x => x.area === dr.area) || {}); if (a.id) { go(a.id, dr.view || a.subs[0].id); if (dr.filter) { const f = st.filters[a.id] || (st.filters[a.id] = {}); if (dr.filter.type) f.type = dr.filter.type; draw(); } } } catch (err) { /* ignore malformed drill */ } return; }
+    /* Stage 3B Phase 3: a duplicate-month decision. Saved by the engine wrapper; the analysis is re-run here (app.js run(), as for a new workbook) so every screen and the Advanced view use it. */
+    const dup = t.closest('[data-dup]'); if (dup && typeof CGEngine !== 'undefined' && CGEngine.duplicates) { const q = dup.dataset; try { if (q.choice === 'forget') CGEngine.duplicates.forget(q.dup); else CGEngine.duplicates.decide(q.dup, q.choice, q.fp); if (typeof G.run === 'function') G.run(); } catch (err) { if (G.console) G.console.error(err); } draw(); return; }
     const set = t.closest('[data-set]'); if (set) { const [k, v] = set.dataset.set.split('='); (st.filters[st.area] || (st.filters[st.area] = {}))[k] = v; draw(); return; }
     const ra = t.closest('[data-rows-all]');
     if (ra) { U.showAllRows(ra.dataset.rowsAll); draw(); return; }

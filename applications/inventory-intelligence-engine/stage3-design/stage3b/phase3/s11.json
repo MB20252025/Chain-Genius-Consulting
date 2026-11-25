@@ -1,0 +1,525 @@
+{
+ "books": [
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-0.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-10.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-abc.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/nodem-alloc-blank.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/audit-20261121/evidence/workbooks/ns-x1-faults.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E1-negative-on-hand.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E2-allocation-unknown.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E3-unit-cost-invalid.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 2
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E4-very-large-stock.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 2
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E5-combined.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "stage3-design/stage3b/refactor-evidence/s11-edge-workbooks/E6-negative-on-hand-no-demand.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-combined.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-combined.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupexact.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupexact.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupkey.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-dupkey.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-multiline.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-multiline.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overrec.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overrec.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overshort.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-overshort.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-partial.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-partial.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-posupconflict.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-posupconflict.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-splitline.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/edge/scenario-splitline.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/forecast-gaps/forecast-gaps.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx [workbook policy]",
+   "skipped": "unreadable workbook (Unsupported ZIP encryption)"
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F19-corrupt-xlsx/items.xlsx [calculated policy]",
+   "skipped": "unreadable workbook (Unsupported ZIP encryption)"
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [workbook policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/faults/F20-not-a-zip-xlsx/items.xlsx [calculated policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, BOM, Demand History, Inventory, Suppliers",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [workbook policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/import-v1/layouts/L2-erp-workbook/ERP_Extract.xlsx [calculated policy]",
+   "skipped": "analysis failed: Missing sheet(s): Products, Materials, Demand History, Inventory, Suppliers, Pur",
+   "identicalOutcome": true
+  },
+  {
+   "book": "tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/northstar/Chain_Genius_Project_001_Northstar_Dataset_1.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/phase3/phase3-duplicates.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/phase3/phase3-duplicates.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/structure/scenario-willow.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/structure/scenario-willow.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-allfuture.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-allfuture.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nohist.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nohist.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nopo.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-nopo.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-s0.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-s0.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-three.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-three.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-unknown.xlsx [workbook policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  },
+  {
+   "book": "tests/fixtures/suppliers/scenario-unknown.xlsx [calculated policy]",
+   "values": 4,
+   "calcIdentical": true,
+   "tabs": 17,
+   "htmlIdentical": true,
+   "threw": 0
+  }
+ ],
+ "sites": {
+  "S11": 60,
+  "S11card": 180
+ },
+ "leaves": 496033,
+ "cov": {
+  "items": 2220,
+  "allocUnknown": 316,
+  "negOnHand": 42,
+  "valueUnknown": 378,
+  "notAssessedListed": 316,
+  "costMissingOrNeg": 62
+ }
+}

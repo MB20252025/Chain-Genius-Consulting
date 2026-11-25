@@ -501,7 +501,15 @@ file 1e6a2b9f8c8458f4be58aaa6b3ec59ef82254d85ad1eefbf350951787d694b04 tests/test
 # test-view-contract.js re-hashed in place (402 -> 495 checks; see accepted-results.json). Previous hash ad20c7770fef3f5f.
 # test-view-contract.js re-hashed in place (495 -> 736 checks; see accepted-results.json). Previous hash 3eeeb1007839fafa.
 # test-view-contract.js re-hashed in place (736 -> 745 checks; see accepted-results.json). Previous hash d43703c34478bda1.
-file d9af3cb6f8c533daeea2b7951644f69e152ee659e8ff679c1572c83a70de0cfc tests/test-view-contract.js
+# test-view-contract.js re-hashed in place (745 -> 762 checks; see accepted-results.json). Previous hash d9af3cb6f8c533da.
+file 3a751171cbde550c10adc21d95992159a2551663926450912aac174c3a1062bb tests/test-view-contract.js
 # Stage 3B Phase 2 completion (24 Nov 2026, owner authorisation 'Outstanding Work Completion' §1): permanent fixture for missing months in demand history, and its generator.
 file 4685da62747fb056c7545cf92195c7cae07c4e7b09c6e3f17e45f32dfb028dd7 tests/fixtures/forecast-gaps/forecast-gaps.xlsx
 file 2a335f754027f3a265794a246c531f340e8bf1408a1f0642052b29e164bab02c tests/fixtures/forecast-gaps/make-forecast-gaps.js
+# Stage 3B Phase 3 (25 Nov 2026, owner authorisation "Stage 3B Phase 3: Fresh Implementation"): new test, its synthetic fixture and generator, and the bd61ae7 engine baseline it proves gap-free equivalence against. Additions: PENDING until the next approved tag.
+file a3b2827d6e338091b5f53f63e79fd6ad2e51d629181bd11409d2e154e5a7e71f tests/test-phase3-demand-calendar.js
+file fe2bfefa49a3a17a1f8da86fc0734c2c20d1037ec72b45f2b10e04744899b480 tests/fixtures/phase3/phase3-duplicates.xlsx
+file 16874634cfda5d9c6d9b3fb9073acbef804df9a8fe99e4e2096c8138dbfb39f7 tests/fixtures/phase3/make-phase3.js
+file 9204f9a8ceacf47c4088887b57d880e63c02c8cabd1bcb673a692933aabdaec2 stage3-design/stage3b/phase3/baseline-bd61ae7/calculations.js
+file bd7ff86f8b45fa652dbad215cc9fb0a03a4e96b526be2c79f715702535339120 stage3-design/stage3b/phase3/baseline-bd61ae7/forecasting.js
+file f29325f87551531b61c87566f39a903a78b95744cc03193a9525e5cf563a6650 tests/browser-phase3-chrome.js

@@ -210,3 +210,14 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
   #scie-side, #scie-top, #scie-view, #scie-advhead, #scie-item { display: none !important; }
   body.scie-on #v { display: block !important; }
 }
+
+/* Stage 3B Phase 3: Duplicates & gaps */
+.scie-dup { border: 1px solid var(--cg-line); border-radius: 8px; padding: var(--cg-s3, 12px); margin: 0 0 var(--cg-s3, 12px); }
+.scie-dup h4 { margin: 0 0 6px; display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.scie-dup-st { font-size: var(--cg-fs-s); font-weight: 600; padding: 2px 8px; border-radius: 10px; background: var(--cg-bg); }
+.scie-dup-unreviewed, .scie-dup-invalidated { background: #fdecd2; color: #6b3d00; }
+.scie-dup-accepted, .scie-dup-chosen, .scie-dup-excluded { background: var(--cg-green-100); }
+.scie-dup tr.scie-dup-used td { background: var(--cg-green-100); }
+.scie-dup .scie-btn { min-height: 40px; }
+.scie-dup .scie-dup-diff { font-weight: 700; }
+.scie-dup td:first-child { white-space: nowrap; } .scie-dup td:first-child .scie-btn { margin-top: 6px; }

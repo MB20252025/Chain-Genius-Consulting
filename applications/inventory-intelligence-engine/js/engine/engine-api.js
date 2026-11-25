@@ -78,5 +78,31 @@ const CGEngine=(()=>{
   //   analysis cheaply (no MRP/forecast collection). Read-only by convention, like current().
   function currentResult(){return typeof R==='undefined'||!R||!R.fg?null:R}
 
-  return Object.freeze({runEngine,current,currentResult,isBusy:()=>busy,version:'v0.7-a1'});
+  /* duplicates (Stage 3B Phase 3, owner rules A–C, 25 Nov 2026): the customer's decisions on product-months recorded on more
+   * than one row. Stored in this browser only (localStorage key below), under the dataset fingerprint of the loaded workbook
+   * (calculations.js prepDemand: dsId), so one dataset's decisions never touch another's. A decision records the exact records it
+   * was made on (group fingerprint) and, for a chosen record, that record's own fingerprint: it applies only while the group still
+   * holds exactly those records, whatever their order; otherwise the engine returns the group for review. Limits (documented in
+   * KNOWN-LIMITATIONS): decisions do not travel to another browser or device and are lost if the browser's site data is cleared;
+   * when browser storage is unavailable they last only until the page is closed (storageOK() says which). */
+  const DKEY='scie.duplicateDecisions.v1';
+  let storeOK=false;
+  const loadDec=()=>{try{const s=typeof localStorage!=='undefined'?localStorage.getItem(DKEY):null;const o=s?JSON.parse(s):{};DUPDEC.sets=o&&typeof o==='object'&&!Array.isArray(o)?o:{};storeOK=typeof localStorage!=='undefined'}catch(e){DUPDEC.sets={};storeOK=false}};
+  const saveDec=()=>{try{if(typeof localStorage==='undefined')return false;localStorage.setItem(DKEY,JSON.stringify(DUPDEC.sets));return true}catch(e){return false}};
+  loadDec();
+  /* decide(key, choice, recordFp): choice 'accept' (the first row, as shown by default), 'row' (the record with fingerprint
+     recordFp) or 'exclude' (no value for the month). The caller re-runs the analysis (the screen calls run()) so every screen uses the decision. */
+  function decide(key,choice,fp){
+    const r=currentResult();if(!r)throw fail('NO_RESULT','no analysis has been run');
+    const g=(r.dups||[]).find(x=>x.key===key);if(!g)throw fail('BAD_ARGS','no duplicate group '+key);
+    if(!['accept','row','exclude'].includes(choice))throw fail('BAD_ARGS','choice must be accept, row or exclude');
+    const f=choice==='accept'?g.rows[0].fp:choice==='row'?fp:null;
+    if(choice==='row'&&!g.rows.some(x=>x.fp===fp))throw fail('BAD_ARGS','that record is not in this group');
+    const set=DUPDEC.sets[r.dsId]||(DUPDEC.sets[r.dsId]={});
+    set[key]={g:g.gfp,n:g.rows.length,c:choice,f,at:new Date().toISOString().slice(0,10)};
+    const saved=saveDec();return {saved}}
+  /* forget(key): remove the decision; the group returns to review with the first-row default. */
+  function forget(key){const r=currentResult();if(!r)throw fail('NO_RESULT','no analysis has been run');const set=DUPDEC.sets[r.dsId];if(set&&set[key]){delete set[key];if(!Object.keys(set).length)delete DUPDEC.sets[r.dsId]}const saved=saveDec();return {saved}}
+  const duplicates=Object.freeze({decide,forget,reload:loadDec,storageOK:()=>storeOK,key:DKEY});
+  return Object.freeze({runEngine,current,currentResult,duplicates,isBusy:()=>busy,version:'v0.7-a1'});
 })();

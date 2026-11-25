@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 3 – duplicate months, missing months, global forecast boundary (25 Nov 2026; owner Phase 3 authorisation; NOT a release, no tag)
+- **Duplicates (rules A–C):** every row is kept and never summed. Until the customer decides, the first row in the
+  file is used (stated as a temporary default). The new **Data Management › Duplicates & gaps** screen offers three
+  choices per month: use the first row, use another row, or exclude the month. Decisions are saved in this browser per
+  dataset and return for review when the records change.
+- **Missing months (D):** the calendar keeps every month from first to last, including months no product records.
+  Missing is unknown, never zero; charts show gaps.
+- **Forecasts (E, F):** every forecast starts the month after the last month in the workbook. Gaps no longer cut a
+  product's history down to its last unbroken run or refuse a forecast. Moving averages need their exact months;
+  trend and seasonal use calendar positions. Missing months at the end lower reliability, with a warning. Results
+  for workbooks without gaps or duplicates are unchanged (proven).
+- **Month reading:** a Month_Start date read as local midnight (up to 12 hours from UTC) stays in its own month.
+- **Tests:**
+  - new: `phase3-demand-calendar` (89 checks) and `browser-phase3-chrome` (34 checks).
+  - raised counts: `test-view-contract` 745 → 762; `check-globals` 126 → 132; `test-a1-sync-path` 85 → 91;
+    `check-protection` 461 → 467.
+  - all of the above are PENDING.
+  - `x1-wp5` has 2 assertions in conflict with rules D/F; the test is left unchanged and reported.
+
 ## v0.7 Stage 3B Phase 2 completion – chart months, S12–S15, phone labels (24 Nov 2026; owner authorisation; NOT a release, no tag)
 - **Demand chart and missing months:** "recorded forecast drawn early" was not reproduced. Four display defects found and
   corrected (no forecast calculation changed): the original chart hid the recorded forecast whenever a month was missing;

@@ -6,27 +6,55 @@
 const FM={mean:(h,k)=>Array(k).fill(mean(h)),ma3:(h,k)=>Array(k).fill(mean(h.slice(-3))),ma6:(h,k)=>Array(k).fill(mean(h.slice(-6))),wma3:(h,k)=>{const [a,b,c]=h.slice(-3).reverse();return Array(k).fill((3*a+2*b+c)/6)},
  trend:(h,k)=>{const n=h.length,mx=(n-1)/2,my=mean(h);let sxy=0,sxx=0;h.forEach((y,i)=>{sxy+=(i-mx)*(y-my);sxx+=(i-mx)**2});const b=sxx?sxy/sxx:0,a=my-b*mx;return Array.from({length:k},(_,j)=>Math.max(0,a+b*(n+j)))}},
  FMIN={mean:3,ma3:3,ma6:6,wma3:3,trend:6,seasonal:24},FNAME={mean:'Average of all months',ma3:'3-month moving average',ma6:'6-month moving average',wma3:'Weighted 3-month average (3-2-1)',trend:'Linear trend',seasonal:'Seasonal index × level (EXPERIMENTAL)'};
-/* X1 WP6 (owner D6, 21 Nov 2026): a missing demand month is UNKNOWN. The calendar-indexed history x.hc (null = missing) decides model suitability:
- * with no missing month the series is used exactly as before; with missing months inside the window or at its end, the time-series models are
- * fitted only to the most recent run of consecutive observed months (never across a gap, never with a gap read as 0), and the seasonal position
- * comes from that run's own last month. No new model is introduced. */
-const gapSeg=x=>{const hc=x.hc;if(!Array.isArray(hc))return {h:x.h,gaps:0,trail:0,last:null};const ix=hc.map((v,i)=>v!==null?i:-1).filter(i=>i>=0);if(!ix.length)return {h:[],gaps:0,trail:0,last:null,none:true};
- const a=ix[0],b=ix[ix.length-1],gaps=hc.slice(a,b+1).filter(v=>v===null).length,trail=hc.length-1-b;if(!gaps&&!trail)return {h:x.h,gaps:0,trail:0,last:null};let st=b;while(st>0&&hc[st-1]!==null)st--;return {h:hc.slice(st,b+1),gaps,trail,last:b}},
- gapTxt=G=>[G.gaps?G.gaps+' missing month(s) inside the history':'',G.trail?G.trail+' missing month(s) at the end':''].filter(Boolean).join(' and ')+' are unknown, not zero; methods use only the last '+G.h.length+' consecutive observed month(s)';
+/* X1 WP6 (owner D6, 21 Nov 2026): a missing demand month is UNKNOWN, never 0. SUPERSEDED in part by Stage 3B Phase 3 (owner rules D–F,
+ * 25 Nov 2026; stage3-design/stage3b/phase3/): the forecast no longer uses only the last unbroken run of months. Every usable month is
+ * kept at its true CALENDAR position (x.hc, null = missing); nothing is filled in or squeezed together; every product's forecast starts
+ * the month after the GLOBAL boundary (the last month with data anywhere in the workbook).
+ * How each method meets the calendar (FMIN = least usable months):
+ *  - mean (3): the average of the usable months; their order does not matter, so gaps are safe.
+ *  - ma3 / wma3 (3), ma6 (6): need the 3 or 6 calendar months just before the month forecast all recorded; otherwise the method is not
+ *    used for that forecast (never averaged across a gap, which would make it a different method).
+ *  - trend (6): straight line fitted to the usable months at their calendar positions (elapsed time), extended to the months forecast.
+ *  - seasonal (24, experimental): month-of-year indices from the usable months at their calendar months; level and trend as above.
+ * When the months used have no gap (the usual case) the original arithmetic runs unchanged (identical results, proven); positions
+ * only matter when there are gaps. A product needs 6 usable months to be forecast at all (the existing rule); a gap alone never
+ * refuses a forecast. Missing months at the end widen the uncertainty range (it grows with the distance from the last recorded
+ * month) and lower confidence one level. */
+const calObs=x=>{const hc=Array.isArray(x.hc)?x.hc:(x.h||[]),ix=[];hc.forEach((v,i)=>{if(v!==null&&v!==undefined)ix.push(i)});
+ if(!ix.length)return {n:0,p:[],v:[],gaps:0,trail:0,lead:hc.length,T:0,M:hc.length};const a=ix[0],b=ix[ix.length-1];
+ return {n:ix.length,p:ix.map(i=>i-a),v:ix.map(i=>hc[i]),gaps:hc.slice(a,b+1).filter(v=>v===null).length,trail:hc.length-1-b,lead:a,T:hc.length-a,M:hc.length,a}},
+ gapTxt=G=>[G.gaps?G.gaps+' missing month(s) inside the history':'',G.trail?G.trail+' missing month(s) at the end':''].filter(Boolean).join(' and ')+' are unknown, not zero, and are left as gaps (never filled in); the forecast still starts the month after the last month in the workbook, and methods that need the most recent consecutive months are not used';
 const ols=h=>{const n=h.length,mx=(n-1)/2,my=mean(h);let sxy=0,sxx=0;h.forEach((y,i)=>{sxy+=(i-mx)*(y-my);sxx+=(i-mx)**2});const b=sxx?sxy/sxx:0;return {a:my-b*mx,b}};
+const olsP=(P,V)=>{const n=V.length,mx=mean(P),my=mean(V);let sxy=0,sxx=0;V.forEach((y,i)=>{sxy+=(P[i]-mx)*(y-my);sxx+=(P[i]-mx)**2});const b=sxx?sxy/sxx:0;return {a:my-b*mx,b}};
 function seasn(h,lm){const n=h.length;if(n<24)return null;const o=ols(h),fl=0.1*mean(h)+1e-9,t=Array(12).fill(0),c=Array(12).fill(0);h.forEach((v,i)=>{const tr=Math.max(fl,o.a+o.b*i),m=((lm-(n-1-i))%12+12)%12;t[m]+=v/tr;c[m]++});const raw=t.map((v,m)=>v/(c[m]||1)),mu=mean(raw)||1,idx=raw.map(v=>v/mu);return {idx,det:Math.max(...idx)-Math.min(...idx)>.3}}
-function fcast(x,lastMs){const G=gapSeg(x),h=G.h,n=h.length,lm=new Date(G.last!=null&&typeof R!=='undefined'&&R&&R.months?R.months[G.last]:lastMs).getUTCMonth();if(n<6)return {n,ok:false,gaps:G.gaps,trail:G.trail,why:G.gaps||G.trail?'insufficient consecutive history: '+gapTxt(G):'fewer than 6 months of history'};
- const sn=seasn(h,lm),det=!!(sn&&sn.det),meth=Object.keys(FM).filter(k=>n>=FMIN[k]);if(det)meth.push('seasonal');
- const fn=(k,hh,kk,l)=>{if(k!=='seasonal')return FM[k](hh,kk);const q=seasn(hh,l);if(!q)return Array(kk).fill(mean(hh));const o=ols(hh);return Array.from({length:kk},(_,j)=>Math.max(0,(o.a+o.b*(hh.length+j))*q.idx[(l+1+j)%12]))},
-  tS=Math.max(det?24:Math.max(...meth.map(k=>FMIN[k])),n-Math.max(3,Math.min(6,CFG.fcTest||6))),bt={};
- meth.forEach(k=>{let ae=0,ac=0,bs=0,se=0,p=0;for(let t=tS;t<n;t++){const l=((lm-(n-t))%12+12)%12,fv=fn(k,h.slice(0,t),1,l)[0],a=h[t];ae+=Math.abs(fv-a);ac+=a;bs+=fv-a;se+=(fv-a)**2;p++}bt[k]={wape:ac&&p?ae/ac:null,bias:ac&&p?bs/ac:null,rmse:p?Math.sqrt(se/p):null,pts:p}});
+/* seasonal indices from months at their calendar positions (Phase 3; used only when the months have gaps) */
+function seasnP(P,V,moy){const n=V.length;if(n<24)return null;const o=olsP(P,V),fl=0.1*mean(V)+1e-9,t=Array(12).fill(0),c=Array(12).fill(0);V.forEach((v,i)=>{const tr=Math.max(fl,o.a+o.b*P[i]),m=moy(P[i]);t[m]+=v/tr;c[m]++});const raw=t.map((v,m)=>v/(c[m]||1)),mu=mean(raw)||1,idx=raw.map(v=>v/mu);return {idx,det:Math.max(...idx)-Math.min(...idx)>.3}}
+const WIN={ma3:3,ma6:6,wma3:3};
+/* forecast kk months starting at relative calendar position t from the usable months before t; null = the method cannot be used */
+function fnC(k,O,t,kk,moy){let j=0;while(j<O.n&&O.p[j]<t)j++;const P=O.p.slice(0,j),V=O.v.slice(0,j);if(!j)return null;
+ if(P[j-1]===t-1&&P[j-1]-P[0]===j-1){/* no gap in the months used and none before t: the original arithmetic, unchanged */
+  if(k!=='seasonal')return FM[k](V,kk);const l=moy(t-1),q=seasn(V,l);if(!q)return Array(kk).fill(mean(V));const o=ols(V);return Array.from({length:kk},(_,i)=>Math.max(0,(o.a+o.b*(V.length+i))*q.idx[(l+1+i)%12]))}
+ if(k==='mean')return Array(kk).fill(mean(V));
+ if(WIN[k]){const w=WIN[k],need=Array.from({length:w},(_,i)=>t-w+i);if(!need.every(q=>P.includes(q)))return null;const W=need.map(q=>V[P.indexOf(q)]);return FM[k](W,kk)}
+ const R0=P.map(q=>q-P[0]),t0=t-P[0];
+ if(k==='trend'){const o=olsP(R0,V);return Array.from({length:kk},(_,i)=>Math.max(0,o.a+o.b*(t0+i)))}
+ if(k==='seasonal'){const q=seasnP(R0,V,r=>moy(r+P[0]));if(!q)return Array(kk).fill(mean(V));const o=olsP(R0,V);return Array.from({length:kk},(_,i)=>Math.max(0,(o.a+o.b*(t0+i))*q.idx[moy(t+i)]))}
+ return null}
+function fcast(x,lastMs){const O=calObs(x),n=O.n,h=O.v,bm=new Date(lastMs).getUTCMonth(),moy=r=>((bm-(O.T-1-r))%12+12)%12,G={gaps:O.gaps,trail:O.trail},
+ start=isFinite(lastMs)?(d=>Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1))(new Date(lastMs)):null;
+ if(n<6)return {n,ok:false,gaps:G.gaps,trail:G.trail,lead:O.lead,start,why:'fewer than 6 usable months of history'+(G.gaps||G.trail?' ('+gapTxt(G)+')':'')};
+ const full=!G.gaps&&!G.trail,sn=full?seasn(h,moy(O.T-1)):seasnP(O.p,h,moy),det=!!(sn&&sn.det);
+ const na={};const meth=Object.keys(FM).filter(k=>{if(n<FMIN[k]){na[k]=`needs at least ${FMIN[k]} usable months (${n} available)`;return false}if(fnC(k,O,O.T,1,moy)===null){na[k]=`needs the ${WIN[k]} calendar months before the forecast start all recorded`;return false}return true});if(det)meth.push('seasonal');else na.seasonal=n<24?'needs at least 24 usable months':'no seasonal pattern detected';
+ const tS=Math.max(det?24:Math.max(...meth.map(k=>FMIN[k])),n-Math.max(3,Math.min(6,CFG.fcTest||6))),bt={},tg=[];let skipped=0;
+ for(let j=tS;j<n;j++){const t=O.p[j],pr=meth.map(k=>{const r=fnC(k,O,t,1,moy);return r?r[0]:null});if(pr.some(v=>v===null)){skipped++;continue}tg.push({j,t,pr})}
+ meth.forEach((k,mi)=>{let ae=0,ac=0,bs=0,se=0,p=0;tg.forEach(g=>{const fv=g.pr[mi],a=h[g.j];ae+=Math.abs(fv-a);ac+=a;bs+=fv-a;se+=(fv-a)**2;p++});bt[k]={wape:ac&&p?ae/ac:null,bias:ac&&p?bs/ac:null,rmse:p?Math.sqrt(se/p):null,pts:p}});
  let best=meth[0];meth.forEach(k=>{if(bt[k].wape!=null&&(bt[best].wape==null||bt[k].wape<bt[best].wape-.005))best=k});
- const fv=fn(best,h,12,lm),rm=bt[best].rmse!=null?bt[best].rmse:sd(h),mu=mean(h.slice(-12)),bd=j=>1.28*rm*Math.sqrt(1+(j+1)/n),hi=fv.map((v,j)=>v+bd(j)),lo=fv.map((v,j)=>Math.max(0,v-bd(j))),rel=mu?rm/mu:null,unc=n<12||rel==null?'High':rel<.1?'Low':rel<.2?'Medium':'High';
- const mx=(n-1)/2,my=mean(h);let sxy=0,sxx=0;h.forEach((y,i)=>{sxy+=(i-mx)*(y-my);sxx+=(i-mx)**2});const b=sxx?sxy/sxx:0,a=my-b*mx,sse=h.reduce((q,y,i)=>q+(y-a-b*i)**2,0),se=n>2&&sxx?Math.sqrt(sse/(n-2)/sxx):0,tt=se?b/se:0,tp=my?b/my*100:0,trend=n>=8&&Math.abs(tt)>2.2?(b>0?'Rising':'Falling'):'No significant trend';
- let wb=null;if(x.fc&&x.fc.length===n&&x.fc.every(v=>typeof v==='number')&&n>tS){let ae=0,ac=0;for(let t=tS;t<n;t++){ae+=Math.abs(x.fc[t]-h[t]);ac+=h[t]}wb=ac?ae/ac:null}
- const warn=[];if(G.gaps||G.trail)warn.push(gapTxt(G));if(n<12)warn.push('under 12 months of history');if(n<24)warn.push('no seasonality test possible (needs 24+ months)');if(bt[best].pts<6)warn.push('only '+bt[best].pts+' back-test points');
- const cf=n>=24&&unc==='Low'?'High':n>=12&&unc!=='High'?'Medium':'Low',sm=k=>fv.slice(0,k).reduce((q,v)=>q+v,0);
- return {ok:true,n,gaps:G.gaps,trail:G.trail,meth,bt,best,f:fv,hi,lo,s3:sm(3),s6:sm(6),s12:sm(12),act12:h.slice(-12).reduce((q,v)=>q+v,0),trend,tp,tt,unc,rel,rm,wb,wbBest:bt[best].wape,seas:sn,warn,conf:cf,confWhy:'history '+n+' months; forecast error '+(rel==null?'n/a':f(rel*100)+'% of demand')+'; '+(warn.join('; ')||'no history warnings')}}
+ const fv=fnC(best,O,O.T,12,moy),rm=bt[best].rmse!=null?bt[best].rmse:sd(h),rec12=h.filter((v,i)=>O.p[i]>=O.T-12),mu=mean(full?h.slice(-12):rec12),bd=j=>1.28*rm*Math.sqrt(1+(j+1+G.trail)/n),hi=fv.map((v,j)=>v+bd(j)),lo=fv.map((v,j)=>Math.max(0,v-bd(j))),rel=mu?rm/mu:null,unc=n<12||rel==null?'High':rel<.1?'Low':rel<.2?'Medium':'High';
+ const P=O.p,mx=full?(n-1)/2:mean(P),my=mean(h);let sxy=0,sxx=0;h.forEach((y,i)=>{sxy+=(P[i]-mx)*(y-my);sxx+=(P[i]-mx)**2});const b=sxx?sxy/sxx:0,a=my-b*mx,sse=h.reduce((q,y,i)=>q+(y-a-b*P[i])**2,0),se=n>2&&sxx?Math.sqrt(sse/(n-2)/sxx):0,tt=se?b/se:0,tp=my?b/my*100:0,trend=n>=8&&Math.abs(tt)>2.2?(b>0?'Rising':'Falling'):'No significant trend';
+ let wb=null;if(x.fc&&x.fc.length===n&&x.fc.every(v=>typeof v==='number')&&tg.length){let ae=0,ac=0;tg.forEach(g=>{ae+=Math.abs(x.fc[g.j]-h[g.j]);ac+=h[g.j]});wb=ac?ae/ac:null}
+ const warn=[];if(G.gaps||G.trail)warn.push(gapTxt(G));if(G.trail)warn.push(`the last recorded month is ${G.trail} month(s) before the forecast start, so the forecast reaches further from known demand and is less reliable`);if(skipped)warn.push(`${skipped} back-test month(s) skipped because a method could not be tested across a gap`);if(n<12)warn.push('under 12 months of history');if(n<24)warn.push('no seasonality test possible (needs 24+ months)');if(bt[best].pts<6)warn.push('only '+bt[best].pts+' back-test points');
+ const cf0=n>=24&&unc==='Low'?'High':n>=12&&unc!=='High'?'Medium':'Low',cf=G.trail?(cf0==='High'?'Medium':'Low'):cf0,sm=k=>fv.slice(0,k).reduce((q,v)=>q+v,0);
+ return {ok:true,n,gaps:G.gaps,trail:G.trail,lead:O.lead,start,meth,na,bt,best,f:fv,hi,lo,s3:sm(3),s6:sm(6),s12:sm(12),act12:(full?h.slice(-12):rec12).reduce((q,v)=>q+v,0),act12n:full?Math.min(12,n):rec12.length,trend,tp,tt,unc,rel,rm,wb,wbBest:bt[best].wape,seas:sn,warn,conf:cf,confWhy:'history '+n+' months; forecast error '+(rel==null?'n/a':f(rel*100)+'% of demand')+'; '+(warn.join('; ')||'no history warnings')}}
 const recFor=(F,x)=>{const r=[],c3=F.f.slice(0,3).reduce((a,b)=>a+b,0)/3,fc=c3>0?x.av/(c3/DPM):null;
  if(F.trend==='Rising')r.push(`Demand rising ~${f(F.tp,1)}%/month: review safety stock and production plan upward`);if(F.trend==='Falling')r.push(`Demand falling ~${f(-F.tp,1)}%/month: avoid building stock; review reorder policy`);
  if(x.cv>CFG.y)r.push('Volatile demand: keep a buffer and review responsiveness');

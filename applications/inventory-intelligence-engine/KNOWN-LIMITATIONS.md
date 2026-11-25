@@ -74,3 +74,15 @@ Verified facts are marked (V); things not tested are marked (NT).
     `test-view-contract`, but no real workbook from a business without production (a distributor or retailer) has
     been run through the new screens. **Outstanding validation:** obtain such a workbook (anonymised) and check that
     Production is hidden, that no screen refers to production, and that every other area still works.
+22. **Duplicate-month decisions are kept in one browser only.** (Stage 3B Phase 3, 25 Nov 2026.) They are stored in
+    the browser's site storage for the dataset. They do not travel to another browser or device, and they are lost
+    if the site data is cleared. When storage is blocked they last only until the page is closed (the screen says so).
+    Renaming or adding any product, material or supplier changes the dataset fingerprint and returns every decision to
+    review. Two identical records cannot be told apart (either gives the same value).
+23. **Two gap-related forecast rules are not yet calendar-aware.** (Stage 3B Phase 3, 25 Nov 2026.)
+    - The forecast-credibility outlier / level-shift rule treats months either side of a missing month as adjacent.
+    - A product still needs 6 usable months for any forecast (the existing gate), although the average method alone
+      needs 3.
+
+    Both are recorded for the owner and Stage 3C; neither was changed without approval.
+

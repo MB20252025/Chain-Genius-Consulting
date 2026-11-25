@@ -269,7 +269,8 @@ for (const [label, rel] of WBS) {
     'Production': [['feasibility', 'Production feasibility'], ['attainment', '']],
     'Scenarios & Recommendations': [['recommendations', 'Summary'], ['comparison', 'Policy comparison']],
     'Reports': [['report', ''], ['workbook', '']],
-    'Data Management': [['load', ''], ['quality', 'Data quality'], ['questions', 'Client questions'], ['confidence', 'Data confidence']],
+    /* Stage 3B Phase 3 (25 Nov 2026): + 'duplicates' (Duplicates & gaps: the owner-approved review of duplicate months, rule B) */
+    'Data Management': [['load', ''], ['quality', 'Data quality'], ['duplicates', ''], ['questions', 'Client questions'], ['confidence', 'Data confidence']],
     'Settings': [['thresholds', 'Settings']]
   };
   for (const a of N.primary.concat(N.utility)) if (want[a.area]) ok(JSON.stringify(a.subs.map(s => [s.id, s.tabs.join()])) === JSON.stringify(want[a.area]), `${a.area}: approved subsections and tab mapping`);
@@ -368,48 +369,50 @@ for (const f of VIEW_FILES.concat(UI_FILES)) {
 }
 
 // ---- 9. missing months in demand history: both demand charts put every value on its own month ----------------------------
-// Truth comes from the fixture's dated Demand History rows, read here with SheetJS (not from the engine): for each calendar
-// month, the product's rows; a month with exactly one usable row (Units_Sold a number >= 0) carries that row's recorded
-// forecast; the statistical forecast starts the month after the last month with a usable row (the engine's documented
-// rule for missing months at the end, forecasting.js gapSeg). The original chart's SVG points are converted back to slots.
+// Stage 3B Phase 3 (owner rules A, D, E; 25 Nov 2026): SUPERSEDES the Phase 2 version of this section (kept in git history at
+// bd61ae7 and in stage3-design/stage3b/phase3/). Truth comes from the fixture's dated Demand History rows, read here with SheetJS
+// (not from the engine): the calendar is EVERY month from the first to the last month in the sheet (none skipped); for each month,
+// the product's rows in sheet order; when a month has several rows the FIRST row in the sheet is the one used (rule A default);
+// that row carries the recorded forecast when its Units_Sold is usable; the statistical forecast starts the month after the LAST
+// CALENDAR MONTH for every product (rule E), so the history's missing month(s) at the end stay as gaps.
 {
   const FX = path.join(APP, 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx'), A = load(), wb = XLSX.readFile(FX, { cellDates: true });
   const R = A.go(wb), S = A.V.source(), V = A.V;
   /* the sheet's dates are read here in local time; the engine keys months at UTC midnight: compare by calendar month */
   const rows = XLSX.utils.sheet_to_json(wb.Sheets['Demand History'], { defval: null }), ymL = d => `${d.getFullYear()}-${d.getMonth()}`, ymU = ms => { const d = new Date(ms); return `${d.getUTCFullYear()}-${d.getUTCMonth()}`; };
-  const cal = [...new Set(rows.map(r => ymL(r.Month_Start)))].sort((a, b) => { const [ya, ma] = a.split('-').map(Number), [yb, mb] = b.split('-').map(Number); return ya - yb || ma - mb; });
+  const ds = rows.map(r => r.Month_Start), lo = ds.reduce((a, d) => (d < a ? d : a)), hi = ds.reduce((a, d) => (d > a ? d : a)), cal = [];
+  for (let y = lo.getFullYear(), m = lo.getMonth(); y < hi.getFullYear() || (y === hi.getFullYear() && m <= hi.getMonth()); m === 11 ? (y++, m = 0) : m++) cal.push(`${y}-${m}`);
   const usable = r => typeof r.Units_Sold === 'number' && isFinite(r.Units_Sold) && r.Units_Sold >= 0;
-  const truth = id => cal.map(t => rows.filter(r => r.SKU === id && ymL(r.Month_Start) === t));
+  const truth = id => cal.map(t => rows.filter(r => r.SKU === id && ymL(r.Month_Start) === t).slice(0, 1));
   const slotsOf = (svg, colour, n) => { const N = n + 12, slot = X => Math.round((X - 34) * (N - 1) / (640 - 68)), o = []; const re = new RegExp(`(?:<polyline[^>]*stroke="var\\(--${colour}\\)"[^>]*points="([^"]*)"|<circle cx="([\\d.]+)"[^>]*fill="var\\(--${colour}\\)")`, 'g'); let m; while ((m = re.exec(svg))) { if (m[1]) m[1].split(' ').forEach(q => o.push([slot(+q.split(',')[0]), q])); else o.push([slot(+m[2]), m[2]]); } return o; };
-  const yOf = (svg, v, mx) => (230 - 34 - v / mx * (230 - 68)).toFixed(1);
-  for (const id of ['FG001', 'FG002', 'FG003', 'FG004', 'FG007']) {
+  ok(JSON.stringify(R.months.map(ymU)) === JSON.stringify(cal), `forecast gaps: the engine's calendar is every month from first to last (${cal.length} months, none skipped)`);
+  for (const id of ['FG001', 'FG002', 'FG003', 'FG004', 'FG005', 'FG006', 'FG007']) {
     const t = truth(id), recWant = t.map(rs => (rs.length === 1 && usable(rs[0]) && typeof rs[0].Forecast_Units === 'number' ? rs[0].Forecast_Units : null));
-    const lastUse = t.map((rs, i) => (rs.some(usable) ? i : -1)).filter(i => i >= 0).pop(), statStart = lastUse + 1;
+    const histWant = t.map(rs => (rs.length && usable(rs[0]) ? rs[0].Units_Sold : null));
+    const lastUse = histWant.map((v, i) => (v !== null ? i : -1)).filter(i => i >= 0).pop(), statStart = cal.length;
     const vm = V.forecastFor(S, id).find(v => v.id === 'df-chart'), ser = n => vm.series.find(s => s.name === n).data;
-    ok(cal.every((m, i) => ymU(vm.labels[i].month) === m) && recWant.every((v, i) => ser('Existing workbook forecast (recorded)')[i] === v),
-      `forecast gaps ${id}: new chart puts each recorded forecast on its own dated month (${recWant.filter(v => v !== null).length} of ${cal.length} months carry one)`);
+    ok(cal.every((m, i) => ymU(vm.labels[i].month) === m) && histWant.every((v, i) => ser('Actual demand')[i] === v) && recWant.every((v, i) => ser('Existing workbook forecast (recorded)')[i] === v),
+      `forecast gaps ${id}: new chart puts each month's demand and recorded forecast on its own dated month, missing months as gaps (${histWant.filter(v => v === null).length} gap(s); ${recWant.filter(v => v !== null).length} of ${cal.length} months carry a recorded forecast)`);
     const F = S.fc[id], fs = ser('Statistical forecast');
-    ok(fs.slice(0, statStart).every(v => v === null) && F.f.every((v, j) => fs[statStart + j] === v), `forecast gaps ${id}: new chart starts the statistical forecast at month ${statStart + 1} of the calendar (the month after the last usable month)`);
-    const svg = A.fview(id), n = cal.length, rec = slotsOf(svg, 'o', n), st = slotsOf(svg, 'g', n);
-    const recSlots = recWant.map((v, i) => (v === null ? -1 : i)).filter(i => i >= 0);
-    ok(JSON.stringify(rec.map(r => r[0])) === JSON.stringify(recSlots), `forecast gaps ${id}: original chart draws the recorded forecast at slots ${JSON.stringify(recSlots)} (got ${JSON.stringify(rec.map(r => r[0]))})`);
-    ok(st.length && Math.min(...st.map(q => q[0])) === lastUse && st.map(q => q[0]).sort((a, b) => a - b)[1] === statStart, `forecast gaps ${id}: original chart joins the forecast to the last usable month (slot ${lastUse}) and starts it at slot ${statStart}`);
+    ok(F.ok && fs.slice(0, statStart).every(v => v === null) && F.f.every((v, j) => fs[statStart + j] === v), `forecast gaps ${id}: new chart starts the statistical forecast at month ${statStart + 1}, the month after the last calendar month`);
+    const svg = A.fview(id), n = cal.length, rec = slotsOf(svg, 'o', n), st = slotsOf(svg, 'g', n), hs = slotsOf(svg, 'a', n);
+    const recSlots = recWant.map((v, i) => (v === null ? -1 : i)).filter(i => i >= 0), histSlots = histWant.map((v, i) => (v === null ? -1 : i)).filter(i => i >= 0);
+    ok(JSON.stringify(rec.map(r => r[0])) === JSON.stringify(recSlots) && JSON.stringify(hs.map(r => r[0])) === JSON.stringify(histSlots), `forecast gaps ${id}: original chart draws demand at slots ${JSON.stringify(histSlots)} and the recorded forecast at ${JSON.stringify(recSlots)}`);
+    const firstF = lastUse === n - 1 ? n - 1 : n;
+    ok(st.length && Math.min(...st.map(q => q[0])) === firstF && Math.max(...st.map(q => q[0])) === n + 11, `forecast gaps ${id}: original chart draws the forecast from slot ${firstF} (${lastUse === n - 1 ? 'joined to the last month' : 'not joined: the last month is missing'}) to slot ${n + 11}`);
   }
-  { // FG005: one month recorded on two rows. The engine treats each row as a period (no gap, so the full row series is used);
-    // both charts therefore use a row axis, and each row keeps its own recorded forecast.
-    const id = 'FG005', t = truth(id), dupe = t.findIndex(rs => rs.length > 1), x = R.fg.find(y => y.id === id);
-    const vm = V.forecastFor(S, id).find(v => v.id === 'df-chart'), recS = vm.series.find(s => s.name === 'Existing workbook forecast (recorded)').data;
-    const byRow = rows.filter(r => r.SKU === id && usable(r)).map(r => r.Forecast_Units);
-    ok(dupe >= 0 && x.h.length === cal.length + 1 && byRow.every((v, i) => recS[i] === v) && vm.notes.some(n => /more than one row/.test(n)), `forecast gaps FG005: duplicate month: new chart shows each row's own recorded forecast (${byRow.slice(dupe, dupe + 2).join(' and ')}) on a row axis and says why`);
-    const svg = A.fview(id), rec = slotsOf(svg, 'o', x.h.length);
-    ok(rec.length === byRow.length && rec.every((r, i) => r[0] === i), 'forecast gaps FG005: original chart draws the recorded forecast row by row, unchanged');
+  { // FG005: one month recorded on two rows: the first row in the sheet is used (temporary default), and the chart says so
+    const id = 'FG005', all = rows.filter(r => r.SKU === id), t = cal.map(m => all.filter(r => ymL(r.Month_Start) === m)), dupe = t.findIndex(rs => rs.length > 1);
+    const vm = V.forecastFor(S, id).find(v => v.id === 'df-chart');
+    ok(dupe >= 0 && vm.series.find(s => s.name === 'Actual demand').data[dupe] === t[dupe][0].Units_Sold && t[dupe][0].Units_Sold !== t[dupe][1].Units_Sold && vm.notes.some(q => /more than one row/.test(q) && /first row/.test(q)),
+      `forecast gaps FG005: duplicate month: the first row's value (${t[dupe][0].Units_Sold}, not ${t[dupe][1].Units_Sold} and never the sum) is drawn, and the chart says it is a temporary default`);
   }
   { // month labels: the engine keys months at UTC midnight; the label must name the same month in any browser time zone
     const got = ['America/New_York', 'Pacific/Auckland', 'UTC'].map(tz => require('child_process').execFileSync(process.execPath, ['-e', `globalThis.window=globalThis;${fs.readFileSync(path.join(APP, 'js/ui/format.js'), 'utf8')};process.stdout.write(window.CGFmt.month(${R.months[0]}))`], { env: Object.assign({}, process.env, { TZ: tz }) }).toString());
     ok(got.every(g => g === 'Nov 2025'), `chart month labels name the engine's month in any time zone (New York, Auckland, UTC: ${got.join(', ')})`);
   }
-  { // FG006: two gaps leave only a 2-month final run: no statistical forecast, so no chart for it on either screen
-    ok(!S.fc.FG006.ok && V.forecastFor(S, 'FG006').length === 0, 'forecast gaps FG006: under 6 consecutive months after the last gap: not forecast, no chart');
+  { // FG006: two months missing inside the history: still forecast (rule F: a gap alone never refuses a forecast), with the gap stated
+    ok(S.fc.FG006.ok && S.fc.FG006.gaps === 2 && S.fc.FG006.warn.some(w => /2 missing month\(s\) inside the history/.test(w)), 'forecast gaps FG006: two missing months inside the history: forecast, and the warning says 2 months are missing');
   }
 }
 

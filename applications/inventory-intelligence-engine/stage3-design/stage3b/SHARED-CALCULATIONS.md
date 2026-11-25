@@ -173,3 +173,11 @@ recorded, not evidence of poor or good forecasting.
 
 **Re-runs after this change:** S11 (against dcf6308 with the chart correction) 0 failures, 467,315 leaf values, 986
 renders; S1–S10 (against e0b261f with the chart correction) 0 failures, 3,178 values, 782 renders.
+
+## 8. Demand history: one shared preparation (Stage 3B Phase 3, 25 Nov 2026)
+
+`calculations.js` `prepDemand` is the single construction of product time series (AD-17). The audit of every
+demand-dependent site (SAFE / ADAPTED / UNSUITABLE / NOT PRESENT) is in `stage3-design/stage3b/phase3/README.md` §3.
+S1–S15 re-proven after the change: S1–S10 3,334 values and 816 renders, S11 240 values and 1,020 renders, S12–S15
+17,168 values and 1,190 renders; 0 failures.
+

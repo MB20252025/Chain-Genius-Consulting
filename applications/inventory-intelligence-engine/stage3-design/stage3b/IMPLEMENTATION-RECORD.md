@@ -251,3 +251,32 @@ the rows it shows, as the original tab does.
 `browser-chrome` 53, `browser-x1-chrome` 334, `test-paging-chrome` 59. Proofs on the committed code: S1–S10, S11 and
 S12–S15 all 0 failures. Smoke check: 63 screen visits at 1280, 768 and 412 px, 0 console errors (Settings opens the
 original tab by design). Chart labels: 0 problems after the performance fixes, rotation included.
+
+## Phase 3: duplicate months, missing months, global forecast boundary (25 Nov 2026; owner authorisation "Phase 3: Fresh Implementation")
+
+Started from verified `bd61ae7`. The earlier report of commit `e7a4b1d` was false: that commit does not exist, and it
+was reported as such on 25 Nov 06:16.
+
+- **Engine:**
+  - `prepDemand` + `DUPDEC` in `calculations.js` (AD-17);
+  - calendar windows for `m`/`tr`;
+  - `R.boundary`, `R.dsId`, `R.dups`, `R.demandBadDate`, `R.fg[].gap`;
+  - `forecasting.js` `fcast` rewritten on calendar positions (`calObs`, `fnC`, `olsP`, `seasnP`; `gapSeg` removed;
+    AD-18);
+  - `F.start`, `F.lead`, `F.na`, `F.act12n`.
+- **Wrapper:** `CGEngine.duplicates` (`decide`, `forget`, `reload`, `storageOK`, `key`). It records decisions only;
+  the screen re-runs `run()`. An earlier draft re-ran inside the wrapper, which pulled 27 screen functions onto the
+  engine's synchronous path (sync-path 91 → 118). It was rejected and reverted.
+- **Screens:**
+  - new subsection Data Management › Duplicates & gaps (bespoke screen; buttons in the first column so they stay
+    visible on a phone);
+  - chart and timeline forecast after the boundary;
+  - a note on the chart for an undecided duplicate.
+- **Engine-map conflict avoided:** reading `Customer_Orders` by name would have broken the protected
+  `import-engine-map`. The group rows carry each whole record (`rec`) instead.
+- **Protected-test conflict:** `test-x1-wp5.js` lines 86 and 90 assert D6 behaviour, which rules D/F supersede
+  (forecast from the last 7 consecutive months; refusal with 3 consecutive months). The test is unchanged and fails
+  2 of 56. Smallest safe resolution: owner-approved supersession of those two assertions, keeping their intent
+  (missing ≠ zero; a forecast never silently crosses a gap). Proposed wording is in the Phase 3 report.
+- **Evidence:** `stage3-design/stage3b/phase3/`.
+

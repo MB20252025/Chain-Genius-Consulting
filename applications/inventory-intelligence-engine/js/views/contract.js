@@ -163,10 +163,11 @@
        own month; a month recorded on more than one row has no single recorded value (gap). Row axis (a month recorded twice
        makes the engine treat each row as a period): row by row, as the engine and the original chart do. */
     const wb = Array.isArray(x.fc) ? (cal ? keys.map(t => { const k = (x.hd || []).indexOf(t); return k >= 0 && x.hd.lastIndexOf(t) === k ? num(x.fc[k]) : null; }) : x.fc.map(num)) : keys.map(() => null);
-    /* Statistical forecast placement (engine rule, forecasting.js gapSeg/fcast): with missing month(s) at the end (F.trail),
-       the forecast starts the month after the last observed month, so its first values fall on those missing months. */
-    const trail = cal && F.trail > 0, lastObs = trail ? hist.map((v, i) => (isNum(v) ? i : null)).filter(i => i !== null).pop() : null;
-    const place = arr => { const q = arr.slice(); const inCal = keys.map((t, i) => (trail && lastObs !== null && i > lastObs ? num(q.shift()) : null)); return inCal.concat(q.map(num)); };
+    /* Statistical forecast placement (engine rule, Stage 3B Phase 3 rule E, forecasting.js fcast: F.start): every forecast starts
+       the month after the GLOBAL last month, i.e. after the end of this axis. Missing month(s) at the end stay as gaps in the
+       history line (never filled by forecast values). */
+    const trail = cal && F.trail > 0;
+    const place = arr => keys.map(() => null).concat(arr.map(num));
     const fS = place(F.f), fH = place(F.hi), fL = place(F.lo), extra = fS.slice(keys.length).map(() => null);
     const tr = (field, placeAs) => ({ row: x.id, field, place: placeAs, cal, trail: trail ? F.trail : 0 });
     const series = [
@@ -176,7 +177,9 @@
       { name: 'High (80%)', trace: [tr('hi', 'forecast')], data: fH },
       { name: 'Low (80%)', trace: [tr('lo', 'forecast')], data: fL }
     ];
-    const notes = [cal ? '' : 'A month is recorded on more than one row: the engine treats each row as a period, so the chart does too.', trail ? `The last ${F.trail} month(s) have no usable demand record: the forecast starts the month after the last observed month, as the engine computes it.` : ''].filter(Boolean);
+    /* Stage 3B Phase 3 rule A: months of this product with more than one row and no valid decision (engine: R.dups) */
+    const open = (V_at(S, 'R.dups') || []).filter(g => g.sku === x.id && (g.status === 'unreviewed' || g.status === 'invalidated'));
+    const notes = [cal ? '' : 'A month is recorded on more than one row: the engine treats each row as a period, so the chart does too.', open.length ? `${open.length} month(s) have more than one row in the workbook. The first row is used for each until you choose in Data Management → Duplicates & gaps; this is a temporary default, not a confirmed value.` : '', trail ? `The last ${F.trail} month(s) have no usable demand record and are shown as a gap. The forecast still starts the month after the last month in the workbook, so it is further from known demand and less reliable.` : ''].filter(Boolean);
     return Object.assign({ kind: 'line', thresholds: [], status: null, drill: null, confidence: null, completeness: { status: 'complete', reasons: [] } }, o, {
       row: undefined, fc: undefined, labels: keys.map(t => ({ month: t })).concat(o.horizon.slice(0, extra.length)), labelKind: 'month', series, timeline: true, notes
     });

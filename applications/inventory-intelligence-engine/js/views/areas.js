@@ -49,6 +49,20 @@
 
   /* Builders for the two sections moved out of their tabs (N-3). Original source tabs: Data quality, Suppliers. */
   const SECTIONS = {
+    /* Stage 3B Phase 3 (owner rules A–F, 25 Nov 2026): duplicate product-months awaiting the customer's decision, and missing
+       months. Groups come from the one shared demand preparation (R.dups, calculations.js prepDemand); gaps from R.fg[].gap. */
+    'Duplicates & gaps'(S) {
+      const OPEN = ['unreviewed', 'invalidated'], DONE = ['accepted', 'chosen', 'excluded'];
+      return [
+        countKpi(S, { id: 'dg-open', area: 'Data Management', title: 'Months needing your review', question: 'Which product-months have more than one row?', unit: 'items', items: ['R.dups'], where: [['status', 'in', OPEN]], provenance: calc('product-months with more than one demand row and no valid decision; the first row is used meanwhile', ['R.dups[].status']) }),
+        countKpi(S, { id: 'dg-invalid', area: 'Data Management', title: 'Decisions that no longer apply', question: 'Which earlier decisions were undone by changed data?', unit: 'items', items: ['R.dups'], where: [['status', '==', 'invalidated']], provenance: calc('decisions whose records changed since you decided (values, number of rows, or the chosen record)', ['R.dups[].status', 'R.dups[].why']) }),
+        countKpi(S, { id: 'dg-done', area: 'Data Management', title: 'Months resolved', question: 'Which duplicates have you decided?', unit: 'items', items: ['R.dups'], where: [['status', 'in', DONE]], provenance: calc('your saved decisions that still match the records', ['R.dups[].status']) }),
+        countKpi(S, { id: 'dg-gaps', area: 'Data Management', title: 'Products with missing months', question: 'Whose demand history has gaps?', unit: 'items', items: ['R.fg'], where: [['gap.missing', '>', 0]], provenance: calc('months with no usable demand row between a product\'s first recorded month and the last month in the workbook', ['R.fg[].gap']) }),
+        countKpi(S, { id: 'dg-trail', area: 'Data Management', title: 'Products missing recent months', question: 'Whose latest months are missing?', unit: 'items', items: ['R.fg'], where: [['gap.trailing', '>', 0]], provenance: calc('products whose last recorded month is before the last month in the workbook', ['R.fg[].gap.trailing']) }),
+        V.table(S, { id: 'dg-groups', area: 'Data Management', title: 'Product-months with more than one row', question: 'Which value should be used?', unit: 'text', trace: { rows: 'R.dups', where: [] }, columns: [{ field: 'sku', label: 'Product' }, { field: 'month', label: 'Month' }, { field: 'status', label: 'Status' }, { field: 'why', label: 'Why returned for review' }], provenance: calc('every row is kept; nothing is added together', ['R.dups']) }),
+        V.table(S, { id: 'dg-gap-rows', area: 'Data Management', title: 'Missing months by product', question: 'Which months are missing?', unit: 'text', trace: { rows: 'R.fg', where: [['gap.missing', '>', 0]], order: [['gap.trailing', 'desc'], ['gap.missing', 'desc']] }, columns: [{ field: 'id', label: 'Product' }, { field: 'name', label: 'Name' }, { field: 'gap.interior', label: 'Missing inside the history' }, { field: 'gap.trailing', label: 'Missing at the end' }, { field: 'gap.observed', label: 'Months recorded' }, { field: 'gap.excluded', label: 'Excluded by you' }], provenance: calc('missing months are unknown, never zero, and are left as gaps', ['R.fg[].gap']) })
+      ];
+    },
     'On-order reconciliation'(S) {
       return [
         countKpi(S, { id: 'rc-gap-n', area: 'Procurement & Suppliers', title: 'Materials with more on order than POs support', question: 'Is "on order" backed by real purchase orders?', items: ['R.recon'], where: [['gap', '>', 0]], provenance: calc('inventory on-order vs PO outstanding at the snapshot', ['R.recon[].gap']) }),
@@ -334,6 +348,7 @@
       { id: 'data', area: 'Data Management', subs: [
         { id: 'load', label: 'Load workbook', tabs: [], original: [] },
         { id: 'quality', label: 'Data quality', tabs: ['Data quality'], original: ['Data quality'] },
+        { id: 'duplicates', label: 'Duplicates & gaps', tabs: [], section: 'Duplicates & gaps', original: ['Data quality'] },
         { id: 'questions', label: 'Client questions', tabs: ['Client questions'], original: ['Client questions'] },
         { id: 'confidence', label: 'Data confidence', tabs: ['Data confidence'], original: ['Data confidence'] }] },
       { id: 'settings', area: 'Settings', subs: [{ id: 'thresholds', label: 'Thresholds & assumptions', tabs: ['Settings'], original: ['Settings'] }] }
