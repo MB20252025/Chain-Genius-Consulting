@@ -37,3 +37,13 @@ Documentation only. Not loaded by the application or by any test.
 | Sign-in requirement | **Owner-confirmed, not independently verified.** The owner checked all three preview addresses in Android Chrome Incognito and confirmed that each requires sign-in (owner's authorisation of 24 Nov 2026, §4.6). Claude cannot reach the previews from its sandbox. |
 | Scope | Confirms access protection only. It is not authorisation for a production deployment or for any change to Cloudflare security settings. |
 | Working branches | Since 23 Nov 2026 only `development/v0.7` is pushed; working branches stay local. |
+
+## Stage 3B Phase 3 preview (25 Nov 2026; commit `641e74b`)
+
+| Item | Result |
+|---|---|
+| Cloudflare Pages check run | `success` for `641e74b` (GitHub check run). |
+| Addresses | Per commit: `4653d780.chain-genius-consulting.pages.dev`. Branch: `development-v0-7.chain-genius-consulting.pages.dev`. App path: `/applications/inventory-intelligence-engine/`. |
+| Reachability and sign-in | **Not independently verified.** The sandbox cannot reach pages.dev (no HTTP response). Sign-in protection rests on the owner's confirmation of 24 Nov; the owner's check of this deployment is awaited. |
+| CI (Guard first, then fast tier) | `failure`: only `x1-wp5` (2 of 56; the rule D/F conflict recorded in V07-TEST-RECORD). 41 tests passed (+ pre-flight). |
+| Production | Not deployed. No Cloudflare setting changed. |
