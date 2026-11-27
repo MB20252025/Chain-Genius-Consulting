@@ -47,3 +47,12 @@ Documentation only. Not loaded by the application or by any test.
 | Reachability and sign-in | **Not independently verified.** The sandbox cannot reach pages.dev (no HTTP response). Sign-in protection rests on the owner's confirmation of 24 Nov; the owner's check of this deployment is awaited. |
 | CI (Guard first, then fast tier) | `failure`: only `x1-wp5` (2 of 56; the rule D/F conflict recorded in V07-TEST-RECORD). 41 tests passed (+ pre-flight). |
 | Production | Not deployed. No Cloudflare setting changed. |
+
+## Stage 3B Phase 3 follow-up preview (27 Nov 2026; commit `08f186e`)
+
+| Item | Result |
+|---|---|
+| Cloudflare Pages check run | `success` for `08f186e`. Per commit: `8d811db6.chain-genius-consulting.pages.dev`. Branch: `development-v0-7.chain-genius-consulting.pages.dev`. App path `/applications/inventory-intelligence-engine/`. |
+| CI (Guard first, then fast tier) | `failure` at step 1, the guard: `check-control: 11 passed, 1 failed` (`checksums.txt: 1 approved line(s) REMOVED or CHANGED: tests/test-x1-wp5.js`). This is the owner-approved x1-wp5 supersession, which needs the next baseline tag. Steps 2–4, including the fast tier, were skipped by design. The full tier was run locally instead (V07-TEST-RECORD, "Phase 3 follow-up"). |
+| Sign-in and phone experience | **Not independently verified**: the sandbox cannot reach pages.dev. Physical Android checks are requested from the owner (list in the Phase 3 follow-up report). |
+| Production | Not deployed. No Cloudflare setting changed. |
