@@ -166,6 +166,31 @@ console.log('--- 4 forecasts: start after the global boundary; methods meet gaps
   ok(R2.months.length === n + 1 && R2.fg.filter(x => x.gap.trailing === 1).length === R2.fg.length - 1 && Object.values(A2).filter(F => F.ok).every(F => F.start === start2), 'one product with a later month moves the global boundary: every forecast starts after it and the other products show 1 missing month at the end');
 }
 
+// ---- 4c. the gap warning names exactly the methods the gap excludes (owner decision 27 Nov 2026) ------------------------------
+// Worked out by hand from the window rule: a 3-month method needs the 3 calendar months before the forecast start recorded; the
+// 6-month average needs 6. A gap further back excludes none of them. The earlier wording said such methods were excluded even when
+// none was; it must never appear again.
+console.log('--- 4c gap warning: names exactly the excluded methods');
+{
+  const E = engine({}), fc = vm.runInContext('fcast', E), L = Date.UTC(2026, 8, 1), OLD = /methods that need the most recent consecutive months are not used/;
+  const NAME = { ma3: 'the 3-month moving average', ma6: 'the 6-month moving average', wma3: 'the weighted 3-month average' };
+  const run = (n, gaps) => { const hc = Array.from({ length: n }, (_, i) => (gaps.includes(i) ? null : 100 + (i % 4) * 5)); return fc({ hc, h: hc.filter(v => v !== null) }, L); };
+  for (const [label, n, gaps, out] of [['gap in month 2 of 24', 24, [1], []], ['gap 6 months back (month 5 of 10)', 10, [4], ['ma6']], ['gap 3 months back (month 8 of 10)', 10, [7], ['ma3', 'ma6', 'wma3']], ['last month missing (12 months)', 12, [11], ['ma3', 'ma6', 'wma3']], ['gap 4 months back (month 9 of 12)', 12, [8], ['ma6']]]) {
+    const F = run(n, gaps), w = F.warn[0], used = ['ma3', 'ma6', 'wma3'].filter(k => !out.includes(k));
+    ok(!OLD.test(w) && /are unknown, not zero, and are left as gaps/.test(w), `${label}: the gap is stated, and the old blanket wording is gone`);
+    if (!out.length) ok(/no method is left out because of the gap/.test(w) && !/ (is|are) not used, because/.test(w) && used.every(k => F.meth.includes(k)), `${label}: says no method is left out, and the 3- and 6-month methods are indeed used`);
+    else ok(out.every(k => w.includes(NAME[k]) && !F.meth.includes(k)) && used.every(k => !w.includes(NAME[k]) && F.meth.includes(k)) && new RegExp(`${out.length > 1 ? 'are' : 'is'} not used, because ${out.length > 1 ? 'their' : 'its'} months just before the forecast start include a missing month`).test(w), `${label}: names exactly ${out.join(', ')} as not used (and they are not), and none of the methods still used`);
+  }
+  // every gapped product in the gaps fixture and Willow: the warning names exactly the windowed methods whose window has a gap
+  let checked = 0, bad = [];
+  for (const f of [path.join(APP, 'tests/fixtures/forecast-gaps/forecast-gaps.xlsx'), path.join(APP, 'tests/fixtures/structure/scenario-willow.xlsx')]) {
+    const E2 = engine({}); E2.__go(XLSX.readFile(f, { cellDates: true })); const A = E2.__fc();
+    for (const [id, F] of Object.entries(A)) { if (!F.ok || !(F.gaps || F.trail)) continue; checked++; const w = F.warn[0], ex = ['ma3', 'ma6', 'wma3'].filter(k => F.na[k] && /calendar months before the forecast start/.test(F.na[k]));
+      if (OLD.test(w) || !['ma3', 'ma6', 'wma3'].every(k => ex.includes(k) === w.includes(NAME[k])) || (!ex.length) !== /no method is left out because of the gap/.test(w)) bad.push(id); }
+  }
+  ok(checked >= 8 && !bad.length, `every gapped product in the gaps fixture and Willow (${checked}): the warning names exactly the methods its gap excludes${bad.length ? ' — wrong: ' + bad.join(', ') : ''}`);
+}
+
 // ---- 5. the decision workflow (18 steps) against this test's own record --------------------------------------------------
 console.log('--- 5 decision workflow: refresh, re-import, reorder, value and count changes, other row, exclude, isolation, unresolvable');
 {

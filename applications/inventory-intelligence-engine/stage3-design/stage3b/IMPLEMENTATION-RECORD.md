@@ -311,3 +311,20 @@ Started from `9765b33`.
 - **Remote:** `origin` set to `https://github.com/MB20252025/Chain-Genius-Consulting.git`, after GitHub's API confirmed
   this canonical name.
 
+## Phase 3 completion: Tag-7 preparation (27 Nov 2026; owner "Phase 3 Completion – Prepare Tag-7")
+
+- **Section 9 safety check** (`tests/test-view-contract.js` §9; lines 370–415 at bd61ae7 against 371–418 at fc08021):
+  - no protection was weakened;
+  - expectations changed only where rules A, D, E and F require;
+  - coverage grew from 24 to 32 checks.
+
+  The comparison was sent to the owner before any change.
+- **test7:** the three-boundary replacement was applied (118 → 120).
+- **Gap warning:** `gapTxt` no longer ends with a blanket method clause. `fcast` appends the exact excluded methods. The
+  helper is local to `fcast`, so there is no new top-level name (check-globals and sync-path unchanged).
+- **Records:**
+  - V07-TEST-RECORD "Phase 3 completion": decisions, retrospective acceptance, and the incremental rule from Tag-8;
+  - AD-21;
+  - `stage3-design/tag7/REGISTRY-ASSESSMENT-TAG7.md`;
+  - tests/README: the per-phase acceptance rule.
+

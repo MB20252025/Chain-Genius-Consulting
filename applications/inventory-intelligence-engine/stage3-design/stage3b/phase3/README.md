@@ -70,7 +70,9 @@ No screen or later calculation interprets the demand rows again: every consumer 
 
 ## 4. Minimum history per method (owner decision 27 Nov 2026; supersedes the single 6-month gate)
 
-Each method has its own minimum, so no method is held back by another's needs. A product is forecast when at least one
+Each method has its own minimum, so no method is held back by another's needs. The strict windows (3 and 6 consecutive recorded calendar months for the moving averages; no partial-window averages) were confirmed by the owner on 27 Nov 2026 (AD-21).
+
+**Gap warning.** It states the missing months, then names exactly the methods whose months just before the forecast start include a missing month ("… is/are not used, because …"), or says that no method is left out because of the gap. A product is forecast when at least one
 method can calculate (3 usable months). Every result carries one of four levels, per method (`F.levels`) and for the
 method used (`F.tier`, explained in plain English in `F.tierWhy`):
 
@@ -173,5 +175,5 @@ Confidence (High/Medium/Low) is unchanged: Low under 12 months, one level lower 
   - *Behaviour:* when seasonal first qualifies for the back-test (27 months), every method is compared on 3 months rather than 6, the same as bd61ae7. One month earlier, without seasonal, they had 6.
   - *Proposal for Stage 3C:* compare on the larger shared set and test seasonal separately until it has 6 months.
   - *Status:* not changed now, because it would alter approved results for those lengths.
-- **test7 line 124** asserts the superseded 6-month gate ("<6 months → no forecast"). A one-for-one replacement is proposed in `PROPOSED-test7-line124.patch` (verified: 118/118). It awaits approval; until then test7 fails that one check.
+- **test7 line 124** (the superseded 6-month gate): replaced on 27 Nov 2026 by the owner-approved three-boundary test (2, 3 and 4 months, with method selection); test7 118 → 120.
 

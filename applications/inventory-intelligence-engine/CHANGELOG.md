@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 3 completion – Tag-7 preparation (27 Nov 2026; owner decisions; NOT a release, no tag)
+- **Gap warning corrected:** it no longer claims methods are excluded when none is. It now names exactly the methods
+  the gap excludes, or says none is left out.
+- **test7:** the old 6-month-gate check is replaced by a three-boundary test (2, 3 and 4 months, including the method
+  selected); 118 → 120.
+- **Phase 3 suite:** 157 → 168 (warning checks).
+- **Owner decisions recorded:**
+  - strict moving-average windows confirmed;
+  - persistence formats approved as an exception;
+  - retrospective acceptance of the pending registry block, and per-phase acceptance from Tag-8.
+- The Tag-7 switching commit is prepared (see V07-TEST-RECORD).
+
 ## v0.7 Stage 3B Phase 3 follow-up – minimum history per method, reliable saved decisions (27 Nov 2026; owner decisions; NOT a release, no tag)
 - **Forecasting history:** the single 6-month gate is gone. Each method keeps its own minimum (average and 3-month
   averages: 3 months; 6-month average and trend: 6; seasonal: 24), and every forecast states its reliability:

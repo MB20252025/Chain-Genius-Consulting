@@ -121,7 +121,13 @@ const seas=mk(36,i=>100+40*Math.sin(2*Math.PI*((i+0)%12)/12)),FS1=T.fcast(seas,d
 chk('seasonal series: no seasonality warning',!FS1.warn.some(w=>w.includes('seasonality')));
 const rise=mk(24,i=>50+4*i+(i%3-1)*2),FS2=T.fcast(rise,dm);chk('rising series → Rising, trend method best',FS2.trend==='Rising'&&FS2.best==='trend');
 const flat=mk(12,i=>100+[3,-4,2,-1,5,-3,1,-2,4,-5,2,0][i]),FS3=T.fcast(flat,dm);chk('flat noisy series → no significant trend',FS3.trend==='No significant trend');
-chk('<6 months → no forecast, no crash',T.fcast(mk(4,i=>10),dm).ok===false);
+/* SUPERSEDED 27 Nov 2026 (owner decisions "Phase 3 – Outstanding Decisions" item 3 and "Phase 3 Completion – Prepare Tag-7"; AD-19):
+   was: chk('<6 months → no forecast, no crash',T.fcast(mk(4,i=>10),dm).ok===false) — the single 6-month gate. Each method now has its
+   own minimum (average, 3-month and weighted 3-month averages: 3 months; 6-month average and trend: 6; seasonal: 24) and every forecast
+   states its reliability. Expected values below are worked out by hand from those rules. */
+const F2=T.fcast(mk(2,i=>10*(i+1)),dm);chk('2 months → no forecast: below every method\'s minimum (3), with the reason; no crash',F2.ok===false&&/fewer than 3 usable months/.test(F2.why)&&Object.values(F2.levels).every(v=>v==='insufficient'));
+const F3=T.fcast(mk(3,i=>10*(i+1)),dm);chk('3 months (10,20,30) → forecast labelled calculable: average, 3-month and weighted 3-month averages ran; 6-month average, trend and seasonal did not; nothing could be tested, so the plain average (20) is used',F3.ok===true&&F3.tier==='calculable'&&F3.meth.join()==='mean,ma3,wma3'&&['mean','ma3','wma3'].every(k=>F3.levels[k]==='calculable'&&F3.bt[k].pts===0)&&['ma6','trend','seasonal'].every(k=>F3.levels[k]==='insufficient'&&!F3.meth.includes(k))&&F3.best==='mean'&&F3.f.every(v=>Math.abs(v-20)<1e-9)&&F3.conf==='Low');
+const F4=T.fcast(mk(4,i=>10*(i+1)),dm);chk('4 months (10,20,30,40) → limited reliability (1 test month); month 4 predicted from months 1-3: average 20, 3-month 20, weighted (3·30+2·20+10)/6=23.3, so the weighted 3-month average is selected and forecasts (3·40+2·30+20)/6=33.3',F4.ok===true&&F4.tier==='limited'&&F4.meth.join()==='mean,ma3,wma3'&&['mean','ma3','wma3'].every(k=>F4.levels[k]==='limited'&&F4.bt[k].pts===1)&&['ma6','trend','seasonal'].every(k=>F4.levels[k]==='insufficient')&&Math.abs(F4.bt.mean.wape-0.5)<1e-12&&Math.abs(F4.bt.ma3.wape-0.5)<1e-12&&Math.abs(F4.bt.wma3.wape-(40-70/3)/40)<1e-12&&F4.best==='wma3'&&F4.f.every(v=>Math.abs(v-100/3)<1e-9)&&F4.conf==='Low');
 const z=T.fcast(mk(12,()=>0),dm);chk('zero demand: finite, no NaN',z.ok&&z.f.every(isFinite)&&z.hi.every(isFinite));
 chk('no Forecast_Units → existing-forecast baseline null (nothing invented)',FS3.wb===null);
 chk('uncertainty range wider than forecast point',FS3.hi.every((v,j)=>v>=FS3.f[j])&&FS3.lo.every((v,j)=>v<=FS3.f[j]));

@@ -54,6 +54,7 @@ Each one changed all three references, added a row to the table above and added 
    - Do not change the guard's rules.
    - *Recommended:* the switching commit contains only these switching changes, as in Tag-4 and Tag-6. Tag-5's switching commit also carried a test-data label and a test change. That is allowed when approved, but it makes the commit harder to review.
 2. **MUST: review every PENDING item first.**
+   - *From Tag-8 onwards (owner decision, 27 Nov 2026):* PENDING items are accepted by the owner incrementally, at the end of each phase, and recorded in `V07-TEST-RECORD.md` then. Tag-7's block was accepted retrospectively, once; that is not to be repeated.
    - Run the **current** tag's guard against the switching commit.
    - Every `PENDING` line must be one of the items the owner accepted. Additions pass the guard without failing it, so **a passing guard is never approval of an addition** (decision recorded at M1 CP1, 12 Nov 2026).
    - Every `FAIL` must be explained.

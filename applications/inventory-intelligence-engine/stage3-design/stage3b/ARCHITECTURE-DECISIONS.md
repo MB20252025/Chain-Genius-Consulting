@@ -135,4 +135,12 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
     applied without the customer.
   - *Formats:* the 25 Nov format is still read; storage is v2. A decisions file (JSON) supports download and load.
   - *Output workbook:* decisions there are designed, not implemented, because they touch protected export results.
+- **AD-21 (27 Nov 2026): owner confirmations before Tag-7.**
+  - *Window rule:* the 6-month average keeps the strict six-consecutive-calendar-month window (no partial windows), and
+    likewise the 3-month methods need their 3 months.
+  - *Gap warning:* it names only the methods its gap actually excludes.
+  - *Persistence formats* (storage v2, decisions file v2) are approved as a one-off exception; future format changes need
+    their own approval.
+  - *Pending registry block:* accepted retrospectively. From Tag-8, acceptance is per phase (V07-TEST-RECORD,
+    "Phase 3 completion").
 

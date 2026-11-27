@@ -124,7 +124,8 @@ file bbaf1ac47bebe5a88b5a764159a048118f6965cb2418915449deac439aaebc17 tests/test
 file 675a4dc6f031c2d31952f24de356b26148fa88797acfd805beaa7d00730f5665 tests/test-suppliers-export-chrome.js
 file e87f31d9a64864f7cad448c5fa3b5d5aa190094cb172b4be9d55e090191bcf4d tests/test-timezones.js
 file 89c09b68fd547161dd01766f326cb8073c24bd3eeb0d3368cc726776f30b6b6a tests/test-uom.js
-file e27012c390a3baf5aa4859e2c8e1a7efa3dcadbefa9cc70f61b56db9c49461ee tests/test7.js
+# test7.js re-hashed in place (118 -> 120 checks; see accepted-results.json). Previous hash e27012c390a3baf5.
+file 73c4405a618b379680bd343b4fe69b4f41a4bfa6ef7f6dd73b410316a4cff394 tests/test7.js
 file 985681d0e4b3ea0b5426ec0f017342f883f6cc9f1e236844c406149db32666dd tests/test8.js
 file 022d9fd34ea055f0ccfa653bec33926e62207563ff272c4f62b94cd769d173d8 tests/test9.js
 file cef61d4a81deea1290ae8a6e8cf87172c0c0ba9df3904b25f3f44999d6bca2fd tests/tools/perf-browser-baseline.js
@@ -508,7 +509,8 @@ file 4685da62747fb056c7545cf92195c7cae07c4e7b09c6e3f17e45f32dfb028dd7 tests/fixt
 file 2a335f754027f3a265794a246c531f340e8bf1408a1f0642052b29e164bab02c tests/fixtures/forecast-gaps/make-forecast-gaps.js
 # Stage 3B Phase 3 (25 Nov 2026, owner authorisation "Stage 3B Phase 3: Fresh Implementation"): new test, its synthetic fixture and generator, and the bd61ae7 engine baseline it proves gap-free equivalence against. Additions: PENDING until the next approved tag.
 # test-phase3-demand-calendar.js re-hashed in place (89 -> 144 checks; see accepted-results.json). Previous hash a3b2827d6e338091.
-file bfb16378f0c2f9cbdd888f3830ee278c3c1105fe1c2628fca8dc5a4e997b8b34 tests/test-phase3-demand-calendar.js
+# test-phase3-demand-calendar.js re-hashed in place (157 -> 168 checks; see accepted-results.json). Previous hash bfb16378f0c2f9cb.
+file 81ae52f5a63580a47ba72f06480f6ca21ad86629e830f8a40da1625ba16a0197 tests/test-phase3-demand-calendar.js
 file fe2bfefa49a3a17a1f8da86fc0734c2c20d1037ec72b45f2b10e04744899b480 tests/fixtures/phase3/phase3-duplicates.xlsx
 file 16874634cfda5d9c6d9b3fb9073acbef804df9a8fe99e4e2096c8138dbfb39f7 tests/fixtures/phase3/make-phase3.js
 file 9204f9a8ceacf47c4088887b57d880e63c02c8cabd1bcb673a692933aabdaec2 stage3-design/stage3b/phase3/baseline-bd61ae7/calculations.js

@@ -1593,3 +1593,32 @@ assertions at lines 86 and 90 that enforce the previous seven-consecutive-month 
   - `analyse()` median 564–592 ms against 547–550 ms;
   - screen switch worst 86 ms cold, 172 ms warm; Duplicates & gaps 32 ms.
 
+## Stage 3B Phase 3 completion — owner decisions and retrospective acceptance (27 Nov 2026; branch `development/v0.7`; from `fc08021`)
+
+**Owner instruction:** "Phase 3 Completion – Prepare Tag-7", 27 Nov 2026. The decisions are recorded here as given.
+
+1. **Six-month average:** the strict requirement is confirmed: six consecutive recorded calendar months before the forecast
+   start. No partial-window averages. (The rule is unchanged; it was already implemented and tested.)
+2. **test7:** the obsolete single-gate assertion is replaced by the stronger three-boundary test.
+   - 2 months: no forecast.
+   - 3 months: calculable. The average, 3-month and weighted 3-month averages ran; the 6-month average, trend and
+     seasonal did not; the plain average is used.
+   - 4 months: limited, with the method actually selected checked (weighted 3-month, with back-test errors worked out
+     by hand).
+   - Count **118 → 120** (one check became three). No assertion was weakened to keep 118. Approved checksum line
+     re-hashed.
+3. **Customer warning:** the gap warning no longer says methods are excluded when none is. It names exactly the methods
+   whose window includes a missing month, or says none is left out. 11 targeted checks were added (Phase 3 suite
+   157 → 168); all 11 fail against the earlier wording, confirming they test it.
+4. **Retrospective acceptance of the pending Tag-7 registry block.**
+   - Covers the complete block identified in the Tag-7 review of 27 Nov 2026: readiness, Phases 0–2 and Phase 3,
+     including the x1-wp5 supersession. It also covers the additional tests, count changes and protected-file changes
+     required by items 2 and 3 above. Final totals are in `stage3-design/tag7/REGISTRY-ASSESSMENT-TAG7.md`.
+   - **This is retrospective acceptance.**
+   - **From Tag-8 onwards, acceptance is obtained incrementally for each phase**, at the end of that phase, not in a
+     block at the next tag.
+5. **Persistence:** approved, including storage format v2 and the decisions-file import/export (`scie-duplicate-decisions`
+   version 2). **This is an exception** to the earlier "only if small and safe" authority. It is **not** a general approval
+   for future format changes: any later change to either format needs its own approval.
+6. **Reference engine copies** (`stage3-design/stage3b/phase3/baseline-bd61ae7/`): approved.
+
