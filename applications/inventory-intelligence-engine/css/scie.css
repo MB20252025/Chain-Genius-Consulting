@@ -221,3 +221,7 @@ body.scie-on #scie-advhead b { color: var(--cg-text); font-size: var(--cg-fs-m);
 .scie-dup .scie-btn { min-height: 40px; }
 .scie-dup .scie-dup-diff { font-weight: 700; }
 .scie-dup td:first-child { white-space: nowrap; } .scie-dup td:first-child .scie-btn { margin-top: 6px; }
+.scie-dup-saved { border-top: 1px solid var(--cg-line); margin-top: var(--cg-s3, 12px); padding-top: var(--cg-s3, 12px); }
+.scie-dup-saved h4 { margin: 0 0 6px; }
+.scie-dup-msg { background: var(--cg-green-100); padding: 8px 10px; border-radius: 6px; }
+.scie-file { display: inline-flex; align-items: center; cursor: pointer; }

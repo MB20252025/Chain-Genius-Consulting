@@ -1538,3 +1538,58 @@ No existing fixture was modified.
   - screen switches max 131 ms warm, 108 ms cold (target under 300 ms);
   - import to "Analysed" about 5.4 s in both versions.
 
+## Stage 3B Phase 3 follow-up — owner decisions of 27 Nov 2026 (branch `development/v0.7`; from `9765b33`)
+
+**Approval recorded.** "Phase 3 – Outstanding Decisions and Completion", item 1: *"I approve superseding the two obsolete
+assertions at lines 86 and 90 that enforce the previous seven-consecutive-month forecasting rule."*
+
+- **Approved behaviour:** missing months stay unknown, not zero; gaps are identified and communicated; gaps do not
+  automatically prevent forecasting; each method has appropriate eligibility requirements.
+
+**Supersession (`tests/test-x1-wp5.js`).**
+- Both assertions replaced one-for-one, with the originals quoted in comments. Count unchanged (56/56 PASS).
+- Kept intent: nothing is computed across a gap, and the gap is stated.
+- **Line 86, now:** all 11 recorded months used at calendar positions; the gap is stated; the compared methods share
+  test months; a method that cannot be tested around the gap is named.
+- **Line 90, now:** forecast from 11 months; ma6 is not used, with the reason; ma3 is used.
+- The checksum line was re-hashed, with the previous hash kept in a comment.
+
+**Guard interaction (not a weakening, but not yet approved by a tag).**
+- The approved Tag-6 guard (`check-control`, which CI runs first) reports: `checksums.txt: 1 approved line(s) REMOVED or
+  CHANGED: tests/test-x1-wp5.js`. CI therefore stops at the guard and cannot pass until the next baseline tag (Tag-7)
+  approves the line through the switching-commit procedure in `tests/README.md`.
+- No tag was created; that is not authorised.
+
+**Pending approval (not applied).**
+- `test7` line 124, `<6 months → no forecast`, asserts the superseded 6-month gate and now fails (117/118).
+- Proposed one-for-one replacement: `stage3-design/stage3b/phase3/PROPOSED-test7-line124.patch`. Verified in a scratch
+  copy: 118/118.
+
+**Counts (PENDING until the next approved tag):**
+- `phase3-demand-calendar` 89 → 157: §6 per-method minimum history with an independent back-test; §6b seasonal 24–30
+  months; §7 saved-decision robustness; renames and exact-match adoption.
+- `browser-phase3-chrome` 34 → 40: download, clear storage, load file.
+- Checksums re-hashed: `test-phase3-demand-calendar.js`, `browser-phase3-chrome.js`, `test-x1-wp5.js` (approved line;
+  see above).
+- No fixture changed. No other count changed.
+
+**Full tier.** Run in a throwaway copy of the whole repository, including `.github/` (27 Nov 2026):
+- **60 tests passed (+ pre-flight)**; FAIL 2: `check-control` (above) and `test7` (above); 0 ERROR.
+- BLOCKED 4 and REDUCED 2: pre-existing and unchanged.
+- Protected browser tests: `browser-chrome` 53/53, `browser-x1-chrome` 334/334.
+
+**Earlier run.** An earlier full run of this follow-up caught `test-a1-sync-path` at 118: a local helper named `run` in
+`fcast` matched app.js `run()`. It was renamed and re-run at 91.
+
+**Other verification:**
+- **S1–S15 proofs:** 0 failures (3,334 / 240 / 17,168 values).
+- **Equivalence with bd61ae7 (`phase3/cmp-engine.js`) across every analysable fixture workbook and the 5,000-item
+  workbook:** 0 differences except intended ones. The forecast-gaps fixture, and Willow, whose six one-gap products are
+  now forecast and "tested"; WF-I957's trend ratio is now on the calendar window.
+- **Time zones:** the Phase 3 test passes in Europe/London, America/Los_Angeles, Pacific/Auckland, Asia/Kolkata and
+  Asia/Kathmandu.
+- **Widths:** 207 renders, 320–1920 px, with no overflow.
+- **Performance, 5,000 items, same machine, against bd61ae7:**
+  - `analyse()` median 564–592 ms against 547–550 ms;
+  - screen switch worst 86 ms cold, 172 ms warm; Duplicates & gaps 32 ms.
+

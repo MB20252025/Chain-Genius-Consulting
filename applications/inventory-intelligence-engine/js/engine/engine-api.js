@@ -82,27 +82,52 @@ const CGEngine=(()=>{
    * than one row. Stored in this browser only (localStorage key below), under the dataset fingerprint of the loaded workbook
    * (calculations.js prepDemand: dsId), so one dataset's decisions never touch another's. A decision records the exact records it
    * was made on (group fingerprint) and, for a chosen record, that record's own fingerprint: it applies only while the group still
-   * holds exactly those records, whatever their order; otherwise the engine returns the group for review. Limits (documented in
-   * KNOWN-LIMITATIONS): decisions do not travel to another browser or device and are lost if the browser's site data is cleared;
-   * when browser storage is unavailable they last only until the page is closed (storageOK() says which). */
-  const DKEY='scie.duplicateDecisions.v1';
-  let storeOK=false;
-  const loadDec=()=>{try{const s=typeof localStorage!=='undefined'?localStorage.getItem(DKEY):null;const o=s?JSON.parse(s):{};DUPDEC.sets=o&&typeof o==='object'&&!Array.isArray(o)?o:{};storeOK=typeof localStorage!=='undefined'}catch(e){DUPDEC.sets={};storeOK=false}};
-  const saveDec=()=>{try{if(typeof localStorage==='undefined')return false;localStorage.setItem(DKEY,JSON.stringify(DUPDEC.sets));return true}catch(e){return false}};
+   * holds exactly those records, whatever their order; otherwise the engine returns the group for review. Kept in this browser;
+   * the customer can download them as a file and load it again (another browser, or after site data is cleared). When browser
+   * storage is unavailable they last only until the page is closed (storageOK() says which). KNOWN-LIMITATIONS 22. */
+  /* Storage format v2 (Phase 3 follow-up, owner decision 27 Nov 2026): {version:2, sets:{datasetId:{key:decision}}, meta:{datasetId:{label,
+     saved,products}}}. A decision is {v:2, g:group fingerprint, n:records, c:'accept'|'row'|'exclude', f:record fingerprint, at:date}.
+     The 25 Nov 2026 key (v1) is still read, so nothing saved then is lost; the next save writes v2 and removes v1. */
+  const DKEY='scie.duplicateDecisions.v2',DKEY1='scie.duplicateDecisions.v1',FORMAT='scie-duplicate-decisions';
+  let storeOK=false;DUPDEC.meta=DUPDEC.meta||{};
+  const isObj=o=>!!o&&typeof o==='object'&&!Array.isArray(o);
+  const okDec=d=>isObj(d)&&typeof d.g==='string'&&d.g.length<=64&&Number.isInteger(d.n)&&d.n>1&&d.n<100000&&['accept','row','exclude'].includes(d.c)&&(d.f===null||d.f===undefined||(typeof d.f==='string'&&d.f.length<=64));
+  /* keep only well-formed entries: a damaged or hand-edited store can never apply a decision it does not describe exactly */
+  const clean=sets=>{const out={};if(!isObj(sets))return out;Object.keys(sets).forEach(ds=>{if(typeof ds!=='string'||ds.length>64||!isObj(sets[ds]))return;const o={};Object.keys(sets[ds]).forEach(k=>{if(k.length<=200&&okDec(sets[ds][k]))o[k]=Object.assign({},sets[ds][k])});if(Object.keys(o).length)out[ds]=o});return out};
+  const loadDec=()=>{try{if(typeof localStorage==='undefined'){DUPDEC.sets={};storeOK=false;return}
+    const s2=localStorage.getItem(DKEY),s1=localStorage.getItem(DKEY1),o2=s2?JSON.parse(s2):null,o1=s1?JSON.parse(s1):null;
+    DUPDEC.sets=Object.assign({},clean(o1),clean(o2&&o2.sets));DUPDEC.meta=isObj(o2&&o2.meta)?o2.meta:{};storeOK=true}catch(e){DUPDEC.sets={};DUPDEC.meta={};storeOK=false}};
+  const saveDec=()=>{try{if(typeof localStorage==='undefined')return false;localStorage.setItem(DKEY,JSON.stringify({version:2,sets:DUPDEC.sets,meta:DUPDEC.meta}));localStorage.removeItem(DKEY1);return true}catch(e){return false}};
   loadDec();
+  const need=()=>{const r=currentResult();if(!r)throw fail('NO_RESULT','no analysis has been run');return r};
+  const touch=r=>{DUPDEC.meta[r.dsId]={label:String(r.title||'').slice(0,120),saved:new Date().toISOString().slice(0,10),products:(r.fg||[]).length}};
   /* decide(key, choice, recordFp): choice 'accept' (the first row, as shown by default), 'row' (the record with fingerprint
-     recordFp) or 'exclude' (no value for the month). The caller re-runs the analysis (the screen calls run()) so every screen uses the decision. */
+     recordFp) or 'exclude' (no value for the month). Records the decision only: the caller re-runs the analysis (the screen calls run()). */
   function decide(key,choice,fp){
-    const r=currentResult();if(!r)throw fail('NO_RESULT','no analysis has been run');
-    const g=(r.dups||[]).find(x=>x.key===key);if(!g)throw fail('BAD_ARGS','no duplicate group '+key);
+    const r=need(),g=(r.dups||[]).find(x=>x.key===key);if(!g)throw fail('BAD_ARGS','no duplicate group '+key);
     if(!['accept','row','exclude'].includes(choice))throw fail('BAD_ARGS','choice must be accept, row or exclude');
     const f=choice==='accept'?g.rows[0].fp:choice==='row'?fp:null;
     if(choice==='row'&&!g.rows.some(x=>x.fp===fp))throw fail('BAD_ARGS','that record is not in this group');
     const set=DUPDEC.sets[r.dsId]||(DUPDEC.sets[r.dsId]={});
-    set[key]={g:g.gfp,n:g.rows.length,c:choice,f,at:new Date().toISOString().slice(0,10)};
-    const saved=saveDec();return {saved}}
+    set[key]={v:2,g:g.gfp,n:g.rows.length,c:choice,f,at:new Date().toISOString().slice(0,10)};
+    if(r.dsId0&&DUPDEC.sets[r.dsId0]){delete DUPDEC.sets[r.dsId0][key];if(!Object.keys(DUPDEC.sets[r.dsId0]).length)delete DUPDEC.sets[r.dsId0]}
+    touch(r);return {saved:saveDec()}}
   /* forget(key): remove the decision; the group returns to review with the first-row default. */
-  function forget(key){const r=currentResult();if(!r)throw fail('NO_RESULT','no analysis has been run');const set=DUPDEC.sets[r.dsId];if(set&&set[key]){delete set[key];if(!Object.keys(set).length)delete DUPDEC.sets[r.dsId]}const saved=saveDec();return {saved}}
-  const duplicates=Object.freeze({decide,forget,reload:loadDec,storageOK:()=>storeOK,key:DKEY});
+  function forget(key){const r=need();[r.dsId,r.dsId0].forEach(ds=>{const set=DUPDEC.sets[ds];if(set&&set[key]){delete set[key];if(!Object.keys(set).length)delete DUPDEC.sets[ds]}});return {saved:saveDec()}}
+  /* related(): decisions saved for OTHER datasets (e.g. this workbook before a product was added) that match one of this workbook's
+     duplicate groups EXACTLY (same product, month and record fingerprints). Nothing is applied until the customer adopts them. */
+  function related(){const r=need(),out=[];Object.keys(DUPDEC.sets).forEach(ds=>{if(ds===r.dsId||ds===r.dsId0)return;const set=DUPDEC.sets[ds],keys=(r.dups||[]).filter(g=>{const d=set[g.key];return d&&d.v===2&&d.g===g.gfp&&!(DUPDEC.sets[r.dsId]||{})[g.key]}).map(g=>g.key);if(keys.length)out.push({dataset:ds,label:(DUPDEC.meta[ds]||{}).label||'',saved:(DUPDEC.meta[ds]||{}).saved||'',matches:keys.length,keys})});return out.sort((a,b)=>b.matches-a.matches)}
+  /* adopt(dataset): copy into this dataset only the decisions from that dataset whose records match exactly. */
+  function adopt(ds){const r=need(),rel=related().find(x=>x.dataset===ds);if(!rel)throw fail('BAD_ARGS','no matching decisions from that dataset');const set=DUPDEC.sets[r.dsId]||(DUPDEC.sets[r.dsId]={});rel.keys.forEach(k=>{set[k]=Object.assign({},DUPDEC.sets[ds][k])});touch(r);return {adopted:rel.keys.length,saved:saveDec()}}
+  /* exportText(): every saved decision (all datasets) as a JSON file, so they can be restored after browser storage is cleared or
+     carried to another browser. importText(text): merge a file made by exportText; per decision the later date wins. A malformed
+     file changes nothing. Imported decisions still apply only where the records match exactly. */
+  function exportText(){return JSON.stringify({format:FORMAT,version:2,exported:new Date().toISOString(),sets:DUPDEC.sets,meta:DUPDEC.meta},null,1)}
+  function importText(text){let o;try{o=JSON.parse(String(text))}catch(e){throw fail('BAD_ARGS','this is not a decisions file (not valid JSON)')}
+    if(!isObj(o)||o.format!==FORMAT||o.version!==2)throw fail('BAD_ARGS','this is not a decisions file made by this tool');
+    const inc=clean(o.sets);let added=0,kept=0;Object.keys(inc).forEach(ds=>{const set=DUPDEC.sets[ds]||(DUPDEC.sets[ds]={});Object.keys(inc[ds]).forEach(k=>{const a=set[k],b=inc[ds][k];if(!a||String(b.at||'')>String(a.at||'')){set[k]=b;added++}else kept++});if(isObj(o.meta)&&isObj(o.meta[ds])&&!DUPDEC.meta[ds])DUPDEC.meta[ds]={label:String(o.meta[ds].label||'').slice(0,120),saved:String(o.meta[ds].saved||'').slice(0,10),products:Number(o.meta[ds].products)||0}});
+    return {added,kept,saved:saveDec()}}
+  const count=()=>Object.values(DUPDEC.sets).reduce((a,s)=>a+Object.keys(s).length,0);
+  const duplicates=Object.freeze({decide,forget,related,adopt,exportText,importText,count,reload:loadDec,storageOK:()=>storeOK,key:DKEY});
   return Object.freeze({runEngine,current,currentResult,duplicates,isBusy:()=>busy,version:'v0.7-a1'});
 })();

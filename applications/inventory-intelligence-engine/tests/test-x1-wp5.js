@@ -83,11 +83,19 @@ ok(() => Object.entries(base.result.cov).every(([k, v]) => k === 'costZero' ? v 
 const fgRows = (r, id) => r.filter(x => x.SKU === id).sort((a, b) => a.Month_Start - b.Month_Start);
 { const o = run(edit(fresh(), 'Demand History', r => { delete fgRows(r, 'FG001')[4].Units_Sold; })), x = byId(o).FG001, F = o.forecasts.FG001;
   ok(() => x.h.length === 11 && x.hc[4] === null && x.hc.filter(v => v !== null).length === 11 && isFinite(x.m), 'FG001 one blank cell: a missing month (calendar slot null), never NaN or 0; average demand from 11 observed months');
-  ok(() => F.ok && F.gaps === 1 && F.n === 7 && F.warn.some(w => /1 missing month\(s\) inside the history .* unknown, not zero; methods use only the last 7 consecutive/.test(w)), 'FG001 forecast: fitted to the last 7 consecutive months, never across the gap; the warning says so');
+  /* SUPERSEDED 27 Nov 2026 (owner approval "Phase 3 – Outstanding Decisions and Completion", item 1; Stage 3B Phase 3 rules D–F; AD-19):
+     was: F.n === 7 and "methods use only the last 7 consecutive" (the D6 last-unbroken-run rule). Intent kept: the missing month is unknown,
+     never 0, and is stated; no method is computed across it. Now: all 11 recorded months are used at their calendar positions and every
+     method is back-tested only where its own months exist (the compared methods on the same months; one that cannot be tested
+     around the gap is named and not compared: owner decision 27 Nov 2026, item 3). */
+  ok(() => F.ok && F.gaps === 1 && F.n === 11 && F.warn.some(w => /1 missing month\(s\) inside the history are unknown, not zero/.test(w)) && Object.values(F.bt).filter(b => b.pts > 0).length >= 2 && Object.values(F.bt).filter(b => b.pts > 0).every(b => b.pts === F.bt[F.best].pts) && (Object.values(F.bt).every(b => b.pts > 0) || F.warn.some(w => /not tested .* so not compared/.test(w))), 'FG001 forecast: all 11 recorded months used at their calendar positions (the gap is not filled or counted as zero); the warning states the missing month; the compared methods are tested on the same months, and a method that cannot be tested around the gap is named and not compared');
   ok(() => o.forecastCredibility.FG001.missing === 1, 'FG001 credibility counts 1 missing period');
   ok(() => Object.keys(o.forecasts).filter(k => k !== 'FG001').every(k => JSON.stringify(o.forecasts[k]) === JSON.stringify(base.forecasts[k])), 'every other forecast identical to clean data'); }
 { const o = run(edit(fresh(), 'Demand History', r => { const f = fgRows(r, 'FG001'); r.splice(r.indexOf(f[8]), 1); })), F = o.forecasts.FG001;
-  ok(() => F.ok === false && /insufficient consecutive history/.test(F.why) && F.n === 3, 'FG001 gap leaving 3 consecutive months: no forecast, reason "insufficient consecutive history" (not a forecast across the gap)'); }
+  /* SUPERSEDED 27 Nov 2026 (same approval): was: no forecast, "insufficient consecutive history", F.n === 3. Intent kept: nothing is
+     computed across the gap. Now: a gap alone never prevents a forecast; the 6-month average, whose months include the gap, is not used
+     and says why; the 3-month methods use the 3 recorded months after the gap. */
+  ok(() => F.ok && F.gaps === 1 && F.n === 11 && !F.meth.includes('ma6') && /6 calendar months before the forecast start/.test(F.na.ma6) && F.meth.includes('ma3') && F.warn.some(w => /1 missing month\(s\) inside the history/.test(w)), 'FG001 gap leaving 3 months after it: still forecast from the 11 recorded months; the 6-month average (it would need the missing month) is not used, with the reason; the gap is stated'); }
 { const o = run(edit(fresh(), 'Demand History', r => { fgRows(r, 'FG001').forEach(x => { delete x.Units_Sold; }); })), x = byId(o).FG001;
   ok(() => x.m === null && NA(x) && x.cls === 'Not Assessed' && /no usable demand history/.test(x.naWhy) && o.forecasts.FG001.ok === false, 'FG001 rows present, every value blank: demand unknown, Not Assessed, no forecast (was NaN)'); }
 { const o = run(edit(fresh(), 'Demand History', r => { fgRows(r, 'FG001').forEach(x => { x.Units_Sold = 0; }); })), x = byId(o).FG001;

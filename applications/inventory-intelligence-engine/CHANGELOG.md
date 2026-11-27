@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.7 Stage 3B Phase 3 follow-up – minimum history per method, reliable saved decisions (27 Nov 2026; owner decisions; NOT a release, no tag)
+- **Forecasting history:** the single 6-month gate is gone. Each method keeps its own minimum (average and 3-month
+  averages: 3 months; 6-month average and trend: 6; seasonal: 24), and every forecast states its reliability:
+  calculable, limited, tested, or comparable. A method that cannot be tested no longer stops the others being tested.
+  Unchanged for gap-free 9+ months (except 24–26 seasonal months).
+- **Saved decisions:** renaming a product, material or supplier keeps them. Time zones, re-saving and blank columns no
+  longer break them. Decisions from an earlier version of a workbook are offered where the records match exactly.
+  "Download my decisions" and "Load a decisions file" restore them after browser data is cleared. Decisions saved
+  on 25 Nov are still recognised.
+- **x1-wp5:** two assertions superseded one-for-one, with the owner's approval.
+- **Tests:**
+  - `phase3-demand-calendar` 89 → 157; `browser-phase3-chrome` 34 → 40.
+  - The x1-wp5 checksum was re-hashed; this needs the next baseline tag.
+  - test7 line 124 (the old 6-month gate) fails, with a replacement proposed for approval.
+- **Repository:** the remote URL is updated to the canonical `MB20252025/Chain-Genius-Consulting`.
+
 ## v0.7 Stage 3B Phase 3 – duplicate months, missing months, global forecast boundary (25 Nov 2026; owner Phase 3 authorisation; NOT a release, no tag)
 - **Duplicates (rules A–C):** every row is kept and never summed. Until the customer decides, the first row in the
   file is used (stated as a temporary default). The new **Data Management › Duplicates & gaps** screen offers three

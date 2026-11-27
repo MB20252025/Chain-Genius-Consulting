@@ -35,12 +35,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       const goDup = async () => { await page.evaluate(() => CGShell.go('data', 'duplicates')); await sleep(150); };
       const state = () => page.evaluate(() => { const R = CGEngine.currentResult(), g = s => R.dups.find(x => x.sku === s) || {}, v = (s, i) => R.fg.find(x => x.id === s).hc[i];
         return { st: { FG005: g('FG005').status, FG010: g('FG010').status, FG012: g('FG012').status }, v5: v('FG005', 8), v12: v('FG012', 2), key5: g('FG005').key, key12: g('FG012').key, key10: g('FG010').key, ds: R.dsId,
-          store: localStorage.getItem('scie.duplicateDecisions.v1'), cards: document.querySelectorAll('[data-dup-card]').length, text: document.querySelector('#scie-view').innerText }; });
+          store: localStorage.getItem('scie.duplicateDecisions.v2'), cards: document.querySelectorAll('[data-dup-card]').length, text: document.querySelector('#scie-view').innerText }; });
       const press = async sel => { const el = await page.$(sel); if (!el) return false; mode === 'mobile' ? await el.tap() : await el.click(); await sleep(400); return true; };
       const T = s => `${mode}: ${s}`;
 
       // 1. first load: three months need review; the first row is in use; nothing saved yet
-      await page.goto(URL, { waitUntil: 'load' }); await page.evaluate(() => localStorage.removeItem('scie.duplicateDecisions.v1')); /* start each mode with no saved decisions */
+      await page.goto(URL, { waitUntil: 'load' }); await page.evaluate(() => { localStorage.removeItem('scie.duplicateDecisions.v1'); localStorage.removeItem('scie.duplicateDecisions.v2'); }); /* start each mode with no saved decisions */
       await load(FX); await goDup(); let s = await state();
       chk(T('three product-months need review, first row in use (FG005 35, FG012 70)'), s.st.FG005 === 'unreviewed' && s.st.FG010 === 'unreviewed' && s.st.FG012 === 'unreviewed' && s.v5 === 35 && s.v12 === 70 && s.cards === 3, s);
       chk(T('the screen explains the first-row default and that nothing is added together'), /temporary default, not a confirmed value/.test(s.text) && /nothing is added together/i.test(s.text) && !/NaN|undefined|Infinity/.test(s.text));
@@ -49,7 +49,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       // 2. choose FG005's second row (10)
       const k5 = s.key5, k12 = s.key12, fp10 = await page.evaluate(k => CGEngine.currentResult().dups.find(x => x.key === k).rows[1].fp, k5);
       chk(T('"Use this row" pressed'), await press(`[data-dup="${k5}"][data-choice="row"][data-fp="${fp10}"]`));
-      s = await state(); chk(T('FG005 resolved with the second row: the month is now 10 in the analysis and saved in this browser'), s.st.FG005 === 'chosen' && s.v5 === 10 && s.store && JSON.parse(s.store)[s.ds][k5].c === 'row', s);
+      s = await state(); chk(T('FG005 resolved with the second row: the month is now 10 in the analysis and saved in this browser'), s.st.FG005 === 'chosen' && s.v5 === 10 && s.store && JSON.parse(s.store).sets[s.ds][k5].c === 'row', s);
       // 3. reload the page and upload the same file again
       await load(FX); await goDup(); s = await state();
       chk(T('after reload and re-upload: FG005 still resolved with 10; the other two still need review'), s.st.FG005 === 'chosen' && s.v5 === 10 && s.st.FG012 === 'unreviewed' && s.cards === 2, s);
@@ -75,6 +75,16 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       await load(NS); await goDup(); const n = await page.evaluate(() => ({ g: CGEngine.currentResult().dups.length, t: document.querySelector('#scie-view').innerText }));
       chk(T('Northstar (another dataset): no duplicate months, and the screen says so'), n.g === 0 && /No product-month is recorded on more than one row/.test(n.t), n);
       await load(FX); s = await state(); chk(T('back to the first dataset: FG005 still resolved with 10'), s.st.FG005 === 'chosen' && s.v5 === 10, s);
+      // 8. recovery after browser storage is cleared (owner decision 27 Nov 2026): download the decisions, clear storage, load the file
+      await goDup();
+      const dl = await page.evaluate(() => { let made = null; const orig = URL.createObjectURL; URL.createObjectURL = b => { made = b; return orig.call(URL, b); }; document.querySelector('[data-dup-export]').click(); URL.createObjectURL = orig; return made ? made.text() : null; });
+      const msgDl = await page.evaluate(() => (document.querySelector('.scie-dup-msg') || {}).innerText || '');
+      chk(T('"Download my decisions" makes a decisions file with the saved decision, and says what it is for'), !!dl && JSON.parse(dl).format === 'scie-duplicate-decisions' && /Decisions file downloaded/.test(msgDl), msgDl);
+      const file = path.join(SHOTS, `${mode}-decisions.json`); fs.writeFileSync(file, dl || '');
+      await page.evaluate(() => localStorage.clear()); await load(FX); await goDup(); s = await state();
+      chk(T('browser storage cleared: FG005 needs review again (first row 35)'), s.st.FG005 === 'unreviewed' && s.v5 === 35, s);
+      const inp = await page.$('input[data-dup-import]'); await inp.uploadFile(file); await page.waitForFunction(() => /Decisions file loaded/.test((document.querySelector('.scie-dup-msg') || {}).innerText || ''), { timeout: 10000 }).catch(() => {});
+      s = await state(); chk(T('"Load a decisions file" restores the decision (FG005 resolved, 10) and saves it again'), s.st.FG005 === 'chosen' && s.v5 === 10 && !!s.store && /Decisions file loaded: 1 decision/.test(s.text), { st: s.st, v5: s.v5 });
       chk(T('no page errors'), errs.length === 0, errs);
       await page.close();
     }

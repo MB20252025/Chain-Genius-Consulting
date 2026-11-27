@@ -133,6 +133,10 @@
     const orig = t.closest('[data-orig]'); if (orig) { openOriginal(orig.dataset.orig); return; }
     const kp = t.closest('[data-drill]'); if (kp) { try { const dr = JSON.parse(kp.dataset.drill), a = (allAreas(source()).find(x => x.area === dr.area) || {}); if (a.id) { go(a.id, dr.view || a.subs[0].id); if (dr.filter) { const f = st.filters[a.id] || (st.filters[a.id] = {}); if (dr.filter.type) f.type = dr.filter.type; draw(); } } } catch (err) { /* ignore malformed drill */ } return; }
     /* Stage 3B Phase 3: a duplicate-month decision. Saved by the engine wrapper; the analysis is re-run here (app.js run(), as for a new workbook) so every screen and the Advanced view use it. */
+    /* saved decisions: use a related workbook's matching decisions; download all decisions as a file */
+    const dm = msg => { (st.filters[st.area] || (st.filters[st.area] = {})).dgMsg = msg; };
+    const ad = t.closest('[data-dup-adopt]'); if (ad && typeof CGEngine !== 'undefined' && CGEngine.duplicates) { try { const r = CGEngine.duplicates.adopt(ad.dataset.dupAdopt); dm(`${r.adopted} earlier decision(s) now apply to this workbook${r.saved ? '' : ' for this session only (this browser cannot save them)'}.`); if (typeof G.run === 'function') G.run(); } catch (err) { dm(`Those decisions could not be used: ${(err && err.message) || err}`); } draw(); return; }
+    if (t.closest('[data-dup-export]') && typeof CGEngine !== 'undefined' && CGEngine.duplicates) { try { const b = new G.Blob([CGEngine.duplicates.exportText()], { type: 'application/json' }), u = G.URL.createObjectURL(b), a = G.document.createElement('a'); a.href = u; a.download = `scie-duplicate-decisions-${new Date().toISOString().slice(0, 10)}.json`; G.document.body.appendChild(a); a.click(); a.remove(); G.setTimeout(() => G.URL.revokeObjectURL(u), 1000); dm('Decisions file downloaded. Keep it to restore your decisions in another browser or after this browser\'s data is cleared.'); } catch (err) { dm(`The decisions file could not be made: ${(err && err.message) || err}`); } draw(); return; }
     const dup = t.closest('[data-dup]'); if (dup && typeof CGEngine !== 'undefined' && CGEngine.duplicates) { const q = dup.dataset; try { if (q.choice === 'forget') CGEngine.duplicates.forget(q.dup); else CGEngine.duplicates.decide(q.dup, q.choice, q.fp); if (typeof G.run === 'function') G.run(); } catch (err) { if (G.console) G.console.error(err); } draw(); return; }
     const set = t.closest('[data-set]'); if (set) { const [k, v] = set.dataset.set.split('='); (st.filters[st.area] || (st.filters[st.area] = {}))[k] = v; draw(); return; }
     const ra = t.closest('[data-rows-all]');
@@ -144,8 +148,14 @@
     if (act && act.dataset.act === 'print') { openOriginal('Summary'); G.setTimeout(() => G.print(), 50); return; }
     if (act && act.dataset.act === 'export') { if (typeof G.exportWorkbook === 'function') { G.exportWorkbook(); const s = view.querySelector('[data-export-status]'), m = d.getElementById('st'); if (s && m) s.textContent = m.textContent; } return; }
   }
+  /* load a decisions file (Duplicates & gaps). The file is read here, in the screen layer; the engine call itself is synchronous. */
+  function onDupFile(el) {
+    const file = el.files && el.files[0], f = st.filters[st.area] || (st.filters[st.area] = {}); if (!file) return;
+    file.text().then(text => { try { const r = CGEngine.duplicates.importText(text); f.dgMsg = `Decisions file loaded: ${r.added} decision(s) added or updated, ${r.kept} already up to date${r.saved ? '' : ' (this browser cannot save them: they last until the page is closed)'}. Decisions apply only where the records match exactly.`; if (typeof G.run === 'function') G.run(); } catch (err) { f.dgMsg = `Nothing was loaded: ${(err && err.message) || err}`; } draw(); }, () => { f.dgMsg = 'The file could not be read.'; draw(); });
+  }
   function onInput(e) {
-    const el = e.target; if (!el || !el.dataset || !el.dataset.filter || !el.closest('#scie-view')) return;
+    const el = e.target;
+    if (el && el.matches && el.matches('input[data-dup-import]') && e.type === 'change' && typeof CGEngine !== 'undefined' && CGEngine.duplicates) { onDupFile(el); return; } if (!el || !el.dataset || !el.dataset.filter || !el.closest('#scie-view')) return;
     if (e.type === 'input' && el.tagName === 'SELECT') return;
     const f = st.filters[st.area] || (st.filters[st.area] = {});
     f[el.dataset.filter] = el.value;

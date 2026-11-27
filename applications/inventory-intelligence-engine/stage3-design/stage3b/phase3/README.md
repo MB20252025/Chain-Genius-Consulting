@@ -9,10 +9,10 @@ rules A–F. Implemented from `bd61ae7` on `development/v0.7`. Not a release; no
 | --- | --- | --- |
 | A Duplicates | Every row is kept. Rows for the same product and month form a group. The month uses the customer's valid decision, otherwise the **first row in import order** (a temporary default, stated as such). Rows are never summed, deleted or overwritten. | `calculations.js` `prepDemand` |
 | B Resolution | Data Management › **Duplicates & gaps**: one card per group, every record side by side (differing columns first), the record in use marked, and three choices: *Use first row*, *Use this row*, *Exclude this month*. There are no bulk actions or notes. *Clear my decision* returns a month to review. | `areas.js` section, `screens.js` `duplicates`, `shell.js` |
-| C Persistence | Browser storage key `scie.duplicateDecisions.v1`, keyed by **dataset fingerprint** (products, materials, suppliers: id and name) then `product|YYYY-MM`. Each decision stores the group fingerprint (product, month, the sorted fingerprints of every record's full contents) and, for a chosen record, that record's own fingerprint. | `engine-api.js` `duplicates`, `prepDemand` |
+| C Persistence | Browser storage key `scie.duplicateDecisions.v2` (the 25 Nov `…v1` is still read). Decisions are keyed by the **dataset identity** (the product, material and supplier *identifiers*; names are excluded since 27 Nov, so renames keep decisions), then `product|YYYY-MM`. Each decision stores the group fingerprint (product, month, the sorted fingerprints of every record's contents) and, for a chosen record, that record's own fingerprint. Decisions can be downloaded and loaded as a file (§5). | `engine-api.js` `duplicates`, `prepDemand` |
 | D Missing months | The calendar runs from the first to the last month anywhere in the workbook, with **no month skipped** (also months no product records). A missing month is `null`, never 0; a recorded 0 stays 0. Charts and Data Management show gaps. | `prepDemand`, `analyse` |
 | E Boundary | The last month with data anywhere is the global boundary (`R.boundary`). Every forecast starts at boundary + 1 (`F.start`). | `prepDemand`, `forecasting.js` `fcast` |
-| F Trailing gaps | A gap never refuses a forecast. Missing months at the end are counted (`F.trail`), stated in a reliability warning, widen the band and lower confidence one level. A method is unavailable only when its own needs are not met, and the reason is given (`F.na`). | `fcast` |
+| F Trailing gaps | A gap never refuses a forecast. Missing months at the end are counted (`F.trail`), stated in a reliability warning, widen the band and lower confidence one level. Each method has its own minimum and every result states its reliability level (§4). | `fcast` |
 
 **When a decision stops applying.** A decision applies while the group still holds exactly the same records, in any
 order (reordering keeps it). The month returns for review, with the reason shown, when:
@@ -60,7 +60,7 @@ No screen or later calculation interprets the demand rows again: every consumer 
 | Forecast: ma3, wma3, ma6 | ADAPTED | Need the 3 or 6 calendar months before the target all recorded; otherwise unavailable, with the reason. |
 | Forecast: trend | ADAPTED | Least squares on calendar positions. |
 | Forecast: seasonal (experimental) | ADAPTED | Month of year from the calendar. |
-| Forecast: back-test | ADAPTED | Targets are the last observations, as before. A target is skipped when a method cannot be tested there, so every method is scored on the same months; skips are stated. |
+| Forecast: back-test | ADAPTED | The compared methods are tested on the same months (the last observations, as before). If fewer than 3 shared test months remain (gaps, or 6–8 months of history), the method with the fewest testable months is left out of the comparison, repeatedly: it is calculated but untested and never chosen over a tested method. Gap-free series of 9+ months are unchanged. |
 | Band, uncertainty, confidence, `act12`, trend t-test | ADAPTED | The band grows with the distance from the last recorded month. `act12` and `mu` use the last 12 calendar months. Confidence is one level lower with missing months at the end. |
 | Forecast credibility `fcCred`: missing count | SAFE | Expected = the continuous calendar, so a month missing from the whole workbook is now counted as missing (correct). |
 | Forecast credibility outlier / level-shift adjacency | **UNSUITABLE (narrow)** | "Consecutive extreme months" means consecutive *recorded* months, so two extremes either side of a gap count as adjacent. Not changed: this is the protected level-shift rule (`test-h2-level-shift-spec`). Recommended for Stage 3C. |
@@ -68,25 +68,79 @@ No screen or later calculation interprets the demand rows again: every consumer 
 | Original chart, new timeline | ADAPTED | History by month (gaps visible); forecast after the boundary; a duplicate's default is stated on the chart. |
 | Croston, SBA, TSB, Holt-Winters, LightGBM, MASE | NOT PRESENT | Stage 3C (not started). |
 
-## 4. Minimum history per method (what each actually needs)
+## 4. Minimum history per method (owner decision 27 Nov 2026; supersedes the single 6-month gate)
 
-| Method | Minimum | Why |
+Each method has its own minimum, so no method is held back by another's needs. A product is forecast when at least one
+method can calculate (3 usable months). Every result carries one of four levels, per method (`F.levels`) and for the
+method used (`F.tier`, explained in plain English in `F.tierWhy`):
+
+| Level | Meaning | Rule |
 | --- | --- | --- |
-| mean | 3 usable months | An average of fewer is not a level estimate. Unchanged from bd61ae7 (`FMIN`). |
-| ma3 / wma3 | 3 usable months **and** the 3 calendar months before the forecast start recorded | The method is defined on those exact months. Averaging across a gap would be a different method. |
-| ma6 | 6 usable months **and** the 6 months before the start recorded | As above. |
-| trend | 6 usable months | Two parameters plus enough residual degrees of freedom; unchanged. |
-| seasonal | 24 usable months and a detected pattern | Two cycles to estimate 12 indices; unchanged. |
-| any forecast | 6 usable months (the existing product gate, kept) | It leaves at least one back-test month. **Owner question:** rule F says no arbitrary cut-off. This gate is pre-existing and was kept unchanged; lowering it is a separate decision. |
+| insufficient | cannot calculate | fewer usable months than the method needs (or its window includes a missing month) |
+| calculable | calculated, accuracy unknown | no earlier month could be used to test it |
+| limited | tested, too few months to judge | 1–2 back-test months |
+| tested | meaningful back-test | 3–5 back-test months |
+| comparable | reliable comparison between methods | 6+ back-test months, the same months for 2+ methods |
 
-## 5. Persistence limits (documented, not hidden)
+| Method | Calculate | Tested from (gap-free) | Comparable from (gap-free) | Why this minimum |
+| --- | --- | --- | --- | --- |
+| mean (average of all months) | 3 | 4 | 12 | With 2 months one unusual month is half the estimate; 3 is the smallest window the engine already treats as an average (ma3). |
+| ma3 / wma3 | 3, and the 3 calendar months before the forecast start recorded | 4 | 12 | The method is defined on exactly those months; averaging across a gap would be a different method. |
+| ma6 | 6, and the 6 months before the start recorded | 9 (at 6–8 it is calculated but left out of the comparison) | 12 | As above, for 6 months. |
+| trend (straight line) | 6 | 9 (as ma6) | 12 | Two parameters plus residual error; below 6 points the fitted slope is usually less certain than the demand change it claims. Its 12-month extrapolation is the most exposed. The significance label needs 8. |
+| seasonal (experimental) | 24 and a detected pattern | 27 (24–26: left out of the comparison) | 30 | Two full cycles to estimate 12 month-of-year indices. |
 
-- Decisions live in this browser only. They are not shared across browsers or devices, and clearing the site
-  data loses them.
-- When storage is blocked, decisions last until the page closes, and the screen says so (`storageOK()`).
-- The dataset fingerprint changes whenever a product, material or supplier id or name changes. All decisions for that
-  workbook then return to review; this is conservative by design.
-- Two records with identical contents cannot be told apart. Either choice gives the same value.
+Back-test test months: the last min(6, n − largest minimum among the compared methods). With gap-free history:
+
+| Usable months | Methods calculated | Compared (test months) | Level of the method used |
+| --- | --- | --- | --- |
+| 1–2 | none | – | not forecast ("fewer than 3 usable months") |
+| 3 | mean, ma3, wma3 | 0 | calculable (the plain average is used) |
+| 4–5 | mean, ma3, wma3 | 1–2 | limited |
+| 6–8 | + ma6, trend (calculated, untested) | mean, ma3, wma3 on 3–5 | tested |
+| 9–11 | all five | all five on 3–5 | tested |
+| 12+ | all five (+ seasonal from 24) | 6 | comparable |
+
+The results are unchanged from bd61ae7 for 9+ gap-free months (proven), except 24–26 months with a detected seasonal
+pattern: there, seasonal used to leave every method with 0–2 test months, and it now sits out of the comparison instead.
+For 3–8 months they change by design:
+- 3–5 months are now forecast, at Low confidence, with an "only N usable months" warning.
+- 6–8 months: the short methods are now tested instead of nobody being tested.
+
+Confidence (High/Medium/Low) is unchanged: Low under 12 months, one level lower with missing months at the end.
+
+## 5. Saved decisions: reliability (owner decision 27 Nov 2026)
+
+**Essential improvements (implemented):**
+
+| Concern | What happens now |
+| --- | --- |
+| Stable identification | Dataset identity = the sorted product, material and supplier identifiers. A decision is keyed by product identifier and calendar month, and validated by record fingerprints; never by row position. |
+| Product / material / supplier renames | Names are not part of any identity or fingerprint used for decisions, so renaming keeps every decision (tested: product, material and supplier renamed together). |
+| Changed workbooks | Adding or removing a product, material or supplier makes a different dataset: nothing is applied automatically (rule C isolation). The screen lists earlier decisions whose records match **exactly** ("Use them here"); adopting copies only those. |
+| Changed records | Any changed value, added or removed record, or unidentifiable chosen record returns the month for review with the reason. A filled-in new column changes the records too (review). |
+| Record fingerprints | Dates are compared by calendar day, so the fingerprint is the same in every time zone and browser (tested at ±5 h and ±11 h). Text ignores surrounding spaces, and an empty cell equals an absent column (tested). |
+| Row reordering | Records are found by fingerprint, so reordering keeps decisions (tested). |
+| Recovery after storage is cleared | "Download my decisions" produces a JSON decisions file (every dataset). "Load a decisions file" merges it back; the later date wins per decision. Malformed files are refused and change nothing; malformed entries are ignored. Imported decisions apply only where the records match exactly. |
+| Earlier format | Decisions saved on 25 Nov (v1: names in the identity, timestamp fingerprints) are still recognised. The next save writes v2 and removes v1. |
+
+**Limits that remain:**
+- Decisions live in the browser until downloaded.
+- Changing a product's *identifier* makes it a different product.
+- Two identical records cannot be told apart (either gives the same value).
+- When storage is blocked, decisions last only until the page closes (the screen says so).
+
+**Future enhancements (designed, not implemented):**
+1. **Decisions in the Engine output workbook.** *Recommended, Stage 3C or the next export change.*
+   - Add a sheet "Duplicate decisions" with one row per duplicate month:
+     - product, month, status (needs review / first row confirmed / other row chosen / excluded / decision no longer applies), the reason;
+     - the value used and the sheet rows involved;
+     - the decision date.
+   - Add a final hidden cell holding the decisions file (JSON) for that dataset.
+   - Re-loading the output workbook would then offer to restore decisions from it.
+   - *Why not now:* the output workbook's sheets are covered by protected export tests (sheet lists, golden outputs, the repeat-export test). A new sheet is an expected-results change needing owner approval and, under the guard, a new baseline tag.
+2. **Shared storage** (account or server-side) so decisions follow the user across devices. Needs an architecture decision (the tool is client-only today).
+3. **Identifier changes:** an explicit "this product was renamed from X" mapping, so decisions follow an identifier change.
 
 ## 6. Evidence
 
@@ -100,3 +154,24 @@ No screen or later calculation interprets the demand rows again: every consumer 
   gives identical product, material and forecast values (Northstar, ns-x1-faults, the library fixtures). The
   5,000-item workbook was checked separately with `/tmp/cmp-engine.js` (session evidence).
 - Proof outputs `s1-s10.json`, `s11.json`, `s12-s15.json` (this folder).
+
+## 7. Stage 3C carry-forwards (recorded so they are not lost)
+
+- **Level-shift adjacency (UNSUITABLE, narrow).**
+  - *Problem:* forecast credibility (`fcCred`) treats "consecutive extreme months" as consecutive *recorded* months. Two extremes either side of a missing month therefore count as adjacent (a level shift instead of two outliers).
+  - *Effect:* only forecast-assessment confidence, by at most one level. Accuracy and verdict are unaffected.
+  - *Why not now:* it is the protected level-shift rule (`test-h2-level-shift-spec`), so changing it changes approved expected results. No evidence found of material harm meanwhile. Scheduled for Stage 3C with a gap case added to the spec test.
+  - *Also recorded in:* KNOWN-LIMITATIONS 23 and backlog P-009.
+- **Existing methods and gap safety, for Stage 3C:**
+  - mean: SAFE.
+  - ma3, wma3, ma6: windowed; not used where the window includes a gap.
+  - trend and seasonal: calendar positions.
+  - Back-test: common months, with the comparison-set rule.
+  - Croston, SBA and TSB (intermittent demand) would need zero vs missing kept apart, which the calendar now provides (`hc` null vs 0).
+  - Holt-Winters would need complete seasonal cycles, or explicit gap handling.
+- **Comparison size at 27–29 seasonal months.**
+  - *Behaviour:* when seasonal first qualifies for the back-test (27 months), every method is compared on 3 months rather than 6, the same as bd61ae7. One month earlier, without seasonal, they had 6.
+  - *Proposal for Stage 3C:* compare on the larger shared set and test seasonal separately until it has 6 months.
+  - *Status:* not changed now, because it would alter approved results for those lengths.
+- **test7 line 124** asserts the superseded 6-month gate ("<6 months → no forecast"). A one-for-one replacement is proposed in `PROPOSED-test7-line124.patch` (verified: 118/118). It awaits approval; until then test7 fails that one check.
+

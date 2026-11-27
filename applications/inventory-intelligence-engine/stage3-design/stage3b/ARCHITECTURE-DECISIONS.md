@@ -117,4 +117,22 @@ The additional binding clarifications are in spec v1 §10: Overview direct; thre
   used, the original arithmetic runs unchanged (proven identical on every gap-free workbook); with gaps, moving averages
   need their exact calendar window, trend and seasonal use positions, the back-test scores every method on the same
   months, and missing months at the end widen the band and lower confidence. The existing 6-usable-month gate is kept.
+- **AD-19 (27 Nov 2026): each forecasting method has its own minimum history, and every result states its reliability.**
+  - *Owner decision:* "Phase 3 – Outstanding Decisions and Completion", items 1 and 3.
+  - *What it replaces:* the single 6-month product gate. A product is forecast when any method can calculate (3 usable
+    months). Levels: insufficient / calculable / limited / tested / comparable.
+  - *Back-test:* the compared methods share test months. A method that would leave fewer than 3 shared months is left
+    out of the comparison (calculated, untested) rather than stopping the others being tested.
+  - *Unchanged:* gap-free 9+ months, except 24–26 seasonal months.
+  - *Tests:* the owner approved superseding x1-wp5 lines 86 and 90 one-for-one (intent kept: missing ≠ zero, gaps
+    stated, nothing computed across a gap).
+  - *Pending:* test7 line 124 asserts the old gate. A replacement is proposed; it awaits approval.
+- **AD-20 (27 Nov 2026): saved decisions are keyed by stable identifiers and can be carried as a file.** (Owner decision,
+  item 2.)
+  - *Identity:* the dataset identity uses identifiers only (renames keep decisions). Fingerprints are stable across time
+    zones, re-saving, spaces and blank columns.
+  - *Changed workbooks:* decisions from a changed workbook are offered only where the records match exactly; nothing is
+    applied without the customer.
+  - *Formats:* the 25 Nov format is still read; storage is v2. A decisions file (JSON) supports download and load.
+  - *Output workbook:* decisions there are designed, not implemented, because they touch protected export results.
 

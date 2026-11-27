@@ -185,3 +185,20 @@ Dependencies and risks · Suggested stage · Status
   backlog.
 - **Priority:** LOW. Clarity of records.
 - **Status:** Identified.
+
+### P-009 — Level-shift detection treats months either side of a gap as adjacent
+- **Identified:** 25 Nov 2026 (Stage 3B Phase 3 calculation audit). Recorded at the owner's request (27 Nov 2026: "Explicitly
+  record the level-shift adjacency issue … Do not silently lose this finding").
+- **Area:** `js/forecasting.js` `fcCred`, the outlier and level-shift classification for forecast credibility.
+- **Problem:** "consecutive extreme months" are consecutive *recorded* months. Two extremes separated by a missing month
+  count as a level shift (two adjacent months), not two outliers.
+- **Status of evidence:** confirmed by reading the code. No workbook in the repository was found where it changes a result.
+- **Priority:** MEDIUM.
+  - *Impact:* lowers forecast-assessment confidence by at most one level, wrongly, in that pattern.
+  - *Commercial:* a consultant could be shown an unwarranted "level shift" note.
+- **Recommended action:** judge adjacency on calendar positions (`x.hc`), and add a gap case to `test-h2-level-shift-spec`.
+- **Testing:** the spec test plus a synthetic workbook with an extreme month either side of a gap. Protected expected
+  results change, so this needs the owner's approval.
+- **Stage:** 3C, as the owner scheduled.
+- **Status:** Proposed; scheduled for Stage 3C.
+

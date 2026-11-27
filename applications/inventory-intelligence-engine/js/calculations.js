@@ -25,7 +25,8 @@ const tail=(a,n)=>a.slice(-n);
  *  - Duplicates: rows for the same product and month are all kept (in groups). The row used is the customer's decision when one is
  *    saved and still valid, otherwise the first row in import order (a temporary default, not a confirmed value). An excluded month
  *    has no value (missing). Rows are never summed.
- *  - Decisions are keyed by dataset (a fingerprint of the product, material and supplier lists) + product + month, and are valid only
+ *  - Decisions are keyed by dataset (a fingerprint of the product, material and supplier IDENTIFIERS, not names: renames keep decisions)
+ *    + product + month, and are valid only
  *    while the duplicate group still holds exactly the same records (a fingerprint of every record's contents): a changed value, an
  *    added or removed record, a different product or month all return the group for review. Row positions are never used to find a
  *    record, so reordering rows keeps a decision. Two records with identical contents cannot be told apart and give the same value.
@@ -33,13 +34,22 @@ const tail=(a,n)=>a.slice(-n);
 const DUPDEC={sets:{}};
 function prepDemand(D,P,Mt,S){
  const hash=s=>{let a=0x811c9dc5,b=0x9747b28c;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,16777619)>>>0;b=Math.imul(b^c,2246822507)>>>0}return a.toString(16).padStart(8,'0')+b.toString(16).padStart(8,'0')};
- const cv=v=>v instanceof Date?'D'+(+v):v===undefined||v===null?'':typeof v==='number'?'N'+v:'S'+String(v);
+ /* value codes for fingerprints. cv0 = the 25 Nov 2026 form (decisions saved then are still recognised, see below). cv = the current
+    form, stable across re-saving and travel: a date is its calendar day (nearest UTC day: a different time zone or browser gives the
+    same code), text ignores surrounding spaces, and an empty cell is the same as an absent column. */
+ const cv0=v=>v instanceof Date?'D'+(+v):v===undefined||v===null?'':typeof v==='number'?'N'+v:'S'+String(v);
+ const cv=v=>v instanceof Date?(isFinite(v)?'D'+new Date(+v+43200000).toISOString().slice(0,10):'Dinvalid'):v===undefined||v===null?'':typeof v==='number'?'N'+v:(t=>t===''?'':'S'+t)(String(v).trim());
  /* the calendar month of a date: taken from the NEAREST UTC day (a spreadsheet date read as local midnight east or west of UTC is up to 12 hours away from UTC midnight; e.g. 1 Oct read in UK summer time is 30 Sep 23:00 UTC and must stay October) */
  const mk=v=>{const t=v instanceof Date?+v:typeof v==='number'?v:NaN;if(!isFinite(t))return NaN;const d=new Date(t+43200000);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)};
  const ym=t=>new Date(t).toISOString().slice(0,7);
- const rowFp=r=>hash(Object.keys(r).sort().map(k=>k+'='+cv(r[k])).join('|'));
- const dsId=hash(['P',...P.map(r=>cv(r.SKU)+'~'+cv(r.Product_Name)).sort(),'M',...Mt.map(r=>cv(r.Material_ID)+'~'+cv(r.Material_Name)).sort(),'S',...S.map(r=>cv(r.Supplier_ID)+'~'+cv(r.Supplier_Name)).sort()].join('\n'));
- const dec=(DUPDEC.sets&&DUPDEC.sets[dsId])||{};
+ const rowFp=r=>hash(Object.keys(r).sort().map(k=>[k,cv(r[k])]).filter(q=>q[1]!=='').map(q=>q[0]+'='+q[1]).join('|')),
+  rowFp0=r=>hash(Object.keys(r).sort().map(k=>k+'='+cv0(r[k])).join('|'));
+ /* dataset identity (Phase 3 follow-up, owner decision 27 Nov 2026): the stable IDENTIFIERS of the products, materials and suppliers only,
+    never their names, so renaming a product, material or supplier keeps its decisions. dsId0 = the 25 Nov 2026 identity (ids + names),
+    read so that decisions saved then are not lost. */
+ const uniq=a=>[...new Set(a)].sort(),dsId=hash(['P2',...uniq(P.map(r=>cv(r.SKU))),'M',...uniq(Mt.map(r=>cv(r.Material_ID))),'S',...uniq(S.map(r=>cv(r.Supplier_ID)))].join('\n')),
+  dsId0=hash(['P',...P.map(r=>cv0(r.SKU)+'~'+cv0(r.Product_Name)).sort(),'M',...Mt.map(r=>cv0(r.Material_ID)+'~'+cv0(r.Material_Name)).sort(),'S',...S.map(r=>cv0(r.Supplier_ID)+'~'+cv0(r.Supplier_Name)).sort()].join('\n'));
+ const dec=(DUPDEC.sets&&DUPDEC.sets[dsId])||{},dec0=(DUPDEC.sets&&DUPDEC.sets[dsId0])||{};
  const fin=[],bad=[];D.forEach((r,i)=>{const m=mk(r.Month_Start);(isFinite(m)?fin:bad).push({r,i,m})});
  const ks=[...new Set(fin.map(o=>o.m))].sort((a,b)=>a-b),months=[];
  if(ks.length){const a=new Date(ks[0]),z=ks[ks.length-1];for(let y=a.getUTCFullYear(),mo=a.getUTCMonth();;mo++){const t=Date.UTC(y,mo,1);if(t>z)break;months.push(t)}}
@@ -47,15 +57,18 @@ function prepDemand(D,P,Mt,S){
  const bySku={},groups=[],excluded={};let normalised=0;
  const use=o=>{if(+o.r.Month_Start===o.m)return o.r;normalised++;const c=Object.assign({},o.r,{Month_Start:new Date(o.m)});if(o.r.__rowNum__!==undefined)Object.defineProperty(c,'__rowNum__',{value:o.r.__rowNum__,enumerable:false});return c};
  Object.values(g).forEach(os=>{const sku=os[0].r.SKU,m=os[0].m;let pick=os[0];
-  if(os.length>1){const fps=os.map(o=>rowFp(o.r)),gfp=hash(String(sku)+'|'+m+'|'+[...fps].sort().join(',')),key=String(sku)+'|'+ym(m),d=dec[key];let status='unreviewed',why='',ui=0;
-   if(d){if(d.g!==gfp){status='invalidated';why=d.n!==os.length?`the number of records for this month changed (${d.n} when you decided, ${os.length} now)`:'the values in the records changed since you decided'}
-    else if(d.c==='exclude'){status='excluded';ui=-1}else{const j=fps.indexOf(d.f);if(j<0){status='invalidated';why='the record you chose can no longer be found'}else{status=d.c==='accept'?'accepted':'chosen';ui=j}}}
-   groups.push({sku,month:m,key,gfp,status,why,used:ui,rows:os.map((o,j)=>({row:o.r.__rowNum__!==undefined?o.r.__rowNum__+1:o.i+2,idx:o.i,fp:fps[j],Units_Sold:o.r.Units_Sold,rec:o.r/* the whole record, every column as imported, shown to the customer side by side */}))});
+  if(os.length>1){const fps=os.map(o=>rowFp(o.r)),gfp=hash(String(sku)+'|'+m+'|'+[...fps].sort().join(',')),key=String(sku)+'|'+ym(m);let status='unreviewed',why='',ui=0,legacy=false;
+   /* a decision saved in the 25 Nov 2026 form (no v:2) is matched with that form's fingerprints; it is rewritten in the current form when
+      the customer next decides (engine-api), and meanwhile applies exactly as before */
+   let d=dec[key],F=fps,G=gfp;if(!d&&dec0[key]&&dec0[key].v!==2)d=dec0[key];if(d&&d.v!==2){F=os.map(o=>rowFp0(o.r));G=hash(String(sku)+'|'+m+'|'+[...F].sort().join(','));legacy=true}
+   if(d){if(d.g!==G){status='invalidated';why=d.n!==os.length?`the number of records for this month changed (${d.n} when you decided, ${os.length} now)`:'the values in the records changed since you decided'}
+    else if(d.c==='exclude'){status='excluded';ui=-1}else{const j=F.indexOf(d.f);if(j<0){status='invalidated';why='the record you chose can no longer be found'}else{status=d.c==='accept'?'accepted':'chosen';ui=j}}}
+   groups.push({sku,month:m,key,gfp,status,why,used:ui,legacy:!!(d&&legacy&&status!=='invalidated'),rows:os.map((o,j)=>({row:o.r.__rowNum__!==undefined?o.r.__rowNum__+1:o.i+2,idx:o.i,fp:fps[j],Units_Sold:o.r.Units_Sold,rec:o.r/* the whole record, every column as imported, shown to the customer side by side */}))});
    if(ui<0){(excluded[sku]=excluded[sku]||[]).push(m);return}pick=os[ui]}
   (bySku[sku]=bySku[sku]||[]).push(use(pick))});
  Object.keys(bySku).forEach(k=>bySku[k].sort((a,b)=>a.Month_Start-b.Month_Start));
  groups.sort((a,b)=>String(a.sku)<String(b.sku)?-1:String(a.sku)>String(b.sku)?1:a.month-b.month);
- return {months,bySku,groups,excluded,dsId,normalised,badDate:bad.map(o=>o.r.__rowNum__!==undefined?o.r.__rowNum__+1:o.i+2),boundary:months.length?months[months.length-1]:null}}
+ return {months,bySku,groups,excluded,dsId,dsId0,normalised,badDate:bad.map(o=>o.r.__rowNum__!==undefined?o.r.__rowNum__+1:o.i+2),boundary:months.length?months[months.length-1]:null}}
 function analyse(){
  const exS=new Set(typeof WB!=='undefined'&&WB&&Array.isArray(WB.CGExcludedItems)?WB.CGExcludedItems:[]),exclIds=()=>exS;/* X1 material-integrity correction: codes of items the import adapter excluded (Stage 1 identified them; not analysed) */const dq=[],add=(sev,kind,sheet,msg,ex)=>dq.push({sev,kind,sheet,msg,ex:(ex||[]).slice(0,6).join(', ')});
  const need=['Products','Materials','BOM','Demand History','Inventory','Suppliers','Purchase Orders','Production Orders'],miss=need.filter(n=>!WB.Sheets[n]);
@@ -221,7 +234,7 @@ const npo=grp(PO,r=>r.Material_ID),recon=I.filter(r=>mm[r.Item_ID]).map(r=>{cons
  const sum=(a,k)=>a.reduce((s,x)=>s+(x[k]==null?NaN:x[k]),0)/* X1 WP5: an unknown (null) component keeps the total non-finite, exactly as NaN did, so the import-route result gate still withholds it; partial totals with coverage are shown by the app (R.cov holds the counts) */,tot=sum(fg,'val')+sum(rm,'val');
  const top=[...fg,...rm].sort((a,b)=>b.val-a.val),fam={},nz=v=>v==null?NaN:v;fg.forEach(x=>fam[x.grp]=(fam[x.grp]||0)+nz(x.val));const rg={};rm.forEach(x=>rg[x.grp]=(rg[x.grp]||0)+nz(x.val));
  const nt=scanNotes();
- return {demo:nt.demo,declared:nt.ids,notes:nt.notes,title:(typeof WBNAME!=='undefined'&&WBNAME)||'uploaded workbook',months,boundary:DP.boundary,dsId:DP.dsId,dups:DP.groups,demandBadDate:DP.badDate,prRows:PR,bomS:grp(B,r=>r.SKU),recon,sched,bom,fgm,po:POR,hasF:D.some(r=>typeof r.Forecast_Units==='number'),dq,fg,rm,sup:Object.values(sup).sort((a,b)=>(b.score??-1)-(a.score??-1)||(a.id<b.id?-1:1)),supRisk:Object.values(sup).sort((a,b)=>b.risk-a.risk||(a.score??1e9)-(b.score??1e9)||(a.id<b.id?-1:1)),pr,snap,fam,rg,top,tot,fgV:sum(fg,'val'),rmV:sum(rm,'val'),exV:sum(fg,'exVal')+sum(rm,'exVal'),exF:sum(fg,'exVal'),exR:sum(rm,'exVal'),shV:sum(fg,'short')+sum(rm,'short'),cov:(a=>{const c=k=>a.filter(k).length;return {n:a.length,assessed:c(x=>x.sev!=null),stock:c(x=>isFinite(x.av)),valued:c(x=>isFinite(x.val)&&!x.costZero),costZero:c(x=>x.costZero),excess:c(x=>isFinite(x.exQty)),shortage:c(x=>isFinite(x.short)),demand:c(x=>x.m!=null)}})([...fg,...rm])/* counts only: no money figure here, so nothing escapes the import-route gate; partial £ totals are computed by the app *//* X1 WP5: coverage behind every total (a null figure is excluded from its total and counted here) */,
+ return {demo:nt.demo,declared:nt.ids,notes:nt.notes,title:(typeof WBNAME!=='undefined'&&WBNAME)||'uploaded workbook',months,boundary:DP.boundary,dsId:DP.dsId,dsId0:DP.dsId0,dups:DP.groups,demandBadDate:DP.badDate,prRows:PR,bomS:grp(B,r=>r.SKU),recon,sched,bom,fgm,po:POR,hasF:D.some(r=>typeof r.Forecast_Units==='number'),dq,fg,rm,sup:Object.values(sup).sort((a,b)=>(b.score??-1)-(a.score??-1)||(a.id<b.id?-1:1)),supRisk:Object.values(sup).sort((a,b)=>b.risk-a.risk||(a.score??1e9)-(b.score??1e9)||(a.id<b.id?-1:1)),pr,snap,fam,rg,top,tot,fgV:sum(fg,'val'),rmV:sum(rm,'val'),exV:sum(fg,'exVal')+sum(rm,'exVal'),exF:sum(fg,'exVal'),exR:sum(rm,'exVal'),shV:sum(fg,'short')+sum(rm,'short'),cov:(a=>{const c=k=>a.filter(k).length;return {n:a.length,assessed:c(x=>x.sev!=null),stock:c(x=>isFinite(x.av)),valued:c(x=>isFinite(x.val)&&!x.costZero),costZero:c(x=>x.costZero),excess:c(x=>isFinite(x.exQty)),shortage:c(x=>isFinite(x.short)),demand:c(x=>x.m!=null)}})([...fg,...rm])/* counts only: no money figure here, so nothing escapes the import-route gate; partial £ totals are computed by the app *//* X1 WP5: coverage behind every total (a null figure is excluded from its total and counted here) */,
   top10:top.slice(0,10).reduce((s,x)=>s+x.val,0)/tot*100,cogsF:sum(fg,'ann'),cogsR:sum(rm,'ann')}}
 const NODEM='no demand recorded, so cover and risk cannot be judged';
 const fin=x=>{x.confWhy=x.cw.join('; ')||'recorded data, full history, stable demand';x.conf=x.cw.includes(NODEM)?'Cannot assess':x.cw.length===0?'High':x.cw.length===1?'Medium':'Low'};

@@ -74,15 +74,26 @@ Verified facts are marked (V); things not tested are marked (NT).
     `test-view-contract`, but no real workbook from a business without production (a distributor or retailer) has
     been run through the new screens. **Outstanding validation:** obtain such a workbook (anonymised) and check that
     Production is hidden, that no screen refers to production, and that every other area still works.
-22. **Duplicate-month decisions are kept in one browser only.** (Stage 3B Phase 3, 25 Nov 2026.) They are stored in
-    the browser's site storage for the dataset. They do not travel to another browser or device, and they are lost
-    if the site data is cleared. When storage is blocked they last only until the page is closed (the screen says so).
-    Renaming or adding any product, material or supplier changes the dataset fingerprint and returns every decision to
-    review. Two identical records cannot be told apart (either gives the same value).
-23. **Two gap-related forecast rules are not yet calendar-aware.** (Stage 3B Phase 3, 25 Nov 2026.)
-    - The forecast-credibility outlier / level-shift rule treats months either side of a missing month as adjacent.
-    - A product still needs 6 usable months for any forecast (the existing gate), although the average method alone
-      needs 3.
+22. **Duplicate-month decisions are kept in the browser until downloaded.** (Stage 3B Phase 3, 25 Nov 2026;
+    updated 27 Nov 2026.)
+    - Decisions are stored in the browser's site storage under the dataset identity (product, material and supplier
+      identifiers). Renaming a product, material or supplier keeps them.
+    - The customer can download them as a file and load it in another browser, or after the site data is cleared.
+      Without that file, clearing site data loses them.
+    - Adding or removing a product, material or supplier makes a different dataset. Earlier decisions are then offered
+      only where the records match exactly, and they are not applied unless the customer chooses.
+    - Changing a product's identifier makes it a different product.
+    - Two identical records cannot be told apart (either gives the same value).
+    - When storage is blocked, decisions last only until the page is closed (the screen says so).
+    - Decisions are not yet written to the Engine output workbook: designed, not implemented
+      (`stage3-design/stage3b/phase3/README.md` §5).
+23. **The forecast-credibility level-shift rule is not calendar-aware.** (Stage 3B Phase 3, 25 Nov 2026; restated 27 Nov
+    2026 at the owner's request.)
+    - *What happens:* two extreme months either side of a missing month are treated as adjacent, so they count as a level
+      shift instead of two outliers.
+    - *Effect:* only forecast-assessment confidence, by at most one level. Accuracy and verdict are unaffected.
+    - *Why it was not changed:* it is the protected level-shift rule (`test-h2-level-shift-spec`).
+    - *Plan:* Stage 3C, with a gap case added to that test (backlog P-009).
 
-    Both are recorded for the owner and Stage 3C; neither was changed without approval.
-
+    The former second item (the single 6-month forecast gate) was resolved on 27 Nov 2026 by owner decision: each method
+    now has its own minimum (`stage3-design/stage3b/phase3/README.md` §4).

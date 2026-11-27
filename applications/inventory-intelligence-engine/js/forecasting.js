@@ -17,8 +17,9 @@ const FM={mean:(h,k)=>Array(k).fill(mean(h)),ma3:(h,k)=>Array(k).fill(mean(h.sli
  *  - trend (6): straight line fitted to the usable months at their calendar positions (elapsed time), extended to the months forecast.
  *  - seasonal (24, experimental): month-of-year indices from the usable months at their calendar months; level and trend as above.
  * When the months used have no gap (the usual case) the original arithmetic runs unchanged (identical results, proven); positions
- * only matter when there are gaps. A product needs 6 usable months to be forecast at all (the existing rule); a gap alone never
- * refuses a forecast. Missing months at the end widen the uncertainty range (it grows with the distance from the last recorded
+ * only matter when there are gaps. A gap alone never refuses a forecast. SUPERSEDED (owner decision 27 Nov 2026): the single 6-month
+ * product gate is removed; each method keeps its own minimum (FMIN), a product is forecast when at least one method can calculate
+ * (3 usable months), and every result carries its reliability level (levels, tier, tierWhy) so limited reliability is stated. Missing months at the end widen the uncertainty range (it grows with the distance from the last recorded
  * month) and lower confidence one level. */
 const calObs=x=>{const hc=Array.isArray(x.hc)?x.hc:(x.h||[]),ix=[];hc.forEach((v,i)=>{if(v!==null&&v!==undefined)ix.push(i)});
  if(!ix.length)return {n:0,p:[],v:[],gaps:0,trail:0,lead:hc.length,T:0,M:hc.length};const a=ix[0],b=ix[ix.length-1];
@@ -42,19 +43,35 @@ function fnC(k,O,t,kk,moy){let j=0;while(j<O.n&&O.p[j]<t)j++;const P=O.p.slice(0
  return null}
 function fcast(x,lastMs){const O=calObs(x),n=O.n,h=O.v,bm=new Date(lastMs).getUTCMonth(),moy=r=>((bm-(O.T-1-r))%12+12)%12,G={gaps:O.gaps,trail:O.trail},
  start=isFinite(lastMs)?(d=>Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,1))(new Date(lastMs)):null;
- if(n<6)return {n,ok:false,gaps:G.gaps,trail:G.trail,lead:O.lead,start,why:'fewer than 6 usable months of history'+(G.gaps||G.trail?' ('+gapTxt(G)+')':'')};
+ const MINN=Math.min(...Object.values(FMIN));if(n<MINN)return {n,ok:false,gaps:G.gaps,trail:G.trail,lead:O.lead,start,levels:Object.fromEntries(Object.keys(FMIN).map(k=>[k,'insufficient'])),why:`fewer than ${MINN} usable months of history: no method can calculate a forecast`+(G.gaps||G.trail?' ('+gapTxt(G)+')':'')};
  const full=!G.gaps&&!G.trail,sn=full?seasn(h,moy(O.T-1)):seasnP(O.p,h,moy),det=!!(sn&&sn.det);
  const na={};const meth=Object.keys(FM).filter(k=>{if(n<FMIN[k]){na[k]=`needs at least ${FMIN[k]} usable months (${n} available)`;return false}if(fnC(k,O,O.T,1,moy)===null){na[k]=`needs the ${WIN[k]} calendar months before the forecast start all recorded`;return false}return true});if(det)meth.push('seasonal');else na.seasonal=n<24?'needs at least 24 usable months':'no seasonal pattern detected';
- const tS=Math.max(det?24:Math.max(...meth.map(k=>FMIN[k])),n-Math.max(3,Math.min(6,CFG.fcTest||6))),bt={},tg=[];let skipped=0;
- for(let j=tS;j<n;j++){const t=O.p[j],pr=meth.map(k=>{const r=fnC(k,O,t,1,moy);return r?r[0]:null});if(pr.some(v=>v===null)){skipped++;continue}tg.push({j,t,pr})}
- meth.forEach((k,mi)=>{let ae=0,ac=0,bs=0,se=0,p=0;tg.forEach(g=>{const fv=g.pr[mi],a=h[g.j];ae+=Math.abs(fv-a);ac+=a;bs+=fv-a;se+=(fv-a)**2;p++});bt[k]={wape:ac&&p?ae/ac:null,bias:ac&&p?bs/ac:null,rmse:p?Math.sqrt(se/p):null,pts:p}});
+ /* Back-test: every compared method is tested on the SAME months (the last W observations from where all of them can forecast).
+    Owner decision 27 Nov 2026: a method must not stop the others being tested. If the compared methods share fewer than 3 test months,
+    the method with the fewest testable months of its own (the longest-history one first) is left out of the comparison, repeatedly,
+    keeping the largest shared set; a method left out stays usable only as "calculated, untested" and is never chosen over a tested one.
+    With 3+ shared months nothing is left out, so the result is exactly the original rule: every gap-free series of 9+ months, except
+    24–26 months with a detected seasonal pattern (seasonal, which needs 24 before its first test month, is then left out instead of
+    leaving every method untested). */
+ const W=Math.max(3,Math.min(6,CFG.fcTest||6)),btSet=M=>{const s0=Math.max(det&&M.includes('seasonal')?24:Math.max(...M.map(k=>FMIN[k])),n-W),out=[];let sk=0;for(let j=s0;j<n;j++){const t=O.p[j],pr=M.map(k=>{const r=fnC(k,O,t,1,moy);return r?r[0]:null});if(pr.some(v=>v===null)){sk++;continue}out.push({j,t,pr})}return {tg:out,sk}};
+ let M=meth.slice(),B=btSet(M),cmpM=M,cmpB=B;
+ while(cmpB.tg.length<3&&M.length>1){const own=M.map(k=>[k,btSet([k]).tg.length]).sort((a,b)=>a[1]-b[1]||FMIN[b[0]]-FMIN[a[0]]);M=M.filter(k=>k!==own[0][0]);B=btSet(M);if(B.tg.length>cmpB.tg.length){cmpM=M;cmpB=B}}
+ const tg=cmpB.tg,skipped=cmpB.sk,bt={},untested=meth.filter(k=>!cmpM.includes(k));
+ cmpM.forEach((k,mi)=>{let ae=0,ac=0,bs=0,se=0,p=0;tg.forEach(g=>{const fv=g.pr[mi],a=h[g.j];ae+=Math.abs(fv-a);ac+=a;bs+=fv-a;se+=(fv-a)**2;p++});bt[k]={wape:ac&&p?ae/ac:null,bias:ac&&p?bs/ac:null,rmse:p?Math.sqrt(se/p):null,pts:p}});
+ untested.forEach(k=>{bt[k]={wape:null,bias:null,rmse:null,pts:0}});
  let best=meth[0];meth.forEach(k=>{if(bt[k].wape!=null&&(bt[best].wape==null||bt[k].wape<bt[best].wape-.005))best=k});
  const fv=fnC(best,O,O.T,12,moy),rm=bt[best].rmse!=null?bt[best].rmse:sd(h),rec12=h.filter((v,i)=>O.p[i]>=O.T-12),mu=mean(full?h.slice(-12):rec12),bd=j=>1.28*rm*Math.sqrt(1+(j+1+G.trail)/n),hi=fv.map((v,j)=>v+bd(j)),lo=fv.map((v,j)=>Math.max(0,v-bd(j))),rel=mu?rm/mu:null,unc=n<12||rel==null?'High':rel<.1?'Low':rel<.2?'Medium':'High';
  const P=O.p,mx=full?(n-1)/2:mean(P),my=mean(h);let sxy=0,sxx=0;h.forEach((y,i)=>{sxy+=(P[i]-mx)*(y-my);sxx+=(P[i]-mx)**2});const b=sxx?sxy/sxx:0,a=my-b*mx,sse=h.reduce((q,y,i)=>q+(y-a-b*P[i])**2,0),se=n>2&&sxx?Math.sqrt(sse/(n-2)/sxx):0,tt=se?b/se:0,tp=my?b/my*100:0,trend=n>=8&&Math.abs(tt)>2.2?(b>0?'Rising':'Falling'):'No significant trend';
  let wb=null;if(x.fc&&x.fc.length===n&&x.fc.every(v=>typeof v==='number')&&tg.length){let ae=0,ac=0;tg.forEach(g=>{ae+=Math.abs(x.fc[g.j]-h[g.j]);ac+=h[g.j]});wb=ac?ae/ac:null}
- const warn=[];if(G.gaps||G.trail)warn.push(gapTxt(G));if(G.trail)warn.push(`the last recorded month is ${G.trail} month(s) before the forecast start, so the forecast reaches further from known demand and is less reliable`);if(skipped)warn.push(`${skipped} back-test month(s) skipped because a method could not be tested across a gap`);if(n<12)warn.push('under 12 months of history');if(n<24)warn.push('no seasonality test possible (needs 24+ months)');if(bt[best].pts<6)warn.push('only '+bt[best].pts+' back-test points');
+ const warn=[];if(G.gaps||G.trail)warn.push(gapTxt(G));if(G.trail)warn.push(`the last recorded month is ${G.trail} month(s) before the forecast start, so the forecast reaches further from known demand and is less reliable`);if(skipped)warn.push(`${skipped} back-test month(s) skipped because a method could not be tested across a gap`);if(untested.length)warn.push(`${untested.map(k=>FNAME[k].toLowerCase()).join(', ')} not tested (${G.gaps?'a missing month or too little history before the test months':'too little history before the test months'}), so not compared with the other methods`);if(n<6)warn.push(`only ${n} usable months: only ${meth.map(k=>FNAME[k].toLowerCase()).join(', ')} can be calculated, and the result is of limited reliability`);if(n<12)warn.push('under 12 months of history');if(n<24)warn.push('no seasonality test possible (needs 24+ months)');if(bt[best].pts<6)warn.push('only '+bt[best].pts+' back-test points');
  const cf0=n>=24&&unc==='Low'?'High':n>=12&&unc!=='High'?'Medium':'Low',cf=G.trail?(cf0==='High'?'Medium':'Low'):cf0,sm=k=>fv.slice(0,k).reduce((q,v)=>q+v,0);
- return {ok:true,n,gaps:G.gaps,trail:G.trail,lead:O.lead,start,meth,na,bt,best,f:fv,hi,lo,s3:sm(3),s6:sm(6),s12:sm(12),act12:(full?h.slice(-12):rec12).reduce((q,v)=>q+v,0),act12n:full?Math.min(12,n):rec12.length,trend,tp,tt,unc,rel,rm,wb,wbBest:bt[best].wape,seas:sn,warn,conf:cf,confWhy:'history '+n+' months; forecast error '+(rel==null?'n/a':f(rel*100)+'% of demand')+'; '+(warn.join('; ')||'no history warnings')}}
+ /* reliability level of each method (Phase 3 follow-up, owner decision 27 Nov 2026): insufficient = cannot calculate; calculable = calculated,
+    never tested (no earlier month to test against); limited = tested on 1–2 months (accuracy not meaningful); tested = 3+ back-test months;
+    comparable = 6+ back-test months, the same months for every method, with 2+ methods tested (a reliable comparison). */
+ const lv=k=>!bt[k]?(n<FMIN[k]?'insufficient':'not used'):bt[k].pts===0?'calculable':bt[k].pts<3?'limited':bt[k].pts>=6&&meth.filter(q=>bt[q].pts>=6).length>=2?'comparable':'tested',
+  levels=Object.fromEntries(Object.keys(FMIN).map(k=>[k,lv(k)])),tier=levels[best],pb=bt[best].pts,
+  tierWhy=tier==='calculable'?`calculated from ${n} usable month(s), but there is no earlier month to test it against, so its accuracy is unknown`:tier==='limited'?`tested on only ${pb} month(s), too few to judge its accuracy`:tier==='tested'?`tested on ${pb} months; ${meth.length<2?'only one method could be tested':'too few months for a reliable comparison between methods'}`:`every method tested on the same ${pb} months: the methods are compared reliably`;
+ return {ok:true,n,gaps:G.gaps,trail:G.trail,lead:O.lead,start,meth,na,levels,tier,tierWhy,bt,best,f:fv,hi,lo,s3:sm(3),s6:sm(6),s12:sm(12),act12:(full?h.slice(-12):rec12).reduce((q,v)=>q+v,0),act12n:full?Math.min(12,n):rec12.length,trend,tp,tt,unc,rel,rm,wb,wbBest:bt[best].wape,seas:sn,warn,conf:cf,confWhy:'history '+n+' months; forecast error '+(rel==null?'n/a':f(rel*100)+'% of demand')+'; '+(warn.join('; ')||'no history warnings')}}
 const recFor=(F,x)=>{const r=[],c3=F.f.slice(0,3).reduce((a,b)=>a+b,0)/3,fc=c3>0?x.av/(c3/DPM):null;
  if(F.trend==='Rising')r.push(`Demand rising ~${f(F.tp,1)}%/month: review safety stock and production plan upward`);if(F.trend==='Falling')r.push(`Demand falling ~${f(-F.tp,1)}%/month: avoid building stock; review reorder policy`);
  if(x.cv>CFG.y)r.push('Volatile demand: keep a buffer and review responsiveness');

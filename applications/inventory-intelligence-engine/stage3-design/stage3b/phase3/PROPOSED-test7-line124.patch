@@ -1,0 +1,11 @@
+--- tests/test7.js	2026-11-11 00:24:31.000000000 +0000
++++ tests/test7.js (proposed)	2026-11-27 21:22:51.053216482 +0000
+@@ -121,7 +121,7 @@
+ chk('seasonal series: no seasonality warning',!FS1.warn.some(w=>w.includes('seasonality')));
+ const rise=mk(24,i=>50+4*i+(i%3-1)*2),FS2=T.fcast(rise,dm);chk('rising series → Rising, trend method best',FS2.trend==='Rising'&&FS2.best==='trend');
+ const flat=mk(12,i=>100+[3,-4,2,-1,5,-3,1,-2,4,-5,2,0][i]),FS3=T.fcast(flat,dm);chk('flat noisy series → no significant trend',FS3.trend==='No significant trend');
+-chk('<6 months → no forecast, no crash',T.fcast(mk(4,i=>10),dm).ok===false);
++chk('<3 months → no forecast; 4 months → forecast stated as limited reliability; no crash',T.fcast(mk(2,i=>10),dm).ok===false&&(F=>F.ok&&F.tier==='limited'&&F.conf==='Low'&&F.f.every(v=>v===10))(T.fcast(mk(4,i=>10),dm)));
+ const z=T.fcast(mk(12,()=>0),dm);chk('zero demand: finite, no NaN',z.ok&&z.f.every(isFinite)&&z.hi.every(isFinite));
+ chk('no Forecast_Units → existing-forecast baseline null (nothing invented)',FS3.wb===null);
+ chk('uncertainty range wider than forecast point',FS3.hi.every((v,j)=>v>=FS3.f[j])&&FS3.lo.every((v,j)=>v<=FS3.f[j]));

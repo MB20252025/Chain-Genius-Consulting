@@ -145,8 +145,8 @@
     const chooser = `<div class="scie-filters" role="group" aria-label="Product">${sel('sku', 'Product', cur, ids.map(i => [i, `${i} ${(rows.rows.find(r => r.ref.id === i).ref.x.name || '')}`]))}</div>`;
     return `${head('Demand forecast', 'What demand to plan for, product by product, and how sure that is. Estimates from statistical methods; accuracy is measured only by back-testing on past months, never assumed.', ['Demand forecast'])}
       ${kpis([U.kpi(v('df-act12'), 'navy', 'chart'), U.kpi(v('df-s3'), 'green', 'chart'), U.kpi(v('df-s6'), 'teal', 'chart'), U.kpi(v('df-s12tot'), 'blue', 'chart'), U.kpi(v('df-rising'), 'purple', 'chart'), U.kpi(v('df-falling'), 'orange', 'alert')])}
-      <p class="scie-note">${esc(F.show(v('df-skus').value))} products forecast · ${esc(F.show(v('df-short').value))} with under 6 months of history, not forecast. These are estimates, not guaranteed demand; the 80% range assumes roughly normal, independent errors.</p>
-      ${grid(U.panel({ id: 'df-chart', title: o('df-chart').title, q: `Trend: ${F1.f.trend} · Seasonality: ${F1.f.seas ? (F1.f.seas.det ? 'detected' : 'not detected') : 'not testable'} · Confidence: ${F1.f.conf}`, icon: 'chart', body: `${chooser}${U.chart(o('df-chart'), { tall: true })}`, badges: U.badges(o('df-chart')) }))}
+      <p class="scie-note">${esc(F.show(v('df-skus').value))} products forecast · ${esc(F.show(v('df-limited').value))} of limited reliability (tested on fewer than 3 earlier months, or not at all) · ${esc(F.show(v('df-short').value))} with under 3 usable months, not forecast. These are estimates, not guaranteed demand; the 80% range assumes roughly normal, independent errors.</p>
+      ${grid(U.panel({ id: 'df-chart', title: o('df-chart').title, q: `Trend: ${F1.f.trend} · Seasonality: ${F1.f.seas ? (F1.f.seas.det ? 'detected' : 'not detected') : 'not testable'} · Confidence: ${F1.f.conf} · Reliability: ${F1.f.tierWhy || ''}`, icon: 'chart', body: `${chooser}${U.chart(o('df-chart'), { tall: true })}`, badges: U.badges(o('df-chart')) }))}
       ${grid(U.panel({ id: 'df-methods', title: 'Which method fits best', q: o('df-methods').question, icon: 'chart', span: 'scie-span-7', body: `${U.chart(o('df-methods'), { horizontal: true })}<p class="scie-note">${esc(F1.f.rec)}</p>`, badges: U.badges(o('df-methods')) }),
         U.panel({ id: 'df-confidence', title: v('df-confidence').title, q: v('df-confidence').question, icon: 'chart', span: 'scie-span-5', body: U.chart(v('df-confidence')) }))}
       ${grid(U.panel({ id: 'df-attention', title: v('df-attention').title, q: 'Low confidence, highest relative error first. Select a row for the product’s full detail.', icon: 'alert', body: U.table(v('df-attention'), { fmt: FMT_FC, items: true, empty: 'No forecast has Low confidence.' }) }))}
@@ -235,6 +235,18 @@
       <div class="w"><table class="scie-table"><thead><tr><th>Sheet row and choice</th>${dc.map(th).join('')}${rest.map(th).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
       <p>${btn('exclude', 'Exclude this month', null, g.status !== 'excluded')}${open ? '' : ` ${btn('forget', 'Clear my decision', null, true)}`}</p></div>`;
   }
+  /* saved decisions: related workbook, download and load (Phase 3 follow-up, owner decision 27 Nov 2026) */
+  function savedPanel(f, store) {
+    const D = typeof CGEngine !== 'undefined' && CGEngine.duplicates ? CGEngine.duplicates : null; if (!D) return '';
+    let rel = []; try { rel = D.related(); } catch (e) { rel = []; }
+    const n = D.count();
+    return `<div class="scie-dup-saved"><h4>Your saved decisions</h4>
+      ${f.dgMsg ? `<p class="scie-dup-msg" role="status">${esc(f.dgMsg)}</p>` : ''}
+      ${rel.map(r => `<p>${esc(F.show(r.matches))} earlier decision(s)${r.label ? ` made for <b>${esc(r.label)}</b>` : ''}${r.saved ? ` (saved ${esc(r.saved)})` : ''} match these exact records. That workbook's products or suppliers differ from this one, so they are not used unless you choose. <button type="button" class="scie-btn" data-dup-adopt="${esc(r.dataset)}">Use them here</button></p>`).join('')}
+      <p>${store ? 'Decisions are saved in this browser. Renaming a product, material or supplier keeps them. To keep them safe if this browser\'s data is cleared, or to use them in another browser, download them as a file.' : 'This browser cannot save decisions: they last only until this page is closed. Download them as a file to keep them.'}</p>
+      <p><button type="button" class="scie-btn scie-ghost" data-dup-export${n ? '' : ' disabled'}>Download my decisions (${esc(F.show(n))})</button>
+      <label class="scie-btn scie-ghost scie-file">Load a decisions file<input type="file" accept=".json,application/json" data-dup-import hidden></label></p></div>`;
+  }
   function duplicates(ctx) {
     const S = ctx.S, vms = V.forSub(S, 'data', 'duplicates'), v = id => pick(vms, id), f = ctx.filters, gt = v('dg-groups'), gp = v('dg-gap-rows');
     const which = f.dg || 'open', all = gt.rows.map(r => r.ref), list = which === 'all' ? all : all.filter(g => (which === 'open') === (g.status === 'unreviewed' || g.status === 'invalidated'));
@@ -247,7 +259,7 @@
           ${all.length && !list.length ? '<p>Nothing in this list.</p>' : ''}
           ${shown.map(dupCard).join('')}
           ${shown.length < list.length ? `<p>Showing ${F.show(shown.length)} of ${F.show(list.length)}. <button type="button" class="scie-link" data-set="dgAll=1">Show all</button></p>` : ''}
-          <p class="scie-note">${store ? 'Decisions are saved in this browser for this dataset only. They are not shared with other browsers or devices, and clearing this browser\'s site data removes them.' : 'This browser cannot save decisions: they last only until this page is closed.'}</p>` }))}
+          ${savedPanel(f, store)}` }))}
       ${grid(U.panel({ id: 'dg-gap-rows', title: gp.title, q: 'A missing month is unknown, never zero, and is never filled in. Charts show it as a gap. Every forecast starts the month after the last month in the workbook; a product whose latest months are missing is still forecast, with a warning that it is less reliable.', icon: 'table', body: U.table(gp, { fmt: { 'gap.interior': 'n0', 'gap.trailing': 'n0', 'gap.observed': 'n0', 'gap.excluded': 'n0' }, items: true, empty: 'No product has a missing month.' }) }))}`;
   }
 

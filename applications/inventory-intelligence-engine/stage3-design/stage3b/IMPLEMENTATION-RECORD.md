@@ -280,3 +280,34 @@ was reported as such on 25 Nov 06:16.
   (missing ≠ zero; a forecast never silently crosses a gap). Proposed wording is in the Phase 3 report.
 - **Evidence:** `stage3-design/stage3b/phase3/`.
 
+## Phase 3 follow-up: outstanding decisions (27 Nov 2026; owner "Phase 3 – Outstanding Decisions and Completion")
+
+Started from `9765b33`.
+
+- **Item 1, x1-wp5.**
+  - Lines 86 and 90 were superseded one-for-one, as approved, with comments in the test and a re-hashed checksum line.
+    The count is unchanged at 56.
+  - **Guard interaction:** check-control (taken from Tag-6) treats any change to an approved checksum line as
+    CHANGED/FAIL, and CI runs the guard first. CI therefore cannot pass until the next baseline tag approves the line,
+    via the documented switching commit and Tag-7. No new tag was created (not authorised).
+- **Item 3, minimum history.**
+  - `fcast`: the product gate is now the smallest method minimum (3). Levels and tier are explained in `tierWhy`.
+  - Comparison-set rule in the back-test.
+  - Wording updated in both the original tab and the new screen; a new KPI counts forecasts of limited reliability.
+  - test7 line 124 (protected) asserts the old gate. Proposed patch:
+    `stage3-design/stage3b/phase3/PROPOSED-test7-line124.patch`. Not applied (the owner's instruction: further
+    protected-test changes stay pending).
+  - Found during the wider sweep:
+    - Willow's six one-gap products are now forecast;
+    - WF-E110 had been left untested by the shared-month rule, which led to the comparison-set rule;
+    - 24–26 seasonal months improved, so the "unchanged" claim was corrected.
+- **Item 2, saved decisions.**
+  - Identity uses identifiers only. Fingerprints use calendar days, trimmed text and ignore empty cells.
+  - The v1 format is still read; v2 is written.
+  - New `related`/`adopt` and `exportText`/`importText` (the engine stays synchronous; the file is read in the shell).
+  - New "Your saved decisions" panel on Duplicates & gaps.
+- **Test-oracle fix:** the Phase 3 test's "month as displayed" helper failed in Asia/Kolkata. SheetJS reads local midnight
+  10 s early there, and the engine is right. The test now rounds to the nearest local day; it passes in 5 time zones.
+- **Remote:** `origin` set to `https://github.com/MB20252025/Chain-Genius-Consulting.git`, after GitHub's API confirmed
+  this canonical name.
+
