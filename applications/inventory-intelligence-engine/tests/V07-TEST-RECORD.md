@@ -1661,3 +1661,84 @@ longer on any branch.
     `check-control` row is ERROR; in CI the guard step fails with "couldn't find remote ref". Record this as evidence;
     never "fix" it with another commit.
 - **Pre-tag results on this exact commit:** in the owner handover of 27 Nov 2026. Post-tag evidence goes in Part A2.
+
+## Tag-7 — Part A2: post-tag record (28 Nov 2026)
+
+**Result:** `v0.7-tests-approved-7` = `edc0988e89cc54e6bb86f888d88cafb2b8a231b6` (the switching commit). CI on that commit
+passed against the new tag. Route A was used.
+
+### 1. Sequence
+
+| Step | Time (UTC) | Evidence |
+|---|---|---|
+| Work commit `6dd61aa` and switching commit `edc0988` pushed together, as one fast-forward from `336a747` (owner approval) | 02:14 | `development/v0.7` = `edc0988` |
+| CI run 46097060005, attempt 1 | 02:14:16 | **failure** at the guard: `fatal: couldn't find remote ref refs/tags/v0.7-tests-approved-7` (expected: the tag did not exist yet); steps 2–4 skipped |
+| Cloudflare Pages | 02:14:32 | automatic **preview** of `edc0988` (`914c5e0c.chain-genius-consulting.pages.dev` and the branch preview). Production is on `main`, which was not changed |
+| Tag-7 created by the owner (first attempt) | 02:25:18 | **incorrect**; see §2 |
+| Tag-7 corrected by the owner | 02:52:58 | release 461255119, target `development/v0.7`, pre-release |
+| Verification before the re-run (read-only) | 02:54 | all five checks passed; see §3 |
+| Run 46097060005, attempt 2 ("Re-run all jobs", once, owner-authorised) | 02:55:31 – 03:04:57 | **success**; see §4 |
+
+### 2. The incorrect first tag and its correction (recorded openly)
+
+- **The mistake.** The owner published release 461242061 ("SCIE v0.7 – Tag-7 Approved Test Baseline") at 02:25:18 UTC.
+  - Its target was left at GitHub's default, **`main`**, so `v0.7-tests-approved-7` was created on `main`'s commit
+    `8117c72f9bdb846fceff11a63a03218f01df5082`, not on the switching commit.
+  - It was also published as a full release, not a pre-release.
+  - `8117c72` contains none of the control files (`tests/check-control.js`, `tests/accepted-results.json`,
+    `.github/workflows/v07-tests.yml`), so every guard run against it would have failed.
+- **How it was found and handled.**
+  - Claude verified the tag before the re-run, found the wrong commit, and stopped without re-running.
+  - S1 ("Approved Baseline Tag Protection", ruleset 27079964) blocks update and deletion of `v0.7-tests-approved-*` and
+    has no bypass actors, so the tag could not be corrected without the owner changing S1.
+  - The owner chose Option A: correct Tag-7, rather than leave a wrong baseline tag and open Tag-8.
+- **First correction attempt (unsuccessful, recorded).** Re-verification still showed the original release and the tag
+  on `8117c72`; nothing had changed. Claude stopped again and did not attempt a fix. A new release reuses an existing tag
+  of the same name and ignores the chosen target, so the tag itself had to be deleted first.
+- **Second correction (successful).** The owner:
+  1. turned off S1's deletion rule;
+  2. deleted the release and the tag;
+  3. recreated the release with target `development/v0.7` at `edc0988`, marked as a pre-release (release 461255119,
+     published 02:52:58 UTC);
+  4. re-enabled S1.
+- **Scope.** Correcting this tag once was the owner's explicit decision for a tag that had never served as a working
+  baseline: wrong commit, and never used by a passing run. It is **not** a precedent for moving or deleting baseline tags.
+  The procedure's rule stands: existing baseline tags are never moved or deleted.
+
+### 3. Verification before the re-run (02:54 UTC, read-only)
+
+1. **The tag:** `git ls-remote`, the refs API and the tags API all give `edc0988e89cc54e6bb86f888d88cafb2b8a231b6`.
+2. **The release:** one Tag-7 release only (461255119): published, pre-release, not a draft, target `development/v0.7`.
+   The wrong release no longer exists.
+3. **S1:** active, rules `update` and `deletion`, covering `refs/tags/v0.7-tests-approved-*` and `refs/tags/v0.6`, no
+   bypass actors.
+4. **Other refs:** `main` = `8117c72`; Tag-6 = `e65600c`; Tags 1–5 unchanged.
+5. **`development/v0.7`:** `edc0988`.
+
+### 4. Post-tag CI: run 46097060005, attempt 2
+
+- **Conclusion:** success. Every step succeeded: checkout, guard, Node setup, pinned packages, fast tier, evidence artifact
+  (`t2-evidence-ci-46097060005-2-20261128T025538Z`).
+- **Guard (`check-control.js` read from Tag-7):** `check-control: 12 passed, 0 failed (baseline v0.7-tests-approved-7 =
+  edc0988)`, **0 PENDING**. All 12 checks pass, including the three that failed against Tag-6 before the switch:
+  - `check-control.js`;
+  - the workflow file;
+  - `checksums.txt` (test7 and x1-wp5).
+- **Fast tier:** `PASS: 43 | FAIL: 0 | BLOCKED: 0 | REDUCED: 0 | ERROR: 0` = **42 tests passed (+ pre-flight)**, every
+  test at its accepted count. That includes check-control 12, check-protection 467, x1-wp5 56, test7 120,
+  test-view-contract 762 and phase3-demand-calendar 169.
+- **Not run in CI:** the full tier. CI runs only the fast tier.
+  - The registry records 5 BLOCKED and 2 REDUCED full-tier entries; these are not passes.
+  - Locally, the full tier on `edc0988` (28 Nov, pre-tag) gave 61 passed (+ pre-flight), 0 FAIL, 4 BLOCKED, 2 REDUCED,
+    and the one expected ERROR, since the tag did not exist yet. The fifth registry BLOCKED entry, `test-paging-chrome`,
+    ran locally because a browser was available.
+
+### 5. State after Tag-7
+
+- **Baseline:** `v0.7-tests-approved-7` = `edc0988` is the approved baseline. Tag-6 is superseded and kept unchanged.
+- **Branches:** `development/v0.7` = `edc0988` before this record commit. `main` = `8117c72`, unchanged.
+- **Acceptance:** the Tag-7 registry block was accepted retrospectively (`stage3-design/tag7/REGISTRY-ASSESSMENT-TAG7.md`).
+  From Tag-8, acceptance is per phase.
+- **This record:** it changes only `tests/V07-TEST-RECORD.md`, which the workflow's `paths-ignore` excludes, so pushing it
+  does not start a CI run.
+
