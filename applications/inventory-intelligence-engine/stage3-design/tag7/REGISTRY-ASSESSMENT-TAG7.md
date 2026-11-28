@@ -26,8 +26,8 @@ phase (V07-TEST-RECORD, "Phase 3 completion").
 | 8 | test-h2-level-shift-spec: new | – | 9 | readiness | the level-shift rule (backlog P-009 plans a Stage 3C change) |
 | 9 | test-h3-supplier-eligibility-current: new | – | 299 | readiness | current-behaviour subset of a BLOCKED historical test |
 | 10 | test-view-contract: new | – | 762 | Phases 0–3 | data contract of the new screens; §9 reviewed 27 Nov (no protection weakened) |
-| 11 | phase3-demand-calendar: new | – | 168 | Phase 3, follow-up, completion | duplicates, calendar, forecasting rules, saved decisions, gap warning |
-| 12 | browser-phase3-chrome: new | – | 40 | Phase 3, follow-up | Duplicates & gaps screen end to end, desktop and phone emulation |
+| 11 | phase3-demand-calendar: new | – | 169 | Phase 3, follow-up, completion | duplicates (incl. FG005's two competing rows kept in sheet order with all their data), calendar, forecasting rules, saved decisions, gap warning |
+| 12 | browser-phase3-chrome: new | – | 44 | Phase 3, follow-up | Duplicates & gaps screen end to end, desktop and phone emulation, incl. FG005's card showing both rows and values before and after choosing |
 
 No other registry field changed: no test removed, no tier, time zone, file, label, snapshot, BLOCKED or REDUCED change.
 The switching commit adds one more change, which the guard reports as a FAIL against Tag-6 and which is expected: the
@@ -70,3 +70,16 @@ Both previous hashes are kept as comments in `checksums.txt`.
 All three change from `v0.7-tests-approved-6` to `v0.7-tests-approved-7`. The switching commit also adds the Tag-7 row to
 `tests/README.md` (marking Tag-6 superseded) and the Tag-7 Part A record to `V07-TEST-RECORD.md`. It changes no guard
 rule.
+
+## E. Pre-push correction (28 Nov 2026)
+
+At the owner's check, the FG005 protection was found weaker than the section 9 explanation stated. With the owner's
+approval, two checks were added:
+- **`test-phase3-demand-calendar.js` (168 → 169):** FG005's two competing rows are kept in sheet order (35 then 10), with
+  every column as in the sheet. Proven to fail if a row is dropped or reordered.
+- **`browser-phase3-chrome.js` (40 → 44):** FG005's card shows both rows and values; the first is in use, then the second
+  after choosing.
+
+These are the same files as in table B, re-hashed; no new protected file. The switching commit was rebuilt on the
+corrected work commit. The earlier `9b01ff0` was never pushed.
+

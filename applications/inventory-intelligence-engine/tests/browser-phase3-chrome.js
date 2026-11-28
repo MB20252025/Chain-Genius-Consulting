@@ -47,9 +47,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       chk(T('every competing row is shown (2 + 2 + 3 rows) with the one in use marked'), (await page.$$eval('[data-dup-card] tbody tr', t => t.length)) === 7 && (await page.$$eval('.scie-dup-used', t => t.length)) === 3);
       await page.screenshot({ path: path.join(SHOTS, `${mode}-1-review.png`), fullPage: true });
       // 2. choose FG005's second row (10)
+      /* FG005's card (owner approval, 28 Nov 2026): both competing rows and both values visible, the first marked in use */
+      const card5 = k => page.evaluate(key => { const c = document.querySelector(`[data-dup-card="${key}"]`); if (!c) return null; const tr = [...c.querySelectorAll('tbody tr')]; const head = [...c.querySelectorAll('thead th')].map(t => t.innerText), ui = head.findIndex(t => /^Units_Sold/.test(t)); return { rows: tr.length, units: tr.map(r => r.children[ui] && r.children[ui].innerText.trim()), used: tr.map(r => r.classList.contains('scie-dup-used')), inUse: tr.map(r => /in use/.test(r.children[0].innerText)) }; }, k);
+      { const c = await card5(s.key5); chk(T('FG005 card: both competing rows shown with both values (35, 10); the first is marked in use, the second is not'), !!c && c.rows === 2 && c.units.join() === '35,10' && c.used.join() === 'true,false' && c.inUse.join() === 'true,false', c); }
       const k5 = s.key5, k12 = s.key12, fp10 = await page.evaluate(k => CGEngine.currentResult().dups.find(x => x.key === k).rows[1].fp, k5);
       chk(T('"Use this row" pressed'), await press(`[data-dup="${k5}"][data-choice="row"][data-fp="${fp10}"]`));
       s = await state(); chk(T('FG005 resolved with the second row: the month is now 10 in the analysis and saved in this browser'), s.st.FG005 === 'chosen' && s.v5 === 10 && s.store && JSON.parse(s.store).sets[s.ds][k5].c === 'row', s);
+      { await press('[data-set="dg=all"]'); const c = await card5(k5); chk(T('after choosing the second row, FG005\'s card (All list) still shows both rows and values (35, 10), now with the second marked in use'), !!c && c.rows === 2 && c.units.join() === '35,10' && c.used.join() === 'false,true' && c.inUse.join() === 'false,true', c); }
       // 3. reload the page and upload the same file again
       await load(FX); await goDup(); s = await state();
       chk(T('after reload and re-upload: FG005 still resolved with 10; the other two still need review'), s.st.FG005 === 'chosen' && s.v5 === 10 && s.st.FG012 === 'unreviewed' && s.cards === 2, s);

@@ -1622,3 +1622,20 @@ assertions at lines 86 and 90 that enforce the previous seven-consecutive-month 
    for future format changes: any later change to either format needs its own approval.
 6. **Reference engine copies** (`stage3-design/stage3b/phase3/baseline-bd61ae7/`): approved.
 
+## Tag-7 pre-push correction — FG005 checks (28 Nov 2026; owner approval of 28 Nov)
+
+**New checks:**
+- `phase3-demand-calendar` 168 → 169: FG005's two competing rows are kept in sheet order with their full data.
+- `browser-phase3-chrome` 40 → 44: FG005's card shows both rows and values, with the row in use marked correctly before
+  and after choosing.
+- Both files re-hashed. No new protected file, and no other count changed.
+- The engine check was proven to fail when a row is dropped or reordered (scratch copies, discarded).
+
+**Section 9:** the explanation is corrected in `stage3-design/stage3b/IMPLEMENTATION-RECORD.md` ("Tag-7 pre-push
+correction").
+
+**Switching commit:** rebuilt on the new work commit. The earlier switching commit `9b01ff0` was never pushed and is no
+longer on any branch.
+
+**Results:** recorded in the owner handover of 28 Nov 2026.
+

@@ -95,6 +95,14 @@ const P3WB = path.join(APP, 'tests/fixtures/phase3/phase3-duplicates.xlsx');
 console.log('--- 3 duplicates resolved by a decision = the same workbook with only that row (or none), on every result');
 {
   const wb = XLSX.readFile(P3WB, { cellDates: true }), rows = demandRows(wb), cal = [...new Set(rows.map(r => +r.Month_Start))].sort((a, b) => a - b);
+  // FG005's two competing rows are both kept, in sheet order, each with every column as in the sheet (owner approval, 28 Nov 2026).
+  // Truth: the fixture's own Demand History rows for FG005 in that month, read here in sheet order with their sheet row numbers.
+  { const R = engine({}).__go(XLSX.readFile(P3WB, { cellDates: true })), sheetRows = demandRows(wb), cal = [...new Set(sheetRows.map(r => +r.Month_Start))].sort((a, b) => a - b), want = sheetRows.filter(r => r.SKU === 'FG005' && +r.Month_Start === cal[8]);
+    const g = R.dups.find(x => x.sku === 'FG005'), /* a date is compared as the calendar day the sheet shows (the app's import stores it at UTC midnight; SheetJS reads it here as local midnight) */
+      day = (d, local) => { const x = new Date(+d + 43200000); return local ? `${x.getFullYear()}-${x.getMonth()}-${x.getDate()}` : `${x.getUTCFullYear()}-${x.getUTCMonth()}-${x.getUTCDate()}`; },
+      same = (a, b) => Object.keys(a).length === Object.keys(b).length && Object.keys(a).every(k => (a[k] instanceof Date ? b[k] instanceof Date && day(a[k], true) === day(b[k], false) : a[k] === b[k]));
+    ok(want.length === 2 && want[0].Units_Sold === 35 && want[1].Units_Sold === 10 && g && g.rows.length === 2 && g.rows.map(r => r.Units_Sold).join() === '35,10' && g.rows.every((r, i) => r.row === want[i].__rowNum__ + 1 && same(want[i], r.rec)) && g.rows[0].row < g.rows[1].row && g.used === 0,
+      `FG005: both competing rows are kept, in sheet order (row ${want[0] && want[0].__rowNum__ + 1}: 35, row ${want[1] && want[1].__rowNum__ + 1}: 10), each with every column exactly as in the sheet; the first is in use`); }
   const isDup = (r, sku, p) => r.SKU === sku && +r.Month_Start === cal[p];
   const keepOnly = (sku, p, k) => { let i = -1; return rows.filter(r => !isDup(r, sku, p) || (++i === k)); }, dropAll = (sku, p) => rows.filter(r => !isDup(r, sku, p));
   const SKIP = new Set(['gap']), strip = R => ({ fg: R.fg.map(x => { const o = {}; for (const k of Object.keys(x)) if (!SKIP.has(k)) o[k] = x[k]; return o; }), rm: R.rm, months: R.months });

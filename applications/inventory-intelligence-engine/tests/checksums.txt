@@ -510,11 +510,13 @@ file 2a335f754027f3a265794a246c531f340e8bf1408a1f0642052b29e164bab02c tests/fixt
 # Stage 3B Phase 3 (25 Nov 2026, owner authorisation "Stage 3B Phase 3: Fresh Implementation"): new test, its synthetic fixture and generator, and the bd61ae7 engine baseline it proves gap-free equivalence against. Additions: PENDING until the next approved tag.
 # test-phase3-demand-calendar.js re-hashed in place (89 -> 144 checks; see accepted-results.json). Previous hash a3b2827d6e338091.
 # test-phase3-demand-calendar.js re-hashed in place (157 -> 168 checks; see accepted-results.json). Previous hash bfb16378f0c2f9cb.
-file 81ae52f5a63580a47ba72f06480f6ca21ad86629e830f8a40da1625ba16a0197 tests/test-phase3-demand-calendar.js
+# test-phase3-demand-calendar.js re-hashed in place (168 -> 169 checks; see accepted-results.json). Previous hash 81ae52f5a63580a4.
+file d5d0cc6f3df67c2f3e6baad5a6a8909310972c892384d470f8dc9fd110856497 tests/test-phase3-demand-calendar.js
 file fe2bfefa49a3a17a1f8da86fc0734c2c20d1037ec72b45f2b10e04744899b480 tests/fixtures/phase3/phase3-duplicates.xlsx
 file 16874634cfda5d9c6d9b3fb9073acbef804df9a8fe99e4e2096c8138dbfb39f7 tests/fixtures/phase3/make-phase3.js
 file 9204f9a8ceacf47c4088887b57d880e63c02c8cabd1bcb673a692933aabdaec2 stage3-design/stage3b/phase3/baseline-bd61ae7/calculations.js
 file bd7ff86f8b45fa652dbad215cc9fb0a03a4e96b526be2c79f715702535339120 stage3-design/stage3b/phase3/baseline-bd61ae7/forecasting.js
 # browser-phase3-chrome.js re-hashed in place (34 -> 40 checks; see accepted-results.json). Previous hash f29325f87551531b.
-file 85ba3973b0b1779e56db3560e8ae8f77abc14a09041fbc65e383a353b0ad9054 tests/browser-phase3-chrome.js
+# browser-phase3-chrome.js re-hashed in place (40 -> 44 checks; see accepted-results.json). Previous hash 85ba3973b0b1779e.
+file 99e1d02b566655c53f2a07fb164a2a4f88053b226b5e03ef5b186bd1a9322c05 tests/browser-phase3-chrome.js
 # Stage 3B Phase 3 follow-up (27 Nov 2026; owner approval "Phase 3 – Outstanding Decisions and Completion", item 1; AD-19; V07-TEST-RECORD "Phase 3 follow-up"). Re-hashed approved line: tests/test-x1-wp5.js (previous e704b317bcf24d1fe6819ab9783a110d272441d54fbf40a8157db2cd2b0c54fc). Two assertions (FG001 forecast with a gap: last 7 consecutive months; refusal with 3 consecutive months) superseded one-for-one by owner rules D-F; count unchanged (56). This approved-line change needs the next approved baseline tag; until then the Tag-6 guard reports it as CHANGED.

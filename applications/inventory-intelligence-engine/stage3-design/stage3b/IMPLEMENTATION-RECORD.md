@@ -328,3 +328,25 @@ Started from `9765b33`.
   - `stage3-design/tag7/REGISTRY-ASSESSMENT-TAG7.md`;
   - tests/README: the per-phase acceptance rule.
 
+## Tag-7 pre-push correction (28 Nov 2026; owner approval of the two FG005 checks)
+
+**Section 9 explanation corrected.** On 27 Nov the section 9 comparison said the visibility of FG005's competing rows "is
+now protected by the Phase 3 test and browser test". That overstated it:
+- the Phase 3 test checked FG005 only indirectly: its group existed and was never summed, and a later step would crash if
+  the 10 row vanished;
+- the browser test only counted 7 rows across all cards.
+
+**Accurate description, now:**
+- **(1) Engine:** `tests/test-phase3-demand-calendar.js`, section 3, check "FG005: both competing rows are kept, in
+  sheet order …". FG005's group holds exactly the two sheet rows, in order (rows 58: 35, 59: 10), each with every
+  column as in the sheet (dates compared by the calendar day the sheet shows), and the first in use.
+- **(2) Screen:** `tests/browser-phase3-chrome.js`, checks "FG005 card: both competing rows shown with both values
+  (35, 10) …" and "after choosing the second row, FG005's card (All list) still shows both rows …". They run on desktop
+  and Pixel 5 emulation.
+
+Both use the synthetic phase3 fixture. The forecast-gaps FG005 that section 9 covers is checked there for the chart (the
+first row's value is drawn, never the sum, with the temporary-default note).
+
+**Rebuild.** The switching commit was rebuilt on the corrected work commit; the earlier `9b01ff0` was never pushed.
+**Evidence:** `stage3-design/tag7/PERFORMANCE-EVIDENCE.md` and `perf-cmp.js`.
+
