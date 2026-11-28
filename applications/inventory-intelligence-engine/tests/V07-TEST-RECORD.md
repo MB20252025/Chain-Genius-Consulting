@@ -1639,3 +1639,25 @@ longer on any branch.
 
 **Results:** recorded in the owner handover of 28 Nov 2026.
 
+## Tag-7 — Part A: switching commit (prepared 27 Nov 2026; NOT pushed until the owner approves)
+
+- **Route A** (as for Tags 4 and 5). The separate candidate-verification workflow used for Tag-6 (Route B) is no longer
+  in `.github/workflows/`.
+- **Parent:** work commit `6dd61aa` (the Tag-7 pre-push correction; not yet pushed), whose parent `336a747` is pushed.
+- **Rebuilt 28 Nov 2026:** this replaces the earlier switching commit `9b01ff0`, which was never pushed.
+- **This commit changes exactly the three references** from `v0.7-tests-approved-6` to `v0.7-tests-approved-7`:
+  - `.github/workflows/v07-tests.yml` (`TAG:`);
+  - `tests/accepted-results.json` (`check-control` `"tag"`);
+  - `tests/check-control.js` (default `--tag`).
+- **It also adds:**
+  - the Tag-7 row in `tests/README.md` §1, with Tag-6 marked "superseded by Tag-7 once Tag-7 exists";
+  - this Part A.
+- **No guard rule, test, count or protected file changes in this commit.**
+- **Accepted block:** `stage3-design/tag7/REGISTRY-ASSESSMENT-TAG7.md` (owner's retrospective acceptance, 27 Nov 2026).
+- **Expected before the tag exists:**
+  - The current (Tag-6) guard reports the switching files as changed. That is expected and explained:
+    `check-control.js` and the registry `"tag"` field are switching changes.
+  - The new guard (the one naming Tag-7) cannot find `refs/tags/v0.7-tests-approved-7`. Locally the runner's
+    `check-control` row is ERROR; in CI the guard step fails with "couldn't find remote ref". Record this as evidence;
+    never "fix" it with another commit.
+- **Pre-tag results on this exact commit:** in the owner handover of 27 Nov 2026. Post-tag evidence goes in Part A2.
